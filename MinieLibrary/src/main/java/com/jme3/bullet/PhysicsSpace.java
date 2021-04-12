@@ -225,7 +225,7 @@ public class PhysicsSpace extends CollisionSpace {
      *
      * @param worldMin the desired minimum coordinates values (not null,
      * unaffected)
-     * @param worldMax the desired minimum coordinates values (not null,
+     * @param worldMax the desired maximum coordinates values (not null,
      * unaffected)
      */
     public PhysicsSpace(Vector3f worldMin, Vector3f worldMax) {
@@ -238,7 +238,7 @@ public class PhysicsSpace extends CollisionSpace {
      *
      * @param worldMin the desired minimum coordinates values (not null,
      * unaffected, default=-10k,-10k,-10k)
-     * @param worldMax the desired minimum coordinates values (not null,
+     * @param worldMax the desired maximum coordinates values (not null,
      * unaffected, default=10k,10k,10k)
      * @param broadphaseType which broadphase accelerator to use (not null)
      */
@@ -253,7 +253,7 @@ public class PhysicsSpace extends CollisionSpace {
      *
      * @param worldMin the desired minimum coordinates values (not null,
      * unaffected, default=-10k,-10k,-10k)
-     * @param worldMax the desired minimum coordinates values (not null,
+     * @param worldMax the desired maximum coordinates values (not null,
      * unaffected, default=10k,10k,10k)
      * @param broadphaseType which broadphase accelerator to use (not null)
      * @param solverType the desired constraint solver (not null)

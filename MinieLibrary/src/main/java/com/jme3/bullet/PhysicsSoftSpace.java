@@ -78,7 +78,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      *
      * @param worldMin the desired minimum coordinates values (not null,
      * unaffected, default=-10k,-10k,-10k)
-     * @param worldMax the desired minimum coordinates values (not null,
+     * @param worldMax the desired maximum coordinates values (not null,
      * unaffected, default=10k,10k,10k)
      * @param broadphaseType which broadphase accelerator to use (not null)
      */

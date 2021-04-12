@@ -74,7 +74,7 @@ public class MultiBodySpace extends PhysicsSpace {
      *
      * @param worldMin the desired minimum coordinate value for each axis (not
      * null, unaffected, default=-10k,-10k,-10k)
-     * @param worldMax the desired minimum coordinate value for each axis (not
+     * @param worldMax the desired maximum coordinate value for each axis (not
      * null, unaffected, default=10k,10k,10k)
      * @param broadphaseType which broadphase accelerator to use (not null)
      */
@@ -89,7 +89,7 @@ public class MultiBodySpace extends PhysicsSpace {
      *
      * @param worldMin the desired minimum coordinate value for each axis (not
      * null, unaffected, default=-10k,-10k,-10k)
-     * @param worldMax the desired minimum coordinate value for each axis (not
+     * @param worldMax the desired maximum coordinate value for each axis (not
      * null, unaffected, default=10k,10k,10k)
      * @param broadphaseType which broadphase accelerator to use (not null)
      * @param solverType the desired constraint solver (not null)
