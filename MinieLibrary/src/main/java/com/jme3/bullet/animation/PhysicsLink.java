@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -625,9 +625,9 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     }
 
     /**
-     * Assign a parent/manager for this link.
+     * Assign the parent/manager for this link.
      *
-     * @param parent (not null, alias created)
+     * @param parent the link to use (not null, alias created)
      */
     final protected void setParent(PhysicsLink parent) {
         assert parent != null;
@@ -638,9 +638,9 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     }
 
     /**
-     * Alter the rigid body for this link.
+     * Replace the rigid body for this link.
      *
-     * @param body the desired rigid body (not null, alias created)
+     * @param body the rigid body to use (not null, alias created)
      */
     protected void setRigidBody(PhysicsRigidBody body) {
         assert body != null;

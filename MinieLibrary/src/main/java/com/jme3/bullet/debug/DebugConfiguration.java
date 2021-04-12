@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -320,8 +320,8 @@ public class DebugConfiguration {
     /**
      * Alter which bounding boxes are included in the visualization.
      *
-     * @param filter the desired filter, or null to visualize no bounding boxes
-     * (default=null)
+     * @param filter the filter to use (alias created) or null to visualize no
+     * bounding boxes (default=null)
      */
     public void setBoundingBoxFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
@@ -331,8 +331,8 @@ public class DebugConfiguration {
     /**
      * Alter which Camera is used for (debug) visualization.
      *
-     * @param camera the desired Camera, or null if unknown (defaults to the
-     * application's main camera)
+     * @param camera the Camera to use (alias created) or null for unknown
+     * (defaults to the application's main camera)
      */
     public void setCamera(Camera camera) {
         this.camera = camera;
@@ -370,10 +370,10 @@ public class DebugConfiguration {
     }
 
     /**
-     * Register the init listener for the BulletDebugAppState.
+     * Replace or remove the init listener for the BulletDebugAppState.
      *
-     * @param listener the listener to register, or null to de-register
-     * (default=null)
+     * @param listener the listener to register (alias created) or null to
+     * de-register the current listener (default=null)
      */
     public void setInitListener(DebugInitListener listener) {
         initListener = listener;
@@ -401,7 +401,8 @@ public class DebugConfiguration {
     /**
      * Alter which PhysicsSpace will be visualized.
      *
-     * @param physicsSpace the desired PhysicsSpace, or null for none
+     * @param physicsSpace the PhysicsSpace to visualize (alias created) or null
+     * for none
      */
     public void setSpace(PhysicsSpace physicsSpace) {
         space = physicsSpace;
@@ -410,7 +411,8 @@ public class DebugConfiguration {
     /**
      * Alter which swept spheres are included in the visualization.
      *
-     * @param filter the desired filter, or null to visualize no swept spheres
+     * @param filter the filter to use (alias created) or null to visualize no
+     * swept spheres (default=null)
      */
     public void setSweptSphereFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
@@ -420,8 +422,8 @@ public class DebugConfiguration {
     /**
      * Alter the conversion from physics-space coordinates to world coordinates.
      *
-     * @param spatial the desired conversion spatial, or null for physics=world
-     * (alias created, default=null)
+     * @param spatial the Spatial to use for coordinate transformations (alias
+     * created) or null for physics=world (default=null)
      */
     public void setTransformSpatial(Spatial spatial) {
         transformSpatial = spatial;
@@ -430,8 +432,8 @@ public class DebugConfiguration {
     /**
      * Alter which velocity vectors are included in the visualization.
      *
-     * @param filter the desired filter, or null to visualize no velocity
-     * vectors
+     * @param filter the desired filter (alias created) or null to visualize no
+     * velocity vectors (default=null)
      */
     public void setVelocityVectorFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {

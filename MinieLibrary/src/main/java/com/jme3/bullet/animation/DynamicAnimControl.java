@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -158,7 +158,7 @@ public class DynamicAnimControl
     /**
      * Add a collision listener to this Control.
      *
-     * @param listener (not null, alias created)
+     * @param listener the listener to register (not null, alias created)
      */
     public void addCollisionListener(RagdollCollisionListener listener) {
         Validate.nonNull(listener, "listener");

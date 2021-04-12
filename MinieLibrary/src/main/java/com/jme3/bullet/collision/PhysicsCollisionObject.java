@@ -238,7 +238,7 @@ abstract public class PhysicsCollisionObject
      * Two objects can collide only if one of them has the collisionGroup of the
      * other in its collideWithGroups set.
      *
-     * @param collisionGroup the groups to add (bitmask)
+     * @param collisionGroup the groups to add, ORed together (bitmask)
      */
     public void addCollideWithGroup(int collisionGroup) {
         collideWithGroups |= collisionGroup;
@@ -1066,19 +1066,20 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter or remove the custom debug material.
+     * Apply or remove a custom debug material.
      *
-     * @param material the desired material, or null to use the default debug
-     * materials (alias created, default=null)
+     * @param material the Material to use (alias created) or null to use the
+     * default debug materials (default=null)
      */
     public void setDebugMaterial(Material material) {
         debugMaterial = material;
     }
 
     /**
-     * Alter the listener for new debug meshes.
+     * Apply or remove a listener for new debug meshes.
      *
-     * @param listener the desired listener, or null for none (default=null)
+     * @param listener the listener to use (alias created) or null for none
+     * (default=null)
      */
     public void setDebugMeshInitListener(DebugMeshInitListener listener) {
         debugMeshInitListener = listener;

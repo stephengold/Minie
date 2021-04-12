@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -147,7 +147,7 @@ abstract class CollisionShapeDebugControl
     }
 
     /**
-     * Update the lastShape and related data.
+     * Replace the lastShape and update related fields.
      *
      * @param shape (not null, alias created)
      */

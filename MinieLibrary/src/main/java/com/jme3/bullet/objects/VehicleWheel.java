@@ -770,7 +770,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     /**
      * Alter which scene-graph subtree is used to visualize this wheel.
      *
-     * @param subtree the desired subtree (alias created) or null for none
+     * @param subtree the subtree to use (alias created) or null for none
      */
     public void setWheelSpatial(Spatial subtree) {
         this.subtree = subtree;

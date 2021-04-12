@@ -1301,7 +1301,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Invoke this method <em>after</em> adding the body to a PhysicsSoftSpace.
      * Adding a body to a PhysicsSoftSpace may replace its world info.
      *
-     * @param worldInfo the desired SoftBodyWorldInfo (not null)
+     * @param worldInfo the desired SoftBodyWorldInfo (not null, alias created)
      */
     public void setWorldInfo(SoftBodyWorldInfo worldInfo) {
         if (!isInWorld()) {

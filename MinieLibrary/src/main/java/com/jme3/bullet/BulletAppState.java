@@ -356,7 +356,8 @@ public class BulletAppState
     /**
      * Alter which bounding boxes are included in the debug visualization.
      *
-     * @param filter the desired filter, or null to visualize no bounding boxes
+     * @param filter the filter to use (alias created) or null to visualize no
+     * bounding boxes (default=null)
      */
     public void setDebugBoundingBoxFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
@@ -368,10 +369,10 @@ public class BulletAppState
     }
 
     /**
-     * Alter which Camera is used for debug visualization.
+     * Replace the Camera used for debug visualization.
      *
-     * @param camera the desired Camera, or null if unknown (defaults to the
-     * application's main camera)
+     * @param camera the Camera to use (alias created) or null for unknown
+     * (defaults to the application's main camera)
      */
     public void setDebugCamera(Camera camera) {
         debugConfig.setCamera(camera);
@@ -391,7 +392,8 @@ public class BulletAppState
     /**
      * Alter which objects are included in the debug visualization.
      *
-     * @param filter the desired filter, or null to visualize all objects
+     * @param filter the filter to use (alias created) or null to visualize all
+     * objects (default=null)
      */
     public void setDebugFilter(BulletDebugAppState.DebugAppStateFilter filter) {
         debugConfig.setFilter(filter);
@@ -400,7 +402,8 @@ public class BulletAppState
     /**
      * Alter which gravity vectors are included in the debug visualization.
      *
-     * @param filter the desired filter, or null to visualize no gravity vectors
+     * @param filter the filter to use (alias created) or null to visualize no
+     * gravity vectors (default=null)
      */
     public void setDebugGravityVectorFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
@@ -412,9 +415,10 @@ public class BulletAppState
     }
 
     /**
-     * Register the init listener for the BulletDebugAppState.
+     * Replace or remove the init listener for the BulletDebugAppState.
      *
-     * @param listener the listener to register, or null to de-register
+     * @param listener the listener to register, or null to de-register the
+     * current listener (default=null)
      */
     public void setDebugInitListener(DebugInitListener listener) {
         debugConfig.setInitListener(listener);
@@ -453,7 +457,8 @@ public class BulletAppState
     /**
      * Alter which swept spheres are included in the debug visualization.
      *
-     * @param filter the desired filter, or null to visualize no swept spheres
+     * @param filter the filter to use (alias created) or null to visualize no
+     * swept spheres (default=null)
      */
     public void setDebugSweptSphereFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
@@ -467,8 +472,8 @@ public class BulletAppState
     /**
      * Alter which velocity vectors are included in the debug visualization.
      *
-     * @param filter the desired filter, or null to visualize no velocity
-     * vectors
+     * @param filter the filter to use (alias created) or null to visualize no
+     * velocity vectors (default=null)
      */
     public void setDebugVelocityVectorFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
@@ -526,8 +531,8 @@ public class BulletAppState
     /**
      * Alter the conversion from physics-space coordinates to world coordinates.
      *
-     * @param spatial the desired conversion spatial, or null for physics=world
-     * (alias created, default=null)
+     * @param spatial the Spatial to use for coordinate transformations (alias
+     * created) or null for physics=world (default=null)
      */
     public void setTransformSpatial(Spatial spatial) {
         debugConfig.setTransformSpatial(spatial);
@@ -538,7 +543,7 @@ public class BulletAppState
      *
      * @param worldMax the desired maximum coordinate values when using
      * AXIS_SWEEP broadphase algorithms (not null, unaffected,
-     * default=10k,10k,10k)
+     * default=(10k,10k,10k))
      */
     public void setWorldMax(Vector3f worldMax) {
         Validate.finite(worldMin, "world max");
@@ -552,7 +557,7 @@ public class BulletAppState
      *
      * @param worldMin the desired minimum coordinate values when using
      * AXIS_SWEEP broadphase algorithms (not null, unaffected,
-     * default=-10k,-10k,-10k)
+     * default=(-10k,-10k,-10k))
      */
     public void setWorldMin(Vector3f worldMin) {
         Validate.finite(worldMin, "world min");

@@ -291,7 +291,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Used internally, creates the controller when the vehicle is added to a
      * PhysicsSpace.
      *
-     * @param space which PhysicsSpace (not zero)
+     * @param space the PhysicsSpace to use, or null for none
      */
     public void createVehicle(PhysicsSpace space) {
         if (space == null) {

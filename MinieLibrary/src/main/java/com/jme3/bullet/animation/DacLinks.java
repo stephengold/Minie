@@ -1147,7 +1147,7 @@ public class DacLinks
      * Alter this control's gravitational acceleration for Ragdoll mode.
      *
      * @param gravity the desired acceleration vector (in physics-space
-     * coordinates, not null, unaffected, default=0,-9.8,0)
+     * coordinates, not null, unaffected, default=(0,-9.8,0))
      */
     @Override
     public void setGravity(Vector3f gravity) {
