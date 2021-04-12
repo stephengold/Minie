@@ -96,7 +96,7 @@ public class CapsuleCollisionShape extends ConvexShape {
      * Instantiate a Y-axis capsule shape with the specified radius and height.
      *
      * @param radius the desired unscaled radius (&ge;0)
-     * @param height the desired unscaled height (of the cylindrical portion)
+     * @param height the desired unscaled height of the cylindrical portion
      * (&ge;0)
      */
     public CapsuleCollisionShape(float radius, float height) {
@@ -113,10 +113,10 @@ public class CapsuleCollisionShape extends ConvexShape {
      * Instantiate a capsule shape around the specified main (height) axis.
      *
      * @param radius the desired unscaled radius (&ge;0)
-     * @param height the desired unscaled height (of the cylindrical portion)
+     * @param height the desired unscaled height of the cylindrical portion
      * (&ge;0)
-     * @param axisIndex which local axis for height: 0&rarr;X, 1&rarr;Y,
-     * 2&rarr;Z
+     * @param axisIndex which local axis to use for the height: 0&rarr;X,
+     * 1&rarr;Y, 2&rarr;Z
      */
     public CapsuleCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
@@ -145,7 +145,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Read the height (of the cylindrical portion) of the capsule.
+     * Read the height of the cylindrical portion.
      *
      * @return the unscaled height (&ge;0)
      */

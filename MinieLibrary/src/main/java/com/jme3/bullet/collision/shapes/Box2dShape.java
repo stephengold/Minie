@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,11 +66,11 @@ public class Box2dShape extends ConvexShape {
     // fields
 
     /**
-     * copy of unscaled half extent for the local X axis (not negative)
+     * copy of the unscaled half extent on the local X axis (not negative)
      */
     private float halfExtentX = 1f;
     /**
-     * copy of unscaled half extent for the local Y axis (not negative)
+     * copy of the unscaled half extent on the local Y axis (not negative)
      */
     private float halfExtentY = 1f;
     // *************************************************************************

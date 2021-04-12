@@ -93,10 +93,10 @@ public class ConeCollisionShape extends ConvexShape {
     /**
      * Instantiate a cone shape around the specified main (height) axis.
      *
-     * @param radius the desired radius (in unscaled units, &ge;0)
-     * @param height the desired height (in unscaled units, &ge;0)
-     * @param axisIndex the desired local axis for the height: 0&rarr;X,
-     * 1&rarr;Y, 2&rarr;Z (default=Y)
+     * @param radius the desired unscaled radius (&ge;0)
+     * @param height the desired unscaled height (&ge;0)
+     * @param axisIndex which local axis to use for the height: 0&rarr;X,
+     * 1&rarr;Y, 2&rarr;Z (default=1)
      */
     public ConeCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
@@ -113,8 +113,8 @@ public class ConeCollisionShape extends ConvexShape {
     /**
      * Instantiate a cone shape, oriented along the local Y axis.
      *
-     * @param radius the desired radius (in unscaled units, &ge;0)
-     * @param height the desired height (in unscaled units, &ge;0)
+     * @param radius the desired unscaled radius (&ge;0)
+     * @param height the desired unscaled height (&ge;0)
      */
     public ConeCollisionShape(float radius, float height) {
         Validate.nonNegative(radius, "radius");

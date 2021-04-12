@@ -90,9 +90,9 @@ public class CylinderCollisionShape extends ConvexShape {
     /**
      * Instantiate a cylinder shape around the specified main (height) axis.
      *
-     * @param radius the desired radius (in unscaled units, &ge;0)
-     * @param height the desired height (in unscaled units, &ge;0)
-     * @param axisIndex the desired local axis for the height: 0&rarr;X,
+     * @param radius the desired unscaled radius (&ge;0)
+     * @param height the desired unscaled height (&ge;0)
+     * @param axisIndex which local axis to use for the height: 0&rarr;X,
      * 1&rarr;Y, 2&rarr;Z
      */
     public CylinderCollisionShape(float radius, float height, int axisIndex) {
@@ -117,8 +117,8 @@ public class CylinderCollisionShape extends ConvexShape {
      * (&ge;0, &le;endPosition)
      * @param endPosition the position at which the sample locations end
      * (&ge;startPosition, &le;capacity)
-     * @param axisIndex which local axis for height: 0&rarr;X, 1&rarr;Y,
-     * 2&rarr;Z
+     * @param axisIndex which local axis to use for the height: 0&rarr;X,
+     * 1&rarr;Y, 2&rarr;Z
      */
     public CylinderCollisionShape(FloatBuffer buffer, int startPosition,
             int endPosition, int axisIndex) {
@@ -159,7 +159,8 @@ public class CylinderCollisionShape extends ConvexShape {
      *
      * @param halfExtents the desired unscaled half extents (not null, no
      * negative component, unaffected)
-     * @param axisIndex local axis for height: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @param axisIndex which local axis to use for the height: 0&rarr;X,
+     * 1&rarr;Y, 2&rarr;Z
      */
     public CylinderCollisionShape(Vector3f halfExtents, int axisIndex) {
         Validate.nonNegative(halfExtents, "half extents");

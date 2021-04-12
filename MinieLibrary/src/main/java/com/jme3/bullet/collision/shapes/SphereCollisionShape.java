@@ -107,7 +107,7 @@ public class SphereCollisionShape extends ConvexShape {
     /**
      * Instantiate a sphere shape with the specified radius.
      *
-     * @param radius the desired radius (in unscaled units, &ge;0)
+     * @param radius the desired unscaled radius (&ge;0)
      */
     public SphereCollisionShape(float radius) {
         Validate.nonNegative(radius, "radius");

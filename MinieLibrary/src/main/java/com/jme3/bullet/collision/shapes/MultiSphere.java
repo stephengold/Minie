@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ public class MultiSphere extends ConvexShape {
     // fields
 
     /**
-     * copies of radii (in unscaled units, each &ge;0)
+     * copies of the unscaled radii (each &ge;0)
      */
     private float[] radii;
     /**
@@ -95,7 +95,7 @@ public class MultiSphere extends ConvexShape {
     /**
      * Instantiate a centered sphere shape with the specified radius.
      *
-     * @param radius the desired radius (in unscaled units, &ge;0)
+     * @param radius the desired unscaled radius (&ge;0)
      */
     public MultiSphere(float radius) {
         Validate.nonNegative(radius, "radius");
@@ -113,9 +113,9 @@ public class MultiSphere extends ConvexShape {
      * Instantiate a centered Y-axis capsule shape with the specified radius and
      * height.
      *
-     * @param radius the desired radius (in unscaled units, &ge;0)
-     * @param height the desired height (of the cylindrical portion) (in
-     * unscaled units, &ge;0)
+     * @param radius the desired unscaled radius (&ge;0)
+     * @param height the desired unscaled height of the cylindrical portion
+     * (&ge;0)
      */
     public MultiSphere(float radius, float height) {
         Validate.nonNegative(radius, "radius");
@@ -138,11 +138,11 @@ public class MultiSphere extends ConvexShape {
      * Instantiate a centered capsule shape with the specified radius, height,
      * and axis.
      *
-     * @param radius the desired radius (in unscaled units, &ge;0)
-     * @param height the desired height (of the cylindrical portion) (in
-     * unscaled units, &ge;0)
-     * @param axisIndex which local axis for height: 0&rarr;X, 1&rarr;Y,
-     * 2&rarr;Z
+     * @param radius the desired unscaled radius (&ge;0)
+     * @param height the desired unscaled height of the cylindrical portion
+     * (&ge;0)
+     * @param axisIndex which local axis to use for the height: 0&rarr;X,
+     * 1&rarr;Y, 2&rarr;Z
      */
     public MultiSphere(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
@@ -322,7 +322,7 @@ public class MultiSphere extends ConvexShape {
      * radius.
      *
      * @param center the offset of the center (not null, unaffected)
-     * @param radius the desired radius (in unscaled units, &ge;0)
+     * @param radius the desired unscaled radius (&ge;0)
      */
     public MultiSphere(Vector3f center, float radius) {
         Validate.finite(center, "center");
@@ -371,7 +371,7 @@ public class MultiSphere extends ConvexShape {
      * Read the radius of the indexed sphere.
      *
      * @param sphereIndex which sphere to read (&ge;0)
-     * @return the radius (in unscaled units, &ge;0)
+     * @return the unscaled radius (&ge;0)
      */
     public float getRadius(int sphereIndex) {
         Validate.inRange(sphereIndex, "sphere index", 0, radii.length - 1);
