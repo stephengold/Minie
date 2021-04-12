@@ -418,7 +418,7 @@ float&nbsp;timeStep)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugCamera(com.jme3.renderer.Camera)">setDebugCamera</a></span>&#8203;(com.jme3.renderer.Camera&nbsp;camera)</code></th>
 <td class="colLast">
-<div class="block">Alter which Camera is used for debug visualization.</div>
+<div class="block">Replace the Camera used for debug visualization.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i25">
@@ -446,7 +446,7 @@ float&nbsp;timeStep)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugInitListener(com.jme3.bullet.debug.DebugInitListener)">setDebugInitListener</a></span>&#8203;(<a href="debug/DebugInitListener.html" title="interface in com.jme3.bullet.debug">DebugInitListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
-<div class="block">Register the init listener for the BulletDebugAppState.</div>
+<div class="block">Replace or remove the init listener for the BulletDebugAppState.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i29">
@@ -862,7 +862,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="block">Alter which bounding boxes are included in the debug visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>filter</code> - the desired filter, or null to visualize no bounding boxes</dd>
+<dd><code>filter</code> - the filter to use (alias created) or null to visualize no
+ bounding boxes (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -870,11 +871,11 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <section class="detail">
 <h3><a id="setDebugCamera(com.jme3.renderer.Camera)">setDebugCamera</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setDebugCamera</span>&#8203;(<span class="arguments">com.jme3.renderer.Camera&nbsp;camera)</span></div>
-<div class="block">Alter which Camera is used for debug visualization.</div>
+<div class="block">Replace the Camera used for debug visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>camera</code> - the desired Camera, or null if unknown (defaults to the
- application's main camera)</dd>
+<dd><code>camera</code> - the Camera to use (alias created) or null for unknown
+ (defaults to the application's main camera)</dd>
 </dl>
 </section>
 </li>
@@ -898,7 +899,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="block">Alter which objects are included in the debug visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>filter</code> - the desired filter, or null to visualize all objects</dd>
+<dd><code>filter</code> - the filter to use (alias created) or null to visualize all
+ objects (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -909,7 +911,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="block">Alter which gravity vectors are included in the debug visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>filter</code> - the desired filter, or null to visualize no gravity vectors</dd>
+<dd><code>filter</code> - the filter to use (alias created) or null to visualize no
+ gravity vectors (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -917,10 +920,11 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <section class="detail">
 <h3><a id="setDebugInitListener(com.jme3.bullet.debug.DebugInitListener)">setDebugInitListener</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setDebugInitListener</span>&#8203;(<span class="arguments"><a href="debug/DebugInitListener.html" title="interface in com.jme3.bullet.debug">DebugInitListener</a>&nbsp;listener)</span></div>
-<div class="block">Register the init listener for the BulletDebugAppState.</div>
+<div class="block">Replace or remove the init listener for the BulletDebugAppState.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener to register, or null to de-register</dd>
+<dd><code>listener</code> - the listener to register, or null to de-register the
+ current listener (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -953,7 +957,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="block">Alter which swept spheres are included in the debug visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>filter</code> - the desired filter, or null to visualize no swept spheres</dd>
+<dd><code>filter</code> - the filter to use (alias created) or null to visualize no
+ swept spheres (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -964,8 +969,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="block">Alter which velocity vectors are included in the debug visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>filter</code> - the desired filter, or null to visualize no velocity
- vectors</dd>
+<dd><code>filter</code> - the filter to use (alias created) or null to visualize no
+ velocity vectors (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -1022,8 +1027,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="block">Alter the conversion from physics-space coordinates to world coordinates.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>spatial</code> - the desired conversion spatial, or null for physics=world
- (alias created, default=null)</dd>
+<dd><code>spatial</code> - the Spatial to use for coordinate transformations (alias
+ created) or null for physics=world (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -1036,7 +1041,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>worldMax</code> - the desired maximum coordinate values when using
  AXIS_SWEEP broadphase algorithms (not null, unaffected,
- default=10k,10k,10k)</dd>
+ default=(10k,10k,10k))</dd>
 </dl>
 </section>
 </li>
@@ -1049,7 +1054,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>worldMin</code> - the desired minimum coordinate values when using
  AXIS_SWEEP broadphase algorithms (not null, unaffected,
- default=-10k,-10k,-10k)</dd>
+ default=(-10k,-10k,-10k))</dd>
 </dl>
 </section>
 </li>

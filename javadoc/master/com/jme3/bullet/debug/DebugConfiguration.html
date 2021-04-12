@@ -273,7 +273,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setInitListener(com.jme3.bullet.debug.DebugInitListener)">setInitListener</a></span>&#8203;(<a href="DebugInitListener.html" title="interface in com.jme3.bullet.debug">DebugInitListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
-<div class="block">Register the init listener for the BulletDebugAppState.</div>
+<div class="block">Replace or remove the init listener for the BulletDebugAppState.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i15">
@@ -490,8 +490,8 @@ extends java.lang.Object</pre>
 <div class="block">Alter which bounding boxes are included in the visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>filter</code> - the desired filter, or null to visualize no bounding boxes
- (default=null)</dd>
+<dd><code>filter</code> - the filter to use (alias created) or null to visualize no
+ bounding boxes (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -502,8 +502,8 @@ extends java.lang.Object</pre>
 <div class="block">Alter which Camera is used for (debug) visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>camera</code> - the desired Camera, or null if unknown (defaults to the
- application's main camera)</dd>
+<dd><code>camera</code> - the Camera to use (alias created) or null for unknown
+ (defaults to the application's main camera)</dd>
 </dl>
 </section>
 </li>
@@ -547,11 +547,11 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="setInitListener(com.jme3.bullet.debug.DebugInitListener)">setInitListener</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setInitListener</span>&#8203;(<span class="arguments"><a href="DebugInitListener.html" title="interface in com.jme3.bullet.debug">DebugInitListener</a>&nbsp;listener)</span></div>
-<div class="block">Register the init listener for the BulletDebugAppState.</div>
+<div class="block">Replace or remove the init listener for the BulletDebugAppState.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener to register, or null to de-register
- (default=null)</dd>
+<dd><code>listener</code> - the listener to register (alias created) or null to
+ de-register the current listener (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -584,7 +584,8 @@ extends java.lang.Object</pre>
 <div class="block">Alter which PhysicsSpace will be visualized.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>physicsSpace</code> - the desired PhysicsSpace, or null for none</dd>
+<dd><code>physicsSpace</code> - the PhysicsSpace to visualize (alias created) or null
+ for none</dd>
 </dl>
 </section>
 </li>
@@ -595,7 +596,8 @@ extends java.lang.Object</pre>
 <div class="block">Alter which swept spheres are included in the visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>filter</code> - the desired filter, or null to visualize no swept spheres</dd>
+<dd><code>filter</code> - the filter to use (alias created) or null to visualize no
+ swept spheres (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -606,8 +608,8 @@ extends java.lang.Object</pre>
 <div class="block">Alter the conversion from physics-space coordinates to world coordinates.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>spatial</code> - the desired conversion spatial, or null for physics=world
- (alias created, default=null)</dd>
+<dd><code>spatial</code> - the Spatial to use for coordinate transformations (alias
+ created) or null for physics=world (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -618,8 +620,8 @@ extends java.lang.Object</pre>
 <div class="block">Alter which velocity vectors are included in the visualization.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>filter</code> - the desired filter, or null to visualize no velocity
- vectors</dd>
+<dd><code>filter</code> - the desired filter (alias created) or null to visualize no
+ velocity vectors (default=null)</dd>
 </dl>
 </section>
 </li>

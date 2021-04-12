@@ -765,7 +765,7 @@ com.jme3.math.Vector3f&nbsp;worldMax)</span></div>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>worldMin</code> - the desired minimum coordinates values (not null,
  unaffected)</dd>
-<dd><code>worldMax</code> - the desired minimum coordinates values (not null,
+<dd><code>worldMax</code> - the desired maximum coordinates values (not null,
  unaffected)</dd>
 </dl>
 </section>
@@ -781,9 +781,9 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>worldMin</code> - the desired minimum coordinates values (not null,
- unaffected, default=-10k,-10k,-10k)</dd>
-<dd><code>worldMax</code> - the desired minimum coordinates values (not null,
- unaffected, default=10k,10k,10k)</dd>
+ unaffected, default=(-10k,-10k,-10k))</dd>
+<dd><code>worldMax</code> - the desired maximum coordinates values (not null,
+ unaffected, default=(10k,10k,10k))</dd>
 <dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
 </dl>
 </section>
@@ -801,7 +801,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>worldMin</code> - the desired minimum coordinates values (not null,
  unaffected, default=-10k,-10k,-10k)</dd>
-<dd><code>worldMax</code> - the desired minimum coordinates values (not null,
+<dd><code>worldMax</code> - the desired maximum coordinates values (not null,
  unaffected, default=10k,10k,10k)</dd>
 <dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
 <dd><code>solverType</code> - the desired constraint solver (not null)</dd>
@@ -856,7 +856,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  contacts since the previous distributeEvents().</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener object to register (not null, alias created)</dd>
+<dd><code>listener</code> - the listener to register (not null, alias created)</dd>
 </dl>
 </section>
 </li>
@@ -898,7 +898,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  ongoing contacts EXCEPT Sphere-Sphere contacts.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener object to register (not null, alias created)</dd>
+<dd><code>listener</code> - the listener to register (not null, alias created)</dd>
 </dl>
 </section>
 </li>
@@ -974,11 +974,11 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  useful for applying forces.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>V</code> - the return type of the callable</dd>
+<dd><code>V</code> - the return type of the Callable</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>callable</code> - which callable to invoke</dd>
+<dd><code>callable</code> - the Callable to invoke</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>Future object</dd>
+<dd>a new AppTask</dd>
 </dl>
 </section>
 </li>
@@ -1177,7 +1177,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="block">De-register the specified listener for new contacts.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener object to de-register (not null)</dd>
+<dd><code>listener</code> - the listener to de-register (not null)</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)"><code>addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)</code></a></dd>
 </dl>
@@ -1201,7 +1201,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="block">De-register the specified listener for ongoing contacts.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener object to de-register (not null)</dd>
+<dd><code>listener</code> - the listener to de-register (not null)</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)"><code>addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)</code></a></dd>
 </dl>
@@ -1245,8 +1245,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  before adding any bodies to the space.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>gravity</code> - the desired acceleration vector (not null, unaffected,
- default=0,-9.81,0)</dd>
+<dd><code>gravity</code> - the desired acceleration vector (in physics-space
+ coordinates, not null, unaffected, default=(0,-9.81,0))</dd>
 </dl>
 </section>
 </li>

@@ -860,14 +860,14 @@ int&nbsp;desiredFlags)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugMaterial(com.jme3.material.Material)">setDebugMaterial</a></span>&#8203;(com.jme3.material.Material&nbsp;material)</code></th>
 <td class="colLast">
-<div class="block">Alter or remove the custom debug material.</div>
+<div class="block">Apply or remove a custom debug material.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i75">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugMeshInitListener(com.jme3.bullet.debug.DebugMeshInitListener)">setDebugMeshInitListener</a></span>&#8203;(<a href="../debug/DebugMeshInitListener.html" title="interface in com.jme3.bullet.debug">DebugMeshInitListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
-<div class="block">Alter the listener for new debug meshes.</div>
+<div class="block">Apply or remove a listener for new debug meshes.</div>
 </td>
 </tr>
 <tr class="altColor" id="i76">
@@ -1228,7 +1228,7 @@ com.jme3.math.Matrix3f&nbsp;orientation)</code></th>
  other in its collideWithGroups set.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>collisionGroup</code> - the groups to add (bitmask)</dd>
+<dd><code>collisionGroup</code> - the groups to add, ORed together (bitmask)</dd>
 </dl>
 </section>
 </li>
@@ -1978,11 +1978,11 @@ int&nbsp;mode)</span></div>
 <section class="detail">
 <h3><a id="setDebugMaterial(com.jme3.material.Material)">setDebugMaterial</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setDebugMaterial</span>&#8203;(<span class="arguments">com.jme3.material.Material&nbsp;material)</span></div>
-<div class="block">Alter or remove the custom debug material.</div>
+<div class="block">Apply or remove a custom debug material.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>material</code> - the desired material, or null to use the default debug
- materials (alias created, default=null)</dd>
+<dd><code>material</code> - the Material to use (alias created) or null to use the
+ default debug materials (default=null)</dd>
 </dl>
 </section>
 </li>
@@ -1990,10 +1990,11 @@ int&nbsp;mode)</span></div>
 <section class="detail">
 <h3><a id="setDebugMeshInitListener(com.jme3.bullet.debug.DebugMeshInitListener)">setDebugMeshInitListener</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setDebugMeshInitListener</span>&#8203;(<span class="arguments"><a href="../debug/DebugMeshInitListener.html" title="interface in com.jme3.bullet.debug">DebugMeshInitListener</a>&nbsp;listener)</span></div>
-<div class="block">Alter the listener for new debug meshes.</div>
+<div class="block">Apply or remove a listener for new debug meshes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the desired listener, or null for none (default=null)</dd>
+<dd><code>listener</code> - the listener to use (alias created) or null for none
+ (default=null)</dd>
 </dl>
 </section>
 </li>
