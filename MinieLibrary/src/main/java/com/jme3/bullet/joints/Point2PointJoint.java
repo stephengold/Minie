@@ -286,6 +286,10 @@ public class Point2PointJoint extends Constraint {
     @Override
     public void setPivotInB(Vector3f location) {
         Validate.nonNull(location, "location");
+        if (pivotB == null) {
+            throw new IllegalStateException(
+                    "The Point2PointJoint doesn't have a B end.");
+        }
 
         long constraintId = nativeId();
         setPivotInB(constraintId, location);
