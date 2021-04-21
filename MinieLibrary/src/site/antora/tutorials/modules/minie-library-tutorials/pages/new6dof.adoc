@@ -113,7 +113,7 @@ In effect, the "A" end of a single-ended constraint
 connects to the physics space itself.
 
 NOTE: Different {url-api}/joints/Constraint.html[`Constraint`]
-subclasses use different end-naming conventions for single-ended constaints.
+subclasses use different end-naming conventions for single-ended constraints.
 
 There are 2 {url-api}/joints/New6Dof.html[`New6Dof`] constructors,
 one for a single-ended constraint:
