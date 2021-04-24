@@ -116,7 +116,6 @@ Add to the project's "pom.xml" file:
   <groupId>com.github.stephengold</groupId>
   <artifactId>Minie</artifactId>
   <version>4.0.2</version>
-  <type>pom</type>
 </dependency>
 ----
 
