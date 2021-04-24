@@ -364,7 +364,7 @@ Maven artifacts will be found in the "MinieLibrary/build/libs" directory.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_customizing_the_native_libraries"><a class="anchor" href="#_customizing_the_native_libraries"></a>Customizing the native libraries</h2>
+<h2 id="_customizing_native_libraries"><a class="anchor" href="#_customizing_native_libraries"></a>Customizing native libraries</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>By default, Minie&#8217;s class JAR includes native libraries
@@ -388,6 +388,7 @@ btfAndroid_X86 = 'ReleaseSp'
 btfAndroid_X86_64 = 'ReleaseSp'
 btfLinux32 = 'ReleaseSp'
 btfLinux64 = 'ReleaseSp'
+btfLinux_ARM32 = 'hfReleaseSp'
 btfLinux_ARM64 = 'ReleaseSp'
 btfMacOSX32 = 'ReleaseSp'
 btfMacOSX64 = 'ReleaseSp'
@@ -407,6 +408,7 @@ btfAndroid_X86 = ''
 btfAndroid_X86_64 = ''
 btfLinux32 = ''
 btfLinux64 = 'ReleaseSp'
+btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = ''
@@ -426,6 +428,7 @@ btfAndroid_X86 = ''
 btfAndroid_X86_64 = ''
 btfLinux32 = ''
 btfLinux64 = ''
+btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = ''
@@ -445,11 +448,70 @@ btfAndroid_X86 = ''
 btfAndroid_X86_64 = ''
 btfLinux32 = ''
 btfLinux64 = 'ReleaseDp'
+btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = 'ReleaseDp'
 btfWindows32 = ''
 btfWindows64 = 'ReleaseDp'</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_a_local_version_of_the_site"><a class="anchor" href="#_build_a_local_version_of_the_site"></a>Build a local version of the site</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download and extract the source code from GitHub:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>using Git:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p><code>git clone <a href="https://github.com/stephengold/Minie.git" class="bare">https://github.com/stephengold/Minie.git</a></code></p>
+</li>
+<li>
+<p><code>cd Minie</code></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Edit "src/site/antora/playbook.yml" and replace "/home/sgold/Git/Minie"
+with an absolute path to your checkout directory (3 places).</p>
+</li>
+<li>
+<p><a href="https://docs.antora.org/antora/2.3/install-and-run-quickstart/#install-nodejs">Install Node.js</a></p>
+</li>
+<li>
+<p>Install Antora:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>using Bash:  <code>npm i -g @antora/cli @antora/site-generator-default</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Run Antora:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>using Bash:  <code>antora src/site/antora/playbook.yml</code></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>After a successful build,
+the local version of the site will be found in the "build/site" directory.</p>
 </div>
 </div>
 </div>
