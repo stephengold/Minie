@@ -126,19 +126,18 @@ btfWindows32 = ''
 btfWindows64 = 'ReleaseDp'
 ----
 
-=== Build a local version of the site
+== Build a local version of the site
 
 . Download and extract the source code from GitHub:
-.. using Git:
-... `git clone https://github.com/stephengold/Minie.git`
-... `cd Minie`
+.. `git clone https://github.com/stephengold/Minie.git`
+.. `cd Minie`
 . Edit "src/site/antora/playbook.yml" and replace "/home/sgold/Git/Minie"
   with an absolute path to your checkout directory (3 places).
 . https://docs.antora.org/antora/2.3/install-and-run-quickstart/#install-nodejs[Install Node.js]
 . Install Antora:
-.. using Bash:  `npm i -g @antora/cli @antora/site-generator-default`
+.. `npm i -g @antora/cli @antora/site-generator-default`
 . Run Antora:
-.. using Bash:  `antora src/site/antora/playbook.yml`
+.. `antora src/site/antora/playbook.yml`
 
 After a successful build,
 the local version of the site will be found in the "build/site" directory.
