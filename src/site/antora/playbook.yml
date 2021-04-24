@@ -1,8 +1,8 @@
 ---
-# configure Antora for local testing with a local bundle
+# configure Antora for local testing with the published bundle
 
 site:
-  title: The Minie project (local test with local bundle)
+  title: The Minie project (local test with published bundle)
   start_page: minie:ROOT:overview.adoc
   url: /home/sgold/Git/Minie/build/site
 content:
@@ -15,7 +15,7 @@ content:
       start_path: MinieLibrary/src/site/antora/tutorials
 ui:
   bundle:
-    url: /home/sgold/Git/antora-ui-bundle/build/ui-bundle.zip
+    url: https://github.com/stephengold/antora-ui-bundle/releases/download/v-sgold210314a/ui-bundle.zip
     snapshot: true
 output:
   clean: true
