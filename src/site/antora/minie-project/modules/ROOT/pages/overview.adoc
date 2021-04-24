@@ -58,6 +58,22 @@ https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[Minie's BSD-s
 disclaims liability for defects.
 Please don't use this software in safety-critical applications.
 
+== Getting help
+
+For self-help, make use of
+xref:minie-library-tutorials:add.adoc[the tutorials],
+https://stephengold.github.io/Minie/javadoc/master[the javadoc], and
+https://github.com/stephengold/Minie[the source code].
+
+The JMonkeyEngine Forum/Hub is a good place to ask technical questions.
+The most relevant categories are:
+
+* https://hub.jmonkeyengine.org/c/user-code-projects/minie/63[User Code & Projects : Minie] and
+* https://hub.jmonkeyengine.org/c/troubleshooting/physics/17[Troubleshooting : Physics].
+
+For issues that are best handled privately, contact me by e-mail.
+My personal e-mail address appears often in the source code.
+
 == The name
 
 The Minie project is named after
