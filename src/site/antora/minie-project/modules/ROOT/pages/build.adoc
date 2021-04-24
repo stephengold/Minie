@@ -39,7 +39,7 @@ After a build, you can restore the repository to a pristine state:
  * using Bash:  `./gradlew clean`
  * using Windows Command Prompt:  `.\gradlew clean`
 
-== Customizing the native libraries
+== Customizing native libraries
 
 By default, Minie's class JAR includes native libraries
 for all platforms Minie supports.
@@ -61,6 +61,7 @@ btfAndroid_X86 = 'ReleaseSp'
 btfAndroid_X86_64 = 'ReleaseSp'
 btfLinux32 = 'ReleaseSp'
 btfLinux64 = 'ReleaseSp'
+btfLinux_ARM32 = 'hfReleaseSp'
 btfLinux_ARM64 = 'ReleaseSp'
 btfMacOSX32 = 'ReleaseSp'
 btfMacOSX64 = 'ReleaseSp'
@@ -79,6 +80,7 @@ btfAndroid_X86 = ''
 btfAndroid_X86_64 = ''
 btfLinux32 = ''
 btfLinux64 = 'ReleaseSp'
+btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = ''
@@ -97,6 +99,7 @@ btfAndroid_X86 = ''
 btfAndroid_X86_64 = ''
 btfLinux32 = ''
 btfLinux64 = ''
+btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = ''
@@ -115,9 +118,27 @@ btfAndroid_X86 = ''
 btfAndroid_X86_64 = ''
 btfLinux32 = ''
 btfLinux64 = 'ReleaseDp'
+btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = 'ReleaseDp'
 btfWindows32 = ''
 btfWindows64 = 'ReleaseDp'
 ----
+
+=== Build a local version of the site
+
+. Download and extract the source code from GitHub:
+.. using Git:
+... `git clone https://github.com/stephengold/Minie.git`
+... `cd Minie`
+. Edit "src/site/antora/playbook.yml" and replace "/home/sgold/Git/Minie"
+  with an absolute path to your checkout directory (3 places).
+. https://docs.antora.org/antora/2.3/install-and-run-quickstart/#install-nodejs[Install Node.js]
+. Install Antora:
+.. using Bash:  `npm i -g @antora/cli @antora/site-generator-default`
+. Run Antora:
+.. using Bash:  `antora src/site/antora/playbook.yml`
+
+After a successful build,
+the local version of the site will be found in the "build/site" directory.
