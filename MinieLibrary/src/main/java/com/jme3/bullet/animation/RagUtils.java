@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -265,27 +265,44 @@ public class RagUtils {
     }
 
     /**
-     * Traverse a group of bodies joined by physics joints, adding neighbors to
-     * the ignore list of the start body. Assumes no cycles. Note: recursive!
+     * Traverse a group of bodies joined by physics joints, adding bodies to the
+     * ignore list of the start body. Note: recursive!
      *
      * @param start the body where the traversal began (not null, unaffected)
      * @param current the body to traverse (not null, unaffected)
      * @param hopsRemaining the number of hops remaining (&ge;0)
+     * @param visited map bodies visited during the current traversal to max
+     * remaining hops (not null, modified)
      */
     static void ignoreCollisions(PhysicsBody start, PhysicsBody current,
-            int hopsRemaining) {
+            int hopsRemaining, Map<PhysicsBody, Integer> visited) {
         if (hopsRemaining <= 0) {
             return;
         }
+        int newRemainingHops = hopsRemaining - 1;
         /*
-         * Take another hop.
+         * Consider each neighboring body that isn't the starting body.
          */
         PhysicsJoint[] joints = current.listJoints();
         for (PhysicsJoint joint : joints) {
             PhysicsBody neighbor = joint.findOtherBody(current);
             if (neighbor != null && neighbor != start) {
-                start.addToIgnoreList(neighbor);
-                ignoreCollisions(start, neighbor, hopsRemaining - 1);
+                /*
+                 * Decide whether or not to visit (or re-visit) the neighbor.
+                 */
+                boolean visit = true;
+                if (visited.containsKey(neighbor)) { // previously visited
+                    int mostRemainingHops = visited.get(neighbor);
+                    if (newRemainingHops <= mostRemainingHops) {// don't revisit
+                        visit = false;
+                    }
+                }
+                if (visit) {
+                    start.addToIgnoreList(neighbor);
+                    visited.put(neighbor, newRemainingHops);
+                    ignoreCollisions(start, neighbor, newRemainingHops,
+                            visited);
+                }
             }
         }
     }

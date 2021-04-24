@@ -41,6 +41,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -1638,8 +1639,11 @@ public class DacLinks
         /*
          * Rebuild the ignore lists using recursion.
          */
+        Map<PhysicsBody, Integer> visited = new HashMap<>(bodies.length);
         for (PhysicsRigidBody body : bodies) {
-            RagUtils.ignoreCollisions(body, body, maxHops);
+            visited.clear();
+            visited.put(body, maxHops);
+            RagUtils.ignoreCollisions(body, body, maxHops, visited);
         }
     }
 
