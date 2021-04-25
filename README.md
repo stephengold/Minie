@@ -393,6 +393,7 @@ artists and software developers:
   the [jME-TTF] rendering system
 + Paul Speed, for helpful insights
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down
++ "duncanj", for pull request #15
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model
 + Tobias Jung, for distributing [ProFont]
 + plus the creators of (and contributors to) the following software:
