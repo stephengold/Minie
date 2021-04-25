@@ -326,7 +326,7 @@ publishing {
                 scm {
                     connection = 'scm:git:git://github.com/stephengold/Minie.git'
                     developerConnection = 'scm:git:ssh://github.com:stephengold/Minie.git'
-                    url = 'https://github.com/stephengold/Minie/tree/master'
+                    url = 'https://github.com/stephengold/Minie/tree/for_jME3.3'
                 }
                 suppressPomMetadataWarningsFor('apiElements') // Gradle issue #16555
                 url = 'https://github.com/stephengold/Minie'

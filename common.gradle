@@ -27,15 +27,15 @@ gradle.projectsEvaluated {
 }
 
 ext {
-    jmeTarget = ''
+    jmeTarget = '+for33'
 
     // current versions of various libraries
-    heartVersion = '6.4.2' + jmeTarget
-    jme3utilitiesuiVersion = '0.9.2' + jmeTarget
+    heartVersion = '6.4.3' + jmeTarget
+    jme3utilitiesuiVersion = '0.9.3' + jmeTarget
     jmonkeyengineVersion = '3.3.2-stable'
     junitVersion = '4.13.2'
-    minieVersion = '4.1.0-SNAPSHOT' + jmeTarget
-    wesVersion = '0.6.2' + jmeTarget
+    minieVersion = '4.1.0' + jmeTarget + '-SNAPSHOT'
+    wesVersion = '0.6.3' + jmeTarget
 }
 
 repositories {

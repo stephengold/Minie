@@ -59,6 +59,6 @@ public class MinieVersion {
      * @return the branch and revision string (not null, not empty)
      */
     public static String versionShort() {
-        return "master 4.1.0-SNAPSHOT";
+        return "for_jME3.3 4.1.0+for33-SNAPSHOT";
     }
 }
