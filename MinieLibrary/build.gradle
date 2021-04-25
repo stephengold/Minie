@@ -94,6 +94,8 @@ ext {
 
     if (metadata.equals('')) {
         version = minieVersion
+    } else if (metadata.startsWith('+')) {
+        version = minieVersion + metadata
     } else {
         version = "${minieVersion}+${metadata}"
     }
