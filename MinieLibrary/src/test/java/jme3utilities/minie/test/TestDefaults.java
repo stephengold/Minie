@@ -58,6 +58,8 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
+import com.jme3.bullet.joints.HingeJoint;
+import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.NewHinge;
 import com.jme3.bullet.joints.Point2PointJoint;
@@ -355,7 +357,16 @@ public class TestDefaults {
 
         // TODO Anchor
         // TODO ConeJoint
-        // TODO HingeJoint
+        HingeJoint seHinge = new HingeJoint(rigidA,
+                new Vector3f(), new Vector3f(),
+                new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f), JointEnd.A);
+        testHinge(seHinge, 1);
+
+        HingeJoint deHinge = new HingeJoint(rigidA, rigidB,
+                new Vector3f(), new Vector3f(),
+                new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f));
+        testHinge(deHinge, 2);
+
         New6Dof seNew6Dof = new New6Dof(rigidB,
                 new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
                 RotationOrder.ZYX);
@@ -450,6 +461,18 @@ public class TestDefaults {
                 linkCollider.getPhysicsRotation(null), 0f);
         testPco(linkCollider);
         Assert.assertFalse(linkCollider.isStatic());
+    }
+
+    private void testHinge(HingeJoint constraint, int numEnds) {
+        Assert.assertEquals(numEnds, constraint.countEnds());
+        testConstraint(constraint);
+
+        Assert.assertFalse(constraint.isAngularOnly());
+        Assert.assertEquals(constraint.getBiasFactor(), 0.3f, 0f);
+        Assert.assertEquals(constraint.getLimitSoftness(), 0.9f, 0f);
+        Assert.assertEquals(constraint.getLowerLimit(), 1f, 0f);
+        Assert.assertEquals(constraint.getRelaxationFactor(), 1f, 0f);
+        Assert.assertEquals(constraint.getUpperLimit(), -1f, 0f);
     }
 
     private void testNew6Dof(New6Dof constraint, int numEnds) {
