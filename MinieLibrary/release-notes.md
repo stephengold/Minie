@@ -1,5 +1,14 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.1.0+for33 released on TBD
+
+ + Bugfix: `RagUtils.ignoreCollisions()` doesn't handle cycles correctly
+ + Bugfix: `NullPointerException` while reading a `DacLinks` from an XML file
+ + Add `setPivotInA()` and `setPivotInB()` methods to `Point2PointJoint`.
+ + Add `HelloDoor` application to the MinieExamples subproject.
+ + Updated the native libraries to v10.3.1 of Libbulletjme.
+ + Built using Gradle v7.0 .
+
 ## Version 4.0.2 released on 23 February 2021
 
  + Bugfix: debug visualization not updated for kinematic rigid bodies
