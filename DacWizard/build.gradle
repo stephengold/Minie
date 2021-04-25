@@ -17,7 +17,7 @@ jar.manifest.attributes('Main-Class': mainClassName)
 dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     implementation 'com.github.stephengold:Heart:' + heartVersion
-    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.18' + jmeTarget
+    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.19' + jmeTarget
     implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
     implementation 'com.github.stephengold:Wes:' + wesVersion
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
@@ -26,9 +26,8 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion // LWJGL 2.x
     //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion // LWJGL 3.x
 
-    // MinieExamples doesn't use jme3-blender, jme3-jogg, or jme3-plugins.
+    // MinieExamples doesn't use jme3-jogg or jme3-plugins.
     // They are included solely to avoid warnings from AssetConfig.
-    runtimeOnly 'org.jmonkeyengine:jme3-blender:' + jmonkeyengineVersion
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
     runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
 
