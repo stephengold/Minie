@@ -1,12 +1,18 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.1.0+for33 released on TBD
+## Version 4.1.0+for33 released on 24 April 2021
 
  + Bugfix: `RagUtils.ignoreCollisions()` doesn't handle cycles correctly
  + Bugfix: `NullPointerException` while reading a `DacLinks` from an XML file
- + Add `setPivotInA()` and `setPivotInB()` methods to `Point2PointJoint`.
- + Add `HelloDoor` application to the MinieExamples subproject.
- + Updated the native libraries to v10.3.1 of Libbulletjme.
+ + Added `setPivotInA()` and `setPivotInB()` methods to `Point2PointJoint`.
+ + Added `HelloDoor` application to the MinieExamples subproject.
+ + Updated the native libraries to v10.3.1 of Libbulletjme, which includes
+   Bullet v2 source code updated through 21 April 2021.
+ + Based on:
+   + v6.4.3+for33 of the Heart library,
+   + v0.6.3+for33 of the Wes library,
+   + v0.9.3+for33 of the jme3-utilities-ui library, and
+   + v0.9.19+for33 of the jme3-utilities-nifty library.
  + Built using Gradle v7.0 .
 
 ## Version 4.0.2 released on 23 February 2021

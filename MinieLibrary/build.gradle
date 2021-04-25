@@ -99,7 +99,7 @@ ext {
     } else {
         version = "${minieVersion}+${metadata}"
     }
-    baseName = "${artifact}-${version}"
+    baseName = "${artifact}-${version}${minieSnapshot}"
 
     resourcesDir = 'src/main/resources/'
     libDir = resourcesDir + 'lib/'       // for Android native libraries
