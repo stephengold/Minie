@@ -524,3 +524,4 @@ a|`setMass(positive)` `setKinematic(false)`
   it might get automatically deactivated after 2 seconds.
 * Continuous collision detection solves the problem
   of fast-moving dynamic bodies passing through thin obstacles.
+* Continuous collision detection is disabled by default.
