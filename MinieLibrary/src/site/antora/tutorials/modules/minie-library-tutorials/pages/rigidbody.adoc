@@ -434,8 +434,8 @@ Things to notice while running the app:
 A common issue with discrete-time simulations
 involves a fast-moving dynamic body passing through a thin obstacle
 without any collision being detected.
-The issue arises because the body can pass from one side of the object to
-another in a single time step.
+The issue arises because the body can pass from one side of the obstacle to
+the other in a single time step.
 The dynamic body doesn't intersect the obstacle on any time step,
 so no collision is detected and no contact forces are simulated.
 
@@ -449,13 +449,13 @@ an algorithm for detecting collisions that occur *between* time steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body's projected path,
 and then performs more detailed collision tests on any potential
-obstacles found by the sweep test.
+obstacles found by the sweep.
 
 Because CCD involves extra computation, it's disabled by default.
 Since it's only necessary for fast-moving bodies, it's enabled only
 when a body's distance traveled per time step exceeds a threshold.
 To enable CCD for a particular rigid body,
-increase its activation threshold using
+set its activation threshold to a positive value using
 `rigidBody.setCcdMotionThreshold(distancePerTimeStep)`.
 
 To obtain the best possible results from CCD,
