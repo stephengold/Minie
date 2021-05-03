@@ -41,9 +41,8 @@ ext {
 
 repositories {
     //mavenLocal()
-    maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for jme3-testdata
     mavenCentral()
-    maven { url 'https://jcenter.bintray.com/' } // for jme3-ttf
+    maven { url 'https://jcenter.bintray.com/' } // for jme-ttf
 }
 
 // custom tasks for creating source/javadoc JARs
