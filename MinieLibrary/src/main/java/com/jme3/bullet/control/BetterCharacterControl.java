@@ -443,11 +443,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the character's the walk direction. This parameter is frame-rate
-     * independent and the character will move continuously in the direction
-     * given by the vector with the speed given by the vector length in m/s.
+     * Alter the character's walk velocity, which will be applied on every
+     * physics tick.
      *
-     * @param vec The movement direction and speed in m/s
+     * @param vec the desired velocity (in physics-space units per second)
      */
     public void setWalkDirection(Vector3f vec) {
         walkDirection.set(vec);
