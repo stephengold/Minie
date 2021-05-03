@@ -486,7 +486,8 @@ float&nbsp;timeStep)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setWalkDirection(com.jme3.math.Vector3f)">setWalkDirection</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;vec)</code></th>
 <td class="colLast">
-<div class="block">Alter the character's the walk direction.</div>
+<div class="block">Alter the character's walk velocity, which will be applied on every
+ physics tick.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i39">
@@ -867,12 +868,11 @@ float&nbsp;mass)</span></div>
 <section class="detail">
 <h3><a id="setWalkDirection(com.jme3.math.Vector3f)">setWalkDirection</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setWalkDirection</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;vec)</span></div>
-<div class="block">Alter the character's the walk direction. This parameter is frame-rate
- independent and the character will move continuously in the direction
- given by the vector with the speed given by the vector length in m/s.</div>
+<div class="block">Alter the character's walk velocity, which will be applied on every
+ physics tick.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>vec</code> - The movement direction and speed in m/s</dd>
+<dd><code>vec</code> - the desired velocity (in physics-space units per second)</dd>
 </dl>
 </section>
 </li>
