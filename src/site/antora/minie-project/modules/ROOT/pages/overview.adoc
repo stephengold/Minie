@@ -40,7 +40,7 @@ For 2-D physics, consider using http://www.dyn4j.org/[dyn4j] instead.
 Starting with version 1.6,
 Minie no longer supports the version 3.2.x JMonkeyEngine libraries.
 In order to use the latest Minie release,
-you'll need version 3.3.x JMonkeyEngine libraries, preferably v3.3.2-stable.
+you'll need version 3.3.x or 3.4.x JMonkeyEngine libraries, preferably v3.3.2-stable.
 (You can still use the JME 3.2 SDK, however.)
 
 Like JMonkeyEngine, Minie and its documentation
