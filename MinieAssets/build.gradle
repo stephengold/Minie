@@ -36,7 +36,7 @@ ext {
 }
 
 dependencies {
-    implementation 'com.github.stephengold:jme-ttf:2.2.3'
+    implementation 'com.github.stephengold:jme-ttf:2.2.3' + jmeTarget
     implementation 'com.github.stephengold:Heart:' + heartVersion
     implementation 'org.jmonkeyengine:jme3-blender:3.3.2-stable'
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
