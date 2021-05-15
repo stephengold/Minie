@@ -4,6 +4,10 @@
 
 description = 'sample applications adapted from the jme3-examples sub-project'
 
+tasks.withType(JavaCompile) { // Java compile-time options:
+    options.deprecation = true
+}
+    
 dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
     implementation 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
