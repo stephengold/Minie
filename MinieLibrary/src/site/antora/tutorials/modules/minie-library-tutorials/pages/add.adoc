@@ -150,7 +150,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 Starting with version 1.6,
 Minie no longer supports version 3.2.x JMonkeyEngine libraries.
 In order to use the latest Minie release,
-you'll need version 3.3.x JMonkeyEngine libraries.
+you'll need version 3.3.x JMonkeyEngine libraries:
 
 * Minie v4.1.0+for33 depends on jme3-terrain-3.3.2-stable and
 * Heart v6.4.3+for33 depends on jme3-core-3.3.2-stable
@@ -167,6 +167,10 @@ load Minie's native library before instantiating any physics objects:
 ----
 NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 ----
+
+For Minie to work on Android platforms running Marshmellow (6.0) or higher,
+make sure the `extractNativeLibs` flag is set to `true`
+in the "application" element of the "AndroidManifest.xml" manifest.
 
 == Attach a `BulletAppState`
 
