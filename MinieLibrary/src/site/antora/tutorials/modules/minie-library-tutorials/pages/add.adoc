@@ -76,11 +76,11 @@ The Minie library depends on:
   which in turn depends on:
 ** the standard jme3-core library.
 
-=== Gradle-built projects
+For projects built using Gradle or Maven, it's usually sufficient to specify the
+dependency on the Minie Library.  Build tools should automatically
+resolve the remaining dependencies.
 
-For projects built using Gradle, it's usually sufficient to specify the
-dependency on the Minie Library.  The build tools should automatically
-resolve the remaining dependencies automatically.
+=== Gradle-built projects
 
 Add to the application's "build.gradle" file:
 
