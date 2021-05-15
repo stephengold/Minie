@@ -302,9 +302,9 @@ set the gravity of the space to zero:
 space.setGravity(Vector3f.ZERO);
 ----
 
-== Create physics objects
+== Create collision objects
 
-You can create physics objects directly, using the constructors:
+You can create collision objects directly, using the constructors:
 
 [source,java]
 ----
@@ -332,7 +332,7 @@ RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
 rigidNode1.addControl(rbc1);
 ----
 
-Either way, the objects won't get simulated until they're added to a space.
+Either way, the objects won't get simulated unless they're added to a space.
 
 == Summary
 
@@ -342,4 +342,4 @@ Either way, the objects won't get simulated until they're added to a space.
 * Collision objects can be created 2 ways:
 ** directly, using the constructors
 ** indirectly, by adding physics controls to the scene graph.
-* Physics objects aren't simulated unless they're added to a space.
+* Collision objects aren't simulated unless they're added to a space.
