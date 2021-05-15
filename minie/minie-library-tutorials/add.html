@@ -554,7 +554,7 @@ and probably the "-sources" and "-javadoc" JARs as well.</p>
 <p>Starting with version 1.6,
 Minie no longer supports version 3.2.x JMonkeyEngine libraries.
 In order to use the latest Minie release,
-you&#8217;ll need version 3.3.x JMonkeyEngine libraries.</p>
+you&#8217;ll need version 3.3.x JMonkeyEngine libraries:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -584,6 +584,11 @@ load Minie&#8217;s native library before instantiating any physics objects:</p>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">NativeLibraryLoader.loadNativeLibrary("bulletjme", true);</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>For Minie to work on Android platforms running Marshmellow (6.0) or higher,
+make sure the <code>extractNativeLibs</code> flag is set to <code>true</code>
+in the "application" element of the "AndroidManifest.xml" manifest.</p>
 </div>
 </div>
 </div>
