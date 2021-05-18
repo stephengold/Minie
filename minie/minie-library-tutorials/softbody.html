@@ -539,10 +539,20 @@ To alter the mass of a pre-existing node, use the <code>setNodeMass()</code> met
 </div>
 <div class="paragraph">
 <p>You can also alter the total mass of a soft body, distributing the mass across
-the pre-existing nodes in various ways:
-  + in proportion to the current mass of each node, using <code>setMassByCurrent()</code>,
-  + in proportion to the area of adjacent faces, using <code>setMassByArea()</code>, or
-  + in a custom fashion, using <code>setMasses()</code>.</p>
+the pre-existing nodes in various ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>in proportion to the current mass of each node, using <code>setMassByCurrent()</code>,</p>
+</li>
+<li>
+<p>in proportion to the area of adjacent faces, using <code>setMassByArea()</code>, or</p>
+</li>
+<li>
+<p>in a custom fashion, using <code>setMasses()</code>.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p><code>softBody.setMass()</code> is equivalent to <code>setMassByCurrent()</code>.</p>
