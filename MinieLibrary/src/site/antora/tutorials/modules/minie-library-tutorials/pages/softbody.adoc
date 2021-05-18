@@ -200,9 +200,10 @@ softBody.setNodeMass(nodeIndex, desiredMass);
 
 You can also alter the total mass of a soft body, distributing the mass across
 the pre-existing nodes in various ways:
-  + in proportion to the current mass of each node, using `setMassByCurrent()`,
-  + in proportion to the area of adjacent faces, using `setMassByArea()`, or
-  + in a custom fashion, using `setMasses()`.
+
+* in proportion to the current mass of each node, using `setMassByCurrent()`,
+* in proportion to the area of adjacent faces, using `setMassByArea()`, or
+* in a custom fashion, using `setMasses()`.
 
 `softBody.setMass()` is equivalent to `setMassByCurrent()`.
 
