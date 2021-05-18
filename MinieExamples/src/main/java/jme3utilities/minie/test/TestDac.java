@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -29,10 +29,7 @@ package jme3utilities.minie.test;
 import com.jme3.anim.AnimClip;
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
-import com.jme3.animation.AnimChannel;
-import com.jme3.animation.AnimControl;
-import com.jme3.animation.Animation;
-import com.jme3.animation.SkeletonControl;
+import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.asset.AssetNotFoundException;
@@ -71,7 +68,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import java.io.File;
@@ -104,7 +100,6 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 import jme3utilities.wes.AnimationEdit;
 import jme3utilities.wes.Pose;
-import jme3utilities.wes.TweenTransforms;
 
 /**
  * Test scaling and load/save on a DynamicAnimControl.
@@ -142,10 +137,6 @@ public class TestDac extends AbstractDemo {
     // *************************************************************************
     // fields
 
-    /**
-     * SkeletonControl/SkinningControl of the loaded model
-     */
-    private AbstractControl sc;
     /**
      * status displayed in the upper-left corner of the GUI node
      */
@@ -188,6 +179,10 @@ public class TestDac extends AbstractDemo {
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
+    /**
+     * SkinningControl of the loaded model
+     */
+    private SkinningControl sc;
     /**
      * name of the Animation/Action to play on the C-G model
      */
@@ -700,7 +695,7 @@ public class TestDac extends AbstractDemo {
         centerCgm(cgModel);
         resetTransform = cgModel.getLocalTransform().clone();
 
-        sc = RagUtils.findSControl(cgModel);
+        sc = (SkinningControl) RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
@@ -731,24 +726,13 @@ public class TestDac extends AbstractDemo {
         rightClavicle = dac.findBoneLink(rightClavicleName);
         upperBody = dac.findBoneLink(upperBodyName);
 
-        if (sc instanceof SkeletonControl) {
-            AnimControl animControl
-                    = controlledSpatial.getControl(AnimControl.class);
-            AnimChannel animChannel = animControl.createChannel();
-            animChannel.setAnim(animationName);
-        } else {
-            AnimComposer composer
-                    = controlledSpatial.getControl(AnimComposer.class);
-            composer.setCurrentAction(animationName);
-        }
+        AnimComposer composer
+                = controlledSpatial.getControl(AnimComposer.class);
+        composer.setCurrentAction(animationName);
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
-        if (sc instanceof SkeletonControl) {
-            InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
-        } else {
-            InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
-        }
+        InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);
     }
 
@@ -846,10 +830,9 @@ public class TestDac extends AbstractDemo {
          * with the BaseMesh model.
          */
         Spatial spatial = RagUtils.findSControl(cgModel).getSpatial();
-        AnimControl animControl
-                = spatial.getControl(AnimControl.class);
-        Animation animation = animControl.getAnim(animationName);
-        AnimationEdit.normalizeQuaternions(animation, 0.0001f);
+        AnimComposer composer = spatial.getControl(AnimComposer.class);
+        AnimClip clip = composer.getAnimClip(animationName);
+        AnimationEdit.normalizeQuaternions(clip, 0.0001f);
     }
 
     /**
@@ -871,6 +854,7 @@ public class TestDac extends AbstractDemo {
      */
     private void loadJaime() {
         cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime.j3o");
+        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
@@ -928,6 +912,7 @@ public class TestDac extends AbstractDemo {
      */
     private void loadPuppet() {
         cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
         dac = new PuppetControl();
         animationName = "walk";
         leftClavicleName = "upper_arm.1.L";
@@ -1008,21 +993,11 @@ public class TestDac extends AbstractDemo {
          * Update the animation pose.
          */
         Spatial controlledSpatial = sc.getSpatial();
-        if (sc instanceof SkeletonControl) {
-            AnimControl animControl
-                    = controlledSpatial.getControl(AnimControl.class);
-            Animation animation = animControl.getAnim(animationName);
-
-            float time = animControl.getChannel(0).getTime();
-            animPose.setToAnimation(animation, time, new TweenTransforms());
-
-        } else {
-            AnimComposer composer
-                    = controlledSpatial.getControl(AnimComposer.class);
-            AnimClip clip = composer.getAnimClip(animationName);
-            double time = composer.getTime(AnimComposer.DEFAULT_LAYER);
-            animPose.setToClip(clip, time);
-        }
+        AnimComposer composer
+                = controlledSpatial.getControl(AnimComposer.class);
+        AnimClip clip = composer.getAnimClip(animationName);
+        double time = composer.getTime(AnimComposer.DEFAULT_LAYER);
+        animPose.setToClip(clip, time);
 
         Vector3f acceleration = Vector3f.ZERO;
         /*

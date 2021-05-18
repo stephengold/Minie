@@ -35,6 +35,10 @@ ext {
     plaid = assets + 'Textures/plaid.png'
 }
 
+tasks.withType(JavaCompile) { // Java compile-time options:
+    options.deprecation = true
+}
+
 dependencies {
     implementation 'com.github.stephengold:jme-ttf:2.2.3' + jmeTarget
     implementation 'com.github.stephengold:Heart:' + heartVersion

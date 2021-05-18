@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -28,9 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
-import com.jme3.animation.AnimChannel;
-import com.jme3.animation.AnimControl;
-import com.jme3.animation.SkeletonControl;
+import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.bullet.BulletAppState;
@@ -57,7 +55,6 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import java.util.List;
@@ -112,14 +109,6 @@ public class BalanceDemo extends AbstractDemo {
     // fields
 
     /**
-     * SkeletonControl/SkinningControl of the loaded model
-     */
-    private AbstractControl sc;
-    /**
-     * channel for playing canned animations
-     */
-    private AnimChannel animChannel = null;
-    /**
      * composer for playing canned animations
      */
     private AnimComposer composer = null;
@@ -169,6 +158,10 @@ public class BalanceDemo extends AbstractDemo {
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
+    /**
+     * SkinningControl of the loaded model
+     */
+    private SkinningControl sc;
     /**
      * name of the Animation/Action to play on the C-G model
      */
@@ -492,7 +485,7 @@ public class BalanceDemo extends AbstractDemo {
         setCgmHeight(cgModel, 2f);
         centerCgm(cgModel);
 
-        sc = RagUtils.findSControl(cgModel);
+        sc = (SkinningControl) RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
@@ -500,23 +493,11 @@ public class BalanceDemo extends AbstractDemo {
         dac.setPhysicsSpace(physicsSpace);
 
         torso = dac.getTorsoLink();
-
-        if (sc instanceof SkeletonControl) {
-            AnimControl animControl
-                    = controlledSpatial.getControl(AnimControl.class);
-            animChannel = animControl.createChannel();
-        } else {
-            composer = controlledSpatial.getControl(AnimComposer.class);
-            animChannel = null;
-        }
+        composer = controlledSpatial.getControl(AnimComposer.class);
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
-        if (sc instanceof SkeletonControl) {
-            InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
-        } else {
-            InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
-        }
+        InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
         rootNode.addControl(sv);
     }
 
@@ -600,11 +581,7 @@ public class BalanceDemo extends AbstractDemo {
         /*
          * Start playing a canned animation.
          */
-        if (animChannel != null) {
-            animChannel.setAnim(animationName);
-        } else {
-            composer.setCurrentAction(animationName);
-        }
+        composer.setCurrentAction(animationName);
     }
 
     /**
@@ -612,6 +589,7 @@ public class BalanceDemo extends AbstractDemo {
      */
     private void loadJaime() {
         cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime.j3o");
+        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
@@ -675,6 +653,7 @@ public class BalanceDemo extends AbstractDemo {
      */
     private void loadPuppet() {
         cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new PuppetControl();

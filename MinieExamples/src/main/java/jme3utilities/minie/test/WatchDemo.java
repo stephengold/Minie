@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.anim.SkinningControl;
-import com.jme3.animation.SkeletonControl;
+import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.bullet.BulletAppState;
@@ -59,7 +59,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.debug.Grid;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
@@ -117,10 +116,6 @@ public class WatchDemo extends AbstractDemo {
     // fields
 
     /**
-     * SkeletonControl/SkinningControl of the loaded model
-     */
-    private AbstractControl sc;
-    /**
      * true once {@link #initWhenReady()} has been invoked for the latest model
      */
     private boolean dacReadyInitDone = false;
@@ -146,6 +141,10 @@ public class WatchDemo extends AbstractDemo {
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
+    /**
+     * SkinningControl of the loaded model
+     */
+    private SkinningControl sc;
 
     private TrackController leftWatch = null;
     private TrackController rightWatch = null;
@@ -475,10 +474,8 @@ public class WatchDemo extends AbstractDemo {
         }
         cgModel.setCullHint(Spatial.CullHint.Never);
 
-        sc = RagUtils.findSControl(cgModel);
-        if (sc instanceof SkinningControl) {
-            ((SkinningControl) sc).getArmature().applyBindPose();
-        }
+        sc = (SkinningControl) RagUtils.findSControl(cgModel);
+        sc.getArmature().applyBindPose(); // see JME issue #1395
 
         rootNode.attachChild(cgModel);
         setCgmHeight(cgModel, 10f);
@@ -491,11 +488,7 @@ public class WatchDemo extends AbstractDemo {
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
-        if (sc instanceof SkeletonControl) {
-            InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
-        } else {
-            InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
-        }
+        InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
         rootNode.addControl(sv);
 
         addGrid();
@@ -603,6 +596,7 @@ public class WatchDemo extends AbstractDemo {
      */
     private void loadJaime() {
         cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime.j3o");
+        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
@@ -658,6 +652,7 @@ public class WatchDemo extends AbstractDemo {
      */
     private void loadPuppet() {
         cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new PuppetControl();

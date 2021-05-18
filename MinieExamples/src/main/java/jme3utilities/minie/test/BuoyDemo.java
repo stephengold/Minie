@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -28,9 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
-import com.jme3.animation.AnimChannel;
-import com.jme3.animation.AnimControl;
-import com.jme3.animation.SkeletonControl;
+import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.bullet.BulletAppState;
@@ -60,7 +58,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
@@ -117,10 +114,6 @@ public class BuoyDemo extends AbstractDemo {
     // fields
 
     /**
-     * SkeletonControl/SkinningControl of the loaded model
-     */
-    private AbstractControl sc;
-    /**
      * AppState to manage the PhysicsSpace
      */
     private BulletAppState bulletAppState;
@@ -148,6 +141,10 @@ public class BuoyDemo extends AbstractDemo {
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
+    /**
+     * SkinningControl of the loaded model
+     */
+    private SkinningControl sc;
     /**
      * name of the Animation/Action to play on the C-G model
      */
@@ -439,7 +436,7 @@ public class BuoyDemo extends AbstractDemo {
         setCgmHeight(cgModel, 10f);
         centerCgm(cgModel);
 
-        sc = RagUtils.findSControl(cgModel);
+        sc = (SkinningControl) RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
@@ -457,24 +454,13 @@ public class BuoyDemo extends AbstractDemo {
             link.addIKController(buoy);
         }
 
-        if (sc instanceof SkeletonControl) {
-            AnimControl animControl
-                    = controlledSpatial.getControl(AnimControl.class);
-            AnimChannel animChannel = animControl.createChannel();
-            animChannel.setAnim(animationName);
-        } else {
-            AnimComposer composer
-                    = controlledSpatial.getControl(AnimComposer.class);
-            composer.setCurrentAction(animationName);
-        }
+        AnimComposer composer
+                = controlledSpatial.getControl(AnimComposer.class);
+        composer.setCurrentAction(animationName);
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
-        if (sc instanceof SkeletonControl) {
-            InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
-        } else {
-            InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
-        }
+        InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);
 
         if (isPaused()) {
@@ -570,6 +556,7 @@ public class BuoyDemo extends AbstractDemo {
      */
     private void loadJaime() {
         cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime.j3o");
+        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
@@ -611,6 +598,7 @@ public class BuoyDemo extends AbstractDemo {
      */
     private void loadPuppet() {
         cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
         dac = new PuppetControl();
         animationName = "walk";
     }

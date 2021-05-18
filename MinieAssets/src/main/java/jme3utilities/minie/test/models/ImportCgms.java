@@ -26,8 +26,9 @@
  */
 package jme3utilities.minie.test.models;
 
-import com.jme3.animation.Bone;
-import com.jme3.animation.Skeleton;
+import com.jme3.anim.Armature;
+import com.jme3.anim.Joint;
+import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetInfo;
 import com.jme3.asset.BlenderKey;
@@ -130,15 +131,17 @@ public class ImportCgms extends SimpleApplication {
         assetManager.registerLoader(BlenderLoader.class, "blend");
         BlenderKey blendKey = new BlenderKey("Blender/2.4x/BaseMesh_249.blend");
         Spatial baseMesh = assetManager.loadModel(blendKey);
+        baseMesh = AnimMigrationUtils.migrate(baseMesh);
 
-        List<Skeleton> list = MySkeleton.listSkeletons(baseMesh, null);
+        // Ensure that every Joint has a name.
+        List<Armature> list = MySkeleton.listArmatures(baseMesh, null);
         assert list.size() == 1 : list.size();
-        Skeleton skeleton = list.get(0);
-        int numBones = skeleton.getBoneCount();
-        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            Bone bone = skeleton.getBone(boneIndex);
-            if (bone.getName().isEmpty()) {
-                MySkeleton.setName(bone, "bone_" + boneIndex);
+        Armature armature = list.get(0);
+        int numJoints = armature.getJointCount();
+        for (int jointIndex = 0; jointIndex < numJoints; ++jointIndex) {
+            Joint joint = armature.getJoint(jointIndex);
+            if (joint.getName().isEmpty()) {
+                joint.setName("bone_" + jointIndex);
             }
         }
         writeToJ3O(baseMesh, "Models/BaseMesh/BaseMesh.j3o");
