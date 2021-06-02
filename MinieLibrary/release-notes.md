@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.1.1 released on TBD
+## Version 4.1.1 released on 1 June 2021
 
  + Bugfix: issue #16 (MinieExamples uses deprecated classes)
  + Based on:
