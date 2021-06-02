@@ -3,6 +3,7 @@
 *.pdb
 *.so
 /.gradle/
+/.idea/
 /.nb-gradle/
 /build/
 /DacWizard/build/
