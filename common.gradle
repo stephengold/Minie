@@ -28,7 +28,7 @@ gradle.projectsEvaluated {
 
 ext {
     jmeTarget = ''
-    minieSnapshot = '-SNAPSHOT'
+    minieSnapshot = ''
 
     // current versions of various libraries
     heartVersion = '6.4.4' + jmeTarget

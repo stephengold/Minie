@@ -1,5 +1,17 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.1.1 released on TBD
+
+ + Bugfix: issue #16 (MinieExamples uses deprecated classes)
+ + Based on:
+   + v3.4.0-stable of JMonkeyEngine,
+   + v2.2.4 of the jme-ttf library,
+   + v6.4.4 of the Heart library,
+   + v0.6.6 of the Wes library,
+   + v0.9.4 of the jme3-utilities-ui library, and
+   + v0.9.20 of the jme3-utilities-nifty library.
+ + Built using Gradle v7.0.2 .
+
 ## Version 4.1.0+for34 released on 25 April 2021
 
  + Bugfix: `RagUtils.ignoreCollisions()` doesn't handle cycles correctly
