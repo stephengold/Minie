@@ -14,6 +14,7 @@ ext {
     candyDish = assets + 'Models/CandyDish'
     duck = assets + 'Models/Duck'
     elephant = assets + 'Models/Elephant'
+    jaime = assets + 'Models/Jaime'
     mhGame = assets + 'Models/MhGame'
     ninja = assets + 'Models/Ninja'
     oto = assets + 'Models/Oto'
@@ -61,17 +62,19 @@ dependencies {
 }
 
 task models(type: JavaExec) {
-    description 'Generate model assets used in MinieExamples.'
+    description 'Generate C-G model assets used in MinieExamples.'
     main 'jme3utilities.minie.test.models.ImportCgms'
     outputs.files([
             baseMesh + '/BaseMesh.j3o',
             candyDish + '/CandyDish.j3o',
             duck + '/Duck.j3o',
             elephant + '/Elephant.j3o',
+            jaime + '/Jaime-new.j3o',
             mhGame + '/MhGame.j3o',
             ninja + '/Ninja.j3o',
             oto + '/Oto.j3o',
-            sinbad + '/Sinbad.j3o'
+            sinbad + '/Sinbad.j3o',
+            sinbad + '/Sword.j3o'
         ])
 }
 
@@ -143,7 +146,7 @@ task poolBalls(type: JavaExec) {
 clean.dependsOn('cleanModels', 'cleanShapes', 'cleanTextures')
 
 task cleanModels(type: Delete) {
-    delete(baseMesh, candyDish, duck, elephant, mhGame, ninja, sinbad)
+    delete(baseMesh, candyDish, duck, elephant, jaime, mhGame, ninja, sinbad)
     dependsOn 'cleanOto'
     description 'Delete generated model assets.'
 }

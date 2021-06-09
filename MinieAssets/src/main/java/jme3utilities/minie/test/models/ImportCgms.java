@@ -160,6 +160,13 @@ public class ImportCgms extends SimpleApplication {
         writeToJ3O(elephant, "Models/Elephant/Elephant.j3o");
         writeTextures(elephant);
         /*
+         * Import the Jaime model (by Rémy Bouquet)
+         * from jme3-testdata-3.1.0-stable.jar:
+         */
+        Spatial jaime = assetManager.loadModel("Models/Jaime/Jaime.j3o");
+        jaime = (Node) AnimMigrationUtils.migrate(jaime);
+        writeToJ3O(jaime, "Models/Jaime/Jaime-new.j3o");
+        /*
          * Import the MhGame model (by Stephen Gold)
          * from src/main/resources:
          */
