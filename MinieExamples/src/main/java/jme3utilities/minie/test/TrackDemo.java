@@ -602,15 +602,13 @@ public class TrackDemo extends AbstractDemo {
      * Load the Jaime model.
      */
     private void loadJaime() {
-        cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime.j3o");
-        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
+        cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new JaimeControl();
-
         tipSpec = "2704/JaimeGeom-geom-1"; // tip of right index finger
     }
 
