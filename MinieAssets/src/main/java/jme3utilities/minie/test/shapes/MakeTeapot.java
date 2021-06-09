@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -82,6 +82,7 @@ public class MakeTeapot {
          * Mute the chatty loggers found in some imported packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
+        Logger.getLogger(OBJLoader.class.getName()).setLevel(Level.SEVERE);
         /*
          * Set the logging level for this class.
          */
