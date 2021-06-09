@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 12.18.3
       - run: npm ci
-      - run: npm audit
+#      - run: npm audit
       - run: npm run buildDocs
       - run: ./gradlew copyJavadocToSite --console=plain --no-daemon --stacktrace
       - uses: peaceiris/actions-gh-pages@v3
