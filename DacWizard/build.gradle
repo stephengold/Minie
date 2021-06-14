@@ -37,5 +37,5 @@ dependencies {
 
 task runForceDialog(type: JavaExec) {
     args = ['--forceDialog']
-    main mainClassName
+    mainClass = mainClassName
 }

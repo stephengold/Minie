@@ -63,7 +63,7 @@ dependencies {
 
 task models(type: JavaExec) {
     description 'Generate C-G model assets used in MinieExamples.'
-    main 'jme3utilities.minie.test.models.ImportCgms'
+    mainClass = 'jme3utilities.minie.test.models.ImportCgms'
     outputs.files([
             baseMesh + '/BaseMesh.j3o',
             candyDish + '/CandyDish.j3o',
@@ -85,43 +85,43 @@ task shapes {
     description 'Generate collision-shape assets used in MinieExamples.'
 }
 task ankhShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeAnkh'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeAnkh'
     outputs.files([ankhShape])
 }
 task bananaShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeBanana'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeBanana'
     outputs.files([bananaShape])
 }
 task barrelShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeBarrel'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeBarrel'
     outputs.files([barrelShape])
 }
 task bowlingPinShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeBowlingPin'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeBowlingPin'
     outputs.files([bowlingPinShape])
 }
 task duckShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeDuck'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeDuck'
     outputs.files([duckShape])
 }
 task glyphShapes(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeGlyphs'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeGlyphs'
     outputs.dirs([glyphAssets])
 }
 task heartShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeHeart'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeHeart'
     outputs.files([heartShape])
 }
 task horseshoeShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeHorseshoe'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeHorseshoe'
     outputs.files([horseshoeShape])
 }
 task swordShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeSword'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeSword'
     outputs.files([swordShape])
 }
 task teapotShape(type: JavaExec) {
-    main 'jme3utilities.minie.test.shapes.MakeTeapot'
+    mainClass = 'jme3utilities.minie.test.shapes.MakeTeapot'
     outputs.files([teapotShape])
 }
 
@@ -130,15 +130,15 @@ task textures {
     description 'Generate texture assets used in MinieExamples.'
 }
 task greenTile(type: JavaExec) {
-    main 'jme3utilities.minie.test.textures.MakeGreenTile'
+    mainClass = 'jme3utilities.minie.test.textures.MakeGreenTile'
     outputs.files([greenTile])
 }
 task plaid(type: JavaExec) {
-    main 'jme3utilities.minie.test.textures.MakePlaid'
+    mainClass = 'jme3utilities.minie.test.textures.MakePlaid'
     outputs.files([plaid])
 }
 task poolBalls(type: JavaExec) {
-    main 'jme3utilities.minie.test.textures.MakePoolBalls'
+    mainClass = 'jme3utilities.minie.test.textures.MakePoolBalls'
     outputs.dirs([poolBalls])
 }
 
