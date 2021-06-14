@@ -384,8 +384,6 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient[%s]", orientText);
         }
 
-        desc = describer.describeGroups(ghost);
-        stream.print(desc);
         long objectId = ghost.nativeId();
         addNativeId(objectId);
         /*
@@ -394,7 +392,31 @@ public class PhysicsDumper extends Dumper {
          */
         CollisionShape shape = ghost.getCollisionShape();
         dump(shape, indent + " ");
-        // TODO ignored objects
+        /*
+         * The next line has the bounding box, group info,
+         * and number of ignores.
+         */
+        addLine(indent);
+        if (shape instanceof CompoundCollisionShape
+                || shape instanceof GImpactCollisionShape
+                || shape instanceof HeightfieldCollisionShape
+                || shape instanceof HullCollisionShape
+                || shape instanceof MeshCollisionShape
+                || shape instanceof SimplexCollisionShape) {
+            BoundingBox aabb = shape.boundingBox(location, orientation, null);
+            desc = describer.describe(aabb);
+            stream.printf(" aabb[%s]", desc);
+        }
+
+        desc = describer.describeGroups(ghost);
+        stream.print(desc);
+
+        int numIgnores = ghost.countIgnored();
+        stream.printf(" with %d ignore%s",
+                numIgnores, (numIgnores == 1) ? "" : "s");
+        if (dumpIgnores && numIgnores > 0) {
+            dumpIgnores(ghost, indent);
+        }
     }
 
     /**
@@ -1627,7 +1649,7 @@ public class PhysicsDumper extends Dumper {
             stream.printf("%n%s ", moreIndent);
             desc = describer.describe2(wheel);
             stream.print(desc);
-            
+
             stream.print(" raycast=");
             float raycast = vehicle.castRay(wheelIndex);
             stream.print(MyString.describe(raycast));
