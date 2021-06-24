@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.2.0 released on TBD
+## Version 4.2.0 released on 24 June 2021
 
  + Bugfix: Libbulletjme issue #7 (GImpact contact tests always fail)
  + Dump the bounds and ignore list of each `PhysicsGhostObject`.
