@@ -126,7 +126,7 @@ public class HelloNonUniformGravity
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         /*
-         * Calculate the gravational acceleration GM/r^2.
+         * Calculate the gravitational acceleration GM/r^2.
          */
         planet.getPhysicsLocation(tmpVector);
         float r2 = tmpVector.lengthSquared(); //squared distance from black hole

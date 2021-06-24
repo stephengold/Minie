@@ -433,7 +433,7 @@ public class CompoundTestShapes {
      * &gt;0)
      * @param iWidth the internal width (X direction, in unscaled shape units,
      * &gt;0)
-     * @param iDepth of the interal depth (Z direction, in unscaled shape units,
+     * @param iDepth the internal depth (Z direction, in unscaled shape units,
      * &gt;0)
      * @param wallThickness (in unscaled shape units, &gt;0)
      *

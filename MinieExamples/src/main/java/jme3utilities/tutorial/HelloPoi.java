@@ -248,7 +248,7 @@ public class HelloPoi
     }
 
     /**
-     * Add a heighfield body to the specified PhysicsSpace.
+     * Add a heightfield body to the specified PhysicsSpace.
      *
      * @param physicsSpace (not null)
      */
@@ -283,8 +283,8 @@ public class HelloPoi
         cam.setRotation(new Quaternion(0f, 1f, 0f, 0f));
 
         float frustumWidth = cam.getFrustumTop() - cam.getFrustumBottom();
-        float fructumHeight = cam.getFrustumRight() - cam.getFrustumLeft();
-        float aspectRatio = fructumHeight / frustumWidth;
+        float frustumHeight = cam.getFrustumRight() - cam.getFrustumLeft();
+        float aspectRatio = frustumHeight / frustumWidth;
         float far = cam.getFrustumFar();
         float fieldOfViewDegrees = 100f; // fish-eye view
 

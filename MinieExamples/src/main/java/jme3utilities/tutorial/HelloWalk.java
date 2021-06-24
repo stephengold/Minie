@@ -246,7 +246,7 @@ public class HelloWalk
     }
 
     /**
-     * Add a heighfield body to the specified PhysicsSpace.
+     * Add a heightfield body to the specified PhysicsSpace.
      *
      * @param physicsSpace (not null)
      */
@@ -276,8 +276,8 @@ public class HelloWalk
      */
     private void configureCamera() {
         float frustumWidth = cam.getFrustumTop() - cam.getFrustumBottom();
-        float fructumHeight = cam.getFrustumRight() - cam.getFrustumLeft();
-        float aspectRatio = fructumHeight / frustumWidth;
+        float frustumHeight = cam.getFrustumRight() - cam.getFrustumLeft();
+        float aspectRatio = frustumHeight / frustumWidth;
         float far = cam.getFrustumFar();
         float fieldOfViewDegrees = 30f;
 

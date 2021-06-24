@@ -37,7 +37,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Vector3f;
 
 /**
- * A simple example of continous collision detection (CCD).
+ * A simple example of continuous collision detection (CCD).
  *
  * Builds upon HelloStaticBody.
  *

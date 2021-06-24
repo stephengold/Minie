@@ -580,7 +580,7 @@ abstract public class AbstractDemo extends ActionApplication {
     }
 
     /**
-     * Access the ShapeGenerator (enhanced psuedo-random generator).
+     * Access the ShapeGenerator (enhanced pseudo-random generator).
      *
      * @return the pre-existing instance (not null)
      */
@@ -872,7 +872,7 @@ abstract public class AbstractDemo extends ActionApplication {
      * @param topY the desired Y coordinate of the top surface (in physics-space
      * coordinates)
      * @param topHalfExtent half the desired extent of the top surface (&gt;0)
-     * @param thickness the desired thickenss (in physics-space units, &gt;0)
+     * @param thickness the desired thickness (in physics-space units, &gt;0)
      */
     private void addBoxPlatform(float topY, float topHalfExtent,
             float thickness) {
@@ -946,13 +946,13 @@ abstract public class AbstractDemo extends ActionApplication {
     }
 
     /**
-     * Add a large, static petagonal prism to the PhysicsSpace, to serve as a
+     * Add a large, static pentagonal prism to the PhysicsSpace, to serve as a
      * platform.
      *
      * @param topY the desired Y coordinate of the top surface (in physics-space
      * coordinates)
      * @param topRadius the desired radius of the top surface (&gt;0)
-     * @param thickness the desired thickenss (in physics-space units, &gt;0)
+     * @param thickness the desired thickness (in physics-space units, &gt;0)
      */
     private void addHullPlatform(float topY, float topRadius, float thickness) {
         Validate.positive(topRadius, "top radius");
@@ -1024,7 +1024,7 @@ abstract public class AbstractDemo extends ActionApplication {
      * @param topY the desired Y coordinate of the top surface (in physics-space
      * coordinates)
      * @param topHalfExtent half the desired extent of the top surface (&gt;0)
-     * @param thickness the desired thickenss (in physics-space units, &gt;0)
+     * @param thickness the desired thickness (in physics-space units, &gt;0)
      */
     private void addSquarePlatform(float topY, float topHalfExtent,
             float thickness) {

@@ -149,7 +149,7 @@ public class RopeDemo extends AbstractDemo {
      */
     final private static int samplesPerLoop = 12;
     /**
-     * link configuration for leaf joints (shunken hull shape)
+     * link configuration for leaf joints (shrunken hull shape)
      */
     final private static LinkConfig leafConfig = new LinkConfig(linkMass,
             MassHeuristic.Mass, ShapeHeuristic.VertexHull,
