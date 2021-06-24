@@ -1,5 +1,18 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.2.0 released on TBD
+
+ + Bugfix: Libbulletjme issue #7 (GImpact contact tests always fail)
+ + Dump the bounds and ignore list of each `PhysicsGhostObject`.
+ + Added `hasClosest()` and `hasContact()` methods
+   to the `CollisionSpace` class.
+ + Added a public `getShapeType()` method to the `CollisionShape` class.
+ + Document the lack of collision detection between 3 concave shapes.
+ + Use a migrated Jaime model in MinieExamples.
+ + Updated the native libraries to v10.5.0 of Libbulletjme, which includes
+   Bullet v2 updates through 12 May 2021.
+ + Built using Gradle v7.1 .
+
 ## Version 4.1.1 released on 1 June 2021
 
  + Bugfix: issue #16 (MinieExamples uses deprecated classes)
@@ -19,7 +32,7 @@
  + Added `setPivotInA()` and `setPivotInB()` methods to `Point2PointJoint`.
  + Added `HelloDoor` application to the MinieExamples subproject.
  + Updated the native libraries to v10.3.1 of Libbulletjme, which includes
-   Bullet v2 source code updated through 21 April 2021.
+   Bullet v2 updates through 21 April 2021.
  + Based on:
    + v3.4.0-beta1 of JMonkeyEngine,
    + v6.4.3+for34 of the Heart library,
@@ -59,7 +72,7 @@
    + v0.9.2 of the jme3-utilities-ui library, and
    + v0.9.18 of the jme3-utilities-nifty library.
  + Updated the native libraries to v10.1.0 of Libbulletjme, which includes
-   Bullet v2 source code updated through 23 January 2021.
+   Bullet v2 updates through 23 January 2021.
 
 ## Version 3.1.0 released on 9 January 2021
 
