@@ -252,6 +252,18 @@ abstract public class CollisionShape
     }
 
     /**
+     * Read the type of this shape.
+     *
+     * @return the type value (from enum BroadphaseNativeTypes)
+     */
+    public int getShapeType() {
+        long shapeId = nativeId();
+        int result = getShapeType(shapeId);
+
+        return result;
+    }
+
+    /**
      * Test whether this shape has concave type. In Bullet, "concave" is a
      * property of <em>types</em> of shapes. Specific <em>instances</em> of
      * those types might actually be "convex" in the mathematical sense of the
