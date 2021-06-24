@@ -36,6 +36,7 @@ import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.PhysicsSweepTestResult;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.math.Transform;
@@ -365,6 +366,46 @@ public class CollisionSpace extends NativePhysicsObject {
         } else {
             return storeResult.set(worldMin);
         }
+    }
+
+    /**
+     * Test whether a nontrivial closest-points algorithm is registered for the
+     * specified collision shapes.
+     *
+     * @param shape0 the first shape to test (not null, unaffected)
+     * @param shape1 the 2nd shape to test (not null, unaffected)
+     * @return true if registered, otherwise false
+     */
+    public boolean hasClosest(CollisionShape shape0, CollisionShape shape1) {
+        Validate.nonNull(shape0, "shape 0");
+        Validate.nonNull(shape1, "shape 1");
+
+        long spaceId = nativeId();
+        int shape0Type = shape0.getShapeType();
+        int shape1Type = shape1.getShapeType();
+        boolean result = hasClosest(spaceId, shape0Type, shape1Type);
+
+        return result;
+    }
+
+    /**
+     * Test whether a nontrivial contact-points algorithm is registered for the
+     * specified collision shapes.
+     *
+     * @param shape0 the first shape to test (not null, unaffected)
+     * @param shape1 the 2nd shape to test (not null, unaffected)
+     * @return true if registered, otherwise false
+     */
+    public boolean hasContact(CollisionShape shape0, CollisionShape shape1) {
+        Validate.nonNull(shape0, "shape 0");
+        Validate.nonNull(shape1, "shape 1");
+
+        long spaceId = nativeId();
+        int shape0Type = shape0.getShapeType();
+        int shape1Type = shape1.getShapeType();
+        boolean result = hasContact(spaceId, shape0Type, shape1Type);
+
+        return result;
     }
 
     /**
@@ -702,6 +743,12 @@ public class CollisionSpace extends NativePhysicsObject {
     native private static void finalizeNative(long spaceId);
 
     native private static int getNumCollisionObjects(long spaceId);
+
+    native private static boolean hasClosest(long spaceId, int shape0Type,
+            int shape1Type);
+
+    native private static boolean hasContact(long spaceId, int shape0Type,
+            int shape1Type);
 
     native private static void rayTest_native(Vector3f fromLocation,
             Vector3f toLocation, long spaceId,
