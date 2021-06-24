@@ -116,7 +116,7 @@ public class TestIssue3 extends SimpleApplication
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         ++tickCount;
-        System.out.println("tick #" + Integer.toString(tickCount));
+        System.out.println("tick #" + tickCount);
         if (tickCount >= 5) {
             System.out.flush();
         }

@@ -145,7 +145,7 @@ public class MakePoolBalls {
      * @return the name
      */
     private static String ballName(int ballId) {
-        String result = Integer.toString(ballId) + "Ball";
+        String result = ballId + "Ball";
         return result;
     }
 

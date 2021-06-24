@@ -1473,7 +1473,7 @@ public class PhysicsDumper extends Dumper {
             stream.print("base");
         } else {
             int parentIndex = parent.index();
-            stream.print(Integer.toString(parentIndex));
+            stream.print(parentIndex);
         }
 
         long objectId = link.nativeId();
