@@ -90,7 +90,7 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
          */
         NativePhysicsObject.removeTracker(id);
 
-        Class<? extends Object> c;
+        Class<?> c;
         for (c = referentClass; c != Object.class; c = c.getSuperclass()) {
             Method method;
             try {
