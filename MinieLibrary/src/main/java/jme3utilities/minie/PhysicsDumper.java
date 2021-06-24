@@ -1538,7 +1538,7 @@ public class PhysicsDumper extends Dumper {
         float maxV = multibody.maxCoordinateVelocity();
         stream.print(" max[imp=");
         stream.print(MyString.describe(maxImp));
-        stream.printf(" v=");
+        stream.print(" v=");
         stream.print(MyString.describe(maxV));
         stream.print(']');
 
