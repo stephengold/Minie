@@ -1082,9 +1082,7 @@ public class MultiBody
 
         int numLinks = links.length;
         Savable[] savableLinks = new Savable[numLinks];
-        for (int i = 0; i < numLinks; ++i) {
-            savableLinks[i] = links[i];
-        }
+        System.arraycopy(links, 0, savableLinks, 0, numLinks);
         capsule.write(savableLinks, tagLinks, null);
 
         capsule.write(numLinks, tagNumLinks, 0);
