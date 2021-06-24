@@ -285,7 +285,7 @@ public class TestIssue1283 extends SimpleApplication {
         guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
 
         int numLines = 4;
-        BitmapText lines[] = new BitmapText[numLines];
+        BitmapText[] lines = new BitmapText[numLines];
         for (int lineIndex = 0; lineIndex < numLines; ++lineIndex) {
             lines[lineIndex] = new BitmapText(guiFont);
         }

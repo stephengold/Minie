@@ -131,7 +131,7 @@ public class SeJointDemo extends AbstractDemo {
     /**
      * material for each type of seed
      */
-    final private Material materials[] = new Material[maxGroups];
+    final private Material[] materials = new Material[maxGroups];
 
     final private Matrix3f rotInSeed = new Matrix3f();
     final private Matrix3f rotInWorld = new Matrix3f();
@@ -162,7 +162,7 @@ public class SeJointDemo extends AbstractDemo {
     /**
      * pivot location for each group (in physics-space coordinates)
      */
-    final private Vector3f pivotLocations[] = new Vector3f[maxGroups];
+    final private Vector3f[] pivotLocations = new Vector3f[maxGroups];
     /**
      * scale factors that determine the seed's shape
      */
@@ -611,7 +611,7 @@ public class SeJointDemo extends AbstractDemo {
      * each with its own material and pivot location.
      */
     private void configureGroups() {
-        ColorRGBA seedColors[] = new ColorRGBA[maxGroups];
+        ColorRGBA[] seedColors = new ColorRGBA[maxGroups];
         seedColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f);
         seedColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f);
         seedColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f);

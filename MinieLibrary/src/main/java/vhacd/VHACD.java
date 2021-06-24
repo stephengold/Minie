@@ -86,8 +86,8 @@ public class VHACD {
      * @param params the tuning parameters to use (not null, unaffected)
      * @return a new list of hulls, or an empty list if the algorithm failed
      */
-    public static List<VHACDHull> compute(float positions[], int indices[],
-            VHACDParameters params) {
+    public static List<VHACDHull> compute(float[] positions, int[] indices,
+                                          VHACDParameters params) {
         Validate.nonNull(positions, "positions");
         Validate.nonNull(indices, "indices");
         assert positions.length % MyVector3f.numAxes == 0 : positions.length;

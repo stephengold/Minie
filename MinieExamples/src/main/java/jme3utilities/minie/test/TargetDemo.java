@@ -267,7 +267,7 @@ public class TargetDemo
         /*
          * shiny, lit materials for targets
          */
-        ColorRGBA targetColors[] = new ColorRGBA[numTargetColors];
+        ColorRGBA[] targetColors = new ColorRGBA[numTargetColors];
         targetColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
         targetColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
         targetColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire

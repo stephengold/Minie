@@ -324,7 +324,7 @@ public class DropTest
         /*
          * shiny, lit materials for dynamic bodies in drops
          */
-        ColorRGBA dropColors[] = new ColorRGBA[numDropColors];
+        ColorRGBA[] dropColors = new ColorRGBA[numDropColors];
         dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
         dropColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
         dropColors[2] = new ColorRGBA(0f, 0f, 0.3f, 1f); // sapphire

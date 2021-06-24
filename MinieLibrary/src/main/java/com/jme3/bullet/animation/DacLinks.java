@@ -1632,7 +1632,7 @@ public class DacLinks
         /*
          * Clear the ignore lists of all bodies.
          */
-        PhysicsRigidBody bodies[] = listRigidBodies();
+        PhysicsRigidBody[] bodies = listRigidBodies();
         for (PhysicsRigidBody body : bodies) {
             body.clearIgnoreList();
         }
