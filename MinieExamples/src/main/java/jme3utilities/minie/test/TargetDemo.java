@@ -783,8 +783,8 @@ public class TargetDemo
      * Set up a single brick as a target.
      *
      * @param shapeName
-     * @param height half the desired height (in world units, &gt;0)
-     * @param length half the desired length (in world units, &gt;0)
+     * @param location the desired world location (not null, unaffected)
+     * @param orientation the desired world orientation (not null, unaffected)
      */
     private void setUpBrick(String shapeName, Vector3f location,
             Quaternion orientation) {
@@ -922,7 +922,6 @@ public class TargetDemo
     /**
      * Set up a single domino as a target.
      *
-     * @param length the desired length (in world units, &gt;0)
      * @param location the desired location (in physics-space coordinates, not
      * null, unaffected)
      * @param orientation the desired orientation (in physics-space coordinates,

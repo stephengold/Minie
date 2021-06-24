@@ -1091,7 +1091,7 @@ public class PhysicsDumper extends Dumper {
      * Print the activation state of the specified rigid body, unless it happens
      * to be in the expected state.
      *
-     * @param rigidBody (not null, unaffected)
+     * @param body (not null, unaffected)
      */
     private void addActivationState(PhysicsRigidBody body) {
         int expectedState;
@@ -1112,7 +1112,7 @@ public class PhysicsDumper extends Dumper {
     /**
      * Print the contact parameters of the specified rigid body.
      *
-     * @param rigidBody (not null, unaffected)
+     * @param body (not null, unaffected)
      */
     private void addContactParameters(PhysicsRigidBody body) {
         float fric = body.getFriction();
