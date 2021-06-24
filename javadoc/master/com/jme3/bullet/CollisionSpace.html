@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":9,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":9,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -310,20 +310,38 @@ int&nbsp;collisionGroup)</code></th>
 </td>
 </tr>
 <tr class="rowColor" id="i17">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasClosest(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasClosest</a></span>&#8203;(<a href="collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape0,
+<a href="collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape1)</code></th>
+<td class="colLast">
+<div class="block">Test whether a nontrivial closest-points algorithm is registered for the
+ specified collision shapes.</div>
+</td>
+</tr>
+<tr class="altColor" id="i18">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasContact(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasContact</a></span>&#8203;(<a href="collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape0,
+<a href="collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape1)</code></th>
+<td class="colLast">
+<div class="block">Test whether a nontrivial contact-points algorithm is registered for the
+ specified collision shapes.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i19">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initThread(long)">initThread</a></span>&#8203;(long&nbsp;spaceId)</code></th>
 <td class="colLast">
 <div class="block">Must be invoked on the designated physics thread.</div>
 </td>
 </tr>
-<tr class="altColor" id="i18">
+<tr class="altColor" id="i20">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this space is empty.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i19">
+<tr class="rowColor" id="i21">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTest</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;from,
 com.jme3.math.Vector3f&nbsp;to)</code></th>
@@ -332,7 +350,7 @@ com.jme3.math.Vector3f&nbsp;to)</code></th>
  hitFraction.</div>
 </td>
 </tr>
-<tr class="altColor" id="i20">
+<tr class="altColor" id="i22">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTest</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;from,
 com.jme3.math.Vector3f&nbsp;to,
@@ -342,7 +360,7 @@ java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in 
  hitFraction.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i21">
+<tr class="rowColor" id="i23">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTestRaw</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;from,
 com.jme3.math.Vector3f&nbsp;to)</code></th>
@@ -351,7 +369,7 @@ com.jme3.math.Vector3f&nbsp;to)</code></th>
  arbitrary order.</div>
 </td>
 </tr>
-<tr class="altColor" id="i22">
+<tr class="altColor" id="i24">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTestRaw</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;from,
 com.jme3.math.Vector3f&nbsp;to,
@@ -361,35 +379,35 @@ java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in 
  arbitrary order.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i23">
+<tr class="rowColor" id="i25">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified object from this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i24">
+<tr class="altColor" id="i26">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionGroupListener(int)">removeCollisionGroupListener</a></span>&#8203;(int&nbsp;collisionGroup)</code></th>
 <td class="colLast">
 <div class="block">De-register the specified collision-group listener.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i25">
+<tr class="rowColor" id="i27">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)">removeCollisionObject</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified collision object from this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i26">
+<tr class="altColor" id="i28">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRayTestFlags(int)">setRayTestFlags</a></span>&#8203;(int&nbsp;flags)</code></th>
 <td class="colLast">
 <div class="block">Alter the m_flags used in ray tests.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i27">
+<tr class="rowColor" id="i29">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)">sweepTest</a></span>&#8203;(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
 com.jme3.math.Transform&nbsp;start,
@@ -398,7 +416,7 @@ com.jme3.math.Transform&nbsp;end)</code></th>
 <div class="block">For compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="altColor" id="i28">
+<tr class="altColor" id="i30">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)">sweepTest</a></span>&#8203;(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
 com.jme3.math.Transform&nbsp;start,
@@ -408,7 +426,7 @@ java.util.List&lt;<a href="collision/PhysicsSweepTestResult.html" title="class i
 <div class="block">For compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i29">
+<tr class="rowColor" id="i31">
 <td class="colFirst"><code>java.util.List&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)">sweepTest</a></span>&#8203;(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
 com.jme3.math.Transform&nbsp;start,
@@ -689,6 +707,38 @@ int&nbsp;collisionGroup)</span></div>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the minimum coordinates (either storeResult or a new vector, not
  null)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="hasClosest(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasClosest</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName">hasClosest</span>&#8203;(<span class="arguments"><a href="collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape0,
+<a href="collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape1)</span></div>
+<div class="block">Test whether a nontrivial closest-points algorithm is registered for the
+ specified collision shapes.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>shape0</code> - the first shape to test (not null, unaffected)</dd>
+<dd><code>shape1</code> - the 2nd shape to test (not null, unaffected)</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if registered, otherwise false</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="hasContact(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasContact</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName">hasContact</span>&#8203;(<span class="arguments"><a href="collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape0,
+<a href="collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape1)</span></div>
+<div class="block">Test whether a nontrivial contact-points algorithm is registered for the
+ specified collision shapes.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>shape0</code> - the first shape to test (not null, unaffected)</dd>
+<dd><code>shape1</code> - the 2nd shape to test (not null, unaffected)</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if registered, otherwise false</dd>
 </dl>
 </section>
 </li>
