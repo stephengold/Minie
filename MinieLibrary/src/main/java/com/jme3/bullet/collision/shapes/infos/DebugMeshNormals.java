@@ -55,5 +55,5 @@ public enum DebugMeshNormals {
     /**
      * sphere normals (for shaded materials)
      */
-    Sphere;
+    Sphere
 }

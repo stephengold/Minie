@@ -64,5 +64,5 @@ public enum ShapeHeuristic {
     /**
      * convex hull of mesh vertices (precise but relatively slow)
      */
-    VertexHull;
+    VertexHull
 }

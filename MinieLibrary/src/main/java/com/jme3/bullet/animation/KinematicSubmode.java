@@ -52,5 +52,5 @@ public enum KinematicSubmode {
     /**
      * frozen in the transform it had when blending started
      */
-    Frozen;
+    Frozen
 }

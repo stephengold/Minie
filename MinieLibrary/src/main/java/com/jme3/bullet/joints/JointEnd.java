@@ -47,5 +47,5 @@ public enum JointEnd {
     /**
      * the 2nd end
      */
-    B;
+    B
 }

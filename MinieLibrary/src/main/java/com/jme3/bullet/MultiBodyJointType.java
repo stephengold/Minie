@@ -60,5 +60,5 @@ public enum MultiBodyJointType {
     /**
      * fixed joint (native name: eFixed)
      */
-    Fixed;
+    Fixed
 }

@@ -70,5 +70,5 @@ public enum Aero {
     /**
      * Face normals are taken as they are.
      */
-    F_OneSided;
+    F_OneSided
 }

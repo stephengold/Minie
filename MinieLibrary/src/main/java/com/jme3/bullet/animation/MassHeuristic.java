@@ -48,5 +48,5 @@ public enum MassHeuristic {
     /**
      * use the configured parameter directly
      */
-    Mass;
+    Mass
 }

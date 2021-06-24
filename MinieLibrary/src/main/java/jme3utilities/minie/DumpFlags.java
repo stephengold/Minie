@@ -110,5 +110,5 @@ public enum DumpFlags {
     /**
      * vertex data in geometries
      */
-    VertexData;
+    VertexData
 }
