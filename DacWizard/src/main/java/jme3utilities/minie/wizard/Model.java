@@ -178,11 +178,11 @@ class Model {
      * @return the path (not null, not empty)
      */
     String assetRoot() {
-        int numCompoments = filePathComponents.length;
-        if (numCompoments == 0) {
+        int numComponents = filePathComponents.length;
+        if (numComponents == 0) {
             throw new RuntimeException("File-system path not set.");
         }
-        assert numComponentsInRoot < numCompoments : numCompoments;
+        assert numComponentsInRoot < numComponents : numComponents;
         String[] resultComponents = Arrays.copyOfRange(filePathComponents, 0,
                 numComponentsInRoot);
         String result = String.join("/", resultComponents);

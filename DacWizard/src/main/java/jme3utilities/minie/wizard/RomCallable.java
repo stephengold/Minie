@@ -65,7 +65,7 @@ import jme3utilities.wes.TweenTransforms;
 
 /**
  * A Callable for asynchronously estimating the ranges of motion of the loaded
- * C-G model, based on a psuedo-random sample its animations.
+ * C-G model, based on a pseudo-random sample its animations.
  *
  * @author Stephen Gold sgold@sonic.net
  */
