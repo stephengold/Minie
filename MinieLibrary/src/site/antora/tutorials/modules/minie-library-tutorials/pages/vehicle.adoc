@@ -192,7 +192,7 @@ you should override the damping parameters as well.
 === Friction slip
 
 The _friction slip_ parameter quantifies how much traction a tire has.
-Its effect is most noticable when the vehicle is braking.
+Its effect is most noticeable when the vehicle is braking.
 
 Too much traction could cause a vehicle to flip over if it braked hard.
 Too little traction would make braking ineffective,

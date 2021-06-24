@@ -175,7 +175,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     public LinkConfig(float massParm, MassHeuristic massH,
             ShapeHeuristic shapeH, Vector3f sScale, CenterHeuristic centerH) {
         Validate.positive(massParm, "mass parameter");
-        Validate.nonNull(massH, "mass heruristic");
+        Validate.nonNull(massH, "mass heuristic");
         Validate.nonNull(shapeH, "shape heuristic");
         Validate.nonNegative(sScale, "shape scale");
         Validate.nonNull(centerH, "center heuristic");
@@ -204,7 +204,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
             ShapeHeuristic shapeH, Vector3f sScale, CenterHeuristic centerH,
             RotationOrder axisOrder) {
         Validate.positive(massParm, "mass parameter");
-        Validate.nonNull(massH, "mass heruristic");
+        Validate.nonNull(massH, "mass heuristic");
         Validate.nonNull(shapeH, "shape heuristic");
         Validate.nonNegative(sScale, "shape scale");
         Validate.nonNull(centerH, "center heuristic");

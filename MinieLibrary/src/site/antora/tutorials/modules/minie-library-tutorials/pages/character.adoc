@@ -211,7 +211,7 @@ The Jme3Examples subproject contains several demo apps
 that showcase physics characters.
 
 * {url-jme3test}/bullet/TestQ3.java[The `TestQ3` demo app] demonstrates
-  a first-person walkthough of a fictitious ancient temple.
+  a first-person walkthrough of a fictitious ancient temple.
   It uses a directly created `PhysicsCharacter`.
 * The {url-jme3test}/bullet/TestPhysicsCharacter.java[`TestPhysicsCharacter`]
   and {url-jme3test}/bullet/TestWalkingChar.java[`TestWalkingChar`]

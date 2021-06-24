@@ -113,7 +113,7 @@ public class BoneLink extends PhysicsLink {
      */
     private KinematicSubmode submode = KinematicSubmode.Animated;
     /**
-     * resuable temporary storage for a 3x3 matrix
+     * reusable temporary storage for a 3x3 matrix
      */
     final private Matrix3f tmpMatrix = new Matrix3f();
     /**

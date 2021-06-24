@@ -296,7 +296,7 @@ public class DynamicAnimControl
      * Find the link that manages the specified vertex and optionally calculate
      * the location of that vertex.
      * <p>
-     * A software skin update must preceed any request for vertex locations.
+     * A software skin update must precede any request for vertex locations.
      * TODO use the Wes library to avoid this limitation?
      *
      * @param vertexSpecifier a String of the form "index/geometry" or
@@ -1046,7 +1046,7 @@ public class DynamicAnimControl
     // private methods
 
     /**
-     * Begin blending the descendents of the specified link to the specified
+     * Begin blending the descendants of the specified link to the specified
      * kinematic submode. Note: recursive!
      *
      * @param rootLink the root of the subtree to blend (not null, belongs to

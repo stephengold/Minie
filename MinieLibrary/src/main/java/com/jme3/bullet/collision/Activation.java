@@ -64,7 +64,7 @@ public class Activation {
     final public static int exempt = 4;
     /**
      * a disabled collision object: this usually indicates that an error has
-     * occured (native name: DISABLE_SIMULATION)
+     * occurred (native name: DISABLE_SIMULATION)
      */
     final public static int error = 5;
     /**

@@ -57,7 +57,7 @@ public class NativeSoftBodyUtilTest {
     @Test
     public void testGenerateIndexMap() {
         /*
-         * Exemple :
+         * Example :
          * mesh :   P1\P3----P4
          *            ¦¯\_   ¦
          *            ¦   ¯\_¦
@@ -155,7 +155,7 @@ public class NativeSoftBodyUtilTest {
      */
     @Test
     public void testMapIndices() {
-        /* Exemple :
+        /* Example :
          * mesh :   P1\P3----P4
          *            ¦¯\_   ¦
          *            ¦   ¯\_¦
@@ -194,7 +194,7 @@ public class NativeSoftBodyUtilTest {
     @Test
     public void testMapVertexData() {
         /*
-         * Exemple :
+         * Example :
          * mesh :   P1\P3----P4
          *            ¦¯\_   ¦
          *            ¦   ¯\_¦
@@ -257,7 +257,7 @@ public class NativeSoftBodyUtilTest {
                 if (verificationBulletPositions.get(bulletPosition)
                         != bulletIndex) {
                     Assert.fail(
-                            "error : 2 differents indices for the same position"
+                            "error : 2 different indices for the same position"
                     );
                 }
             } else {

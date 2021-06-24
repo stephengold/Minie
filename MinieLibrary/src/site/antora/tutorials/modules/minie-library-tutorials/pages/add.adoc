@@ -170,7 +170,7 @@ load Minie's native library before instantiating any physics objects:
 NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 ----
 
-For Minie to work on Android platforms running Marshmellow (6.0) or higher,
+For Minie to work on Android platforms running Marshmallow (6.0) or higher,
 make sure the `extractNativeLibs` flag is set to `true`
 in the "application" element of the "AndroidManifest.xml" manifest.
 

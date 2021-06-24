@@ -55,7 +55,7 @@ class ChildSummary {
     // fields
 
     /**
-     * if false, this summarizes a non-existant child: ignore all other fields
+     * if false, this summarizes a nonexistent child: ignore all other fields
      */
     private boolean isValid = false;
     /**

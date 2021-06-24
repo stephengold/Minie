@@ -49,7 +49,7 @@ public interface PhysicsCollisionListener {
      * Collisions will be reported only if the collision-group of the first
      * collision object is set in the collide-with group mask of the 2nd.
      * <p>
-     * Implementators: don't retain a reference to the event instance, as it may
+     * Implementors: don't retain a reference to the event instance, as it may
      * be reused after the collision() method returns. In your implementation,
      * copy all data you plan to retain.
      *
