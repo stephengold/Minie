@@ -164,6 +164,14 @@ with illustrations and lists of key properties (explained below):
 
 |===
 
+[NOTE]
+====
+Due to limitations of Bullet, collisions between `HeightfieldCollisionShape`,
+`MeshCollisionShape`, and `PlaneCollisionShape` objects are never detected.
+However, such objects *will* collide with objects having compound, convex,
+or GImpact shapes.
+====
+
 == Convex versus concave
 
 The _convex_ collision-shape classes are those

@@ -42,7 +42,9 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * A planar CollisionShape based on Bullet's btStaticPlaneShape.
+ * A planar CollisionShape based on Bullet's btStaticPlaneShape. Not for use in
+ * dynamic bodies. Collisions between HeightfieldCollisionShape,
+ * MeshCollisionShape, and PlaneCollisionShape objects are never detected.
  *
  * @author normenhansen
  */
