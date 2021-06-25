@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -239,10 +239,12 @@ class LoadScreen extends GuiScreenController {
 
         DacWizard app = DacWizard.getApplication();
         SkeletonVisualizer sv = app.findSkeletonVisualizer();
-        if (sv != null) {
-            Model model = DacWizard.getModel();
+        Model model = DacWizard.getModel();
+        Spatial root = model.getRootSpatial();
+        if (sv != null && root != null) {
             Skeleton skeleton = model.findSkeleton();
             String armature = (skeleton == null) ? "armature" : "skeleton";
+
             if (sv.isEnabled()) {
                 buttonText = "Hide " + armature;
             } else {
