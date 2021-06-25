@@ -596,6 +596,7 @@ class Model {
         Locators.registerFilesystem(assetRoot);
         Locators.registerDefault();
         AssetManager assetManager = Locators.getAssetManager();
+        assetManager.clearCache();
         try {
             rootSpatial = assetManager.loadModel(assetPath);
             loadException = null;
