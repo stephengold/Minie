@@ -240,7 +240,7 @@ long&nbsp;manifoldPointId)</code></th>
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDistance1()">getDistance1</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Read the collision's distance #1 (native field: m_distance1).</div>
+<div class="block">Read the collision's separation distance (native field: m_distance1).</div>
 </td>
 </tr>
 <tr class="altColor" id="i8">
@@ -606,7 +606,8 @@ long&nbsp;manifoldPointId)</span></div>
 <section class="detail">
 <h3><a id="getDistance1()">getDistance1</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">float</span>&nbsp;<span class="memberName">getDistance1</span>()</div>
-<div class="block">Read the collision's distance #1 (native field: m_distance1).</div>
+<div class="block">Read the collision's separation distance (native field: m_distance1).
+ This is the negative of the penetration depth.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the distance (in physics-space units)</dd>
