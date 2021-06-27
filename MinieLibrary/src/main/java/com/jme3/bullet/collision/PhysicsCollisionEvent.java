@@ -227,7 +227,8 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * Read the collision's distance #1 (native field: m_distance1).
+     * Read the collision's separation distance (native field: m_distance1).
+     * This is the negative of the penetration depth.
      *
      * @return the distance (in physics-space units)
      */

@@ -239,7 +239,7 @@ public class NativeSoftBodyUtilTest {
     private static void verifyIndexMap(FloatBuffer jmePositions,
             IntBuffer jme2bulletIndexMap, FloatBuffer bulletPositions) {
         int size = jme2bulletIndexMap.capacity();
-        Map<Vector3f, Integer> verificationBulletPositions 
+        Map<Vector3f, Integer> verificationBulletPositions
                 = new HashMap<>(size);
         for (int i = 0; i < size; i++) {
             int bulletIndex = jme2bulletIndexMap.get(i);
