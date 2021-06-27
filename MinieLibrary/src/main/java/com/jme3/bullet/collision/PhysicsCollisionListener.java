@@ -32,14 +32,13 @@
 package com.jme3.bullet.collision;
 
 /**
- * Interface to receive notifications whenever an object in a particular physics
- * space collides.
+ * Interface to receive notifications when 2 collision objects collide.
  *
  * @author normenhansen
  */
 public interface PhysicsCollisionListener {
     /**
-     * Callback to report collisions in a CollisionSpace. Typically invoked on 
+     * Callback to report collisions in a CollisionSpace. Typically invoked on
      * the render thread (not the physics thread) during the BulletAppState
      * update.
      * <p>
