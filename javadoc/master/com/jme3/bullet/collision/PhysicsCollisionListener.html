@@ -93,8 +93,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <pre>public interface <span class="typeNameLabel">PhysicsCollisionListener</span></pre>
-<div class="block">Interface to receive notifications whenever an object in a particular physics
- space collides.</div>
+<div class="block">Interface to receive notifications when 2 collision objects collide.</div>
 </section>
 <section class="summary">
 <ul class="blockList">
@@ -144,7 +143,7 @@ loadScripts(document, 'script');</script>
 <section class="detail">
 <h3><a id="collision(com.jme3.bullet.collision.PhysicsCollisionEvent)">collision</a></h3>
 <div class="memberSignature"><span class="returnType">void</span>&nbsp;<span class="memberName">collision</span>&#8203;(<span class="arguments"><a href="PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a>&nbsp;event)</span></div>
-<div class="block">Callback to report collisions in a CollisionSpace. Typically invoked on 
+<div class="block">Callback to report collisions in a CollisionSpace. Typically invoked on
  the render thread (not the physics thread) during the BulletAppState
  update.
  <p>
