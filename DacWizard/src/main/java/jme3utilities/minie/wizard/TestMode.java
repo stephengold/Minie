@@ -351,7 +351,7 @@ class TestMode extends InputMode {
         String outputFilePath = DacWizard.filePath(outputFileName);
 
         Spatial modelRoot = model.getRootSpatial();
-        modelRoot = (Spatial) Heart.deepCopy(modelRoot);
+        modelRoot = Heart.deepCopy(modelRoot);
         List<Spatial> list = MySpatial.listAnimationSpatials(modelRoot, null);
         assert list.size() == 1 : list.size();
         Spatial controlledSpatial = list.get(0);

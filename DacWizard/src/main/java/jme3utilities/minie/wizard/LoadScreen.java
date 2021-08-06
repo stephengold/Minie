@@ -171,7 +171,7 @@ class LoadScreen extends GuiScreenController {
             wizard.clearScene();
             viewedSpatial = nextSpatial;
             if (nextSpatial != null) {
-                Spatial cgModel = (Spatial) Heart.deepCopy(nextSpatial);
+                Spatial cgModel = Heart.deepCopy(nextSpatial);
                 Transform initTransform = model.copyInitTransform(null);
                 cgModel.setLocalTransform(initTransform);
                 wizard.makeScene(cgModel);

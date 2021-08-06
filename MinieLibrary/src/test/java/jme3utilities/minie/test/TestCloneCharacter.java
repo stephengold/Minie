@@ -64,7 +64,7 @@ public class TestCloneCharacter {
         setParameters(ch, 0f);
         verifyParameters(ch, 0f);
 
-        PhysicsCharacter chClone = (PhysicsCharacter) Heart.deepCopy(ch);
+        PhysicsCharacter chClone = Heart.deepCopy(ch);
         cloneTest(ch, chClone);
     }
     // *************************************************************************

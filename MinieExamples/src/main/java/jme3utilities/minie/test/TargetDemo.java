@@ -643,7 +643,7 @@ public class TargetDemo
         String bowlingPinPath = "CollisionShapes/bowlingPin.j3o";
         CollisionShape shape
                 = (CollisionShape) assetManager.loadAsset(bowlingPinPath);
-        shape = (CollisionShape) Heart.deepCopy(shape);
+        shape = Heart.deepCopy(shape);
 
         BoundingBox bounds
                 = shape.boundingBox(Vector3f.ZERO, Matrix3f.IDENTITY, null);

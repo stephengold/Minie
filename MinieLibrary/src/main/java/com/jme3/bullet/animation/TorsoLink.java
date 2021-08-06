@@ -490,8 +490,7 @@ public class TorsoLink extends PhysicsLink {
             submode = KinematicSubmode.Frozen;
         }
 
-        endModelTransform
-                = (Transform) Heart.deepCopy(oldLink.endModelTransform);
+        endModelTransform = Heart.deepCopy(oldLink.endModelTransform);
         startModelTransform.set(oldLink.startModelTransform);
 
         if (prevBoneTransforms == null) {

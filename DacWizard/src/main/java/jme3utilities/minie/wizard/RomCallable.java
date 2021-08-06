@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -150,7 +150,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          */
         DacWizard.getApplication().clearScene();
         Spatial cgModel = model.getRootSpatial();
-        tempModelRoot = (Spatial) Heart.deepCopy(cgModel);
+        tempModelRoot = Heart.deepCopy(cgModel);
         Transform initTransform = model.copyInitTransform(null);
         tempModelRoot.setLocalTransform(initTransform);
         DacWizard.getApplication().makeScene(tempModelRoot);

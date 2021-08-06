@@ -486,8 +486,7 @@ public class AttachmentLink extends PhysicsLink {
             PhysicsRigidBody oldBody = oldLink.getRigidBody();
             setRigidBody(oldBody);
         }
-        endModelTransform
-                = (Transform) Heart.deepCopy(oldLink.endModelTransform);
+        endModelTransform = Heart.deepCopy(oldLink.endModelTransform);
         startModelTransform.set(oldLink.startModelTransform);
     }
 

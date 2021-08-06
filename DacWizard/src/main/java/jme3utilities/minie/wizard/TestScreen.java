@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -176,7 +176,7 @@ class TestScreen extends GuiScreenController {
 
             viewedSpatial = nextSpatial;
             if (nextSpatial != null) {
-                Spatial cgModel = (Spatial) Heart.deepCopy(nextSpatial);
+                Spatial cgModel = Heart.deepCopy(nextSpatial);
                 Transform initTransform = model.copyInitTransform(null);
                 cgModel.setLocalTransform(initTransform);
                 wizard.makeScene(cgModel);

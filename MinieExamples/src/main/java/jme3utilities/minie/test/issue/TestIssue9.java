@@ -101,7 +101,7 @@ public class TestIssue9 extends SimpleApplication {
          */
         PhysicsSoftBody soft = new PhysicsSoftBody();
         setParameters(soft, 0f);
-        PhysicsSoftBody softClone = (PhysicsSoftBody) Heart.deepCopy(soft);
+        PhysicsSoftBody softClone = Heart.deepCopy(soft);
         cloneTest(soft, softClone);
         /*
          * non-empty
@@ -109,7 +109,7 @@ public class TestIssue9 extends SimpleApplication {
         PhysicsSoftBody soft2 = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft2);
         setParameters(soft2, 0f);
-        PhysicsSoftBody soft2Clone = (PhysicsSoftBody) Heart.deepCopy(soft2);
+        PhysicsSoftBody soft2Clone = Heart.deepCopy(soft2);
         cloneTest(soft2, soft2Clone);
     }
 
@@ -126,7 +126,7 @@ public class TestIssue9 extends SimpleApplication {
         sbcGeom.addControl(sbc);
         PhysicsSoftBody soft3 = sbc.getBody();
         setParameters(soft3, 0f);
-        Geometry sbcGeomClone = (Geometry) Heart.deepCopy(sbcGeom);
+        Geometry sbcGeomClone = Heart.deepCopy(sbcGeom);
         SoftBodyControl sbcClone = (SoftBodyControl) sbcGeomClone.getControl(0);
         PhysicsSoftBody soft3Clone = sbcClone.getBody();
         cloneTest(soft3, soft3Clone);

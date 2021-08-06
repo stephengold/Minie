@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -184,7 +184,7 @@ public class TubeTreeMesh extends Mesh {
         Validate.inRange(samplesPerLoop, "samples per loop", 3,
                 Integer.MAX_VALUE);
 
-        this.armature = (Armature) Heart.deepCopy(armature);
+        this.armature = Heart.deepCopy(armature);
         this.armature.update();
 
         this.radius = radius;

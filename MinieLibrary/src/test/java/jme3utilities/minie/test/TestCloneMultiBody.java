@@ -78,7 +78,7 @@ public class TestCloneMultiBody {
 
         setParameters(mb1, 0f);
         verifyParameters(mb1, 0f);
-        MultiBody mb1Clone = (MultiBody) Heart.deepCopy(mb1);
+        MultiBody mb1Clone = Heart.deepCopy(mb1);
         cloneTest(mb1, mb1Clone);
         /*
          * mb2: MultiBody with a fixed base, no links, single collider
@@ -91,7 +91,7 @@ public class TestCloneMultiBody {
 
         setParameters(mb2, 0f);
         verifyParameters(mb2, 0f);
-        MultiBody mb2Clone = (MultiBody) Heart.deepCopy(mb2);
+        MultiBody mb2Clone = Heart.deepCopy(mb2);
         cloneTest(mb2, mb2Clone);
         /*
          * mb3: MultiBody with a movable base, one link, 2 colliders
@@ -111,7 +111,7 @@ public class TestCloneMultiBody {
 
         setParameters(mb3, 0f);
         verifyParameters(mb3, 0f);
-        MultiBody mb3Clone = (MultiBody) Heart.deepCopy(mb3);
+        MultiBody mb3Clone = Heart.deepCopy(mb3);
         cloneTest(mb3, mb3Clone);
         /*
          * TODO various links, added to space, etc.

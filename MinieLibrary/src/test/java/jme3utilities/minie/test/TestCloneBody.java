@@ -111,7 +111,7 @@ public class TestCloneBody {
         PhysicsRigidBody body0 = new PhysicsRigidBody(shape, 0f);
         setParameters(body0, 0f);
         verifyParameters(body0, 0f);
-        PhysicsRigidBody body0Clone = (PhysicsRigidBody) Heart.deepCopy(body0);
+        PhysicsRigidBody body0Clone = Heart.deepCopy(body0);
         cloneTest(body0, body0Clone);
         /*
          * dynamic with mass=1
@@ -119,7 +119,7 @@ public class TestCloneBody {
         PhysicsRigidBody body = new PhysicsRigidBody(shape, 1f);
         setParameters(body, 0f);
         verifyParameters(body, 0f);
-        PhysicsRigidBody bodyClone = (PhysicsRigidBody) Heart.deepCopy(body);
+        PhysicsRigidBody bodyClone = Heart.deepCopy(body);
         cloneTest(body, bodyClone);
     }
 
@@ -133,7 +133,7 @@ public class TestCloneBody {
         PhysicsSoftBody soft = new PhysicsSoftBody();
         setParameters(soft, 0f);
         verifyParameters(soft, 0f);
-        PhysicsSoftBody softClone = (PhysicsSoftBody) Heart.deepCopy(soft);
+        PhysicsSoftBody softClone = Heart.deepCopy(soft);
         cloneTest(soft, softClone);
         /*
          * non-empty
@@ -142,7 +142,7 @@ public class TestCloneBody {
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft2);
         setParameters(soft2, 0f);
         verifyParameters(soft2, 0f);
-        PhysicsSoftBody soft2Clone = (PhysicsSoftBody) Heart.deepCopy(soft2);
+        PhysicsSoftBody soft2Clone = Heart.deepCopy(soft2);
         cloneTest(soft2, soft2Clone);
     }
 
@@ -156,7 +156,7 @@ public class TestCloneBody {
         PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
         setParameters(vehicle, 0f);
         verifyParameters(vehicle, 0f);
-        PhysicsVehicle vehicleClone = (PhysicsVehicle) Heart.deepCopy(vehicle);
+        PhysicsVehicle vehicleClone = Heart.deepCopy(vehicle);
         cloneTest(vehicle, vehicleClone);
     }
 
@@ -167,7 +167,7 @@ public class TestCloneBody {
         RigidBodyControl rbc = new RigidBodyControl(shape, 1f);
         setParameters(rbc, 0f);
         verifyParameters(rbc, 0f);
-        RigidBodyControl rbcClone = (RigidBodyControl) Heart.deepCopy(rbc);
+        RigidBodyControl rbcClone = Heart.deepCopy(rbc);
         cloneTest(rbc, rbcClone);
     }
 
@@ -185,7 +185,7 @@ public class TestCloneBody {
         PhysicsSoftBody soft3 = sbc.getBody();
         setParameters(soft3, 0f);
         verifyParameters(soft3, 0f);
-        Geometry sbcGeomClone = (Geometry) Heart.deepCopy(sbcGeom);
+        Geometry sbcGeomClone = Heart.deepCopy(sbcGeom);
         SoftBodyControl sbcClone = (SoftBodyControl) sbcGeomClone.getControl(0);
         PhysicsSoftBody soft3Clone = sbcClone.getBody();
         cloneTest(soft3, soft3Clone);
@@ -233,7 +233,7 @@ public class TestCloneBody {
         VehicleControl vc = new VehicleControl(shape, 1f);
         setParameters(vc, 0f);
         verifyParameters(vc, 0f);
-        VehicleControl vcClone = (VehicleControl) Heart.deepCopy(vc);
+        VehicleControl vcClone = Heart.deepCopy(vc);
         cloneTest(vc, vcClone);
     }
 

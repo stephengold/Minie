@@ -47,7 +47,6 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.NativeLibraryLoader;
 import com.jme3.texture.plugins.AWTLoader;
@@ -91,8 +90,7 @@ public class TestClonePhysicsControls {
                 = new BetterCharacterControl(radius, height, mass);
         setParameters(bcc, 0f);
         verifyParameters(bcc, 0f);
-        BetterCharacterControl bccClone
-                = (BetterCharacterControl) Heart.deepCopy(bcc);
+        BetterCharacterControl bccClone = Heart.deepCopy(bcc);
         cloneTest(bcc, bccClone);
         /*
          * CharacterControl
@@ -101,7 +99,7 @@ public class TestClonePhysicsControls {
         CharacterControl cc = new CharacterControl(shape, 0.5f);
         setParameters(cc, 0f);
         verifyParameters(cc, 0f);
-        CharacterControl ccClone = (CharacterControl) Heart.deepCopy(cc);
+        CharacterControl ccClone = Heart.deepCopy(cc);
         cloneTest(cc, ccClone);
         /*
          * DynamicAnimControl
@@ -109,7 +107,7 @@ public class TestClonePhysicsControls {
         DynamicAnimControl dac = new DynamicAnimControl();
         setParameters(dac, 0f);
         verifyParameters(dac, 0f);
-        DynamicAnimControl dacClone = (DynamicAnimControl) Heart.deepCopy(dac);
+        DynamicAnimControl dacClone = Heart.deepCopy(dac);
         cloneTest(dac, dacClone);
         /*
          * Note: RigidBodyControl is tested in TestCloneBody.
@@ -119,7 +117,7 @@ public class TestClonePhysicsControls {
         SoftBodyControl sbc = new SoftBodyControl();
         setParameters(sbc, 0f);
         verifyParameters(sbc, 0f);
-        SoftBodyControl sbcClone = (SoftBodyControl) Heart.deepCopy(sbc);
+        SoftBodyControl sbcClone = Heart.deepCopy(sbc);
         cloneTest(sbc, sbcClone);
         /*
          * Test cloning/saving/loading abstract physics controls
@@ -149,7 +147,7 @@ public class TestClonePhysicsControls {
         jaime.addControl(dac);
         setParameters(dac, 0f);
         verifyParameters(dac, 0f);
-        Node jaimeClone = (Node) Heart.deepCopy(jaime);
+        Spatial jaimeClone = Heart.deepCopy(jaime);
         cloneTest(jaime, jaimeClone);
 
         // TODO more types

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ public class TestCloneGhost {
         PhysicsGhostObject pgo = new PhysicsGhostObject(shape);
         setParameters(pgo, 0f);
         verifyParameters(pgo, 0f);
-        PhysicsGhostObject pgoClone = (PhysicsGhostObject) Heart.deepCopy(pgo);
+        PhysicsGhostObject pgoClone = Heart.deepCopy(pgo);
         cloneTest(pgo, pgoClone);
         /*
          * GhostControl (a subclass of PhysicsGhostObject)
@@ -78,7 +78,7 @@ public class TestCloneGhost {
         GhostControl gc = new GhostControl(shape);
         setParameters(gc, 0f);
         verifyParameters(gc, 0f);
-        GhostControl gcClone = (GhostControl) Heart.deepCopy(gc);
+        GhostControl gcClone = Heart.deepCopy(gc);
         cloneTest(gc, gcClone);
     }
     // *************************************************************************

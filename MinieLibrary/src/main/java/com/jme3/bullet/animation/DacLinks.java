@@ -1417,7 +1417,7 @@ public class DacLinks
          * Collect the location of every mesh vertex in the attached model.
          */
         Spatial attachModel = getAttachmentModel(boneName);
-        attachModel = (Spatial) Heart.deepCopy(attachModel);
+        attachModel = Heart.deepCopy(attachModel);
         VectorSet vertexLocations
                 = MyMesh.listVertexLocations(attachModel, null);
         /*
@@ -1475,7 +1475,7 @@ public class DacLinks
          * Collect the location of every mesh vertex in the attached model.
          */
         Spatial attachModel = getAttachmentModel(jointName);
-        attachModel = (Spatial) Heart.deepCopy(attachModel);
+        attachModel = Heart.deepCopy(attachModel);
         VectorSet vertexLocations
                 = MyMesh.listVertexLocations(attachModel, null);
         /*

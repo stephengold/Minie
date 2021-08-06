@@ -252,7 +252,7 @@ class Model {
      * @return a new Control, or null if no model loaded
      */
     DynamicAnimControl copyRagdoll() {
-        DynamicAnimControl clone = (DynamicAnimControl) Heart.deepCopy(ragdoll);
+        DynamicAnimControl clone = Heart.deepCopy(ragdoll);
         return clone;
     }
 
@@ -1074,7 +1074,7 @@ class Model {
      * Recalculate the initial Transform for visualization.
      */
     private void recalculateInitTransform() {
-        Spatial cgmCopy = (Spatial) Heart.deepCopy(rootSpatial);
+        Spatial cgmCopy = Heart.deepCopy(rootSpatial);
         /*
          * Scale the copy uniformly to the desired height, assuming Y-up
          * orientation.
