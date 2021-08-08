@@ -182,7 +182,7 @@ extends <a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpac
 com.jme3.math.Vector3f&nbsp;worldMax,
 <a href="PhysicsSpace.BroadphaseType.html" title="enum in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</code></th>
 <td class="colLast">
-<div class="block">Instantiate a MultiBodySpace.</div>
+<div class="block">Instantiate a MultiBodySpace with a sequential-impulse solver.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -191,7 +191,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <a href="PhysicsSpace.BroadphaseType.html" title="enum in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
 <a href="SolverType.html" title="enum in com.jme3.bullet">SolverType</a>&nbsp;solverType)</code></th>
 <td class="colLast">
-<div class="block">Instantiate a MultiBodySpace.</div>
+<div class="block">Instantiate a MultiBodySpace with the specified contact-and-constraint
+ solver.</div>
 </td>
 </tr>
 </tbody>
@@ -331,7 +332,7 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <h3>Methods inherited from class&nbsp;com.jme3.bullet.<a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></h3>
 <a id="methods.inherited.from.class.com.jme3.bullet.CollisionSpace">
 <!--   -->
-</a><code><a href="CollisionSpace.html#addCollisionGroupListener(com.jme3.bullet.collision.PhysicsCollisionGroupListener,int)">addCollisionGroupListener</a>, <a href="CollisionSpace.html#contactTest(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionListener)">contactTest</a>, <a href="CollisionSpace.html#countCollisionGroupListeners()">countCollisionGroupListeners</a>, <a href="CollisionSpace.html#countCollisionObjects()">countCollisionObjects</a>, <a href="CollisionSpace.html#getBroadphaseType()">getBroadphaseType</a>, <a href="CollisionSpace.html#getCollisionSpace()">getCollisionSpace</a>, <a href="CollisionSpace.html#getGhostObjectList()">getGhostObjectList</a>, <a href="CollisionSpace.html#getRayTestFlags()">getRayTestFlags</a>, <a href="CollisionSpace.html#getSpaceId()">getSpaceId</a>, <a href="CollisionSpace.html#getWorldMax(com.jme3.math.Vector3f)">getWorldMax</a>, <a href="CollisionSpace.html#getWorldMin(com.jme3.math.Vector3f)">getWorldMin</a>, <a href="CollisionSpace.html#hasClosest(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasClosest</a>, <a href="CollisionSpace.html#hasContact(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasContact</a>, <a href="CollisionSpace.html#initThread(long)">initThread</a>, <a href="CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTest</a>, <a href="CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTest</a>, <a href="CollisionSpace.html#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTestRaw</a>, <a href="CollisionSpace.html#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTestRaw</a>, <a href="CollisionSpace.html#removeCollisionGroupListener(int)">removeCollisionGroupListener</a>, <a href="CollisionSpace.html#setRayTestFlags(int)">setRayTestFlags</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)">sweepTest</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)">sweepTest</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)">sweepTest</a></code></div>
+</a><code><a href="CollisionSpace.html#addCollisionGroupListener(com.jme3.bullet.collision.PhysicsCollisionGroupListener,int)">addCollisionGroupListener</a>, <a href="CollisionSpace.html#contactTest(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionListener)">contactTest</a>, <a href="CollisionSpace.html#countCollisionGroupListeners()">countCollisionGroupListeners</a>, <a href="CollisionSpace.html#countCollisionObjects()">countCollisionObjects</a>, <a href="CollisionSpace.html#countSolvers()">countSolvers</a>, <a href="CollisionSpace.html#getBroadphaseType()">getBroadphaseType</a>, <a href="CollisionSpace.html#getCollisionSpace()">getCollisionSpace</a>, <a href="CollisionSpace.html#getGhostObjectList()">getGhostObjectList</a>, <a href="CollisionSpace.html#getRayTestFlags()">getRayTestFlags</a>, <a href="CollisionSpace.html#getSpaceId()">getSpaceId</a>, <a href="CollisionSpace.html#getWorldMax(com.jme3.math.Vector3f)">getWorldMax</a>, <a href="CollisionSpace.html#getWorldMin(com.jme3.math.Vector3f)">getWorldMin</a>, <a href="CollisionSpace.html#hasClosest(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasClosest</a>, <a href="CollisionSpace.html#hasContact(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasContact</a>, <a href="CollisionSpace.html#initThread(long)">initThread</a>, <a href="CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTest</a>, <a href="CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTest</a>, <a href="CollisionSpace.html#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTestRaw</a>, <a href="CollisionSpace.html#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTestRaw</a>, <a href="CollisionSpace.html#removeCollisionGroupListener(int)">removeCollisionGroupListener</a>, <a href="CollisionSpace.html#setRayTestFlags(int)">setRayTestFlags</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)">sweepTest</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)">sweepTest</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)">sweepTest</a></code></div>
 <div class="inheritedList">
 <h3>Methods inherited from class&nbsp;com.jme3.bullet.<a href="NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a></h3>
 <a id="methods.inherited.from.class.com.jme3.bullet.NativePhysicsObject">
@@ -378,14 +379,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">MultiBodySpace</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;worldMin,
 com.jme3.math.Vector3f&nbsp;worldMax,
 <a href="PhysicsSpace.BroadphaseType.html" title="enum in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</span></div>
-<div class="block">Instantiate a MultiBodySpace. Must be invoked on the designated physics
- thread.</div>
+<div class="block">Instantiate a MultiBodySpace with a sequential-impulse solver. Must be
+ invoked on the designated physics thread.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>worldMin</code> - the desired minimum coordinate value for each axis (not
- null, unaffected, default=(-10k,-10k,-10k))</dd>
-<dd><code>worldMax</code> - the desired maximum coordinate value for each axis (not
- null, unaffected, default=(10k,10k,10k))</dd>
+<dd><code>worldMin</code> - the desired minimum coordinate values (not null,
+ unaffected, default=(-10k,-10k,-10k))</dd>
+<dd><code>worldMax</code> - the desired maximum coordinate values (not null,
+ unaffected, default=(10k,10k,10k))</dd>
 <dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
 </dl>
 </section>
@@ -397,14 +398,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 com.jme3.math.Vector3f&nbsp;worldMax,
 <a href="PhysicsSpace.BroadphaseType.html" title="enum in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
 <a href="SolverType.html" title="enum in com.jme3.bullet">SolverType</a>&nbsp;solverType)</span></div>
-<div class="block">Instantiate a MultiBodySpace. Must be invoked on the designated physics
- thread.</div>
+<div class="block">Instantiate a MultiBodySpace with the specified contact-and-constraint
+ solver. Must be invoked on the designated physics thread.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>worldMin</code> - the desired minimum coordinate value for each axis (not
- null, unaffected, default=-10k,-10k,-10k)</dd>
+ null, unaffected, default=(-10k,-10k,-10k))</dd>
 <dd><code>worldMax</code> - the desired maximum coordinate value for each axis (not
- null, unaffected, default=10k,10k,10k)</dd>
+ null, unaffected, default=(10k,10k,10k))</dd>
 <dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
 <dd><code>solverType</code> - the desired constraint solver (not null)</dd>
 </dl>

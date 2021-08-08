@@ -1839,6 +1839,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Instantiate a CollisionSpace.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,int)">CollisionSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, int)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Used internally.</div>
+</dd>
 <dt><a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a> - package com.jme3.bullet</dt>
 <dd>
 <div class="block">PhysicsSpace and some associated classes and interfaces.</div>
@@ -2400,6 +2404,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Count the soft bodies in this space.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#countSolvers()">countSolvers()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Count the solvers.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/shapes/MultiSphere.html#countSpheres()">countSpheres()</a></span> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MultiSphere.html" title="class in com.jme3.bullet.collision.shapes">MultiSphere</a></dt>
 <dd>
 <div class="block">Count the spheres in this shape.</div>
@@ -2407,6 +2415,10 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#countTetras()">countTetras()</a></span> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
 <div class="block">Count the tetrahedra in this body.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/util/NativeLibrary.html#countThreads()">countThreads()</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
+<dd>
+<div class="block">Count how many threads are available for task scheduling.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#countTickListeners()">countTickListeners()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
@@ -5852,6 +5864,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Test whether the indexed spring's stiffness is limited
  (m_springStiffnessLimited).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/util/NativeLibrary.html#isThreadSafe()">isThreadSafe()</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
+<dd>
+<div class="block">Test whether the native library was built thread-safe.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/infos/CharacterController.html#isUsingGhostSweepTest()">isUsingGhostSweepTest()</a></span> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/CharacterController.html" title="class in com.jme3.bullet.objects.infos">CharacterController</a></dt>
 <dd>
 <div class="block">Test whether the ghost's convex-sweep test is in use.</div>
@@ -7263,11 +7279,12 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/MultiBodySpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)">MultiBodySpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodySpace.html" title="class in com.jme3.bullet">MultiBodySpace</a></dt>
 <dd>
-<div class="block">Instantiate a MultiBodySpace.</div>
+<div class="block">Instantiate a MultiBodySpace with a sequential-impulse solver.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/MultiBodySpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType)">MultiBodySpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, SolverType)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodySpace.html" title="class in com.jme3.bullet">MultiBodySpace</a></dt>
 <dd>
-<div class="block">Instantiate a MultiBodySpace.</div>
+<div class="block">Instantiate a MultiBodySpace with the specified contact-and-constraint
+ solver.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/MultiSphere.html" title="class in com.jme3.bullet.collision.shapes"><span class="typeNameLink">MultiSphere</span></a> - Class in <a href="com/jme3/bullet/collision/shapes/package-summary.html">com.jme3.bullet.collision.shapes</a></dt>
 <dd>
@@ -7706,7 +7723,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSoftSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)">PhysicsSoftSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></dt>
 <dd>
-<div class="block">Instantiate a PhysicsSoftSpace.</div>
+<div class="block">Instantiate a PhysicsSoftSpace with a sequential-impulse solver.</div>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet"><span class="typeNameLink">PhysicsSpace</span></a> - Class in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
 <dd>
@@ -7715,19 +7732,26 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#%3Cinit%3E(com.jme3.bullet.PhysicsSpace.BroadphaseType)">PhysicsSpace(PhysicsSpace.BroadphaseType)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Instantiate a PhysicsSpace with the specified broadphase accelerator.</div>
+<div class="block">Instantiate a PhysicsSpace with sequential-impulse solvers.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">PhysicsSpace(Vector3f, Vector3f)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Instantiate a PhysicsSpace with an AXIS_SWEEP_3 broadphase accelerator.</div>
+<div class="block">Instantiate a PhysicsSpace with an AXIS_SWEEP_3 broadphase accelerator
+ and sequential-impulse solvers.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)">PhysicsSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Instantiate a PhysicsSpace.</div>
+<div class="block">Instantiate a PhysicsSpace with sequential-impulse solvers.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,int)">PhysicsSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, int)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Instantiate a PhysicsSpace with the specified number of
+ sequential-impulse solvers.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType)">PhysicsSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, SolverType)</a></span> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Instantiate a PhysicsSpace.</div>
+<div class="block">Instantiate a PhysicsSpace with the specified contact-and-constraint
+ solver.</div>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.BroadphaseType.html" title="enum in com.jme3.bullet"><span class="typeNameLink">PhysicsSpace.BroadphaseType</span></a> - Enum in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
 <dd>
