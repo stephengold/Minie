@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,13 @@ public class NativeLibrary {
     // new methods exposed
 
     /**
+     * Count how many threads are available for task scheduling.
+     *
+     * @return the count (&ge;0)
+     */
+    native public static int countThreads();
+
+    /**
      * Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL, for testing.
      */
     native public static void crash();
@@ -85,6 +92,13 @@ public class NativeLibrary {
      * @return true if double-precision, false if single-precision
      */
     native public static boolean isDoublePrecision();
+
+    /**
+     * Test whether the native library was built thread-safe.
+     *
+     * @return true if thread-safe, otherwise false
+     */
+    native public static boolean isThreadSafe();
 
     /**
      * Alter whether the native library should invoke the reinitialization()

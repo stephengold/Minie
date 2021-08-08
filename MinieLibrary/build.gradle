@@ -10,10 +10,10 @@ plugins {
 
 description = 'a physics library for jMonkeyEngine'
 ext {
-    // Specify the URL from which native libraries should be copied:
+    // The URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/10.5.0/'
-    //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // test an unreleased build
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/11.0.0/'
+    //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // test a local build
 
     pdbWindows64 = ''
     if (gradle.rootProject.hasProperty('btdebug')) {

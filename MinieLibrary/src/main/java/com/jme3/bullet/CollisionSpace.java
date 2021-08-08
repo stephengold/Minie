@@ -91,6 +91,10 @@ public class CollisionSpace extends NativePhysicsObject {
         }
     };
     /**
+     * number of contact-and-constraint solvers (&ge;1, &le;64, default=1)
+     */
+    final private int numSolvers;
+    /**
      * flags used in ray tests
      */
     private int rayTestFlags = RayTestFlag.SubSimplexRaytest;
@@ -130,18 +134,35 @@ public class CollisionSpace extends NativePhysicsObject {
      * unaffected, default=(-10k,-10k,-10k))
      * @param worldMax the desired maximum coordinate values (not null,
      * unaffected, default=(10k,10k,10k))
-     * @param broadphaseType which broadphase collision-detection algorithm to
-     * use (not null)
+     * @param broadphaseType which broadphase accelerator to use (not null)
      */
     public CollisionSpace(Vector3f worldMin, Vector3f worldMax,
             PhysicsSpace.BroadphaseType broadphaseType) {
+        this(worldMin, worldMax, broadphaseType, 1);
+    }
+
+    /**
+     * Used internally.
+     *
+     * @param worldMin the desired minimum coordinate values (not null,
+     * unaffected, default=(-10k,-10k,-10k))
+     * @param worldMax the desired maximum coordinate values (not null,
+     * unaffected, default=(10k,10k,10k))
+     * @param broadphaseType which broadphase accelerator to use (not null)
+     * @param numSolvers the number of contact-and-constraint solvers in the
+     * thread-safe pool (&ge;1, &le;64, default=1)
+     */
+    protected CollisionSpace(Vector3f worldMin, Vector3f worldMax,
+            PhysicsSpace.BroadphaseType broadphaseType, int numSolvers) {
         Validate.finite(worldMin, "world min");
         Validate.finite(worldMax, "world max");
         Validate.nonNull(broadphaseType, "broadphase type");
+        Validate.inRange(numSolvers, "number of solvers", 1, 64);
 
         this.worldMin.set(worldMin);
         this.worldMax.set(worldMax);
         this.broadphaseType = broadphaseType;
+        this.numSolvers = numSolvers;
         create();
     }
     // *************************************************************************
@@ -261,6 +282,15 @@ public class CollisionSpace extends NativePhysicsObject {
         int count = getNumCollisionObjects(spaceId);
 
         return count;
+    }
+
+    /**
+     * Count the solvers.
+     *
+     * @return the count (&ge;1, &le;64)
+     */
+    public int countSolvers() {
+        return numSolvers;
     }
 
     /**
@@ -634,8 +664,11 @@ public class CollisionSpace extends NativePhysicsObject {
      * Must be invoked on the designated physics thread.
      */
     protected void create() {
+        assert numSolvers == 1 : numSolvers;
+
+        int broadphase = getBroadphaseType().ordinal();
         long spaceId = createCollisionSpace(worldMin.x, worldMin.y, worldMin.z,
-                worldMax.x, worldMax.y, worldMax.z, broadphaseType.ordinal());
+                worldMax.x, worldMax.y, worldMax.z, broadphase);
         assert spaceId != 0L;
 
         initThread(spaceId);
