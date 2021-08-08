@@ -595,8 +595,8 @@ public class TestDefaults {
         Assert.assertNotEquals(0L, id);
         Assert.assertEquals(pco, PhysicsCollisionObject.findInstance(id));
         Assert.assertEquals(0, pco.countIgnored());
-        Assert.assertFalse(pco.isInWorld());
         Assert.assertTrue(pco.isActive());
+        Assert.assertFalse(pco.isInWorld());
 
         MinieTest.assertEquals(1f, 1f, 1f,
                 pco.getAnisotropicFriction(null), 0f);
@@ -604,15 +604,18 @@ public class TestDefaults {
         Assert.assertFalse(pco.hasAnisotropicFriction(2));
         Assert.assertNull(pco.getApplicationData());
         Assert.assertEquals(0f, pco.getCcdMotionThreshold(), 0f);
+        Assert.assertEquals(0f, pco.getCcdSquareMotionThreshold(), 0f);
         Assert.assertEquals(0f, pco.getCcdSweptSphereRadius(), 0f);
         Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
                 pco.getCollideWithGroups());
         Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
                 pco.getCollisionGroup());
+        Assert.assertNull(pco.getCollisionSpace());
         Assert.assertEquals(0.1f, pco.getContactDamping(), 0f);
 
         float largeFloat = NativeLibrary.isDoublePrecision() ? 1e30f : 1e18f;
-        Assert.assertEquals(largeFloat, pco.getContactProcessingThreshold(), 0f);
+        Assert.assertEquals(largeFloat,
+                pco.getContactProcessingThreshold(), 0f);
         Assert.assertEquals(largeFloat, pco.getContactStiffness(), 0f);
 
         Assert.assertEquals(0f, pco.getDeactivationTime(), 0f);
@@ -624,6 +627,8 @@ public class TestDefaults {
         Assert.assertEquals(1, pco.debugNumSides());
         Assert.assertEquals(0.5f, pco.getFriction(), 0f);
         MinieTest.assertEquals(0f, 0f, 0f, pco.getPhysicsLocation(null), 0f);
+        MinieTest.assertEquals(0f, 0f, 0f, 1f,
+                pco.getPhysicsRotation(null), 0f);
         Assert.assertNull(pco.proxyGroup());
         Assert.assertNull(pco.proxyMask());
         Assert.assertEquals(0f, pco.getRestitution(), 0f);
@@ -697,24 +702,37 @@ public class TestDefaults {
         Assert.assertEquals(0, prb.countJoints());
         Assert.assertEquals(Activation.active, prb.getActivationState());
         Assert.assertEquals(0f, prb.getAngularDamping(), 0f);
-        Assert.assertEquals(1f, prb.getAngularFactor(), 0f);
+        MinieTest.assertEquals(1f, 1f, 1f, prb.getAngularFactor(null), 0f);
         Assert.assertEquals(1f, prb.getAngularSleepingThreshold(), 0f);
+        MinieTest.assertEquals(0f, 0f, 0f, prb.getGravity(null), 0f);
+        Assert.assertEquals(0f, prb.getLinearDamping(), 0f);
+        MinieTest.assertEquals(1f, 1f, 1f, prb.getLinearFactor(null), 0f);
+        Assert.assertEquals(0.8f, prb.getLinearSleepingThreshold(), 0f);
+        Assert.assertTrue(prb.isContactResponse());
+        Assert.assertFalse(prb.isGravityProtected());
+        Assert.assertFalse(prb.isKinematic());
+        Assert.assertEquals(0, prb.listJoints().length);
+        MinieTest.assertEquals(0f, 0f, 0f, prb.totalAppliedForce(null), 0f);
+        MinieTest.assertEquals(0f, 0f, 0f, prb.totalAppliedTorque(null), 0f);
+
         if (prb.getMass() > 0f) {
             MinieTest.assertEquals(0f, 0f, 0f,
                     prb.getAngularVelocity(null), 0f);
             MinieTest.assertEquals(0f, 0f, 0f,
+                    prb.getAngularVelocityLocal(null), 0f);
+            MinieTest.assertEquals(0f, 0f, 0f,
                     prb.getLinearVelocity(null), 0f);
             Assert.assertEquals(1f, prb.getMass(), 0f);
+            Assert.assertEquals(0f, prb.getSquaredSpeed(), 0f);
             Assert.assertTrue(prb.isDynamic());
             Assert.assertFalse(prb.isStatic());
+            Assert.assertEquals(0f, prb.kineticEnergy(), 0f);
+            Assert.assertEquals(0f, prb.mechanicalEnergy(), 0f);
         } else {
             Assert.assertEquals(0f, prb.getMass(), 0f);
             Assert.assertFalse(prb.isDynamic());
             Assert.assertTrue(prb.isStatic());
         }
-        Assert.assertTrue(prb.isContactResponse());
-        Assert.assertFalse(prb.isKinematic());
-        Assert.assertFalse(prb.isGravityProtected());
 
         if (prb instanceof RigidBodyControl) {
             RigidBodyControl rbc = (RigidBodyControl) prb;
