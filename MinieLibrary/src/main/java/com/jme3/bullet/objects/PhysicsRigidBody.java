@@ -303,12 +303,12 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Read this body's angular factor for the X axis.
+     * For compatibility with the jme3-bullet library.
      *
      * @return the angular factor
      */
     public float getAngularFactor() {
-        return getAngularFactor(null).getX();
+        return getAngularFactor(null).x;
     }
 
     /**
