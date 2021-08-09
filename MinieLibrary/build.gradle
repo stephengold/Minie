@@ -12,7 +12,7 @@ description = 'a physics library for jMonkeyEngine'
 ext {
     // The URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/11.0.0/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/11.1.0/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // test a local build
 
     pdbWindows64 = ''
