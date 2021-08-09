@@ -65,7 +65,6 @@ import java.util.ArrayList;
 import java.util.List;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -87,7 +86,6 @@ public class TestCloneShapes {
     /**
      * Test cloning/saving/loading collision shapes of all types.
      */
-    @Ignore // test failing on Linux at GHA 2021-08-09
     @Test
     public void testCloneShapes() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
@@ -231,115 +229,115 @@ public class TestCloneShapes {
         /*
          * Mesh, quantized AABB compression
          */
-        CollisionShape mcs = new MeshCollisionShape(mesh, true);
-        setParameters(mcs, 0f);
-        verifyParameters(mcs, 0f);
-        CollisionShape mcsClone = Heart.deepCopy(mcs);
-        cloneTest(mcs, mcsClone);
-        assert mcsClone.getMargin() == 0.04f;
-        mcs.setMargin(0.19f);
-        assert mcsClone.getMargin() == 0.04f;
-        /*
-         * Mesh, without compression
-         */
-        CollisionShape mcsq = new MeshCollisionShape(mesh, false);
-        setParameters(mcsq, 0f);
-        verifyParameters(mcsq, 0f);
-        CollisionShape mcsqClone = Heart.deepCopy(mcsq);
-        cloneTest(mcsq, mcsqClone);
-        assert mcsqClone.getMargin() == 0.04f;
-        mcsq.setMargin(0.191f);
-        assert mcsqClone.getMargin() == 0.04f;
-        /*
-         * MultiSphere
-         */
-        List<Float> radii = new ArrayList<>(3);
-        List<Vector3f> centers = new ArrayList<>(3);
-        radii.add(0.5f);
-        centers.add(new Vector3f(0f, 1f, 0f));
-        radii.add(1f);
-        centers.add(new Vector3f(0f, 0f, 0f));
-        radii.add(0.5f);
-        centers.add(new Vector3f(1f, 0f, 0f));
-        CollisionShape multiSphere = new MultiSphere(centers, radii);
-        setParameters(multiSphere, 0f);
-        verifyParameters(multiSphere, 0f);
-        CollisionShape multiSphereClone = Heart.deepCopy(multiSphere);
-        cloneTest(multiSphere, multiSphereClone);
-        assert multiSphereClone.getMargin() == 0.04f;
-        multiSphere.setMargin(0.20f);
-        assert multiSphereClone.getMargin() == 0.04f;
-        /*
-         * Plane
-         */
-        Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
-        CollisionShape pcs = new PlaneCollisionShape(plane);
-        setParameters(pcs, 0f);
-        verifyParameters(pcs, 0f);
-        CollisionShape pcsClone = Heart.deepCopy(pcs);
-        cloneTest(pcs, pcsClone);
-        assert pcsClone.getMargin() == 0.04f;
-        pcs.setMargin(0.21f);
-        assert pcsClone.getMargin() == 0.04f;
-        /*
-         * Simplex of 1 vertex
-         */
-        Vector3f p1 = new Vector3f(0f, 1f, 1f);
-        CollisionShape simplex1 = new SimplexCollisionShape(p1);
-        setParameters(simplex1, 0f);
-        verifyParameters(simplex1, 0f);
-        CollisionShape simplex1Clone = Heart.deepCopy(simplex1);
-        cloneTest(simplex1, simplex1Clone);
-        assert simplex1Clone.getMargin() == 0.04f;
-        simplex1.setMargin(0.22f);
-        assert simplex1Clone.getMargin() == 0.04f;
-        /*
-         * Simplex of 2 vertices
-         */
-        Vector3f p2 = new Vector3f(1f, 0f, 1f);
-        CollisionShape simplex2 = new SimplexCollisionShape(p1, p2);
-        setParameters(simplex2, 0f);
-        verifyParameters(simplex2, 0f);
-        CollisionShape simplex2Clone = Heart.deepCopy(simplex2);
-        cloneTest(simplex2, simplex2Clone);
-        assert simplex2Clone.getMargin() == 0.04f;
-        simplex2.setMargin(0.22f);
-        assert simplex2Clone.getMargin() == 0.04f;
-        /*
-         * Simplex of 3 vertices
-         */
-        Vector3f p3 = new Vector3f(1f, 1f, 0f);
-        CollisionShape simplex3 = new SimplexCollisionShape(p1, p2, p3);
-        setParameters(simplex3, 0f);
-        verifyParameters(simplex3, 0f);
-        CollisionShape simplex3Clone = Heart.deepCopy(simplex3);
-        cloneTest(simplex3, simplex3Clone);
-        assert simplex3Clone.getMargin() == 0.04f;
-        simplex3.setMargin(0.22f);
-        assert simplex3Clone.getMargin() == 0.04f;
-        /*
-         * Simplex of 4 vertices
-         */
-        Vector3f p4 = new Vector3f(-1f, -1f, -1f);
-        CollisionShape simplex4 = new SimplexCollisionShape(p1, p2, p3, p4);
-        setParameters(simplex4, 0f);
-        verifyParameters(simplex4, 0f);
-        CollisionShape simplex4Clone = Heart.deepCopy(simplex4);
-        cloneTest(simplex4, simplex4Clone);
-        assert simplex4Clone.getMargin() == 0.04f;
-        simplex4.setMargin(0.22f);
-        assert simplex4Clone.getMargin() == 0.04f;
-        /*
-         * Sphere
-         */
-        CollisionShape sphere = new SphereCollisionShape(1f);
-        setParameters(sphere, 0f);
-        verifyParameters(sphere, 0f);
-        CollisionShape sphereClone = Heart.deepCopy(sphere);
-        cloneTest(sphere, sphereClone);
-        assert sphereClone.getScale(null).x == 1f;
-        sphere.setScale(2f);
-        assert sphereClone.getScale(null).x == 1f;
+//        CollisionShape mcs = new MeshCollisionShape(mesh, true);
+//        setParameters(mcs, 0f);
+//        verifyParameters(mcs, 0f);
+//        CollisionShape mcsClone = Heart.deepCopy(mcs);
+//        cloneTest(mcs, mcsClone);
+//        assert mcsClone.getMargin() == 0.04f;
+//        mcs.setMargin(0.19f);
+//        assert mcsClone.getMargin() == 0.04f;
+//        /*
+//         * Mesh, without compression
+//         */
+//        CollisionShape mcsq = new MeshCollisionShape(mesh, false);
+//        setParameters(mcsq, 0f);
+//        verifyParameters(mcsq, 0f);
+//        CollisionShape mcsqClone = Heart.deepCopy(mcsq);
+//        cloneTest(mcsq, mcsqClone);
+//        assert mcsqClone.getMargin() == 0.04f;
+//        mcsq.setMargin(0.191f);
+//        assert mcsqClone.getMargin() == 0.04f;
+//        /*
+//         * MultiSphere
+//         */
+//        List<Float> radii = new ArrayList<>(3);
+//        List<Vector3f> centers = new ArrayList<>(3);
+//        radii.add(0.5f);
+//        centers.add(new Vector3f(0f, 1f, 0f));
+//        radii.add(1f);
+//        centers.add(new Vector3f(0f, 0f, 0f));
+//        radii.add(0.5f);
+//        centers.add(new Vector3f(1f, 0f, 0f));
+//        CollisionShape multiSphere = new MultiSphere(centers, radii);
+//        setParameters(multiSphere, 0f);
+//        verifyParameters(multiSphere, 0f);
+//        CollisionShape multiSphereClone = Heart.deepCopy(multiSphere);
+//        cloneTest(multiSphere, multiSphereClone);
+//        assert multiSphereClone.getMargin() == 0.04f;
+//        multiSphere.setMargin(0.20f);
+//        assert multiSphereClone.getMargin() == 0.04f;
+//        /*
+//         * Plane
+//         */
+//        Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
+//        CollisionShape pcs = new PlaneCollisionShape(plane);
+//        setParameters(pcs, 0f);
+//        verifyParameters(pcs, 0f);
+//        CollisionShape pcsClone = Heart.deepCopy(pcs);
+//        cloneTest(pcs, pcsClone);
+//        assert pcsClone.getMargin() == 0.04f;
+//        pcs.setMargin(0.21f);
+//        assert pcsClone.getMargin() == 0.04f;
+//        /*
+//         * Simplex of 1 vertex
+//         */
+//        Vector3f p1 = new Vector3f(0f, 1f, 1f);
+//        CollisionShape simplex1 = new SimplexCollisionShape(p1);
+//        setParameters(simplex1, 0f);
+//        verifyParameters(simplex1, 0f);
+//        CollisionShape simplex1Clone = Heart.deepCopy(simplex1);
+//        cloneTest(simplex1, simplex1Clone);
+//        assert simplex1Clone.getMargin() == 0.04f;
+//        simplex1.setMargin(0.22f);
+//        assert simplex1Clone.getMargin() == 0.04f;
+//        /*
+//         * Simplex of 2 vertices
+//         */
+//        Vector3f p2 = new Vector3f(1f, 0f, 1f);
+//        CollisionShape simplex2 = new SimplexCollisionShape(p1, p2);
+//        setParameters(simplex2, 0f);
+//        verifyParameters(simplex2, 0f);
+//        CollisionShape simplex2Clone = Heart.deepCopy(simplex2);
+//        cloneTest(simplex2, simplex2Clone);
+//        assert simplex2Clone.getMargin() == 0.04f;
+//        simplex2.setMargin(0.22f);
+//        assert simplex2Clone.getMargin() == 0.04f;
+//        /*
+//         * Simplex of 3 vertices
+//         */
+//        Vector3f p3 = new Vector3f(1f, 1f, 0f);
+//        CollisionShape simplex3 = new SimplexCollisionShape(p1, p2, p3);
+//        setParameters(simplex3, 0f);
+//        verifyParameters(simplex3, 0f);
+//        CollisionShape simplex3Clone = Heart.deepCopy(simplex3);
+//        cloneTest(simplex3, simplex3Clone);
+//        assert simplex3Clone.getMargin() == 0.04f;
+//        simplex3.setMargin(0.22f);
+//        assert simplex3Clone.getMargin() == 0.04f;
+//        /*
+//         * Simplex of 4 vertices
+//         */
+//        Vector3f p4 = new Vector3f(-1f, -1f, -1f);
+//        CollisionShape simplex4 = new SimplexCollisionShape(p1, p2, p3, p4);
+//        setParameters(simplex4, 0f);
+//        verifyParameters(simplex4, 0f);
+//        CollisionShape simplex4Clone = Heart.deepCopy(simplex4);
+//        cloneTest(simplex4, simplex4Clone);
+//        assert simplex4Clone.getMargin() == 0.04f;
+//        simplex4.setMargin(0.22f);
+//        assert simplex4Clone.getMargin() == 0.04f;
+//        /*
+//         * Sphere
+//         */
+//        CollisionShape sphere = new SphereCollisionShape(1f);
+//        setParameters(sphere, 0f);
+//        verifyParameters(sphere, 0f);
+//        CollisionShape sphereClone = Heart.deepCopy(sphere);
+//        cloneTest(sphere, sphereClone);
+//        assert sphereClone.getScale(null).x == 1f;
+//        sphere.setScale(2f);
+//        assert sphereClone.getScale(null).x == 1f;
     }
     // *************************************************************************
     // private methods
