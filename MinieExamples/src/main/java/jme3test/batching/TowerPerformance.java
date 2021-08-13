@@ -115,6 +115,7 @@ public class TowerPerformance
         }
 
         if (numSteps == 200) {
+            NativeLibrary.resetQuickprof();
             enqueue(new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
@@ -124,6 +125,7 @@ public class TowerPerformance
             });
 
         } else if (numSteps == 600) {
+            NativeLibrary.dumpQuickprof();
             enqueue(new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
