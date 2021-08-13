@@ -73,6 +73,16 @@ public class NativeLibrary {
     native public static int dumpMemoryLeaks();
 
     /**
+     * Dump all Quickprof data to standard output. This feature is enabled only
+     * in native libraries built with the BT_ENABLE_PROFILE macro defined. Must
+     * be invoked on the designated physics thread.
+     *
+     * @return the number of frames profiled since the last reset (&ge;0), or -1
+     * if this feature is not enabled
+     */
+    native public static int dumpQuickprof();
+
+    /**
      * Execute btAssert(0). This has no effect on Release builds, but if the
      * native library was built with debugging enabled, it should terminate the
      * JVM.
@@ -94,11 +104,25 @@ public class NativeLibrary {
     native public static boolean isDoublePrecision();
 
     /**
+     * Test whether the native library includes Quickprof profiling.
+     *
+     * @return true if included, otherwise false
+     */
+    native public static boolean isQuickprof();
+
+    /**
      * Test whether the native library was built thread-safe.
      *
      * @return true if thread-safe, otherwise false
      */
     native public static boolean isThreadSafe();
+
+    /**
+     * Reset a Quickprof. This feature is enabled only in native libraries built
+     * with the BT_ENABLE_PROFILE macro defined. Must be invoked on the
+     * designated physics thread.
+     */
+    native public static void resetQuickprof();
 
     /**
      * Alter whether the native library should invoke the reinitialization()
