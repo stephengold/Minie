@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9};
+<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -137,34 +137,55 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor" id="i3">
+<td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#dumpQuickprof()">dumpQuickprof</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Dump all Quickprof data to standard output.</div>
+</td>
+</tr>
+<tr class="altColor" id="i4">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fail()">fail</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Execute btAssert(0).</div>
 </td>
 </tr>
-<tr class="altColor" id="i4">
+<tr class="rowColor" id="i5">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDebug()">isDebug</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether the native library was built with debugging enabled.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i5">
+<tr class="altColor" id="i6">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDoublePrecision()">isDoublePrecision</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether the native library uses double-precision arithmetic.</div>
 </td>
 </tr>
-<tr class="altColor" id="i6">
+<tr class="rowColor" id="i7">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isQuickprof()">isQuickprof</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Test whether the native library includes Quickprof profiling.</div>
+</td>
+</tr>
+<tr class="altColor" id="i8">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isThreadSafe()">isThreadSafe</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether the native library was built thread-safe.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i7">
+<tr class="rowColor" id="i9">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetQuickprof()">resetQuickprof</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Reset a Quickprof.</div>
+</td>
+</tr>
+<tr class="altColor" id="i10">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setReinitializationCallbackEnabled(boolean)">setReinitializationCallbackEnabled</a></span>&#8203;(boolean&nbsp;callbackFlag)</code></th>
 <td class="colLast">
@@ -172,7 +193,7 @@ extends java.lang.Object</pre>
  callback.</div>
 </td>
 </tr>
-<tr class="altColor" id="i8">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStartupMessageEnabled(boolean)">setStartupMessageEnabled</a></span>&#8203;(boolean&nbsp;printFlag)</code></th>
 <td class="colLast">
@@ -180,7 +201,7 @@ extends java.lang.Object</pre>
  initialization.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i9">
+<tr class="altColor" id="i12">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#versionNumber()">versionNumber</a></span>()</code></th>
 <td class="colLast">
@@ -243,6 +264,20 @@ extends java.lang.Object</pre>
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="dumpQuickprof()">dumpQuickprof</a></h3>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">dumpQuickprof</span>()</div>
+<div class="block">Dump all Quickprof data to standard output. This feature is enabled only
+ in native libraries built with the BT_ENABLE_PROFILE macro defined. Must
+ be invoked on the designated physics thread.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the number of frames profiled since the last reset (&ge;0), or -1
+ if this feature is not enabled</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="fail()">fail</a></h3>
 <div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">fail</span>()</div>
 <div class="block">Execute btAssert(0). This has no effect on Release builds, but if the
@@ -274,6 +309,17 @@ extends java.lang.Object</pre>
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="isQuickprof()">isQuickprof</a></h3>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName">isQuickprof</span>()</div>
+<div class="block">Test whether the native library includes Quickprof profiling.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if included, otherwise false</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="isThreadSafe()">isThreadSafe</a></h3>
 <div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName">isThreadSafe</span>()</div>
 <div class="block">Test whether the native library was built thread-safe.</div>
@@ -281,6 +327,15 @@ extends java.lang.Object</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if thread-safe, otherwise false</dd>
 </dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="resetQuickprof()">resetQuickprof</a></h3>
+<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">resetQuickprof</span>()</div>
+<div class="block">Reset a Quickprof. This feature is enabled only in native libraries built
+ with the BT_ENABLE_PROFILE macro defined. Must be invoked on the
+ designated physics thread.</div>
 </section>
 </li>
 <li class="blockList">
