@@ -13,7 +13,8 @@ ext {
     // The URL from which native libraries should be copied:
 
     libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/11.2.0/'
-    //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // test a local build
+    //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // to test a local build
+    //libbulletjmeUrl = 'file:///c:\\users\\sgold\\Git\\Libbulletjme\\dist\\' // to test a local build
 
     pdbWindows64 = ''
     if (gradle.rootProject.hasProperty('btdebug')) {
@@ -49,23 +50,19 @@ ext {
         metadata = 'dp' + jmeTarget
 
     } else if (gradle.rootProject.hasProperty('bare')) {
-        // -Pbare specified, but not -Pbtdebug nor -Pdp
+        // -Pbare specified, but neither -Pbtdebug nor -Pdp
 
         configureAndroidBtfs('')
         configureDesktopBtfs('')
         metadata = 'bare' + jmeTarget
 
     } else if (gradle.rootProject.hasProperty('big3')) {
-        // -Pbig3 specified, but not -Pbtdebug nor -Pdp nor -Pbare
+        // -Pbig3 specified, but neither -Pbtdebug nor -Pdp nor -Pbare
 
         configureAndroidBtfs('')
-        btfLinux32 = ''
+        configureDesktopBtfs('')
         btfLinux64 = 'ReleaseSpMt'
-        btfLinux_ARM32 = ''
-        btfLinux_ARM64 = ''
-        btfMacOSX32 = ''
         btfMacOSX64 = 'ReleaseSp'
-        btfWindows32 = ''
         btfWindows64 = 'ReleaseSpMt'
         metadata = 'big3' + jmeTarget
 
@@ -92,7 +89,7 @@ ext {
 
     artifact = 'Minie'
 
-    if (metadata.equals('')) {
+    if (metadata.isEmpty()) {
         version = minieVersion
     } else if (metadata.startsWith('+')) {
         version = minieVersion + metadata
