@@ -61,9 +61,9 @@ ext {
 
         configureAndroidBtfs('')
         configureDesktopBtfs('')
-        btfLinux64 = 'ReleaseSpMt'
+        btfLinux64 = 'ReleaseSp'
         btfMacOSX64 = 'ReleaseSp'
-        btfWindows64 = 'ReleaseSpMt'
+        btfWindows64 = 'ReleaseSp'
         metadata = 'big3' + jmeTarget
 
     } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 specified
@@ -76,13 +76,13 @@ ext {
         btfAndroid_X86 = 'ReleaseSp'
         btfAndroid_X86_64 = 'ReleaseSp'
         btfLinux32 = 'ReleaseSp'
-        btfLinux64 = 'ReleaseSpMt'
+        btfLinux64 = 'ReleaseSp'
         btfLinux_ARM32 = 'hfReleaseSp'
         btfLinux_ARM64 = 'ReleaseSp'
         btfMacOSX32 = 'ReleaseSp'
         btfMacOSX64 = 'ReleaseSp'
         btfWindows32 = 'ReleaseSp'
-        btfWindows64 = 'ReleaseSpMt'
+        btfWindows64 = 'ReleaseSp'
 
         metadata = jmeTarget
     }
@@ -387,9 +387,9 @@ void configureDesktopBtfs(String btfValue) {
         project.ext.btfLinux_ARM32 = ''
         project.ext.btfWindows64 = ''
     } else {
-        project.ext.btfLinux64 = btfValue + 'Mt'
+        project.ext.btfLinux64 = btfValue
         project.ext.btfLinux_ARM32 = 'hf' + btfValue
-        project.ext.btfWindows64 = btfValue + 'Mt'
+        project.ext.btfWindows64 = btfValue
     }
     project.ext.btfLinux_ARM64 = btfValue
     project.ext.btfMacOSX32 = btfValue
