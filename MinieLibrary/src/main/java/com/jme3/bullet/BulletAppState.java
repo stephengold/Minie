@@ -38,6 +38,7 @@ import com.jme3.bullet.PhysicsSpace.BroadphaseType;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugConfiguration;
 import com.jme3.bullet.debug.DebugInitListener;
+import com.jme3.bullet.util.NativeLibrary;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
@@ -135,6 +136,10 @@ public class BulletAppState
      */
     private Future physicsFuture;
     /**
+     * number of solvers in the thread-safe pool
+     */
+    private int numSolvers = NativeLibrary.countThreads();
+    /**
      * executor service for physics tasks, or null if parallel simulation is not
      * running
      */
@@ -167,6 +172,7 @@ public class BulletAppState
      * Use getStateManager().addState(bulletAppState) to start physics.
      */
     public BulletAppState() {
+        // do nothing
     }
 
     /**
@@ -222,6 +228,15 @@ public class BulletAppState
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Count the solvers in the thread-safe pool.
+     *
+     * @return the count
+     */
+    public int countSolvers() {
+        return numSolvers;
+    }
 
     /**
      * Determine the length of the debug axis arrows.
@@ -495,6 +510,19 @@ public class BulletAppState
     }
 
     /**
+     * Alter the number of solvers in the thread-safe pool.
+     *
+     * @param numSolvers the desired number of solvers in the thread-safe pool
+     * (&ge;1, &le;64, default=numThreads)
+     */
+    public void setNumSolvers(int numSolvers) {
+        Validate.inRange(numSolvers, "number of solvers", 1, 64);
+        assert !isRunning();
+
+        this.numSolvers = numSolvers;
+    }
+
+    /**
      * Alter which constraint solver the PhysicsSpace will use. Not allowed
      * after attaching the AppState.
      *
@@ -640,7 +668,15 @@ public class BulletAppState
      */
     protected PhysicsSpace createPhysicsSpace(Vector3f min, Vector3f max,
             BroadphaseType type) {
-        return new PhysicsSpace(min, max, type, solverType);
+        if (solverType == SolverType.SI) {
+            return new PhysicsSpace(min, max, type, numSolvers);
+        } else if (numSolvers == 1) {
+            return new PhysicsSpace(min, max, type, solverType);
+        } else {
+            String message
+                    = String.format("num=%d, type=%s", numSolvers, solverType);
+            throw new IllegalArgumentException(message);
+        }
     }
 
     /**
