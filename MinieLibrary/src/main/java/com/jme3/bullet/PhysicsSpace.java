@@ -382,6 +382,21 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
+     * Register the specified listener for ongoing contacts.
+     * <p>
+     * During distributeEvents(), registered listeners are notified of all
+     * ongoing contacts EXCEPT Sphere-Sphere contacts.
+     *
+     * @param listener the listener to register (not null, alias created)
+     */
+    public void addOngoingCollisionListener(PhysicsCollisionListener listener) {
+        Validate.nonNull(listener, "listener");
+        assert !contactProcessedListeners.contains(listener);
+
+        contactProcessedListeners.add(listener);
+    }
+
+    /**
      * Register the specified tick listener with this space.
      * <p>
      * Tick listeners are notified before and after each physics step. A physics
@@ -397,21 +412,6 @@ public class PhysicsSpace extends CollisionSpace {
         assert !tickListeners.contains(listener);
 
         tickListeners.add(listener);
-    }
-
-    /**
-     * Register the specified listener for ongoing contacts.
-     * <p>
-     * During distributeEvents(), registered listeners are notified of all
-     * ongoing contacts EXCEPT Sphere-Sphere contacts.
-     *
-     * @param listener the listener to register (not null, alias created)
-     */
-    public void addOngoingCollisionListener(PhysicsCollisionListener listener) {
-        Validate.nonNull(listener, "listener");
-        assert !contactProcessedListeners.contains(listener);
-
-        contactProcessedListeners.add(listener);
     }
 
     /**
