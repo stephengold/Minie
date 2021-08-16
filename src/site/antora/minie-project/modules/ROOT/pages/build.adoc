@@ -18,8 +18,9 @@
 . Set the `JAVA_HOME` environment variable:
 .. using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
 .. using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
+.. using Windows PowerShell: `$env:JAVA_HOME = '` *path to your JDK* `'`
 . Run the Gradle wrapper:
-.. using Bash:  `./gradlew build`
+.. using Bash or Windows PowerShell:  `./gradlew build`
 .. using Windows Command Prompt:  `.\gradlew build`
 
 After a successful build,
@@ -29,14 +30,14 @@ Maven artifacts will be found in the "MinieLibrary/build/libs" directory.
 
 You can install the artifacts to your local cache:
 
-* using Bash:  `./gradlew publishToMavenLocal`
+* using Bash or Windows PowerShell:  `./gradlew publishToMavenLocal`
 * using Windows Command Prompt:  `.\gradlew publishToMavenLocal`
 
 === Cleanup
 
 After a build, you can restore the repository to a pristine state:
 
- * using Bash:  `./gradlew clean`
+ * using Bash or Windows PowerShell:  `./gradlew clean`
  * using Windows Command Prompt:  `.\gradlew clean`
 
 == Customizing native libraries
