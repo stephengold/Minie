@@ -908,6 +908,20 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addOngoingCollisionListener</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">addOngoingCollisionListener</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</span></div>
+<div class="block">Register the specified listener for ongoing contacts.
+ <p>
+ During distributeEvents(), registered listeners are notified of all
+ ongoing contacts EXCEPT Sphere-Sphere contacts.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>listener</code> - the listener to register (not null, alias created)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="addTickListener(com.jme3.bullet.PhysicsTickListener)">addTickListener</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">addTickListener</span>&#8203;(<span class="arguments"><a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a>&nbsp;listener)</span></div>
 <div class="block">Register the specified tick listener with this space.
@@ -920,20 +934,6 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <dd><code>listener</code> - the listener to register (not null, alias created)</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#setAccuracy(float)"><code>setAccuracy(float)</code></a></dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
-<h3><a id="addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">addOngoingCollisionListener</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">addOngoingCollisionListener</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</span></div>
-<div class="block">Register the specified listener for ongoing contacts.
- <p>
- During distributeEvents(), registered listeners are notified of all
- ongoing contacts EXCEPT Sphere-Sphere contacts.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the listener to register (not null, alias created)</dd>
 </dl>
 </section>
 </li>
