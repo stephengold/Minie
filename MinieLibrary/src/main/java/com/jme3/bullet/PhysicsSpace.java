@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2020 jMonkeyEngine
+ * Copyright (c) 2009-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -842,7 +842,10 @@ public class PhysicsSpace extends CollisionSpace {
         if (maxSubSteps == 0) {
             interval = Math.min(interval, maxTimeStep);
         }
-        stepSimulation(spaceId, interval, maxSubSteps, accuracy);
+        boolean doProcessed = !contactProcessedListeners.isEmpty();
+        boolean doStarted = !contactStartedListeners.isEmpty();
+        stepSimulation(spaceId, interval, maxSubSteps, accuracy, doProcessed,
+                doStarted);
     }
 
     /**
@@ -858,7 +861,10 @@ public class PhysicsSpace extends CollisionSpace {
 
         long spaceId = nativeId();
         assert accuracy > 0f : accuracy;
-        stepSimulation(spaceId, timeInterval, maxSteps, accuracy);
+        boolean doProcessed = !contactProcessedListeners.isEmpty();
+        boolean doStarted = !contactStartedListeners.isEmpty();
+        stepSimulation(spaceId, timeInterval, maxSteps, accuracy, doProcessed,
+                doStarted);
     }
 
     /**
@@ -1340,5 +1346,6 @@ public class PhysicsSpace extends CollisionSpace {
             boolean apply);
 
     native private static void stepSimulation(long spaceId, float timeInterval,
-            int maxSubSteps, float accuracy);
+            int maxSubSteps, float accuracy, boolean doProcessed,
+            boolean doStarted);
 }

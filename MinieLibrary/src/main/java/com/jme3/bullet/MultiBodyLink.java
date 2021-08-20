@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -182,7 +182,7 @@ public class MultiBodyLink
         Validate.finite(torque, "torque");
 
         long linkId = nativeId();
-        addContraintTorque(linkId, torque);
+        addConstraintTorque(linkId, torque);
     }
 
     /**
@@ -696,7 +696,7 @@ public class MultiBodyLink
     native private static void addConstraintForce(long linkId,
             Vector3f forceVector);
 
-    native private static void addContraintTorque(long linkId, // TODO rename
+    native private static void addConstraintTorque(long linkId,
             Vector3f torqueVector);
 
     native private static void addForce(long linkId, Vector3f forceVector);
