@@ -15,9 +15,9 @@ task cleanNodeModules(type: Delete) {
 
 // publishing tasks
 
-task('publishToMavenLocal') {
-    dependsOn ':MinieLibrary:publishToMavenLocal'
+task('install') {
+    dependsOn ':MinieLibrary:install'
 }
 task('release') {
-    dependsOn ':MinieLibrary:publishMavenPublicationToOSSRHRepository'
+    dependsOn ':MinieLibrary:release'
 }
