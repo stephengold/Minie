@@ -1,5 +1,26 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.3.0 released on TBD
+
+ + Bugfix: contact tests report events with positive separation distance
+ + Bugfix: `NullPointerException` while previewing an erroneous model during
+   DacWizard step #2 (the "load" step)
+ + Bugfix: pure virtual call in native libraries (issue #17)
+ + Added support for Quickprof profiling of native code.
+ + Added support for multithreaded physics spaces.
+ + Added the `TowerPerformance` application for performance testing.
+ + Tweaked the behavior of `PhysicsRigidBody.setKinematic()`.
+ + Bypass the asset cache when loading models into DacWizard.
+ + Updated the native libraries to v12.0.0 of Libbulletjme
+   (includes performance enhancements).
+ + Based on:
+   + LWJGL v3 (to improve support for non-US keyboards),
+   + v7.0.0 of the Heart library,
+   + v0.6.7 of the Wes library,
+   + v0.9.5 of the jme3-utilities-ui library, and
+   + v0.9.22 of the jme3-utilities-nifty library.
+ + Built using Gradle v7.2 .
+
 ## Version 4.2.0 released on 24 June 2021
 
  + Bugfix: Libbulletjme issue #7 (GImpact contact tests always fail)
