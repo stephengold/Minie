@@ -66,7 +66,16 @@ ext {
         btfWindows64 = 'ReleaseSp'
         metadata = 'big3' + jmeTarget
 
-    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 specified
+    } else if (gradle.rootProject.hasProperty('mt')) {
+        // -Pmt specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3
+
+        configureAndroidBtfs('')
+        configureDesktopBtfs('')
+        btfLinux64 = 'ReleaseSpMt'
+        btfWindows64 = 'ReleaseSpMt'
+        metadata = 'mt' + jmeTarget
+
+    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt specified
 
         // Specify the BTF (buildType + flavor) of native library for each platform:
         // (Specify '' for no native library.)
