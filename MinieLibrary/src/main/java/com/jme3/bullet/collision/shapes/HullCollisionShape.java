@@ -259,7 +259,7 @@ public class HullCollisionShape extends ConvexShape {
         float volume = dx * dy * dz;
 
         assert volume >= 0f : volume;
-        assert Float.isFinite(volume) : volume;
+        assert MyMath.isFinite(volume) : volume;
         return volume;
     }
 
@@ -476,7 +476,7 @@ public class HullCollisionShape extends ConvexShape {
 
         directBuffer = BufferUtils.createFloatBuffer(numFloats);
         for (float f : points) {
-            if (!Float.isFinite(f)) {
+            if (!MyMath.isFinite(f)) {
                 throw new IllegalArgumentException("illegal coordinate: " + f);
             }
             directBuffer.put(f);

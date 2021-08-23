@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 
 /**
  * A CollisionShape for terrain defined by a matrix of height values, based on
@@ -420,7 +421,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     private void createShape() {
         directBuffer = BufferUtils.createFloatBuffer(heightfieldData.length);
         for (float height : heightfieldData) {
-            if (!Float.isFinite(height)) {
+            if (!MyMath.isFinite(height)) {
                 throw new IllegalArgumentException("illegal height: " + height);
             }
             directBuffer.put(height);
