@@ -28,14 +28,14 @@ gradle.projectsEvaluated {
 
 ext {
     jmeTarget = ''
-    minieSnapshot = ''
+    minieSnapshot = '-SNAPSHOT'
 
     // current versions of various libraries
     heartVersion = '7.0.0' + jmeTarget
     jme3utilitiesuiVersion = '0.9.5' + jmeTarget
     jmonkeyengineVersion = '3.4.0-stable'
     junitVersion = '4.13.2'
-    minieVersion = '4.3.0'
+    minieVersion = '4.3.1'
     wesVersion = '0.6.7' + jmeTarget
 }
 

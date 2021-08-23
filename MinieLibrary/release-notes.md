@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.3.0 released on TBD
+## Version 4.3.0 released on 22 August 2021
 
  + Bugfix: contact tests report events with positive separation distance
  + Bugfix: `NullPointerException` while previewing an erroneous model during
