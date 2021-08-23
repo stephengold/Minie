@@ -21,26 +21,27 @@ Complete source code (in Java) is provided under
 
 ## Contents of this document
 
- + [Why use Minie?](#why)
- + [Downloads](#downloads)
- + [Conventions](#conventions)
- + [Overview and design considerations](#overview)
- + [How to build Minie from source](#build)
- + [Tutorials](#tutorials)
- + [An overview of the demo applications](#demos)
- + [External links](#links)
- + [History](#history)
- + [Acknowledgments](#acks)
++ [Why use Minie?](#why)
++ [Downloads](#downloads)
++ [Conventions](#conventions)
++ [Overview and design considerations](#overview)
++ [How to build Minie from source](#build)
++ [Tutorials](#tutorials)
++ [An overview of the demo applications](#demos)
++ [External links](#links)
++ [History](#history)
++ [Acknowledgments](#acks)
 
 <a name="why"/>
 
 ## Why use Minie?
 
-[jMonkeyEngine][jme] comes with 2 Bullet integration libraries.
-Why use Minie instead of `jme3-bullet` or `jme3-jbullet`?
+[jMonkeyEngine][jme] comes with `jme3-jbullet`,
+its own Bullet integration library.
+Why use Minie instead of `jme3-jbullet`?
 
  + Minie has many more features. (See the feature list below.)
- + Minie fixes many bugs found in the jMonkeyEngine libraries.
+ + Minie fixes many bugs found in `jme3-jbullet`.
  + Due to its shorter release cycle, future features and bug fixes
    will probably appear first in Minie.
  + Minie uses automated testing to reduce the risk of regressions and new bugs.
@@ -88,7 +89,7 @@ Summary of added features:
    collision shapes, contact/constraint solvers, etcetera
  + option to apply scaling with a `RigidBodyControl`
 
-Some `jme3-bullet`/`jme3-jbullet` classes that Minie omits:
+Some jme3-jbullet` classes that Minie omits:
 
  + `KinematicRagdollControl`, `HumanoidRagdollPreset`, and `RagdollPreset`:
    use `DynamicAnimControl` instead
@@ -302,6 +303,8 @@ YouTube videos about Minie:
     [watch](https://www.youtube.com/watch?v=A1Rii99nb3Q) (2:49)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDac.java)
 
+[Jump to table of contents](#toc)
+
 [ant]: https://ant.apache.org "Apache Ant Project"
 [antora]: https://antora.org/ "Antora Project"
 [blender]: https://docs.blender.org "Blender Project"
@@ -345,13 +348,13 @@ YouTube videos about Minie:
 [winmerge]: http://winmerge.org "WinMerge Project"
 [youtube]: https://www.youtube.com/ "YouTube"
 
-[Jump to table of contents](#toc)
 
 <a name="history"/>
 
 ## History
 
-The evolution of the project is chronicled in [its release log][log].
+The evolution of the project is chronicled in
+[its release log][log].
 
 Most of Minie was originally forked from `jme3-bullet`,
 a library in the [jMonkeyEngine Game Engine][jme].
