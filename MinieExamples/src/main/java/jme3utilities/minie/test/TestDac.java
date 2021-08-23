@@ -789,6 +789,24 @@ public class TestDac extends AbstractDemo {
     }
 
     /**
+     * Test whether the specified double-precision value is finite. Note that
+     * Java 8 provides {@link java.lang.Double#isFinite(double)}. TODO use
+     * MyMath
+     *
+     * @param dValue the value to test
+     * @return true if finite, false if NaN or infinity
+     */
+    private static boolean isFiniteDouble(double dValue) {
+        if (Double.isInfinite(dValue)) {
+            return false;
+        } else if (Double.isNaN(dValue)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Load the saved model from the J3O file.
      */
     private void load() {
@@ -1139,7 +1157,7 @@ public class TestDac extends AbstractDemo {
         message += isPaused() ? "  PAUSED" : "";
 
         double energy = dac.kineticEnergy();
-        if (Double.isFinite(energy)) {
+        if (isFiniteDouble(energy)) {
             message += String.format("  KE=%f", energy);
         }
         statusText.setText(message);
