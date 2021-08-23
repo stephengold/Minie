@@ -63,7 +63,7 @@ import jme3utilities.InfluenceUtil;
 import jme3utilities.MyAnimation;
 import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
-import jme3utilities.Validate;
+import jme3utilities.MyString;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.VectorSet;
 import jme3utilities.ui.InputMode;
@@ -164,7 +164,7 @@ class Model {
         assert numComponentsInRoot < numComponents : numComponents;
         String[] resultComponents = Arrays.copyOfRange(filePathComponents,
                 numComponentsInRoot, numComponents);
-        String result = join8("/", resultComponents);
+        String result = MyString.join8("/", resultComponents);
         result = "/" + result;
 
         assert result != null;
@@ -186,7 +186,7 @@ class Model {
         assert numComponentsInRoot < numComponents : numComponents;
         String[] resultComponents = Arrays.copyOfRange(filePathComponents, 0,
                 numComponentsInRoot);
-        String result = join8("/", resultComponents);
+        String result = MyString.join8("/", resultComponents);
         result += "/";
 
         assert result != null;
@@ -432,7 +432,7 @@ class Model {
      * @return the path (not null, may be empty)
      */
     String filePath() {
-        String result = join8("/", filePathComponents);
+        String result = MyString.join8("/", filePathComponents);
         assert result != null;
         return result;
     }
@@ -1015,37 +1015,6 @@ class Model {
 
         assert managerName != null;
         return managerName;
-    }
-
-    /**
-     * Join an array of text strings using the specified separator. For any
-     * element of the array that is null, "null" is added. Note that Java 8
-     * provides
-     * {@link java.lang.String#join(java.lang.CharSequence, java.lang.CharSequence[])}.
-     * TODO use MyString
-     *
-     * @param separator text string (not null)
-     * @param array strings to join (not null, unaffected, may contain nulls)
-     * @return the joined string (not null)
-     */
-    private static String join8(CharSequence separator, CharSequence... array) {
-        Validate.nonNull(array, "array");
-        Validate.nonNull(separator, "separator");
-
-        StringBuilder result = new StringBuilder(80);
-        for (int index = 0; index < array.length; ++index) {
-            if (index > 0) {
-                result.append(separator);
-            }
-            CharSequence element = array[index];
-            if (element == null) {
-                result.append("null");
-            } else {
-                result.append(element);
-            }
-        }
-
-        return result.toString();
     }
 
     /**
