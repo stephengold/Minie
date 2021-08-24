@@ -305,50 +305,6 @@ YouTube videos about Minie:
 
 [Jump to table of contents](#toc)
 
-[ant]: https://ant.apache.org "Apache Ant Project"
-[antora]: https://antora.org/ "Antora Project"
-[blender]: https://docs.blender.org "Blender Project"
-[bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
-[bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
-[chrome]: https://www.google.com/chrome "Chrome"
-[dacwizard]: https://github.com/stephengold/Minie/tree/master/DacWizard "DacWizard Application"
-[dokthar]: https://github.com/dokthar/jmonkeyengine "Dokthar's fork of JMonkeyEngine"
-[elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
-[findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
-[firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
-[git]: https://git-scm.com "Git"
-[github]: https://github.com "GitHub"
-[gradle]: https://gradle.org "Gradle Project"
-[heart]: https://github.com/stephengold/Heart "Heart Project"
-[imgur]: https://imgur.com/ "Imgur"
-[jfrog]: https://www.jfrog.com "JFrog"
-[jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
-[jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
-[latest]: https://github.com/stephengold/Minie/releases/tag/latest "latest release"
-[libbulletjme]: https://github.com/stephengold/Libbulletjme "Libbulletjme Project"
-[license]: https://github.com/stephengold/Minie/blob/master/LICENSE "Minie license"
-[log]: https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md "release log"
-[makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
-[manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
-[markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
-[meld]: http://meldmerge.org/ "Meld Tool"
-[minie]: https://github.com/stephengold/Minie "Minie Repository"
-[mint]: https://linuxmint.com "Linux Mint Project"
-[netbeans]: https://netbeans.org "NetBeans Project"
-[nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
-[obs]: https://obsproject.com "Open Broadcaster Software Project"
-[profont]: http://tobiasjung.name/profont "ProFont Project"
-[project]: https://stephengold.github.io/Minie "Minie Project"
-[sonatype]: https://www.sonatype.com "Sonatype"
-[utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
-[vegdahl]: http://www.cessen.com "Nathan Vegdahl"
-[vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
-[vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "V-HACD Java Bindings Project"
-[wes]: https://github.com/stephengold/Wes "Wes Project"
-[winmerge]: http://winmerge.org "WinMerge Project"
-[youtube]: https://www.youtube.com/ "YouTube"
-
-
 <a name="history"/>
 
 ## History
@@ -418,7 +374,7 @@ artists and software developers:
     + [ProFont], the programmers' font
     + the [WinMerge] differencing and merging tool
 
-I am grateful to [Github], [Sonatype], [JFrog], [YouTube], and [Imgur]
+I am grateful to [GitHub], [Sonatype], [JFrog], [YouTube], and [Imgur]
 for providing free hosting for this project
 and many other open-source projects.
 
@@ -428,3 +384,46 @@ If I've misattributed anything or left anyone out, please let me know so I can
 correct the situation: sgold@sonic.net
 
 [Jump to table of contents](#toc)
+
+[ant]: https://ant.apache.org "Apache Ant Project"
+[antora]: https://antora.org/ "Antora Project"
+[blender]: https://docs.blender.org "Blender Project"
+[bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
+[bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
+[chrome]: https://www.google.com/chrome "Chrome"
+[dacwizard]: https://github.com/stephengold/Minie/tree/master/DacWizard "DacWizard Application"
+[dokthar]: https://github.com/dokthar/jmonkeyengine "Dokthar's fork of JMonkeyEngine"
+[elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
+[findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
+[firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
+[git]: https://git-scm.com "Git"
+[github]: https://github.com "GitHub"
+[gradle]: https://gradle.org "Gradle Project"
+[heart]: https://github.com/stephengold/Heart "Heart Project"
+[imgur]: https://imgur.com/ "Imgur"
+[jfrog]: https://www.jfrog.com "JFrog"
+[jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
+[jme-ttf]: http://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
+[latest]: https://github.com/stephengold/Minie/releases/tag/latest "latest release"
+[libbulletjme]: https://github.com/stephengold/Libbulletjme "Libbulletjme Project"
+[license]: https://github.com/stephengold/Minie/blob/master/LICENSE "Minie license"
+[log]: https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md "release log"
+[makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
+[manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
+[markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
+[meld]: http://meldmerge.org/ "Meld Tool"
+[minie]: https://github.com/stephengold/Minie "Minie Repository"
+[mint]: https://linuxmint.com "Linux Mint Project"
+[netbeans]: https://netbeans.org "NetBeans Project"
+[nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
+[obs]: https://obsproject.com "Open Broadcaster Software Project"
+[profont]: http://tobiasjung.name/profont "ProFont Project"
+[project]: https://stephengold.github.io/Minie "Minie Project"
+[sonatype]: https://www.sonatype.com "Sonatype"
+[utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
+[vegdahl]: http://www.cessen.com "Nathan Vegdahl"
+[vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
+[vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "V-HACD Java Bindings Project"
+[wes]: https://github.com/stephengold/Wes "Wes Project"
+[winmerge]: http://winmerge.org "WinMerge Project"
+[youtube]: https://www.youtube.com/ "YouTube"
