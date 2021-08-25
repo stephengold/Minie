@@ -1,4 +1,4 @@
-<img height="150" src="https://i.imgur.com/YEPFEcx.png">
+<img height="150" src="https://i.imgur.com/YEPFEcx.png" alt="Minie Project logo">
 
 The [Minie Project][project] is about improving the integration of
 [Bullet real-time physics simulation][bullet]
@@ -309,7 +309,7 @@ YouTube videos about Minie:
 
 ## History
 
-The evolution of the project is chronicled in
+The evolution of this project is chronicled in
 [its release log][log].
 
 Most of Minie was originally forked from `jme3-bullet`,
@@ -380,10 +380,11 @@ and many other open-source projects.
 
 I'm also grateful to my dear Holly, for keeping me sane.
 
-If I've misattributed anything or left anyone out, please let me know so I can
+If I've misattributed anything or left anyone out, please let me know, so I can
 correct the situation: sgold@sonic.net
 
 [Jump to table of contents](#toc)
+
 
 [ant]: https://ant.apache.org "Apache Ant Project"
 [antora]: https://antora.org/ "Antora Project"
