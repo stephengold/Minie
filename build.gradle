@@ -17,7 +17,9 @@ task cleanNodeModules(type: Delete) {
 
 task('install') {
     dependsOn ':MinieLibrary:install'
+    description 'Installs Maven artifacts to the local repository.'
 }
 task('release') {
     dependsOn ':MinieLibrary:release'
+    description 'Stages Maven artifacts to Sonatype OSSRH.'
 }
