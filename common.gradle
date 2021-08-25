@@ -46,13 +46,13 @@ repositories {
 
 // custom tasks for creating source/javadoc JARs
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     dependsOn 'classes'
     description 'Create a JAR of source files.'
     from sourceSets.main.allJava
 }
 task javadocJar(type: Jar) {
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     dependsOn 'javadoc'
     description 'Create a JAR of javadoc.'
     from javadoc.destinationDir
