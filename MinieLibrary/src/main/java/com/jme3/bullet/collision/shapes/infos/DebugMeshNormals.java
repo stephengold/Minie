@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,8 @@
 package com.jme3.bullet.collision.shapes.infos;
 
 /**
- * Enumerate options for including normals in a Bullet debug mesh.
+ * Enumerate options for including normals in a Bullet debug mesh. TODO use
+ * MeshNormals from the Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  */
