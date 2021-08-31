@@ -94,12 +94,17 @@ class LoadScreen extends GuiScreenController {
         } else if (nextSpatial == null) {
             result = "The model hasn't been loaded yet.";
         } else if (numSkeletonControls == 0) {
-            result = "The model lacks a skeleton control.";
+            result = "The model lacks a skinning/skeleton control.";
         } else if (numSkeletonControls > 1) {
-            result = String.format("The model has %d skeleton controls.",
+            result = String.format(
+                    "The model has %d skinning/skeleton controls.",
                     numSkeletonControls);
         } else if (model.countBones() < 1) {
-            result = "The model's skeleton lacks bones.";
+            if (model.findSkeleton() == null) {
+                result = "The model's Armature lacks joints.";
+            } else {
+                result = "The model's Skeleton lacks bones.";
+            }
         } else if (numDacs > 1) {
             result = String.format("The model has %d DACs.", numDacs);
         } else {
