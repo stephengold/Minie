@@ -17,17 +17,17 @@ ext {
     //libbulletjmeUrl = 'file:///c:\\users\\sgold\\Git\\Libbulletjme\\dist\\' // to test a local build
 
     pdbWindows64 = ''
-    if (gradle.rootProject.hasProperty('btdebug')) {
+    if (rootProject.hasProperty('btdebug')) {
         // -Pbtdebug specified on the command line
 
-        if (gradle.rootProject.hasProperty('dp')) {
+        if (rootProject.hasProperty('dp')) {
             // both -Pbtdebug and -Pdp specified
 
             configureAndroidBtfs('') // no DebugDp for Android yet
             configureDesktopBtfs('DebugDp')
             metadata = 'debugdp' + jmeTarget
 
-        } else if (gradle.rootProject.hasProperty('pdb64')) {
+        } else if (rootProject.hasProperty('pdb64')) {
             // both -Pbtdebug and -Ppdb64 specified, but not -Pdp
 
             configureAndroidBtfs('')
@@ -42,21 +42,21 @@ ext {
             metadata = 'debug' + jmeTarget
         }
 
-    } else if (gradle.rootProject.hasProperty('dp')) {
+    } else if (rootProject.hasProperty('dp')) {
         // -Pdp specified, but not -Pbtdebug
 
         configureAndroidBtfs('')
         configureDesktopBtfs('ReleaseDp')
         metadata = 'dp' + jmeTarget
 
-    } else if (gradle.rootProject.hasProperty('bare')) {
+    } else if (rootProject.hasProperty('bare')) {
         // -Pbare specified, but neither -Pbtdebug nor -Pdp
 
         configureAndroidBtfs('')
         configureDesktopBtfs('')
         metadata = 'bare' + jmeTarget
 
-    } else if (gradle.rootProject.hasProperty('big3')) {
+    } else if (rootProject.hasProperty('big3')) {
         // -Pbig3 specified, but neither -Pbtdebug nor -Pdp nor -Pbare
 
         configureAndroidBtfs('')
@@ -66,7 +66,7 @@ ext {
         btfWindows64 = 'ReleaseSp'
         metadata = 'big3' + jmeTarget
 
-    } else if (gradle.rootProject.hasProperty('mt')) {
+    } else if (rootProject.hasProperty('mt')) {
         // -Pmt specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3
 
         configureAndroidBtfs('')
