@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
-import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -102,15 +101,15 @@ public class DividedLine extends Mesh {
         int numIndices = MyMesh.vpe * numSegments;
         IndexBuffer indexBuffer
                 = IndexBuffer.createIndexBuffer(numVertices, numIndices);
-        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
+        VertexBuffer.Format ibFormat = indexBuffer.getFormat();
         Buffer ibData = indexBuffer.getBuffer();
         setBuffer(VertexBuffer.Type.Index, 1, ibFormat, ibData);
         /*
          * Write the vertex indices of all edges:
          */
         for (int edgeIndex = 0; edgeIndex < numSegments; ++edgeIndex) {
-            MyBuffer.putRelative(indexBuffer, edgeIndex);
-            MyBuffer.putRelative(indexBuffer, edgeIndex + 1);
+            indexBuffer.put(edgeIndex);
+            indexBuffer.put(edgeIndex + 1);
         }
         ibData.flip();
         assert indexBuffer.size() == numIndices;

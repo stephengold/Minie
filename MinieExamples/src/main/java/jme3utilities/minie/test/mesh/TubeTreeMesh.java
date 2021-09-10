@@ -49,7 +49,6 @@ import jme3utilities.Heart;
 import jme3utilities.MyMesh;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
-import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
@@ -420,11 +419,11 @@ public class TubeTreeMesh extends Mesh {
      */
     private void putAnimationForTriangle(int jointIndex) {
         for (int vertexIndex = 0; vertexIndex < vpt; ++vertexIndex) {
-            MyBuffer.putRelative(indexBuffer, jointIndex);
+            indexBuffer.put(jointIndex);
             weightBuffer.put(1f);
 
             for (int weightIndex = 1; weightIndex < maxWpv; ++weightIndex) {
-                MyBuffer.putRelative(indexBuffer, 0);
+                indexBuffer.put(0);
                 weightBuffer.put(0f);
             }
         }
@@ -443,18 +442,18 @@ public class TubeTreeMesh extends Mesh {
 
         int weightIndex;
         if (weight1 != 0f) {
-            MyBuffer.putRelative(indexBuffer, jointIndex1);
+            indexBuffer.put(jointIndex1);
             weightBuffer.put(weight1);
             weightIndex = 2;
         } else {
             weightIndex = 1;
         }
 
-        MyBuffer.putRelative(indexBuffer, jointIndex2);
+        indexBuffer.put(jointIndex2);
         weightBuffer.put(1f - weight1);
 
         while (weightIndex < maxWpv) {
-            MyBuffer.putRelative(indexBuffer, 0);
+            indexBuffer.put(0);
             weightBuffer.put(0f);
             ++weightIndex;
         }

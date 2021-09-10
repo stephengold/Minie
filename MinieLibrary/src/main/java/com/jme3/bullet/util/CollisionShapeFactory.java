@@ -546,7 +546,7 @@ public class CollisionShapeFactory {
             appendTriangles(geometry, subtree, positionBuffer, indexBuffer);
         }
 
-        VertexBuffer.Format ibFormat = MyBuffer.getFormat(indexBuffer);
+        VertexBuffer.Format ibFormat = indexBuffer.getFormat();
         Buffer ibData = indexBuffer.getBuffer();
         Mesh result = new Mesh();
         result.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, ibFormat, ibData);

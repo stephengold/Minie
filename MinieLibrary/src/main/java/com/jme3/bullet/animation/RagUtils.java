@@ -70,6 +70,7 @@ import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
@@ -640,7 +641,7 @@ public class RagUtils {
         for (int vIndex = 0; vIndex < numVertices; ++vIndex) {
             for (int wIndex = 0; wIndex < 4; ++wIndex) {
                 float weight = weightBuffer.get();
-                int boneIndex = MyMesh.readIndex(boneIndexBuffer);
+                int boneIndex = MyBuffer.readIndex(boneIndexBuffer);
                 if (wIndex < maxWeightsPerVert) {
                     totalWeights[boneIndex] += FastMath.abs(weight);
                 }
