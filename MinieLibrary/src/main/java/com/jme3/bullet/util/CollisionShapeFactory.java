@@ -330,7 +330,7 @@ public class CollisionShapeFactory {
         for (int offset = 0; offset < numIndices; ++offset) {
             int indexInGeometry = indexBuffer.get(offset);
             int indexInMergedMesh = indexBase + indexInGeometry;
-            MyBuffer.putRelative(addIndices, indexInMergedMesh);
+            addIndices.put(indexInMergedMesh);
         }
         /*
          * Append transformed vertex locations to the FloatBuffer.
