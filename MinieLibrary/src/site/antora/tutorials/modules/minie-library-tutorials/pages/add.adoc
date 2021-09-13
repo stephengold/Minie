@@ -90,9 +90,12 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.github.stephengold:Minie:4.3.0'
+    implementation 'com.github.stephengold:Minie:4.3.0'
 }
 ----
+
+For some older versions of Gradle,
+it's necessary to replace `implementation` with `compile`.
 
 === Maven-built projects
 
