@@ -3,6 +3,18 @@
 apply plugin: 'java'
 
 group = 'com.github.stephengold'
+ext {
+    jmeTarget = ''
+    minieSnapshot = '-SNAPSHOT'
+
+    // current versions of various libraries
+    heartVersion = '7.1.0' + jmeTarget
+    jme3utilitiesuiVersion = '0.9.5' + jmeTarget
+    jmonkeyengineVersion = '3.4.0-stable'
+    junitVersion = '4.13.2'
+    minieVersion = '4.3.1'
+    wesVersion = '0.6.7' + jmeTarget
+}
 
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
@@ -26,19 +38,6 @@ gradle.projectsEvaluated {
     }
 }
 
-ext {
-    jmeTarget = ''
-    minieSnapshot = '-SNAPSHOT'
-
-    // current versions of various libraries
-    heartVersion = '7.1.0' + jmeTarget
-    jme3utilitiesuiVersion = '0.9.5' + jmeTarget
-    jmonkeyengineVersion = '3.4.0-stable'
-    junitVersion = '4.13.2'
-    minieVersion = '4.3.1'
-    wesVersion = '0.6.7' + jmeTarget
-}
-
 repositories {
     //mavenLocal()
     mavenCentral()
@@ -46,17 +45,18 @@ repositories {
 }
 
 // custom tasks for creating source/javadoc JARs
-task sourcesJar(type: Jar) {
-    archiveClassifier = 'sources'
-    dependsOn 'classes'
-    description 'Create a JAR of source files.'
-    from sourceSets.main.allJava
-}
 task javadocJar(type: Jar) {
     archiveClassifier = 'javadoc'
     dependsOn 'javadoc'
     description 'Create a JAR of javadoc.'
     from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    dependsOn 'classes'
+    description 'Create a JAR of source files.'
+    from sourceSets.main.allJava
 }
 
 // cleanup tasks

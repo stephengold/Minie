@@ -8,7 +8,6 @@ plugins {
     id 'signing'
 }
 
-description = 'a physics library for jMonkeyEngine'
 ext {
     // The URL from which native libraries should be copied:
 
@@ -112,9 +111,7 @@ ext {
     nativeDir = resourcesDir + 'native/' // for desktop native libraries
 }
 
-jar { archiveBaseName = project.ext.baseName }
-javadocJar { archiveBaseName = project.ext.baseName }
-sourcesJar { archiveBaseName = project.ext.baseName }
+description = 'a physics library for jMonkeyEngine'
 
 dependencies {
     api 'com.github.stephengold:Heart:' + heartVersion
@@ -299,6 +296,10 @@ task('release') {
     dependsOn 'publishMavenPublicationToOSSRHRepository'
     description 'Stages Maven artifacts to Sonatype OSSRH.'
 }
+
+jar { archiveBaseName = project.ext.baseName }
+javadocJar { archiveBaseName = project.ext.baseName }
+sourcesJar { archiveBaseName = project.ext.baseName }
 
 build.dependsOn('pom', 'pomAsc')
 task('pom', type: Copy) {
