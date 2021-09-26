@@ -50,6 +50,8 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
+import com.simsilica.mathd.Quatd;
+import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -633,6 +635,22 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Copy the location of this object's center.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new vector, not null)
+     */
+    public Vec3d getPhysicsLocationDp(Vec3d storeResult) {
+        Vec3d result = (storeResult == null) ? new Vec3d() : storeResult;
+
+        long objectId = nativeId();
+        getLocationDp(objectId, result);
+
+        return result;
+    }
+
+    /**
      * Copy the orientation (rotation) of this object to a Quaternion.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -645,6 +663,22 @@ abstract public class PhysicsCollisionObject
 
         long objectId = nativeId();
         getOrientation(objectId, result);
+
+        return result;
+    }
+
+    /**
+     * Copy the orientation (rotation) of this object to a Quatd.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a rotation Quatd (in physics-space coordinates, either
+     * storeResult or a new instance, not null)
+     */
+    public Quatd getPhysicsRotationDp(Quatd storeResult) {
+        Quatd result = (storeResult == null) ? new Quatd() : storeResult;
+
+        long objectId = nativeId();
+        getOrientationDp(objectId, result);
 
         return result;
     }
@@ -1565,6 +1599,8 @@ abstract public class PhysicsCollisionObject
 
     native private static void getLocation(long objectId, Vector3f storeResult);
 
+    native private static void getLocationDp(long objectId, Vec3d storeResult);
+
     native private static int getNumObjectsWithoutCollision(long objectId);
 
     native private static long getObjectWithoutCollision(long objectId,
@@ -1572,6 +1608,9 @@ abstract public class PhysicsCollisionObject
 
     native private static void getOrientation(long objectId,
             Quaternion storeResult);
+
+    native private static void getOrientationDp(long objectId,
+            Quatd storeResult);
 
     native private static int getProxyFilterGroup(long objectId);
 
