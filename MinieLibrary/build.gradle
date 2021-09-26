@@ -107,6 +107,8 @@ ext {
     }
     baseName = "${artifact}-${version}${minieSnapshot}"
 
+    websiteUrl = 'https://github.com/stephengold/Minie'
+
     resourcesDir = 'src/main/resources/'
     libDir = resourcesDir + 'lib/'       // for Android native libraries
     nativeDir = resourcesDir + 'native/' // for desktop native libraries
@@ -345,9 +347,9 @@ publishing {
                 scm {
                     connection = 'scm:git:git://github.com/stephengold/Minie.git'
                     developerConnection = 'scm:git:ssh://github.com:stephengold/Minie.git'
-                    url = 'https://github.com/stephengold/Minie/tree/master'
+                    url = project.ext.websiteUrl + '/tree/master'
                 }
-                url = 'https://github.com/stephengold/Minie'
+                url = project.ext.websiteUrl
             }
             version project.ext.version
         }
