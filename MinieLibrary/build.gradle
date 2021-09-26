@@ -12,7 +12,7 @@ description = 'a physics library for jMonkeyEngine'
 ext {
     // The URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/12.0.0/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/12.1.1/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // to test a local build
     //libbulletjmeUrl = 'file:///c:\\users\\sgold\\Git\\Libbulletjme\\dist\\' // to test a local build
 
@@ -119,6 +119,7 @@ sourcesJar { archiveBaseName = project.ext.baseName }
 dependencies {
     api 'com.github.stephengold:Heart:' + heartVersion
     api 'org.jmonkeyengine:jme3-terrain:' + jmonkeyengineVersion
+    compileOnly 'com.simsilica:sim-math:1.4.1'
 
     testImplementation 'junit:junit:' + junitVersion
     testImplementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
