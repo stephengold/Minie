@@ -7,7 +7,7 @@ ext {
     jmeTarget = ''
     minieSnapshot = '-SNAPSHOT'
 
-    // current versions of various libraries
+    // current versions of various libraries:
     heartVersion = '7.1.0' + jmeTarget
     jme3utilitiesuiVersion = '0.9.5' + jmeTarget
     jmonkeyengineVersion = '3.4.0-stable'
@@ -48,13 +48,13 @@ repositories {
 task javadocJar(type: Jar) {
     archiveClassifier = 'javadoc'
     dependsOn 'javadoc'
-    description 'Create a JAR of javadoc.'
+    description 'Creates a JAR of javadoc.'
     from javadoc.destinationDir
 }
 
 task sourcesJar(type: Jar) {
     archiveClassifier = 'sources'
-    description 'Create a JAR of source files.'
+    description 'Creates a JAR of sourcecode.'
     from sourceSets.main.allJava
 }
 
