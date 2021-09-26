@@ -310,14 +310,14 @@ task('pom', type: Copy) {
     description 'Copies the Maven POM to build/libs.'
     from "${buildDir}/publications/maven/pom-default.xml"
     into "${buildDir}/libs"
-    rename 'pom-default.xml', baseName + '.pom'
+    rename 'pom-default.xml', project.ext.baseName + '.pom'
 }
 task('pomAsc', type: Copy) {
     dependsOn 'signMavenPublication'
     description 'Copies the signature of the Maven POM to build/libs.'
     from "${buildDir}/publications/maven/pom-default.xml.asc"
     into "${buildDir}/libs"
-    rename 'pom-default.xml.asc', baseName + '.pom.asc'
+    rename 'pom-default.xml.asc', project.ext.baseName + '.pom.asc'
 }
 
 publishing {
@@ -367,7 +367,7 @@ publishing {
 }
 generateMetadataFileForMavenPublication.dependsOn('pom')
 publishMavenPublicationToMavenLocal.doLast {
-    println 'installed locally as ' + baseName
+    println 'installed locally as ' + project.ext.baseName
 }
 
 // signing tasks
