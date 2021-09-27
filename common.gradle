@@ -1,4 +1,4 @@
-// Gradle settings and tasks common to all subprojects
+// Gradle settings and tasks common to all Minie subprojects
 
 apply plugin: 'java'
 
@@ -41,20 +41,6 @@ repositories {
     //mavenLocal()
     mavenCentral()
     maven { url 'https://jcenter.bintray.com' } // for SimMath
-}
-
-// custom tasks for creating source/javadoc JARs
-task javadocJar(type: Jar) {
-    archiveClassifier = 'javadoc'
-    dependsOn 'javadoc'
-    description 'Creates a JAR of javadoc.'
-    from javadoc.destinationDir
-}
-
-task sourcesJar(type: Jar) {
-    archiveClassifier = 'sources'
-    description 'Creates a JAR of sourcecode.'
-    from sourceSets.main.allJava
 }
 
 // cleanup tasks
