@@ -96,11 +96,13 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
             try {
                 method = c.getDeclaredMethod("freeNativeObject", long.class);
 
+            } catch (IllegalArgumentException
+                    | NoClassDefFoundError exception) {
+                System.out.println("c = " + c.getName());
+                throw new RuntimeException(exception);
+
             } catch (NoSuchMethodException exception) {
                 continue;
-
-            } catch (IllegalArgumentException exception) {
-                throw new RuntimeException(exception);
             }
 
             try {
