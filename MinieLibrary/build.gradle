@@ -253,13 +253,45 @@ task cleanWindows64(type: Delete) {
 // javadoc to (web)site tasks, triggered by push-master.yml
 
 task('copyJavadocToSite') {
-    dependsOn 'copyMasterJavadocToSite', 'copy31JavadocToSite', \
-              'copy30JavadocToSite', 'copy20JavadocToSite'
+    dependsOn 'copyMasterJavadocToSite', \
+     'copy42JavadocToSite', \
+     'copy41JavadocToSite', \
+     'copy40JavadocToSite', \
+     'copy31JavadocToSite', \
+     'copy30JavadocToSite', \
+     'copy20JavadocToSite'
 }
 task('copyMasterJavadocToSite', type: Copy) {
     dependsOn 'javadoc'
     from "${buildDir}/docs/javadoc"
     into '../build/site/javadoc/master'
+}
+task('copy42JavadocToSite', type: Copy) {
+    dependsOn 'download42Javadoc'
+    from zipTree("${buildDir}/docs/v4-2.jar")
+    into '../build/site/javadoc/v4-2'
+}
+task download42Javadoc(type: MyDownload) {
+    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/4.2.0/Minie-4.2.0-javadoc.jar'
+    target = file("${buildDir}/docs/v4-2.jar")
+}
+task('copy41JavadocToSite', type: Copy) {
+    dependsOn 'download41Javadoc'
+    from zipTree("${buildDir}/docs/v4-1.jar")
+    into '../build/site/javadoc/v4-1'
+}
+task download41Javadoc(type: MyDownload) {
+    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/4.1.1/Minie-4.1.1-javadoc.jar'
+    target = file("${buildDir}/docs/v4-1.jar")
+}
+task('copy40JavadocToSite', type: Copy) {
+    dependsOn 'download40Javadoc'
+    from zipTree("${buildDir}/docs/v4-0.jar")
+    into '../build/site/javadoc/v4-0'
+}
+task download40Javadoc(type: MyDownload) {
+    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/4.0.2/Minie-4.0.2-javadoc.jar'
+    target = file("${buildDir}/docs/v4-0.jar")
 }
 task('copy31JavadocToSite', type: Copy) {
     dependsOn 'download31Javadoc'
