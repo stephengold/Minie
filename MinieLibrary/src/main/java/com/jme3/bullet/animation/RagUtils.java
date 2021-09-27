@@ -347,6 +347,33 @@ public class RagUtils {
     }
 
     /**
+     * Enumerate all physics joints that connect bodies in the specified array.
+     *
+     * @param bodies the array to search (not null, unaffected)
+     * @return a new Set of pre-existing instances
+     */
+    public static Set<PhysicsJoint> listInternalJoints(PhysicsBody... bodies) {
+        Set<PhysicsJoint> result = new TreeSet<>();
+
+        for (PhysicsBody body : bodies) {
+            PhysicsJoint[] joints = body.listJoints();
+            for (PhysicsJoint joint : joints) {
+                PhysicsBody otherBody = joint.findOtherBody(body);
+
+                // Is otherBody found in the array?
+                for (Object b : bodies) {
+                    if (b == otherBody) {
+                        result.add(joint);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Instantiate a compact RectangularSolid that bounds the sample locations
      * contained in a VectorSet.
      *
