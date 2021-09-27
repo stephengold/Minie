@@ -118,8 +118,8 @@ description = 'a physics library for jMonkeyEngine'
 
 dependencies {
     api 'com.github.stephengold:Heart:' + heartVersion
+    api 'com.simsilica:sim-math:1.4.1'
     api 'org.jmonkeyengine:jme3-terrain:' + jmonkeyengineVersion
-    compileOnly 'com.simsilica:sim-math:1.4.1'
 
     testImplementation 'junit:junit:' + junitVersion
     testImplementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
