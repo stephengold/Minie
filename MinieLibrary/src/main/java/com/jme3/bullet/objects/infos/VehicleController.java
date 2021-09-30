@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2020 jMonkeyEngine
+ * Copyright (c) 2009-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -180,7 +180,8 @@ public class VehicleController extends NativePhysicsObject {
      * Determine the index of the vehicle's forward axis. The vehicle must be
      * added to a PhysicsSpace.
      *
-     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z,
+     * -1&rarr;custom axes
      */
     public int forwardAxisIndex() {
         assert pco.isInWorld();
@@ -239,7 +240,8 @@ public class VehicleController extends NativePhysicsObject {
      * Determine the index of the vehicle's right-side axis. The vehicle must be
      * added to a PhysicsSpace.
      *
-     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z,
+     * -1&rarr;custom axes
      */
     public int rightAxisIndex() {
         assert pco.isInWorld();
@@ -252,6 +254,9 @@ public class VehicleController extends NativePhysicsObject {
 
     /**
      * Alter the coordinate system of the vehicle.
+     *
+     * Note that the Libbulletjme's default coordinate system is left-handed.
+     * That's not required, nor is it even a good idea.
      *
      * @param rightAxisIndex the desired local axis index (0&rarr;X, 1&rarr;Y,
      * 2&rarr;Z, default=0)
@@ -275,6 +280,30 @@ public class VehicleController extends NativePhysicsObject {
     }
 
     /**
+     * Customize the coordinate system of the vehicle. The arguments must form
+     * an orthonormal basis.
+     *
+     * Note that the Libbulletjme's default coordinate system is left-handed.
+     * That's not required, nor is it even a good idea.
+     *
+     * @param right the desired direction (in chassis coordinates, not null,
+     * length=1, default=(1,0,0))
+     * @param up the desired direction (in chassis coordinates, not null,
+     * length=1, default=(0,1,0))
+     * @param forward the desired direction (in chassis coordinates, not null,
+     * length=1, default=(0,0,1))
+     */
+    public void setCoordinateSystem(Vector3f right, Vector3f up,
+            Vector3f forward) {
+        Validate.nonNull(right, "right");
+        Validate.nonNull(right, "up");
+        Validate.nonNull(right, "forward");
+
+        long controllerId = nativeId();
+        setupCoordinateSystem(controllerId, right, up, forward);
+    }
+
+    /**
      * Alter the steering angle of the specified wheel. The vehicle must be
      * added to a PhysicsSpace.
      *
@@ -293,7 +322,8 @@ public class VehicleController extends NativePhysicsObject {
      * Determine the index of the vehicle's up axis. The vehicle must be added
      * to a PhysicsSpace.
      *
-     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
+     * @return the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z,
+     * -1&rarr;custom axes
      */
     public int upAxisIndex() {
         assert pco.isInWorld();
@@ -366,6 +396,9 @@ public class VehicleController extends NativePhysicsObject {
 
     native private static void setCoordinateSystem(long controllerId,
             int rightAxisIndex, int upAxisIndex, int forwardAxisIndex);
+
+    native private static void setupCoordinateSystem(long controllerId,
+            Vector3f right, Vector3f up, Vector3f forward);
 
     native private static void steer(long controllerId, int wheelIndex,
             float angle);
