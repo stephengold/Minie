@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -264,20 +264,29 @@ int&nbsp;forwardAxisIndex)</code></th>
 </tr>
 <tr class="rowColor" id="i11">
 <td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCoordinateSystem(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f)">setCoordinateSystem</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;right,
+com.jme3.math.Vector3f&nbsp;up,
+com.jme3.math.Vector3f&nbsp;forward)</code></th>
+<td class="colLast">
+<div class="block">Customize the coordinate system of the vehicle.</div>
+</td>
+</tr>
+<tr class="altColor" id="i12">
+<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#steer(com.jme3.bullet.objects.VehicleWheel,float)">steer</a></span>&#8203;(<a href="../VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a>&nbsp;wheel,
 float&nbsp;angle)</code></th>
 <td class="colLast">
 <div class="block">Alter the steering angle of the specified wheel.</div>
 </td>
 </tr>
-<tr class="altColor" id="i12">
+<tr class="rowColor" id="i13">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#upAxisIndex()">upAxisIndex</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine the index of the vehicle's up axis.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i13">
+<tr class="altColor" id="i14">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateWheelTransform(com.jme3.bullet.objects.VehicleWheel)">updateWheelTransform</a></span>&#8203;(<a href="../VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a>&nbsp;wheel)</code></th>
 <td class="colLast">
@@ -428,7 +437,8 @@ float&nbsp;impulse)</span></div>
  added to a PhysicsSpace.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z</dd>
+<dd>the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z,
+ -1&rarr;custom axes</dd>
 </dl>
 </section>
 </li>
@@ -476,7 +486,8 @@ float&nbsp;impulse)</span></div>
  added to a PhysicsSpace.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z</dd>
+<dd>the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z,
+ -1&rarr;custom axes</dd>
 </dl>
 </section>
 </li>
@@ -486,7 +497,10 @@ float&nbsp;impulse)</span></div>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setCoordinateSystem</span>&#8203;(<span class="arguments">int&nbsp;rightAxisIndex,
 int&nbsp;upAxisIndex,
 int&nbsp;forwardAxisIndex)</span></div>
-<div class="block">Alter the coordinate system of the vehicle.</div>
+<div class="block">Alter the coordinate system of the vehicle.
+
+ Note that the Libbulletjme's default coordinate system is left-handed.
+ That's not required, nor is it even a good idea.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>rightAxisIndex</code> - the desired local axis index (0&rarr;X, 1&rarr;Y,
@@ -495,6 +509,28 @@ int&nbsp;forwardAxisIndex)</span></div>
  2&rarr;Z, default=1)</dd>
 <dd><code>forwardAxisIndex</code> - the desired local axis index (0&rarr;X, 1&rarr;Y,
  2&rarr;Z, default=2)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="setCoordinateSystem(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.math.Vector3f)">setCoordinateSystem</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setCoordinateSystem</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;right,
+com.jme3.math.Vector3f&nbsp;up,
+com.jme3.math.Vector3f&nbsp;forward)</span></div>
+<div class="block">Customize the coordinate system of the vehicle. The arguments must form
+ an orthonormal basis.
+
+ Note that the Libbulletjme's default coordinate system is left-handed.
+ That's not required, nor is it even a good idea.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>right</code> - the desired direction (in chassis coordinates, not null,
+ length=1, default=(1,0,0))</dd>
+<dd><code>up</code> - the desired direction (in chassis coordinates, not null,
+ length=1, default=(0,1,0))</dd>
+<dd><code>forward</code> - the desired direction (in chassis coordinates, not null,
+ length=1, default=(0,0,1))</dd>
 </dl>
 </section>
 </li>
@@ -520,7 +556,8 @@ float&nbsp;angle)</span></div>
  to a PhysicsSpace.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z</dd>
+<dd>the index of the local axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z,
+ -1&rarr;custom axes</dd>
 </dl>
 </section>
 </li>
