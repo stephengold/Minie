@@ -11,7 +11,7 @@ plugins {
 ext {
     // The URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/12.1.1/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/12.2.1/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // to test a local build
     //libbulletjmeUrl = 'file:///c:\\users\\sgold\\Git\\Libbulletjme\\dist\\' // to test a local build
 
