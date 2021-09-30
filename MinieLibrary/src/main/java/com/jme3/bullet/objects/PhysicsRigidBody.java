@@ -409,6 +409,22 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
+     * Copy this body's gravitational acceleration.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return an acceleration vector in physics-space coordinates (either
+     * storeResult or a new vector, not null)
+     */
+    public Vec3d getGravityDp(Vec3d storeResult) {
+        Vec3d result = (storeResult == null) ? new Vec3d() : storeResult;
+
+        long objectId = nativeId();
+        getGravityDp(objectId, result);
+
+        return result;
+    }
+
+    /**
      * Copy the principal (diagonal) elements of the inverse inertia tensor in
      * the body's local coordinates.
      *
@@ -788,6 +804,25 @@ public class PhysicsRigidBody extends PhysicsBody {
         } else {
             setActivationState(objectId, Activation.exempt);
         }
+    }
+
+    /**
+     * Alter this body's gravitational acceleration.
+     * <p>
+     * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
+     * Adding a body to a PhysicsSpace may override its gravity.
+     *
+     * @param acceleration the desired acceleration vector (in physics-space
+     * coordinates, not null, unaffected, default=(0,0,0))
+     */
+    public void setGravityDp(Vec3d acceleration) {
+        Validate.nonNull(acceleration, "acceleration");
+        if (!isInWorld()) {
+            logger2.warning("The body is not in any PhysicsSpace.");
+        }
+
+        long objectId = nativeId();
+        setGravityDp(objectId, acceleration);
     }
 
     /**
@@ -1448,6 +1483,8 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     native private static void getGravity(long objectId, Vector3f storeResult);
 
+    native private static void getGravityDp(long objectId, Vec3d storeResult);
+
     native private static void getInverseInertiaLocal(long objectId,
             Vector3f storeResult);
 
@@ -1498,6 +1535,8 @@ public class PhysicsRigidBody extends PhysicsBody {
             float angular);
 
     native private static void setGravity(long objectId, Vector3f gravity);
+
+    native private static void setGravityDp(long objectId, Vec3d gravity);
 
     native private static void setInverseInertiaLocal(long objectId,
             Vector3f inverseInertialLocal);
