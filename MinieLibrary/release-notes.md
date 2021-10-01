@@ -1,5 +1,20 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.4.0 released on TBD
+
+ + Added 10 double-precision accessors and created an API dependency
+   on v1.4.1 of Paul's SimMath library.
+ + Added more flexible customization of chassis axes in `VehicleController`.
+ + Bugfix: incompatibility with Java v7
+ + Added the `NegativeAppDataFilter` class (for obstructions).
+ + Added the `listInternalJoints()` method to the `RagUtils` class.
+ + Added the example app `HelloServo`.
+ + Improved diagnostic messages in `DacWizard`.
+ + Based on v7.1.0 of the Heart library and v0.9.23 of the
+   jme3-utilities-nifty library.
+ + Updated the native libraries to v12.2.2 of Libbulletjme, which includes
+   Bullet updates through 20 September 2021.
+
 ## Version 4.3.0 released on 22 August 2021
 
  + Bugfix: contact tests report events with positive separation distance
