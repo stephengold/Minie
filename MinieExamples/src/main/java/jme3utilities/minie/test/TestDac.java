@@ -82,6 +82,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.NameGenerator;
 import jme3utilities.debug.SkeletonVisualizer;
+import jme3utilities.math.MyMath;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
@@ -789,24 +790,6 @@ public class TestDac extends AbstractDemo {
     }
 
     /**
-     * Test whether the specified double-precision value is finite. Note that
-     * Java 8 provides {@link java.lang.Double#isFinite(double)}. TODO use
-     * MyMath
-     *
-     * @param dValue the value to test
-     * @return true if finite, false if NaN or infinity
-     */
-    private static boolean isFiniteDouble(double dValue) {
-        if (Double.isInfinite(dValue)) {
-            return false;
-        } else if (Double.isNaN(dValue)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
      * Load the saved model from the J3O file.
      */
     private void load() {
@@ -1157,7 +1140,7 @@ public class TestDac extends AbstractDemo {
         message += isPaused() ? "  PAUSED" : "";
 
         double energy = dac.kineticEnergy();
-        if (isFiniteDouble(energy)) {
+        if (MyMath.isFiniteDouble(energy)) {
             message += String.format("  KE=%f", energy);
         }
         statusText.setText(message);
