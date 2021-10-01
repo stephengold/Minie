@@ -335,7 +335,7 @@ public class CollisionShapeFactory {
         /*
          * Append transformed vertex locations to the FloatBuffer.
          */
-        Transform transform = getTransform(geometry, modelRoot);
+        Transform transform = relativeTransform(geometry, modelRoot);
         Vector3f tmpPosition = new Vector3f();
         int numVertices = jmeMesh.getVertexCount();
         for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
@@ -356,7 +356,7 @@ public class CollisionShapeFactory {
             if (skipChild != null && skipChild) {
                 continue; // to the next child spatial
             }
-            Transform transform = getTransform(child, modelRoot);
+            Transform transform = relativeTransform(child, modelRoot);
 
             CollisionShape childShape;
             if (child instanceof Terrain) {
@@ -411,7 +411,7 @@ public class CollisionShapeFactory {
             return null;
         }
 
-        Transform transform = getTransform(geometry, modelRoot);
+        Transform transform = relativeTransform(geometry, modelRoot);
 
         int numFloats = numAxes * numVertices;
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
@@ -441,7 +441,7 @@ public class CollisionShapeFactory {
             return null;
         }
 
-        Transform transform = getTransform(geometry, modelRoot);
+        Transform transform = relativeTransform(geometry, modelRoot);
         // TODO recognize AbstractBox, Cylinder, Quad, and Sphere from com.jme3.scene.shape package
         HullCollisionShape hullShape = new HullCollisionShape(mesh);
         hullShape.setScale(transform.getScale());
@@ -463,36 +463,12 @@ public class CollisionShapeFactory {
             return null;
         }
 
-        Transform transform = getTransform(geometry, modelRoot);
+        Transform transform = relativeTransform(geometry, modelRoot);
         // TODO recognize AbstractBox, Cylinder, Quad, and Sphere from com.jme3.scene.shape package
         MeshCollisionShape meshShape = new MeshCollisionShape(mesh);
         meshShape.setScale(transform.getScale());
 
         return meshShape;
-    }
-
-    /**
-     * Calculate the Transform for a ChildCollisionShape relative to the
-     * ancestor for which the shape is being generated. TODO rename method
-     *
-     * @param spatial (not null, unaffected)
-     * @param modelRoot the ancestor for which the shape is being generated (not
-     * null, unaffected)
-     * @return a new Transform (not null)
-     */
-    private static Transform getTransform(Spatial spatial, Spatial modelRoot) {
-        Transform result = new Transform();
-        Spatial currentSpatial = spatial;
-        while (currentSpatial != modelRoot) {
-            result.combineWithParent(currentSpatial.getLocalTransform());
-            currentSpatial = currentSpatial.getParent();
-        }
-        // Include the model root's scale but not its translation or rotation.
-        Transform mrTransform = new Transform(); // TODO garbage
-        mrTransform.setScale(modelRoot.getLocalScale());
-        result.combineWithParent(mrTransform);
-
-        return result;
     }
 
     /**
@@ -551,6 +527,31 @@ public class CollisionShapeFactory {
         Mesh result = new Mesh();
         result.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, ibFormat, ibData);
         result.setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
+
+        return result;
+    }
+
+    /**
+     * Calculate the Transform for a ChildCollisionShape relative to the
+     * ancestor for which the shape is being generated.
+     *
+     * @param spatial (not null, unaffected)
+     * @param modelRoot the ancestor for which the shape is being generated (not
+     * null, unaffected)
+     * @return a new Transform (not null)
+     */
+    private static Transform relativeTransform(Spatial spatial,
+            Spatial modelRoot) {
+        Transform result = new Transform();
+        Spatial currentSpatial = spatial;
+        while (currentSpatial != modelRoot) {
+            result.combineWithParent(currentSpatial.getLocalTransform());
+            currentSpatial = currentSpatial.getParent();
+        }
+        // Include the model root's scale but not its translation or rotation.
+        Transform mrTransform = new Transform(); // TODO garbage
+        mrTransform.setScale(modelRoot.getLocalScale());
+        result.combineWithParent(mrTransform);
 
         return result;
     }
