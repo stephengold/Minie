@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.4.0 released on TBD
+## Version 4.4.0 released on 1 October 2021
 
  + Added 10 double-precision accessors and created an API dependency
    on v1.4.1 of Paul's SimMath library.
