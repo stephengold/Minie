@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -96,10 +96,7 @@ public class TestStaticBody {
         assetManager.registerLocator(".", FileLocator.class);
         assetManager.registerLocator(null, ClasspathLocator.class);
 
-        PhysicsSpace space = new PhysicsSpace(
-                new Vector3f(-10000f, -10000f, -10000f),
-                new Vector3f(10000f, 10000f, 10000f),
-                PhysicsSpace.BroadphaseType.DBVT);
+        PhysicsSpace space = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
         /*
          * Box2d
          */

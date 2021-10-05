@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -82,10 +82,8 @@ public class TestProtectGravity {
         space.setGravity(spaceGravity1);
         testPhysicsSpace(space);
 
-        PhysicsSpace pSpace = new PhysicsSpace(
-                new Vector3f(-10000f, -10000f, -10000f),
-                new Vector3f(10000f, 10000f, 10000f),
-                PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
+        PhysicsSpace pSpace
+                = new PhysicsSpace(PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
         pSpace.setGravity(spaceGravity1);
         testPhysicsSpace(pSpace);
     }
