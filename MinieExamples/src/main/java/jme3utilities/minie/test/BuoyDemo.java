@@ -597,7 +597,7 @@ public class BuoyDemo extends AbstractDemo {
      */
     private void loadPuppet() {
         cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
-        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
+        AnimMigrationUtils.migrate(cgModel);
         dac = new PuppetControl();
         animationName = "walk";
     }

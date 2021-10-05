@@ -653,7 +653,7 @@ public class TrackDemo extends AbstractDemo {
      */
     private void loadPuppet() {
         cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
-        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
+        AnimMigrationUtils.migrate(cgModel);
         cgModel.rotate(0f, -1.6f, 0f);
 
         dac = new PuppetControl();

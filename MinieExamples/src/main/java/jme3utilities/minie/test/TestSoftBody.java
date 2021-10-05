@@ -616,7 +616,7 @@ public class TestSoftBody
          * Load the model in "T" pose.
          */
         Spatial cgModel = assetManager.loadModel("Models/Puppet/Puppet.j3o");
-        cgModel = (Node) AnimMigrationUtils.migrate(cgModel);
+        AnimMigrationUtils.migrate(cgModel);
         rootNode.attachChild(cgModel);
         SkinningControl sc = (SkinningControl) RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
