@@ -965,7 +965,7 @@ public class MultiBody
             baseShape = cloner.clone(baseShape);
             addBaseCollider(baseShape);
             assert getBaseCollider(multiBodyId) == baseCollider.nativeId();
-            baseCollider.copyPcoProperties(old.baseCollider);
+            baseCollider.copyPcoProperties(old.getBaseCollider());
         }
 
         numConfigured = 0;
