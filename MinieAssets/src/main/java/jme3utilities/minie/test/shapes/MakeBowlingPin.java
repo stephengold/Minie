@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -145,8 +145,7 @@ public class MakeBowlingPin {
                     null);
             long elapsedNsec = System.nanoTime() - startTime;
             if (shape.countChildren() == 0) {
-                System.err.println("V-HACD failed!");
-                System.exit(-1);
+                throw new RuntimeException("V-HACD failed!");
             }
             System.out.printf(
                     "MakeBowlingPin number of hulls = %d (%.3f sec)%n",

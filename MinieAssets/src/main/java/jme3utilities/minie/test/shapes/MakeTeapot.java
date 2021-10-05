@@ -161,8 +161,7 @@ public class MakeTeapot {
                 = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
         long elapsedNsec = System.nanoTime() - startTime;
         if (shape.countChildren() == 0) {
-            System.err.println("V-HACD failed!");
-            System.exit(-1);
+            throw new RuntimeException("V-HACD failed!");
         }
         System.out.printf("MakeTeapot number of hulls = %d (%.3f sec)%n",
                 shape.countChildren(), elapsedNsec * 1e-9f);
