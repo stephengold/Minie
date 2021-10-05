@@ -90,7 +90,8 @@ public class MinieDump {
      * @param assetPath a path to the asset (not null, not empty)
      */
     private static void dumpAsset(String assetPath) {
-        System.out.print(assetPath + " contains a ");
+        System.out.print(assetPath);
+        System.out.print(" contains a ");
         System.out.flush();
 
         Object loadedAsset;
@@ -120,7 +121,8 @@ public class MinieDump {
 
         } else {
             String className = loadedAsset.getClass().getSimpleName();
-            System.out.println(className + ".");
+            System.out.print(className);
+            System.out.println('.');
         }
     }
 
