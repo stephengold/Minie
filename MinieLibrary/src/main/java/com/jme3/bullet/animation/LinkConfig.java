@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -438,31 +438,32 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
      */
     @Override
     public int compareTo(LinkConfig other) {
-        int result = centerHeuristic.compareTo(other.centerHeuristic);
+        int result = centerHeuristic.compareTo(other.centerHeuristic());
         if (result != 0) {
             return result;
         }
-        result = Float.compare(massParameter, other.massParameter);
+        result = Float.compare(massParameter, other.massParameter());
         if (result != 0) {
             return result;
         }
-        result = massHeuristic.compareTo(other.massHeuristic);
+        result = massHeuristic.compareTo(other.massHeuristic());
         if (result != 0) {
             return result;
         }
 
-        if (rotationOrder == null && other.rotationOrder != null) {
+        RotationOrder otherOrder = other.rotationOrder();
+        if (rotationOrder == null && otherOrder != null) {
             return 1;
-        } else if (other.rotationOrder == null && rotationOrder != null) {
+        } else if (otherOrder == null && rotationOrder != null) {
             return -1;
-        } else if (rotationOrder != null && other.rotationOrder != null) {
-            result = rotationOrder.compareTo(other.rotationOrder);
+        } else if (rotationOrder != null && otherOrder != null) {
+            result = rotationOrder.compareTo(otherOrder);
             if (result != 0) {
                 return result;
             }
         }
 
-        result = shapeHeuristic.compareTo(other.shapeHeuristic);
+        result = shapeHeuristic.compareTo(other.shapeHeuristic());
         if (result != 0) {
             return result;
         }
@@ -541,11 +542,11 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         } else if (otherObject != null
                 && otherObject.getClass() == getClass()) {
             LinkConfig other = (LinkConfig) otherObject;
-            result = (centerHeuristic == other.centerHeuristic)
-                    && (Float.compare(massParameter, other.massParameter) == 0)
-                    && (massHeuristic == other.massHeuristic)
-                    && (rotationOrder == other.rotationOrder)
-                    && (shapeHeuristic == other.shapeHeuristic)
+            result = (centerHeuristic == other.centerHeuristic())
+                    && (Float.compare(massParameter, other.massParameter()) == 0)
+                    && (massHeuristic == other.massHeuristic())
+                    && (rotationOrder == other.rotationOrder())
+                    && (shapeHeuristic == other.shapeHeuristic())
                     && shapeScale.equals(other.shapeScale);
         } else {
             result = false;

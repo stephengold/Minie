@@ -447,11 +447,11 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     void postRebuild(PhysicsLink oldLink) {
         assert oldLink != null;
-        assert oldLink.bone == bone;
+        assert oldLink.getBone() == bone;
 
         if (oldLink.isKinematic()) {
             blendInterval = oldLink.blendInterval;
-            kinematicWeight = oldLink.kinematicWeight;
+            kinematicWeight = oldLink.kinematicWeight();
         } else {
             blendInterval = 0f;
             kinematicWeight = 1f;
