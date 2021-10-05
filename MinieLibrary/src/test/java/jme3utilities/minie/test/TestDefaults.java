@@ -561,17 +561,22 @@ public class TestDefaults {
 
         for (MotorParam param : MotorParam.values()) {
             Vector3f value = motor.get(param, null);
-            if (param == MotorParam.Damping) {
-                value.z = 0.01f;
-            } else if (param == MotorParam.LowerLimit) {
-                value.z = -1f;
-            } else if (param == MotorParam.Stiffness) {
-                value.z = 4f * FastMath.PI * FastMath.PI;
-            } else if (param == MotorParam.UpperLimit) {
-                value.z = 1f;
-            } else {
-                float def = param.defaultForTranslationMotor();
-                MinieTest.assertEquals(def, def, def, value, 0f);
+            switch (param) {
+                case Damping:
+                    value.z = 0.01f;
+                    break;
+                case LowerLimit:
+                    value.z = -1f;
+                    break;
+                case Stiffness:
+                    value.z = 4f * FastMath.PI * FastMath.PI;
+                    break;
+                case UpperLimit:
+                    value.z = 1f;
+                    break;
+                default:
+                    float def = param.defaultForTranslationMotor();
+                    MinieTest.assertEquals(def, def, def, value, 0f);
             }
         }
     }
