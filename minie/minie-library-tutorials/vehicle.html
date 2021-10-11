@@ -504,16 +504,17 @@ or a compound shape and make sure its center is low.
 </ul>
 </div>
 <div class="paragraph">
-<p>However, the local-axis assignments can be customized
-to match most models:</p>
+<p>However, the local-axis assignments can be customized to match any model.
+For instance:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">VehicleController controller = vehicle.getController();
-int leftRight = PhysicsSpace.AXIS_Z;
-int upDown = PhysicsSpace.AXIS_X;
-int forwardBackward = PhysicsSpace.AXIS_Y;
-controller.setCoordinateSystem(leftRight, upDown, forwardBackward);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">vehicle.setPhysicsSpace(physicsSpace);
+VehicleController controller = vehicle.getController();
+Vector3f right = new Vector3f(0f, -1f, 0f);
+Vector3f up = new Vector3f(0f, 0f, -1f);
+Vector3f forward = new Vector3f(-1f, 0f, 0f);
+controller.setCoordinateSystem(right, up, forward);</code></pre>
 </div>
 </div>
 </div>
