@@ -126,16 +126,17 @@ By default, the local axes of the chassis are assigned as follows:
 * +Y points up, and
 * +Z points forward.
 
-However, the local-axis assignments can be customized
-to match most models:
+However, the local-axis assignments can be customized to match any model.
+For instance:
 
 [source,java]
 ----
+vehicle.setPhysicsSpace(physicsSpace);
 VehicleController controller = vehicle.getController();
-int leftRight = PhysicsSpace.AXIS_Z;
-int upDown = PhysicsSpace.AXIS_X;
-int forwardBackward = PhysicsSpace.AXIS_Y;
-controller.setCoordinateSystem(leftRight, upDown, forwardBackward);
+Vector3f right = new Vector3f(0f, -1f, 0f);
+Vector3f up = new Vector3f(0f, 0f, -1f);
+Vector3f forward = new Vector3f(-1f, 0f, 0f);
+controller.setCoordinateSystem(right, up, forward);
 ----
 
 === Maximum suspension force
