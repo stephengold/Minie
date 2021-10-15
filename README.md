@@ -323,6 +323,7 @@ Since November 2018, Minie has been a separate project at
 
 [Jump to table of contents](#toc)
 
+
 <a name="acks"/>
 
 ## Acknowledgments
@@ -334,8 +335,8 @@ artists and software developers:
 + Normen Hansen (aka "normen") for creating most of the `jme3-bullet` library
  (on which Minie is based) and also for helpful insights
 + Rémy Bouquet (aka "nehon") for co-creating
-  `KinematicRagdollControl` (on which `DynamicAnimControl` is based)
-  and also for many helpful insights
+  `KinematicRagdollControl` (on which `DynamicAnimControl` is based),
+  for creating the Jaime model, and also for many helpful insights
 + Jules (aka "dokthar") for creating [the soft-body fork of jMonkeyEngine][dokthar]
   from which Minie's soft-body support is derived
 + Khaled Mamou for creating and licensing the [V-HACD Library][vhacd]
@@ -346,7 +347,7 @@ artists and software developers:
 + Pavly Gerges (aka "Pavl_G") for testing Minie on Raspberry Pi
 + Adam T. Ryder (aka "tryder") for creating and licensing
   the [jME-TTF] rendering system
-+ Paul Speed, for helpful insights
++ [Paul Speed (aka "pspeed42")][pspeed], for creating the SimMath library
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down
 + "duncanj", for pull request #15
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model
@@ -359,15 +360,15 @@ artists and software developers:
     + the [Firefox] and [Google Chrome][chrome] web browsers
     + the [Git] revision-control system and GitK commit viewer
     + the [Gradle] build tool
-    + the Java compiler, standard doclet, and virtual machine
+    + the [IntelliJ IDEA][idea] and [NetBeans] integrated development environments
+    + the [Java] compiler, standard doclet, and virtual machine
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
     + the [Linux Mint][mint] operating system
     + LWJGL, the Lightweight Java Game Library
-    + the [MakeHuman] Community
+    + the [MakeHuman] 3-D character creation tool
     + the [Markdown] document-conversion tool
     + the [Meld] visual merge tool
     + Microsoft Windows
-    + the [NetBeans] integrated development environment
     + the [Nifty] graphical user-interface library
     + [Open Broadcaster Software Studio][obs]
     + the PMD source-code analyzer
@@ -399,9 +400,12 @@ correct the situation: sgold@sonic.net
 [firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
 [git]: https://git-scm.com "Git"
 [github]: https://github.com "GitHub"
+[gltf]: https://www.khronos.org/gltf "glTF Project"
 [gradle]: https://gradle.org "Gradle Project"
 [heart]: https://github.com/stephengold/Heart "Heart Project"
+[idea]: https://www.jetbrains.com/idea/ "IntelliJ IDEA"
 [imgur]: https://imgur.com/ "Imgur"
+[java]: https://java.com "Java"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: https://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
