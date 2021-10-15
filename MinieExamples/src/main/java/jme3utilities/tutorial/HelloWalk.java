@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -116,16 +116,17 @@ public class HelloWalk
         PhysicsSpace physicsSpace = configurePhysics();
 
         // Create a character with a capsule shape and add it to the space.
-        float characterRadius = 0.5f;
-        float characterHeight = 1f;
-        CapsuleCollisionShape characterShape
-                = new CapsuleCollisionShape(characterRadius, characterHeight);
-        float stepHeight = 0.3f;
-        character = new PhysicsCharacter(characterShape, stepHeight);
+        float capsuleRadius = 3f;
+        float capsuleHeight = 4f;
+        CapsuleCollisionShape shape
+                = new CapsuleCollisionShape(capsuleRadius, capsuleHeight);
+        float stepHeight = 0.01f;
+        character = new PhysicsCharacter(shape, stepHeight);
+        character.setGravity(60f);
         physicsSpace.addCollisionObject(character);
 
         // Teleport the character to its initial location.
-        character.setPhysicsLocation(new Vector3f(-74f, 16f, -47f));
+        character.setPhysicsLocation(new Vector3f(-73.6f, 19.09f, -45.58f));
 
         // Add a static heightmap to represent the ground.
         addTerrain(physicsSpace);
@@ -192,7 +193,7 @@ public class HelloWalk
             } else if (walkRequested) {
                 // Walk in the camera's forward direction.
                 Vector3f offset = cam.getDirection();
-                float walkSpeed = 5f;
+                float walkSpeed = 7f;
                 offset.multLocal(walkSpeed * timeStep);
                 character.setWalkDirection(offset);
             }
@@ -221,7 +222,7 @@ public class HelloWalk
         scene.addLight(ambient);
         ambient.setName("ambient");
 
-        ColorRGBA directColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
+        ColorRGBA directColor = new ColorRGBA(0.3f, 0.3f, 0.3f, 1f);
         Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         scene.addLight(sun);
@@ -266,7 +267,7 @@ public class HelloWalk
         physicsSpace.addCollisionObject(body);
 
         // Customize its debug visualization.
-        Material greenMaterial = createLitMaterial(0f, 1f, 0f);
+        Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(DebugMeshNormals.Smooth);
     }
