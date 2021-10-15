@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@ import com.jme3.scene.shape.Quad;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
-import com.jme3.texture.Texture;
 
 /**
  * A simple example of a CharacterControl.
@@ -109,12 +108,12 @@ public class HelloCharacterControl
         rootNode.attachChild(centerNode);
 
         // Create a CharacterControl with a capsule shape.
-        float characterRadius = 0.5f;
-        float characterHeight = 1f;
-        CapsuleCollisionShape characterShape
-                = new CapsuleCollisionShape(characterRadius, characterHeight);
-        float stepHeight = 0.3f;
-        characterControl = new CharacterControl(characterShape, stepHeight);
+        float capsuleRadius = 0.5f;
+        float capsuleHeight = 1f;
+        CapsuleCollisionShape shape
+                = new CapsuleCollisionShape(capsuleRadius, capsuleHeight);
+        float stepHeight = 0.01f;
+        characterControl = new CharacterControl(shape, stepHeight);
 
         // Add the control to the center node and the PhysicsSpace.
         centerNode.addControl(characterControl);
@@ -162,12 +161,12 @@ public class HelloCharacterControl
      * Add lighting and shadows to the specified scene.
      */
     private void addLighting(Spatial scene) {
-        ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         scene.addLight(ambient);
         ambient.setName("ambient");
 
-        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        ColorRGBA directColor = new ColorRGBA(0.3f, 0.3f, 0.3f, 1f);
         Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         scene.addLight(sun);
@@ -183,7 +182,7 @@ public class HelloCharacterControl
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.5f);
+        dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
         // Set the viewport's background color to light blue.
@@ -198,14 +197,15 @@ public class HelloCharacterControl
      * @param halfExtent (half of the desired side length)
      * @param y (the desired elevation, in physics-space coordinates)
      * @param physicsSpace (not null)
+     * @return the new body (not null)
      */
-    private void addSquare(float halfExtent, float y,
+    private RigidBodyControl addSquare(float halfExtent, float y,
             PhysicsSpace physicsSpace) {
         // Add a Quad to the scene.
         Mesh quad = new Quad(2 * halfExtent, 2 * halfExtent);
         Geometry geometry = new Geometry("square", quad);
-        Material material = createGrassyMaterial();
-        geometry.setMaterial(material);
+        Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
+        geometry.setMaterial(greenMaterial);
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
         rootNode.attachChild(geometry);
 
@@ -216,9 +216,12 @@ public class HelloCharacterControl
         geometry.move(-halfExtent, y, halfExtent);
 
         // Add a static RBC to the Geometry, to make it solid.
-        RigidBodyControl rbc = new RigidBodyControl(PhysicsBody.massForStatic);
-        geometry.addControl(rbc);
-        physicsSpace.addCollisionObject(rbc);
+        RigidBodyControl result
+                = new RigidBodyControl(PhysicsBody.massForStatic);
+        geometry.addControl(result);
+        physicsSpace.addCollisionObject(result);
+
+        return result;
     }
 
     /**
@@ -236,18 +239,20 @@ public class HelloCharacterControl
     }
 
     /**
-     * Generate a grassy lit material.
+     * Create a single-sided lit material with the specified reflectivities.
+     *
+     * @param red the desired reflectivity for red light (&ge;0, &le;1)
+     * @param green the desired reflectivity for green light (&ge;0, &le;1)
+     * @param blue the desired reflectivity for blue light (&ge;0, &le;1)
+     * @return a new instance (not null)
      */
-    private Material createGrassyMaterial() {
+    private Material createLitMaterial(float red, float green, float blue) {
         Material result = new Material(assetManager, Materials.LIGHTING);
         result.setBoolean("UseMaterialColors", true);
 
-        result.setColor("Ambient", new ColorRGBA(20f, 20f, 20f, 1f));
-        result.setName("grass");
-
-        Texture grassTexture
-                = assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
-        result.setTexture("DiffuseMap", grassTexture);
+        float opacity = 1f;
+        result.setColor("Ambient", new ColorRGBA(red, green, blue, opacity));
+        result.setColor("Diffuse", new ColorRGBA(red, green, blue, opacity));
 
         return result;
     }
