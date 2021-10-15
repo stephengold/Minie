@@ -223,7 +223,7 @@ public class HelloPoi
         scene.addLight(ambient);
         ambient.setName("ambient");
 
-        ColorRGBA directColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
+        ColorRGBA directColor = new ColorRGBA(0.3f, 0.3f, 0.3f, 1f);
         Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         scene.addLight(sun);
@@ -267,7 +267,7 @@ public class HelloPoi
         physicsSpace.addCollisionObject(terrain);
 
         // Customize its debug visualization.
-        Material greenMaterial = createLitMaterial(0f, 1f, 0f);
+        Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         terrain.setDebugMaterial(greenMaterial);
         terrain.setDebugMeshNormals(DebugMeshNormals.Smooth);
     }
