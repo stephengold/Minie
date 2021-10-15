@@ -151,7 +151,7 @@ public class HelloWalkOtoCc
         physicsSpace.add(character);
 
         // Teleport the character to its initial location.
-        character.setPhysicsLocation(new Vector3f(-74f, 16f, -47f));
+        character.setPhysicsLocation(new Vector3f(-73.6f, 19.09f, -45.58f));
 
         // Add a static heightmap to represent the ground.
         addTerrain(physicsSpace);

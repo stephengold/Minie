@@ -143,7 +143,7 @@ public class HelloWalkOtoBcc
         oto.move(0f, 5f, 0f);
 
         // Create the PhysicsControl and add it to the scene and space.
-        float characterRadius = 2f;
+        float characterRadius = 3f;
         float characterHeight = 10f;
         float characterMass = 70f;
         character = new BetterCharacterControl(characterRadius, characterHeight,
@@ -153,7 +153,7 @@ public class HelloWalkOtoBcc
         physicsSpace.add(character);
 
         // Teleport the character to its initial location.
-        character.warp(new Vector3f(-74f, 16f, -47f));
+        character.warp(new Vector3f(-73.6f, 14.09f, -45.58f));
 
         // Add a static heightmap to represent the ground.
         addTerrain(physicsSpace);
@@ -307,7 +307,7 @@ public class HelloWalkOtoBcc
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         terrain.setMaterial(greenMaterial);
 
-        // Construct a static rigid body based on the HeightMap.
+        // Construct a static RigidBodyControl based on the HeightMap.
         CollisionShape shape = new HeightfieldCollisionShape(heightMap);
         RigidBodyControl rbc
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);
