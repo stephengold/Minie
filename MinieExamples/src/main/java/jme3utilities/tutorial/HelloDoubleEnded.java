@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -97,7 +97,7 @@ public class HelloDoubleEnded
     // new methods exposed
 
     /**
-     * Main entry point for the HelloJoint application.
+     * Main entry point for the HelloDoubleEnded application.
      *
      * @param ignored array of command-line arguments (not null)
      */

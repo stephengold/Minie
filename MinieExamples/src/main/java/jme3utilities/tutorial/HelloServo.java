@@ -67,7 +67,7 @@ public class HelloServo extends SimpleApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the HelloMotor application.
+     * Main entry point for the HelloServo application.
      *
      * @param ignored array of command-line arguments (not null)
      */

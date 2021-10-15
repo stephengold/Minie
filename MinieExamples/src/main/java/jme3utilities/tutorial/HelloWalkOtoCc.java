@@ -103,7 +103,7 @@ public class HelloWalkOtoCc
     // new methods exposed
 
     /**
-     * Main entry point for the HelloWalk application.
+     * Main entry point for the HelloWalkOtoCc application.
      *
      * @param ignored array of command-line arguments (not null)
      */
