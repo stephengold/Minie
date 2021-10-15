@@ -67,7 +67,7 @@ import com.jme3.texture.Texture;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class HelloOtoWalkBcc
+public class HelloWalkOtoBcc
         extends SimpleApplication
         implements ActionListener {
     // *************************************************************************
@@ -108,7 +108,7 @@ public class HelloOtoWalkBcc
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        HelloOtoWalkBcc application = new HelloOtoWalkBcc();
+        HelloWalkOtoBcc application = new HelloWalkOtoBcc();
 
         // Enable gamma correction for accurate lighting.
         boolean loadDefaults = true;
