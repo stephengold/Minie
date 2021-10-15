@@ -256,7 +256,7 @@
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <em>physics character</em> is a collision object
-used to simulate game characters walking, jumping, and falling.</p>
+used to simulate game characters (people) walking, jumping, and falling.</p>
 </div>
 <div class="paragraph">
 <p>The standard physics character makes some simplifying assumptions:</p>
@@ -335,6 +335,7 @@ by a solid surface (as opposed to jumping or falling).</p>
 </div>
 <div class="paragraph">
 <p>Since directly created characters don&#8217;t look like much,
+even in debug visualization,
 they are mostly used to represent players in single-player games
 with a first-person viewpoint.</p>
 </div>
@@ -434,7 +435,7 @@ Things to notice while running the app:</p>
 <p>Move the mouse to turn the camera.</p>
 </li>
 <li>
-<p>Because the app uses a first-person camera, the character is invisible.
+<p>Because the app uses a first-person viewpoint, the character is invisible.
 Nonetheless, the character&#8217;s <strong>shadow</strong> can be seen. Find it!</p>
 </li>
 <li>
@@ -445,6 +446,31 @@ Nonetheless, the character&#8217;s <strong>shadow</strong> can be seen. Find it!
 </li>
 <li>
 <p>Some of the mountains have slopes too steep for the character to climb.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For an example using a third-person viewpoint,
+see <a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloWalkOtoCc.java">HelloWalkOtoCc</a>.
+keyboard-controlled motion of a physics character.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Press <kbd>Space bar</kbd> to jump.</p>
+</li>
+<li>
+<p>Press <kbd>U</kbd> to walk in the camera&#8217;s forward direction.</p>
+</li>
+<li>
+<p>Press <kbd>H</kbd> to walk to the camera&#8217;s left.</p>
+</li>
+<li>
+<p>Press <kbd>J</kbd> to walk in the direction opposite
+from the camera&#8217;s forward direction.</p>
+</li>
+<li>
+<p>Press <kbd>K</kbd> to walk to the camera&#8217;s right.</p>
 </li>
 </ol>
 </div>
@@ -586,7 +612,7 @@ To work around these limitations,
 you may wish to implement your own physics controls for characters.</p>
 </div>
 <div class="paragraph">
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/BetterCharacterControl.html"><code>BetterCharacterControl</code></a>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/BetterCharacterControl.html"><code>BetterCharacterControl</code></a> (BCC)
 is a custom character control that implements ducking and look direction.
 You can use it as a model for implementing your own physics controls.</p>
 </div>
@@ -597,12 +623,63 @@ You can use it as a model for implementing your own physics controls.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-BetterCharacterControl is based
+BCC is based
 on <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a>,
 not <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsCharacter.html"><code>PhysicsCharacter</code></a>.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>There are many differences between BCC and CharacterControl.
+For example:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A BCC always creates an offset capsule shape,
+whereas CharacterControl allows you to specify a custom collision shape,
+as long as it&#8217;s convex.</p>
+</li>
+<li>
+<p>The collision objects are located differently.
+BBCC locates the collision object near the character&#8217;s feet,
+whereas CharacterControl centers it where a person&#8217;s hips would be.</p>
+</li>
+<li>
+<p>The APIs to instantly relocate the character are different.
+BCC provides a <code>warp()</code> method,
+whereas CharacterControl allows you to invoke <code>setPhysicsLocation()</code> directly.</p>
+</li>
+<li>
+<p>The <code>setWalkDirection()</code> methods have different semantics.
+In BCC, the argument is a velocity vector (psu per second),
+whereas in CharacterControl the argument is a displacement (psu per time step).</p>
+</li>
+<li>
+<p>The APIs to test whether the character has physical support are different.
+BCC has <code>isOnGround()</code>,
+whereas CharacterControl calls it <code>onGround()</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/tutorial/HelloWalkOtoBcc.java">HelloWalkOtoBcc</a> is a simple application
+that demonstrates walking and jumping with BCC and a third-person viewpoint.
+The user interface is identical to HellowWalkOtoCc:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Press <kbd>Space bar</kbd> to jump.</p>
+</li>
+<li>
+<p>Press <kbd>U</kbd> to walk in the camera&#8217;s forward direction.</p>
+</li>
+<li>
+<p>Press <kbd>H</kbd>, <kbd>J</kbd>, or <kbd>K</kbd> to walk in other directions.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -623,7 +700,7 @@ It uses a directly created <code>PhysicsCharacter</code>.</p>
 <li>
 <p>The <a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestPhysicsCharacter.java"><code>TestPhysicsCharacter</code></a>
 and <a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestWalkingChar.java"><code>TestWalkingChar</code></a>
-demo apps use <code>CharacterControl</code>.</p>
+demo apps use <code>CharacterControl</code> and a third-person viewpoint.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -640,7 +717,7 @@ but doesn&#8217;t use skeleton animations.</p>
 <li>
 <p><a href="https://github.com/stephengold/Minie/blob/master/Jme3Examples/src/main/java/jme3test/bullet/TestBetterCharacter.java">The <code>TestBetterCharacter</code> demo app</a>
 demonstrates the Jaime model walking, jumping, and ducking.
-It uses <code>BetterCharacterControl</code>.</p>
+It uses BCC and a third-person viewpoint.</p>
 </li>
 </ul>
 </div>
