@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -97,12 +97,12 @@ public class HelloCharacter
         PhysicsSpace physicsSpace = configurePhysics();
 
         // Create a character with a capsule shape and add it to the space.
-        float characterRadius = 0.5f;
-        float characterHeight = 1f;
-        CapsuleCollisionShape characterShape
-                = new CapsuleCollisionShape(characterRadius, characterHeight);
-        float stepHeight = 0.3f;
-        character = new PhysicsCharacter(characterShape, stepHeight);
+        float capsuleRadius = 0.5f;
+        float capsuleHeight = 1f;
+        CapsuleCollisionShape shape
+                = new CapsuleCollisionShape(capsuleRadius, capsuleHeight);
+        float stepHeight = 0.01f;
+        character = new PhysicsCharacter(shape, stepHeight);
         physicsSpace.addCollisionObject(character);
 
         // Add a square to represent the ground.
@@ -116,7 +116,7 @@ public class HelloCharacter
         character.setDebugMeshNormals(DebugMeshNormals.Smooth);
         character.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
-        Material greenMaterial = createLitMaterial(0f, 1f, 0f);
+        Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         ground.setDebugMaterial(greenMaterial);
         ground.setDebugMeshNormals(DebugMeshNormals.Facet);
 
@@ -156,12 +156,12 @@ public class HelloCharacter
      * Add lighting and shadows to the specified scene.
      */
     private void addLighting(Spatial scene) {
-        ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
+        ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         scene.addLight(ambient);
         ambient.setName("ambient");
 
-        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        ColorRGBA directColor = new ColorRGBA(0.3f, 0.3f, 0.3f, 1f);
         Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         scene.addLight(sun);
@@ -177,7 +177,7 @@ public class HelloCharacter
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.5f);
+        dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
         // Set the viewport's background color to light blue.
