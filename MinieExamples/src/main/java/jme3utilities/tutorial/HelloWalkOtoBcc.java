@@ -137,7 +137,7 @@ public class HelloWalkOtoBcc
         standAction = composer.action("stand");
         walkAction = composer.action("Walk");
 
-        // Attach the model model to a translation node.
+        // Attach the model to a translation node.
         rootNode.attachChild(translationNode);
         translationNode.attachChild(oto);
         oto.move(0f, 5f, 0f);
@@ -293,7 +293,7 @@ public class HelloWalkOtoBcc
      * @param physicsSpace (not null)
      */
     private void addTerrain(PhysicsSpace physicsSpace) {
-        // Generate a HeightMap from from jme3-testdata-3.1.0-stable.jar
+        // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);
         Image image = texture.getImage();

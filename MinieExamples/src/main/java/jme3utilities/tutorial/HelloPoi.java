@@ -253,7 +253,7 @@ public class HelloPoi
      * @param physicsSpace (not null)
      */
     private void addTerrain(PhysicsSpace physicsSpace) {
-        // Generate a HeightMap from from jme3-testdata-3.1.0-stable.jar
+        // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);
         Image image = texture.getImage();
