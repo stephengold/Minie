@@ -111,7 +111,6 @@ Things to notice while running the app:
 
 For an example using a third-person viewpoint,
 see {url-tutorial}/HelloWalkOtoCc.java[HelloWalkOtoCc].
-keyboard-controlled motion of a physics character.
 
 . Press kbd:[Space bar] to jump.
 . Press kbd:[U] to walk in the camera's forward direction.
@@ -224,7 +223,7 @@ For example:
   whereas CharacterControl allows you to specify a custom collision shape,
   as long as it's convex.
 . The collision objects are located differently.
-  BBCC locates the collision object near the character's feet,
+  BCC locates the collision object near the character's feet,
   whereas CharacterControl centers it where a person's hips would be.
 . The APIs to instantly relocate the character are different.
   BCC provides a `warp()` method,
