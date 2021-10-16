@@ -1,7 +1,7 @@
 Licensing history for assets in MinieAssets/src/main/resources/Models/MhGame and
 MinieAssets/src/main/resources/Models/MhGame/textures
 
-The MhGame model asset was created by Stephen Gold using the the export
+The MhGame model asset was created by Stephen Gold using the export
 functionality of an official and unmodified version (v1.1.1) of MakeHuman.
 
 The files "MhGame.material", "MhGame.mesh.xml", "MhGame.skeleton.xml",

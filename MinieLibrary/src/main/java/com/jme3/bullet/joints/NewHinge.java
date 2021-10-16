@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -318,7 +318,7 @@ public class NewHinge extends New6Dof {
     // private methods
 
     /**
-     * Determine the the pivot location in a body's scaled local coordinates.
+     * Determine the pivot location in a body's scaled local coordinates.
      */
     private static Vector3f pivotInBody(PhysicsRigidBody body,
             Vector3f anchor) {
