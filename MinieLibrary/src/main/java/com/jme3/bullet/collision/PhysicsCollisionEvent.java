@@ -139,7 +139,8 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     /**
      * Read the collision's applied impulse (native field: m_appliedImpulse).
      *
-     * @return impulse
+     * @return impulse calculated during the previous timestep, or zero if the
+     * WarmStart bit is cleared in the solver mode
      */
     public float getAppliedImpulse() {
         long nativeId = nativeId();
