@@ -66,7 +66,7 @@ public class TestIssue18
     /**
      * largest Y value seen so far: anything larger than 0.05 is an issue
      */
-    private float maxHeight = 0.05f;
+    private float maxElevation = 0.05f;
     /**
      * count of physics timesteps simulated
      */
@@ -113,12 +113,12 @@ public class TestIssue18
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
         /*
-         * Determine the character's height and print it if it's a new high.
+         * Determine the character's elevation and print it if it's a new high.
          */
         PhysicsRigidBody body = bcc.getRigidBody();
         Vector3f location = body.getPhysicsLocation();
-        if (location.y > maxHeight) {
-            maxHeight = location.y;
+        if (location.y > maxElevation) {
+            maxElevation = location.y;
             System.out.println(tickCount + ": " + location);
         }
     }
