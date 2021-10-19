@@ -526,7 +526,8 @@ long&nbsp;manifoldPointId)</span></div>
 <div class="block">Read the collision's applied impulse (native field: m_appliedImpulse).</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>impulse</dd>
+<dd>impulse calculated during the previous timestep, or zero if the
+ WarmStart bit is cleared in the solver mode</dd>
 </dl>
 </section>
 </li>
