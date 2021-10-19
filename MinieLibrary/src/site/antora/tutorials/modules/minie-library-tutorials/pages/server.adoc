@@ -72,7 +72,9 @@ If the `broadphase` argument is omitted,
 then the incremental 3-D sweep-and-prune
 (`AXIS_SWEEP_3`) broadphase accelerator will be used.
 
-If the `worldMin` and `worldMax` arguments are omitted, then the world
+If broadphase is `AXIS_SWEEP_3` or `AXIS_SWEEP_3_32`
+and the `worldMin`/`worldMax` arguments are omitted,
+then the physics space
 will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).
 
 == Updating the physics space
