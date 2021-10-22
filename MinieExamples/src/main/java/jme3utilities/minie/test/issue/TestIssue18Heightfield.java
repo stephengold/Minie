@@ -31,27 +31,24 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Quad;
 
 /**
  * Test for Minie issue #18 (BetterCharacterController hops across seams) using
- * a MeshCollisionShape. If the issue is present, numeric data will be printed
- * to System.out .
+ * a HeightfieldCollisionShape. If the issue is present, numeric data will be
+ * printed to System.out .
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue18
+public class TestIssue18Heightfield
         extends SimpleApplication
         implements PhysicsTickListener {
     // *************************************************************************
@@ -77,7 +74,7 @@ public class TestIssue18
     // new methods exposed
 
     public static void main(String[] ignored) {
-        TestIssue18 application = new TestIssue18();
+        TestIssue18Heightfield application = new TestIssue18Heightfield();
         application.start();
     }
     // *************************************************************************
@@ -161,16 +158,17 @@ public class TestIssue18
      * @param physicsSpace (not null)
      */
     private void addGround(PhysicsSpace physicsSpace) {
-        Mesh quad = new Quad(1000f, 1000f);
-        Spatial ground = new Geometry("ground", quad);
-        ground.move(-500f, 0f, 500f);
-        ground.rotate(-FastMath.HALF_PI, 0f, 0f);
+        float[] heightmap = new float[]{0f, 0f, 0f, 0f};
+        Vector3f scale = new Vector3f(1000f, 1f, 1000f);
+        CollisionShape shape = new HeightfieldCollisionShape(heightmap, scale);
 
-        CollisionShape shape = CollisionShapeFactory.createMeshShape(ground);
         RigidBodyControl rbc
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngles(-FastMath.HALF_PI, 0f, 0f);
+        rbc.setPhysicsRotation(rotation);
         rbc.setPhysicsSpace(physicsSpace);
-        ground.addControl(rbc);
+        new Node().addControl(rbc);
     }
 
     /**
