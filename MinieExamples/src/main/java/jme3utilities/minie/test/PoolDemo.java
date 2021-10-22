@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -437,7 +437,6 @@ public class PoolDemo extends AbstractDemo {
 
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(200f);
-        flyCam.setZoomSpeed(200f);
 
         cam.setLocation(new Vector3f(-44f, platformTopY + 189f, 425f));
         cam.setRotation(new Quaternion(0.003f, 0.971321f, -0.2374f, 0.0123f));
