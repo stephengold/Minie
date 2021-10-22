@@ -51,7 +51,7 @@ import com.jme3.scene.shape.Quad;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue18
+public class TestIssue18Mesh
         extends SimpleApplication
         implements PhysicsTickListener {
     // *************************************************************************
@@ -77,7 +77,7 @@ public class TestIssue18
     // new methods exposed
 
     public static void main(String[] ignored) {
-        TestIssue18 application = new TestIssue18();
+        TestIssue18Mesh application = new TestIssue18Mesh();
         application.start();
     }
     // *************************************************************************
