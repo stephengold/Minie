@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,24 +47,28 @@ public class RayTestFlag {
     // constants and loggers
 
     /**
-     * filter back faces
+     * filter back faces (native value: kF_FilterBackfaces)
      */
     final public static int FilterBackfaces = 0x1;
     /**
      * when a ray hits a back-facing triangle, don't reverse the face normal
+     * (native value: kF_KeepUnflippedNormal)
      */
     final public static int KeepUnflippedNormal = 0x2;
     /**
      * use the fast/approximate algorithm for ray-versus-convex intersection,
-     * which is the default if no flags are set
+     * which is the default if no flags are set (native value:
+     * kF_UseSubSimplexConvexCastRaytest)
      */
     final public static int SubSimplexRaytest = 0x4;
     /**
-     * use the GJK algorithm for ray-versus-convex intersection
+     * use the GJK algorithm for ray-versus-convex intersection (native value:
+     * kF_UseGjkConvexCastRaytest)
      */
     final public static int GjkRaytest = 0x8;
     /**
-     * disable the heightfield raycast accelerator
+     * disable the heightfield raycast accelerator (native value:
+     * kF_DisableHeightfieldAccelerator)
      */
     final public static int DisableHeightfieldAccelerator = 0x10;
     /**
