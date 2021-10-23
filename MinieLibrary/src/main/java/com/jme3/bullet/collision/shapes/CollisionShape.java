@@ -65,7 +65,7 @@ import jme3utilities.minie.MyShape;
  */
 abstract public class CollisionShape
         extends NativePhysicsObject
-        implements Comparable<CollisionShape>, JmeCloneable, Savable {
+        implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -485,24 +485,6 @@ abstract public class CollisionShape
     protected void updateScale() {
         long shapeId = nativeId();
         getLocalScaling(shapeId, scale);
-    }
-    // *************************************************************************
-    // Comparable methods
-
-    /**
-     * Compare (by ID) with the specified collision shape.
-     *
-     * @param other the other shape (not null, unaffected)
-     * @return 0 if the shapes have the same ID; negative if this comes before
-     * other; positive if this comes after other
-     */
-    @Override
-    public int compareTo(CollisionShape other) {
-        long thisId = nativeId();
-        long otherId = other.nativeId();
-        int result = Long.compare(thisId, otherId);
-
-        return result;
     }
     // *************************************************************************
     // JmeCloneable methods

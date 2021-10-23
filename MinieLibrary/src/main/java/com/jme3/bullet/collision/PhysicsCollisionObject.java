@@ -68,7 +68,7 @@ import jme3utilities.Validate;
  */
 abstract public class PhysicsCollisionObject
         extends NativePhysicsObject
-        implements Comparable<PhysicsCollisionObject>, JmeCloneable, Savable {
+        implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -1379,24 +1379,6 @@ abstract public class PhysicsCollisionObject
 
         long objectId = nativeId();
         setLocationAndBasis(objectId, centerLocation, orientation);
-    }
-    // *************************************************************************
-    // Comparable methods
-
-    /**
-     * Compare (by ID) with another collision object.
-     *
-     * @param other (not null, unaffected)
-     * @return 0 if the objects have the same native ID; negative if this comes
-     * before other; positive if this comes after other
-     */
-    @Override
-    public int compareTo(PhysicsCollisionObject other) {
-        long objectId = nativeId();
-        long otherId = other.nativeId();
-        int result = Long.compare(objectId, otherId);
-
-        return result;
     }
     // *************************************************************************
     // JmeCloneable methods

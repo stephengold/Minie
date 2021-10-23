@@ -54,7 +54,7 @@ import jme3utilities.Validate;
  */
 abstract public class PhysicsJoint
         extends NativePhysicsObject
-        implements Comparable<PhysicsJoint>, JmeCloneable, Savable {
+        implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -332,24 +332,6 @@ abstract public class PhysicsJoint
 
         capsule.write(bodyA, tagNodeA, null);
         capsule.write(bodyB, tagNodeB, null);
-    }
-    // *************************************************************************
-    // Comparable methods
-
-    /**
-     * Compare (by ID) with another joint.
-     *
-     * @param otherJoint (not null, unaffected)
-     * @return 0 if this joint equals other joint; negative if this comes before
-     * otherJoint; positive if this comes after otherJoint
-     */
-    @Override
-    public int compareTo(PhysicsJoint otherJoint) {
-        long thisId = nativeId();
-        long otherId = otherJoint.nativeId();
-        int result = Long.compare(thisId, otherId);
-
-        return result;
     }
     // *************************************************************************
     // NativePhysicsObject methods
