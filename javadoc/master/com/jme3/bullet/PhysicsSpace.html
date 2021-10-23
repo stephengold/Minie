@@ -95,6 +95,10 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="description">
 <dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><code>java.lang.Comparable&lt;<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&gt;</code></dd>
+</dl>
+<dl>
 <dt>Direct Known Subclasses:</dt>
 <dd><code><a href="MultiBodySpace.html" title="class in com.jme3.bullet">MultiBodySpace</a></code>, <code><a href="PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></code></dd>
 </dl>
@@ -532,7 +536,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isUsingScr()">isUsingScr</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Test whether this space uses Speculative Contact Restitution.</div>
+<div class="block">Test whether this space uses Speculative Contact Restitution (native
+ field: m_applySpeculativeContactRestitution).</div>
 </td>
 </tr>
 <tr class="rowColor" id="i35">
@@ -662,7 +667,8 @@ int&nbsp;maxSteps)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#useScr(boolean)">useScr</a></span>&#8203;(boolean&nbsp;setting)</code></th>
 <td class="colLast">
-<div class="block">Alter whether this space uses Speculative Contact Restitution.</div>
+<div class="block">Alter whether this space uses Speculative Contact Restitution (native
+ field: m_applySpeculativeContactRestitution).</div>
 </td>
 </tr>
 </tbody>
@@ -678,7 +684,7 @@ int&nbsp;maxSteps)</code></th>
 <h3>Methods inherited from class&nbsp;com.jme3.bullet.<a href="NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a></h3>
 <a id="methods.inherited.from.class.com.jme3.bullet.NativePhysicsObject">
 <!--   -->
-</a><code><a href="NativePhysicsObject.html#countTrackers()">countTrackers</a>, <a href="NativePhysicsObject.html#dumpTrackers()">dumpTrackers</a>, <a href="NativePhysicsObject.html#equals(java.lang.Object)">equals</a>, <a href="NativePhysicsObject.html#freeUnusedObjects()">freeUnusedObjects</a>, <a href="NativePhysicsObject.html#hasAssignedNativeObject()">hasAssignedNativeObject</a>, <a href="NativePhysicsObject.html#hashCode()">hashCode</a>, <a href="NativePhysicsObject.html#nativeId()">nativeId</a>, <a href="NativePhysicsObject.html#reassignNativeId(long)">reassignNativeId</a>, <a href="NativePhysicsObject.html#setNativeId(long)">setNativeId</a>, <a href="NativePhysicsObject.html#setNativeIdNotTracked(long)">setNativeIdNotTracked</a>, <a href="NativePhysicsObject.html#toString()">toString</a>, <a href="NativePhysicsObject.html#unassignNativeObject()">unassignNativeObject</a></code></div>
+</a><code><a href="NativePhysicsObject.html#compareTo(com.jme3.bullet.collision.PhysicsCollisionObject)">compareTo</a>, <a href="NativePhysicsObject.html#countTrackers()">countTrackers</a>, <a href="NativePhysicsObject.html#dumpTrackers()">dumpTrackers</a>, <a href="NativePhysicsObject.html#equals(java.lang.Object)">equals</a>, <a href="NativePhysicsObject.html#freeUnusedObjects()">freeUnusedObjects</a>, <a href="NativePhysicsObject.html#hasAssignedNativeObject()">hasAssignedNativeObject</a>, <a href="NativePhysicsObject.html#hashCode()">hashCode</a>, <a href="NativePhysicsObject.html#nativeId()">nativeId</a>, <a href="NativePhysicsObject.html#reassignNativeId(long)">reassignNativeId</a>, <a href="NativePhysicsObject.html#setNativeId(long)">setNativeId</a>, <a href="NativePhysicsObject.html#setNativeIdNotTracked(long)">setNativeIdNotTracked</a>, <a href="NativePhysicsObject.html#toString()">toString</a>, <a href="NativePhysicsObject.html#unassignNativeObject()">unassignNativeObject</a></code></div>
 <div class="inheritedList">
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
 <a id="methods.inherited.from.class.java.lang.Object">
@@ -1159,7 +1165,8 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <section class="detail">
 <h3><a id="isUsingScr()">isUsingScr</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName">isUsingScr</span>()</div>
-<div class="block">Test whether this space uses Speculative Contact Restitution.</div>
+<div class="block">Test whether this space uses Speculative Contact Restitution (native
+ field: m_applySpeculativeContactRestitution).</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if using SCR, otherwise false</dd>
@@ -1366,7 +1373,8 @@ int&nbsp;maxSteps)</span></div>
 <section class="detail">
 <h3><a id="useScr(boolean)">useScr</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">useScr</span>&#8203;(<span class="arguments">boolean&nbsp;setting)</span></div>
-<div class="block">Alter whether this space uses Speculative Contact Restitution.</div>
+<div class="block">Alter whether this space uses Speculative Contact Restitution (native
+ field: m_applySpeculativeContactRestitution).</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>setting</code> - true to enable SCR, false to disable it (default=false)</dd>

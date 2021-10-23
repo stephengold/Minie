@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":9,"i16":9,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":9,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":9,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10,"i54":10,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10,"i60":10,"i61":10,"i62":10,"i63":9,"i64":10,"i65":10,"i66":10,"i67":10,"i68":10,"i69":9,"i70":10,"i71":10,"i72":10,"i73":10,"i74":10,"i75":10,"i76":10,"i77":10,"i78":10,"i79":10,"i80":10,"i81":10,"i82":10,"i83":10,"i84":10,"i85":10,"i86":10,"i87":10,"i88":10,"i89":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":9,"i15":9,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":9,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":9,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10,"i54":10,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10,"i60":10,"i61":10,"i62":9,"i63":10,"i64":10,"i65":10,"i66":10,"i67":10,"i68":9,"i69":10,"i70":10,"i71":10,"i72":10,"i73":10,"i74":10,"i75":10,"i76":10,"i77":10,"i78":10,"i79":10,"i80":10,"i81":10,"i82":10,"i83":10,"i84":10,"i85":10,"i86":10,"i87":10,"i88":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -103,7 +103,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public abstract class <span class="typeNameLabel">PhysicsCollisionObject</span>
 extends <a href="../NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a>
-implements java.lang.Comparable&lt;<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&gt;, com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</pre>
+implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</pre>
 <div class="block">The abstract base class for collision objects based on Bullet's
  btCollisionObject.
  <p>
@@ -372,48 +372,41 @@ java.lang.Object&nbsp;original)</code></th>
 </td>
 </tr>
 <tr class="altColor" id="i8">
-<td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compareTo(com.jme3.bullet.collision.PhysicsCollisionObject)">compareTo</a></span>&#8203;(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;other)</code></th>
-<td class="colLast">
-<div class="block">Compare (by ID) with another collision object.</div>
-</td>
-</tr>
-<tr class="rowColor" id="i9">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyPcoProperties(com.jme3.bullet.collision.PhysicsCollisionObject)">copyPcoProperties</a></span>&#8203;(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;old)</code></th>
 <td class="colLast">
 <div class="block">Copy common properties from another PhysicsCollisionObject.</div>
 </td>
 </tr>
-<tr class="altColor" id="i10">
+<tr class="rowColor" id="i9">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#countIgnored()">countIgnored</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Count the collision objects in this object's ignore list.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i11">
+<tr class="altColor" id="i10">
 <td class="colFirst"><code><a href="../debug/DebugMeshInitListener.html" title="interface in com.jme3.bullet.debug">DebugMeshInitListener</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#debugMeshInitListener()">debugMeshInitListener</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the listener for new debug meshes.</div>
 </td>
 </tr>
-<tr class="altColor" id="i12">
+<tr class="rowColor" id="i11">
 <td class="colFirst"><code><a href="shapes/infos/DebugMeshNormals.html" title="enum in com.jme3.bullet.collision.shapes.infos">DebugMeshNormals</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#debugMeshNormals()">debugMeshNormals</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine which normals to include in new debug meshes.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i13">
+<tr class="altColor" id="i12">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#debugMeshResolution()">debugMeshResolution</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine the resolution for new debug meshes (convex shapes only).</div>
 </td>
 </tr>
-<tr class="altColor" id="i14">
+<tr class="rowColor" id="i13">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#debugNumSides()">debugNumSides</a></span>()</code></th>
 <td class="colLast">
@@ -421,28 +414,28 @@ java.lang.Object&nbsp;original)</code></th>
  visible.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i15">
+<tr class="altColor" id="i14">
 <td class="colFirst"><code>protected static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#finalizeNative(long)">finalizeNative</a></span>&#8203;(long&nbsp;objectId)</code></th>
 <td class="colLast">
 <div class="block">Finalize the identified btCollisionObject.</div>
 </td>
 </tr>
-<tr class="altColor" id="i16">
+<tr class="rowColor" id="i15">
 <td class="colFirst"><code>static <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#findInstance(long)">findInstance</a></span>&#8203;(long&nbsp;pcoId)</code></th>
 <td class="colLast">
 <div class="block">Find the PhysicCollisionObject with the specified ID.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i17">
+<tr class="altColor" id="i16">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getActivationState()">getActivationState</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read this object's activation state (native field: m_activationState1).</div>
 </td>
 </tr>
-<tr class="altColor" id="i18">
+<tr class="rowColor" id="i17">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAnisotropicFriction(com.jme3.math.Vector3f)">getAnisotropicFriction</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
@@ -450,7 +443,7 @@ java.lang.Object&nbsp;original)</code></th>
  m_anisotropicFriction).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i19">
+<tr class="altColor" id="i18">
 <td class="colFirst"><code>java.lang.Object</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getApplicationData()">getApplicationData</a></span>()</code></th>
 <td class="colLast">
@@ -458,7 +451,7 @@ java.lang.Object&nbsp;original)</code></th>
  object.</div>
 </td>
 </tr>
-<tr class="altColor" id="i20">
+<tr class="rowColor" id="i19">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCcdMotionThreshold()">getCcdMotionThreshold</a></span>()</code></th>
 <td class="colLast">
@@ -466,14 +459,14 @@ java.lang.Object&nbsp;original)</code></th>
  field: m_ccdMotionThreshold).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i21">
+<tr class="altColor" id="i20">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCcdSquareMotionThreshold()">getCcdSquareMotionThreshold</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the squared motion threshold.</div>
 </td>
 </tr>
-<tr class="altColor" id="i22">
+<tr class="rowColor" id="i21">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCcdSweptSphereRadius()">getCcdSweptSphereRadius</a></span>()</code></th>
 <td class="colLast">
@@ -481,49 +474,49 @@ java.lang.Object&nbsp;original)</code></th>
  (CCD) (native field: m_ccdSweptSphereRadius).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i23">
+<tr class="altColor" id="i22">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCollideWithGroups()">getCollideWithGroups</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the set of collision groups with which this object can collide.</div>
 </td>
 </tr>
-<tr class="altColor" id="i24">
+<tr class="rowColor" id="i23">
 <td class="colFirst"><code>protected static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCollisionFlags(long)">getCollisionFlags</a></span>&#8203;(long&nbsp;objectId)</code></th>
 <td class="colLast">
 <div class="block">Read the collision flags of this object.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i25">
+<tr class="altColor" id="i24">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCollisionGroup()">getCollisionGroup</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the collision group of this object.</div>
 </td>
 </tr>
-<tr class="altColor" id="i26">
+<tr class="rowColor" id="i25">
 <td class="colFirst"><code><a href="shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCollisionShape()">getCollisionShape</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the CollisionShape of this object.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i27">
+<tr class="altColor" id="i26">
 <td class="colFirst"><code><a href="../CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCollisionSpace()">getCollisionSpace</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the CollisionSpace where this object is added.</div>
 </td>
 </tr>
-<tr class="altColor" id="i28">
+<tr class="rowColor" id="i27">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getContactDamping()">getContactDamping</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the contact damping (native field: m_contactDamping).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i29">
+<tr class="altColor" id="i28">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getContactProcessingThreshold()">getContactProcessingThreshold</a></span>()</code></th>
 <td class="colLast">
@@ -531,84 +524,84 @@ java.lang.Object&nbsp;original)</code></th>
  m_contactProcessingThreshold).</div>
 </td>
 </tr>
-<tr class="altColor" id="i30">
+<tr class="rowColor" id="i29">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getContactStiffness()">getContactStiffness</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the contact stiffness (native field: m_contactStiffness).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i31">
+<tr class="altColor" id="i30">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDeactivationTime()">getDeactivationTime</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read the deactivation time (native field: m_deactivationTime).</div>
 </td>
 </tr>
-<tr class="altColor" id="i32">
+<tr class="rowColor" id="i31">
 <td class="colFirst"><code>com.jme3.material.Material</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDebugMaterial()">getDebugMaterial</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Access the custom debug material, if specified.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i33">
+<tr class="altColor" id="i32">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFriction()">getFriction</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read this object's friction parameter (native field: m_friction).</div>
 </td>
 </tr>
-<tr class="altColor" id="i34">
+<tr class="rowColor" id="i33">
 <td class="colFirst"><code>protected static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInternalType(long)">getInternalType</a></span>&#8203;(long&nbsp;objectId)</code></th>
 <td class="colLast">
 <div class="block">Read the type of this object.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i35">
+<tr class="altColor" id="i34">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getObjectId()">getObjectId</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine the ID of the btCollisionObject.</div>
 </td>
 </tr>
-<tr class="altColor" id="i36">
+<tr class="rowColor" id="i35">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPhysicsLocation()">getPhysicsLocation</a></span>()</code></th>
 <td class="colLast">
 <div class="block">For compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i37">
+<tr class="altColor" id="i36">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPhysicsLocation(com.jme3.math.Vector3f)">getPhysicsLocation</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the location of this object's center.</div>
 </td>
 </tr>
-<tr class="altColor" id="i38">
+<tr class="rowColor" id="i37">
 <td class="colFirst"><code>com.simsilica.mathd.Vec3d</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPhysicsLocationDp(com.simsilica.mathd.Vec3d)">getPhysicsLocationDp</a></span>&#8203;(com.simsilica.mathd.Vec3d&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the location of this object's center.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i39">
+<tr class="altColor" id="i38">
 <td class="colFirst"><code>com.jme3.math.Quaternion</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPhysicsRotation(com.jme3.math.Quaternion)">getPhysicsRotation</a></span>&#8203;(com.jme3.math.Quaternion&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the orientation (rotation) of this object to a Quaternion.</div>
 </td>
 </tr>
-<tr class="altColor" id="i40">
+<tr class="rowColor" id="i39">
 <td class="colFirst"><code>com.simsilica.mathd.Quatd</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPhysicsRotationDp(com.simsilica.mathd.Quatd)">getPhysicsRotationDp</a></span>&#8203;(com.simsilica.mathd.Quatd&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Copy the orientation (rotation) of this object to a Quatd.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i41">
+<tr class="altColor" id="i40">
 <td class="colFirst"><code>com.jme3.math.Matrix3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPhysicsRotationMatrix(com.jme3.math.Matrix3f)">getPhysicsRotationMatrix</a></span>&#8203;(com.jme3.math.Matrix3f&nbsp;storeResult)</code></th>
 <td class="colLast">
@@ -616,7 +609,7 @@ java.lang.Object&nbsp;original)</code></th>
  system) to a 3x3 matrix.</div>
 </td>
 </tr>
-<tr class="altColor" id="i42">
+<tr class="rowColor" id="i41">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRestitution()">getRestitution</a></span>()</code></th>
 <td class="colLast">
@@ -624,28 +617,28 @@ java.lang.Object&nbsp;original)</code></th>
  m_restitution).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i43">
+<tr class="altColor" id="i42">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRollingFriction()">getRollingFriction</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read this object's rolling friction (native field: m_rollingFriction).</div>
 </td>
 </tr>
-<tr class="altColor" id="i44">
+<tr class="rowColor" id="i43">
 <td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getScale(com.jme3.math.Vector3f)">getScale</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;storeResult)</code></th>
 <td class="colLast">
 <div class="block">Determine the scale of this object.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i45">
+<tr class="altColor" id="i44">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSpinningFriction()">getSpinningFriction</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Read this object's spinning friction (native field: m_spinningFriction).</div>
 </td>
 </tr>
-<tr class="altColor" id="i46">
+<tr class="rowColor" id="i45">
 <td class="colFirst"><code>com.jme3.math.Transform</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTransform(com.jme3.math.Transform)">getTransform</a></span>&#8203;(com.jme3.math.Transform&nbsp;storeResult)</code></th>
 <td class="colLast">
@@ -653,7 +646,7 @@ java.lang.Object&nbsp;original)</code></th>
  its shape.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i47">
+<tr class="altColor" id="i46">
 <td class="colFirst"><code>java.lang.Object</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUserObject()">getUserObject</a></span>()</code></th>
 <td class="colLast">
@@ -661,14 +654,14 @@ java.lang.Object&nbsp;original)</code></th>
  PhysicsControl, PhysicsLink, or Spatial.</div>
 </td>
 </tr>
-<tr class="altColor" id="i48">
+<tr class="rowColor" id="i47">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasAnisotropicFriction(int)">hasAnisotropicFriction</a></span>&#8203;(int&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Test whether this object has anisotropic friction.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i49">
+<tr class="altColor" id="i48">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ignores(com.jme3.bullet.collision.PhysicsCollisionObject)">ignores</a></span>&#8203;(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;other)</code></th>
 <td class="colLast">
@@ -676,7 +669,7 @@ java.lang.Object&nbsp;original)</code></th>
  list.</div>
 </td>
 </tr>
-<tr class="altColor" id="i50">
+<tr class="rowColor" id="i49">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initUserPointer()">initUserPointer</a></span>()</code></th>
 <td class="colLast">
@@ -685,42 +678,42 @@ java.lang.Object&nbsp;original)</code></th>
  m_userPointer).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i51">
+<tr class="altColor" id="i50">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isActive()">isActive</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this object has been deactivated due to lack of motion.</div>
 </td>
 </tr>
-<tr class="altColor" id="i52">
+<tr class="rowColor" id="i51">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isContactResponse()">isContactResponse</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this object responds to contact with other objects.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i53">
+<tr class="altColor" id="i52">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isInWorld()">isInWorld</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this object is added to a CollisionSpace.</div>
 </td>
 </tr>
-<tr class="altColor" id="i54">
+<tr class="rowColor" id="i53">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isStatic()">isStatic</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Test whether this object is static (immobile).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i55">
+<tr class="altColor" id="i54">
 <td class="colFirst"><code><a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#jmeClone()">jmeClone</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Create a shallow clone for the JME cloner.</div>
 </td>
 </tr>
-<tr class="altColor" id="i56">
+<tr class="rowColor" id="i55">
 <td class="colFirst"><code>long[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#listIgnoredIds()">listIgnoredIds</a></span>()</code></th>
 <td class="colLast">
@@ -728,21 +721,21 @@ java.lang.Object&nbsp;original)</code></th>
  list.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i57">
+<tr class="altColor" id="i56">
 <td class="colFirst"><code>java.lang.Integer</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#proxyGroup()">proxyGroup</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine the collision group of this object's broadphase proxy.</div>
 </td>
 </tr>
-<tr class="altColor" id="i58">
+<tr class="rowColor" id="i57">
 <td class="colFirst"><code>java.lang.Integer</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#proxyMask()">proxyMask</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine the collision mask of this object's broadphase proxy.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i59">
+<tr class="altColor" id="i58">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#read(com.jme3.export.JmeImporter)">read</a></span>&#8203;(com.jme3.export.JmeImporter&nbsp;importer)</code></th>
 <td class="colLast">
@@ -750,28 +743,28 @@ java.lang.Object&nbsp;original)</code></th>
  loading from a J3O file.</div>
 </td>
 </tr>
-<tr class="altColor" id="i60">
+<tr class="rowColor" id="i59">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readPcoProperties(com.jme3.export.InputCapsule)">readPcoProperties</a></span>&#8203;(com.jme3.export.InputCapsule&nbsp;capsule)</code></th>
 <td class="colLast">
 <div class="block">Read common properties from a capsule.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i61">
+<tr class="altColor" id="i60">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollideWithGroup(int)">removeCollideWithGroup</a></span>&#8203;(int&nbsp;collisionGroup)</code></th>
 <td class="colLast">
 <div class="block">Remove collision groups from the set with which this object can collide.</div>
 </td>
 </tr>
-<tr class="altColor" id="i62">
+<tr class="rowColor" id="i61">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeFromIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject)">removeFromIgnoreList</a></span>&#8203;(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;otherPco)</code></th>
 <td class="colLast">
 <div class="block">Remove a collision object from this object's ignore list and vice versa.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i63">
+<tr class="altColor" id="i62">
 <td class="colFirst"><code>protected static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setActivationState(long,int)">setActivationState</a></span>&#8203;(long&nbsp;objectId,
 int&nbsp;desiredState)</code></th>
@@ -779,7 +772,7 @@ int&nbsp;desiredState)</code></th>
 <div class="block">Alter the activation state of this object.</div>
 </td>
 </tr>
-<tr class="altColor" id="i64">
+<tr class="rowColor" id="i63">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAnisotropicFriction(com.jme3.math.Vector3f,int)">setAnisotropicFriction</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;components,
 int&nbsp;mode)</code></th>
@@ -788,14 +781,14 @@ int&nbsp;mode)</code></th>
  m_anisotropicFriction).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i65">
+<tr class="altColor" id="i64">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setApplicationData(java.lang.Object)">setApplicationData</a></span>&#8203;(java.lang.Object&nbsp;data)</code></th>
 <td class="colLast">
 <div class="block">Associate application-specific data with this collision object.</div>
 </td>
 </tr>
-<tr class="altColor" id="i66">
+<tr class="rowColor" id="i65">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCcdMotionThreshold(float)">setCcdMotionThreshold</a></span>&#8203;(float&nbsp;threshold)</code></th>
 <td class="colLast">
@@ -803,7 +796,7 @@ int&nbsp;mode)</code></th>
  detection (CCD) (native field: m_ccdMotionThreshold).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i67">
+<tr class="altColor" id="i66">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCcdSweptSphereRadius(float)">setCcdSweptSphereRadius</a></span>&#8203;(float&nbsp;radius)</code></th>
 <td class="colLast">
@@ -811,14 +804,14 @@ int&nbsp;mode)</code></th>
  this object (native field: m_ccdSweptSphereRadius).</div>
 </td>
 </tr>
-<tr class="altColor" id="i68">
+<tr class="rowColor" id="i67">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCollideWithGroups(int)">setCollideWithGroups</a></span>&#8203;(int&nbsp;collisionGroups)</code></th>
 <td class="colLast">
 <div class="block">Directly alter the collision groups with which this object can collide.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i69">
+<tr class="altColor" id="i68">
 <td class="colFirst"><code>protected static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCollisionFlags(long,int)">setCollisionFlags</a></span>&#8203;(long&nbsp;objectId,
 int&nbsp;desiredFlags)</code></th>
@@ -827,28 +820,28 @@ int&nbsp;desiredFlags)</code></th>
  m_collisionFlags).</div>
 </td>
 </tr>
-<tr class="altColor" id="i70">
+<tr class="rowColor" id="i69">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCollisionGroup(int)">setCollisionGroup</a></span>&#8203;(int&nbsp;collisionGroup)</code></th>
 <td class="colLast">
 <div class="block">Alter which collision group this object belongs to.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i71">
+<tr class="altColor" id="i70">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCollisionShape(com.jme3.bullet.collision.shapes.CollisionShape)">setCollisionShape</a></span>&#8203;(<a href="shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;collisionShape)</code></th>
 <td class="colLast">
 <div class="block">Apply the specified CollisionShape to this object.</div>
 </td>
 </tr>
-<tr class="altColor" id="i72">
+<tr class="rowColor" id="i71">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setContactDamping(float)">setContactDamping</a></span>&#8203;(float&nbsp;damping)</code></th>
 <td class="colLast">
 <div class="block">Alter the contact damping (native field: m_contactDamping).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i73">
+<tr class="altColor" id="i72">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setContactProcessingThreshold(float)">setContactProcessingThreshold</a></span>&#8203;(float&nbsp;distance)</code></th>
 <td class="colLast">
@@ -856,49 +849,49 @@ int&nbsp;desiredFlags)</code></th>
  m_contactProcessingThreshold).</div>
 </td>
 </tr>
-<tr class="altColor" id="i74">
+<tr class="rowColor" id="i73">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setContactStiffness(float)">setContactStiffness</a></span>&#8203;(float&nbsp;stiffness)</code></th>
 <td class="colLast">
 <div class="block">Alter the contact stiffness (native field: m_contactStiffness).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i75">
+<tr class="altColor" id="i74">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDeactivationTime(float)">setDeactivationTime</a></span>&#8203;(float&nbsp;time)</code></th>
 <td class="colLast">
 <div class="block">Alter the deactivation time (native field: m_deactivationTime).</div>
 </td>
 </tr>
-<tr class="altColor" id="i76">
+<tr class="rowColor" id="i75">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugMaterial(com.jme3.material.Material)">setDebugMaterial</a></span>&#8203;(com.jme3.material.Material&nbsp;material)</code></th>
 <td class="colLast">
 <div class="block">Apply or remove a custom debug material.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i77">
+<tr class="altColor" id="i76">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugMeshInitListener(com.jme3.bullet.debug.DebugMeshInitListener)">setDebugMeshInitListener</a></span>&#8203;(<a href="../debug/DebugMeshInitListener.html" title="interface in com.jme3.bullet.debug">DebugMeshInitListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
 <div class="block">Apply or remove a listener for new debug meshes.</div>
 </td>
 </tr>
-<tr class="altColor" id="i78">
+<tr class="rowColor" id="i77">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugMeshNormals(com.jme3.bullet.collision.shapes.infos.DebugMeshNormals)">setDebugMeshNormals</a></span>&#8203;(<a href="shapes/infos/DebugMeshNormals.html" title="enum in com.jme3.bullet.collision.shapes.infos">DebugMeshNormals</a>&nbsp;newSetting)</code></th>
 <td class="colLast">
 <div class="block">Alter which normals to include in new debug meshes.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i79">
+<tr class="altColor" id="i78">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugMeshResolution(int)">setDebugMeshResolution</a></span>&#8203;(int&nbsp;newSetting)</code></th>
 <td class="colLast">
 <div class="block">Alter the mesh resolution for new debug meshes.</div>
 </td>
 </tr>
-<tr class="altColor" id="i80">
+<tr class="rowColor" id="i79">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDebugNumSides(int)">setDebugNumSides</a></span>&#8203;(int&nbsp;numSides)</code></th>
 <td class="colLast">
@@ -906,14 +899,14 @@ int&nbsp;desiredFlags)</code></th>
  visible.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i81">
+<tr class="altColor" id="i80">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setFriction(float)">setFriction</a></span>&#8203;(float&nbsp;friction)</code></th>
 <td class="colLast">
 <div class="block">Alter this object's friction (native field: m_friction).</div>
 </td>
 </tr>
-<tr class="altColor" id="i82">
+<tr class="rowColor" id="i81">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLocationAndBasis(com.jme3.math.Vector3f,com.jme3.math.Matrix3f)">setLocationAndBasis</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;centerLocation,
 com.jme3.math.Matrix3f&nbsp;orientation)</code></th>
@@ -921,7 +914,7 @@ com.jme3.math.Matrix3f&nbsp;orientation)</code></th>
 <div class="block">Directly alter this object's location and basis.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i83">
+<tr class="altColor" id="i82">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRestitution(float)">setRestitution</a></span>&#8203;(float&nbsp;restitution)</code></th>
 <td class="colLast">
@@ -929,7 +922,7 @@ com.jme3.math.Matrix3f&nbsp;orientation)</code></th>
  m_restitution).</div>
 </td>
 </tr>
-<tr class="altColor" id="i84">
+<tr class="rowColor" id="i83">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRollingFriction(float)">setRollingFriction</a></span>&#8203;(float&nbsp;friction)</code></th>
 <td class="colLast">
@@ -937,7 +930,7 @@ com.jme3.math.Matrix3f&nbsp;orientation)</code></th>
  the contact normal (native field: m_rollingFriction).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i85">
+<tr class="altColor" id="i84">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSpinningFriction(float)">setSpinningFriction</a></span>&#8203;(float&nbsp;friction)</code></th>
 <td class="colLast">
@@ -945,28 +938,28 @@ com.jme3.math.Matrix3f&nbsp;orientation)</code></th>
  contact normal (native field: m_spinningFriction).</div>
 </td>
 </tr>
-<tr class="altColor" id="i86">
+<tr class="rowColor" id="i85">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setUserObject(java.lang.Object)">setUserObject</a></span>&#8203;(java.lang.Object&nbsp;user)</code></th>
 <td class="colLast">
 <div class="block">Associate a "user" with this collision object.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i87">
+<tr class="altColor" id="i86">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#spaceId()">spaceId</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine the ID of the CollisionSpace where this object is added.</div>
 </td>
 </tr>
-<tr class="altColor" id="i88">
+<tr class="rowColor" id="i87">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Represent this object as a String.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i89">
+<tr class="altColor" id="i88">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#write(com.jme3.export.JmeExporter)">write</a></span>&#8203;(com.jme3.export.JmeExporter&nbsp;exporter)</code></th>
 <td class="colLast">
@@ -982,7 +975,7 @@ com.jme3.math.Matrix3f&nbsp;orientation)</code></th>
 <h3>Methods inherited from class&nbsp;com.jme3.bullet.<a href="../NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a></h3>
 <a id="methods.inherited.from.class.com.jme3.bullet.NativePhysicsObject">
 <!--   -->
-</a><code><a href="../NativePhysicsObject.html#countTrackers()">countTrackers</a>, <a href="../NativePhysicsObject.html#dumpTrackers()">dumpTrackers</a>, <a href="../NativePhysicsObject.html#equals(java.lang.Object)">equals</a>, <a href="../NativePhysicsObject.html#freeUnusedObjects()">freeUnusedObjects</a>, <a href="../NativePhysicsObject.html#hasAssignedNativeObject()">hasAssignedNativeObject</a>, <a href="../NativePhysicsObject.html#hashCode()">hashCode</a>, <a href="../NativePhysicsObject.html#nativeId()">nativeId</a>, <a href="../NativePhysicsObject.html#reassignNativeId(long)">reassignNativeId</a>, <a href="../NativePhysicsObject.html#setNativeId(long)">setNativeId</a>, <a href="../NativePhysicsObject.html#setNativeIdNotTracked(long)">setNativeIdNotTracked</a>, <a href="../NativePhysicsObject.html#unassignNativeObject()">unassignNativeObject</a></code></div>
+</a><code><a href="../NativePhysicsObject.html#compareTo(com.jme3.bullet.collision.PhysicsCollisionObject)">compareTo</a>, <a href="../NativePhysicsObject.html#countTrackers()">countTrackers</a>, <a href="../NativePhysicsObject.html#dumpTrackers()">dumpTrackers</a>, <a href="../NativePhysicsObject.html#equals(java.lang.Object)">equals</a>, <a href="../NativePhysicsObject.html#freeUnusedObjects()">freeUnusedObjects</a>, <a href="../NativePhysicsObject.html#hasAssignedNativeObject()">hasAssignedNativeObject</a>, <a href="../NativePhysicsObject.html#hashCode()">hashCode</a>, <a href="../NativePhysicsObject.html#nativeId()">nativeId</a>, <a href="../NativePhysicsObject.html#reassignNativeId(long)">reassignNativeId</a>, <a href="../NativePhysicsObject.html#setNativeId(long)">setNativeId</a>, <a href="../NativePhysicsObject.html#setNativeIdNotTracked(long)">setNativeIdNotTracked</a>, <a href="../NativePhysicsObject.html#unassignNativeObject()">unassignNativeObject</a></code></div>
 <div class="inheritedList">
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
 <a id="methods.inherited.from.class.java.lang.Object">
@@ -2283,22 +2276,6 @@ com.jme3.math.Matrix3f&nbsp;orientation)</span></div>
  physics-space coordinates, not null, unaffected)</dd>
 <dd><code>orientation</code> - the desired orientation for this object (rotation
  matrix in physics-space coordinates, not null, unaffected)</dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
-<h3><a id="compareTo(com.jme3.bullet.collision.PhysicsCollisionObject)">compareTo</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">compareTo</span>&#8203;(<span class="arguments"><a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;other)</span></div>
-<div class="block">Compare (by ID) with another collision object.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>compareTo</code>&nbsp;in interface&nbsp;<code>java.lang.Comparable&lt;<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>other</code> - (not null, unaffected)</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>0 if the objects have the same native ID; negative if this comes
- before other; positive if this comes after other</dd>
 </dl>
 </section>
 </li>

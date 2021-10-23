@@ -1898,21 +1898,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Compare with another LinkConfig object.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#compareTo(com.jme3.bullet.collision.PhysicsCollisionObject)">compareTo(PhysicsCollisionObject)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/NativePhysicsObject.html#compareTo(com.jme3.bullet.collision.PhysicsCollisionObject)">compareTo(PhysicsCollisionObject)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a></dt>
 <dd>
-<div class="block">Compare (by ID) with another collision object.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#compareTo(com.jme3.bullet.collision.shapes.CollisionShape)">compareTo(CollisionShape)</a></span> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
-<dd>
-<div class="block">Compare (by ID) with the specified collision shape.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/PhysicsJoint.html#compareTo(com.jme3.bullet.joints.PhysicsJoint)">compareTo(PhysicsJoint)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a></dt>
-<dd>
-<div class="block">Compare (by ID) with another joint.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/MultiBody.html#compareTo(com.jme3.bullet.MultiBody)">compareTo(MultiBody)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBody.html" title="class in com.jme3.bullet">MultiBody</a></dt>
-<dd>
-<div class="block">Compare (by ID) with another MultiBody.</div>
+<div class="block">Compare (by ID) with another native object.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes"><span class="typeNameLink">CompoundCollisionShape</span></a> - Class in <a href="com/jme3/bullet/collision/shapes/package-summary.html">com.jme3.bullet.collision.shapes</a></dt>
 <dd>
@@ -5917,7 +5905,7 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#isUsingDeterministicDispatch()">isUsingDeterministicDispatch()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
 <div class="block">Test whether the "deterministic overlapping pairs" option is enabled in
- the collision dispatcher.</div>
+ the collision dispatcher (native field: m_deterministicOverlappingPairs).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/infos/CharacterController.html#isUsingGhostSweepTest()">isUsingGhostSweepTest()</a></span> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/CharacterController.html" title="class in com.jme3.bullet.objects.infos">CharacterController</a></dt>
 <dd>
@@ -5941,7 +5929,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#isUsingScr()">isUsingScr()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Test whether this space uses Speculative Contact Restitution.</div>
+<div class="block">Test whether this space uses Speculative Contact Restitution (native
+ field: m_applySpeculativeContactRestitution).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#isWorldInfoProtected()">isWorldInfoProtected()</a></span> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
@@ -10335,7 +10324,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#setRayTestFlags(int)">setRayTestFlags(int)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
-<div class="block">Alter the m_flags used in ray tests.</div>
+<div class="block">Alter the flags used in ray tests (native field: m_flags).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/debug/DebugTools.html#setRedArrow(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">setRedArrow(Vector3f, Vector3f)</a></span> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/DebugTools.html" title="class in com.jme3.bullet.debug">DebugTools</a></dt>
 <dd>
@@ -11584,7 +11573,7 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#useDeterministicDispatch(boolean)">useDeterministicDispatch(boolean)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
 <div class="block">Enable or disable the "deterministic overlapping pairs" option in the
- collision dispatcher.</div>
+ collision dispatcher (native field: m_deterministicOverlappingPairs).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/MultiBody.html#useGlobalVelocities(boolean)">useGlobalVelocities(boolean)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBody.html" title="class in com.jme3.bullet">MultiBody</a></dt>
 <dd>
@@ -11613,7 +11602,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#useScr(boolean)">useScr(boolean)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Alter whether this space uses Speculative Contact Restitution.</div>
+<div class="block">Alter whether this space uses Speculative Contact Restitution (native
+ field: m_applySpeculativeContactRestitution).</div>
 </dd>
 </dl>
 <a id="I:V">
