@@ -758,9 +758,15 @@ public class PhysicsDumper extends Dumper {
         int mode = solverInfo.mode();
         stream.printf(" mode=%s]", SolverMode.describe(mode));
         /*
-         * 4th line: raytest flags and world extent
+         * 4th line: use flags, raytest flags, and world extent
          */
         addLine(indent);
+        if (space.isUsingDeterministicDispatch()) {
+            stream.print(" DeterministicDispatch");
+        }
+        if (space.isUsingScr()) {
+            stream.print(" SCR");
+        }
         int rayTestFlags = space.getRayTestFlags();
         String rayTest = RayTestFlag.describe(rayTestFlags);
         stream.printf(" rayTest=%s", rayTest);
