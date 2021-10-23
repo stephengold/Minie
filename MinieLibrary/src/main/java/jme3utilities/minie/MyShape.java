@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -412,11 +412,15 @@ public class MyShape {
             result = null;
         }
 
-        if (result != null
-                && !(result instanceof CapsuleCollisionShape)
-                && !(result instanceof SphereCollisionShape)) {
-            float margin = oldShape.getMargin();
-            result.setMargin(margin);
+        if (result != null) {
+            boolean enable = oldShape.isContactFilterEnabled();
+            result.setContactFilterEnabled(enable);
+
+            if (!(result instanceof CapsuleCollisionShape)
+                    && !(result instanceof SphereCollisionShape)) {
+                float margin = oldShape.getMargin();
+                result.setMargin(margin);
+            }
         }
 
         return result;
@@ -460,11 +464,15 @@ public class MyShape {
             result = null;
         }
 
-        if (result != null
-                && !(result instanceof CapsuleCollisionShape)
-                && !(result instanceof SphereCollisionShape)) {
-            float margin = oldShape.getMargin();
-            result.setMargin(margin);
+        if (result != null) {
+            boolean enable = oldShape.isContactFilterEnabled();
+            result.setContactFilterEnabled(enable);
+
+            if (!(result instanceof CapsuleCollisionShape)
+                    && !(result instanceof SphereCollisionShape)) {
+                float margin = oldShape.getMargin();
+                result.setMargin(margin);
+            }
         }
 
         return result;
@@ -508,11 +516,15 @@ public class MyShape {
             result = null;
         }
 
-        if (result != null
-                && !(result instanceof CapsuleCollisionShape)
-                && !(result instanceof SphereCollisionShape)) {
-            float margin = oldShape.getMargin();
-            result.setMargin(margin);
+        if (result != null) {
+            boolean enable = oldShape.isContactFilterEnabled();
+            result.setContactFilterEnabled(enable);
+
+            if (!(result instanceof CapsuleCollisionShape)
+                    && !(result instanceof SphereCollisionShape)) {
+                float margin = oldShape.getMargin();
+                result.setMargin(margin);
+            }
         }
 
         return result;

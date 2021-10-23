@@ -366,6 +366,7 @@ public class CylinderCollisionShape extends ConvexShape {
         long shapeId = createShape(axis, halfExtents);
         setNativeId(shapeId);
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }

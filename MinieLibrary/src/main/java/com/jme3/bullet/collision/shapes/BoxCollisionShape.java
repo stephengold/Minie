@@ -271,6 +271,7 @@ public class BoxCollisionShape extends ConvexShape {
         long shapeId = createShape(halfExtents);
         setNativeId(shapeId);
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }

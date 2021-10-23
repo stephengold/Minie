@@ -504,6 +504,7 @@ public class SimplexCollisionShape extends ConvexShape {
         }
         setNativeId(shapeId);
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }

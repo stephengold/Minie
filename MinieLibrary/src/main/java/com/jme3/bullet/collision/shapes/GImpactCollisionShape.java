@@ -210,6 +210,7 @@ public class GImpactCollisionShape extends CollisionShape {
         long shapeId = createShape(meshId);
         setNativeId(shapeId);
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }

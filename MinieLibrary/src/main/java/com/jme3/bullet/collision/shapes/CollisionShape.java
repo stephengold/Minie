@@ -81,6 +81,7 @@ abstract public class CollisionShape
     /**
      * field names for serialization
      */
+    final private static String tagEnableContactFilter = "enableContactFilter";
     final private static String tagMargin = "margin";
     final private static String tagScale = "scale";
     /**
@@ -94,6 +95,10 @@ abstract public class CollisionShape
     // *************************************************************************
     // fields
 
+    /**
+     * copy of the contact-filter enable flag
+     */
+    protected boolean enableContactFilter = true;
     /**
      * default margin for new non-sphere/non-capsule shapes (in physics-space
      * units, &gt;0)
@@ -283,6 +288,18 @@ abstract public class CollisionShape
     }
 
     /**
+     * Test whether contact filtering is enabled for this shape. Contact
+     * filtering is implemented only for HeightfieldCollisionShape and
+     * MeshCollisionShapes.
+     *
+     * @return true if enabled, otherwise false
+     */
+    public boolean isContactFilterEnabled() {
+        assert enableContactFilter == isContactFilterEnabled(nativeId()) : enableContactFilter;
+        return enableContactFilter;
+    }
+
+    /**
      * Test whether this shape has convex type. In Bullet, "convex" is a
      * property of <em>types</em> of shapes. Specific <em>instances</em> of
      * non-convex types might still be "convex" in the mathematical sense of the
@@ -350,6 +367,17 @@ abstract public class CollisionShape
         float result = DebugShapeFactory.maxDistance(this, transformIdentity,
                 DebugShapeFactory.lowResolution);
         return result;
+    }
+
+    /**
+     * Enable/disable contact filtering for this shape.
+     *
+     * @param setting the desired setting (default=true)
+     */
+    public void setContactFilterEnabled(boolean setting) {
+        long shapeId = nativeId();
+        setContactFilterEnabled(shapeId, setting);
+        this.enableContactFilter = setting;
     }
 
     /**
@@ -523,10 +551,13 @@ abstract public class CollisionShape
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
+        enableContactFilter
+                = capsule.readBoolean(tagEnableContactFilter, false);
         Savable s = capsule.readSavable(tagScale, new Vector3f(1f, 1f, 1f));
         scale.set((Vector3f) s);
         margin = capsule.readFloat(tagMargin, 0.04f);
-        // subclass must create the btCollisionShape and apply margin and scale
+        // subclass must create the btCollisionShape and
+        // apply contact-filter enable, margin, and scale
     }
 
     /**
@@ -540,6 +571,7 @@ abstract public class CollisionShape
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
+        capsule.write(enableContactFilter, tagEnableContactFilter, false);
         capsule.write(scale, tagScale, null);
         capsule.write(margin, tagMargin, 0.04f);
     }
@@ -620,6 +652,8 @@ abstract public class CollisionShape
 
     native private static boolean isConcave(long shapeId);
 
+    native private static boolean isContactFilterEnabled(long shapeId);
+
     native private static boolean isConvex(long shapeId);
 
     native private static boolean isInfinite(long shapeId);
@@ -627,6 +661,9 @@ abstract public class CollisionShape
     native private static boolean isNonMoving(long shapeId);
 
     native private static boolean isPolyhedral(long shapeId);
+
+    native private static void setContactFilterEnabled(long shapeId,
+            boolean setting);
 
     native private static void setLocalScaling(long shapeId, Vector3f scale);
 

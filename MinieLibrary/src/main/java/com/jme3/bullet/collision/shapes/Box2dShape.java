@@ -247,6 +247,7 @@ public class Box2dShape extends ConvexShape {
         long shapeId = createShape(halfExtentX, halfExtentY, margin);
         setNativeId(shapeId);
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }

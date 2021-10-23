@@ -432,6 +432,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
                 flipQuadEdges, flipTriangleWinding, useDiamond, useZigzag);
         setNativeId(shapeId);
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }

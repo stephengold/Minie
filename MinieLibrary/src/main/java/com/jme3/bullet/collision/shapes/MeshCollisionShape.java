@@ -340,6 +340,7 @@ public class MeshCollisionShape extends CollisionShape {
             setOptimizedBvh(shapeId, bvhId);
         }
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }

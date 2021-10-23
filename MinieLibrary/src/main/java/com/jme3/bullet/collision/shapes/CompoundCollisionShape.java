@@ -487,6 +487,7 @@ public class CompoundCollisionShape extends CollisionShape {
         children = capsule.readSavableArrayList(tagChildren, null);
         loadChildren();
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }
@@ -551,6 +552,7 @@ public class CompoundCollisionShape extends CollisionShape {
         long shapeId = createShape2(enableAabbTree, initialCapacity);
         setNativeId(shapeId);
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);
     }

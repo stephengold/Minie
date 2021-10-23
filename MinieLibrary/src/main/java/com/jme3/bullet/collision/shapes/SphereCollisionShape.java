@@ -260,6 +260,7 @@ public class SphereCollisionShape extends ConvexShape {
         long shapeId = createShape(radius);
         setNativeId(shapeId);
 
+        setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         margin = 0f;
     }

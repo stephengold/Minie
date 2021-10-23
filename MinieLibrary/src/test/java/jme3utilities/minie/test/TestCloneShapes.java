@@ -380,6 +380,8 @@ public class TestCloneShapes {
      * @param b the key value
      */
     private void setParameters(CollisionShape shape, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        shape.setContactFilterEnabled(flag);
     }
 
     /**
@@ -390,5 +392,7 @@ public class TestCloneShapes {
      * @param b the key value
      */
     private void verifyParameters(CollisionShape shape, float b) {
+        boolean flag = (b > 0.15f && b < 0.45f);
+        assert shape.isContactFilterEnabled() == flag;
     }
 }
