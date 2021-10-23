@@ -257,10 +257,11 @@ preferably early in the development process.
 
 ## External links
 
- + [the Minie Physics Library page](https://store.jmonkeyengine.org/38308161-c3cf-4e23-8754-528ca8387c11)
+ + [The Minie Physics Library page](https://store.jmonkeyengine.org/38308161-c3cf-4e23-8754-528ca8387c11)
    at [the JmonkeyStore](https://store.jmonkeyengine.org)
  + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
- + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
+ + [The physics section of the jMonkeyEngine Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
+ + [Alan Chou's game-physics tutorial](http://allenchou.net/game-physics-series/)
 
 YouTube videos about Minie:
 
