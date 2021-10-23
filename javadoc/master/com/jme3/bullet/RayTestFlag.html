@@ -123,28 +123,31 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#DisableHeightfieldAccelerator">DisableHeightfieldAccelerator</a></span></code></th>
 <td class="colLast">
-<div class="block">disable the heightfield raycast accelerator</div>
+<div class="block">disable the heightfield raycast accelerator (native value:
+ kF_DisableHeightfieldAccelerator)</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#FilterBackfaces">FilterBackfaces</a></span></code></th>
 <td class="colLast">
-<div class="block">filter back faces</div>
+<div class="block">filter back faces (native value: kF_FilterBackfaces)</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#GjkRaytest">GjkRaytest</a></span></code></th>
 <td class="colLast">
-<div class="block">use the GJK algorithm for ray-versus-convex intersection</div>
+<div class="block">use the GJK algorithm for ray-versus-convex intersection (native value:
+ kF_UseGjkConvexCastRaytest)</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#KeepUnflippedNormal">KeepUnflippedNormal</a></span></code></th>
 <td class="colLast">
-<div class="block">when a ray hits a back-facing triangle, don't reverse the face normal</div>
+<div class="block">when a ray hits a back-facing triangle, don't reverse the face normal
+ (native value: kF_KeepUnflippedNormal)</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -159,7 +162,8 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#SubSimplexRaytest">SubSimplexRaytest</a></span></code></th>
 <td class="colLast">
 <div class="block">use the fast/approximate algorithm for ray-versus-convex intersection,
- which is the default if no flags are set</div>
+ which is the default if no flags are set (native value:
+ kF_UseSubSimplexConvexCastRaytest)</div>
 </td>
 </tr>
 </tbody>
@@ -218,7 +222,7 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="FilterBackfaces">FilterBackfaces</a></h3>
 <div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">FilterBackfaces</span></div>
-<div class="block">filter back faces</div>
+<div class="block">filter back faces (native value: kF_FilterBackfaces)</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../constant-values.html#com.jme3.bullet.RayTestFlag.FilterBackfaces">Constant Field Values</a></dd>
@@ -229,7 +233,8 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="KeepUnflippedNormal">KeepUnflippedNormal</a></h3>
 <div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">KeepUnflippedNormal</span></div>
-<div class="block">when a ray hits a back-facing triangle, don't reverse the face normal</div>
+<div class="block">when a ray hits a back-facing triangle, don't reverse the face normal
+ (native value: kF_KeepUnflippedNormal)</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../constant-values.html#com.jme3.bullet.RayTestFlag.KeepUnflippedNormal">Constant Field Values</a></dd>
@@ -241,7 +246,8 @@ extends java.lang.Object</pre>
 <h3><a id="SubSimplexRaytest">SubSimplexRaytest</a></h3>
 <div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">SubSimplexRaytest</span></div>
 <div class="block">use the fast/approximate algorithm for ray-versus-convex intersection,
- which is the default if no flags are set</div>
+ which is the default if no flags are set (native value:
+ kF_UseSubSimplexConvexCastRaytest)</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../constant-values.html#com.jme3.bullet.RayTestFlag.SubSimplexRaytest">Constant Field Values</a></dd>
@@ -252,7 +258,8 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="GjkRaytest">GjkRaytest</a></h3>
 <div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">GjkRaytest</span></div>
-<div class="block">use the GJK algorithm for ray-versus-convex intersection</div>
+<div class="block">use the GJK algorithm for ray-versus-convex intersection (native value:
+ kF_UseGjkConvexCastRaytest)</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../constant-values.html#com.jme3.bullet.RayTestFlag.GjkRaytest">Constant Field Values</a></dd>
@@ -263,7 +270,8 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="DisableHeightfieldAccelerator">DisableHeightfieldAccelerator</a></h3>
 <div class="memberSignature"><span class="modifiers">public static final</span>&nbsp;<span class="returnType">int</span>&nbsp;<span class="memberName">DisableHeightfieldAccelerator</span></div>
-<div class="block">disable the heightfield raycast accelerator</div>
+<div class="block">disable the heightfield raycast accelerator (native value:
+ kF_DisableHeightfieldAccelerator)</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../constant-values.html#com.jme3.bullet.RayTestFlag.DisableHeightfieldAccelerator">Constant Field Values</a></dd>

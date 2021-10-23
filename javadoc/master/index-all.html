@@ -2940,7 +2940,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/RayTestFlag.html#DisableHeightfieldAccelerator">DisableHeightfieldAccelerator</a></span> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/RayTestFlag.html" title="class in com.jme3.bullet">RayTestFlag</a></dt>
 <dd>
-<div class="block">disable the heightfield raycast accelerator</div>
+<div class="block">disable the heightfield raycast accelerator (native value:
+ kF_DisableHeightfieldAccelerator)</div>
 </dd>
 <dt><span class="memberNameLink"><a href="jme3utilities/minie/MyControlP.html#disablePhysicsControls(com.jme3.scene.Spatial)">disablePhysicsControls(Spatial)</a></span> - Static method in class jme3utilities.minie.<a href="jme3utilities/minie/MyControlP.html" title="class in jme3utilities.minie">MyControlP</a></dt>
 <dd>
@@ -3114,6 +3115,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">fake Material to indicate child coloring of a CompoundCollisionShape</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#enableContactFilter">enableContactFilter</a></span> - Variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
+<dd>
+<div class="block">copy of the contact-filter enable flag</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/HingeJoint.html#enableMotor(boolean,float,float)">enableMotor(boolean, float, float)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
 <div class="block">Enable or disable this joint's motor.</div>
@@ -3206,7 +3211,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/RayTestFlag.html#FilterBackfaces">FilterBackfaces</a></span> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/RayTestFlag.html" title="class in com.jme3.bullet">RayTestFlag</a></dt>
 <dd>
-<div class="block">filter back faces</div>
+<div class="block">filter back faces (native value: kF_FilterBackfaces)</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#finalizeNative(long)">finalizeNative(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
@@ -5247,7 +5252,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/RayTestFlag.html#GjkRaytest">GjkRaytest</a></span> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/RayTestFlag.html" title="class in com.jme3.bullet">RayTestFlag</a></dt>
 <dd>
-<div class="block">use the GJK algorithm for ray-versus-convex intersection</div>
+<div class="block">use the GJK algorithm for ray-versus-convex intersection (native value:
+ kF_UseGjkConvexCastRaytest)</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/SolverInfo.html#globalCfm()">globalCfm()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/SolverInfo.html" title="class in com.jme3.bullet">SolverInfo</a></dt>
 <dd>
@@ -5621,6 +5627,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Test whether this shape has concave type.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#isContactFilterEnabled()">isContactFilterEnabled()</a></span> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
+<dd>
+<div class="block">Test whether contact filtering is enabled for this shape.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#isContactResponse()">isContactResponse()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
 <div class="block">Test whether this object responds to contact with other objects.</div>
@@ -5903,6 +5913,11 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/util/NativeLibrary.html#isThreadSafe()">isThreadSafe()</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
 <dd>
 <div class="block">Test whether the native library was built thread-safe.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#isUsingDeterministicDispatch()">isUsingDeterministicDispatch()</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Test whether the "deterministic overlapping pairs" option is enabled in
+ the collision dispatcher.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/infos/CharacterController.html#isUsingGhostSweepTest()">isUsingGhostSweepTest()</a></span> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/CharacterController.html" title="class in com.jme3.bullet.objects.infos">CharacterController</a></dt>
 <dd>
@@ -6273,7 +6288,8 @@ loadScripts(document, 'script');</script>
 <dl>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/RayTestFlag.html#KeepUnflippedNormal">KeepUnflippedNormal</a></span> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/RayTestFlag.html" title="class in com.jme3.bullet">RayTestFlag</a></dt>
 <dd>
-<div class="block">when a ray hits a back-facing triangle, don't reverse the face normal</div>
+<div class="block">when a ray hits a back-facing triangle, don't reverse the face normal
+ (native value: kF_KeepUnflippedNormal)</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/CollisionFlag.html#KINEMATIC_OBJECT">KINEMATIC_OBJECT</a></span> - Static variable in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/CollisionFlag.html" title="class in com.jme3.bullet.collision">CollisionFlag</a></dt>
 <dd>
@@ -9190,6 +9206,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter the contact damping (native field: m_contactDamping).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#setContactFilterEnabled(boolean)">setContactFilterEnabled(boolean)</a></span> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
+<dd>
+<div class="block">Enable/disable contact filtering for this shape.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#setContactProcessingThreshold(float)">setContactProcessingThreshold(float)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
 <div class="block">Alter the contact-processing threshold (native field:
@@ -11243,7 +11263,8 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/RayTestFlag.html#SubSimplexRaytest">SubSimplexRaytest</a></span> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/RayTestFlag.html" title="class in com.jme3.bullet">RayTestFlag</a></dt>
 <dd>
 <div class="block">use the fast/approximate algorithm for ray-versus-convex intersection,
- which is the default if no flags are set</div>
+ which is the default if no flags are set (native value:
+ kF_UseSubSimplexConvexCastRaytest)</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)">sweepTest(ConvexShape, Transform, Transform)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
@@ -11559,6 +11580,11 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/SolverMode.html#Use2Directions">Use2Directions</a></span> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/SolverMode.html" title="class in com.jme3.bullet">SolverMode</a></dt>
 <dd>
 <div class="block">use 2 friction directions</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/CollisionSpace.html#useDeterministicDispatch(boolean)">useDeterministicDispatch(boolean)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Enable or disable the "deterministic overlapping pairs" option in the
+ collision dispatcher.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/MultiBody.html#useGlobalVelocities(boolean)">useGlobalVelocities(boolean)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBody.html" title="class in com.jme3.bullet">MultiBody</a></dt>
 <dd>
