@@ -223,6 +223,15 @@ public class PhysicsDescriber extends Describer {
             result.append('?');
         }
 
+        if (shape instanceof HeightfieldCollisionShape
+                || shape instanceof MeshCollisionShape) {
+            result.append(' ');
+            if (!shape.isContactFilterEnabled()) {
+                result.append("UN");
+            }
+            result.append("filtered");
+        }
+
         result.append(" marg=");
         float margin = shape.getMargin();
         result.append(MyString.describe(margin));
