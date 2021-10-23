@@ -32,6 +32,7 @@ Complete source code (in Java) is provided under
 + [History](#history)
 + [Acknowledgments](#acks)
 
+
 <a name="why"/>
 
 ## Why use Minie?
@@ -242,6 +243,7 @@ preferably early in the development process.
 
 [Jump to table of contents](#toc)
 
+
 <a name="demos"/>
 
 ## An overview of the demo applications
@@ -250,14 +252,15 @@ preferably early in the development process.
 
 [Jump to table of contents](#toc)
 
+
 <a name="links"/>
 
 ## External links
 
-  + [the Minie Physics Library page](https://store.jmonkeyengine.org/38308161-c3cf-4e23-8754-528ca8387c11)
-    at [the JmonkeyStore](https://store.jmonkeyengine.org)
-  + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
-  + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
+ + [the Minie Physics Library page](https://store.jmonkeyengine.org/38308161-c3cf-4e23-8754-528ca8387c11)
+   at [the JmonkeyStore](https://store.jmonkeyengine.org)
+ + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
+ + [The Physics section of the JME Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
 
 YouTube videos about Minie:
 
