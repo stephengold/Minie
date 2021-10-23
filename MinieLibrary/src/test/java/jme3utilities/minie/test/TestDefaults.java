@@ -334,6 +334,7 @@ public class TestDefaults {
         Assert.assertEquals(0, space.countCollisionObjects());
         Assert.assertEquals(RayTestFlag.SubSimplexRaytest,
                 space.getRayTestFlags());
+        Assert.assertFalse(space.isUsingDeterministicDispatch());
     }
 
     private void testConstraint(Constraint constraint) {

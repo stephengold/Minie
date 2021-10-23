@@ -95,7 +95,7 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     final private int numSolvers;
     /**
-     * flags used in ray tests
+     * options that influence ray tests (bitmask)
      */
     private int rayTestFlags = RayTestFlag.SubSimplexRaytest;
     /**
@@ -449,6 +449,19 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
+     * Test whether the "deterministic overlapping pairs" option is enabled in
+     * the collision dispatcher. (native field: m_deterministicOverlappingPairs)
+     *
+     * @return true if using sorted/deterministic order, otherwise false
+     */
+    public boolean isUsingDeterministicDispatch() {
+        long spaceId = nativeId();
+        boolean result = getDeterministicOverlappingPairs(spaceId);
+
+        return result;
+    }
+
+    /**
      * Perform a ray-collision test (raycast) and sort the results by ascending
      * hitFraction.
      *
@@ -657,6 +670,18 @@ public class CollisionSpace extends NativePhysicsObject {
 
         return results;
     }
+
+    /**
+     * Enable or disable the "deterministic overlapping pairs" option in the
+     * collision dispatcher. (native field: m_deterministicOverlappingPairs)
+     *
+     * @param desiredSetting true &rarr; sorted/deterministic order, false
+     * &rarr; hashed/arbitrary order (default=false)
+     */
+    public void useDeterministicDispatch(boolean desiredSetting) {
+        long spaceId = nativeId();
+        setDeterministicOverlappingPairs(spaceId, desiredSetting);
+    }
     // *************************************************************************
     // new protected methods
 
@@ -775,6 +800,9 @@ public class CollisionSpace extends NativePhysicsObject {
 
     native private static void finalizeNative(long spaceId);
 
+    native private static boolean getDeterministicOverlappingPairs(
+            long spaceId);
+
     native private static int getNumCollisionObjects(long spaceId);
 
     native private static boolean hasClosest(long spaceId, int shape0Type,
@@ -788,6 +816,9 @@ public class CollisionSpace extends NativePhysicsObject {
             List<PhysicsRayTestResult> addToList, int flags);
 
     native private static void removeCollisionObject(long spaceId, long pcoId);
+
+    native private static void setDeterministicOverlappingPairs(long spaceId,
+            boolean desiredSetting);
 
     native private static void sweepTest_native(long shapeId, Transform from,
             Transform to, long spaceId, List<PhysicsSweepTestResult> addToList,
