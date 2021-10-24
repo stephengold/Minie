@@ -82,6 +82,8 @@ import jme3utilities.ui.InputMode;
 /**
  * Test/demonstrate 3 kinds of friction.
  *
+ * TODO set cueball after a scratch, provide aiming hints
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class PoolDemo extends AbstractDemo {
@@ -647,11 +649,9 @@ public class PoolDemo extends AbstractDemo {
         for (PhysicsRayTestResult hit : hits) {
             PhysicsCollisionObject pco = hit.getCollisionObject();
             Object appObject = pco.getApplicationData();
-            if (appObject instanceof Integer
-                    && (int) appObject == cueBallId) {
-
+            if (appObject instanceof Integer && cueBallId == (int) appObject) {
                 Vector3f impulseVector = farLocation.subtract(nearLocation);
-                float impulseMagnitude = 1_000f;
+                float impulseMagnitude = 1_000f;//TODO player-controlled impulse
                 float factor = impulseMagnitude / impulseVector.length();
                 impulseVector.multLocal(factor);
 
