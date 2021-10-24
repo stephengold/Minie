@@ -37,6 +37,7 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.font.BitmapText;
 import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
@@ -614,7 +615,10 @@ public class PoolDemo extends AbstractDemo {
             geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
         }
 
-        RigidBodyControl rbc = new RigidBodyControl(PhysicsBody.massForStatic);
+        CollisionShape shape
+                = CollisionShapeFactory.createMergedMeshShape(platformNode);
+        RigidBodyControl rbc
+                = new RigidBodyControl(shape, PhysicsBody.massForStatic);
         platformNode.addControl(rbc);
         rbc.setDebugNumSides(2);
         rbc.setFriction(5f);
