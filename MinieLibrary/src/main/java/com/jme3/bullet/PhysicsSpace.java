@@ -924,7 +924,7 @@ public class PhysicsSpace extends CollisionSpace {
      * jme3-bullet library.
      *
      * @param object the PhysicsControl, Spatial-with-PhysicsControl,
-     * PhysicsCollisionObject, or PhysicsJoint to add (not null)
+     * collision object, or PhysicsJoint to add (not null)
      */
     @Override
     public void add(Object object) {
@@ -1058,7 +1058,7 @@ public class PhysicsSpace extends CollisionSpace {
      * jme3-bullet library.
      *
      * @param object the PhysicsControl, Spatial-with-PhysicsControl,
-     * PhysicsCollisionObject, or PhysicsJoint to remove, or null
+     * collision object, or PhysicsJoint to remove, or null
      */
     @Override
     public void remove(Object object) {
