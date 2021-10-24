@@ -31,7 +31,6 @@
  */
 package com.jme3.bullet;
 
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import java.lang.ref.ReferenceQueue;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +43,7 @@ import jme3utilities.Validate;
  * @author Stephen Gold sgold@sonic.net
  */
 abstract public class NativePhysicsObject
-        implements Comparable<PhysicsCollisionObject> {
+        implements Comparable<NativePhysicsObject> {
     // *************************************************************************
     // constants and loggers
 
@@ -213,7 +212,7 @@ abstract public class NativePhysicsObject
      * before other; positive if this comes after other
      */
     @Override
-    public int compareTo(PhysicsCollisionObject other) {
+    public int compareTo(NativePhysicsObject other) {
         long objectId = nativeId();
         long otherId = other.nativeId();
         int result = Long.compare(objectId, otherId);
