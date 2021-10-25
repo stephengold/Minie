@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.5.0-test1 released on TBD
+## Version 4.5.0-test1 released on 25 October 2021
 
  + Bugfix: invalid contact points for heightfield/mesh shapes (issue #18)
  + Added a flag to disable contact filtering on a per-shape basis.
