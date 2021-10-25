@@ -266,60 +266,12 @@ task('copyMasterJavadocToSite', type: Copy) {
     from "${buildDir}/docs/javadoc"
     into '../build/site/javadoc/master'
 }
-task('copy42JavadocToSite', type: Copy) {
-    dependsOn 'download42Javadoc'
-    from zipTree("${buildDir}/docs/v4-2.jar")
-    into '../build/site/javadoc/v4-2'
-}
-task download42Javadoc(type: MyDownload) {
-    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/4.2.0/Minie-4.2.0-javadoc.jar'
-    target = file("${buildDir}/docs/v4-2.jar")
-}
-task('copy41JavadocToSite', type: Copy) {
-    dependsOn 'download41Javadoc'
-    from zipTree("${buildDir}/docs/v4-1.jar")
-    into '../build/site/javadoc/v4-1'
-}
-task download41Javadoc(type: MyDownload) {
-    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/4.1.1/Minie-4.1.1-javadoc.jar'
-    target = file("${buildDir}/docs/v4-1.jar")
-}
-task('copy40JavadocToSite', type: Copy) {
-    dependsOn 'download40Javadoc'
-    from zipTree("${buildDir}/docs/v4-0.jar")
-    into '../build/site/javadoc/v4-0'
-}
-task download40Javadoc(type: MyDownload) {
-    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/4.0.2/Minie-4.0.2-javadoc.jar'
-    target = file("${buildDir}/docs/v4-0.jar")
-}
-task('copy31JavadocToSite', type: Copy) {
-    dependsOn 'download31Javadoc'
-    from zipTree("${buildDir}/docs/v3-1.jar")
-    into '../build/site/javadoc/v3-1'
-}
-task download31Javadoc(type: MyDownload) {
-    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/3.1.0/Minie-3.1.0-javadoc.jar'
-    target = file("${buildDir}/docs/v3-1.jar")
-}
-task('copy30JavadocToSite', type: Copy) {
-    dependsOn 'download30Javadoc'
-    from zipTree("${buildDir}/docs/v3-0.jar")
-    into '../build/site/javadoc/v3-0'
-}
-task download30Javadoc(type: MyDownload) {
-    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/3.0.0/Minie-3.0.0-javadoc.jar'
-    target = file("${buildDir}/docs/v3-0.jar")
-}
-task('copy20JavadocToSite', type: Copy) {
-    dependsOn 'download20Javadoc'
-    from zipTree("${buildDir}/docs/v2-0.jar")
-    into '../build/site/javadoc/v2-0'
-}
-task download20Javadoc(type: MyDownload) {
-    sourceUrl = 'https://github.com/stephengold/Minie/releases/download/2.0.1/Minie-2.0.1-javadoc.jar'
-    target = file("${buildDir}/docs/v2-0.jar")
-}
+defineJavadocTasksForRelease('4', '2', '0')
+defineJavadocTasksForRelease('4', '1', '1')
+defineJavadocTasksForRelease('4', '0', '2')
+defineJavadocTasksForRelease('3', '1', '0')
+defineJavadocTasksForRelease('3', '0', '0')
+defineJavadocTasksForRelease('2', '0', '1')
 
 // publishing tasks
 
@@ -466,4 +418,24 @@ void configureDesktopBtfs(String btfValue) {
     project.ext.btfMacOSX32 = btfValue
     project.ext.btfMacOSX64 = btfValue
     project.ext.btfWindows32 = btfValue
+}
+
+// helper method to define tasks that copy javadoc to the (web)site
+
+void defineJavadocTasksForRelease(String major, String minor, String patch) {
+    String downloadTaskName = "download${major}${minor}Javadoc"
+    String downloadUrl = 'https://github.com/stephengold/Minie/releases/download'
+    String jarPath = "${buildDir}/docs/v${major}-${minor}.jar"
+    String mmp = "${major}.${minor}.${patch}"
+
+    task(downloadTaskName, type: MyDownload) {
+        sourceUrl = "${downloadUrl}/${mmp}/Minie-${mmp}-javadoc.jar"
+        target = file(jarPath)
+    }
+
+    task("copy${major}${minor}JavadocToSite", type: Copy) {
+        dependsOn downloadTaskName
+        from zipTree(jarPath)
+        into "../build/site/javadoc/v${major}-${minor}"
+    }
 }
