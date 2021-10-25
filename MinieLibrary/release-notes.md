@@ -1,5 +1,22 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.5.0-test1 released on TBD
+
+ + Bugfix: invalid contact points for heightfield/mesh shapes (issue #18)
+ + Added a flag to disable contact filtering on a per-shape basis.
+ + Added accessors to the `CollisionSpace` class for the collision dispatcher's
+   "deterministic" option.
+ + Made all native physics objects `Comparable` (for use in collections).
+ + Improvements to examples:
+   + Added 2 tutorial apps for character physics:
+     `HelloWalkOtoBcc` and `HelloWalkOtoCc`.
+   + Added 2 tests for issue #18:
+     `TestIssue18Heightfield` and `TestIssue18Mesh`.
+   + Made some of the tuturial apps more comparable.
+   + Created a merged mesh shape for the table in `PoolDemo` (more efficient).
+   + Reduced the camera zoom speed in `PoolDemo` (to avoid overshooting).
+ + Updated the native libraries to v12.4.1 of Libbulletjme.
+
 ## Version 4.4.0 released on 1 October 2021
 
  + Added 10 double-precision accessors and created an API dependency
