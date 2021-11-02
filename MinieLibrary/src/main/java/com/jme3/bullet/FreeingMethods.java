@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,17 +31,19 @@
  */
 package com.jme3.bullet;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 /**
- * Metadata used to track and free a NativePhysicsObject. Immutable.
- *
- * @author Stephen Gold sgold@sonic.net
+ * Cache the methods used (by the physics cleaner thread) to free each type of
+ * NativePhysicsObject. This is measurably faster than traversing the class
+ * hierarchy for every instance.
  */
-class NpoTracker extends WeakReference<NativePhysicsObject> {
+final class FreeingMethods {
     // *************************************************************************
     // constants and loggers
 
@@ -49,73 +51,71 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(NpoTracker.class.getName());
+            = Logger.getLogger(FreeingMethods.class.getName());
     // *************************************************************************
     // fields
 
     /**
-     * type of the referent (not null)
+     * map classes to methods - initialized lazily
      */
-    final private Class<? extends NativePhysicsObject> referentClass;
-    /**
-     * identifier of the referent's native object (not zero)
-     */
-    final private long id;
+    final private static Map<Class<? extends NativePhysicsObject>, Method[]> methodsByClass
+            = new ConcurrentHashMap<>(30);
     // *************************************************************************
     // constructors
 
     /**
-     * Instantiate a tracker for the specified referent.
-     *
-     * @param referent (must have an assigned native object)
+     * A private constructor to inhibit instantiation of this class.
      */
-    NpoTracker(NativePhysicsObject referent) {
-        super(referent, NativePhysicsObject.weakReferenceQueue);
-
-        referentClass = referent.getClass();
-        id = referent.nativeId();
-        assert id != 0L;
+    private FreeingMethods() {
     }
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Free the tracked native object by attempting to invoke
-     * freeNativeObject(id) on its class and superclasses thereof.
+     * Enumerate the methods used to free an instance of the specified class.
+     *
+     * @param clazz which class (not null)
+     * @return an internal array (not null, do not modify!)
      */
-    void freeTrackedObject() {
-        int invocationCount = 0;
-        /*
-         * Remove this tracker from the map BEFORE freeing the native object.
-         */
-        NativePhysicsObject.removeTracker(id);
-        Method[] methods = FreeingMethods.listMethods(referentClass);
-        // Avoid re-boxing in case more than one method is invoked.
-        Object[] boxedId = new Object[]{id};
-        for (Method method : methods) {
+    static Method[] listMethods(Class<? extends NativePhysicsObject> clazz) {
+        Method[] result = methodsByClass.get(clazz);
+        if (result == null) {
+            result = generate(clazz);
+            methodsByClass.put(clazz, result);
+        }
+
+        return result;
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Generate the map entry for the specified class.
+     *
+     * @param clazz the class to be freed (not null)
+     * @return a new array
+     */
+    private static Method[] generate(
+            Class<? extends NativePhysicsObject> clazz) {
+        List<Method> methods = new ArrayList<>(4);
+        for (Class<?> c = clazz; c != Object.class; c = c.getSuperclass()) {
             try {
-                method.invoke(null, boxedId);
-                ++invocationCount;
-            } catch (IllegalAccessException | IllegalArgumentException
-                   | InvocationTargetException exception) {
-                throw new RuntimeException(exception);
+                Method method = c.getDeclaredMethod("freeNativeObject", long.class);
+                method.setAccessible(true);
+                methods.add(method);
+            } catch (IllegalArgumentException
+                    | NoClassDefFoundError
+                    | SecurityException e) {
+                System.out.println("c = " + c.getName());
+                throw new RuntimeException(e);
+            } catch (NoSuchMethodException e) {
+                // do nothing
             }
         }
 
-        assert invocationCount > 0 : invocationCount;
-    }
-    // *************************************************************************
-    // Object methods
-
-    /**
-     * Represent this tracker as a String.
-     *
-     * @return a descriptive string of text (not null, not empty)
-     */
-    @Override
-    public String toString() {
-        String result = referentClass.getSimpleName();
-        result += "_" + Long.toHexString(id);
+        int numMethods = methods.size();
+        Method[] result = new Method[numMethods];
+        methods.toArray(result);
 
         return result;
     }
