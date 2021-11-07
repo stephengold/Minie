@@ -12,7 +12,7 @@
      `HelloWalkOtoBcc` and `HelloWalkOtoCc`.
    + Added 2 tests for issue #18:
      `TestIssue18Heightfield` and `TestIssue18Mesh`.
-   + Made some of the tuturial apps more comparable.
+   + Made some of the tutorial apps more comparable.
    + Created a merged mesh shape for the table in `PoolDemo` (more efficient).
    + Reduced the camera zoom speed in `PoolDemo` (to avoid overshooting).
  + Updated the native libraries to v12.4.1 of Libbulletjme.
