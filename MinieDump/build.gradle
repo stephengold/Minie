@@ -8,6 +8,10 @@ plugins {
 
 description = 'command-line tool to dump J3O assets'
 
+tasks.withType(JavaCompile) { // Java compile-time options:
+    options.deprecation = true
+}
+
 mainClassName = 'jme3utilities.minie.cli.MinieDump'
 if (!hasProperty('mainClass')) {
     ext.mainClass = mainClassName
