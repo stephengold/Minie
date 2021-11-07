@@ -42,7 +42,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
 import jme3utilities.Heart;
-import org.junit.Assert;
 
 /**
  * Test case for Minie issue #9: JVM crash in
@@ -81,13 +80,6 @@ public class TestIssue9 extends SimpleApplication {
             clonePsb();
             cloneSbc();
         }
-    }
-
-    void assertEquals(float x, float y, float z, Vector3f vector,
-            float tolerance) {
-        Assert.assertEquals(x, vector.x, tolerance);
-        Assert.assertEquals(y, vector.y, tolerance);
-        Assert.assertEquals(z, vector.z, tolerance);
     }
     // *************************************************************************
     // private methods
