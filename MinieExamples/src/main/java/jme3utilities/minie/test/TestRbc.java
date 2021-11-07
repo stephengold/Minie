@@ -911,27 +911,6 @@ public class TestRbc
     }
 
     /**
-     * Add a 3x3 terrain to the scene and PhysicsSpace.
-     */
-    private void addSmallTerrain() {
-        testSpatial = MinieTestTerrains.smallQuad;
-        Material wireMaterial = findMaterial("green wire");
-        assert wireMaterial != null;
-        testSpatial.setMaterial(wireMaterial);
-
-        switch (testName) {
-            case "SmallTerrain":
-                testShape = CollisionShapeFactory.createMeshShape(testSpatial);
-                break;
-
-            default:
-                throw new IllegalArgumentException(testName);
-        }
-
-        makeTestShape();
-    }
-
-    /**
      * Add a sphere to the scene and PhysicsSpace.
      */
     private void addSphere() {
