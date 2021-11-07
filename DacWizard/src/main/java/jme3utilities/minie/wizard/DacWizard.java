@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -197,21 +197,6 @@ public class DacWizard extends GuiApplication {
             if (controls.size() == 1) {
                 result = controls.get(0);
             }
-        }
-
-        return result;
-    }
-
-    /**
-     * Find the root Spatial of the C-G model that's loaded into the scene.
-     *
-     * @return the pre-existing Spatial, or null if none/multiple
-     */
-    Spatial findCgmRoot() {
-        Spatial result = null;
-        if (cgmParent != null) {
-            List<Spatial> children = cgmParent.getChildren();
-            result = Heart.first(children);
         }
 
         return result;
