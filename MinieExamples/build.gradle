@@ -22,8 +22,8 @@ dependencies {
     //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion // LWJGL 2.x
     runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion // LWJGL 3.x
 
-    // MinieExamples doesn't use jme3-jogg.
-    // It is included solely to avoid warnings from AssetConfig.
+    // MinieExamples doesn't use jme3-jogg
+    // -- it is included solely to avoid warnings from AssetConfig.
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion
@@ -33,4 +33,5 @@ dependencies {
 processResources.dependsOn(':MinieAssets:models', ':MinieAssets:shapes', ':MinieAssets:textures')
 
 // cleanup tasks
+
 clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanShapes', ':MinieAssets:cleanTextures')
