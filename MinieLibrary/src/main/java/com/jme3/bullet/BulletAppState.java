@@ -645,6 +645,26 @@ public class BulletAppState
         setPhysicsSpace(null);
         setRunning(false);
     }
+
+    /**
+     * Copy the maximum coordinate values for AXIS_SWEEP.
+     *
+     * @return a new location vector (in physics-space coordinates, not null)
+     */
+    public Vector3f worldMax() {
+        Vector3f result = worldMax.clone();
+        return result;
+    }
+
+    /**
+     * Copy the minimum coordinate values for AXIS_SWEEP.
+     *
+     * @return a new location vector (in physics-space coordinates, not null)
+     */
+    public Vector3f worldMin() {
+        Vector3f result = worldMin.clone();
+        return result;
+    }
     // *************************************************************************
     // new protected methods
 
@@ -745,26 +765,6 @@ public class BulletAppState
             logger.log(Level.SEVERE, null, exception);
             return false;
         }
-    }
-
-    /**
-     * Copy the maximum coordinate values for AXIS_SWEEP.
-     *
-     * @return a new location vector (in physics-space coordinates, not null)
-     */
-    protected Vector3f worldMax() {
-        Vector3f result = worldMax.clone();
-        return result;
-    }
-
-    /**
-     * Copy the minimum coordinate values for AXIS_SWEEP.
-     *
-     * @return a new location vector (in physics-space coordinates, not null)
-     */
-    protected Vector3f worldMin() {
-        Vector3f result = worldMin.clone();
-        return result;
     }
     // *************************************************************************
     // AbstractAppState methods
