@@ -57,10 +57,6 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      * AppState that this Control serves
      */
     final protected BulletDebugAppState debugAppState;
-    /**
-     * temporary storage
-     */
-    final private Quaternion tmp_inverseWorldRotation = new Quaternion();
     // *************************************************************************
     // constructors
 
