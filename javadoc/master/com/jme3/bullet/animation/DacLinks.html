@@ -519,7 +519,7 @@ float&nbsp;mass)</code></th>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="AttachmentLink.html" title="class in com.jme3.bullet.animation">AttachmentLink</a></span>&nbsp;<span class="memberName">findAttachmentLink</span>&#8203;(<span class="arguments">java.lang.String&nbsp;boneName)</span></div>
 <div class="block">Access the AttachmentLink for the named bone. Returns null if the bone is
  not associated with an attachment, or if the control is not added to a
- spatial.</div>
+ Spatial.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>boneName</code> - the name of the bone (not null, not empty)</dd>
@@ -548,7 +548,7 @@ float&nbsp;mass)</code></th>
 <h3><a id="findBoneLink(java.lang.String)">findBoneLink</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="BoneLink.html" title="class in com.jme3.bullet.animation">BoneLink</a></span>&nbsp;<span class="memberName">findBoneLink</span>&#8203;(<span class="arguments">java.lang.String&nbsp;boneName)</span></div>
 <div class="block">Access the BoneLink for the named bone. Returns null if bone is not
- linked, or if the control is not added to a spatial.</div>
+ linked, or if the control is not added to a Spatial.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>boneName</code> - the name of the bone (not null, not empty)</dd>
@@ -562,7 +562,7 @@ float&nbsp;mass)</code></th>
 <h3><a id="findLink(java.lang.String)">findLink</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a></span>&nbsp;<span class="memberName">findLink</span>&#8203;(<span class="arguments">java.lang.String&nbsp;linkName)</span></div>
 <div class="block">Access the named link. Returns null if the name is invalid, or if the
- control is not added to a spatial.</div>
+ control is not added to a Spatial.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>linkName</code> - the name of the link (not null, not empty)</dd>
@@ -600,7 +600,7 @@ float&nbsp;mass)</code></th>
 <h3><a id="getTorsoLink()">getTorsoLink</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="TorsoLink.html" title="class in com.jme3.bullet.animation">TorsoLink</a></span>&nbsp;<span class="memberName">getTorsoLink</span>()</div>
 <div class="block">Access the TorsoLink. Returns null if the control is not added to a
- spatial.</div>
+ Spatial.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the pre-existing TorsoLink, or null</dd>
@@ -639,7 +639,7 @@ float&nbsp;mass)</code></th>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="../objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a>[]</span>&nbsp;<span class="memberName">listRigidBodies</span>()</div>
 <div class="block">Enumerate all rigid bodies managed by this control.
  <p>
- Allowed only when the control IS added to a spatial.</div>
+ Allowed only when the control IS added to a Spatial.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new array of pre-existing rigid bodies (not null, not empty)</dd>
@@ -653,7 +653,7 @@ float&nbsp;mass)</code></th>
 <div class="block">Rebuild the ragdoll. This is useful if you applied scale to the model
  after it was initialized.
  <p>
- Allowed only when the control IS added to a spatial.</div>
+ Allowed only when the control IS added to a Spatial.</div>
 </section>
 </li>
 <li class="blockList">

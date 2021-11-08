@@ -592,14 +592,14 @@ float&nbsp;timeStep)</code></th>
 </td>
 </tr>
 <tr class="rowColor" id="i49">
-<td class="colFirst"><code>protected com.jme3.math.Vector3f</code></td>
+<td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#worldMax()">worldMax</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Copy the maximum coordinate values for AXIS_SWEEP.</div>
 </td>
 </tr>
 <tr class="altColor" id="i50">
-<td class="colFirst"><code>protected com.jme3.math.Vector3f</code></td>
+<td class="colFirst"><code>com.jme3.math.Vector3f</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#worldMin()">worldMin</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Copy the minimum coordinate values for AXIS_SWEEP.</div>
@@ -1114,6 +1114,28 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 </li>
 <li class="blockList">
 <section class="detail">
+<h3><a id="worldMax()">worldMax</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">worldMax</span>()</div>
+<div class="block">Copy the maximum coordinate values for AXIS_SWEEP.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new location vector (in physics-space coordinates, not null)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="worldMin()">worldMin</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">worldMin</span>()</div>
+<div class="block">Copy the minimum coordinate values for AXIS_SWEEP.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new location vector (in physics-space coordinates, not null)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
 <h3><a id="createDebugAppState()">createDebugAppState</a></h3>
 <div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType"><a href="debug/BulletDebugAppState.html" title="class in com.jme3.bullet.debug">BulletDebugAppState</a></span>&nbsp;<span class="memberName">createDebugAppState</span>()</div>
 <div class="block">Create the configured debug-visualization app state.</div>
@@ -1194,28 +1216,6 @@ com.jme3.math.Vector3f&nbsp;max,
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if successful, otherwise false</dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
-<h3><a id="worldMax()">worldMax</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">worldMax</span>()</div>
-<div class="block">Copy the maximum coordinate values for AXIS_SWEEP.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new location vector (in physics-space coordinates, not null)</dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
-<h3><a id="worldMin()">worldMin</a></h3>
-<div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">com.jme3.math.Vector3f</span>&nbsp;<span class="memberName">worldMin</span>()</div>
-<div class="block">Copy the minimum coordinate values for AXIS_SWEEP.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new location vector (in physics-space coordinates, not null)</dd>
 </dl>
 </section>
 </li>
