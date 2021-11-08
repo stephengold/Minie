@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -240,7 +240,7 @@ public class MyControlP {
     }
 
     /**
-     * Access the first enabled RigidBodyControl added to a spatial.
+     * Access the first enabled RigidBodyControl added to a Spatial.
      *
      * @param spatial spatial to search (not null, unaffected)
      * @return the pre-existing control, or null if none found
@@ -319,7 +319,7 @@ public class MyControlP {
     }
 
     /**
-     * Test whether a spatial is physics-controlled.
+     * Test whether a Spatial is physics-controlled.
      *
      * @param spatial spatial to test (not null, unaffected)
      * @return true if the spatial is controlled by physics, otherwise false

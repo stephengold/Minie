@@ -61,7 +61,7 @@ public interface PhysicsControl extends Control {
      * <p>
      * The physics objects are removed from its PhysicsSpace when the control is
      * disabled. When the control is enabled again, the physics objects are
-     * moved to the current location of the spatial and then added to the
+     * moved to the current location of the Spatial and then added to the
      * PhysicsSpace.
      *
      * @param state true&rarr;enable the control, false&rarr;disable it

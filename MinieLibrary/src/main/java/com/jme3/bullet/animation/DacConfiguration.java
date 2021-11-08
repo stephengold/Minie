@@ -294,7 +294,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     /**
      * Unlink the AttachmentLink associated with the named bone.
      * <p>
-     * Allowed only when the control is NOT added to a spatial.
+     * Allowed only when the control is NOT added to a Spatial.
      *
      * @param boneName the name of the associated bone (not null, not empty)
      */
@@ -419,7 +419,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     /**
      * Link the named bone using the specified mass and range of motion.
      * <p>
-     * Allowed only when the control is NOT added to a spatial.
+     * Allowed only when the control is NOT added to a Spatial.
      *
      * @param boneName the name of the bone to link (not null, not empty)
      * @param mass the desired mass of the bone (&gt;0)
@@ -446,7 +446,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * Link the named bone using the specified configuration and range of
      * motion.
      * <p>
-     * Allowed only when the control is NOT added to a spatial.
+     * Allowed only when the control is NOT added to a Spatial.
      *
      * @param boneName the name of the bone to link (not null, not empty)
      * @param config the desired configuration (not null)
@@ -603,7 +603,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * Alter the maximum number of physics-joint hops across which bodies will
      * ignore collisions.
      * <p>
-     * Allowed only when the control is NOT added to a spatial.
+     * Allowed only when the control is NOT added to a Spatial.
      *
      * @param numHops the desired number of hops (&ge;0, default=1)
      */
@@ -672,7 +672,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     /**
      * Unlink the BoneLink of the named bone.
      * <p>
-     * Allowed only when the control is NOT added to a spatial.
+     * Allowed only when the control is NOT added to a Spatial.
      *
      * @param boneName the name of the bone to unlink (not null, not empty)
      */

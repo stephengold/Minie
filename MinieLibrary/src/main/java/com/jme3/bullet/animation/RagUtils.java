@@ -289,7 +289,7 @@ public class RagUtils {
             PhysicsBody neighbor = joint.findOtherBody(current);
             if (neighbor != null && neighbor != start) {
                 /*
-                 * Decide whether or not to visit (or re-visit) the neighbor.
+                 * Decide whether to visit (or re-visit) the neighbor.
                  */
                 boolean visit = true;
                 if (visited.containsKey(neighbor)) { // previously visited
@@ -507,11 +507,11 @@ public class RagUtils {
     }
 
     /**
-     * Calculate a coordinate transform for the specified spatial relative to a
+     * Calculate a coordinate transform for the specified Spatial relative to a
      * specified ancestor node. The result incorporates the transform of the
-     * starting spatial, but not that of the ancestor.
+     * starting Spatial, but not that of the ancestor.
      *
-     * @param startSpatial the starting spatial (not null, unaffected)
+     * @param startSpatial the starting Spatial (not null, unaffected)
      * @param ancestorNode the ancestor node (not null, unaffected)
      * @param storeResult storage for the result (modified if not null)
      * @return a coordinate transform (either storeResult or a new vector, not

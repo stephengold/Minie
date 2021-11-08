@@ -283,7 +283,7 @@ public class DebugConfiguration {
     }
 
     /**
-     * Render all of the view ports.
+     * Render all view ports.
      *
      * @param renderManager the RenderManager to use (not null)
      * @param rootNode the root node to use (not null)

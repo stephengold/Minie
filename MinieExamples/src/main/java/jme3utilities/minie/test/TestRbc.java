@@ -866,7 +866,7 @@ public class TestRbc
     }
 
     /**
-     * Add a petagonal prism to the scene and PhysicsSpace.
+     * Add a pentagonal prism to the scene and PhysicsSpace.
      */
     private void addPrism() {
         int numSides = 5;

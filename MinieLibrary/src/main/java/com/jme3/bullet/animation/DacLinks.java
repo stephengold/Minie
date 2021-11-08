@@ -141,7 +141,7 @@ public class DacLinks
      */
     private Skeleton skeleton = null;
     /**
-     * spatial that provides the mesh-coordinate transform
+     * Spatial that provides the mesh-coordinate transform
      */
     private Spatial transformer = null;
     /**
@@ -198,7 +198,7 @@ public class DacLinks
     /**
      * Access the AttachmentLink for the named bone. Returns null if the bone is
      * not associated with an attachment, or if the control is not added to a
-     * spatial.
+     * Spatial.
      *
      * @param boneName the name of the bone (not null, not empty)
      * @return the pre-existing link, or null if not found
@@ -225,7 +225,7 @@ public class DacLinks
 
     /**
      * Access the BoneLink for the named bone. Returns null if bone is not
-     * linked, or if the control is not added to a spatial.
+     * linked, or if the control is not added to a Spatial.
      *
      * @param boneName the name of the bone (not null, not empty)
      * @return the pre-existing BoneLink, or null if not found
@@ -238,7 +238,7 @@ public class DacLinks
 
     /**
      * Access the named link. Returns null if the name is invalid, or if the
-     * control is not added to a spatial.
+     * control is not added to a Spatial.
      *
      * @param linkName the name of the link (not null, not empty)
      * @return the pre-existing link, or null if not found
@@ -282,7 +282,7 @@ public class DacLinks
 
     /**
      * Access the TorsoLink. Returns null if the control is not added to a
-     * spatial.
+     * Spatial.
      *
      * @return the pre-existing TorsoLink, or null
      */
@@ -291,8 +291,8 @@ public class DacLinks
     }
 
     /**
-     * Access the spatial with the mesh-coordinate transform. Returns null if
-     * the control is not added to a spatial.
+     * Access the Spatial with the mesh-coordinate transform. Returns null if
+     * the control is not added to a Spatial.
      *
      * @return the pre-existing spatial, or null
      */
@@ -420,7 +420,7 @@ public class DacLinks
     /**
      * Enumerate all rigid bodies managed by this control.
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the control IS added to a Spatial.
      *
      * @return a new array of pre-existing rigid bodies (not null, not empty)
      */
@@ -533,7 +533,7 @@ public class DacLinks
      * Rebuild the ragdoll. This is useful if you applied scale to the model
      * after it was initialized.
      * <p>
-     * Allowed only when the control IS added to a spatial.
+     * Allowed only when the control IS added to a Spatial.
      */
     public void rebuild() {
         verifyAddedToSpatial("rebuild the ragdoll");

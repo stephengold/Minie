@@ -461,7 +461,7 @@ class Model {
     /**
      * Access the root spatial of the loaded C-G model.
      *
-     * @return the pre-existing spatial, or null if no model loaded
+     * @return the pre-existing Spatial, or null if no model loaded
      */
     Spatial getRootSpatial() {
         return rootSpatial;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -250,7 +250,7 @@ public class CharacterControl extends AbstractPhysicsControl {
      * Create spatial-dependent data. Invoked when this Control is added to a
      * Spatial.
      *
-     * @param spatial the controlled Spatial (not null, alias created)
+     * @param spatial the controlled spatial (not null, alias created)
      */
     @Override
     protected void createSpatialData(Spatial spatial) {

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -478,7 +478,7 @@ public class RopeDemo extends AbstractDemo {
     /**
      * Add a rope cross to the scene.
      *
-     * @return the new DAC (added to the spatial and physics space, in kinematic
+     * @return the new DAC (added to the Spatial and physics space, in kinematic
      * mode)
      */
     private void addRopeCross() {
@@ -515,7 +515,7 @@ public class RopeDemo extends AbstractDemo {
      *
      * @param kinematicSplice true to pre-splice the ends kinematically, false
      * to leave it Y-shaped until dynamic mode is set
-     * @return the new DAC (added to the spatial and physics space, in kinematic
+     * @return the new DAC (added to the Spatial and physics space, in kinematic
      * mode)
      */
     private void addRopeNoose(boolean kinematicSplice) {
@@ -552,7 +552,7 @@ public class RopeDemo extends AbstractDemo {
      *
      * @param kinematicSplice true to pre-splice the ends kinematically, false
      * to leave it linear until dynamic mode is set
-     * @return the new DAC (added to the spatial and physics space, in kinematic
+     * @return the new DAC (added to the Spatial and physics space, in kinematic
      * mode)
      */
     private void addRopeRing(boolean kinematicSplice) {
@@ -586,7 +586,7 @@ public class RopeDemo extends AbstractDemo {
     /**
      * Add a plain rope to the scene. The rope begins in the X-Z plane.
      *
-     * @return the new DAC (added to the spatial and physics space, in kinematic
+     * @return the new DAC (added to the Spatial and physics space, in kinematic
      * mode)
      */
     private void addRopeSlackline() {

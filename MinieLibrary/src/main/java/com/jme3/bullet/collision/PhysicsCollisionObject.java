@@ -1180,8 +1180,8 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Alter this object's rolling friction: torsional friction orthogonal to
-     * the contact normal (native field: m_rollingFriction). Use to stop objects
-     * from rolling.
+     * the contact normal (native field: m_rollingFriction). Use this to stop
+     * bodies from rolling.
      *
      * @param friction the desired friction value (default=0)
      */

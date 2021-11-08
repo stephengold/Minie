@@ -482,8 +482,8 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     }
 
     /**
-     * Directly alter this character's location. (Same as
-     * {@link #warp(com.jme3.math.Vector3f)}).)
+     * Directly alter this character's location. (This is equivalent to
+     * {@link #warp(com.jme3.math.Vector3f)}.)
      *
      * @param location the desired location (not null, unaffected)
      */

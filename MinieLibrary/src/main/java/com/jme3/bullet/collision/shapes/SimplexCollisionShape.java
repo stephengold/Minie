@@ -142,8 +142,8 @@ public class SimplexCollisionShape extends ConvexShape {
      *
      * @param vertex1 the location of first vertex (in shape coordinates, not
      * null, unaffected)
-     * @param vertex2 the location of 2nd vertex shape coordinates, not null,
-     * unaffected)
+     * @param vertex2 the location of 2nd vertex (in shape coordinates, not
+     * null, unaffected)
      * @param vertex3 the location of 3rd vertex (in shape coordinates, not
      * null, unaffected)
      * @param vertex4 the location of 4th vertex (in shape coordinates, not

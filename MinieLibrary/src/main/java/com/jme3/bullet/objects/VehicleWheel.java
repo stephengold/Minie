@@ -595,7 +595,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * Alter the friction between this wheel's tire and the ground (native
      * field: m_frictionSlip).
      * <p>
-     * Should be about 0.8 for realistic cars, but can increased for better
+     * Should be about 0.8 for realistic cars, but can be increased for better
      * handling. Set large (10000) for kart racers.
      *
      * @param coeff the desired coefficient of friction (default=10.5)

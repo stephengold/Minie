@@ -63,7 +63,7 @@ import jme3utilities.math.MyVector3f;
  * ground.
  * <p>
  * The character keeps their own local coordinate system which adapts based on
- * the gravity working on the character so they will always stand upright.
+ * the gravity working on the character, so they will always stand upright.
  * <p>
  * Motion in the local X-Z plane is damped.
  *
@@ -695,7 +695,7 @@ public class BetterCharacterControl
         float designatedVelocity = walkDirection.length();
         if (designatedVelocity > 0) {
             Vector3f localWalkDirection = vars.vect1;
-            //normalize walkdirection
+            //normalize walk direction
             localWalkDirection.set(walkDirection).normalizeLocal();
             //check for the existing velocity in the desired direction
             float existingVelocity = velocity.dot(localWalkDirection);

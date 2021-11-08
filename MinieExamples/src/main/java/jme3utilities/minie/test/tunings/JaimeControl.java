@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -210,8 +210,8 @@ public class JaimeControl
     // Face methods
 
     /**
-     * Read the vertex spec for the center of the model's face. Typically this
-     * is on the bridge of the nose, halfway between the pupils.
+     * Read the vertex spec for the center of the model's face. This is
+     * typically on the bridge of the nose, halfway between the pupils.
      *
      * @return the vertex specification (not null, not empty)
      * @see

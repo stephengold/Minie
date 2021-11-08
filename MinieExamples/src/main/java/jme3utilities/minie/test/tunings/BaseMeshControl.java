@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -133,8 +133,8 @@ public class BaseMeshControl
     // Face methods
 
     /**
-     * Read the vertex spec for the center of the model's face. Typically this
-     * is on the bridge of the nose, halfway between the pupils.
+     * Read the vertex spec for the center of the model's face. This is
+     * typically on the bridge of the nose, halfway between the pupils.
      *
      * @return the vertex specification (not null, not empty)
      * @see
@@ -157,7 +157,6 @@ public class BaseMeshControl
     public Vector3f faceDirection(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         result.set(0f, 0f, 1f);
-
         return result;
     }
 }
