@@ -12,7 +12,7 @@
      `HelloWalkOtoBcc` and `HelloWalkOtoCc`.
    + Added 2 tests for issue #18:
      `TestIssue18Heightfield` and `TestIssue18Mesh`.
-   + Made some of the tutorial apps more comparable.
+   + Made some tutorial apps more comparable.
    + Created a merged mesh shape for the table in `PoolDemo` (more efficient).
    + Reduced the camera zoom speed in `PoolDemo` (to avoid overshooting).
  + Updated the native libraries to v12.4.1 of Libbulletjme.
@@ -1489,7 +1489,7 @@ Other noteworthy changes to Minie:
  + Added `getPhysicsTransform()` and `setPhysicsTransform()` methods to
    the `PhysicsRigidBody` class.
  + Bypassed `setSpatial()` in `GhostControl` and `RigidBodyControl` in case the
-   spatial does not change.
+   `Spatial` does not change.
  + Eliminated unnecessary aliasing in joint constructors.
  + Named the debug textures in `BulletDebugAppState`.
  + Visualize kinematic bodies in blue instead of magenta, to distinguish
