@@ -234,7 +234,7 @@ For example:
 
 {url-tutorial}/HelloWalkOtoBcc.java[HelloWalkOtoBcc] is a simple application
 that demonstrates walking and jumping with BCC and a third-person viewpoint.
-The user interface is identical to HellowWalkOtoCc:
+The user interface is identical to HelloWalkOtoCc:
 
 . Press kbd:[Space bar] to jump.
 . Press kbd:[U] to walk in the camera's forward direction.
