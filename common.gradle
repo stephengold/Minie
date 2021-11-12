@@ -27,7 +27,6 @@ gradle.projectsEvaluated {
     }
     tasks.withType(JavaExec) { // Java runtime options:
         classpath sourceSets.main.runtimeClasspath
-        //doFirst { println commandLine }
         enableAssertions true
         //jvmArgs '-verbose:gc'
         //jvmArgs '-Xcheck:jni'
