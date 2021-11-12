@@ -8,6 +8,7 @@ plugins {
     id 'signing'
 }
 
+description = 'a physics library for jMonkeyEngine'
 ext {
     // The URL from which native libraries should be copied:
 
@@ -113,8 +114,6 @@ ext {
     libDir = resourcesDir + 'lib/'       // for Android native libraries
     nativeDir = resourcesDir + 'native/' // for desktop native libraries
 }
-
-description = 'a physics library for jMonkeyEngine'
 
 dependencies {
     api 'com.github.stephengold:Heart:' + heartVersion
@@ -291,7 +290,6 @@ task('release') {
 jar {
     archiveBaseName = project.ext.baseName
 }
-
 task javadocJar(type: Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'javadoc'
@@ -299,7 +297,6 @@ task javadocJar(type: Jar) {
     description 'Creates a JAR of javadoc.'
     from javadoc.destinationDir
 }
-
 task sourcesJar(type: Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'sources'
@@ -357,6 +354,9 @@ publishing {
             version project.ext.version + project.ext.minieSnapshot
         }
     }
+    // Staging to OSSRH relies on the existence of 2 properties
+    // (ossrhUsername and ossrhPassword)
+    // which should be stored in ~/.gradle/gradle.properties
     repositories {
         maven {
             credentials {
@@ -374,6 +374,10 @@ publishMavenPublicationToMavenLocal.doLast {
 }
 
 // signing tasks
+
+// Signing relies on the existence of 3 properties
+// (signing.keyId, signing.password, and signing.secretKeyRingFile)
+// which should be stored in ~/.gradle/gradle.properties
 
 signing {
     sign publishing.publications.maven
