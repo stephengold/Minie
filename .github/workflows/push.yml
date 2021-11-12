@@ -98,14 +98,14 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java16-Linux:
+  Java17-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 16
+          java-version: 17
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v2
@@ -113,14 +113,14 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java16-MacOS:
+  Java17-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 16
+          java-version: 17
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v2
@@ -128,14 +128,14 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java16-Windows:
+  Java17-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 16
+          java-version: 17
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
         shell: bash
       - if: failure()
