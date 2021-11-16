@@ -402,7 +402,8 @@ abstract public class AbstractPhysicsControl
     /**
      * Alter which Spatial is controlled. Invoked when the Control is added to
      * or removed from a Spatial. Should be invoked only by a subclass or from
-     * Spatial. Do not invoke directly from user code.
+     * Spatial. Do not invoke directly from user code. The correct way to add a
+     * Control to a Spatial is with spatial.addControl().
      *
      * @param newSpatial the Spatial to control (or null)
      */
