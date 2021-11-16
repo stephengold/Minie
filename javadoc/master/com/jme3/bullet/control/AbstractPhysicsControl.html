@@ -710,7 +710,8 @@ com.jme3.renderer.ViewPort&nbsp;vp)</span></div>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setSpatial</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;newSpatial)</span></div>
 <div class="block">Alter which Spatial is controlled. Invoked when the Control is added to
  or removed from a Spatial. Should be invoked only by a subclass or from
- Spatial. Do not invoke directly from user code.</div>
+ Spatial. Do not invoke directly from user code. The correct way to add a
+ Control to a Spatial is with spatial.addControl().</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>setSpatial</code>&nbsp;in interface&nbsp;<code>com.jme3.scene.control.Control</code></dd>
