@@ -39,6 +39,7 @@ import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugMeshInitListener;
+import com.jme3.bullet.debug.MeshCustomizer;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
@@ -116,6 +117,10 @@ public class DebugShapeFactory {
     final private static Map<DebugMeshKey, Mesh> cache
             = Collections.synchronizedMap(
                     new WeakHashMap<DebugMeshKey, Mesh>(200));
+    /**
+     * customization applied to all generated meshes, or null for none
+     */
+    private static MeshCustomizer meshCustomizer;
     // *************************************************************************
     // constructors
 
@@ -307,6 +312,16 @@ public class DebugShapeFactory {
 
         assert (result.capacity() % 9) == 0 : result.capacity();
         return result;
+    }
+
+    /**
+     * Install the specified MeshCustomizer, replacing any customizer previously
+     * installed.
+     *
+     * @param customizer the desired customizer, or null for none
+     */
+    public static void installMeshCustomizer(MeshCustomizer customizer) {
+        meshCustomizer = customizer;
     }
 
     /**
@@ -523,6 +538,9 @@ public class DebugShapeFactory {
                             normals);
                 } else {
                     mesh = createMesh(shape, normals, resolution);
+                }
+                if (meshCustomizer != null) {
+                    mesh = meshCustomizer.customizeMesh(mesh);
                 }
                 if (listener != null) {
                     listener.debugMeshInit(mesh);
