@@ -1,5 +1,21 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.5.0 released on TBD
+
+ + Cached the methods that free native objects, to improve performance.
+ + Added the `setPivotInB()` method to the `Anchor` class.
+ + Added a mesh customization API to the `DebugShapeFactory` class,
+   to support (for example) debug materials that need barycentric coordinates.
+ + Publicized the `worldMax()` and `worldMin()` methods
+   in the `BulletAppState` class.
+ + Improvements to examples:
+   + Solved `UnsatisfiedLinkError` crashes in 5 apps.
+   + Added the `TestIssue18GImpact` app.
+   + Addressed JME issue 1630 in `TestBetterCharacter`.
+ + Updated the native libraries to v12.5.0 of Libbulletjme,
+   which includes contact filtering for GImpact shapes.
+ + Built using Gradle v7.3 .
+
 ## Version 4.5.0-test1 released on 25 October 2021
 
  + Bugfix: invalid contact points for heightfield/mesh shapes (issue #18)

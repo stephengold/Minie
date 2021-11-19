@@ -4,7 +4,7 @@ apply plugin: 'java'
 
 ext {
     jmeTarget = ''
-    minieSnapshot = '-SNAPSHOT'
+    minieSnapshot = ''
 
     // current versions of various libraries:
     heartVersion = '7.1.0' + jmeTarget
