@@ -72,7 +72,7 @@ import jme3utilities.math.MyMath;
  *
  * @author normenhansen
  */
-public class BulletDebugAppState extends AbstractAppState {
+public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
     // *************************************************************************
     // constants and loggers
 
@@ -462,11 +462,11 @@ public class BulletDebugAppState extends AbstractAppState {
     }
 
     /**
-     * Create the specified wireframe material.
+     * Create the specified wireframe material. TODO make non-static
      *
      * @param assetManager the application's AssetManager (not null)
      * @param color the desired color (not null, unaffected)
-     * @param name the desired name (unaffected)
+     * @param name the desired name for the Material
      * @param numSides the desired number of sides (1 or 2)
      * @return a new instance
      */
