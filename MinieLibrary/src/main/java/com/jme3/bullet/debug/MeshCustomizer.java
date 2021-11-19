@@ -42,7 +42,8 @@ public interface MeshCustomizer {
     /**
      * Customize the specified Mesh.
      *
-     * @param mesh the Mesh to be customized (not null)
+     * @param inputMesh the Mesh to be customized (not null)
+     * @return the customized mesh (not null)
      */
-    Mesh customizeMesh(Mesh mesh);
+    Mesh customizeMesh(Mesh inputMesh);
 }
