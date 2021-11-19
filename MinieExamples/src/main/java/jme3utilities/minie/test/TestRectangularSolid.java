@@ -103,7 +103,7 @@ public class TestRectangularSolid extends AbstractDemo {
     /**
      * AppState to manage the PhysicsSpace
      */
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
     /**
      * pseudo-random seed for the current/next trial
      */
@@ -166,6 +166,7 @@ public class TestRectangularSolid extends AbstractDemo {
                 sampleColor, samplePointSize);
         registerMaterial("samplePoint", material);
 
+        bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSpeed(0f);
         stateManager.attach(bulletAppState);
