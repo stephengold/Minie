@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class TestPhysicsRayCast extends SimpleApplication {
 
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
 
     public static void main(String[] args) {
         new TestPhysicsRayCast().start();
@@ -27,6 +27,7 @@ public class TestPhysicsRayCast extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         initCrossHair();
 
