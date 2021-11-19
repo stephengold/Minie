@@ -50,7 +50,7 @@ import com.jme3.scene.Node;
 
 public class TestIssue877 extends SimpleApplication {
 
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
     final private int numPendulums = 6;
     final private int numFalling = 6;
     final private Node pivots[] = new Node[numPendulums];
@@ -69,6 +69,7 @@ public class TestIssue877 extends SimpleApplication {
         cam.setLocation(new Vector3f(-4.77f, -7.55f, 16.52f));
         cam.setRotation(new Quaternion(-0.103433f, 0.889420f, 0.368792f, 0.249449f));
 
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true);
 
