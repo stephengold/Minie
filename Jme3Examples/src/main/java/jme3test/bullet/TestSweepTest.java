@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class TestSweepTest extends SimpleApplication {
 
-    final private BulletAppState bulletAppState = new BulletAppState();
+    private BulletAppState bulletAppState;
     private CapsuleCollisionShape capsuleCollisionShape;
     private Node capsule;
     final private float dist = .5f;
@@ -34,6 +34,7 @@ public class TestSweepTest extends SimpleApplication {
                 = new CapsuleCollisionShape(0.3f, 0.5f);
         capsuleCollisionShape = new CapsuleCollisionShape(1f, 1f);
 
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         capsule = new Node("capsule");
