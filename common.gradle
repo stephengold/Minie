@@ -4,14 +4,14 @@ apply plugin: 'java'
 
 ext {
     jmeTarget = ''
-    minieSnapshot = ''
+    minieSnapshot = '-SNAPSHOT'
 
     // current versions of various libraries:
     heartVersion = '7.1.0' + jmeTarget
     jme3utilitiesuiVersion = '0.9.5' + jmeTarget
     jmonkeyengineVersion = '3.4.0-stable'
     junitVersion = '4.13.2'
-    minieVersion = '4.5.0'
+    minieVersion = '4.5.1'
     wesVersion = '0.6.7' + jmeTarget
 }
 
