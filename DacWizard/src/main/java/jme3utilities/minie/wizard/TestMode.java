@@ -164,9 +164,11 @@ class TestMode extends InputMode {
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
         Validate.nonNull(actionString, "action string");
-        logger.log(Level.INFO, "Got action {0} ongoing={1}", new Object[]{
-            MyString.quote(actionString), ongoing
-        });
+        if (logger.isLoggable(Level.INFO)) {
+            logger.log(Level.INFO, "Got action {0} ongoing={1}", new Object[]{
+                MyString.quote(actionString), ongoing
+            });
+        }
 
         boolean handled = false;
         if (ongoing) {
