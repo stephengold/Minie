@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -90,9 +90,11 @@ abstract public class IKController implements JmeCloneable, Savable {
      */
     public IKController(PhysicsLink controlledLink) {
         assert controlledLink != null;
+        if (logger.isLoggable(Level.FINE)) {
+            logger.log(Level.FINE, "Creating controller for bone {0}.",
+                    MyString.quote(controlledLink.boneName()));
+        }
 
-        logger.log(Level.FINE, "Creating controller for bone {0}.",
-                MyString.quote(controlledLink.boneName()));
         this.controlledLink = controlledLink;
         isEnabled = true;
     }

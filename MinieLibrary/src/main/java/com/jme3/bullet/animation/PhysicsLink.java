@@ -185,10 +185,12 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         this.bone = bone;
         rigidBody = createRigidBody(linkConfig, collisionShape);
 
-        logger.log(Level.FINE, "Creating link for bone {0} with mass={1}",
-                new Object[]{
-                    MyString.quote(bone.getName()), rigidBody.getMass()
-                });
+        if (logger.isLoggable(Level.FINE)) {
+            logger.log(Level.FINE, "Creating link for bone {0} with mass={1}",
+                    new Object[]{
+                        MyString.quote(bone.getName()), rigidBody.getMass()
+                    });
+        }
 
         this.localOffset = localOffset.clone();
         updateKPTransform();
@@ -219,10 +221,12 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         this.armatureJoint = armatureJoint;
         rigidBody = createRigidBody(linkConfig, collisionShape);
 
-        logger.log(Level.FINE, "Creating link for joint {0} with mass={1}",
-                new Object[]{
-                    MyString.quote(armatureJoint.getName()), rigidBody.getMass()
-                });
+        if (logger.isLoggable(Level.FINE)) {
+            logger.log(Level.FINE, "Creating link for joint {0} with mass={1}",
+                    new Object[]{
+                        MyString.quote(armatureJoint.getName()), rigidBody.getMass()
+                    });
+        }
 
         this.localOffset = localOffset.clone();
         updateKPTransform();

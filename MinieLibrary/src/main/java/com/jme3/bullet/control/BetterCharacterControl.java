@@ -750,15 +750,19 @@ public class BetterCharacterControl
             } else {
                 newLeft.set(0f, direction.z, -direction.y).normalizeLocal();
             }
-            logger2.log(Level.INFO, "Zero left for direction {0}, up {1}",
-                    new Object[]{direction, worldUpVector});
+            if (logger2.isLoggable(Level.INFO)) {
+                logger2.log(Level.INFO, "Zero left for direction {0}, up {1}",
+                        new Object[]{direction, worldUpVector});
+            }
         }
         newLeftNegate.set(newLeft).negateLocal();
         direction.set(worldUpVector).crossLocal(newLeftNegate).normalizeLocal();
         if (MyVector3f.isZero(direction)) {
             direction.set(0f, 0f, 1f);
-            logger2.log(Level.INFO, "Zero left for left {0}, up {1}",
-                    new Object[]{newLeft, worldUpVector});
+            if (logger2.isLoggable(Level.INFO)) {
+                logger2.log(Level.INFO, "Zero left for left {0}, up {1}",
+                        new Object[]{newLeft, worldUpVector});
+            }
         }
         if (rotation != null) {
             rotation.fromAxes(newLeft, worldUpVector, direction);

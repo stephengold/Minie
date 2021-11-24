@@ -725,8 +725,10 @@ public class CollisionSpace extends NativePhysicsObject {
         }
         assert !ghost.isInWorld();
 
-        loggerC.log(Level.FINE, "Adding {0} to {1}.",
-                new Object[]{ghost, this});
+        if (loggerC.isLoggable(Level.FINE)) {
+            loggerC.log(Level.FINE, "Adding {0} to {1}.",
+                    new Object[]{ghost, this});
+        }
 
         long ghostId = ghost.nativeId();
         ghostMap.put(ghostId, ghost);
@@ -781,8 +783,10 @@ public class CollisionSpace extends NativePhysicsObject {
         }
 
         ghostMap.remove(ghostId);
-        loggerC.log(Level.FINE, "Removing {0} from {1}.",
-                new Object[]{ghost, this});
+        if (loggerC.isLoggable(Level.FINE)) {
+            loggerC.log(Level.FINE, "Removing {0} from {1}.",
+                    new Object[]{ghost, this});
+        }
 
         long spaceId = nativeId();
         removeCollisionObject(spaceId, ghostId);

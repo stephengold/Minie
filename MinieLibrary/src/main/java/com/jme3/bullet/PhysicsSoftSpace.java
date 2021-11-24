@@ -302,8 +302,10 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         assert !softBody.isInWorld();
 
         softBodyMap.put(softBodyId, softBody);
-        logger2.log(Level.FINE, "Adding {0} to {1}.",
-                new Object[]{softBody, this});
+        if (logger2.isLoggable(Level.FINE)) {
+            logger2.log(Level.FINE, "Adding {0} to {1}.",
+                    new Object[]{softBody, this});
+        }
 
         long spaceId = nativeId();
         addSoftBody(spaceId, softBodyId);
@@ -320,8 +322,10 @@ public class PhysicsSoftSpace extends PhysicsSpace {
                     new Object[]{softBody, this});
             return;
         }
-        logger2.log(Level.FINE, "Removing {0} from {1}.",
-                new Object[]{softBody, this});
+        if (logger2.isLoggable(Level.FINE)) {
+            logger2.log(Level.FINE, "Removing {0} from {1}.",
+                    new Object[]{softBody, this});
+        }
         softBodyMap.remove(softBodyId);
         long spaceId = nativeId();
         removeSoftBody(spaceId, softBodyId);
