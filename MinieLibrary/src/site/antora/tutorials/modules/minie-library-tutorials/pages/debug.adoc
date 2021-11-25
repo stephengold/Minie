@@ -210,7 +210,7 @@ You can tune this threshold:
 
 [source,java]
 ----
-DebugShapeFactorysetIndexBuffers(900);
+DebugShapeFactory.setIndexBuffers(900);
 ----
 
 The threshold has no effect on debug meshes previously generated.
