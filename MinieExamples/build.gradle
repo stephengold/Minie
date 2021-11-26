@@ -13,18 +13,18 @@ dependencies {
     implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
     implementation 'com.github.stephengold:Wes:' + wesVersion
     implementation 'junit:junit:' + junitVersion
-    implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
+    implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     // select one version of LWJGL
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion // LWJGL 2.x
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion // LWJGL 3.x
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // LWJGL 2.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // LWJGL 3.x
 
     // MinieExamples doesn't use jme3-jogg
     // -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion
     implementation project(':MinieLibrary')

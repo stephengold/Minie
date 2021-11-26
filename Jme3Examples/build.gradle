@@ -9,14 +9,14 @@ tasks.withType(JavaCompile) { // Java compile-time options:
 }
     
 dependencies {
-    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     // select one version of LWJGL
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmonkeyengineVersion // LWJGL 2.x
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion // LWJGL 3.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // LWJGL 2.x
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // LWJGL 3.x
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion
     implementation project(':MinieLibrary')

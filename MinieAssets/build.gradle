@@ -44,14 +44,14 @@ dependencies {
     implementation 'com.github.stephengold:jme-ttf:2.2.4' + jmeTarget
     implementation 'com.github.stephengold:Heart:' + heartVersion
     implementation 'org.jmonkeyengine:jme3-blender:3.3.2-stable'
-    implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-plugins:' + jmonkeyengineVersion
+    implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
 
     // MinieAssets doesn't use jme3-jogg.
     // It is included solely to avoid a warning from AssetConfig.
-    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmonkeyengineVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion
     implementation project(':MinieLibrary')
