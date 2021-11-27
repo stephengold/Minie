@@ -487,7 +487,7 @@ public class TrackDemo extends PhysicsDemo {
 
         sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
-        InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
+        InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);
 
         addGrid();

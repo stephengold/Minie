@@ -325,9 +325,9 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     public boolean displayObject(Object obj) {
         boolean result;
         if (obj instanceof PhysicsBody) {
-            result = allBodies.contains((PhysicsBody) obj);
+            result = allBodies.contains(obj);
         } else if (obj instanceof PhysicsJoint) {
-            result = allJoints.contains((PhysicsJoint) obj);
+            result = allJoints.contains(obj);
         } else {
             result = false;
         }
