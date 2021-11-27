@@ -51,7 +51,6 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
-import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.FastMath;
@@ -74,7 +73,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.mesh.Icosphere;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.mesh.ClothGrid;
 import jme3utilities.minie.test.shape.CompoundTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
@@ -99,7 +98,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     /**
      * application that contains this Drop
      */
-    final private AbstractDemo appInstance;
+    final private PhysicsDemo appInstance;
     /**
      * physics bodies in this Drop, all must be dynamic
      */
@@ -141,7 +140,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * @param startPosition the local-to-PhysicsSpace Transform (not null,
      * unaffected)
      */
-    Drop(AbstractDemo appInstance, String typeName, float totalMass,
+    Drop(PhysicsDemo appInstance, String typeName, float totalMass,
             Transform startPosition) {
         Validate.nonNull(appInstance, "application instance");
         Validate.nonNull(typeName, "type name");

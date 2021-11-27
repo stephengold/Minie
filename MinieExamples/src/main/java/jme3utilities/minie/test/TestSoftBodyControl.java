@@ -56,7 +56,7 @@ import jme3utilities.MyCamera;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
@@ -66,7 +66,7 @@ import jme3utilities.ui.InputMode;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestSoftBodyControl
-        extends AbstractDemo
+        extends PhysicsDemo
         implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
@@ -123,7 +123,7 @@ public class TestSoftBodyControl
         application.start();
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // PhysicsDemo methods
 
     /**
      * Initialize this application.
@@ -186,8 +186,8 @@ public class TestSoftBodyControl
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -195,8 +195,8 @@ public class TestSoftBodyControl
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind("test rubberDuck", KeyInput.KEY_F1);
-        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
                 KeyInput.KEY_PERIOD);
 
         float margin = 10f; // in pixels

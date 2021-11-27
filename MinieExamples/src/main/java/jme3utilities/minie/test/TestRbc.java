@@ -101,7 +101,7 @@ import jme3utilities.mesh.RectangleMesh;
 import jme3utilities.mesh.Tetrahedron;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.terrain.MinieTestTerrains;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -114,7 +114,7 @@ import jme3utilities.ui.InputMode;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestRbc
-        extends AbstractDemo
+        extends PhysicsDemo
         implements PhysicsCollisionListener {
     // *************************************************************************
     // constants and loggers
@@ -226,7 +226,7 @@ public class TestRbc
         application.start();
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // PhysicsDemo methods
 
     /**
      * Initialize this application.
@@ -343,8 +343,8 @@ public class TestRbc
 
         dim.bind("clear shapes", KeyInput.KEY_BACK, KeyInput.KEY_DELETE);
 
-        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("launch", KeyInput.KEY_L);
 
@@ -371,9 +371,9 @@ public class TestRbc
         dim.bind("test+7", KeyInput.KEY_NUMPAD9);
         dim.bind("test-7", KeyInput.KEY_NUMPAD7);
 
-        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float margin = 10f; // in pixels

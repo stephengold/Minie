@@ -86,7 +86,7 @@ import jme3utilities.math.MyMath;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.minie.test.tunings.BaseMeshControl;
 import jme3utilities.minie.test.tunings.Biped;
@@ -110,7 +110,7 @@ import jme3utilities.wes.Pose;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestDac extends AbstractDemo {
+public class TestDac extends PhysicsDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -234,7 +234,7 @@ public class TestDac extends AbstractDemo {
         application.start();
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // PhysicsDemo methods
 
     /**
      * Initialize this application.
@@ -319,10 +319,10 @@ public class TestDac extends AbstractDemo {
         dim.bind("add", KeyInput.KEY_INSERT);
         dim.bind("amputate left elbow", KeyInput.KEY_DELETE);
         dim.bind("blend all to kinematic", KeyInput.KEY_K);
-        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
         dim.bind("drop attachments", KeyInput.KEY_PGDN);
-        dim.bind(AbstractDemo.asDumpScenes, KeyInput.KEY_P);
-        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(PhysicsDemo.asDumpScenes, KeyInput.KEY_P);
+        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
 
         dim.bind("freeze all", KeyInput.KEY_F);
         dim.bind("freeze upper body", KeyInput.KEY_U);
@@ -366,13 +366,13 @@ public class TestDac extends AbstractDemo {
         dim.bindSignal("rotateRight", KeyInput.KEY_RIGHT);
         dim.bindSignal("shower", KeyInput.KEY_I);
 
-        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(AbstractDemo.asToggleDebug, KeyInput.KEY_SLASH);
-        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(PhysicsDemo.asToggleDebug, KeyInput.KEY_SLASH);
+        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
                 KeyInput.KEY_PERIOD);
-        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float margin = 10f; // in pixels

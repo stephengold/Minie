@@ -73,7 +73,7 @@ import jme3utilities.math.noise.Generator;
 import jme3utilities.math.noise.Permutation;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.mesh.PoolHalfCushions;
 import jme3utilities.minie.test.mesh.PoolTableSlice;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -86,7 +86,7 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class PoolDemo extends AbstractDemo {
+public class PoolDemo extends PhysicsDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -166,7 +166,7 @@ public class PoolDemo extends AbstractDemo {
         application.start();
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // PhysicsDemo methods
 
     /**
      * Initialize this application.
@@ -287,10 +287,10 @@ public class PoolDemo extends AbstractDemo {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
 
-        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("restart", KeyInput.KEY_NUMPAD5);
 
@@ -302,14 +302,14 @@ public class PoolDemo extends AbstractDemo {
         dim.bind("strike", "RMB");
         dim.bind("strike", KeyInput.KEY_RETURN, KeyInput.KEY_SPACE);
 
-        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(AbstractDemo.asToggleDebug, KeyInput.KEY_SLASH);
-        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause,
+        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(PhysicsDemo.asToggleDebug, KeyInput.KEY_SLASH);
+        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(PhysicsDemo.asTogglePause,
                 KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
-        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle scene", KeyInput.KEY_M);
-        dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(PhysicsDemo.asToggleVArrows, KeyInput.KEY_K);
         /*
          * Don't create the help node until the hotkey bindings are complete.
          */

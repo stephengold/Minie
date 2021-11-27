@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 import jme3utilities.SimpleAppState;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 
 /**
  * AppState to display the status of the DropTest application in an overlay. The
@@ -443,7 +443,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceDamping(int amount) {
-        damping = AbstractDemo.advanceFloat(dampingValues, damping, amount);
+        damping = PhysicsDemo.advanceFloat(dampingValues, damping, amount);
         appInstance.setDampingAll(damping);
     }
 
@@ -454,7 +454,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     private void advanceDrop(int amount) {
         nextDropType
-                = AbstractDemo.advanceString(dropNames, nextDropType, amount);
+                = PhysicsDemo.advanceString(dropNames, nextDropType, amount);
     }
 
     /**
@@ -463,7 +463,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceFriction(int amount) {
-        friction = AbstractDemo.advanceFloat(frictionValues, friction, amount);
+        friction = PhysicsDemo.advanceFloat(frictionValues, friction, amount);
         appInstance.setFrictionAll(friction);
     }
 
@@ -473,7 +473,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceGravity(int amount) {
-        gravity = AbstractDemo.advanceFloat(gravityValues, gravity, amount);
+        gravity = PhysicsDemo.advanceFloat(gravityValues, gravity, amount);
         appInstance.setGravityAll(gravity);
     }
 
@@ -483,7 +483,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advancePlatform(int amount) {
-        platformName = AbstractDemo.advanceString(platformNames, platformName,
+        platformName = PhysicsDemo.advanceString(platformNames, platformName,
                 amount);
         appInstance.restartScenario();
     }
@@ -494,7 +494,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        restitution = AbstractDemo.advanceFloat(restitutionValues, restitution,
+        restitution = PhysicsDemo.advanceFloat(restitutionValues, restitution,
                 amount);
         appInstance.setRestitutionAll(restitution);
     }

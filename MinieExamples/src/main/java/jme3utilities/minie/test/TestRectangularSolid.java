@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,7 @@ import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.mesh.PointMesh;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -67,7 +67,7 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestRectangularSolid extends AbstractDemo {
+public class TestRectangularSolid extends PhysicsDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -147,7 +147,7 @@ public class TestRectangularSolid extends AbstractDemo {
         application.start();
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // PhysicsDemo methods
 
     /**
      * Initialize this application.
@@ -214,7 +214,7 @@ public class TestRectangularSolid extends AbstractDemo {
         dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
 
         float margin = 10f; // in pixels
         float width = cam.getWidth() - 2f * margin;

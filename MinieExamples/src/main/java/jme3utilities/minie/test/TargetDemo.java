@@ -73,7 +73,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -87,7 +87,7 @@ import jme3utilities.ui.InputMode;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TargetDemo
-        extends AbstractDemo
+        extends PhysicsDemo
         implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
@@ -218,7 +218,7 @@ public class TargetDemo
         bulletAppState.setDebugShadowMode(mode);
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // PhysicsDemo methods
 
     /**
      * Initialize this application.
@@ -311,12 +311,12 @@ public class TargetDemo
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
         dim.bind("delete selected", KeyInput.KEY_DECIMAL, KeyInput.KEY_DELETE);
 
         dim.bind("dump selected", KeyInput.KEY_LBRACKET);
-        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("launch", KeyInput.KEY_RETURN, KeyInput.KEY_INSERT,
                 KeyInput.KEY_NUMPAD0);
@@ -339,15 +339,15 @@ public class TargetDemo
         dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(AbstractDemo.asToggleCcdSpheres, KeyInput.KEY_L);
+        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(PhysicsDemo.asToggleCcdSpheres, KeyInput.KEY_L);
         dim.bind("toggle childColor", KeyInput.KEY_COMMA);
-        dim.bind(AbstractDemo.asToggleGArrows, KeyInput.KEY_J);
-        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+        dim.bind(PhysicsDemo.asToggleGArrows, KeyInput.KEY_J);
+        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
                 KeyInput.KEY_PERIOD);
-        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
-        dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(PhysicsDemo.asToggleVArrows, KeyInput.KEY_K);
         dim.bind("toggle wireframe", KeyInput.KEY_SLASH);
         /*
          * The help node can't be created until all hotkeys are bound.

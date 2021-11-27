@@ -90,7 +90,7 @@ import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.mesh.ClothGrid;
 import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -102,7 +102,7 @@ import jme3utilities.ui.InputMode;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestSoftBody
-        extends AbstractDemo
+        extends PhysicsDemo
         implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
@@ -238,7 +238,7 @@ public class TestSoftBody
         application.start();
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // PhysicsDemo methods
 
     /**
      * Initialize this application.
@@ -344,10 +344,10 @@ public class TestSoftBody
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
 
-        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("next", KeyInput.KEY_N);
 
@@ -361,11 +361,11 @@ public class TestSoftBody
         dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
 
-        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
                 KeyInput.KEY_PERIOD);
-        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
         addHelp();
     }

@@ -78,7 +78,7 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.minie.PhysicsDumper;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.mesh.ClothHexagon;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -97,7 +97,7 @@ import jme3utilities.ui.Signals;
  * @author Stephen Gold sgold@sonic.net
  */
 public class DropTest
-        extends AbstractDemo
+        extends PhysicsDemo
         implements DebugInitListener {
     // *************************************************************************
     // constants and loggers
@@ -245,7 +245,7 @@ public class DropTest
         bulletAppState.setDebugShadowMode(mode);
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // Physics methods
 
     /**
      * Initialize this application.
@@ -474,14 +474,14 @@ public class DropTest
         dim.bind("add", KeyInput.KEY_RETURN, KeyInput.KEY_INSERT,
                 KeyInput.KEY_NUMPAD0, KeyInput.KEY_SPACE);
 
-        dim.bind(AbstractDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
 
         dim.bind("delete last", KeyInput.KEY_BACK, KeyInput.KEY_SUBTRACT);
         dim.bind("delete selected", KeyInput.KEY_DECIMAL, KeyInput.KEY_DELETE);
 
         dim.bind("dump selected", KeyInput.KEY_LBRACKET);
-        dim.bind(AbstractDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(AbstractDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("next field", KeyInput.KEY_NUMPAD2);
         dim.bind("next value", KeyInput.KEY_EQUALS, KeyInput.KEY_NUMPAD6);
@@ -502,15 +502,15 @@ public class DropTest
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
         dim.bindSignal("shower", KeyInput.KEY_ADD, KeyInput.KEY_I);
 
-        dim.bind(AbstractDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(AbstractDemo.asToggleCcdSpheres, KeyInput.KEY_L);
+        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(PhysicsDemo.asToggleCcdSpheres, KeyInput.KEY_L);
         dim.bind("toggle childColor", KeyInput.KEY_COMMA);
-        dim.bind(AbstractDemo.asToggleGArrows, KeyInput.KEY_J);
-        dim.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(AbstractDemo.asTogglePause, KeyInput.KEY_PAUSE,
+        dim.bind(PhysicsDemo.asToggleGArrows, KeyInput.KEY_J);
+        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
                 KeyInput.KEY_PERIOD);
-        dim.bind(AbstractDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
-        dim.bind(AbstractDemo.asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(PhysicsDemo.asToggleVArrows, KeyInput.KEY_K);
         dim.bind("toggle wireframe", KeyInput.KEY_SLASH);
 
         dim.bind("value+7", KeyInput.KEY_NUMPAD9);

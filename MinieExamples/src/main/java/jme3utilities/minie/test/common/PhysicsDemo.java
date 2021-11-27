@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -90,7 +90,7 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-abstract public class AbstractDemo extends ActionApplication {
+abstract public class PhysicsDemo extends ActionApplication {
     // *************************************************************************
     // constants and loggers
 
@@ -102,7 +102,7 @@ abstract public class AbstractDemo extends ActionApplication {
      * message logger for this class
      */
     final public static Logger loggerA
-            = Logger.getLogger(AbstractDemo.class.getName());
+            = Logger.getLogger(PhysicsDemo.class.getName());
     /**
      * action strings that onAction() recognizes
      */
@@ -426,7 +426,7 @@ abstract public class AbstractDemo extends ActionApplication {
             public void onAction(String s, boolean b, float f) {
             }
         };
-        dummyMode.bind(AbstractDemo.asToggleHelp, KeyInput.KEY_H);
+        dummyMode.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
 
         float width = 100f; // in pixels
         float height = bounds.height;
