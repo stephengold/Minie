@@ -287,10 +287,10 @@ public class PoolDemo extends PhysicsDemo {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(asCollectGarbage, KeyInput.KEY_G);
 
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("restart", KeyInput.KEY_NUMPAD5);
 
@@ -302,14 +302,13 @@ public class PoolDemo extends PhysicsDemo {
         dim.bind("strike", "RMB");
         dim.bind("strike", KeyInput.KEY_RETURN, KeyInput.KEY_SPACE);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleDebug, KeyInput.KEY_SLASH);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(PhysicsDemo.asTogglePause,
-                KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleDebug, KeyInput.KEY_SLASH);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle scene", KeyInput.KEY_M);
-        dim.bind(PhysicsDemo.asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(asToggleVArrows, KeyInput.KEY_K);
         /*
          * Don't create the help node until the hotkey bindings are complete.
          */

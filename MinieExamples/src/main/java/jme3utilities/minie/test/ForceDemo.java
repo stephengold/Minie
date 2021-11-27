@@ -181,8 +181,8 @@ public class ForceDemo
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(PhysicsDemo.asDumpScene, KeyInput.KEY_P);
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpScene, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
 
         dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -197,12 +197,11 @@ public class ForceDemo
         dim.bindSignal("torq+Y", KeyInput.KEY_F1);
         dim.bindSignal("torq-Y", KeyInput.KEY_F2);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
-        dim.bind(PhysicsDemo.asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asToggleVArrows, KeyInput.KEY_K);
 
         float margin = 10f; // in pixels
         float width = cam.getWidth() - 2f * margin;

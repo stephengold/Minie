@@ -186,8 +186,8 @@ public class TestSoftBodyControl
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpViewport, KeyInput.KEY_P);
 
         dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -195,9 +195,8 @@ public class TestSoftBodyControl
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
         dim.bind("test rubberDuck", KeyInput.KEY_F1);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
 
         float margin = 10f; // in pixels
         float width = cam.getWidth() - 2f * margin;

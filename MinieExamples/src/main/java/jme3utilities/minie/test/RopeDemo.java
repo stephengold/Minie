@@ -322,8 +322,8 @@ public class RopeDemo extends PhysicsDemo {
 
         dim.bind("delete", KeyInput.KEY_BACK, KeyInput.KEY_DELETE);
 
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("pull a pin", KeyInput.KEY_X);
@@ -334,13 +334,12 @@ public class RopeDemo extends PhysicsDemo {
         dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleDebug, KeyInput.KEY_SLASH);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleDebug, KeyInput.KEY_SLASH);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float margin = 10f; // in pixels

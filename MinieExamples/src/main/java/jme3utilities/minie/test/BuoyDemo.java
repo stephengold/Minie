@@ -242,9 +242,9 @@ public class BuoyDemo extends PhysicsDemo {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
-        dim.bind(PhysicsDemo.asDumpScenes, KeyInput.KEY_P);
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(asDumpScenes, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
         dim.bind("go floating", KeyInput.KEY_0, KeyInput.KEY_SPACE);
 
         dim.bind("load BaseMesh", KeyInput.KEY_F11);
@@ -263,13 +263,12 @@ public class BuoyDemo extends PhysicsDemo {
         dim.bindSignal("rotateLeft", KeyInput.KEY_LEFT);
         dim.bindSignal("rotateRight", KeyInput.KEY_RIGHT);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleDebug, KeyInput.KEY_SLASH);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleDebug, KeyInput.KEY_SLASH);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float margin = 10f; // in pixels

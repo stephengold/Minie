@@ -214,7 +214,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
 
         float margin = 10f; // in pixels
         float width = cam.getWidth() - 2f * margin;

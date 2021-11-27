@@ -319,10 +319,10 @@ public class TestDac extends PhysicsDemo {
         dim.bind("add", KeyInput.KEY_INSERT);
         dim.bind("amputate left elbow", KeyInput.KEY_DELETE);
         dim.bind("blend all to kinematic", KeyInput.KEY_K);
-        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(asCollectGarbage, KeyInput.KEY_G);
         dim.bind("drop attachments", KeyInput.KEY_PGDN);
-        dim.bind(PhysicsDemo.asDumpScenes, KeyInput.KEY_P);
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpScenes, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
 
         dim.bind("freeze all", KeyInput.KEY_F);
         dim.bind("freeze upper body", KeyInput.KEY_U);
@@ -366,13 +366,12 @@ public class TestDac extends PhysicsDemo {
         dim.bindSignal("rotateRight", KeyInput.KEY_RIGHT);
         dim.bindSignal("shower", KeyInput.KEY_I);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleDebug, KeyInput.KEY_SLASH);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleDebug, KeyInput.KEY_SLASH);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float margin = 10f; // in pixels

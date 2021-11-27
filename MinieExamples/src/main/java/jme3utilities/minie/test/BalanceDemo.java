@@ -290,8 +290,8 @@ public class BalanceDemo extends PhysicsDemo {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(PhysicsDemo.asDumpScenes, KeyInput.KEY_P);
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpScenes, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
         dim.bind("go limp", KeyInput.KEY_SPACE);
 
         dim.bind("load Jaime", KeyInput.KEY_F2);
@@ -315,13 +315,12 @@ public class BalanceDemo extends PhysicsDemo {
         dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleDebug, KeyInput.KEY_SLASH);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleDebug, KeyInput.KEY_SLASH);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind("toggle meshes", KeyInput.KEY_M);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle skeleton", KeyInput.KEY_V);
 
         float margin = 10f; // in pixels

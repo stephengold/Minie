@@ -343,8 +343,8 @@ public class TestRbc
 
         dim.bind("clear shapes", KeyInput.KEY_BACK, KeyInput.KEY_DELETE);
 
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("launch", KeyInput.KEY_L);
 
@@ -371,9 +371,9 @@ public class TestRbc
         dim.bind("test+7", KeyInput.KEY_NUMPAD9);
         dim.bind("test-7", KeyInput.KEY_NUMPAD7);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float margin = 10f; // in pixels

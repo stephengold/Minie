@@ -344,10 +344,10 @@ public class TestSoftBody
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpViewport, KeyInput.KEY_P);
 
-        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(asCollectGarbage, KeyInput.KEY_G);
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("next", KeyInput.KEY_N);
 
@@ -361,11 +361,10 @@ public class TestSoftBody
         dim.bind("test squishyBall", KeyInput.KEY_F1);
         dim.bind("test tablecloth", KeyInput.KEY_F2);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
 
         addHelp();
     }

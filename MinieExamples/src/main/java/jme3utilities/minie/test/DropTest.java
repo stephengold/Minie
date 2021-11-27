@@ -474,14 +474,14 @@ public class DropTest
         dim.bind("add", KeyInput.KEY_RETURN, KeyInput.KEY_INSERT,
                 KeyInput.KEY_NUMPAD0, KeyInput.KEY_SPACE);
 
-        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(asCollectGarbage, KeyInput.KEY_G);
 
         dim.bind("delete last", KeyInput.KEY_BACK, KeyInput.KEY_SUBTRACT);
         dim.bind("delete selected", KeyInput.KEY_DECIMAL, KeyInput.KEY_DELETE);
 
         dim.bind("dump selected", KeyInput.KEY_LBRACKET);
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
-        dim.bind(PhysicsDemo.asDumpViewport, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpViewport, KeyInput.KEY_P);
 
         dim.bind("next field", KeyInput.KEY_NUMPAD2);
         dim.bind("next value", KeyInput.KEY_EQUALS, KeyInput.KEY_NUMPAD6);
@@ -502,15 +502,14 @@ public class DropTest
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
         dim.bindSignal("shower", KeyInput.KEY_ADD, KeyInput.KEY_I);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleCcdSpheres, KeyInput.KEY_L);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleCcdSpheres, KeyInput.KEY_L);
         dim.bind("toggle childColor", KeyInput.KEY_COMMA);
-        dim.bind(PhysicsDemo.asToggleGArrows, KeyInput.KEY_J);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
-        dim.bind(PhysicsDemo.asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(asToggleGArrows, KeyInput.KEY_J);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asToggleVArrows, KeyInput.KEY_K);
         dim.bind("toggle wireframe", KeyInput.KEY_SLASH);
 
         dim.bind("value+7", KeyInput.KEY_NUMPAD9);

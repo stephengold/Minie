@@ -236,10 +236,10 @@ public class JointDemo extends PhysicsDemo {
     public void moreDefaultBindings() {
         InputMode dim = getDefaultInputMode();
 
-        dim.bind(PhysicsDemo.asDumpScene, KeyInput.KEY_P);
-        dim.bind(PhysicsDemo.asDumpSpace, KeyInput.KEY_O);
+        dim.bind(asDumpScene, KeyInput.KEY_P);
+        dim.bind(asDumpSpace, KeyInput.KEY_O);
 
-        dim.bind(PhysicsDemo.asCollectGarbage, KeyInput.KEY_G);
+        dim.bind(asCollectGarbage, KeyInput.KEY_G);
 
         dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
@@ -250,11 +250,10 @@ public class JointDemo extends PhysicsDemo {
         dim.bind("signal turnLR", KeyInput.KEY_NUMPAD1);
         dim.bind("signal turnRR", KeyInput.KEY_NUMPAD3);
 
-        dim.bind(PhysicsDemo.asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
-        dim.bind(PhysicsDemo.asTogglePause, KeyInput.KEY_PAUSE,
-                KeyInput.KEY_PERIOD);
-        dim.bind(PhysicsDemo.asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
+        dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
+        dim.bind(asToggleHelp, KeyInput.KEY_H);
+        dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
+        dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
 
         float margin = 10f; // in pixels
