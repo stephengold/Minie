@@ -45,10 +45,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.PlaneDmiListener;
-import com.jme3.font.Rectangle;
-import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
@@ -57,56 +54,39 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import com.jme3.texture.Texture;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
-import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
-import jme3utilities.debug.AxesVisualizer;
-import jme3utilities.math.MyMath;
-import jme3utilities.math.MyVector3f;
 import jme3utilities.mesh.Prism;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
-import jme3utilities.ui.ActionApplication;
-import jme3utilities.ui.HelpUtils;
-import jme3utilities.ui.InputMode;
 
 /**
- * An abstract ActionApplication with additional data and methods to test and/or
- * demonstrate the capabilities of Minie.
+ * An AbstractDemo with additional data and methods to test and/or demonstrate
+ * the capabilities of Minie.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-abstract public class PhysicsDemo extends ActionApplication {
+abstract public class PhysicsDemo extends AbstractDemo {
     // *************************************************************************
     // constants and loggers
 
     /**
-     * animation/physics speed when paused
-     */
-    final public static float pausedSpeed = 1e-12f;
-    /**
      * message logger for this class
      */
-    final public static Logger loggerA
+    final public static Logger loggerP
             = Logger.getLogger(PhysicsDemo.class.getName());
     /**
      * action strings that onAction() recognizes
      */
-    final public static String asCollectGarbage = "collect garbage";
     final public static String asDumpGui = "dump gui";
     final public static String asDumpSpace = "dump space";
     final public static String asDumpScene = "dump scene";
@@ -116,18 +96,11 @@ abstract public class PhysicsDemo extends ActionApplication {
     final public static String asToggleCcdSpheres = "toggle ccdSpheres";
     final public static String asToggleDebug = "toggle debug";
     final public static String asToggleGArrows = "toggle gArrows";
-    final public static String asToggleHelp = "toggle help";
-    final public static String asTogglePause = "toggle pause";
     final public static String asTogglePcoAxes = "toggle pcoAxes";
     final public static String asToggleVArrows = "toggle vArrows";
-    final public static String asToggleWorldAxes = "toggle worldAxes";
     // *************************************************************************
     // fields
 
-    /**
-     * visualizer for the world axes
-     */
-    private AxesVisualizer worldAxes = null;
     /**
      * filter to control visualization of axis-aligned bounding boxes
      */
@@ -148,18 +121,6 @@ abstract public class PhysicsDemo extends ActionApplication {
      * library of named physics collision shapes
      */
     final private Map<String, CollisionShape> namedShapes = new TreeMap<>();
-    /**
-     * library of named geometry materials
-     */
-    final private Map<String, Material> namedMaterials = new TreeMap<>();
-    /**
-     * Node for displaying hotkey help in the GUI scene
-     */
-    private Node helpNode;
-    /**
-     * Node for displaying "toggle help: H" in the GUI scene
-     */
-    private Node minHelpNode;
     /**
      * dump debugging information to System.out
      */
@@ -302,72 +263,6 @@ abstract public class PhysicsDemo extends ActionApplication {
     }
 
     /**
-     * Advance a float selection by the specified (cyclic) amount.
-     *
-     * @param valuesArray an array of values in ascending order (not null,
-     * unaffected)
-     * @param startValue the starting value (found in values[])
-     * @param amount the number of values to advance (may be negative)
-     * @return the new (advanced) value
-     */
-    public static float advanceFloat(float[] valuesArray, float startValue,
-            int amount) {
-        int index = Arrays.binarySearch(valuesArray, startValue);
-
-        float result;
-        if (index < 0) {
-            result = valuesArray[0];
-        } else {
-            assert valuesArray[index] == startValue;
-            index = MyMath.modulo(index + amount, valuesArray.length);
-            result = valuesArray[index];
-        }
-
-        return result;
-    }
-
-    /**
-     * Advance a String selection by the specified (cyclic) amount.
-     *
-     * @param valuesArray an array of values in ascending order (not null,
-     * unaffected)
-     * @param startValue the starting value (found in values[])
-     * @param amount the number of values to advance (may be negative)
-     * @return the new (advanced) value
-     */
-    public static String advanceString(String[] valuesArray, String startValue,
-            int amount) {
-        int index = Arrays.binarySearch(valuesArray, startValue);
-
-        String result;
-        if (index < 0) {
-            result = valuesArray[0];
-        } else {
-            assert valuesArray[index].equals(startValue);
-            index = MyMath.modulo(index + amount, valuesArray.length);
-            result = valuesArray[index];
-        }
-
-        return result;
-    }
-
-    /**
-     * Test whether the world axes are enabled.
-     *
-     * @return true if enabled, otherwise false
-     */
-    public boolean areWorldAxesEnabled() {
-        boolean result;
-        if (worldAxes == null) {
-            result = false;
-        } else {
-            result = worldAxes.isEnabled();
-        }
-
-        return result;
-    }
-
-    /**
      * Add a static cube to the scene, to serve as a platform.
      *
      * @param halfExtent half the desired extent of the cube (&gt;0)
@@ -401,81 +296,6 @@ abstract public class PhysicsDemo extends ActionApplication {
         geometry.addControl(control);
 
         return control;
-    }
-
-    /**
-     * Generate full and minimal versions of the hotkey help. Attach the minimal
-     * one to the GUI scene.
-     *
-     * @param bounds the desired screen coordinates (not null, unaffected)
-     */
-    public void attachHelpNode(Rectangle bounds) {
-        Validate.nonNull(bounds, "bounds");
-
-        InputMode inputMode = getDefaultInputMode();
-        float extraSpace = 20f;
-        helpNode = HelpUtils.buildNode(inputMode, bounds, guiFont, extraSpace);
-        helpNode.move(0f, 0f, 1f); // move (slightly) to the front
-
-        InputMode dummyMode = new InputMode("dummy") {
-            @Override
-            protected void defaultBindings() {
-            }
-
-            @Override
-            public void onAction(String s, boolean b, float f) {
-            }
-        };
-        dummyMode.bind(PhysicsDemo.asToggleHelp, KeyInput.KEY_H);
-
-        float width = 100f; // in pixels
-        float height = bounds.height;
-        float x = bounds.x + bounds.width - width;
-        float y = bounds.y;
-        Rectangle dummyBounds = new Rectangle(x, y, width, height);
-
-        minHelpNode = HelpUtils.buildNode(dummyMode, dummyBounds, guiFont, 0f);
-        guiNode.attachChild(minHelpNode);
-    }
-
-    /**
-     * Add a visualizer for the axes of the world coordinate system.
-     *
-     * @param axisLength the desired length for each axis arrow (in world units,
-     * &gt;0)
-     */
-    public void attachWorldAxes(float axisLength) {
-        Validate.positive(axisLength, "axis length");
-
-        if (worldAxes != null) {
-            rootNode.removeControl(worldAxes);
-        }
-
-        worldAxes = new AxesVisualizer(assetManager, axisLength);
-        worldAxes.setLineWidth(AxesVisualizer.widthForSolid);
-
-        rootNode.addControl(worldAxes);
-        worldAxes.setEnabled(true);
-    }
-
-    /**
-     * Translate a model's center so that the model rests on the X-Z plane, and
-     * its center lies on the Y axis.
-     *
-     * @param cgModel (not null, modified)
-     */
-    public void centerCgm(Spatial cgModel) {
-        Validate.nonNull(cgModel, "model");
-
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(cgModel);
-        Vector3f min = minMax[0];
-        Vector3f max = minMax[1];
-        Vector3f center = MyVector3f.midpoint(min, max, null);
-        Vector3f offset = new Vector3f(center.x, min.y, center.z);
-
-        Vector3f location = cgModel.getWorldTranslation();
-        location.subtractLocal(offset);
-        MySpatial.setWorldLocation(cgModel, location);
     }
 
     /**
@@ -521,19 +341,6 @@ abstract public class PhysicsDemo extends ActionApplication {
     }
 
     /**
-     * Find the named Material in the library.
-     *
-     * @param name the name of the Material to find (not null)
-     * @return the pre-existing instance, or null if not found
-     */
-    public Material findMaterial(String name) {
-        Validate.nonNull(name, "name");
-
-        Material result = namedMaterials.get(name);
-        return result;
-    }
-
-    /**
      * Find the named CollisionShape in the library.
      *
      * @param name the name of the shape to find (not null)
@@ -544,23 +351,6 @@ abstract public class PhysicsDemo extends ActionApplication {
 
         CollisionShape result = namedShapes.get(name);
         return result;
-    }
-
-    /**
-     * Initialize the library of named materials. Invoke during startup.
-     */
-    public void generateMaterials() {
-        ColorRGBA green = new ColorRGBA(0f, 0.12f, 0f, 1f);
-        Material platform = MyAsset.createShadedMaterial(assetManager, green);
-        registerMaterial("platform", platform);
-
-        Texture texture = MyAsset.loadTexture(assetManager,
-                "Textures/greenTile.png", true);
-        texture.setMinFilter(Texture.MinFilter.Trilinear);
-        texture.setWrap(Texture.WrapMode.Repeat);
-        Material greenTile
-                = MyAsset.createShadedMaterial(assetManager, texture);
-        registerMaterial("greenTile", greenTile);
     }
 
     /**
@@ -602,19 +392,6 @@ abstract public class PhysicsDemo extends ActionApplication {
     }
 
     /**
-     * Test whether animation and physics simulation are paused.
-     *
-     * @return true if paused, otherwise false
-     */
-    public boolean isPaused() {
-        if (speed <= pausedSpeed) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Callback invoked after adding a collision object to the PhysicsSpace.
      * Meant to be overridden.
      *
@@ -644,22 +421,6 @@ abstract public class PhysicsDemo extends ActionApplication {
     }
 
     /**
-     * Add a Material to the library.
-     *
-     * @param name the desired name for the Material, which is also the key that
-     * will be used to find it (not null)
-     * @param material (not null, alias created)
-     */
-    public void registerMaterial(String name, Material material) {
-        Validate.nonNull(name, "name");
-        Validate.nonNull(material, "material");
-        assert !namedMaterials.containsKey(name);
-
-        material.setName(name);
-        namedMaterials.put(name, material);
-    }
-
-    /**
      * Add a CollisionShape to the library.
      *
      * @param name the key that will be used to find the shape (not null)
@@ -671,26 +432,6 @@ abstract public class PhysicsDemo extends ActionApplication {
         assert !namedShapes.containsKey(name);
 
         namedShapes.put(name, shape);
-    }
-
-    /**
-     * Scale the specified C-G model uniformly so that it has the specified
-     * height, assuming Y-up orientation.
-     *
-     * @param cgModel (not null, modified)
-     * @param height the desired height (in world units, &gt;0)
-     */
-    public void setCgmHeight(Spatial cgModel, float height) {
-        Validate.nonNull(cgModel, "model");
-        Validate.positive(height, "height");
-
-        Vector3f[] minMax = MySpatial.findMinMaxCoords(cgModel);
-        Vector3f min = minMax[0];
-        Vector3f max = minMax[1];
-        float oldHeight = max.y - min.y;
-        if (oldHeight > 0f) {
-            cgModel.scale(height / oldHeight);
-        }
     }
 
     /**
@@ -756,14 +497,6 @@ abstract public class PhysicsDemo extends ActionApplication {
     }
 
     /**
-     * Toggle the animation and physics simulation: paused/running.
-     */
-    public void togglePause() {
-        float newSpeed = isPaused() ? 1f : pausedSpeed;
-        setSpeed(newSpeed);
-    }
-
-    /**
      * Toggle physics-debug visualization on/off.
      */
     public void togglePhysicsDebug() {
@@ -798,7 +531,7 @@ abstract public class PhysicsDemo extends ActionApplication {
      */
     abstract protected float maxArrowLength();
     // *************************************************************************
-    // ActionApplication methods
+    // AbstractDemo methods
 
     /**
      * Process an action that wasn't handled by the active InputMode.
@@ -811,10 +544,6 @@ abstract public class PhysicsDemo extends ActionApplication {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case asCollectGarbage:
-                    System.gc();
-                    return;
-
                 case asDumpGui:
                     dumper.dump(guiNode);
                     return;
@@ -844,20 +573,11 @@ abstract public class PhysicsDemo extends ActionApplication {
                 case asToggleGArrows:
                     toggleGravityArrows();
                     return;
-                case asToggleHelp:
-                    toggleHelp();
-                    return;
-                case asTogglePause:
-                    togglePause();
-                    return;
                 case asTogglePcoAxes:
                     togglePcoAxes();
                     return;
                 case asToggleVArrows:
                     toggleVelocityArrows();
-                    return;
-                case asToggleWorldAxes:
-                    toggleWorldAxes();
                     return;
             }
         }
@@ -1088,19 +808,6 @@ abstract public class PhysicsDemo extends ActionApplication {
     }
 
     /**
-     * Toggle between the full help node and the minimal one.
-     */
-    private void toggleHelp() {
-        if (helpNode.getParent() == null) {
-            minHelpNode.removeFromParent();
-            guiNode.attachChild(helpNode);
-        } else {
-            helpNode.removeFromParent();
-            guiNode.attachChild(minHelpNode);
-        }
-    }
-
-    /**
      * Toggle visualization of collision-object axes.
      */
     private void togglePcoAxes() {
@@ -1127,13 +834,5 @@ abstract public class PhysicsDemo extends ActionApplication {
 
         BulletAppState bulletAppState = getBulletAppState();
         bulletAppState.setDebugVelocityVectorFilter(vArrowsFilter);
-    }
-
-    /**
-     * Toggle visualization of world axes.
-     */
-    private void toggleWorldAxes() {
-        boolean enabled = worldAxes.isEnabled();
-        worldAxes.setEnabled(!enabled);
     }
 }
