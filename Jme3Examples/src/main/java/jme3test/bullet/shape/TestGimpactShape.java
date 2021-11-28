@@ -152,22 +152,16 @@ public class TestGimpactShape extends SimpleApplication {
 
         //Setup interactive test controls
         inputManager.addMapping("restart", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addListener(new ActionListener() {
-            @Override
-            public void onAction(String name, boolean isPressed, float tpf) {
-                restart = true;
-            }
+        inputManager.addListener((ActionListener) (String name, boolean isPressed, float tpf) -> {
+            restart = true;
         }, "restart");
 
         inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
-        inputManager.addListener(new ActionListener() {
-            @Override
-            public void onAction(String name, boolean isPressed, float tpf) {
-                if (!isPressed) {
-                    return;
-                }
-                bulletAppState.setSpeed(bulletAppState.getSpeed() > 0.1 ? 0 : 1);
+        inputManager.addListener((ActionListener) (String name, boolean isPressed, float tpf) -> {
+            if (!isPressed) {
+                return;
             }
+            bulletAppState.setSpeed(bulletAppState.getSpeed() > 0.1 ? 0 : 1);
         }, "pause");
 
         inputManager.addMapping("1", new KeyTrigger(KeyInput.KEY_1));
@@ -175,31 +169,28 @@ public class TestGimpactShape extends SimpleApplication {
         inputManager.addMapping("3", new KeyTrigger(KeyInput.KEY_3));
         inputManager.addMapping("+", new KeyTrigger(KeyInput.KEY_ADD), new KeyTrigger(KeyInput.KEY_EQUALS));
         inputManager.addMapping("-", new KeyTrigger(KeyInput.KEY_SUBTRACT), new KeyTrigger(KeyInput.KEY_MINUS));
-        inputManager.addListener(new ActionListener() {
-            @Override
-            public void onAction(String name, boolean isPressed, float tpf) {
-                if (!isPressed) {
-                    return;
-                }
-                switch (name) {
-                    case "1":
-                        solverNumIterations = 10;
-                        break;
-                    case "2":
-                        solverNumIterations = 20;
-                        break;
-                    case "3":
-                        solverNumIterations = 30;
-                        break;
-                    case "+":
-                        scaleMod += scaleMod < 1.9f ? 0.1f : 0;
-                        break;
-                    case "-":
-                        scaleMod -= scaleMod > 0.5f ? 0.1f : 0;
-                        break;
-                }
-                restart = true;
+        inputManager.addListener((ActionListener) (String name, boolean isPressed, float tpf) -> {
+            if (!isPressed) {
+                return;
             }
+            switch (name) {
+                case "1":
+                    solverNumIterations = 10;
+                    break;
+                case "2":
+                    solverNumIterations = 20;
+                    break;
+                case "3":
+                    solverNumIterations = 30;
+                    break;
+                case "+":
+                    scaleMod += scaleMod < 1.9f ? 0.1f : 0;
+                    break;
+                case "-":
+                    scaleMod -= scaleMod > 0.5f ? 0.1f : 0;
+                    break;
+            }
+            restart = true;
         }, "1", "2", "3", "+", "-");
 
         initializeNewTest();
@@ -226,7 +217,7 @@ public class TestGimpactShape extends SimpleApplication {
         dropSign(leftFloorCenter);
         dropRocket(leftFloorCenter);
 
-        final Geometry leftFloor = PhysicsTestHelper.createMeshTestFloor(assetManager, floorSize, leftFloorPos);
+        Geometry leftFloor = PhysicsTestHelper.createMeshTestFloor(assetManager, floorSize, leftFloorPos);
         addObject(leftFloor);
 
         //Right side test - GImpact objects collide with GImpact floor
@@ -240,17 +231,14 @@ public class TestGimpactShape extends SimpleApplication {
         dropSign(rightFloorCenter);
         dropRocket(rightFloorCenter);
 
-        final Geometry rightFloor = PhysicsTestHelper.createGImpactTestFloor(assetManager, floorSize, rightFloorPos);
+        Geometry rightFloor = PhysicsTestHelper.createGImpactTestFloor(assetManager, floorSize, rightFloorPos);
         addObject(rightFloor);
 
         //Hide physics debug visualization for floors
-        bulletAppState.setDebugFilter(
-                new BulletDebugAppState.DebugAppStateFilter() {
-            @Override
-            public boolean displayObject(Object obj) {
-                return !(obj.equals(rightFloor.getControl(RigidBodyControl.class))
-                        || obj.equals(leftFloor.getControl(RigidBodyControl.class)));
-            }
+        BulletDebugAppState bulletDebugAppState = stateManager.getState(BulletDebugAppState.class);
+        bulletDebugAppState.setFilter((Object obj) -> {
+            return !(obj.equals(rightFloor.getControl(RigidBodyControl.class))
+                || obj.equals(leftFloor.getControl(RigidBodyControl.class)));
         });
     }
 

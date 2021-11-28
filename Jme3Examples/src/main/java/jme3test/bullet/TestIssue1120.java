@@ -101,35 +101,32 @@ public class TestIssue1120 extends SimpleApplication {
         inputManager.addMapping("pause", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         inputManager.addMapping("+", new KeyTrigger(KeyInput.KEY_ADD), new KeyTrigger(KeyInput.KEY_EQUALS));
         inputManager.addMapping("-", new KeyTrigger(KeyInput.KEY_SUBTRACT), new KeyTrigger(KeyInput.KEY_MINUS));
-        inputManager.addListener(new ActionListener() {
-            @Override
-            public void onAction(String name, boolean isPressed, float tpf) {
-                if (!isPressed) {
-                    return;
-                }
-                switch (name) {
-                    case "restart":
-                        cleanup();
-                        initializeNewTest();
-                        break;
-                    case "pause":
-                        bulletAppState.setSpeed(bulletAppState.getSpeed() > 0.1 ? 0 : bulletSpeed);
-                        break;
-                    case "+":
-                        bulletSpeed += 0.1f;
-                        if (bulletSpeed > 1f) {
-                            bulletSpeed = 1f;
-                        }
-                        bulletAppState.setSpeed(bulletSpeed);
-                        break;
-                    case "-":
-                        bulletSpeed -= 0.1f;
-                        if (bulletSpeed < 0.1f) {
-                            bulletSpeed = 0.1f;
-                        }
-                        bulletAppState.setSpeed(bulletSpeed);
-                        break;
-                }
+        inputManager.addListener((ActionListener) (String name, boolean isPressed, float tpf) -> {
+            if (!isPressed) {
+                return;
+            }
+            switch (name) {
+                case "restart":
+                    cleanup();
+                    initializeNewTest();
+                    break;
+                case "pause":
+                    bulletAppState.setSpeed(bulletAppState.getSpeed() > 0.1 ? 0 : bulletSpeed);
+                    break;
+                case "+":
+                    bulletSpeed += 0.1f;
+                    if (bulletSpeed > 1f) {
+                        bulletSpeed = 1f;
+                    }
+                    bulletAppState.setSpeed(bulletSpeed);
+                    break;
+                case "-":
+                    bulletSpeed -= 0.1f;
+                    if (bulletSpeed < 0.1f) {
+                        bulletSpeed = 0.1f;
+                    }
+                    bulletAppState.setSpeed(bulletSpeed);
+                    break;
             }
         }, "pause", "restart", "+", "-");
 
@@ -163,16 +160,14 @@ public class TestIssue1120 extends SimpleApplication {
 
         dropTest();
 
-        final Geometry leftFloor = PhysicsTestHelper.createMeshTestFloor(assetManager, 20, new Vector3f(-11, -5, -10));
+        Geometry leftFloor = PhysicsTestHelper.createMeshTestFloor(assetManager, 20, new Vector3f(-11, -5, -10));
         addObject(leftFloor);
 
         //Hide physics debug visualization for floors
         if (physicsDebug) {
-            bulletAppState.setDebugFilter(new BulletDebugAppState.DebugAppStateFilter() {
-                @Override
-                public boolean displayObject(Object obj) {
-                    return !(obj.equals(leftFloor.getControl(RigidBodyControl.class)));
-                }
+            BulletDebugAppState bulletDebugAppState = stateManager.getState(BulletDebugAppState.class);
+            bulletDebugAppState.setFilter((Object obj) -> {
+                return !(obj.equals(leftFloor.getControl(RigidBodyControl.class)));
             });
         }
     }
