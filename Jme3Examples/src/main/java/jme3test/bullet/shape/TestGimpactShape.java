@@ -235,8 +235,7 @@ public class TestGimpactShape extends SimpleApplication {
         addObject(rightFloor);
 
         //Hide physics debug visualization for floors
-        BulletDebugAppState bulletDebugAppState = stateManager.getState(BulletDebugAppState.class);
-        bulletDebugAppState.setFilter((Object obj) -> {
+        bulletAppState.setDebugFilter((Object obj) -> {
             return !(obj.equals(rightFloor.getControl(RigidBodyControl.class))
                 || obj.equals(leftFloor.getControl(RigidBodyControl.class)));
         });

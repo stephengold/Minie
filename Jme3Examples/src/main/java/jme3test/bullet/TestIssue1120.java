@@ -165,8 +165,7 @@ public class TestIssue1120 extends SimpleApplication {
 
         //Hide physics debug visualization for floors
         if (physicsDebug) {
-            BulletDebugAppState bulletDebugAppState = stateManager.getState(BulletDebugAppState.class);
-            bulletDebugAppState.setFilter((Object obj) -> {
+            bulletAppState.setDebugFilter((Object obj) -> {
                 return !(obj.equals(leftFloor.getControl(RigidBodyControl.class)));
             });
         }
