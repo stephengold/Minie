@@ -35,6 +35,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 import java.util.HashSet;
@@ -45,6 +46,7 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.mesh.Icosphere;
 import jme3utilities.mesh.PointMesh;
 import jme3utilities.minie.test.common.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -173,13 +175,19 @@ public class TestInsideTriangle extends AbstractDemo {
      * @param location the desired location (in world coordinates, not null)
      * @param materialName the name of the Material to use (not null)
      */
-    private void attachPoint(Vector3f location, String materialName) {
-        PointMesh mesh = new PointMesh();
-        mesh.setLocation(location);
+    private void attachPoint(Vector3f location, String materialName, float radius) {
+        Mesh mesh;
+        if (radius == 0f) {
+            mesh = new PointMesh();
+        } else {
+            int numRefineSteps = 1;
+            mesh = new Icosphere(numRefineSteps, radius);
+        }
 
         Geometry geometry = new Geometry("point", mesh);
         trialNode.attachChild(geometry);
 
+        geometry.setLocalTranslation(location);
         Material material = findMaterial(materialName);
         geometry.setMaterial(material);
     }
@@ -211,9 +219,11 @@ public class TestInsideTriangle extends AbstractDemo {
         list.add(v1);
         list.add(v2);
 
-        attachPoint(v0, "triangle");
-        attachPoint(v1, "triangle");
-        attachPoint(v2, "triangle");
+        float maxSeparation = 2f;
+        attachPoint(v0, "triangle", maxSeparation);
+        attachPoint(v1, "triangle", maxSeparation);
+        attachPoint(v2, "triangle", maxSeparation);
+
         Vector3f center = MyVector3f.mean(list, null);
         float radius = 0f;
         for (Vector3f p : list) {
@@ -225,7 +235,6 @@ public class TestInsideTriangle extends AbstractDemo {
         /*
          * Visualize sample points in the vicinity of the triangle.
          */
-        float maxSeparation = 2f;
         Vector3f sampleLocation = new Vector3f();
         for (int numSamples = 0; numSamples < samplesPerTrial;) {
             generator.nextVector3f(sampleLocation);
@@ -234,7 +243,7 @@ public class TestInsideTriangle extends AbstractDemo {
             boolean isInside = NativeLibrary.isInsideTriangle(
                     sampleLocation, maxSeparation, v0, v1, v2);
             if (isInside) {
-                attachPoint(sampleLocation, "sample");
+                attachPoint(sampleLocation, "sample", 0f);
                 ++numSamples;
             }
         }
