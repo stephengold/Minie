@@ -32,6 +32,7 @@
 package com.jme3.bullet.util;
 
 import com.jme3.bullet.NativePhysicsObject;
+import com.jme3.math.Vector3f;
 
 /**
  * Static interface to the Libbulletjme native library.
@@ -102,6 +103,21 @@ public class NativeLibrary {
      * @return true if double-precision, false if single-precision
      */
     native public static boolean isDoublePrecision();
+
+    /**
+     * Test whether the specified point and triangle are within the specified
+     * distance of each other. Used for testing Bullet's
+     * btTriangleShape::isInside().
+     *
+     * @param testPoint the location of the test point (not null, unaffected)
+     * @param maxSeparation the maximum separation allowed
+     * @param v0 the first vertex of the triangle (not null, unaffected)
+     * @param v1 the 2nd vertex of the triangle (not null, unaffected)
+     * @param v2 the 3rd vertex of the triangle (not null, unaffected)
+     * @return true if within the specified distance, otherwise false
+     */
+    native public static boolean isInsideTriangle(Vector3f testPoint,
+            float maxSeparation, Vector3f v0, Vector3f v1, Vector3f v2);
 
     /**
      * Test whether the native library includes Quickprof profiling.
