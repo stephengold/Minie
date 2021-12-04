@@ -1,5 +1,21 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.6.0 released on TBD
+
+ + Bugfix: issue #19 (zero-thickness mesh shape crashes the JRE)
+ + Dropped support for the MacOSX32 platform.
+ + Based on v3.4.1-stable of JMonkeyEngine.
+ + Changes to the examples:
+   + Solved 2 null-pointer exceptions in Jme3Examples.
+   + Added the `TestInsideTriangle` and `TestIssue19` apps to MinieExamples.
+   + Split off the `PhysicsDemo` class from `AbstractDemo`.
+   + Built Jme3Examples using Java 8 .
+ + Added the `isInsideTriangle()` method to the `NativeLibrary` class.
+ + Guarded some low-level logging code to improve efficiency.
+ + Built using Gradle v7.3.1 .
+ + Updated the native libraries to v12.6.0 of Libbulletjme, which includes
+   Bullet updates through 13 November 2021.
+
 ## Version 4.5.0 released on 19 November 2021
 
  + Cached the methods that free native objects, to improve performance.
