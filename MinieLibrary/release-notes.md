@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.6.0 released on TBD
+## Version 4.6.0 released on 4 December 2021
 
  + Bugfix: issue #19 (zero-thickness mesh shape crashes the JRE)
  + Dropped support for the MacOSX32 platform.
