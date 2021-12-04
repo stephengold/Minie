@@ -2,11 +2,21 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
+plugins {
+    id 'application'
+}
+
 description = 'demos, examples, tutorial apps, and non-automated tests'
 
 tasks.withType(JavaCompile) { // Java compile-time options:
     options.deprecation = true
 }
+
+mainClassName = 'jme3utilities.minie.test.DropTest'
+if (!hasProperty('mainClass')) {
+    ext.mainClass = mainClassName
+}
+jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
     implementation 'com.github.stephengold:Heart:' + heartVersion
