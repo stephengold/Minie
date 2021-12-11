@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -53,6 +53,12 @@ public class PoolHalfCushions extends Mesh {
             = Logger.getLogger(PoolHalfCushions.class.getName());
     // *************************************************************************
     // constructors
+
+    /**
+     * No-argument constructor needed by SavableClassUtil.
+     */
+    protected PoolHalfCushions() {
+    }
 
     /**
      * Instantiate a half-set of cushions with the specified leg length, pocket
