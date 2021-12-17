@@ -320,7 +320,7 @@ public class TestMultiBody extends PhysicsDemo {
      */
     private void addStatusLines() {
         for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
-            statusLines[lineIndex] = new BitmapText(guiFont, false);
+            statusLines[lineIndex] = new BitmapText(guiFont);
             float y = cam.getHeight() - 20f * lineIndex;
             statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
             guiNode.attachChild(statusLines[lineIndex]);

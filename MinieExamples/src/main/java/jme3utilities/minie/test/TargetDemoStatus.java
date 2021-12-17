@@ -445,7 +445,7 @@ public class TargetDemoStatus extends SimpleAppState {
          * Add the status lines to the guiNode.
          */
         for (int lineIndex = 0; lineIndex < numStatusLines; ++lineIndex) {
-            statusLines[lineIndex] = new BitmapText(guiFont, false);
+            statusLines[lineIndex] = new BitmapText(guiFont);
             float y = cam.getHeight() - 20f * lineIndex;
             statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
             guiNode.attachChild(statusLines[lineIndex]);

@@ -227,7 +227,7 @@ public class SeJointDemo extends PhysicsDemo {
         /*
          * Add the status text to the GUI.
          */
-        statusText = new BitmapText(guiFont, false);
+        statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
     }
