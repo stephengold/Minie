@@ -208,7 +208,7 @@ public class TestRagdollCharacter
                 Geometry brickGeometry = new Geometry("brick", brick);
                 brickGeometry.setMaterial(mat2);
                 brickGeometry.setLocalTranslation(ori);
-                //for geometry with sphere mesh the physics system automatically uses a sphere collision shape
+                // for geometry with sphere mesh the physics system automatically uses a sphere collision shape
                 brickGeometry.addControl(new RigidBodyControl(1.5f));
                 brickGeometry.setShadowMode(ShadowMode.CastAndReceive);
                 brickGeometry.getControl(RigidBodyControl.class).setFriction(0.6f);
