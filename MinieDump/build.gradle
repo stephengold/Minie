@@ -19,8 +19,8 @@ if (!hasProperty('mainClass')) {
 jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
-    implementation 'com.github.stephengold:Heart:' + heartVersion
-    implementation 'com.github.stephengold:Wes:' + wesVersion
+    implementation heartCoordinates
+    implementation wesCoordinates
     implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
 

@@ -19,10 +19,10 @@ if (!hasProperty('mainClass')) {
 jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
-    implementation 'com.github.stephengold:Heart:' + heartVersion
-    implementation 'com.github.stephengold:jme3-utilities-ui:' + jme3utilitiesuiVersion
-    implementation 'com.github.stephengold:Wes:' + wesVersion
-    implementation 'junit:junit:' + junitVersion
+    implementation heartCoordinates
+    implementation uiCoordinates
+    implementation wesCoordinates
+    implementation junitCoordinates
     implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version

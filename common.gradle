@@ -3,16 +3,19 @@
 apply plugin: 'java'
 
 ext {
-    jmeTarget = ''
-    minieSnapshot = '-SNAPSHOT'
+    jmeTarget = '' // distinguish libraries built for different JME releases
 
-    // current versions of various libraries:
-    heartVersion = '7.2.0' + jmeTarget
-    jme3utilitiesuiVersion = '0.9.5' + jmeTarget
+    // module coordinates of dependencies:
+    heartCoordinates = 'com.github.stephengold:Heart:7.2.0' + jmeTarget
+    junitCoordinates = 'junit:junit:4.13.2'
+    uiCoordinates = 'com.github.stephengold:jme3-utilities-ui:0.9.5' + jmeTarget
+    wesCoordinates = 'com.github.stephengold:Wes:0.6.7' + jmeTarget
+
+    // current versions of libraries:
     jme3Version = '3.5.0-stable'
-    junitVersion = '4.13.2'
     minieVersion = '4.6.1'
-    wesVersion = '0.6.7' + jmeTarget
+
+    minieSnapshot = '-SNAPSHOT' // distinguish development copies from releases
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7
