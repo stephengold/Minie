@@ -1,5 +1,18 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.6.1 released on TBD
+
+ + Restored support for the MacOSX32 platform.
+ + Based on:
+   + v3.5.0-stable of JMonkeyEngine,
+   + v7.2.0 of the Heart library,
+   + v0.6.8 of the Wes library,
+   + v0.9.6 of the jme3-utilities-ui library, and
+   + v0.9.24 of the jme3-utilities-nifty library.
+ + Built using Gradle v7.3.3 .
+ + Updated the native libraries to v12.7.1 of Libbulletjme, which
+   include the fix for bullet3 issue 4117.
+
 ## Version 4.6.0 released on 4 December 2021
 
  + Bugfix: issue #19 (zero-thickness mesh shape crashes the JRE)
