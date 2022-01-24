@@ -123,7 +123,7 @@ dependencies {
     testImplementation junitCoordinates
     testImplementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
     testImplementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
-    testRuntimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+    testRuntimeOnly testdataCoordinates
 }
 
 test {

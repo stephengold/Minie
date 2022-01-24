@@ -8,6 +8,7 @@ ext {
     // module coordinates of dependencies:
     heartCoordinates = 'com.github.stephengold:Heart:7.2.0' + jmeTarget
     junitCoordinates = 'junit:junit:4.13.2'
+    testdataCoordinates = 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
     uiCoordinates = 'com.github.stephengold:jme3-utilities-ui:0.9.5' + jmeTarget
     wesCoordinates = 'com.github.stephengold:Wes:0.6.7' + jmeTarget
 
