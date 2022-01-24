@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -68,6 +68,7 @@ import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
+import jme3utilities.ui.AbstractDemo;
 
 /**
  * An AbstractDemo with additional data and methods to test and/or demonstrate

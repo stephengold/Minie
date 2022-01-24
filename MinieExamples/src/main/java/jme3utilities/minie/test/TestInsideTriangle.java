@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephen Gold
+ Copyright (c) 2021-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.mesh.PointMesh;
-import jme3utilities.minie.test.common.AbstractDemo;
+import jme3utilities.ui.AbstractDemo;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
