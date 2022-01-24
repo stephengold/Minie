@@ -12,7 +12,7 @@ description = 'a physics library for jMonkeyEngine'
 ext {
     // The URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/12.6.0/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/12.7.1/'
     //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // to test a local build
     //libbulletjmeUrl = 'file:///c:\\users\\sgold\\Git\\Libbulletjme\\dist\\' // to test a local build
 
@@ -88,7 +88,7 @@ ext {
         btfLinux64 = 'ReleaseSp'
         btfLinux_ARM32 = 'hfReleaseSp'
         btfLinux_ARM64 = 'ReleaseSp'
-        btfMacOSX32 = ''
+        btfMacOSX32 = 'ReleaseSp'
         btfMacOSX64 = 'ReleaseSp'
         btfWindows32 = 'ReleaseSp'
         btfWindows64 = 'ReleaseSp'
@@ -423,7 +423,7 @@ void configureDesktopBtfs(String btfValue) {
         project.ext.btfWindows64 = btfValue
     }
     project.ext.btfLinux_ARM64 = btfValue
-    project.ext.btfMacOSX32 = ''
+    project.ext.btfMacOSX32 = btfValue
     project.ext.btfMacOSX64 = btfValue
     project.ext.btfWindows32 = btfValue
 }
