@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.6.1 released on TBD
+## Version 4.6.1 released on 24 January 2022
 
  + Restored support for the MacOSX32 platform.
  + Based on:
