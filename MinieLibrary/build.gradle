@@ -304,7 +304,21 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
 }
 
-build.dependsOn('pom', 'pomAsc')
+build.dependsOn('module', 'moduleAsc', 'pom', 'pomAsc')
+task('module', type: Copy) {
+    dependsOn 'generateMetadataFileForMavenPublication'
+    description 'Copies the module metadata to build/libs.'
+    from "${buildDir}/publications/maven/module.json"
+    into "${buildDir}/libs"
+    rename 'module.json', project.ext.baseName + '.module'
+}
+task('moduleAsc', type: Copy) {
+    dependsOn 'signMavenPublication'
+    description 'Copies the signature of the module metadata to build/libs.'
+    from "${buildDir}/publications/maven/module.json.asc"
+    into "${buildDir}/libs"
+    rename 'module.json.asc', project.ext.baseName + '.module.asc'
+}
 task('pom', type: Copy) {
     dependsOn 'generatePomFileForMavenPublication'
     description 'Copies the Maven POM to build/libs.'
@@ -385,6 +399,7 @@ signing {
 tasks.withType(Sign) {
     onlyIf { rootProject.hasProperty('signing.keyId') }
 }
+signMavenPublication.dependsOn('module')
 
 // helper class to wrap Ant download task
 
