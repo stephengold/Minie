@@ -17,6 +17,7 @@ It contains 6 sub-projects:
 Complete source code (in Java) is provided under
 [a 3-clause BSD license][license].
 
+
 <a name="toc"/>
 
 ## Contents of this document
@@ -131,9 +132,11 @@ Package names begin with `jme3utilities.`
 (if Stephen Gold holds the copyright) or
 `com.jme3.`/`jme3test.` (if the jMonkeyEngine Project holds the copyright).
 
-Both the source code and the pre-built libraries are compatible with JDK 7.
+The source code is compatible with JDK 7.
+The pre-built libraries are compatible with JDK 8.
 
 [Jump to table of contents](#toc)
+
 
 <a name="overview"/>
 
