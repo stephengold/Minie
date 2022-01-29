@@ -409,8 +409,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * "up" vector.
      *
      * @param downwardAcceleration the desired downward acceleration (in
-     * physics-space units per second squared, not null, unaffected,
-     * default=29.4)
+     * physics-space units per second squared, default=29.4)
      */
     public void setGravity(float downwardAcceleration) {
         Vector3f gVector = threadTmpVector.get();
