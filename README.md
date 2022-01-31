@@ -18,7 +18,7 @@ Complete source code (in Java) is provided under
 [a 3-clause BSD license][license].
 
 
-<a name="toc"/>
+<a name="toc"></a>
 
 ## Contents of this document
 
@@ -34,7 +34,7 @@ Complete source code (in Java) is provided under
 + [Acknowledgments](#acks)
 
 
-<a name="why"/>
+<a name="why"></a>
 
 ## Why use Minie?
 
@@ -107,7 +107,7 @@ Other important differences:
 
 [Jump to table of contents](#toc)
 
-<a name="downloads"/>
+<a name="downloads"></a>
 
 ## Downloads
 
@@ -124,7 +124,7 @@ Old Maven artifacts (v1.4.0 through v3.1.0) are available from JCenter.
 
 [Jump to table of contents](#toc)
 
-<a name="conventions"/>
+<a name="conventions"></a>
 
 ## Conventions
 
@@ -138,7 +138,7 @@ The pre-built libraries are compatible with JDK 8.
 [Jump to table of contents](#toc)
 
 
-<a name="overview"/>
+<a name="overview"></a>
 
 ## Overview and design considerations
 
@@ -215,7 +215,7 @@ preferably early in the development process.
 
 [Jump to table of contents](#toc)
 
-<a name="build"/>
+<a name="build"></a>
 
 ## How to build Minie from source
 
@@ -223,15 +223,15 @@ preferably early in the development process.
 
 [Jump to table of contents](#toc)
 
-<a name="tutorials"/>
-<a name="add"/>
-<a name="rigidbody"/>
-<a name="shape"/>
-<a name="debugging"/>
-<a name="new6dof"/>
-<a name="dac"/>
-<a name="detect"/>
-<a name="softbody"/>
+<a name="tutorials"></a>
+<a name="add"></a>
+<a name="rigidbody"></a>
+<a name="shape"></a>
+<a name="debugging"></a>
+<a name="new6dof"></a>
+<a name="dac"></a>
+<a name="detect"></a>
+<a name="softbody"></a>
 
 ## Tutorials
 
@@ -247,7 +247,7 @@ preferably early in the development process.
 [Jump to table of contents](#toc)
 
 
-<a name="demos"/>
+<a name="demos"></a>
 
 ## An overview of the demo applications
 
@@ -256,7 +256,7 @@ preferably early in the development process.
 [Jump to table of contents](#toc)
 
 
-<a name="links"/>
+<a name="links"></a>
 
 ## External links
 
@@ -312,7 +312,7 @@ YouTube videos about Minie:
 
 [Jump to table of contents](#toc)
 
-<a name="history"/>
+<a name="history"></a>
 
 ## History
 
@@ -331,7 +331,7 @@ Since November 2018, Minie has been a separate project at
 [Jump to table of contents](#toc)
 
 
-<a name="acks"/>
+<a name="acks"></a>
 
 ## Acknowledgments
 
