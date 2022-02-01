@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -166,7 +166,7 @@ class LoadMode extends InputMode {
             }
         }
         if (!handled) {
-            actionApplication.onAction(actionString, ongoing, tpf);
+            getActionApplication().onAction(actionString, ongoing, tpf);
         }
     }
     // *************************************************************************

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -52,6 +52,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.nifty.PopupMenuBuilder;
 import jme3utilities.nifty.SliderTransform;
+import jme3utilities.nifty.dialog.AllowNull;
 import jme3utilities.nifty.dialog.DialogController;
 import jme3utilities.nifty.dialog.FloatDialog;
 import jme3utilities.nifty.dialog.VectorDialog;
@@ -281,9 +282,8 @@ public class LinksScreen extends GuiScreenController {
         float oldParameter = config.massParameter();
         String defaultText = Float.toString(oldParameter);
         String actionPrefix = "set massParameter ";
-        boolean allowNull = false;
         DialogController controller = new FloatDialog("Set", Float.MIN_VALUE,
-                Float.MAX_VALUE, allowNull);
+                Float.MAX_VALUE, AllowNull.No);
         showTextEntryDialog("Enter the mass-parameter value:", defaultText,
                 actionPrefix, controller);
     }
@@ -312,8 +312,7 @@ public class LinksScreen extends GuiScreenController {
         Vector3f oldParameter = config.shapeScale(null);
         String defaultText = oldParameter.toString();
         String actionPrefix = "set shapeScale ";
-        boolean allowNull = false;
-        DialogController controller = new VectorDialog("Set", 3, allowNull);
+        DialogController controller = new VectorDialog("Set", 3, AllowNull.No);
         showTextEntryDialog("Enter the shapeScale value:", defaultText,
                 actionPrefix, controller);
     }

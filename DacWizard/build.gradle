@@ -17,8 +17,8 @@ jar.manifest.attributes('Main-Class': mainClassName)
 dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     implementation heartCoordinates
-    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.24' + jmeTarget
-    implementation uiCoordinates
+    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.25' + jmeTarget
+    implementation acorusCoordinates
     implementation wesCoordinates
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -131,7 +131,7 @@ public class ImportCgms extends SimpleApplication {
         assetManager.registerLoader(BlenderLoader.class, "blend");
         BlenderKey blendKey = new BlenderKey("Blender/2.4x/BaseMesh_249.blend");
         Spatial baseMesh = assetManager.loadModel(blendKey);
-        baseMesh = AnimMigrationUtils.migrate(baseMesh);
+        AnimMigrationUtils.migrate(baseMesh);
 
         // Ensure that every Joint has a name.
         List<Armature> list = MySkeleton.listArmatures(baseMesh, null);
@@ -164,7 +164,7 @@ public class ImportCgms extends SimpleApplication {
          * from jme3-testdata-3.1.0-stable.jar:
          */
         Spatial jaime = assetManager.loadModel("Models/Jaime/Jaime.j3o");
-        jaime = AnimMigrationUtils.migrate(jaime);
+        AnimMigrationUtils.migrate(jaime);
         writeToJ3O(jaime, "Models/Jaime/Jaime-new.j3o");
         /*
          * Import the MhGame model (by Stephen Gold)
