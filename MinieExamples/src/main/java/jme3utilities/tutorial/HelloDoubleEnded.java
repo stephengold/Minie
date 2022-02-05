@@ -104,10 +104,14 @@ public class HelloDoubleEnded
     public static void main(String[] ignored) {
         HelloDoubleEnded application = new HelloDoubleEnded();
 
-        // Enable gamma correction for accurate lighting.
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+
+        // Enable gamma correction for accurate lighting.
         settings.setGammaCorrection(true);
+
+        // Disable VSync for more frequent mouse-position updates.
+        settings.setVSync(false);
         application.setSettings(settings);
 
         application.start();

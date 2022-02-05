@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -100,10 +100,14 @@ public class HelloLimit
     public static void main(String[] ignored) {
         HelloLimit application = new HelloLimit();
 
-        // Enable gamma correction for accurate lighting.
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+
+        // Enable gamma correction for accurate lighting.
         settings.setGammaCorrection(true);
+
+        // Disable VSync for more frequent mouse-position updates.
+        settings.setVSync(false);
         application.setSettings(settings);
 
         application.start();
