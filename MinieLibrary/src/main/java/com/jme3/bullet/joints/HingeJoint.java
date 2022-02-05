@@ -336,18 +336,21 @@ public class HingeJoint extends Constraint {
     }
 
     /**
-     * Test whether this joint is angular-only.
+     * Test whether this joint is angular-only, meaning no constraints on
+     * translation.
      *
-     * @return true if angular only, otherwise false
+     * @return true if angular-only, otherwise false
      */
     public boolean isAngularOnly() {
         return angularOnly;
     }
 
     /**
-     * Alter whether this joint is angular-only.
+     * Alter whether this joint is angular-only, meaning no constraints on
+     * translation.
      *
-     * @param angularOnly the desired setting (default=false)
+     * @param angularOnly true&rarr;translation is free, false&rarr;translation
+     * is constrained (default=false)
      */
     public void setAngularOnly(boolean angularOnly) {
         this.angularOnly = angularOnly;
