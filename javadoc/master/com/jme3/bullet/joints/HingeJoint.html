@@ -322,7 +322,8 @@ com.jme3.math.Transform&nbsp;storeResult)</code></th>
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isAngularOnly()">isAngularOnly</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Test whether this joint is angular-only.</div>
+<div class="block">Test whether this joint is angular-only, meaning no constraints on
+ translation.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i13">
@@ -344,7 +345,8 @@ com.jme3.math.Transform&nbsp;storeResult)</code></th>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAngularOnly(boolean)">setAngularOnly</a></span>&#8203;(boolean&nbsp;angularOnly)</code></th>
 <td class="colLast">
-<div class="block">Alter whether this joint is angular-only.</div>
+<div class="block">Alter whether this joint is angular-only, meaning no constraints on
+ translation.</div>
 </td>
 </tr>
 <tr class="altColor" id="i16">
@@ -637,10 +639,11 @@ com.jme3.math.Transform&nbsp;storeResult)</span></div>
 <section class="detail">
 <h3><a id="isAngularOnly()">isAngularOnly</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName">isAngularOnly</span>()</div>
-<div class="block">Test whether this joint is angular-only.</div>
+<div class="block">Test whether this joint is angular-only, meaning no constraints on
+ translation.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if angular only, otherwise false</dd>
+<dd>true if angular-only, otherwise false</dd>
 </dl>
 </section>
 </li>
@@ -648,10 +651,12 @@ com.jme3.math.Transform&nbsp;storeResult)</span></div>
 <section class="detail">
 <h3><a id="setAngularOnly(boolean)">setAngularOnly</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setAngularOnly</span>&#8203;(<span class="arguments">boolean&nbsp;angularOnly)</span></div>
-<div class="block">Alter whether this joint is angular-only.</div>
+<div class="block">Alter whether this joint is angular-only, meaning no constraints on
+ translation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>angularOnly</code> - the desired setting (default=false)</dd>
+<dd><code>angularOnly</code> - true&rarr;translation is free, false&rarr;translation
+ is constrained (default=false)</dd>
 </dl>
 </section>
 </li>
