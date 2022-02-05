@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -247,10 +247,6 @@ public class HelloJoint
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.6f);
         viewPort.addProcessor(dlsr);
-
-        // Set the viewport's background color to light blue.
-        ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
-        viewPort.setBackgroundColor(skyColor);
     }
 
     /**
