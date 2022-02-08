@@ -245,7 +245,7 @@ public class DropTest
         bulletAppState.setDebugShadowMode(mode);
     }
     // *************************************************************************
-    // Physics methods
+    // PhysicsDemo methods
 
     /**
      * Initialize this application.
