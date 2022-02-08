@@ -49,7 +49,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
-import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.MyShape;
 
@@ -127,7 +126,7 @@ abstract public class CollisionShape
         float volume = 8f * halfExtents.x * halfExtents.y * halfExtents.z;
 
         assert volume >= 0f : volume;
-        assert MyMath.isFinite(volume) : volume;
+        assert Float.isFinite(volume) : volume;
         return volume;
     }
 
