@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,6 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.NameGenerator;
 import jme3utilities.debug.SkeletonVisualizer;
-import jme3utilities.math.MyMath;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
@@ -1139,7 +1138,7 @@ public class TestDac extends PhysicsDemo {
         message += isPaused() ? "  PAUSED" : "";
 
         double energy = dac.kineticEnergy();
-        if (MyMath.isFiniteDouble(energy)) {
+        if (Double.isFinite(energy)) {
             message += String.format("  KE=%f", energy);
         }
         statusText.setText(message);

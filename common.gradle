@@ -7,7 +7,7 @@ ext {
 
     // module coordinates of dependencies:
     acorusCoordinates = 'com.github.stephengold:Acorus:0.9.8' + jmeTarget
-    heartCoordinates = 'com.github.stephengold:Heart:7.2.0' + jmeTarget
+    heartCoordinates = 'com.github.stephengold:Heart:7.3.0' + jmeTarget
     junitCoordinates = 'junit:junit:4.13.2'
     testdataCoordinates = 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
     wesCoordinates = 'com.github.stephengold:Wes:0.6.8' + jmeTarget
@@ -15,7 +15,6 @@ ext {
     // current versions of libraries:
     jme3Version = '3.5.0-stable'
     minieVersion = '4.6.2'
-
     minieSnapshot = '-SNAPSHOT' // distinguish development builds from releases
 }
 
@@ -47,8 +46,8 @@ repositories {
 
 // cleanup tasks
 
-clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanPDBs')
-clean.dependsOn('cleanSOs', 'cleanWrittenAssets')
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanPDBs', \
+    'cleanSOs', 'cleanWrittenAssets')
 
 task cleanDLLs(type: Delete) { // Windows native libraries
     delete fileTree(dir: '.', include: '*.dll')
@@ -65,6 +64,6 @@ task cleanPDBs(type: Delete) { // Windows program database files
 task cleanSOs(type: Delete) { // Linux and Android native libraries
     delete fileTree(dir: '.', include: '*.so')
 }
-task cleanWrittenAssets(type: Delete) { // jme3-utilities-ui output directory
+task cleanWrittenAssets(type: Delete) { // Acorus output directory
     delete 'Written Assets'
 }
