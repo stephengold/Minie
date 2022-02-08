@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,6 @@ import jme3utilities.InfluenceUtil;
 import jme3utilities.MyAnimation;
 import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
-import jme3utilities.MyString;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.VectorSet;
 import jme3utilities.ui.InputMode;
@@ -164,7 +163,7 @@ class Model {
         assert numComponentsInRoot < numComponents : numComponents;
         String[] resultComponents = Arrays.copyOfRange(filePathComponents,
                 numComponentsInRoot, numComponents);
-        String result = MyString.join8("/", resultComponents);
+        String result = String.join("/", resultComponents);
         result = "/" + result;
 
         assert result != null;
@@ -186,7 +185,7 @@ class Model {
         assert numComponentsInRoot < numComponents : numComponents;
         String[] resultComponents = Arrays.copyOfRange(filePathComponents, 0,
                 numComponentsInRoot);
-        String result = MyString.join8("/", resultComponents);
+        String result = String.join("/", resultComponents);
         result += "/";
 
         assert result != null;
@@ -432,7 +431,7 @@ class Model {
      * @return the path (not null, may be empty)
      */
     String filePath() {
-        String result = MyString.join8("/", filePathComponents);
+        String result = String.join("/", filePathComponents);
         assert result != null;
         return result;
     }
