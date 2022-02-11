@@ -44,8 +44,7 @@ dependencies {
     implementation 'com.github.stephengold:jme-ttf:2.2.4' + jmeTarget
     implementation heartCoordinates
     implementation 'org.jmonkeyengine:jme3-blender:3.3.2-stable'
-    implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
+    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     runtimeOnly testdataCoordinates
 
