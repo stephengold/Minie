@@ -33,7 +33,7 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // LWJGL 3.x
 
     // MinieExamples doesn't use jme3-jogg
-    // -- it is included solely to avoid warnings from AssetConfig.
+    //  -- it is included solely to avoid warnings from AssetConfig.
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion

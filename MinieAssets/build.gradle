@@ -48,8 +48,8 @@ dependencies {
     implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     runtimeOnly testdataCoordinates
 
-    // MinieAssets doesn't use jme3-jogg.
-    // It is included solely to avoid a warning from AssetConfig.
+    // MinieAssets doesn't use jme3-jogg
+    //  -- it is included solely to avoid warnings from AssetConfig.
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion
@@ -138,6 +138,7 @@ task poolBalls(type: JavaExec) {
 }
 
 // cleanup tasks
+
 clean.dependsOn('cleanModels', 'cleanShapes', 'cleanTextures')
 
 task cleanModels(type: Delete) {
