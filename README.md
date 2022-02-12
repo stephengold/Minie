@@ -107,6 +107,7 @@ Other important differences:
 
 [Jump to table of contents](#toc)
 
+
 <a name="downloads"></a>
 
 ## Downloads
@@ -123,6 +124,7 @@ Newer Maven artifacts (since v3.1.0) are available from
 Old Maven artifacts (v1.4.0 through v3.1.0) are available from JCenter.
 
 [Jump to table of contents](#toc)
+
 
 <a name="conventions"></a>
 
@@ -214,6 +216,7 @@ Physics units should therefore be chosen with care,
 preferably early in the development process.
 
 [Jump to table of contents](#toc)
+
 
 <a name="build"></a>
 
@@ -368,7 +371,7 @@ artists and software developers:
     + the [Git] revision-control system and GitK commit viewer
     + the [Gradle] build tool
     + the [IntelliJ IDEA][idea] and [NetBeans] integrated development environments
-    + the [Java] compiler, standard doclet, and virtual machine
+    + the [Java] compiler, standard doclet, and runtime environment
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
     + the [Linux Mint][mint] operating system
     + LWJGL, the Lightweight Java Game Library
