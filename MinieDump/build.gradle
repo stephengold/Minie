@@ -6,8 +6,6 @@ plugins {
     id 'application'
 }
 
-description = 'command-line tool to dump J3O assets'
-
 tasks.withType(JavaCompile) { // Java compile-time options:
     options.deprecation = true
 }

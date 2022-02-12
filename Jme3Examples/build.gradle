@@ -2,8 +2,6 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
-description = 'sample applications adapted from the jme3-examples sub-project'
-
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 tasks.withType(JavaCompile) { // Java compile-time options:

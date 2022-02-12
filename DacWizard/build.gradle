@@ -6,8 +6,6 @@ plugins {
     id 'application'
 }
 
-description = 'application to configure a DynamicAnimControl'
-
 mainClassName = 'jme3utilities.minie.wizard.DacWizard'
 if (!hasProperty('mainClass')) {
     ext.mainClass = mainClassName

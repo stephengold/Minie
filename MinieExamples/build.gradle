@@ -6,8 +6,6 @@ plugins {
     id 'application'
 }
 
-description = 'demos, examples, tutorial apps, and non-automated tests'
-
 tasks.withType(JavaCompile) { // Java compile-time options:
     options.deprecation = true
 }

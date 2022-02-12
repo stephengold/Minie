@@ -2,7 +2,6 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
-description = 'Generate assets used in MinieExamples.'
 ext {
     // output directories
     assets = '../MinieExamples/src/main/resources/'
