@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MinieVersion {
+final public class MinieVersion {
     // *************************************************************************
     // constants and loggers
 
