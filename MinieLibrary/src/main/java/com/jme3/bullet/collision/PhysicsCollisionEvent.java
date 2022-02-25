@@ -38,8 +38,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * Describe a collision between 2 objects in a CollisionSpace, based on Bullet's
- * btManifoldPoint.
+ * Describe a point of contact between 2 collision objects in a PhysicsSpace,
+ * based on Bullet's btManifoldPoint.
  *
  * @author normenhansen
  */
@@ -67,7 +67,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     // constructors
 
     /**
-     * Instantiate a collision event.
+     * Instantiate a collision event. For internal use only.
      *
      * @param pcoA the first involved object (not null, alias created)
      * @param pcoB the 2nd involved object (not null, alias created)
@@ -88,6 +88,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
 
     /**
      * Access the user object of collision object A, provided it's a Spatial.
+     * For compatibility with jme3-bullet.
      *
      * @return the pre-existing Spatial, or null if none
      */
@@ -103,6 +104,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
 
     /**
      * Access the user object of collision object B, provided it's a Spatial.
+     * For compatibility with jme3-bullet.
      *
      * @return the pre-existing Spatial, or null if none
      */
