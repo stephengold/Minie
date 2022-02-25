@@ -7589,6 +7589,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Generate a name for the specified collision object.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionEvent)">onContactProcessed(PhysicsCollisionEvent)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Callback invoked immediately after a contact point is refreshed without
+ being removed.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/control/CharacterControl.html#onGround()">onGround()</a></span> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>
 <div class="block">Test whether the character is on the ground.</div>
@@ -7685,8 +7690,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision"><span class="typeNameLink">PhysicsCollisionEvent</span></a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
 <dd>
-<div class="block">Describe a collision between 2 objects in a CollisionSpace, based on Bullet's
- btManifoldPoint.</div>
+<div class="block">Describe a point of contact between 2 collision objects in a PhysicsSpace,
+ based on Bullet's btManifoldPoint.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#%3Cinit%3E(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">PhysicsCollisionEvent(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Constructor for class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
@@ -9223,6 +9228,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Enable/disable contact filtering for this shape.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setContactMotion1(float)">setContactMotion1(float)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
+<dd>
+<div class="block">Alter the point's contact motion #1 (native field: m_contactMotion1).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setContactMotion2(int)">setContactMotion2(int)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
+<dd>
+<div class="block">Alter the point's contact motion #2 (native field: m_contactMotion2).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#setContactProcessingThreshold(float)">setContactProcessingThreshold(float)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
 <div class="block">Alter the contact-processing threshold (native field:
@@ -9781,6 +9794,16 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/control/RigidBodyControl.html#setKinematicSpatial(boolean)">setKinematicSpatial(boolean)</a></span> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/RigidBodyControl.html" title="class in com.jme3.bullet.control">RigidBodyControl</a></dt>
 <dd>
 <div class="block">Enable or disable kinematic mode for this Control.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setLateralFrictionDir1(com.jme3.math.Vector3f)">setLateralFrictionDir1(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
+<dd>
+<div class="block">Alter the point's lateral friction direction #1 (native field:
+ m_lateralFrictionDir1).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setLateralFrictionDir2(com.jme3.math.Vector3f)">setLateralFrictionDir2(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
+<dd>
+<div class="block">Alter the point's lateral friction direction #2 (native field:
+ m_lateralFrictionDir2).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/HingeJoint.html#setLimit(float,float)">setLimit(float, float)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>

@@ -594,7 +594,8 @@ int&nbsp;numSolvers)</span></div>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">addCollisionGroupListener</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionGroupListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionGroupListener</a>&nbsp;listener,
 int&nbsp;collisionGroup)</span></div>
 <div class="block">Register the specified collision-group listener with the specified
- collision group of this space.
+ collision group of this space. For compatibility with the jme3-bullet
+ library.
  <p>
  Such a listener can disable collisions when they occur. There can be only
  one listener per collision group per space.</div>
@@ -953,7 +954,8 @@ java.util.List&lt;<a href="collision/PhysicsRayTestResult.html" title="class in 
 <section class="detail">
 <h3><a id="removeCollisionGroupListener(int)">removeCollisionGroupListener</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">removeCollisionGroupListener</span>&#8203;(<span class="arguments">int&nbsp;collisionGroup)</span></div>
-<div class="block">De-register the specified collision-group listener.</div>
+<div class="block">De-register the specified collision-group listener. For compatibility
+ with the jme3-bullet library.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>collisionGroup</code> - the group of the listener to de-register (bitmask
