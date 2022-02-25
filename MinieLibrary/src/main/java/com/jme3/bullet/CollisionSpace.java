@@ -748,7 +748,15 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * This method is invoked by native code.
+     * This method is invoked by native code to determine whether the specified
+     * objects should be allowed to collide. Invoked during broadphase, after
+     * axis-aligned bounding boxes, ignore lists, and collision groups have been
+     * checked.
+     *
+     * @param pcoA the first collision object (not null)
+     * @param pcoB the 2nd collision object (not null)
+     * @return true to simulate collisions between pcoA and pcoB, false to
+     * ignore such collisions during this timestep
      */
     private boolean notifyCollisionGroupListeners_native(
             PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
