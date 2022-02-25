@@ -1131,27 +1131,27 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * This method is invoked by native code.
+     * This method is invoked by native code immediately after a new contact
+     * point is added to a manifold. Skipped if stepSimulation() was invoked
+     * with doStarted=false.
      */
     private void addCollisionEvent_native(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
-        if (!contactStartedListeners.isEmpty()) {
-            PhysicsCollisionEvent event
-                    = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
-            contactStartedEvents.add(event);
-        }
+        PhysicsCollisionEvent event
+                = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
+        contactStartedEvents.add(event);
     }
 
     /**
-     * This method is invoked by native code.
+     * This method is invoked by native code immediately after a contact point
+     * is refreshed without being removed. Skipped for Sphere-Sphere contacts.
+     * Skipped if stepSimulation() was invoked with doProcessed=false.
      */
     private void addContactProcessed(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
-        if (!contactProcessedListeners.isEmpty()) {
-            PhysicsCollisionEvent event
-                    = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
-            contactProcessedEvents.add(event);
-        }
+        PhysicsCollisionEvent event
+                = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
+        contactProcessedEvents.add(event);
     }
 
     /**
