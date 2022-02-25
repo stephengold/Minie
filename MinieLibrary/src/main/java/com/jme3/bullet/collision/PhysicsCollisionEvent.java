@@ -517,6 +517,54 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      * (more accurate) (default=true)
      */
     native public static void setContactCalcArea3Points(boolean setting);
+
+    /**
+     * Alter the point's contact motion #1 (native field: m_contactMotion1).
+     *
+     * @param motion the desired motion
+     */
+    public void setContactMotion1(float motion) {
+        long nativeId = nativeId();
+        setContactMotion1(nativeId, motion);
+    }
+
+    /**
+     * Alter the point's contact motion #2 (native field: m_contactMotion2).
+     *
+     * @param motion the desired motion
+     */
+    public void setContactMotion2(int motion) {
+        long nativeId = nativeId();
+        setContactMotion2(nativeId, motion);
+    }
+
+    /**
+     * Alter the point's lateral friction direction #1 (native field:
+     * m_lateralFrictionDir1).
+     *
+     * @param direction the desired direction (in physics-space coordinates, not
+     * null)
+     */
+    public void setLateralFrictionDir1(Vector3f direction) {
+        Validate.nonNull(direction, "direction");
+
+        long nativeId = nativeId();
+        setLateralFrictionDir1(nativeId, direction);
+    }
+
+    /**
+     * Alter the point's lateral friction direction #2 (native field:
+     * m_lateralFrictionDir2).
+     *
+     * @param direction the desired direction (in physics-space coordinates, not
+     * null)
+     */
+    public void setLateralFrictionDir2(Vector3f direction) {
+        Validate.nonNull(direction, "direction");
+
+        long nativeId = nativeId();
+        setLateralFrictionDir2(nativeId, direction);
+    }
     // *************************************************************************
     // native private methods
 
@@ -570,4 +618,16 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
 
     native private static void getPositionWorldOnB(long manifoldPointId,
             Vector3f storeVector);
+
+    native private static void
+            setContactMotion1(long manifoldPointId, float motion);
+
+    native private static void
+            setContactMotion2(long manifoldPointId, float motion);
+
+    native private static void
+            setLateralFrictionDir1(long manifoldPointId, Vector3f direction);
+
+    native private static void
+            setLateralFrictionDir2(long manifoldPointId, Vector3f direction);
 }
