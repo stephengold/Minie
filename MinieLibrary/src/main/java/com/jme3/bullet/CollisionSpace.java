@@ -187,7 +187,8 @@ public class CollisionSpace extends NativePhysicsObject {
 
     /**
      * Register the specified collision-group listener with the specified
-     * collision group of this space.
+     * collision group of this space. For compatibility with the jme3-bullet
+     * library.
      * <p>
      * Such a listener can disable collisions when they occur. There can be only
      * one listener per collision group per space.
@@ -586,7 +587,8 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * De-register the specified collision-group listener.
+     * De-register the specified collision-group listener. For compatibility
+     * with the jme3-bullet library.
      *
      * @see
      * #addCollisionGroupListener(com.jme3.bullet.collision.PhysicsCollisionGroupListener,
