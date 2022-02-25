@@ -11,9 +11,9 @@ plugins {
 ext {
     // The URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/12.7.1/'
-    //libbulletjmeUrl = 'file:///home/sgold/Git/Libbulletjme/dist/' // to test a local build
-    //libbulletjmeUrl = 'file:///c:\\users\\sgold\\Git\\Libbulletjme\\dist\\' // to test a local build
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/12.8.0/'
+    //libbulletjmeUrl = 'file:///home/sgold/NetBeansProjects/Libbulletjme/dist/' // to test a local build
+    //libbulletjmeUrl = 'file:///c:\\users\\sgold\\My%20Documents\\NetBeansProjects\\Libbulletjme\\dist\\' // to test a local build
 
     pdbWindows64 = ''
     if (rootProject.hasProperty('btdebug')) {
