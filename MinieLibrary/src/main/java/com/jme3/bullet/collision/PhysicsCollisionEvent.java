@@ -384,7 +384,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      * @return a new normal vector
      */
     public Vector3f getNormalWorldOnB() {
-        return getPositionWorldOnB(null);
+        return getNormalWorldOnB(null);
     }
 
     /**
