@@ -462,6 +462,36 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
+     * Callback to determine whether the specified objects should be allowed to
+     * collide. Invoked during broadphase, after axis-aligned bounding boxes,
+     * ignore lists, and collision groups have been checked. Override this
+     * method to implement dynamic collision filtering.
+     *
+     * @param pcoA the first collision object (not null)
+     * @param pcoB the 2nd collision object (not null)
+     * @return true to simulate collisions between pcoA and pcoB, false to
+     * ignore such collisions during this timestep
+     */
+    public boolean needsCollision(PhysicsCollisionObject pcoA,
+            PhysicsCollisionObject pcoB) {
+        PhysicsCollisionGroupListener listenerA
+                = collisionGroupListeners.get(pcoA.getCollisionGroup());
+        PhysicsCollisionGroupListener listenerB
+                = collisionGroupListeners.get(pcoB.getCollisionGroup());
+        boolean result = true;
+
+        if (listenerA != null) {
+            result = listenerA.collide(pcoA, pcoB);
+        }
+        if (listenerB != null
+                && pcoA.getCollisionGroup() != pcoB.getCollisionGroup()) {
+            result = listenerB.collide(pcoA, pcoB) && result;
+        }
+
+        return result;
+    }
+
+    /**
      * Perform a ray-collision test (raycast) and sort the results by ascending
      * hitFraction.
      *
@@ -760,20 +790,7 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     private boolean notifyCollisionGroupListeners_native(
             PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
-        PhysicsCollisionGroupListener listenerA
-                = collisionGroupListeners.get(pcoA.getCollisionGroup());
-        PhysicsCollisionGroupListener listenerB
-                = collisionGroupListeners.get(pcoB.getCollisionGroup());
-        boolean result = true;
-
-        if (listenerA != null) {
-            result = listenerA.collide(pcoA, pcoB);
-        }
-        if (listenerB != null
-                && pcoA.getCollisionGroup() != pcoB.getCollisionGroup()) {
-            result = listenerB.collide(pcoA, pcoB) && result;
-        }
-
+        boolean result = needsCollision(pcoA, pcoB);
         return result;
     }
 
