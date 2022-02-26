@@ -2034,6 +2034,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">contact has stiffness damping</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision"><span class="typeNameLink">ContactListener</span></a> - Interface in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
+<dd>
+<div class="block">Interface to receive immediate notifications when 2 collision objects come
+ into contact.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/ContactPointFlag.html" title="class in com.jme3.bullet.collision"><span class="typeNameLink">ContactPointFlag</span></a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
 <dd>
 <div class="block">Named flags for a PhysicsCollisionEvent.</div>
@@ -7589,10 +7594,23 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Generate a name for the specified collision object.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ContactListener.html#onContactEnded(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactEnded(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
+<dd>
+<div class="block">Invoked immediately after a contact manifold is removed.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionEvent)">onContactProcessed(PhysicsCollisionEvent)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
 <div class="block">Callback invoked immediately after a contact point is refreshed without
  being removed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ContactListener.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactProcessed(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
+<dd>
+<div class="block">Invoked immediately after a contact point is refreshed without being
+ removed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ContactListener.html#onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactStarted(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
+<dd>
+<div class="block">Invoked immediately after a new contact manifold is created.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/control/CharacterControl.html#onGround()">onGround()</a></span> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>
