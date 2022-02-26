@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -92,6 +92,7 @@ public class TestIssue1029
 
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.addCollisionListener(this);
+        //physicsSpace.addOngoingCollisionListener(this);
 
         CollisionShape shape;
         shape = new SphereCollisionShape(1f);
