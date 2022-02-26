@@ -252,6 +252,8 @@ task cleanWindows64(type: Delete) {
 
 task('copyJavadocToSite') {
     dependsOn 'copyMasterJavadocToSite', \
+     'copy46JavadocToSite', \
+     'copy45JavadocToSite', \
      'copy44JavadocToSite', \
      'copy43JavadocToSite', \
      'copy42JavadocToSite', \
@@ -266,6 +268,8 @@ task('copyMasterJavadocToSite', type: Copy) {
     from "${buildDir}/docs/javadoc"
     into '../build/site/javadoc/master'
 }
+defineJavadocTasksForRelease('4', '6', '1')
+defineJavadocTasksForRelease('4', '5', '0')
 defineJavadocTasksForRelease('4', '4', '0')
 defineJavadocTasksForRelease('4', '3', '0')
 defineJavadocTasksForRelease('4', '2', '0')
