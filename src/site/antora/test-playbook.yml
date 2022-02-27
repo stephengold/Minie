@@ -2,20 +2,20 @@
 # configure Antora for local testing with a local bundle
 
 site:
-  title: The Minie project (local test with local bundle)
+  title: The Minie project (local test using a local bundle)
   start_page: minie:ROOT:overview.adoc
-  url: /home/sgold/Git/Minie/build/site
+  url: /home/sgold/NetBeansProjects/Minie/build/site
 content:
   sources:
-    - url: /home/sgold/Git/Minie
+    - url: /home/sgold/NetBeansProjects/Minie
       branches: master
       start_path: src/site/antora/minie-project
-    - url: /home/sgold/Git/Minie
+    - url: /home/sgold/NetBeansProjects/Minie
       branches: master
       start_path: MinieLibrary/src/site/antora/tutorials
 ui:
   bundle:
-    url: /home/sgold/Git/antora-ui-bundle/build/ui-bundle.zip
+    url: /home/sgold/NetBeansProjects/antora-ui-bundle/build/ui-bundle.zip
     snapshot: true
 output:
   clean: true

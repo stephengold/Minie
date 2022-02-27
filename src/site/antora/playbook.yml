@@ -2,15 +2,15 @@
 # configure Antora for local testing with the published bundle
 
 site:
-  title: The Minie project (local test with published bundle)
+  title: The Minie project (local test using the published bundle)
   start_page: minie:ROOT:overview.adoc
-  url: /home/sgold/Git/Minie/build/site
+  url: /home/sgold/NetBeansProjects/Minie/build/site
 content:
   sources:
-    - url: /home/sgold/Git/Minie
+    - url: /home/sgold/NetBeansProjects/Minie
       branches: master
       start_path: src/site/antora/minie-project
-    - url: /home/sgold/Git/Minie
+    - url: /home/sgold/NetBeansProjects/Minie
       branches: master
       start_path: MinieLibrary/src/site/antora/tutorials
 ui:

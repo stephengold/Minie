@@ -132,7 +132,7 @@ btfWindows64 = 'ReleaseDp'
 . Download and extract the source code from GitHub:
 .. `git clone https://github.com/stephengold/Minie.git`
 .. `cd Minie`
-. Edit "src/site/antora/playbook.yml" and replace "/home/sgold/Git/Minie"
+. Edit "src/site/antora/playbook.yml" and replace "/home/sgold/NetBeansProjects/Minie"
   with an absolute path to your checkout directory (3 places).
 . https://docs.antora.org/antora/2.3/install-and-run-quickstart/#install-nodejs[Install Node.js]
 . Install Antora:
