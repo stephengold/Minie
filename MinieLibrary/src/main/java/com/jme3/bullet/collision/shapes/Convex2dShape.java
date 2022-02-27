@@ -172,7 +172,6 @@ public class Convex2dShape extends ConvexShape {
      * @throws IOException from the importer
      */
     @Override
-    @SuppressWarnings("unchecked")
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
