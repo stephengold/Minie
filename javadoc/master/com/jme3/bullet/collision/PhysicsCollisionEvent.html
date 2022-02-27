@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":41,"i30":10,"i31":10,"i32":10,"i33":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":41};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -416,36 +416,6 @@ long&nbsp;manifoldPointId)</code></th>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">use ManifoldPoints#setContactCalcArea3Points(boolean)</div>
 </div>
-</td>
-</tr>
-<tr class="altColor" id="i30">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setContactMotion1(float)">setContactMotion1</a></span>&#8203;(float&nbsp;motion)</code></th>
-<td class="colLast">
-<div class="block">Alter the point's contact motion #1 (native field: m_contactMotion1).</div>
-</td>
-</tr>
-<tr class="rowColor" id="i31">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setContactMotion2(int)">setContactMotion2</a></span>&#8203;(int&nbsp;motion)</code></th>
-<td class="colLast">
-<div class="block">Alter the point's contact motion #2 (native field: m_contactMotion2).</div>
-</td>
-</tr>
-<tr class="altColor" id="i32">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLateralFrictionDir1(com.jme3.math.Vector3f)">setLateralFrictionDir1</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;direction)</code></th>
-<td class="colLast">
-<div class="block">Alter the point's lateral friction direction #1 (native field:
- m_lateralFrictionDir1).</div>
-</td>
-</tr>
-<tr class="rowColor" id="i33">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLateralFrictionDir2(com.jme3.math.Vector3f)">setLateralFrictionDir2</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;direction)</code></th>
-<td class="colLast">
-<div class="block">Alter the point's lateral friction direction #2 (native field:
- m_lateralFrictionDir2).</div>
 </td>
 </tr>
 </tbody>
@@ -917,7 +887,8 @@ long&nbsp;manifoldPointId)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="setContactCalcArea3Points(boolean)">setContactCalcArea3Points</a></h3>
-<div class="memberSignature"><span class="modifiers">public static</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setContactCalcArea3Points</span>&#8203;(<span class="arguments">boolean&nbsp;setting)</span></div>
+<div class="memberSignature"><span class="annotations">@Deprecated
+</span><span class="modifiers">public static</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setContactCalcArea3Points</span>&#8203;(<span class="arguments">boolean&nbsp;setting)</span></div>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">use ManifoldPoints#setContactCalcArea3Points(boolean)</div>
 </div>
@@ -927,54 +898,6 @@ long&nbsp;manifoldPointId)</span></div>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>setting</code> - true to use 3 points (faster), false to use 4 points (more
  accurate) (default=true)</dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
-<h3><a id="setContactMotion1(float)">setContactMotion1</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setContactMotion1</span>&#8203;(<span class="arguments">float&nbsp;motion)</span></div>
-<div class="block">Alter the point's contact motion #1 (native field: m_contactMotion1).</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>motion</code> - the desired motion</dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
-<h3><a id="setContactMotion2(int)">setContactMotion2</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setContactMotion2</span>&#8203;(<span class="arguments">int&nbsp;motion)</span></div>
-<div class="block">Alter the point's contact motion #2 (native field: m_contactMotion2).</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>motion</code> - the desired motion</dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
-<h3><a id="setLateralFrictionDir1(com.jme3.math.Vector3f)">setLateralFrictionDir1</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setLateralFrictionDir1</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;direction)</span></div>
-<div class="block">Alter the point's lateral friction direction #1 (native field:
- m_lateralFrictionDir1).</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>direction</code> - the desired direction (in physics-space coordinates, not
- null)</dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
-<h3><a id="setLateralFrictionDir2(com.jme3.math.Vector3f)">setLateralFrictionDir2</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setLateralFrictionDir2</span>&#8203;(<span class="arguments">com.jme3.math.Vector3f&nbsp;direction)</span></div>
-<div class="block">Alter the point's lateral friction direction #2 (native field:
- m_lateralFrictionDir2).</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>direction</code> - the desired direction (in physics-space coordinates, not
- null)</dd>
 </dl>
 </section>
 </li>

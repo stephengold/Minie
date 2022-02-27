@@ -19,7 +19,7 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.js"></script>
 </head>
 <body class="class-declaration">
-<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":9,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":9,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":9,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10};
+<script type="text/javascript">var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":9,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":9,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":9,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10,"i54":10,"i55":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -556,20 +556,42 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 </tr>
 <tr class="rowColor" id="i37">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionEvent)">onContactProcessed</a></span>&#8203;(<a href="collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a>&nbsp;event)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onContactEnded(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactEnded</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
+long&nbsp;manifoldPointId)</code></th>
 <td class="colLast">
-<div class="block">Callback invoked immediately after a contact point is refreshed without
- being removed.</div>
+<div class="block">This method is invoked by native code immediately after a contact
+ manifold is removed.</div>
 </td>
 </tr>
 <tr class="altColor" id="i38">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactProcessed</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
+long&nbsp;manifoldPointId)</code></th>
+<td class="colLast">
+<div class="block">This method is invoked by native code immediately after a contact point
+ is refreshed without being removed.</div>
+</td>
+</tr>
+<tr class="rowColor" id="i39">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactStarted</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
+long&nbsp;manifoldPointId)</code></th>
+<td class="colLast">
+<div class="block">This method is invoked by native code immediately after a new contact
+ manifold is created.</div>
+</td>
+</tr>
+<tr class="altColor" id="i40">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified object from this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i39">
+<tr class="rowColor" id="i41">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(com.jme3.scene.Spatial)">removeAll</a></span>&#8203;(com.jme3.scene.Spatial&nbsp;spatial)</code></th>
 <td class="colLast">
@@ -577,70 +599,70 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  from this space (e.g.</div>
 </td>
 </tr>
-<tr class="altColor" id="i40">
+<tr class="altColor" id="i42">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeCollisionListener</a></span>&#8203;(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
 <div class="block">De-register the specified listener for new contacts.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i41">
+<tr class="rowColor" id="i43">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)">removeCollisionObject</a></span>&#8203;(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified collision object from this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i42">
+<tr class="altColor" id="i44">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeJoint(com.jme3.bullet.joints.PhysicsJoint)">removeJoint</a></span>&#8203;(<a href="joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint)</code></th>
 <td class="colLast">
 <div class="block">Remove the specified PhysicsJoint from this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i43">
+<tr class="rowColor" id="i45">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)">removeOngoingCollisionListener</a></span>&#8203;(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
 <div class="block">De-register the specified listener for ongoing contacts.</div>
 </td>
 </tr>
-<tr class="altColor" id="i44">
+<tr class="altColor" id="i46">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeTickListener(com.jme3.bullet.PhysicsTickListener)">removeTickListener</a></span>&#8203;(<a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
 <div class="block">De-register the specified tick listener.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i45">
+<tr class="rowColor" id="i47">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAccuracy(float)">setAccuracy</a></span>&#8203;(float&nbsp;accuracy)</code></th>
 <td class="colLast">
 <div class="block">Alter the accuracy (time step used when maxSubSteps&gt;0).</div>
 </td>
 </tr>
-<tr class="altColor" id="i46">
+<tr class="altColor" id="i48">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGravity(com.jme3.math.Vector3f)">setGravity</a></span>&#8203;(com.jme3.math.Vector3f&nbsp;gravity)</code></th>
 <td class="colLast">
 <div class="block">Alter the gravitational acceleration acting on newly-added bodies.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i47">
+<tr class="rowColor" id="i49">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxSubSteps(int)">setMaxSubSteps</a></span>&#8203;(int&nbsp;steps)</code></th>
 <td class="colLast">
 <div class="block">Alter the maximum number of time steps per frame.</div>
 </td>
 </tr>
-<tr class="altColor" id="i48">
+<tr class="altColor" id="i50">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxTimeStep(float)">setMaxTimeStep</a></span>&#8203;(float&nbsp;maxTimeStep)</code></th>
 <td class="colLast">
 <div class="block">Alter the maximum time step (imposed when maxSubSteps=0).</div>
 </td>
 </tr>
-<tr class="rowColor" id="i49">
+<tr class="rowColor" id="i51">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSolverNumIterations(int)">setSolverNumIterations</a></span>&#8203;(int&nbsp;numIterations)</code></th>
 <td class="colLast">
@@ -648,14 +670,14 @@ com.jme3.math.Vector3f&nbsp;worldMax,
  for compatibility with the jme3-bullet library.</div>
 </td>
 </tr>
-<tr class="altColor" id="i50">
+<tr class="altColor" id="i52">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#update(float)">update</a></span>&#8203;(float&nbsp;timeInterval)</code></th>
 <td class="colLast">
 <div class="block">Update this space.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i51">
+<tr class="rowColor" id="i53">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#update(float,int)">update</a></span>&#8203;(float&nbsp;timeInterval,
 int&nbsp;maxSteps)</code></th>
@@ -663,7 +685,7 @@ int&nbsp;maxSteps)</code></th>
 <div class="block">Update this space.</div>
 </td>
 </tr>
-<tr class="altColor" id="i52">
+<tr class="altColor" id="i54">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateSolver()">updateSolver</a></span>()</code></th>
 <td class="colLast">
@@ -671,7 +693,7 @@ int&nbsp;maxSteps)</code></th>
  correct type.</div>
 </td>
 </tr>
-<tr class="rowColor" id="i53">
+<tr class="rowColor" id="i55">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#useScr(boolean)">useScr</a></span>&#8203;(boolean&nbsp;setting)</code></th>
 <td class="colLast">
@@ -1205,23 +1227,6 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 </li>
 <li class="blockList">
 <section class="detail">
-<h3><a id="onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionEvent)">onContactProcessed</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">onContactProcessed</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a>&nbsp;event)</span></div>
-<div class="block">Callback invoked immediately after a contact point is refreshed without
- being removed. Skipped for Sphere-Sphere contacts. Skipped if no
- ongoing-collision listeners are registered.
- <p>
- Override this method to customize how contacts are handled.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>event</code> - information about the refreshed contact point (not null)</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="#addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)"><code>addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)</code></a></dd>
-</dl>
-</section>
-</li>
-<li class="blockList">
-<section class="detail">
 <h3><a id="removeAll(com.jme3.scene.Spatial)">removeAll</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">removeAll</span>&#8203;(<span class="arguments">com.jme3.scene.Spatial&nbsp;spatial)</span></div>
 <div class="block">Remove all physics controls in the specified subtree of the scene graph
@@ -1560,6 +1565,58 @@ int&nbsp;maxSteps)</span></div>
 <dd><code><a href="CollisionSpace.html#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)">removeCollisionObject</a></code>&nbsp;in class&nbsp;<code><a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>pco</code> - the collision object to remove (not null)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="onContactEnded(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactEnded</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">onContactEnded</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
+long&nbsp;manifoldPointId)</span></div>
+<div class="block">This method is invoked by native code immediately after a contact
+ manifold is removed. Invoked once for each contact point, up to 4 times
+ per manifold. Skipped if stepSimulation() was invoked with doEnded=false.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>pcoA</code> - the first involved object (not null)</dd>
+<dd><code>pcoB</code> - the 2nd involved object (not null)</dd>
+<dd><code>manifoldPointId</code> - the native ID of the btManifoldPoint (not 0)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactProcessed</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">onContactProcessed</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
+long&nbsp;manifoldPointId)</span></div>
+<div class="block">This method is invoked by native code immediately after a contact point
+ is refreshed without being removed. Skipped for Sphere-Sphere contacts.
+ Skipped if stepSimulation() was invoked with doProcessed=false.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>pcoA</code> - the first involved object (not null)</dd>
+<dd><code>pcoB</code> - the 2nd involved object (not null)</dd>
+<dd><code>manifoldPointId</code> - the native ID of the btManifoldPoint (not 0)</dd>
+</dl>
+</section>
+</li>
+<li class="blockList">
+<section class="detail">
+<h3><a id="onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactStarted</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">onContactStarted</span>&#8203;(<span class="arguments"><a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
+long&nbsp;manifoldPointId)</span></div>
+<div class="block">This method is invoked by native code immediately after a new contact
+ manifold is created. Invoked once for each contact point, up to 4 times
+ per manifold. Skipped if stepSimulation() was invoked with
+ doStarted=false.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>pcoA</code> - the first involved object (not null)</dd>
+<dd><code>pcoB</code> - the 2nd involved object (not null)</dd>
+<dd><code>manifoldPointId</code> - the native ID of the btManifoldPoint (not 0)</dd>
 </dl>
 </section>
 </li>

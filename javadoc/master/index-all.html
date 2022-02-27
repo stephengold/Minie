@@ -2556,6 +2556,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create spatial-dependent data.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#createTestPoint()">createTestPoint()</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Create a manifold point (for testing) that will never be freed.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/PhysicsVehicle.html#createVehicle(com.jme3.bullet.PhysicsSpace)">createVehicle(PhysicsSpace)</a></span> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsVehicle.html" title="class in com.jme3.bullet.objects">PhysicsVehicle</a></dt>
 <dd>
 <div class="block">Used internally, creates the controller when the vehicle is added to a
@@ -3530,15 +3534,30 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Determine the magnitude of the applied impulse.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getAppliedImpulse(long)">getAppliedImpulse(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the applied impulse of the specified point (native field:
+ m_appliedImpulse).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getAppliedImpulseLateral1()">getAppliedImpulseLateral1()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's applied lateral impulse #1 (native field:
  m_appliedImpulseLateral1).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getAppliedImpulseLateral1(long)">getAppliedImpulseLateral1(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the applied lateral impulse #1 of the specified point (native
+ field: m_appliedImpulseLateral1).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getAppliedImpulseLateral2()">getAppliedImpulseLateral2()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's applied lateral impulse #2 (native field:
  m_appliedImpulseLateral2).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getAppliedImpulseLateral2(long)">getAppliedImpulseLateral2(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the applied lateral impulse #2 of the specified point (native
+ field: m_appliedImpulseLateral2).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/animation/DacLinks.html#getArmature()">getArmature()</a></span> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a></dt>
 <dd>
@@ -3741,9 +3760,20 @@ loadScripts(document, 'script');</script>
  product of the collision-object frictions (native field:
  m_combinedFriction).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getCombinedFriction(long)">getCombinedFriction(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the combined friction of the specified point, which is the product
+ of the collision-object frictions (native field: m_combinedFriction).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getCombinedRestitution()">getCombinedRestitution()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's combined restitution, which is usually the
+ product of the collision-object restitutions (native field:
+ m_combinedRestitution).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getCombinedRestitution(long)">getCombinedRestitution(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the combined restitution of the specified point, which is the
  product of the collision-object restitutions (native field:
  m_combinedRestitution).</div>
 </dd>
@@ -3752,10 +3782,20 @@ loadScripts(document, 'script');</script>
 <div class="block">Return the contact point's combined rolling friction (native field:
  m_combinedRollingFriction).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getCombinedRollingFriction(long)">getCombinedRollingFriction(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the combined rolling friction of the specified point (native
+ field: m_combinedRollingFriction).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getCombinedSpinningFriction()">getCombinedSpinningFriction()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's combined spinning friction (native field:
  m_combinedSpinningFriction).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getCombinedSpinningFriction(long)">getCombinedSpinningFriction(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the combined spinning friction of the specified point (native
+ field: m_combinedSpinningFriction).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/Constraint.html#getConstraintType(long)">getConstraintType(long)</a></span> - Static method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/Constraint.html" title="class in com.jme3.bullet.joints">Constraint</a></dt>
 <dd>
@@ -3764,6 +3804,16 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getContactDamping()">getContactDamping()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
 <div class="block">Read the contact damping (native field: m_contactDamping).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getContactMotion1(long)">getContactMotion1(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the contact motion #1 of the specified point (native field:
+ m_contactMotion1).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getContactMotion2(long)">getContactMotion2(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the contact motion #2 of the specified point (native field:
+ m_contactMotion2).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getContactProcessingThreshold()">getContactProcessingThreshold()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
@@ -3902,6 +3952,11 @@ loadScripts(document, 'script');</script>
 <div class="block">Return the contact point's signed separation distance (native field:
  m_distance1).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getDistance1(long)">getDistance1(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the separation distance of the specified point (native field:
+ m_distance1).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/control/BetterCharacterControl.html#getDuckedFactor()">getDuckedFactor()</a></span> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
 <div class="block">Read the height multiplier for ducking.</div>
@@ -3949,6 +4004,11 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getFlags()">getFlags()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact-point flags (native field: m_contactPointFlags).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getFlags(long)">getFlags(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the flags of the specified point (native field:
+ m_contactPointFlags).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/infos/VehicleController.html#getForwardVector(com.jme3.math.Vector3f)">getForwardVector(Vector3f)</a></span> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/VehicleController.html" title="class in com.jme3.bullet.objects.infos">VehicleController</a></dt>
 <dd>
@@ -4103,10 +4163,20 @@ loadScripts(document, 'script');</script>
 <div class="block">Return the triangle index in the shape of object A at the point of
  contact (native field: m_index0).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getIndex0(long)">getIndex0(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the triangle index from the shape of object A at the specified
+ point of contact (native field: m_index0).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getIndex1()">getIndex1()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the triangle index in the shape of object B at the point of
  contact (native field: m_index1).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getIndex1(long)">getIndex1(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the triangle index from the shape of object B at the specified
+ point of contact (native field: m_index1).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getInternalType(long)">getInternalType(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
@@ -4151,10 +4221,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Determine this character's jump speed.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getLateralFrictionDir1(long,com.jme3.math.Vector3f)">getLateralFrictionDir1(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Determine the lateral friction direction #1 of the specified point
+ (native field: m_lateralFrictionDir1).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getLateralFrictionDir1(com.jme3.math.Vector3f)">getLateralFrictionDir1(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's lateral friction direction #1 (native field:
  m_lateralFrictionDir1).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getLateralFrictionDir2(long,com.jme3.math.Vector3f)">getLateralFrictionDir2(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Determine the lateral friction direction #2 of the specified point
+ (native field: m_lateralFrictionDir2).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getLateralFrictionDir2(com.jme3.math.Vector3f)">getLateralFrictionDir2(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
@@ -4164,6 +4244,10 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getLifeTime()">getLifeTime()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's lifetime (native name: m_lifeTime).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getLifeTime(long)">getLifeTime(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the lifetime of the specified point (native name: m_lifeTime).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/HingeJoint.html#getLimitSoftness()">getLimitSoftness()</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
@@ -4233,10 +4317,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Access the index link of this MultiBody.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getLocalPointA(long,com.jme3.math.Vector3f)">getLocalPointA(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Determine the location of the specified point in the local coordinates of
+ object A (native name: m_localPointA).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getLocalPointA(com.jme3.math.Vector3f)">getLocalPointA(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's location in the local coordinates of object A
  (native name: m_localPointA).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getLocalPointB(long,com.jme3.math.Vector3f)">getLocalPointB(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Determine the location of the specified point in the local coordinates of
+ object B (native name: m_localPointB).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getLocalPointB(com.jme3.math.Vector3f)">getLocalPointB(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
@@ -4449,6 +4543,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">For compatibility with jme3-bullet.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getNormalWorldOnB(long,com.jme3.math.Vector3f)">getNormalWorldOnB(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Determine the normal on object B of the specified point in physics-space
+ coordinates (native name: m_normalWorldOnB).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getNormalWorldOnB(com.jme3.math.Vector3f)">getNormalWorldOnB(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's normal on object B in physics-space
@@ -4524,10 +4623,20 @@ loadScripts(document, 'script');</script>
 <div class="block">Return the part index in the shape of object A at the point of contact
  (native field: m_partId0).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getPartId0(long)">getPartId0(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the part index from the shape of object A at the specified point
+ of contact (native field: m_partId0).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getPartId1()">getPartId1()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the part index in the shape of object B at the point of contact
  (native field: m_partId1).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getPartId1(long)">getPartId1(long)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Return the part index from the shape of object B at the specified point
+ of contact (native field: m_partId1).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="vhacd/VHACDParameters.html#getPCA()">getPCA()</a></span> - Method in class vhacd.<a href="vhacd/VHACDParameters.html" title="class in vhacd">VHACDParameters</a></dt>
 <dd>
@@ -4677,6 +4786,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">For compatibility with jme3-bullet.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getPositionWorldOnA(long,com.jme3.math.Vector3f)">getPositionWorldOnA(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Determine the location of the specified point on object A in
+ physics-space coordinates (native field: m_positionWorldOnA).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getPositionWorldOnA(com.jme3.math.Vector3f)">getPositionWorldOnA(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">Return the contact point's location on object A in physics-space
@@ -4685,6 +4799,11 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getPositionWorldOnB()">getPositionWorldOnB()</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">For compatibility with jme3-bullet.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#getPositionWorldOnB(long,com.jme3.math.Vector3f)">getPositionWorldOnB(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Determine the location of the specified point on object B in
+ physics-space coordinates (native field: m_positionWorldOnB).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getPositionWorldOnB(com.jme3.math.Vector3f)">getPositionWorldOnB(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
@@ -5636,6 +5755,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Test whether this shape has concave type.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#isContactCalcArea3Points()">isContactCalcArea3Points()</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Determine how many points are used to calculate the area of the convex
+ hull of a contact point.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#isContactFilterEnabled()">isContactFilterEnabled()</a></span> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
 <dd>
 <div class="block">Test whether contact filtering is enabled for this shape.</div>
@@ -6545,6 +6669,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#logger">logger</a></span> - Static variable in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PcoType.html#logger">logger</a></span> - Static variable in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PcoType.html" title="class in com.jme3.bullet.collision">PcoType</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
@@ -7006,6 +7134,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create a map from bone indices to the names of the bones that manage
  them.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision"><span class="typeNameLink">ManifoldPoints</span></a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
+<dd>
+<div class="block">Utility class to access fields of Bullet's btManifoldPoint class.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/util/NativeSoftBodyUtil.html#mapIndices(java.nio.IntBuffer,com.jme3.scene.mesh.IndexBuffer,com.jme3.scene.mesh.IndexBuffer)">mapIndices(IntBuffer, IndexBuffer, IndexBuffer)</a></span> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeSoftBodyUtil.html" title="class in com.jme3.bullet.util">NativeSoftBodyUtil</a></dt>
 <dd>
@@ -7605,19 +7737,29 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Invoked immediately after a contact manifold is removed.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionEvent)">onContactProcessed(PhysicsCollisionEvent)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#onContactEnded(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactEnded(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Callback invoked immediately after a contact point is refreshed without
- being removed.</div>
+<div class="block">This method is invoked by native code immediately after a contact
+ manifold is removed.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ContactListener.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactProcessed(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
 <dd>
 <div class="block">Invoked immediately after a contact point is refreshed without being
  removed.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactProcessed(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">This method is invoked by native code immediately after a contact point
+ is refreshed without being removed.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ContactListener.html#onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactStarted(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
 <dd>
 <div class="block">Invoked immediately after a new contact manifold is created.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/PhysicsSpace.html#onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactStarted(PhysicsCollisionObject, PhysicsCollisionObject, long)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">This method is invoked by native code immediately after a new contact
+ manifold is created.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/control/CharacterControl.html#onGround()">onGround()</a></span> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>
@@ -9031,6 +9173,21 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Associate application-specific data with this collision object.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setAppliedImpulse(long,float)">setAppliedImpulse(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the applied impulse of the specified point (native field:
+ m_appliedImpulse).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setAppliedImpulseLateral1(long,float)">setAppliedImpulseLateral1(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the applied lateral impulse #1 of the specified point (native
+ field: m_appliedImpulseLateral1).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setAppliedImpulseLateral2(long,float)">setAppliedImpulseLateral2(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the applied lateral impulse #2 of the specified point (native
+ field: m_appliedImpulseLateral2).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/VehicleWheel.html#setApplyLocal(boolean)">setApplyLocal(boolean)</a></span> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></dt>
 <dd>
 <div class="block">Alter whether physics coordinates should match the local transform of the
@@ -9236,9 +9393,34 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Apply the specified CollisionShape to this body.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setCombinedFriction(long,float)">setCombinedFriction(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the combined friction of the specified point (native field:
+ m_combinedFriction).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setCombinedRestitution(long,float)">setCombinedRestitution(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the combined restitution of the specified point (native field:
+ m_combinedRestitution).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setCombinedRollingFriction(long,float)">setCombinedRollingFriction(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the combined rolling friction of the specified point (native field:
+ m_combinedRollingFriction).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setCombinedSpinningFriction(long,float)">setCombinedSpinningFriction(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the combined spinning friction of the specified point (native
+ field: m_combinedSpinningFriction).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/animation/DacConfiguration.html#setConfig(java.lang.String,com.jme3.bullet.animation.LinkConfig)">setConfig(String, LinkConfig)</a></span> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DacConfiguration.html" title="class in com.jme3.bullet.animation">DacConfiguration</a></dt>
 <dd>
 <div class="block">Alter the configuration of the named bone/torso.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setContactCalcArea3Points(boolean)">setContactCalcArea3Points(boolean)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the number of points used to calculate the area of the convex hull
+ of a contact point.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setContactCalcArea3Points(boolean)">setContactCalcArea3Points(boolean)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
@@ -9254,13 +9436,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Enable/disable contact filtering for this shape.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setContactMotion1(float)">setContactMotion1(float)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setContactMotion1(long,float)">setContactMotion1(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
 <dd>
-<div class="block">Alter the point's contact motion #1 (native field: m_contactMotion1).</div>
+<div class="block">Alter the contact motion #1 of the specified point (native field:
+ m_contactMotion1).</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setContactMotion2(int)">setContactMotion2(int)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setContactMotion2(long,float)">setContactMotion2(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
 <dd>
-<div class="block">Alter the point's contact motion #2 (native field: m_contactMotion2).</div>
+<div class="block">Alter the contact motion #2 of the specified point (native field:
+ m_contactMotion2).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#setContactProcessingThreshold(float)">setContactProcessingThreshold(float)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
@@ -9460,6 +9644,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter whether to disable the Constraint when entering ragdoll mode.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setDistance1(long,float)">setDistance1(long, float)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the separation distance of the specified point (native field:
+ m_distance1).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/infos/SoftBodyConfig.html#setDriftIterations(int)">setDriftIterations(int)</a></span> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/SoftBodyConfig.html" title="class in com.jme3.bullet.objects.infos">SoftBodyConfig</a></dt>
 <dd>
 <div class="block">Alter the number of drift-solver iterations (native field: diterations).</div>
@@ -9619,6 +9808,11 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/debug/DebugConfiguration.html#setFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setFilter(BulletDebugAppState.DebugAppStateFilter)</a></span> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/DebugConfiguration.html" title="class in com.jme3.bullet.debug">DebugConfiguration</a></dt>
 <dd>
 <div class="block">Alter which physics objects are included in the visualization.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setFlags(long,int)">setFlags(long, int)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the flags of the specified point (native field:
+ m_contactPointFlags).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#setFriction(float)">setFriction(float)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
@@ -9821,15 +10015,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Enable or disable kinematic mode for this Control.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setLateralFrictionDir1(com.jme3.math.Vector3f)">setLateralFrictionDir1(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setLateralFrictionDir1(long,com.jme3.math.Vector3f)">setLateralFrictionDir1(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
 <dd>
-<div class="block">Alter the point's lateral friction direction #1 (native field:
- m_lateralFrictionDir1).</div>
+<div class="block">Alter the lateral friction direction #1 of the specified point (native
+ field: m_lateralFrictionDir1).</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#setLateralFrictionDir2(com.jme3.math.Vector3f)">setLateralFrictionDir2(Vector3f)</a></span> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setLateralFrictionDir2(long,com.jme3.math.Vector3f)">setLateralFrictionDir2(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
 <dd>
-<div class="block">Alter the point's lateral friction direction #2 (native field:
- m_lateralFrictionDir2).</div>
+<div class="block">Alter the lateral friction direction #2 of the specified point (native
+ field: m_lateralFrictionDir2).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/HingeJoint.html#setLimit(float,float)">setLimit(float, float)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
@@ -9898,6 +10092,16 @@ loadScripts(document, 'script');</script>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/objects/PhysicsRigidBody.html#setLinearVelocityDp(com.simsilica.mathd.Vec3d)">setLinearVelocityDp(Vec3d)</a></span> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></dt>
 <dd>
 <div class="block">Alter the linear velocity of this body's center of mass.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setLocalPointA(long,com.jme3.math.Vector3f)">setLocalPointA(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the location of the specified point in the local coordinates of
+ object A (native name: m_localPointA).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setLocalPointB(long,com.jme3.math.Vector3f)">setLocalPointB(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the location of the specified point in the local coordinates of
+ object B (native name: m_localPointB).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/animation/BoneLink.html#setLocalTransform(int,com.jme3.math.Transform)">setLocalTransform(int, Transform)</a></span> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/BoneLink.html" title="class in com.jme3.bullet.animation">BoneLink</a></dt>
 <dd>
@@ -10152,6 +10356,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter the normal vectors of all nodes.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setNormalWorldOnB(long,com.jme3.math.Vector3f)">setNormalWorldOnB(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the normal on object B of the specified point in physics-space
+ coordinates (native name: m_normalWorldOnB).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/SolverInfo.html#setNumIterations(int)">setNumIterations(int)</a></span> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/SolverInfo.html" title="class in com.jme3.bullet">SolverInfo</a></dt>
 <dd>
 <div class="block">Alter the number of iterations (native field: m_numIterations).</div>
@@ -10348,6 +10557,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter the number of position-solver iterations (native field:
  piterations).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setPositionWorldOnA(long,com.jme3.math.Vector3f)">setPositionWorldOnA(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the location of the specified point on object A in physics-space
+ coordinates (native field: m_positionWorldOnA).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/jme3/bullet/collision/ManifoldPoints.html#setPositionWorldOnB(long,com.jme3.math.Vector3f)">setPositionWorldOnB(long, Vector3f)</a></span> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ManifoldPoints.html" title="class in com.jme3.bullet.collision">ManifoldPoints</a></dt>
+<dd>
+<div class="block">Alter the location of the specified point on object B in physics-space
+ coordinates (native field: m_positionWorldOnB).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/jme3/bullet/joints/SliderJoint.html#setPoweredAngMotor(boolean)">setPoweredAngMotor(boolean)</a></span> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/SliderJoint.html" title="class in com.jme3.bullet.joints">SliderJoint</a></dt>
 <dd>
