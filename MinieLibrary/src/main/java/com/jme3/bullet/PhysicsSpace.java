@@ -495,7 +495,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Distribute each collision event to registered listeners.
+     * Distribute queued collision events to registered listeners.
      */
     public void distributeEvents() {
         while (!contactStartedEvents.isEmpty()) {
