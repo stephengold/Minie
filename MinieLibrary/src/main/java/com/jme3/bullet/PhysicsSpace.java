@@ -666,22 +666,6 @@ public class PhysicsSpace extends CollisionSpace {
     }
 
     /**
-     * Callback invoked immediately after a contact point is refreshed without
-     * being removed. Skipped for Sphere-Sphere contacts. Skipped if no
-     * ongoing-collision listeners are registered.
-     * <p>
-     * Override this method to customize how contacts are handled.
-     *
-     * @param event information about the refreshed contact point (not null)
-     * @see
-     * #addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)
-     */
-    public void onContactProcessed(PhysicsCollisionEvent event) {
-        // Queue the event to be handled later by distributeEvents().
-        contactProcessedEvents.add(event);
-    }
-
-    /**
      * Remove all physics controls in the specified subtree of the scene graph
      * from this space (e.g. before saving to disk). For compatibility with the
      * jme3-bullet library.
@@ -864,8 +848,8 @@ public class PhysicsSpace extends CollisionSpace {
         }
         boolean doProcessed = !contactProcessedListeners.isEmpty();
         boolean doStarted = !contactStartedListeners.isEmpty();
-        stepSimulation(spaceId, interval, maxSubSteps, accuracy, doProcessed,
-                doStarted);
+        stepSimulation(spaceId, interval, maxSubSteps, accuracy, false,
+                doProcessed, doStarted);
     }
 
     /**
@@ -883,8 +867,8 @@ public class PhysicsSpace extends CollisionSpace {
         assert accuracy > 0f : accuracy;
         boolean doProcessed = !contactProcessedListeners.isEmpty();
         boolean doStarted = !contactStartedListeners.isEmpty();
-        stepSimulation(spaceId, timeInterval, maxSteps, accuracy, doProcessed,
-                doStarted);
+        stepSimulation(spaceId, timeInterval, maxSteps, accuracy, false,
+                doProcessed, doStarted);
     }
 
     /**
@@ -1114,6 +1098,55 @@ public class PhysicsSpace extends CollisionSpace {
             super.removeCollisionObject(pco);
         }
     }
+
+    /**
+     * This method is invoked by native code immediately after a contact
+     * manifold is removed. Invoked once for each contact point, up to 4 times
+     * per manifold. Skipped if stepSimulation() was invoked with doEnded=false.
+     *
+     * @param pcoA the first involved object (not null)
+     * @param pcoB the 2nd involved object (not null)
+     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     */
+    public void onContactEnded(PhysicsCollisionObject pcoA,
+            PhysicsCollisionObject pcoB, long manifoldPointId) {
+        // do nothing
+    }
+
+    /**
+     * This method is invoked by native code immediately after a contact point
+     * is refreshed without being removed. Skipped for Sphere-Sphere contacts.
+     * Skipped if stepSimulation() was invoked with doProcessed=false.
+     *
+     * @param pcoA the first involved object (not null)
+     * @param pcoB the 2nd involved object (not null)
+     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     */
+    public void onContactProcessed(PhysicsCollisionObject pcoA,
+            PhysicsCollisionObject pcoB, long manifoldPointId) {
+        PhysicsCollisionEvent event
+                = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
+        // Queue the event to be handled later by distributeEvents().
+        contactProcessedEvents.add(event);
+    }
+
+    /**
+     * This method is invoked by native code immediately after a new contact
+     * manifold is created. Invoked once for each contact point, up to 4 times
+     * per manifold. Skipped if stepSimulation() was invoked with
+     * doStarted=false.
+     *
+     * @param pcoA the first involved object (not null)
+     * @param pcoB the 2nd involved object (not null)
+     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     */
+    public void onContactStarted(PhysicsCollisionObject pcoA,
+            PhysicsCollisionObject pcoB, long manifoldPointId) {
+        PhysicsCollisionEvent event
+                = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
+        // Queue the event to be handled later by distributeEvents().
+        contactStartedEvents.add(event);
+    }
     // *************************************************************************
     // Java private methods
 
@@ -1142,30 +1175,6 @@ public class PhysicsSpace extends CollisionSpace {
 
         long actionId = character.getControllerId();
         addAction(spaceId, actionId);
-    }
-
-    /**
-     * This method is invoked by native code immediately after a new contact
-     * point is added to a manifold. Skipped if stepSimulation() was invoked
-     * with doStarted=false.
-     */
-    private void addCollisionEvent_native(PhysicsCollisionObject pcoA,
-            PhysicsCollisionObject pcoB, long manifoldPointId) {
-        PhysicsCollisionEvent event
-                = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
-        contactStartedEvents.add(event);
-    }
-
-    /**
-     * This method is invoked by native code immediately after a contact point
-     * is refreshed without being removed. Skipped for Sphere-Sphere contacts.
-     * Skipped if stepSimulation() was invoked with doProcessed=false.
-     */
-    private void addContactProcessed(PhysicsCollisionObject pcoA,
-            PhysicsCollisionObject pcoB, long manifoldPointId) {
-        PhysicsCollisionEvent event
-                = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
-        onContactProcessed(event);
     }
 
     /**
@@ -1379,6 +1388,7 @@ public class PhysicsSpace extends CollisionSpace {
             boolean apply);
 
     native private static void stepSimulation(long spaceId, float timeInterval,
-            int maxSubSteps, float accuracy, boolean doProcessed,
-            boolean doStarted);
+            int maxSubSteps, float accuracy, boolean enableContactEndedCallback,
+            boolean enableContactProcessedCallback,
+            boolean enableContactStartedCallback);
 }

@@ -147,7 +147,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public float getAppliedImpulse() {
         long nativeId = nativeId();
-        float result = getAppliedImpulse(nativeId);
+        float result = ManifoldPoints.getAppliedImpulse(nativeId);
 
         return result;
     }
@@ -160,7 +160,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public float getAppliedImpulseLateral1() {
         long nativeId = nativeId();
-        float result = getAppliedImpulseLateral1(nativeId);
+        float result = ManifoldPoints.getAppliedImpulseLateral1(nativeId);
 
         return result;
     }
@@ -173,7 +173,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public float getAppliedImpulseLateral2() {
         long nativeId = nativeId();
-        float result = getAppliedImpulseLateral2(nativeId);
+        float result = ManifoldPoints.getAppliedImpulseLateral2(nativeId);
 
         return result;
     }
@@ -187,7 +187,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public float getCombinedFriction() {
         long nativeId = nativeId();
-        float result = getCombinedFriction(nativeId);
+        float result = ManifoldPoints.getCombinedFriction(nativeId);
 
         return result;
     }
@@ -201,7 +201,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public float getCombinedRestitution() {
         long nativeId = nativeId();
-        float result = getCombinedRestitution(nativeId);
+        float result = ManifoldPoints.getCombinedRestitution(nativeId);
 
         return result;
     }
@@ -214,7 +214,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public float getCombinedRollingFriction() {
         long nativeId = nativeId();
-        float result = getCombinedRollingFriction(nativeId);
+        float result = ManifoldPoints.getCombinedRollingFriction(nativeId);
 
         return result;
     }
@@ -227,7 +227,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public float getCombinedSpinningFriction() {
         long nativeId = nativeId();
-        float result = getCombinedSpinningFriction(nativeId);
+        float result = ManifoldPoints.getCombinedSpinningFriction(nativeId);
 
         return result;
     }
@@ -240,7 +240,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public float getDistance1() {
         long nativeId = nativeId();
-        float result = getDistance1(nativeId);
+        float result = ManifoldPoints.getDistance1(nativeId);
 
         return result;
     }
@@ -253,7 +253,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public int getFlags() {
         long nativeId = nativeId();
-        int result = getFlags(nativeId);
+        int result = ManifoldPoints.getFlags(nativeId);
 
         return result;
     }
@@ -277,7 +277,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public int getIndex0() {
         long nativeId = nativeId();
-        int result = getIndex0(nativeId);
+        int result = ManifoldPoints.getIndex0(nativeId);
 
         return result;
     }
@@ -301,7 +301,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public int getIndex1() {
         long nativeId = nativeId();
-        int result = getIndex1(nativeId);
+        int result = ManifoldPoints.getIndex1(nativeId);
 
         return result;
     }
@@ -317,7 +317,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         long nativeId = nativeId();
-        getLateralFrictionDir1(nativeId, result);
+        ManifoldPoints.getLateralFrictionDir1(nativeId, result);
 
         return result;
     }
@@ -333,7 +333,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         long nativeId = nativeId();
-        getLateralFrictionDir2(nativeId, result);
+        ManifoldPoints.getLateralFrictionDir2(nativeId, result);
 
         return result;
     }
@@ -345,7 +345,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public int getLifeTime() {
         long nativeId = nativeId();
-        int result = getLifeTime(nativeId);
+        int result = ManifoldPoints.getLifeTime(nativeId);
 
         return result;
     }
@@ -361,7 +361,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         long nativeId = nativeId();
-        getLocalPointA(nativeId, result);
+        ManifoldPoints.getLocalPointA(nativeId, result);
 
         return result;
     }
@@ -377,7 +377,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         long nativeId = nativeId();
-        getLocalPointB(nativeId, result);
+        ManifoldPoints.getLocalPointB(nativeId, result);
 
         return result;
     }
@@ -402,7 +402,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         long nativeId = nativeId();
-        getNormalWorldOnB(nativeId, result);
+        ManifoldPoints.getNormalWorldOnB(nativeId, result);
 
         return result;
     }
@@ -423,7 +423,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public int getPartId0() {
         long nativeId = nativeId();
-        int result = getPartId0(nativeId);
+        int result = ManifoldPoints.getPartId0(nativeId);
 
         return result;
     }
@@ -444,7 +444,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      */
     public int getPartId1() {
         long nativeId = nativeId();
-        int result = getPartId1(nativeId);
+        int result = ManifoldPoints.getPartId1(nativeId);
 
         return result;
     }
@@ -469,7 +469,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         long nativeId = nativeId();
-        getPositionWorldOnA(nativeId, result);
+        ManifoldPoints.getPositionWorldOnA(nativeId, result);
 
         return result;
     }
@@ -494,7 +494,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         long nativeId = nativeId();
-        getPositionWorldOnB(nativeId, result);
+        ManifoldPoints.getPositionWorldOnB(nativeId, result);
 
         return result;
     }
@@ -519,118 +519,8 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      * accurate) (default=true)
      * @deprecated use ManifoldPoints#setContactCalcArea3Points(boolean)
      */
-    native public static void setContactCalcArea3Points(boolean setting);
-
-    /**
-     * Alter the point's contact motion #1 (native field: m_contactMotion1).
-     *
-     * @param motion the desired motion
-     */
-    public void setContactMotion1(float motion) {
-        long nativeId = nativeId();
-        setContactMotion1(nativeId, motion);
+    @Deprecated
+    public static void setContactCalcArea3Points(boolean setting) {
+        ManifoldPoints.setContactCalcArea3Points(setting);
     }
-
-    /**
-     * Alter the point's contact motion #2 (native field: m_contactMotion2).
-     *
-     * @param motion the desired motion
-     */
-    public void setContactMotion2(int motion) {
-        long nativeId = nativeId();
-        setContactMotion2(nativeId, motion);
-    }
-
-    /**
-     * Alter the point's lateral friction direction #1 (native field:
-     * m_lateralFrictionDir1).
-     *
-     * @param direction the desired direction (in physics-space coordinates, not
-     * null)
-     */
-    public void setLateralFrictionDir1(Vector3f direction) {
-        Validate.nonNull(direction, "direction");
-
-        long nativeId = nativeId();
-        setLateralFrictionDir1(nativeId, direction);
-    }
-
-    /**
-     * Alter the point's lateral friction direction #2 (native field:
-     * m_lateralFrictionDir2).
-     *
-     * @param direction the desired direction (in physics-space coordinates, not
-     * null)
-     */
-    public void setLateralFrictionDir2(Vector3f direction) {
-        Validate.nonNull(direction, "direction");
-
-        long nativeId = nativeId();
-        setLateralFrictionDir2(nativeId, direction);
-    }
-    // *************************************************************************
-    // native private methods
-
-    native private static float getAppliedImpulse(long manifoldPointId);
-
-    native private static float getAppliedImpulseLateral1(long manifoldPointId);
-
-    native private static float getAppliedImpulseLateral2(long manifoldPointId);
-
-    native private static float getCombinedFriction(long manifoldPointId);
-
-    native private static float getCombinedRestitution(long manifoldPointId);
-
-    native private static float getCombinedRollingFriction(
-            long manifoldPointId);
-
-    native private static float getCombinedSpinningFriction(
-            long manifoldPointId);
-
-    native private static float getDistance1(long manifoldPointId);
-
-    native private static int getFlags(long manifoldPointId);
-
-    native private static int getIndex0(long manifoldPointId);
-
-    native private static int getIndex1(long manifoldPointId);
-
-    native private static void getLateralFrictionDir1(long manifoldPointId,
-            Vector3f storeVector);
-
-    native private static void getLateralFrictionDir2(long manifoldPointId,
-            Vector3f storeVector);
-
-    native private static int getLifeTime(long manifoldPointId);
-
-    native private static void getLocalPointA(long manifoldPointId,
-            Vector3f storeVector);
-
-    native private static void getLocalPointB(long manifoldPointId,
-            Vector3f storeVector);
-
-    native private static void getNormalWorldOnB(long manifoldPointId,
-            Vector3f storeVector);
-
-    native private static int getPartId0(long manifoldPointId);
-
-    native private static int getPartId1(long manifoldPointId);
-
-    native private static void getPositionWorldOnA(long manifoldPointId,
-            Vector3f storeVector);
-
-    native private static void getPositionWorldOnB(long manifoldPointId,
-            Vector3f storeVector);
-
-    native private static void
-            setContactMotion1(long manifoldPointId, float motion);
-
-    native private static void
-            setContactMotion2(long manifoldPointId, float motion);
-
-    native private static void
-            setLateralFrictionDir1(long manifoldPointId, Vector3f direction);
-
-    native private static void
-            setLateralFrictionDir2(long manifoldPointId, Vector3f direction);
 }
