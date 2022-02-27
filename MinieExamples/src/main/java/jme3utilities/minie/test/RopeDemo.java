@@ -31,6 +31,7 @@ import com.jme3.anim.Joint;
 import com.jme3.anim.SkinningControl;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
@@ -746,7 +747,7 @@ public class RopeDemo extends PhysicsDemo {
         cam.setLocation(new Vector3f(0f, 33f, 55f));
         cam.setRotation(new Quaternion(0f, 0.982f, -0.188f, 0f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

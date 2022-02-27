@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.MultiBodyAppState;
@@ -355,7 +356,7 @@ public class TestMultiBody extends PhysicsDemo {
         cam.setLocation(new Vector3f(3.778f, 2.2f, 0.971f));
         cam.setRotation(new Quaternion(0.2181f, -0.68631f, 0.2285f, 0.65513f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

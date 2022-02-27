@@ -511,7 +511,7 @@ public class TargetDemo
         cam.setLocation(new Vector3f(0f, platformTopY + 20f, 40f));
         cam.setRotation(new Quaternion(0f, 0.9649f, -0.263f, 0f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

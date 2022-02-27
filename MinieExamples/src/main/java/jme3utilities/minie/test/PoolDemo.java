@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -443,7 +444,7 @@ public class PoolDemo extends PhysicsDemo {
         cam.setLocation(new Vector3f(-44f, platformTopY + 189f, 425f));
         cam.setRotation(new Quaternion(0.003f, 0.971321f, -0.2374f, 0.0123f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

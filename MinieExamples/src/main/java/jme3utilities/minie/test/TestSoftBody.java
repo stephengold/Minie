@@ -31,6 +31,7 @@ import com.jme3.anim.SkinningControl;
 import com.jme3.anim.tween.action.Action;
 import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.app.Application;
+import com.jme3.app.state.AppState;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSoftSpace;
@@ -795,7 +796,7 @@ public class TestSoftBody
         cam.setLocation(new Vector3f(0f, 2.2f, 3.9f));
         cam.setRotation(new Quaternion(0f, 0.98525f, -0.172f, 0f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

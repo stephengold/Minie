@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -335,7 +336,7 @@ public class JointElasticity extends PhysicsDemo {
         cam.setLocation(new Vector3f(0.0f, 8.8f, 6.2f));
         cam.setRotation(new Quaternion(0.0f, 0.9f, -0.43589f, 0.0f));
 
-        CameraOrbitAppState orbitState = new CameraOrbitAppState(cam,
+        AppState orbitState = new CameraOrbitAppState(cam,
                 signalOrbitRight, signalOrbitLeft);
         stateManager.attach(orbitState);
     }

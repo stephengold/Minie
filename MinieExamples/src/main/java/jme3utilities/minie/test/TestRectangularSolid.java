@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -262,7 +263,7 @@ public class TestRectangularSolid extends PhysicsDemo {
 
         cam.setLocation(new Vector3f(0f, 0f, 1000f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

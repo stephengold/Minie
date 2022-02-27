@@ -31,6 +31,7 @@ import com.jme3.anim.SkinningControl;
 import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
@@ -515,7 +516,7 @@ public class BalanceDemo extends PhysicsDemo {
         cam.setLocation(new Vector3f(-3.3f, 1.5f, -0.1f));
         cam.setRotation(new Quaternion(0.08f, 0.687f, -0.06f, 0.72f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

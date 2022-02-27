@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
@@ -1145,7 +1146,7 @@ public class TestRbc
         cam.setLocation(new Vector3f(5.9f, 5.4f, 2.3f));
         cam.setRotation(new Quaternion(0.1825f, -0.76803f, 0.2501f, 0.56058f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

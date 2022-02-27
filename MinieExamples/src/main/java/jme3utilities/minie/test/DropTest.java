@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
@@ -794,7 +795,7 @@ public class DropTest
         cam.setLocation(new Vector3f(0f, platformSurfaceY + 20f, 40f));
         cam.setRotation(new Quaternion(0f, 0.9649f, -0.263f, 0f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

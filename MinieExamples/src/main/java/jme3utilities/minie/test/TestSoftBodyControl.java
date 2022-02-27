@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
@@ -347,7 +348,7 @@ public class TestSoftBodyControl
         cam.setLocation(new Vector3f(0f, 2.6f, 4.6f));
         cam.setRotation(new Quaternion(-0.014f, 0.9642f, -0.26f, -0.05f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }

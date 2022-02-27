@@ -30,6 +30,7 @@ import com.jme3.anim.SkinningControl;
 import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
+import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.CenterHeuristic;
@@ -504,7 +505,7 @@ public class WatchDemo extends PhysicsDemo {
         cam.setLocation(new Vector3f(-13f, 9f, 0f));
         cam.setRotation(new Quaternion(0.055f, 0.705f, -0.055f, 0.705f));
 
-        CameraOrbitAppState orbitState
+        AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(orbitState);
     }
