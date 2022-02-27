@@ -134,11 +134,9 @@ btfWindows64 = 'ReleaseDp'
 .. `cd Minie`
 . Edit "src/site/antora/playbook.yml" and replace "/home/sgold/NetBeansProjects/Minie"
   with an absolute path to your checkout directory (3 places).
-. https://docs.antora.org/antora/2.3/install-and-run-quickstart/#install-nodejs[Install Node.js]
-. Install Antora:
-.. `npm i -g @antora/cli @antora/site-generator-default`
+. https://docs.antora.org/antora/latest/install-and-run-quickstart/#install-nodejs[Install Node.js]
 . Run Antora:
-.. `antora src/site/antora/playbook.yml`
+.. `npx antora src/site/antora/playbook.yml`
 
 After a successful build,
 the local version of the site will be found in the "build/site" directory.
