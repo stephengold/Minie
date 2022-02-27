@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test.shapes;
 
+import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
@@ -108,7 +109,7 @@ public class MakeSword {
      * Generate a collision shape for Sinbad's scimitar.
      */
     private void makeSword() {
-        DesktopAssetManager assetManager = new DesktopAssetManager();
+        AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(AWTLoader.class, "jpg");
         assetManager.registerLoader(J3MLoader.class, "j3md");
         assetManager.registerLoader(MaterialLoader.class, "material");

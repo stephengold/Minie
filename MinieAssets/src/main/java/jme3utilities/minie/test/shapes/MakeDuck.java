@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test.shapes;
 
+import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
@@ -109,7 +110,7 @@ public class MakeDuck {
      * Generate a collision shape for a toy duck.
      */
     private void makeDuck() {
-        DesktopAssetManager assetManager = new DesktopAssetManager();
+        AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(AWTLoader.class, "png");
         assetManager.registerLoader(BinLoader.class, "bin");
         assetManager.registerLoader(GltfLoader.class, "gltf");
