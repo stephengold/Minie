@@ -38,7 +38,8 @@ import java.util.logging.Logger;
  * https://github.com/bulletphysics/bullet3/blob/master/src/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h
  *
  * @author Stephen Gold sgold@sonic.net
- * @see PhysicsCollisionEvent#getFlags(long)
+ * @see com.jme3.bullet.collision.ManifoldPoints#setFlags(long, int)
+ * @see com.jme3.bullet.collision.PhysicsCollisionEvent#getFlags()
  */
 public class ContactPointFlag {
     // *************************************************************************
