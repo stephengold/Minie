@@ -17,10 +17,10 @@ jobs:
           java-version: 14
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.17.0
+          node-version: 16.14.0
       - run: npm ci
 #      - run: npm audit
-      - run: npm run buildDocs
+      - run: npx antora src/site/antora/ci-playbook.yml
       - run: ./gradlew copyJavadocToSite --console=plain --no-daemon --stacktrace
       - uses: peaceiris/actions-gh-pages@v3
         with:
