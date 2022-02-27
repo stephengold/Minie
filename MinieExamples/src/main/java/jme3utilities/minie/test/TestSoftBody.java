@@ -821,7 +821,7 @@ public class TestSoftBody
      * Generate a Mesh for Puppet's skirt.
      *
      * @param puppetDac the model's physics control (not null)
-     * @param numSubDiv the number of mesh squares between successive anchors
+     * @param numSubdiv the number of mesh squares between successive anchors
      * (&ge;1)
      * @param skirtLength the desired length (in physics-space units, &get;0)
      * @param local storage for waist locations in local coordinates (not null,

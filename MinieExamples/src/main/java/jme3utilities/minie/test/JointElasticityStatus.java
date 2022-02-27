@@ -41,7 +41,7 @@ import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.ui.AbstractDemo;
 
 /**
- * AppState to display the status of the JontElasticity application in an
+ * AppState to display the status of the JointElasticity application in an
  * overlay. The overlay consists of status lines, one of which is selected for
  * editing. The overlay is located in the upper-left portion of the display.
  *

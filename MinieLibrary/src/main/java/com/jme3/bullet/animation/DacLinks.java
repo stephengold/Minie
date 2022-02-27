@@ -1341,7 +1341,7 @@ public class DacLinks
      * Add physics joints to connect the named bone/torso link with each of its
      * children. Also fill in the boneLinkList. Note: recursive!
      *
-     * @param parentName the parent bone/torso link (not null)
+     * @param parentLink the parent bone/torso link (not null)
      */
     private void addJoints(PhysicsLink parentLink) {
         List<String> childNames = childNames(parentLink);

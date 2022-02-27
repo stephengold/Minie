@@ -220,8 +220,8 @@ public class Anchor extends PhysicsJoint {
         Validate.nonNull(location, "location");
 
         pivotInB.set(location);
-        long archorId = nativeId();
-        setPivotInB(archorId, location);
+        long anchorId = nativeId();
+        setPivotInB(anchorId, location);
     }
     // *************************************************************************
     // PhysicsJoint methods

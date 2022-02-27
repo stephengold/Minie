@@ -64,7 +64,7 @@ public enum SolverType {
      */
     PGS,
     /**
-     * btNNCGConstraintSolver: using the Nonsmooth Nonlinear Conjugate Gradient
+     * btNNCGConstraintSolver: using the Non-smooth Nonlinear Conjugate Gradient
      * (NNCG) method
      */
     NNCG

@@ -48,7 +48,7 @@ import jme3utilities.Validate;
  * <p>
  * <i>From the Bullet manual:</i><br>
  * Point to point constraint limits the translation so that the local pivot
- * points of 2 rigidbodies match in worldspace. A chain of rigidbodies can be
+ * points of 2 rigid bodies match in worldspace. A chain of rigidbodies can be
  * connected using this constraint.
  *
  * @author normenhansen

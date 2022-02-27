@@ -82,7 +82,7 @@ import jme3utilities.ui.InputMode;
 /**
  * Test/demonstrate 3 kinds of friction.
  *
- * TODO set cueball after a scratch, provide aiming hints
+ * TODO set cue ball after a scratch, provide aiming hints
  *
  * @author Stephen Gold sgold@sonic.net
  */

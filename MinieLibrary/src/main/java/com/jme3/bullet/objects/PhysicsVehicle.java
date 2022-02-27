@@ -63,7 +63,7 @@ import jme3utilities.Validate;
  * uses a simplified model. This simplified model has many benefits, and is
  * widely used in commercial driving games.
  * <p>
- * The entire vehicle is represented as a single rigidbody, the chassis. The
+ * The entire vehicle is represented as a single rigid body, the chassis. The
  * collision detection of the wheels is approximated by ray casts, and the tire
  * friction is a basic anisotropic friction model.
  *
