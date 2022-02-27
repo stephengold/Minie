@@ -1368,13 +1368,11 @@ com.jme3.math.Vector3f&nbsp;worldMax,
 <section class="detail">
 <h3><a id="update(float)">update</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">update</span>&#8203;(<span class="arguments">float&nbsp;timeInterval)</span></div>
-<div class="block">Update this space. Invoked (by the BulletAppState) once per frame while
- the app state is attached and enabled. Can also be used to single-step
- the physics simulation, if maxSubSteps is set to 0 or 1.</div>
+<div class="block">Update this space. Can be used to single-step the physics simulation, if
+ maxSubSteps is set to 0 or 1.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>timeInterval</code> - time-per-frame multiplied by speed (in seconds,
- &ge;0)</dd>
+<dd><code>timeInterval</code> - the time interval to simulate (in seconds, &ge;0)</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="#setMaxSubSteps(int)"><code>setMaxSubSteps(int)</code></a></dd>
 </dl>
@@ -1389,8 +1387,8 @@ int&nbsp;maxSteps)</span></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>timeInterval</code> - the time interval to simulate (in seconds, &ge;0)</dd>
-<dd><code>maxSteps</code> - the maximum number of steps of size accuracy (&ge;1) or 0
- for a single step of size timeInterval</dd>
+<dd><code>maxSteps</code> - the maximum number of steps of size <code>accuracy</code>
+ (&ge;1) or 0 for a single step of size <code>timeInterval</code></dd>
 </dl>
 </section>
 </li>
