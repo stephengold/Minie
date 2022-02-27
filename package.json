@@ -1,10 +1,6 @@
 {
-  "scripts": {
-    "buildDocs": "$(npm bin)/antora --stacktrace src/site/antora/ci-playbook.yml"
-  },
-  "dependencies": {
-    "@antora/cli": "^2.3.4",
-    "@antora/site-generator-default": "^2.3.4"
-  },
-  "private": true
+  "devDependencies": {
+    "@antora/cli": "3.0.1",
+    "@antora/site-generator": "3.0.1"
+  }
 }
