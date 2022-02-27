@@ -353,7 +353,7 @@ public class TestCloneJoints {
     /**
      * Modify joint parameters based on the specified key value.
      *
-     * @param control the joint to modify (not null)
+     * @param joint the joint to modify (not null)
      * @param b the key value
      */
     private void setParameters(PhysicsJoint joint, float b) {

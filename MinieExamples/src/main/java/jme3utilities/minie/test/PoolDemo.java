@@ -562,9 +562,6 @@ public class PoolDemo extends PhysicsDemo {
 
     /**
      * Set up a pool table.
-     *
-     * @param topY the desired Y coordinate of the top surface (in physics-space
-     * coordinates)
      */
     private void setUpTable() {
         final float legLength = 190f;

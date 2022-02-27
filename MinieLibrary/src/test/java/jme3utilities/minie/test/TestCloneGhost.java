@@ -113,7 +113,7 @@ public class TestCloneGhost {
     /**
      * Modify PhysicsGhostObject parameters based on the specified key value.
      *
-     * @param ch the ghost object to modify (not null)
+     * @param pgo the ghost object to modify (not null)
      * @param b the key value
      */
     private void setParameters(PhysicsGhostObject pgo, float b) {
