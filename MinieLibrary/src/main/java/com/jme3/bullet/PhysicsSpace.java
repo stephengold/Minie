@@ -875,6 +875,30 @@ public class PhysicsSpace
     }
 
     /**
+     * Update this space.
+     *
+     * @param timeInterval the time interval to simulate (in seconds, &ge;0)
+     * @param maxSteps the maximum number of steps of size {@code accuracy}
+     * (&ge;1) or 0 for a single step of size {@code timeInterval}
+     * @param doEnded true to enable {@code onContactEnded()} callbacks, false
+     * to skip them
+     * @param doProcessed true to enable {@code onContactProcessed()} callbacks,
+     * false to skip them
+     * @param doStarted true to enable {@code onContactStarted()} callbacks,
+     * false to skip them
+     */
+    public void update(float timeInterval, int maxSteps, boolean doEnded,
+            boolean doProcessed, boolean doStarted) {
+        Validate.nonNegative(timeInterval, "time interval");
+        Validate.nonNegative(maxSteps, "max steps");
+
+        long spaceId = nativeId();
+        assert accuracy > 0f : accuracy;
+        stepSimulation(spaceId, timeInterval, maxSteps, accuracy, doEnded,
+                doProcessed, doStarted);
+    }
+
+    /**
      * Alter whether this space uses Speculative Contact Restitution (native
      * field: m_applySpeculativeContactRestitution).
      *
