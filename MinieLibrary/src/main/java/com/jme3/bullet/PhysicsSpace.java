@@ -842,17 +842,14 @@ public class PhysicsSpace
     public void update(float timeInterval) {
         Validate.nonNegative(timeInterval, "time interval");
 
-        long spaceId = nativeId();
-        assert maxSubSteps >= 0 : maxSubSteps;
-        assert accuracy > 0f : accuracy;
-        float interval = timeInterval;
+        float interval;
         if (maxSubSteps == 0) {
-            interval = Math.min(interval, maxTimeStep);
+            interval = Math.min(timeInterval, maxTimeStep);
+        } else {
+            interval = timeInterval;
+            assert maxSubSteps > 0 : maxSubSteps;
         }
-        boolean doProcessed = !contactProcessedListeners.isEmpty();
-        boolean doStarted = !contactStartedListeners.isEmpty();
-        stepSimulation(spaceId, interval, maxSubSteps, accuracy, false,
-                doProcessed, doStarted);
+        update(interval, maxSubSteps);
     }
 
     /**
@@ -866,12 +863,10 @@ public class PhysicsSpace
         Validate.nonNegative(timeInterval, "time interval");
         Validate.nonNegative(maxSteps, "max steps");
 
-        long spaceId = nativeId();
-        assert accuracy > 0f : accuracy;
+        boolean doEnded = false;
         boolean doProcessed = !contactProcessedListeners.isEmpty();
         boolean doStarted = !contactStartedListeners.isEmpty();
-        stepSimulation(spaceId, timeInterval, maxSteps, accuracy, false,
-                doProcessed, doStarted);
+        update(timeInterval, maxSteps, doEnded, doProcessed, doStarted);
     }
 
     /**
