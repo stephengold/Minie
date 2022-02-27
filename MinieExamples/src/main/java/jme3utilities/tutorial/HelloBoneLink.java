@@ -37,6 +37,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.InputListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
@@ -118,7 +119,7 @@ public class HelloBoneLink extends SimpleApplication {
 
         // Configure InputManager to respond to the spacebar.
         inputManager.addMapping("go limp", new KeyTrigger(KeyInput.KEY_SPACE));
-        ActionListener actionListener = new ActionListener() {
+        InputListener actionListener = new ActionListener() {
             @Override
             public void onAction(String actionString, boolean ongoing, float tpf) {
                 if (actionString.equals("go limp") && ongoing) {

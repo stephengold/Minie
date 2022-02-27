@@ -40,6 +40,7 @@ import com.jme3.bullet.joints.motors.RotationMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.InputListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -131,7 +132,7 @@ public class HelloServo extends SimpleApplication {
         inputManager.addMapping("pos2", new KeyTrigger(KeyInput.KEY_2));
         inputManager.addMapping("pos3", new KeyTrigger(KeyInput.KEY_3));
         inputManager.addMapping("pos4", new KeyTrigger(KeyInput.KEY_4));
-        ActionListener listener = new ActionListener() {
+        InputListener listener = new ActionListener() {
             @Override
             public void onAction(String action, boolean ongoing, float tpf) {
                 if (!ongoing) {

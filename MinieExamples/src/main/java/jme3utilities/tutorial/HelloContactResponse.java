@@ -36,6 +36,7 @@ import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.InputListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
 
@@ -98,7 +99,7 @@ public class HelloContactResponse extends SimpleApplication {
 
         // Configure the InputManager to respond to the spacebar.
         inputManager.addMapping("freefall", new KeyTrigger(KeyInput.KEY_SPACE));
-        ActionListener actionListener = new ActionListener() {
+        InputListener actionListener = new ActionListener() {
             @Override
             public void onAction(String action, boolean ongoing, float tpf) {
                 if (action.equals("freefall") && ongoing) {
