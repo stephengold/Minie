@@ -147,6 +147,11 @@ public class PhysicsSpace
      */
     private int maxSubSteps = 4;
     /**
+     * list of registered listeners for immediate contact notifications
+     */
+    final private List<ContactListener> contactListeners
+            = new SafeArrayList<>(ContactListener.class);
+    /**
      * list of registered listeners for ongoing contacts
      */
     final private List<PhysicsCollisionListener> contactProcessedListeners
@@ -340,6 +345,18 @@ public class PhysicsSpace
         assert !contactStartedListeners.contains(listener);
 
         contactStartedListeners.add(listener);
+    }
+
+    /**
+     * Register the specified listener for immediate contact notifications.
+     *
+     * @param listener the listener to register (not null, alias created)
+     */
+    public void addContactListener(ContactListener listener) {
+        Validate.nonNull(listener, "listener");
+        assert !contactListeners.contains(listener);
+
+        contactListeners.add(listener);
     }
 
     /**
@@ -705,6 +722,19 @@ public class PhysicsSpace
     }
 
     /**
+     * De-register the specified listener for immediate contact notifications.
+     *
+     * @see #addContactListener(com.jme3.bullet.collision.ContactListener)
+     * @param listener the listener to de-register (not null, alias created)
+     */
+    public void removeContactListener(ContactListener listener) {
+        Validate.nonNull(listener, "listener");
+
+        boolean success = contactListeners.remove(listener);
+        assert success;
+    }
+
+    /**
      * Remove the specified PhysicsJoint from this space.
      *
      * @param joint the joint to remove (not null)
@@ -863,9 +893,12 @@ public class PhysicsSpace
         assert Validate.nonNegative(timeInterval, "time interval");
         assert Validate.nonNegative(maxSteps, "max steps");
 
-        boolean doEnded = false;
-        boolean doProcessed = !contactProcessedListeners.isEmpty();
-        boolean doStarted = !contactStartedListeners.isEmpty();
+        boolean haveImmediate = !contactListeners.isEmpty();
+        boolean doEnded = haveImmediate;
+        boolean doProcessed
+                = haveImmediate || !contactProcessedListeners.isEmpty();
+        boolean doStarted
+                = haveImmediate || !contactStartedListeners.isEmpty();
         update(timeInterval, maxSteps, doEnded, doProcessed, doStarted);
     }
 
@@ -1134,7 +1167,9 @@ public class PhysicsSpace
      */
     public void onContactEnded(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
-        // do nothing
+        for (ContactListener listener : contactListeners) {
+            listener.onContactEnded(pcoA, pcoB, manifoldPointId);
+        }
     }
 
     /**
@@ -1148,6 +1183,10 @@ public class PhysicsSpace
      */
     public void onContactProcessed(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
+        for (ContactListener listener : contactListeners) {
+            listener.onContactProcessed(pcoA, pcoB, manifoldPointId);
+        }
+
         PhysicsCollisionEvent event
                 = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
         // Queue the event to be handled later by distributeEvents().
@@ -1166,6 +1205,10 @@ public class PhysicsSpace
      */
     public void onContactStarted(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
+        for (ContactListener listener : contactListeners) {
+            listener.onContactStarted(pcoA, pcoB, manifoldPointId);
+        }
+
         PhysicsCollisionEvent event
                 = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
         // Queue the event to be handled later by distributeEvents().
