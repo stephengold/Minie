@@ -32,6 +32,7 @@
 package com.jme3.bullet;
 
 import com.jme3.app.AppTask;
+import com.jme3.bullet.collision.ContactListener;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -68,7 +69,9 @@ import jme3utilities.Validate;
  *
  * @author normenhansen
  */
-public class PhysicsSpace extends CollisionSpace {
+public class PhysicsSpace
+        extends CollisionSpace
+        implements ContactListener {
     // *************************************************************************
     // enums
 
@@ -1098,6 +1101,8 @@ public class PhysicsSpace extends CollisionSpace {
             super.removeCollisionObject(pco);
         }
     }
+    // *************************************************************************
+    // ContactListener methods
 
     /**
      * This method is invoked by native code immediately after a contact
