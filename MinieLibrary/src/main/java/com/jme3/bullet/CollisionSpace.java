@@ -342,7 +342,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @return a new modifiable collection of pre-existing instances (not null)
      */
     public Collection<PhysicsCollisionObject> getPcoList() {
-        Set<PhysicsCollisionObject> result = new TreeSet<>();
+        Collection<PhysicsCollisionObject> result = new TreeSet<>();
         result.addAll(ghostMap.values());
 
         return result;

@@ -349,7 +349,7 @@ public class DacLinks
      * the torso
      */
     Joint[] listManagedArmatureJoints(String managerName) {
-        List<Joint> list = new ArrayList<>(8);
+        Collection<Joint> list = new ArrayList<>(8);
 
         if (torsoName.equals(managerName)) {
             Joint[] roots = armature.getRoots();
@@ -388,7 +388,7 @@ public class DacLinks
      * the torso
      */
     Bone[] listManagedBones(String managerName) {
-        List<Bone> list = new ArrayList<>(8);
+        Collection<Bone> list = new ArrayList<>(8);
 
         if (torsoName.equals(managerName)) {
             Bone[] roots = skeleton.getRoots();

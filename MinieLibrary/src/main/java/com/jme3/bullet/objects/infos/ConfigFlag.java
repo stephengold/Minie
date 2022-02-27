@@ -32,6 +32,7 @@
 package com.jme3.bullet.objects.infos;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -100,7 +101,7 @@ public class ConfigFlag {
      * @return description (not null, may be empty)
      */
     public static String describe(int flags) {
-        List<String> flagList = new ArrayList<>(5);
+        Collection<String> flagList = new ArrayList<>(5);
         if ((flags & SDF_RS) != 0x0) {
             flagList.add("SDF_RS");
         }

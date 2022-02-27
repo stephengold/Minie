@@ -41,6 +41,7 @@ import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -137,7 +138,7 @@ public class NativeSoftBodyUtil {
          * Enumerate all unique edges among the triangles.
          */
         int size = triangleIndices.capacity();
-        Set<IntPair> uniqueEdges = new HashSet<>(vpt * size);
+        Collection<IntPair> uniqueEdges = new HashSet<>(vpt * size);
         for (int intOffset = 0; intOffset < size; intOffset += vpt) {
             int ti0 = triangleIndices.get(intOffset);
             int ti1 = triangleIndices.get(intOffset + 1);
@@ -186,7 +187,7 @@ public class NativeSoftBodyUtil {
          * Enumerate all unique edges among the triangles.
          */
         int size = triangleIndices.size();
-        Set<IntPair> uniqueEdges = new HashSet<>(vpt * size);
+        Collection<IntPair> uniqueEdges = new HashSet<>(vpt * size);
         for (int intOffset = 0; intOffset < size; intOffset += vpt) {
             int ti0 = triangleIndices.get(intOffset);
             int ti1 = triangleIndices.get(intOffset + 1);

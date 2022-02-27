@@ -32,6 +32,7 @@
 package com.jme3.bullet;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -94,7 +95,7 @@ public class RayTestFlag {
      * @return description (not null, may be empty)
      */
     public static String describe(int flags) {
-        List<String> flagList = new ArrayList<>(5);
+        Collection<String> flagList = new ArrayList<>(5);
         if ((flags & FilterBackfaces) != 0x0) {
             flagList.add("FilterBackfaces");
         }

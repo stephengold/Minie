@@ -51,6 +51,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
@@ -481,7 +482,7 @@ public class CollisionShapeFactory {
      */
     private static Mesh makeMergedMesh(Spatial subtree) {
         List<Geometry> allGeometries = MySpatial.listGeometries(subtree);
-        List<Geometry> includedGeometries
+        Collection<Geometry> includedGeometries
                 = new ArrayList<>(allGeometries.size());
         int totalIndices = 0;
         int totalVertices = 0;

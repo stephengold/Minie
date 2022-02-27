@@ -149,22 +149,22 @@ public class PhysicsSpace
     /**
      * list of registered listeners for immediate contact notifications
      */
-    final private List<ContactListener> contactListeners
+    final private Collection<ContactListener> contactListeners
             = new SafeArrayList<>(ContactListener.class);
     /**
      * list of registered listeners for ongoing contacts
      */
-    final private List<PhysicsCollisionListener> contactProcessedListeners
+    final private Collection<PhysicsCollisionListener> contactProcessedListeners
             = new SafeArrayList<>(PhysicsCollisionListener.class);
     /**
      * list of registered listeners for new contacts
      */
-    final private List<PhysicsCollisionListener> contactStartedListeners
+    final private Collection<PhysicsCollisionListener> contactStartedListeners
             = new SafeArrayList<>(PhysicsCollisionListener.class);
     /**
      * list of registered tick listeners
      */
-    final private List<PhysicsTickListener> tickListeners
+    final private Collection<PhysicsTickListener> tickListeners
             = new SafeArrayList<>(PhysicsTickListener.class);
     /**
      * map character IDs to added objects

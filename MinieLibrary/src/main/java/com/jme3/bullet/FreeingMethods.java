@@ -33,6 +33,7 @@ package com.jme3.bullet;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -97,7 +98,7 @@ final class FreeingMethods {
      */
     private static Method[] generate(
             Class<? extends NativePhysicsObject> clazz) {
-        List<Method> methods = new ArrayList<>(4);
+        Collection<Method> methods = new ArrayList<>(4);
         for (Class<?> c = clazz; c != Object.class; c = c.getSuperclass()) {
             try {
                 Method method = c.getDeclaredMethod("freeNativeObject", long.class);

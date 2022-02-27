@@ -58,6 +58,7 @@ import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -547,7 +548,7 @@ public class RagUtils {
             throw new IllegalArgumentException("Joint count is negative!");
         }
 
-        Set<String> nameSet = new TreeSet<>();
+        Collection<String> nameSet = new TreeSet<>();
         for (int jointIndex = 0; jointIndex < numJoints; ++jointIndex) {
             Joint joint = armature.getJoint(jointIndex);
             if (joint == null) {
@@ -585,7 +586,7 @@ public class RagUtils {
             throw new IllegalArgumentException("Bone count is negative!");
         }
 
-        Set<String> nameSet = new TreeSet<>();
+        Collection<String> nameSet = new TreeSet<>();
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             Bone bone = skeleton.getBone(boneIndex);
             if (bone == null) {

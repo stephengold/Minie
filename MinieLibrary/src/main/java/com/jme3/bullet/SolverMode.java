@@ -32,6 +32,7 @@
 package com.jme3.bullet;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -116,7 +117,7 @@ public class SolverMode {
      * @return description (not null, may be empty)
      */
     public static String describe(int flags) {
-        List<String> flagList = new ArrayList<>(12);
+        Collection<String> flagList = new ArrayList<>(12);
 
         if ((flags & RandomOrder) != 0x0) {
             flagList.add("RandomOrder");
