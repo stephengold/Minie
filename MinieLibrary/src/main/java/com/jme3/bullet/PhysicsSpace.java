@@ -33,6 +33,7 @@ package com.jme3.bullet;
 
 import com.jme3.app.AppTask;
 import com.jme3.bullet.collision.ContactListener;
+import com.jme3.bullet.collision.PersistentManifolds;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -1157,62 +1158,70 @@ public class PhysicsSpace
     // ContactListener methods
 
     /**
-     * This method is invoked by native code immediately after a contact
-     * manifold is removed. Invoked once for each contact point, up to 4 times
-     * per manifold. Skipped if stepSimulation() was invoked with doEnded=false.
+     * Invoked by native code immediately after a contact manifold is removed.
+     * Skipped if stepSimulation() was invoked with doEnded=false.
      *
-     * @param pcoA the first involved object (not null)
-     * @param pcoB the 2nd involved object (not null)
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldId the native ID of the btPersistentManifold (not 0)
      */
-    public void onContactEnded(PhysicsCollisionObject pcoA,
-            PhysicsCollisionObject pcoB, long manifoldPointId) {
+    @Override
+    public void onContactEnded(long manifoldId) {
         for (ContactListener listener : contactListeners) {
-            listener.onContactEnded(pcoA, pcoB, manifoldPointId);
+            listener.onContactEnded(manifoldId);
         }
     }
 
     /**
-     * This method is invoked by native code immediately after a contact point
-     * is refreshed without being removed. Skipped for Sphere-Sphere contacts.
-     * Skipped if stepSimulation() was invoked with doProcessed=false.
+     * Invoked by native code immediately after a contact point is refreshed
+     * without being removed. Skipped for Sphere-Sphere contacts. Skipped if
+     * stepSimulation() was invoked with doProcessed=false.
      *
      * @param pcoA the first involved object (not null)
      * @param pcoB the 2nd involved object (not null)
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param pointId the native ID of the btManifoldPoint (not 0)
      */
+    @Override
     public void onContactProcessed(PhysicsCollisionObject pcoA,
-            PhysicsCollisionObject pcoB, long manifoldPointId) {
+            PhysicsCollisionObject pcoB, long pointId) {
         for (ContactListener listener : contactListeners) {
-            listener.onContactProcessed(pcoA, pcoB, manifoldPointId);
+            listener.onContactProcessed(pcoA, pcoB, pointId);
         }
 
         PhysicsCollisionEvent event
-                = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
+                = new PhysicsCollisionEvent(pcoA, pcoB, pointId);
         // Queue the event to be handled later by distributeEvents().
         contactProcessedEvents.add(event);
     }
 
     /**
-     * This method is invoked by native code immediately after a new contact
-     * manifold is created. Invoked once for each contact point, up to 4 times
-     * per manifold. Skipped if stepSimulation() was invoked with
-     * doStarted=false.
+     * Invoked by native code immediately after a contact manifold is created.
+     * Skipped if stepSimulation() was invoked with doStarted=false.
      *
-     * @param pcoA the first involved object (not null)
-     * @param pcoB the 2nd involved object (not null)
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldId the native ID of the btPersistentManifold (not 0)
      */
-    public void onContactStarted(PhysicsCollisionObject pcoA,
-            PhysicsCollisionObject pcoB, long manifoldPointId) {
+    @Override
+    public void onContactStarted(long manifoldId) {
         for (ContactListener listener : contactListeners) {
-            listener.onContactStarted(pcoA, pcoB, manifoldPointId);
+            listener.onContactStarted(manifoldId);
         }
 
-        PhysicsCollisionEvent event
-                = new PhysicsCollisionEvent(pcoA, pcoB, manifoldPointId);
-        // Queue the event to be handled later by distributeEvents().
-        contactStartedEvents.add(event);
+        int numPoints = PersistentManifolds.countPoints(manifoldId);
+        if (numPoints == 0) {
+            return;
+        }
+
+        long bodyAId = PersistentManifolds.getBodyAId(manifoldId);
+        PhysicsCollisionObject pcoA = PhysicsCollisionObject.findInstance(bodyAId);
+        long bodyBId = PersistentManifolds.getBodyBId(manifoldId);
+        PhysicsCollisionObject pcoB = PhysicsCollisionObject.findInstance(bodyBId);
+
+        for (int i = 0; i < numPoints; ++i) {
+            long pointId = PersistentManifolds.getPointId(manifoldId, i);
+            PhysicsCollisionEvent event
+                    = new PhysicsCollisionEvent(pcoA, pcoB, pointId);
+
+            // Queue the event to be handled later by distributeEvents().
+            contactStartedEvents.add(event);
+        }
     }
     // *************************************************************************
     // Java private methods

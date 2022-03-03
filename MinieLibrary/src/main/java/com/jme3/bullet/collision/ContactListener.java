@@ -33,42 +33,36 @@ package com.jme3.bullet.collision;
 
 /**
  * Interface to receive immediate notifications when 2 collision objects come
- * into contact. Note that Bullet implements persistent contacts, so
- * btManifoldPoint instances are reused from step to step.
+ * into contact.
+ * <p>
+ * Bullet implements persistent contacts, so manifold IDs and point IDs are
+ * sometimes reused from step to step.
  *
  * @author Stephen Gold sgold@sonic.net
  */
 public interface ContactListener {
     /**
-     * Invoked immediately after a contact manifold is removed. Invoked once for
-     * each contact point, up to 4 times per manifold.
+     * Invoked immediately after a contact manifold is removed.
      *
-     * @param objectA the first involved object (not null)
-     * @param objectB the 2nd involved object (not null)
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldId the native ID of the btPersistentManifold (not 0)
      */
-    void onContactEnded(PhysicsCollisionObject objectA,
-            PhysicsCollisionObject objectB, long manifoldPointId);
+    void onContactEnded(long manifoldId);
 
     /**
      * Invoked immediately after a contact point is refreshed without being
      * removed. Skipped for Sphere-Sphere contacts.
      *
-     * @param objectA the first involved object (not null)
-     * @param objectB the 2nd involved object (not null)
+     * @param pcoA the first involved object (not null)
+     * @param pcoB the 2nd involved object (not null)
      * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
      */
-    void onContactProcessed(PhysicsCollisionObject objectA,
-            PhysicsCollisionObject objectB, long manifoldPointId);
+    void onContactProcessed(PhysicsCollisionObject pcoA,
+            PhysicsCollisionObject pcoB, long manifoldPointId);
 
     /**
-     * Invoked immediately after a new contact manifold is created. Invoked once
-     * for each contact point, up to 4 times per manifold.
+     * Invoked immediately after a contact manifold is created.
      *
-     * @param objectA the first involved object (not null)
-     * @param objectB the 2nd involved object (not null)
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldId the native ID of the btPersistentManifold (not 0)
      */
-    void onContactStarted(PhysicsCollisionObject objectA,
-            PhysicsCollisionObject objectB, long manifoldPointId);
+    void onContactStarted(long manifoldId);
 }
