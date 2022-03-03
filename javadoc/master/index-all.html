@@ -2368,6 +2368,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Count the pinned nodes in this body.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/PersistentManifolds.html#countPoints(long)" class="member-name-link">countPoints(long)</a> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PersistentManifolds.html" title="class in com.jme3.bullet.collision">PersistentManifolds</a></dt>
+<dd>
+<div class="block">Return the number of points in the specified manifold (native field:
+ m_cachedPoints).</div>
+</dd>
 <dt><a href="com/jme3/bullet/MultiBody.html#countPositionVariables()" class="member-name-link">countPositionVariables()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBody.html" title="class in com.jme3.bullet">MultiBody</a></dt>
 <dd>
 <div class="block">Count the position variables in this MultiBody.</div>
@@ -3616,6 +3621,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Access the body at the joint's "A" end.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/PersistentManifolds.html#getBodyAId(long)" class="member-name-link">getBodyAId(long)</a> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PersistentManifolds.html" title="class in com.jme3.bullet.collision">PersistentManifolds</a></dt>
+<dd>
+<div class="block">Return the native ID of the first collision object (native field:
+ m_body0).</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/Constraint.html#getBodyB()" class="member-name-link">getBodyB()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/Constraint.html" title="class in com.jme3.bullet.joints">Constraint</a></dt>
 <dd>
 <div class="block">Access the rigid body at the B end.</div>
@@ -3623,6 +3633,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/joints/PhysicsJoint.html#getBodyB()" class="member-name-link">getBodyB()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a></dt>
 <dd>
 <div class="block">Access the body at the joint's "B" end.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/PersistentManifolds.html#getBodyBId(long)" class="member-name-link">getBodyBId(long)</a> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PersistentManifolds.html" title="class in com.jme3.bullet.collision">PersistentManifolds</a></dt>
+<dd>
+<div class="block">Return the native ID of the 2nd collision object (native field: m_body1).</div>
 </dd>
 <dt><a href="com/jme3/bullet/animation/PhysicsLink.html#getBone()" class="member-name-link">getBone()</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a></dt>
 <dd>
@@ -4761,6 +4775,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="vhacd/VHACDParameters.html#getPlaneDownSampling()" class="member-name-link">getPlaneDownSampling()</a> - Method in class vhacd.<a href="vhacd/VHACDParameters.html" title="class in vhacd">VHACDParameters</a></dt>
 <dd>
 <div class="block">Read the granularity of the search (native field: m_planeDownsampling).</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/PersistentManifolds.html#getPointId(long,int)" class="member-name-link">getPointId(long, int)</a> - Static method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PersistentManifolds.html" title="class in com.jme3.bullet.collision">PersistentManifolds</a></dt>
+<dd>
+<div class="block">Return the indexed btManifoldPoint in the specified manifold.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#getPositionWorldOnA()" class="member-name-link">getPositionWorldOnA()</a> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
@@ -6646,6 +6664,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/PersistentManifolds.html#logger" class="member-name-link">logger</a> - Static variable in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PersistentManifolds.html" title="class in com.jme3.bullet.collision">PersistentManifolds</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html#logger" class="member-name-link">logger</a> - Static variable in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionEvent.html" title="class in com.jme3.bullet.collision">PhysicsCollisionEvent</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
@@ -7693,14 +7715,13 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Generate a name for the specified collision object.</div>
 </dd>
-<dt><a href="com/jme3/bullet/collision/ContactListener.html#onContactEnded(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactEnded(PhysicsCollisionObject, PhysicsCollisionObject, long)</a> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
+<dt><a href="com/jme3/bullet/collision/ContactListener.html#onContactEnded(long)" class="member-name-link">onContactEnded(long)</a> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
 <dd>
 <div class="block">Invoked immediately after a contact manifold is removed.</div>
 </dd>
-<dt><a href="com/jme3/bullet/PhysicsSpace.html#onContactEnded(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactEnded(PhysicsCollisionObject, PhysicsCollisionObject, long)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dt><a href="com/jme3/bullet/PhysicsSpace.html#onContactEnded(long)" class="member-name-link">onContactEnded(long)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">This method is invoked by native code immediately after a contact
- manifold is removed.</div>
+<div class="block">Invoked by native code immediately after a contact manifold is removed.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/ContactListener.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed(PhysicsCollisionObject, PhysicsCollisionObject, long)</a> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
 <dd>
@@ -7709,17 +7730,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed(PhysicsCollisionObject, PhysicsCollisionObject, long)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">This method is invoked by native code immediately after a contact point
- is refreshed without being removed.</div>
+<div class="block">Invoked by native code immediately after a contact point is refreshed
+ without being removed.</div>
 </dd>
-<dt><a href="com/jme3/bullet/collision/ContactListener.html#onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactStarted(PhysicsCollisionObject, PhysicsCollisionObject, long)</a> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
+<dt><a href="com/jme3/bullet/collision/ContactListener.html#onContactStarted(long)" class="member-name-link">onContactStarted(long)</a> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
 <dd>
-<div class="block">Invoked immediately after a new contact manifold is created.</div>
+<div class="block">Invoked immediately after a contact manifold is created.</div>
 </dd>
-<dt><a href="com/jme3/bullet/PhysicsSpace.html#onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactStarted(PhysicsCollisionObject, PhysicsCollisionObject, long)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dt><a href="com/jme3/bullet/PhysicsSpace.html#onContactStarted(long)" class="member-name-link">onContactStarted(long)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">This method is invoked by native code immediately after a new contact
- manifold is created.</div>
+<div class="block">Invoked by native code immediately after a contact manifold is created.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/CharacterControl.html#onGround()" class="member-name-link">onGround()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>
@@ -7786,6 +7806,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/PcoType.html" class="type-name-link" title="class in com.jme3.bullet.collision">PcoType</a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
 <dd>
 <div class="block">Named constants for types of PhysicsCollisionObject.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/PersistentManifolds.html" class="type-name-link" title="class in com.jme3.bullet.collision">PersistentManifolds</a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
+<dd>
+<div class="block">Utility class to access fields of Bullet's btPersistentManifold class.</div>
 </dd>
 <dt><a href="com/jme3/bullet/SolverType.html#PGS" class="member-name-link">PGS</a> - Enum constant in enum class com.jme3.bullet.<a href="com/jme3/bullet/SolverType.html" title="enum class in com.jme3.bullet">SolverType</a></dt>
 <dd>

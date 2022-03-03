@@ -79,8 +79,10 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ContactListener</span></div>
 <div class="block">Interface to receive immediate notifications when 2 collision objects come
- into contact. Note that Bullet implements persistent contacts, so
- btManifoldPoint instances are reused from step to step.</div>
+ into contact.
+ <p>
+ Bullet implements persistent contacts, so manifold IDs and point IDs are
+ sometimes reused from step to step.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -96,26 +98,22 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactEnded(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactEnded</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectA,
- <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectB,
- long&nbsp;manifoldPointId)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactEnded(long)" class="member-name-link">onContactEnded</a><wbr>(long&nbsp;manifoldId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Invoked immediately after a contact manifold is removed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectA,
- <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectB,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+ <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
  long&nbsp;manifoldPointId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Invoked immediately after a contact point is refreshed without being
  removed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactStarted</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectA,
- <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectB,
- long&nbsp;manifoldPointId)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactStarted(long)" class="member-name-link">onContactStarted</a><wbr>(long&nbsp;manifoldId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Invoked immediately after a new contact manifold is created.</div>
+<div class="block">Invoked immediately after a contact manifold is created.</div>
 </div>
 </div>
 </div>
@@ -132,50 +130,40 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="onContactEnded(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">
+<section class="detail" id="onContactEnded(long)">
 <h3>onContactEnded</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">onContactEnded</span><wbr><span class="parameters">(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectA,
- <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectB,
- long&nbsp;manifoldPointId)</span></div>
-<div class="block">Invoked immediately after a contact manifold is removed. Invoked once for
- each contact point, up to 4 times per manifold.</div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">onContactEnded</span><wbr><span class="parameters">(long&nbsp;manifoldId)</span></div>
+<div class="block">Invoked immediately after a contact manifold is removed.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>objectA</code> - the first involved object (not null)</dd>
-<dd><code>objectB</code> - the 2nd involved object (not null)</dd>
-<dd><code>manifoldPointId</code> - the native ID of the btManifoldPoint (not 0)</dd>
+<dd><code>manifoldId</code> - the native ID of the btPersistentManifold (not 0)</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">
 <h3>onContactProcessed</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">onContactProcessed</span><wbr><span class="parameters">(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectA,
- <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectB,
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">onContactProcessed</span><wbr><span class="parameters">(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+ <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
  long&nbsp;manifoldPointId)</span></div>
 <div class="block">Invoked immediately after a contact point is refreshed without being
  removed. Skipped for Sphere-Sphere contacts.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>objectA</code> - the first involved object (not null)</dd>
-<dd><code>objectB</code> - the 2nd involved object (not null)</dd>
+<dd><code>pcoA</code> - the first involved object (not null)</dd>
+<dd><code>pcoB</code> - the 2nd involved object (not null)</dd>
 <dd><code>manifoldPointId</code> - the native ID of the btManifoldPoint (not 0)</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="onContactStarted(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">
+<section class="detail" id="onContactStarted(long)">
 <h3>onContactStarted</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">onContactStarted</span><wbr><span class="parameters">(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectA,
- <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;objectB,
- long&nbsp;manifoldPointId)</span></div>
-<div class="block">Invoked immediately after a new contact manifold is created. Invoked once
- for each contact point, up to 4 times per manifold.</div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">onContactStarted</span><wbr><span class="parameters">(long&nbsp;manifoldId)</span></div>
+<div class="block">Invoked immediately after a contact manifold is created.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>objectA</code> - the first involved object (not null)</dd>
-<dd><code>objectB</code> - the 2nd involved object (not null)</dd>
-<dd><code>manifoldPointId</code> - the native ID of the btManifoldPoint (not 0)</dd>
+<dd><code>manifoldId</code> - the native ID of the btPersistentManifold (not 0)</dd>
 </dl>
 </section>
 </li>
