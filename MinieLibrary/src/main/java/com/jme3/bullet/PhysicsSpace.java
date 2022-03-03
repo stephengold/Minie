@@ -476,6 +476,18 @@ public class PhysicsSpace
     }
 
     /**
+     * Count the collision manifolds in this space.
+     *
+     * @return the current number of btPersistentManifolds (&ge;0)
+     */
+    public int countManifolds() {
+        long spaceId = nativeId();
+        int result = countManifolds(spaceId);
+
+        return result;
+    }
+
+    /**
      * Count the rigid bodies in this space, including vehicles.
      *
      * @return count (&ge;0)
@@ -662,6 +674,25 @@ public class PhysicsSpace
     public boolean isUsingScr() {
         long spaceId = nativeId();
         boolean result = isSpeculativeContactRestitution(spaceId);
+
+        return result;
+    }
+
+    /**
+     * Enumerate the native IDs of all collision manifolds in this space.
+     *
+     * @return a new array (not null, may be empty)
+     * @see com.jme3.bullet.collision.PersistentManifolds
+     */
+    public long[] listManifoldIds() {
+        long spaceId = nativeId();
+        int numManifolds = countManifolds(spaceId);
+        long[] result = new long[numManifolds];
+
+        for (int index = 0; index < numManifolds; ++index) {
+            long manifoldId = getManifoldByIndex(spaceId, index);
+            result[index] = manifoldId;
+        }
 
         return result;
     }
@@ -1435,10 +1466,15 @@ public class PhysicsSpace
     native private static void addRigidBody(long spaceId, long rigidBodyId,
             int proxyGroup, int proxyMask);
 
+    native private static int countManifolds(long spaceId);
+
     native private long createPhysicsSpace(Vector3f minVector,
             Vector3f maxVector, int broadphaseType, int numSolvers);
 
     native private static void getGravity(long spaceId, Vector3f storeVector);
+
+    native private static long
+            getManifoldByIndex(long spaceId, int manifoldIndex);
 
     native private static int getNumConstraints(long spaceId);
 
