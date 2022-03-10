@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.DisplaySettings;
 import jme3utilities.ui.DisplaySizeLimits;
 import jme3utilities.ui.InputMode;
+import jme3utilities.ui.ShowDialog;
 
 /**
  * A GuiApplication to configure a DynamicAnimControl for a C-G model. The
@@ -268,7 +269,7 @@ public class DacWizard extends GuiApplication {
         Heart.setLoggingLevels(Level.WARNING);
 
         String renderer = AppSettings.LWJGL_OPENGL2;
-        boolean forceDialog = false;
+        ShowDialog showDialog = ShowDialog.Never;
         /*
          * Process any command-line arguments.
          */
@@ -281,7 +282,7 @@ public class DacWizard extends GuiApplication {
 
                 case "-f":
                 case "--forceDialog":
-                    forceDialog = true;
+                    showDialog = ShowDialog.Always;
                     break;
 
                 case "-v":
@@ -296,7 +297,7 @@ public class DacWizard extends GuiApplication {
             }
         }
 
-        mainStartup(forceDialog, renderer);
+        mainStartup(showDialog, renderer);
     }
 
     /**
@@ -555,7 +556,7 @@ public class DacWizard extends GuiApplication {
      * @param renderer the value passed to
      * {@link com.jme3.system.AppSettings#setRenderer(java.lang.String)}
      */
-    private static void mainStartup(final boolean forceDialog,
+    private static void mainStartup(final ShowDialog showDialog,
             final String renderer) {
         /*
          * Instantiate the application.
@@ -575,7 +576,7 @@ public class DacWizard extends GuiApplication {
             protected void applyOverrides(AppSettings settings) {
                 super.applyOverrides(settings);
 
-                setForceDialog(forceDialog);
+                setShowDialog(showDialog);
                 settings.setAudioRenderer(null);
                 settings.setRenderer(renderer);
                 settings.setSamples(4);
