@@ -30,6 +30,9 @@ tasks.withType(JavaCompile) { // Java compile-time options:
     options.compilerArgs << '-Xlint:unchecked'
     //options.deprecation = true // to provide detailed deprecation warnings
     options.encoding = 'UTF-8'
+    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_1_10)) {
+        options.release = 8
+    }
 }
 
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform;
@@ -51,7 +54,7 @@ tasks.withType(JavaExec) { // Java runtime options:
 }
 
 repositories {
-    //mavenLocal()
+    //mavenLocal() // to find local SNAPSHOTs of libraries
     mavenCentral()
     maven { url 'https://jcenter.bintray.com' } // for SimMath
 }
