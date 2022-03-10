@@ -7,7 +7,7 @@ ext {
 
     // module coordinates of dependencies:
     acorusCoordinates = 'com.github.stephengold:Acorus:0.9.9' + jmeTarget
-    heartCoordinates = 'com.github.stephengold:Heart:7.3.0' + jmeTarget
+    heartCoordinates = 'com.github.stephengold:Heart:7.4.1' + jmeTarget
     junitCoordinates = 'junit:junit:4.13.2'
     testdataCoordinates = 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
     wesCoordinates = 'com.github.stephengold:Wes:0.7.1' + jmeTarget
@@ -32,13 +32,21 @@ tasks.withType(JavaCompile) { // Java compile-time options:
     options.encoding = 'UTF-8'
 }
 
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform;
+Boolean isMacOS = DefaultNativePlatform.currentOperatingSystem.isMacOsX();
+
 tasks.withType(JavaExec) { // Java runtime options:
+    if (isMacOS) {
+        jvmArgs '-XstartOnFirstThread'
+    } else {
+        args '--showSettingsDialog'
+    }
+    //args '--verbose' // to enable additional log output
     classpath sourceSets.main.runtimeClasspath
     enableAssertions true
     //jvmArgs '-verbose:gc'
     //jvmArgs '-Xcheck:jni'
     jvmArgs '-Xms1024m', '-Xmx1024m'
-    //jvmArgs '-XX:+UseConcMarkSweepGC'
     jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
 }
 
