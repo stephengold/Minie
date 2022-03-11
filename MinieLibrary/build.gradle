@@ -308,7 +308,7 @@ tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allJava
 }
 
-build.dependsOn('module', 'moduleAsc', 'pom', 'pomAsc')
+assemble.dependsOn('module', 'moduleAsc', 'pom', 'pomAsc')
 tasks.register('module', Copy) {
     dependsOn 'generateMetadataFileForMavenPublication'
     description 'Copies the module metadata to build/libs.'
@@ -387,11 +387,11 @@ publishing {
     }
 }
 generateMetadataFileForMavenPublication.dependsOn('pom')
-publishMavenPublicationToMavenLocal.dependsOn('build')
+publishMavenPublicationToMavenLocal.dependsOn('assemble')
 publishMavenPublicationToMavenLocal.doLast {
     println 'installed locally as ' + project.ext.baseName
 }
-publishMavenPublicationToOSSRHRepository.dependsOn('build')
+publishMavenPublicationToOSSRHRepository.dependsOn('assemble')
 
 // signing tasks
 
