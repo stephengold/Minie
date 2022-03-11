@@ -59,26 +59,26 @@ repositories {
     maven { url 'https://jcenter.bintray.com' } // for SimMath
 }
 
-// cleanup tasks
+// cleanup tasks:
 
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanPDBs', \
     'cleanSOs', 'cleanWrittenAssets')
 
-task cleanDLLs(type: Delete) { // Windows native libraries
+tasks.register('cleanDLLs', Delete) { // extracted Windows native libraries
     delete fileTree(dir: '.', include: '*.dll')
 }
-task cleanDyLibs(type: Delete) { // MacOSX native libraries
+tasks.register('cleanDyLibs', Delete) { // extracted macOSX native libraries
     delete fileTree(dir: '.', include: '*.dylib')
 }
-task cleanLogs(type: Delete) { // JVM crash logs
+tasks.register('cleanLogs', Delete) { // JVM crash logs
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
 }
-task cleanPDBs(type: Delete) { // Windows program database files
+tasks.register('cleanPDBs', Delete) { // Windows program database files
     delete fileTree(dir: '.', include: '*.pdb')
 }
-task cleanSOs(type: Delete) { // Linux and Android native libraries
+tasks.register('cleanSOs', Delete) { // extracted Linux and Android native libraries
     delete fileTree(dir: '.', include: '*.so')
 }
-task cleanWrittenAssets(type: Delete) { // Acorus output directory
+tasks.register('cleanWrittenAssets', Delete) { // Acorus output directory
     delete 'Written Assets'
 }

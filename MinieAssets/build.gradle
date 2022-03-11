@@ -55,7 +55,7 @@ dependencies {
     implementation project(':MinieLibrary')
 }
 
-task models(type: JavaExec) {
+tasks.register('models', JavaExec) {
     description 'Generate C-G model assets used in MinieExamples.'
     mainClass = 'jme3utilities.minie.test.models.ImportCgms'
     outputs.files([
@@ -72,66 +72,66 @@ task models(type: JavaExec) {
         ])
 }
 
-task shapes {
+tasks.register('shapes') {
     dependsOn 'ankhShape', 'bananaShape', 'barrelShape', 'bowlingPinShape', \
         'duckShape', 'glyphShapes', 'heartShape', 'horseshoeShape', \
         'swordShape', 'teapotShape'
     description 'Generate collision-shape assets used in MinieExamples.'
 }
-task ankhShape(type: JavaExec) {
+tasks.register('ankhShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeAnkh'
     outputs.files([ankhShape])
 }
-task bananaShape(type: JavaExec) {
+tasks.register('bananaShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeBanana'
     outputs.files([bananaShape])
 }
-task barrelShape(type: JavaExec) {
+tasks.register('barrelShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeBarrel'
     outputs.files([barrelShape])
 }
-task bowlingPinShape(type: JavaExec) {
+tasks.register('bowlingPinShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeBowlingPin'
     outputs.files([bowlingPinShape])
 }
-task duckShape(type: JavaExec) {
+tasks.register('duckShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeDuck'
     outputs.files([duckShape])
 }
-task glyphShapes(type: JavaExec) {
+tasks.register('glyphShapes', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeGlyphs'
     outputs.dirs([glyphAssets])
 }
-task heartShape(type: JavaExec) {
+tasks.register('heartShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeHeart'
     outputs.files([heartShape])
 }
-task horseshoeShape(type: JavaExec) {
+tasks.register('horseshoeShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeHorseshoe'
     outputs.files([horseshoeShape])
 }
-task swordShape(type: JavaExec) {
+tasks.register('swordShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeSword'
     outputs.files([swordShape])
 }
-task teapotShape(type: JavaExec) {
+tasks.register('teapotShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeTeapot'
     outputs.files([teapotShape])
 }
 
-task textures {
+tasks.register('textures') {
     dependsOn 'greenTile', 'plaid', 'poolBalls'
     description 'Generate texture assets used in MinieExamples.'
 }
-task greenTile(type: JavaExec) {
+tasks.register('greenTile', JavaExec) {
     mainClass = 'jme3utilities.minie.test.textures.MakeGreenTile'
     outputs.files([greenTile])
 }
-task plaid(type: JavaExec) {
+tasks.register('plaid', JavaExec) {
     mainClass = 'jme3utilities.minie.test.textures.MakePlaid'
     outputs.files([plaid])
 }
-task poolBalls(type: JavaExec) {
+tasks.register('poolBalls', JavaExec) {
     mainClass = 'jme3utilities.minie.test.textures.MakePoolBalls'
     outputs.dirs([poolBalls])
 }
@@ -140,54 +140,54 @@ task poolBalls(type: JavaExec) {
 
 clean.dependsOn('cleanModels', 'cleanShapes', 'cleanTextures')
 
-task cleanModels(type: Delete) {
+tasks.register('cleanModels', Delete) {
     delete(baseMesh, candyDish, duck, elephant, jaime, mhGame, ninja, sinbad)
     dependsOn 'cleanOto'
     description 'Delete generated model assets.'
 }
-task cleanOto(type: Delete) {
+tasks.register('cleanOto', Delete) {
     delete fileTree(dir: oto, include: 'Oto.*')
 }
 
-task cleanShapes {
+tasks.register('cleanShapes') {
     dependsOn 'cleanAnkhShape', 'cleanBananaShape', 'cleanBarrelShape', \
         'cleanBowlingPinShape', 'cleanDuckShape', 'cleanGlyphShapes', \
         'cleanHeartShape', 'cleanHorseshoeShape', 'cleanSwordShape', \
         'cleanTeapotShape'
     description 'Delete generated collision-shape assets.'
 }
-task cleanAnkhShape(type: Delete) {
+tasks.register('cleanAnkhShape', Delete) {
     delete ankhShape
 }
-task cleanBananaShape(type: Delete) {
+tasks.register('cleanBananaShape', Delete) {
     delete bananaShape
 }
-task cleanBarrelShape(type: Delete) {
+tasks.register('cleanBarrelShape', Delete) {
     delete barrelShape
 }
-task cleanBowlingPinShape(type: Delete) {
+tasks.register('cleanBowlingPinShape', Delete) {
     delete bowlingPinShape
 }
-task cleanDuckShape(type: Delete) {
+tasks.register('cleanDuckShape', Delete) {
     delete duckShape
 }
-task cleanGlyphShapes(type: Delete) {
+tasks.register('cleanGlyphShapes', Delete) {
     delete glyphAssets
 }
-task cleanHeartShape(type: Delete) {
+tasks.register('cleanHeartShape', Delete) {
     delete heartShape
 }
-task cleanHorseshoeShape(type: Delete) {
+tasks.register('cleanHorseshoeShape', Delete) {
     delete horseshoeShape
 }
-task cleanSwordShape(type: Delete) {
+tasks.register('cleanSwordShape', Delete) {
     delete swordShape
 }
-task cleanTeapotShape(type: Delete) {
+tasks.register('cleanTeapotShape', Delete) {
     delete teapotShape
 }
 
-task cleanTextures(type: Delete) {
+tasks.register('cleanTextures', Delete) {
     delete(greenTile, plaid, poolBalls)
     description 'Delete generated texture assets.'
 }

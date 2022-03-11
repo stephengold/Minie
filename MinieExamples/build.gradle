@@ -40,6 +40,6 @@ dependencies {
 
 processResources.dependsOn(':MinieAssets:models', ':MinieAssets:shapes', ':MinieAssets:textures')
 
-// cleanup tasks
+// cleanup tasks:
 
 clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanShapes', ':MinieAssets:cleanTextures')

@@ -105,7 +105,7 @@ ext {
     } else {
         version = "${minieVersion}+${metadata}"
     }
-    baseName = "${artifact}-${version}${minieSnapshot}"
+    baseName = "${artifact}-${version}${minieSnapshot}" // for artifacts
 
     websiteUrl = 'https://github.com/stephengold/Minie'
 
@@ -150,56 +150,56 @@ assemble.dependsOn((pdbWindows64 == '' ? 'clean' : 'download') + 'PDBs')
 
 // tasks to download native libraries (from GitHub, typically)
 
-task downloadAndroid_ARM7(type: MyDownload) {
+tasks.register('downloadAndroid_ARM7', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_ARM7${btfAndroid_ARM7}_libbulletjme.so"
     target = file(libDir + 'armeabi-v7a/libbulletjme.so')
 }
-task downloadAndroid_ARM8(type: MyDownload) {
+tasks.register('downloadAndroid_ARM8', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_ARM8${btfAndroid_ARM8}_libbulletjme.so"
     target = file(libDir + 'arm64-v8a/libbulletjme.so')
 }
-task downloadAndroid_X86(type: MyDownload) {
+tasks.register('downloadAndroid_X86', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_X86${btfAndroid_X86}_libbulletjme.so"
     target = file(libDir + 'x86/libbulletjme.so')
 }
-task downloadAndroid_X86_64(type: MyDownload) {
+tasks.register('downloadAndroid_X86_64', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_X86_64${btfAndroid_X86_64}_libbulletjme.so"
     target = file(libDir + 'x86_64/libbulletjme.so')
 }
-task downloadLinux32(type: MyDownload) {
+tasks.register('downloadLinux32', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux32${btfLinux32}_libbulletjme.so"
     target = file(nativeDir + 'linux/x86/libbulletjme.so')
 }
-task downloadLinux64(type: MyDownload) {
+tasks.register('downloadLinux64', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux64${btfLinux64}_libbulletjme.so"
     target = file(nativeDir + 'linux/x86_64/libbulletjme.so')
 }
-task downloadLinux_ARM32(type: MyDownload) {
+tasks.register('downloadLinux_ARM32', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux_ARM32${btfLinux_ARM32}_libbulletjme.so"
     target = file(nativeDir + 'linux/arm32/libbulletjme.so')
 }
-task downloadLinux_ARM64(type: MyDownload) {
+tasks.register('downloadLinux_ARM64', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Linux_ARM64${btfLinux_ARM64}_libbulletjme.so"
     target = file(nativeDir + 'linux/arm64/libbulletjme.so')
 }
-task downloadMacOSX32(type: MyDownload) {
+tasks.register('downloadMacOSX32', MyDownload) {
     sourceUrl = libbulletjmeUrl + "MacOSX32${btfMacOSX32}_libbulletjme.dylib"
     target = file(nativeDir + 'osx/x86/libbulletjme.dylib')
 }
-task downloadMacOSX64(type: MyDownload) {
+tasks.register('downloadMacOSX64', MyDownload) {
     sourceUrl = libbulletjmeUrl + "MacOSX64${btfMacOSX64}_libbulletjme.dylib"
     target = file(nativeDir + 'osx/x86_64/libbulletjme.dylib')
 }
-task downloadWindows32(type: MyDownload) {
+tasks.register('downloadWindows32', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Windows32${btfWindows32}_bulletjme.dll"
     target = file(nativeDir + 'windows/x86/bulletjme.dll')
 }
-task downloadWindows64(type: MyDownload) {
+tasks.register('downloadWindows64', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Windows64${btfWindows64}_bulletjme.dll"
     target = file(nativeDir + 'windows/x86_64/bulletjme.dll')
 }
 
-task downloadPDBs(type: MyDownload) {
+tasks.register('downloadPDBs', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Windows64${pdbWindows64}_bulletjme.pdb"
     target = file('bulletjme.pdb')
 }
@@ -211,46 +211,46 @@ clean.dependsOn('cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
     'cleanLinux_ARM32', 'cleanLinux_ARM64',
     'cleanMacOSX32', 'cleanMacOSX64', 'cleanWindows32', 'cleanWindows64')
 
-task cleanAndroid_ARM7(type: Delete) {
+tasks.register('cleanAndroid_ARM7', Delete) {
     delete libDir + 'armeabi-v7a/libbulletjme.so'
 }
-task cleanAndroid_ARM8(type: Delete) {
+tasks.register('cleanAndroid_ARM8', Delete) {
     delete libDir + 'arm64-v8a/libbulletjme.so'
 }
-task cleanAndroid_X86(type: Delete) {
+tasks.register('cleanAndroid_X86', Delete) {
     delete libDir + 'x86/libbulletjme.so'
 }
-task cleanAndroid_X86_64(type: Delete) {
+tasks.register('cleanAndroid_X86_64', Delete) {
     delete libDir + 'x86_64/libbulletjme.so'
 }
-task cleanLinux32(type: Delete) {
+tasks.register('cleanLinux32', Delete) {
     delete nativeDir + 'linux/x86/libbulletjme.so'
 }
-task cleanLinux64(type: Delete) {
+tasks.register('cleanLinux64', Delete) {
     delete nativeDir + 'linux/x86_64/libbulletjme.so'
 }
-task cleanLinux_ARM32(type: Delete) {
+tasks.register('cleanLinux_ARM32', Delete) {
     delete nativeDir + 'linux/arm32/libbulletjme.so'
 }
-task cleanLinux_ARM64(type: Delete) {
+tasks.register('cleanLinux_ARM64', Delete) {
     delete nativeDir + 'linux/arm64/libbulletjme.so'
 }
-task cleanMacOSX32(type: Delete) {
+tasks.register('cleanMacOSX32', Delete) {
     delete nativeDir + 'osx/x86/libbulletjme.dylib'
 }
-task cleanMacOSX64(type: Delete) {
+tasks.register('cleanMacOSX64', Delete) {
     delete nativeDir + 'osx/x86_64/libbulletjme.dylib'
 }
-task cleanWindows32(type: Delete) {
+tasks.register('cleanWindows32', Delete) {
     delete nativeDir + 'windows/x86/bulletjme.dll'
 }
-task cleanWindows64(type: Delete) {
+tasks.register('cleanWindows64', Delete) {
     delete nativeDir + 'windows/x86_64/bulletjme.dll'
 }
 
 // javadoc to (web)site tasks, triggered by push-master.yml
 
-task('copyJavadocToSite') {
+tasks.register('copyJavadocToSite') {
     dependsOn 'copyMasterJavadocToSite', \
      'copy46JavadocToSite', \
      'copy45JavadocToSite', \
@@ -263,7 +263,7 @@ task('copyJavadocToSite') {
      'copy30JavadocToSite', \
      'copy20JavadocToSite'
 }
-task('copyMasterJavadocToSite', type: Copy) {
+tasks.register('copyMasterJavadocToSite', Copy) {
     dependsOn 'javadoc'
     from "${buildDir}/docs/javadoc"
     into '../build/site/javadoc/master'
@@ -281,11 +281,11 @@ defineJavadocTasksForRelease('2', '0', '1')
 
 // publishing tasks
 
-task('install') {
+tasks.register('install') {
     dependsOn 'publishMavenPublicationToMavenLocal'
     description 'Installs Maven artifacts to the local repository.'
 }
-task('release') {
+tasks.register('release') {
     dependsOn 'publishMavenPublicationToOSSRHRepository'
     description 'Stages Maven artifacts to Sonatype OSSRH.'
 }
@@ -294,14 +294,14 @@ jar {
     archiveBaseName = project.ext.baseName
     exclude('**/empty')
 }
-task javadocJar(type: Jar) {
+tasks.register('javadocJar', Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'javadoc'
     dependsOn 'javadoc'
     description 'Creates a JAR of javadoc.'
     from javadoc.destinationDir
 }
-task sourcesJar(type: Jar) {
+tasks.register('sourcesJar', Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'sources'
     description 'Creates a JAR of sourcecode.'
@@ -309,28 +309,28 @@ task sourcesJar(type: Jar) {
 }
 
 build.dependsOn('module', 'moduleAsc', 'pom', 'pomAsc')
-task('module', type: Copy) {
+tasks.register('module', Copy) {
     dependsOn 'generateMetadataFileForMavenPublication'
     description 'Copies the module metadata to build/libs.'
     from "${buildDir}/publications/maven/module.json"
     into "${buildDir}/libs"
     rename 'module.json', project.ext.baseName + '.module'
 }
-task('moduleAsc', type: Copy) {
+tasks.register('moduleAsc', Copy) {
     dependsOn 'signMavenPublication'
     description 'Copies the signature of the module metadata to build/libs.'
     from "${buildDir}/publications/maven/module.json.asc"
     into "${buildDir}/libs"
     rename 'module.json.asc', project.ext.baseName + '.module.asc'
 }
-task('pom', type: Copy) {
+tasks.register('pom', Copy) {
     dependsOn 'generatePomFileForMavenPublication'
     description 'Copies the Maven POM to build/libs.'
     from "${buildDir}/publications/maven/pom-default.xml"
     into "${buildDir}/libs"
     rename 'pom-default.xml', project.ext.baseName + '.pom'
 }
-task('pomAsc', type: Copy) {
+tasks.register('pomAsc', Copy) {
     dependsOn 'signMavenPublication'
     description 'Copies the signature of the Maven POM to build/libs.'
     from "${buildDir}/publications/maven/pom-default.xml.asc"
@@ -449,7 +449,7 @@ void configureDesktopBtfs(String btfValue) {
     project.ext.btfWindows32 = btfValue
 }
 
-// helper method to define tasks that copy javadoc to the (web)site
+// helper method to register tasks that copy javadoc to the (web)site
 
 void defineJavadocTasksForRelease(String major, String minor, String patch) {
     String downloadTaskName = "download${major}${minor}Javadoc"
@@ -457,12 +457,12 @@ void defineJavadocTasksForRelease(String major, String minor, String patch) {
     String jarPath = "${buildDir}/docs/v${major}-${minor}.jar"
     String mmp = "${major}.${minor}.${patch}"
 
-    task(downloadTaskName, type: MyDownload) {
+    tasks.register(downloadTaskName, MyDownload) {
         sourceUrl = "${downloadUrl}/${mmp}/Minie-${mmp}-javadoc.jar"
         target = file(jarPath)
     }
 
-    task("copy${major}${minor}JavadocToSite", type: Copy) {
+    tasks.register("copy${major}${minor}JavadocToSite", Copy) {
         dependsOn downloadTaskName
         from zipTree(jarPath)
         into "../build/site/javadoc/v${major}-${minor}"

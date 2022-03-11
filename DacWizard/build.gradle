@@ -33,7 +33,7 @@ dependencies {
     implementation project(':MinieLibrary')
 }
 
-task runForceDialog(type: JavaExec) {
+tasks.register('runForceDialog', JavaExec) {
     args = ['--forceDialog']
     mainClass = mainClassName
 }

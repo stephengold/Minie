@@ -11,17 +11,17 @@ subprojects {
 // cleanup tasks
 
 clean.dependsOn('cleanNodeModules')
-task cleanNodeModules(type: Delete) {
+tasks.register('cleanNodeModules', Delete) {
     delete 'node_modules'
 }
 
 // publishing tasks
 
-task('install') {
+tasks.register('install') {
     dependsOn ':MinieLibrary:install'
     description 'Installs Maven artifacts to the local repository.'
 }
-task('release') {
+tasks.register('release') {
     dependsOn ':MinieLibrary:release'
     description 'Stages Maven artifacts to Sonatype OSSRH.'
 }
