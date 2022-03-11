@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.elements.Element;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.InitialState;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
@@ -71,7 +72,8 @@ class LoadScreen extends GuiScreenController {
      * during initialization.
      */
     LoadScreen() {
-        super("load", "Interface/Nifty/screens/wizard/load.xml", false);
+        super("load", "Interface/Nifty/screens/wizard/load.xml",
+                InitialState.Disabled);
     }
     // *************************************************************************
     // new methods exposed

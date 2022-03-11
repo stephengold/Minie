@@ -45,6 +45,7 @@ import de.lessvoid.nifty.controls.TreeItem;
 import de.lessvoid.nifty.elements.Element;
 import java.util.List;
 import java.util.logging.Logger;
+import jme3utilities.InitialState;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
@@ -90,7 +91,8 @@ public class LinksScreen extends GuiScreenController {
      * during initialization.
      */
     LinksScreen() {
-        super("links", "Interface/Nifty/screens/wizard/links.xml", false);
+        super("links", "Interface/Nifty/screens/wizard/links.xml",
+                InitialState.Disabled);
     }
     // *************************************************************************
     // new methods exposed

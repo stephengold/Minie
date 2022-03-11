@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.InitialState;
 import jme3utilities.MyString;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.nifty.PopupMenuBuilder;
@@ -74,7 +75,8 @@ class FilePathScreen extends GuiScreenController {
      * during initialization.
      */
     FilePathScreen() {
-        super("filePath", "Interface/Nifty/screens/wizard/filePath.xml", false);
+        super("filePath", "Interface/Nifty/screens/wizard/filePath.xml",
+                InitialState.Disabled);
         setSubmenuWarp(0.5f, 0.5f);
     }
     // *************************************************************************

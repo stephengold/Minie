@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -52,6 +52,7 @@ import com.jme3.scene.Spatial;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.InitialState;
 import jme3utilities.MyAsset;
 import jme3utilities.MySpatial;
 import jme3utilities.debug.AxesVisualizer;
@@ -95,7 +96,8 @@ class TestScreen extends GuiScreenController {
      * during initialization.
      */
     TestScreen() {
-        super("test", "Interface/Nifty/screens/wizard/test.xml", false);
+        super("test", "Interface/Nifty/screens/wizard/test.xml",
+                InitialState.Disabled);
     }
     // *************************************************************************
     // GuiScreenController methods
