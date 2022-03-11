@@ -1,17 +1,17 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.7.1 released on TBD
+## Version 4.7.1 released on 11 March 2022
 
  + Bugfix:  `PhysicsCollisionEvent.getNormalWorldOnB()` returns wrong value
- + Bugfix:  issue #20 (`btAssert` from `HingeJoint.setAngularOnly(true)`)
+ + Bugfix:  issue #20 (`btAssert` fails after `HingeJoint.setAngularOnly(true)`)
  + Added the `needsCollision()` method to the `CollisionSpace` class.
    This method can be overridden for dynamic collision filtering.
  + Added the `ContactListener` interface for immediate handling of rigid-body
    contacts.
  + Added the `ManifoldPoints` utility class to access the properties
-   of a `btManifoldPoint` without instantiating a `PhysicsCollisionEvent`.
+   of a contact point without instantiating a `PhysicsCollisionEvent`.
  + Added the `PersistentManifolds` utility class to access the properties
-    of a `btPersistenceManifold`.
+    of a contact manifold.
  + Added 8 methods to the `PhysicsSpace` class:
    + `addContactListener(ContactListener)`
    + `countManifolds()`
@@ -32,7 +32,7 @@
    + v0.9.10 of the Acorus library, and
    + v0.9.27 of the jme3-utilities-nifty library.
  + Built using Gradle v7.4.1 .
- + Updated the native libraries to v14.0.0 ot Libbulletjme.
+ + Updated the native libraries to v14.0.0 of Libbulletjme.
 
 ## Version 4.6.1 released on 24 January 2022
 

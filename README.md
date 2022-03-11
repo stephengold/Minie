@@ -134,8 +134,7 @@ Package names begin with `jme3utilities.`
 (if Stephen Gold holds the copyright) or
 `com.jme3.`/`jme3test.` (if the jMonkeyEngine Project holds the copyright).
 
-The source code is compatible with JDK 7.
-The pre-built libraries are compatible with JDK 8.
+The source code and pre-built libraries are compatible with JDK 8.
 
 [Jump to table of contents](#toc)
 
@@ -360,6 +359,8 @@ artists and software developers:
 + [Paul Speed (aka "pspeed42")][pspeed], for creating the SimMath library
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down
 + "duncanj", for pull request #15
++ "qwq", for suggesting changes to how rigid-body contacts are managed
+  and for authoring the `ConveyorDemo` application
 + [Nathan Vegdahl][vegdahl], for creating the Puppet model
 + Tobias Jung, for distributing [ProFont]
 + plus the creators of (and contributors to) the following software:
