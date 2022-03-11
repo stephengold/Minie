@@ -1,5 +1,39 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.7.0 released on TBD
+
+ + Bugfix:  `PhysicsCollisionEvent.getNormalWorldOnB()` returns wrong value
+ + Bugfix:  issue #20 (`btAssert` from `HingeJoint.setAngularOnly(true)`)
+ + Added the `needsCollision()` method to the `CollisionSpace` class.
+   This method can be overridden for dynamic collision filtering.
+ + Added the `ContactListener` interface for immediate handling of rigid-body
+   contacts.
+ + Added the `ManifoldPoints` utility class to access the properties
+   of a `btManifoldPoint` without instantiating a `PhysicsCollisionEvent`.
+ + Added the `PersistentManifolds` utility class to access the properties
+    of a `btPersistenceManifold`.
+ + Added 8 methods to the `PhysicsSpace` class:
+   + `addContactListener(ContactListener)`
+   + `countManifolds()`
+   + `listManifolds()`
+   + `onContactEnded(PhysicsCollisionObject, PhysicsCollisionObject, long)`
+   + `onContactProcessed(PhysicsCollisionObject, PhysicsCollisionObject, long)`
+   + `onContactStarted(PhysicsCollisionObject, PhysicsCollisionObject, long)`
+   + `removeContactListener(ContactListener)`
+   + `update(float, int, boolean, boolean, boolean)`
+     to enable callbacks to specific `ContactListener` methods
+ + Deprecated the `PhysicsCollisionEvent.setContactCalcArea3Points()` method
+   in favor of the corresponding `ManifoldPoints` method.
+ + Deleted placeholder files from class jars.
+ + Added the `ConveyorDemo` and `JointElasticity` apps to MinieExamples.
+ + Based on:
+   + v7.4.1 of the Heart library,
+   + v0.7.1 of the Wes library,
+   + v0.9.10 of the Acorus library, and
+   + v0.9.27 of the jme3-utilities-nifty library.
+ + Built using Gradle v7.4.1 .
+ + Updated the native libraries to v14.0.0 ot Libbulletjme.
+
 ## Version 4.6.1 released on 24 January 2022
 
  + Restored support for the MacOSX32 platform.
