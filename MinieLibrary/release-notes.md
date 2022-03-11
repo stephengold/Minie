@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.7.0 released on TBD
+## Version 4.7.1 released on TBD
 
  + Bugfix:  `PhysicsCollisionEvent.getNormalWorldOnB()` returns wrong value
  + Bugfix:  issue #20 (`btAssert` from `HingeJoint.setAngularOnly(true)`)
