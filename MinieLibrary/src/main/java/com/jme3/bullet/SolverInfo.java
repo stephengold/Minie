@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,6 +66,19 @@ public class SolverInfo extends NativePhysicsObject {
     // new methods exposed
 
     /**
+     * Return the error-reduction parameter for contact constraints (native
+     * field: m_erp2).
+     *
+     * @return the parameter value
+     */
+    public float contactErp() {
+        long infoId = nativeId();
+        float result = getContactErp(infoId);
+
+        return result;
+    }
+
+    /**
      * Copy all parameter values from the specified info.
      *
      * @param source the info to copy from (not null, unaffected)
@@ -99,6 +112,18 @@ public class SolverInfo extends NativePhysicsObject {
         long infoId = nativeId();
         boolean result = isSplitImpulseEnabled(infoId);
 
+        return result;
+    }
+
+    /**
+     * Return the error-reduction parameter for non-contact constraints (native
+     * field: m_erp).
+     *
+     * @return the parameter value
+     */
+    public float jointErp() {
+        long infoId = nativeId();
+        float result = getJointErp(infoId);
         return result;
     }
 
@@ -141,6 +166,17 @@ public class SolverInfo extends NativePhysicsObject {
     }
 
     /**
+     * Alter the error-reduction parameter for contact constraints (native
+     * field: m_erp2).
+     *
+     * @param erp the desired parameter value (default=0.2)
+     */
+    public void setContactErp(float erp) {
+        long infoId = nativeId();
+        setContactErp(infoId, erp);
+    }
+
+    /**
      * Alter the global constraint-force mixing parameter (native field:
      * m_globalCfm).
      *
@@ -151,6 +187,17 @@ public class SolverInfo extends NativePhysicsObject {
 
         long infoId = nativeId();
         setGlobalCfm(infoId, cfm);
+    }
+
+    /**
+     * Alter the error-reduction parameter for non-contact constraints (native
+     * field: m_erp).
+     *
+     * @param erp the desired parameter value (default=0.2)
+     */
+    public void setJointErp(float erp) {
+        long infoId = nativeId();
+        setJointErp(infoId, erp);
     }
 
     /**
@@ -258,7 +305,11 @@ public class SolverInfo extends NativePhysicsObject {
 
     native private static void copyAllParameters(long targetId, long sourceId);
 
+    native private static float getContactErp(long infoId);
+
     native private static float getGlobalCfm(long infoId);
+
+    native private static float getJointErp(long infoId);
 
     native private static int getMinBatch(long infoId);
 
@@ -272,7 +323,11 @@ public class SolverInfo extends NativePhysicsObject {
 
     native private static boolean isSplitImpulseEnabled(long infoId);
 
+    native private static void setContactErp(long infoId, float erp);
+
     native private static void setGlobalCfm(long infoId, float cfm);
+
+    native private static void setJointErp(long infoId, float erp);
 
     native private static void setMinBatch(long infoId, int numConstraints);
 
