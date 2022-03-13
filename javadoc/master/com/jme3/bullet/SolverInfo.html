@@ -120,22 +120,34 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyAll(com.jme3.bullet.SolverInfo)" class="member-name-link">copyAll</a><wbr>(<a href="SolverInfo.html" title="class in com.jme3.bullet">SolverInfo</a>&nbsp;source)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#contactErp()" class="member-name-link">contactErp</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the error-reduction parameter for contact constraints (native
+ field: m_erp2).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyAll(com.jme3.bullet.SolverInfo)" class="member-name-link">copyAll</a><wbr>(<a href="SolverInfo.html" title="class in com.jme3.bullet">SolverInfo</a>&nbsp;source)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy all parameter values from the specified info.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#globalCfm()" class="member-name-link">globalCfm</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#globalCfm()" class="member-name-link">globalCfm</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Determine the global constraint-force mixing parameter (native field:
  m_globalCfm).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isSplitImpulseEnabled()" class="member-name-link">isSplitImpulseEnabled</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isSplitImpulseEnabled()" class="member-name-link">isSplitImpulseEnabled</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether split impulse is enabled globally (native field:
  m_splitImpulse).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jointErp()" class="member-name-link">jointErp</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the error-reduction parameter for non-contact constraints (native
+ field: m_erp).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#minBatch()" class="member-name-link">minBatch</a>()</code></div>
@@ -154,10 +166,22 @@ loadScripts(document, 'script');</script>
 <div class="block">Determine the number of iterations (native field: m_numIterations).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGlobalCfm(float)" class="member-name-link">setGlobalCfm</a><wbr>(float&nbsp;cfm)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setContactErp(float)" class="member-name-link">setContactErp</a><wbr>(float&nbsp;erp)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the error-reduction parameter for contact constraints (native
+ field: m_erp2).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGlobalCfm(float)" class="member-name-link">setGlobalCfm</a><wbr>(float&nbsp;cfm)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the global constraint-force mixing parameter (native field:
  m_globalCfm).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setJointErp(float)" class="member-name-link">setJointErp</a><wbr>(float&nbsp;erp)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the error-reduction parameter for non-contact constraints (native
+ field: m_erp).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMinBatch(int)" class="member-name-link">setMinBatch</a><wbr>(int&nbsp;numConstraints)</code></div>
@@ -240,6 +264,18 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="contactErp()">
+<h3>contactErp</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">contactErp</span>()</div>
+<div class="block">Return the error-reduction parameter for contact constraints (native
+ field: m_erp2).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the parameter value</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="copyAll(com.jme3.bullet.SolverInfo)">
 <h3>copyAll</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">copyAll</span><wbr><span class="parameters">(<a href="SolverInfo.html" title="class in com.jme3.bullet">SolverInfo</a>&nbsp;source)</span></div>
@@ -271,6 +307,18 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if using split impulse, otherwise false</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="jointErp()">
+<h3>jointErp</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">jointErp</span>()</div>
+<div class="block">Return the error-reduction parameter for non-contact constraints (native
+ field: m_erp).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the parameter value</dd>
 </dl>
 </section>
 </li>
@@ -315,6 +363,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="setContactErp(float)">
+<h3>setContactErp</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setContactErp</span><wbr><span class="parameters">(float&nbsp;erp)</span></div>
+<div class="block">Alter the error-reduction parameter for contact constraints (native
+ field: m_erp2).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>erp</code> - the desired parameter value (default=0.2)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="setGlobalCfm(float)">
 <h3>setGlobalCfm</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setGlobalCfm</span><wbr><span class="parameters">(float&nbsp;cfm)</span></div>
@@ -323,6 +383,18 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>cfm</code> - the desired parameter value (&ge;0, default=0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setJointErp(float)">
+<h3>setJointErp</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setJointErp</span><wbr><span class="parameters">(float&nbsp;erp)</span></div>
+<div class="block">Alter the error-reduction parameter for non-contact constraints (native
+ field: m_erp).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>erp</code> - the desired parameter value (default=0.2)</dd>
 </dl>
 </section>
 </li>
