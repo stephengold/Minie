@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -664,7 +664,9 @@ public class TestDefaults {
         SolverInfo info = space.getSolverInfo();
         Assert.assertNotNull(info);
         Assert.assertNotEquals(0L, info.nativeId());
+        Assert.assertEquals(0.2f, info.contactErp(), 0f);
         Assert.assertEquals(0f, info.globalCfm(), 0f);
+        Assert.assertEquals(0.2f, info.jointErp(), 0f);
         Assert.assertEquals(128, info.minBatch());
 
         String className = space.getClass().getSimpleName();
@@ -673,8 +675,8 @@ public class TestDefaults {
 
         Assert.assertEquals(10, info.numIterations());
         Assert.assertTrue(info.isSplitImpulseEnabled());
-        Assert.assertEquals(0.1, info.splitImpulseErp(), 1e-6f);
-        Assert.assertEquals(-0.04, info.splitImpulseThreshold(), 1e-7f);
+        Assert.assertEquals(0.1f, info.splitImpulseErp(), 0f);
+        Assert.assertEquals(-0.04f, info.splitImpulseThreshold(), 0f);
 
         if (space instanceof MultiBodySpace) {
             MultiBodySpace mbSpace = (MultiBodySpace) space;
