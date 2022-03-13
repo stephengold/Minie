@@ -29,6 +29,7 @@ package jme3utilities.minie.test;
 import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.SolverInfo;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.joints.HingeJoint;
@@ -350,8 +351,14 @@ public class JointElasticity extends PhysicsDemo {
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
+        SolverInfo info = physicsSpace.getSolverInfo();
+
+        float erp = status.jointErp();
+        info.setJointErp(erp);
+
         int numIterations = status.numIterations();
-        physicsSpace.getSolverInfo().setNumIterations(numIterations);
+        info.setNumIterations(numIterations);
+
         float timestep = status.timeStep();
         physicsSpace.setAccuracy(timestep);
     }

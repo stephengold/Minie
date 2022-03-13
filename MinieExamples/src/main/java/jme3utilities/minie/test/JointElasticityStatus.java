@@ -52,10 +52,10 @@ public class JointElasticityStatus extends SimpleAppState {
     // constants and loggers
 
     /**
-     * list of constraint-solver iteration counts, in ascending order
+     * list of error-reduction parameter values, in ascending order
      */
-    final private static int[] iterationsValues
-            = {10, 250, 500, 1000, 2000, 4000};
+    final private static float[] erpValues
+            = {0.01f, 0.1f, 0.2f, 0.5f, 0.8f, 0.9f, 1f};
     /**
      * list of mass ratios, in ascending order
      */
@@ -66,21 +66,30 @@ public class JointElasticityStatus extends SimpleAppState {
     final private static float[] timestepValues
             = {0.002f, 0.003f, 0.005f, 0.01f, 1f / 60, 0.04f};
     /**
+     * list of constraint-solver iteration counts, in ascending order
+     */
+    final private static int[] iterationsValues
+            = {10, 250, 500, 1000, 2000, 4000};
+    /**
+     * index of the status line for the joint ERP value
+     */
+    final private static int erpStatusLine = 0;
+    /**
      * index of the status line for the constraint-solver iteration count
      */
-    final private static int iterationsStatusLine = 0;
+    final private static int iterationsStatusLine = 1;
     /**
      * index of the status line for the mass ratio
      */
-    final private static int ratioStatusLine = 1;
+    final private static int ratioStatusLine = 2;
     /**
      * index of the status line for physics timestep
      */
-    final private static int timestepStatusLine = 2;
+    final private static int timestepStatusLine = 3;
     /**
      * number of lines of text in the overlay
      */
-    final private static int numStatusLines = 3;
+    final private static int numStatusLines = 4;
     /**
      * message logger for this class
      */
@@ -95,11 +104,15 @@ public class JointElasticityStatus extends SimpleAppState {
      */
     final private BitmapText[] statusLines = new BitmapText[numStatusLines];
     /**
+     * error-reduction parameter value for joints
+     */
+    private float jointErp = 0.2f;
+    /**
      * ball's mass as a multiple of the door
      */
     private float massRatio = 1f;
     /**
-     * physics timestep
+     * physics timestep (in seconds)
      */
     private float timestep = 1f / 60;
     /**
@@ -148,6 +161,10 @@ public class JointElasticityStatus extends SimpleAppState {
      */
     void advanceValue(int amount) {
         switch (selectedLine) {
+            case erpStatusLine:
+                advanceJointErp(amount);
+                break;
+
             case iterationsStatusLine:
                 advanceIterations(amount);
                 break;
@@ -163,6 +180,12 @@ public class JointElasticityStatus extends SimpleAppState {
             default:
                 throw new IllegalStateException("line = " + selectedLine);
         }
+    }
+
+    float jointErp() {
+        assert jointErp >= 0f : jointErp;
+        assert jointErp <= 1f : jointErp;
+        return jointErp;
     }
 
     float massRatio() {
@@ -236,8 +259,14 @@ public class JointElasticityStatus extends SimpleAppState {
         super.update(tpf);
 
         PhysicsSpace space = appInstance.getPhysicsSpace();
-        int index = 1 + Arrays.binarySearch(iterationsValues, numIterations);
-        String message = String.format("Solver iterations (#%d of %d):   %d",
+
+        int index = 1 + Arrays.binarySearch(erpValues, jointErp);
+        String message = String.format("Joint ERP (#%d of %d):   %.2f",
+                index, erpValues.length, jointErp);
+        updateStatusLine(erpStatusLine, message);
+
+        index = 1 + Arrays.binarySearch(iterationsValues, numIterations);
+        message = String.format("Max solver iterations (#%d of %d):   %d",
                 index, iterationsValues.length, numIterations);
         updateStatusLine(iterationsStatusLine, message);
 
@@ -264,6 +293,17 @@ public class JointElasticityStatus extends SimpleAppState {
                 numIterations, amount);
         PhysicsSpace physicsSpace = appInstance.getPhysicsSpace();
         physicsSpace.getSolverInfo().setNumIterations(numIterations);
+    }
+
+    /**
+     * Advance the joint ERP value by the specified amount.
+     *
+     * @param amount the number of values to advance (may be negative)
+     */
+    private void advanceJointErp(int amount) {
+        jointErp = PhysicsDemo.advanceFloat(erpValues, jointErp, amount);
+        PhysicsSpace physicsSpace = appInstance.getPhysicsSpace();
+        physicsSpace.getSolverInfo().setJointErp(jointErp);
     }
 
     /**
