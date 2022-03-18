@@ -44,7 +44,7 @@ ext {
     } else if (rootProject.hasProperty('dp')) {
         // -Pdp specified, but not -Pbtdebug
 
-        configureAndroidBtfs('')
+        configureAndroidBtfs('') // no ReleaseDp for Android yet
         configureDesktopBtfs('ReleaseDp')
         metadata = 'dp' + jmeTarget
 
@@ -89,6 +89,7 @@ ext {
         btfLinux_ARM64 = 'ReleaseSp'
         btfMacOSX32 = 'ReleaseSp'
         btfMacOSX64 = 'ReleaseSp'
+        btfMacOSX_ARM64 = 'ReleaseSp'
         btfWindows32 = 'ReleaseSp'
         btfWindows64 = 'ReleaseSp'
 
@@ -143,6 +144,7 @@ processResources.dependsOn((btfLinux_ARM32 == '' ? 'clean' : 'download') + 'Linu
 processResources.dependsOn((btfLinux_ARM64 == '' ? 'clean' : 'download') + 'Linux_ARM64')
 processResources.dependsOn((btfMacOSX32 == '' ? 'clean' : 'download') + 'MacOSX32')
 processResources.dependsOn((btfMacOSX64 == '' ? 'clean' : 'download') + 'MacOSX64')
+processResources.dependsOn((btfMacOSX_ARM64 == '' ? 'clean' : 'download') + 'MacOSX_ARM64')
 processResources.dependsOn((btfWindows32 == '' ? 'clean' : 'download') + 'Windows32')
 processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Windows64')
 
@@ -189,6 +191,10 @@ tasks.register('downloadMacOSX32', MyDownload) {
 tasks.register('downloadMacOSX64', MyDownload) {
     sourceUrl = libbulletjmeUrl + "MacOSX64${btfMacOSX64}_libbulletjme.dylib"
     target = file(nativeDir + 'osx/x86_64/libbulletjme.dylib')
+}
+tasks.register('downloadMacOSX_ARM64', MyDownload) {
+    sourceUrl = libbulletjmeUrl + "MacOSX_ARM64${btfMacOSX_ARM64}_libbulletjme.dylib"
+    target = file(nativeDir + 'osx/arm64/libbulletjme.dylib')
 }
 tasks.register('downloadWindows32', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Windows32${btfWindows32}_bulletjme.dll"
@@ -446,6 +452,7 @@ void configureDesktopBtfs(String btfValue) {
     project.ext.btfLinux_ARM64 = btfValue
     project.ext.btfMacOSX32 = btfValue
     project.ext.btfMacOSX64 = btfValue
+    project.ext.btfMacOSX_ARM64 = btfValue
     project.ext.btfWindows32 = btfValue
 }
 
