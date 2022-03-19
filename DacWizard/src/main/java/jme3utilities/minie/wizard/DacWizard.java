@@ -564,7 +564,7 @@ public class DacWizard extends GuiApplication {
      * @param title for the title bar of the app's window
      */
     private static void mainStartup(final ShowDialog showDialog,
-            final String renderer, String title) {
+            final String renderer, final String title) {
         /*
          * Instantiate the application.
          */
