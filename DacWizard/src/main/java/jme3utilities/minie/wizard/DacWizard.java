@@ -85,6 +85,11 @@ public class DacWizard extends GuiApplication {
      * message logger for this class
      */
     final static Logger logger = Logger.getLogger(DacWizard.class.getName());
+    /**
+     * application name (for the title bar of the app's window)
+     */
+    final private static String applicationName
+            = DacWizard.class.getSimpleName();
     // *************************************************************************
     // fields
 
@@ -297,7 +302,8 @@ public class DacWizard extends GuiApplication {
             }
         }
 
-        mainStartup(showDialog, renderer);
+        String title = applicationName + " " + MyString.join(arguments);
+        mainStartup(showDialog, renderer, title);
     }
 
     /**
@@ -555,9 +561,10 @@ public class DacWizard extends GuiApplication {
      * missing
      * @param renderer the value passed to
      * {@link com.jme3.system.AppSettings#setRenderer(java.lang.String)}
+     * @param title for the title bar of the app's window
      */
     private static void mainStartup(final ShowDialog showDialog,
-            final String renderer) {
+            final String renderer, String title) {
         /*
          * Instantiate the application.
          */
@@ -580,6 +587,7 @@ public class DacWizard extends GuiApplication {
                 settings.setAudioRenderer(null);
                 settings.setRenderer(renderer);
                 settings.setSamples(4);
+                settings.setTitle(title);
                 settings.setVSync(true);
             }
         };
