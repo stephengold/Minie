@@ -215,7 +215,8 @@ tasks.register('downloadPDBs', MyDownload) {
 clean.dependsOn('cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
     'cleanAndroid_X86_64', 'cleanLinux32', 'cleanLinux64',
     'cleanLinux_ARM32', 'cleanLinux_ARM64',
-    'cleanMacOSX32', 'cleanMacOSX64', 'cleanWindows32', 'cleanWindows64')
+    'cleanMacOSX32', 'cleanMacOSX64', 'cleanMacOSX_ARM64',
+    'cleanWindows32', 'cleanWindows64')
 
 tasks.register('cleanAndroid_ARM7', Delete) {
     delete libDir + 'armeabi-v7a/libbulletjme.so'
@@ -246,6 +247,9 @@ tasks.register('cleanMacOSX32', Delete) {
 }
 tasks.register('cleanMacOSX64', Delete) {
     delete nativeDir + 'osx/x86_64/libbulletjme.dylib'
+}
+tasks.register('cleanMacOSX_ARM64', Delete) {
+    delete nativeDir + 'osx/arm64/libbulletjme.dylib'
 }
 tasks.register('cleanWindows32', Delete) {
     delete nativeDir + 'windows/x86/bulletjme.dll'
