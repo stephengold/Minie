@@ -12,6 +12,10 @@ if (!hasProperty('mainClass')) {
 }
 jar.manifest.attributes('Main-Class': mainClassName)
 
+tasks.withType(JavaExec) { // Java runtime options:
+    args '--openGL3'
+}
+
 dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     implementation heartCoordinates
