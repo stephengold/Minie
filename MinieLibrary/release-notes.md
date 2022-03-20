@@ -1,5 +1,17 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.8.0 released on TBD
+
+ + Added native libraries for the MacOSX_ARM64 platform,
+   so that Minie applications can run on "Apple Silicon" Macs.
+ + Created the "+ano" (Android natives only) build, for use in
+   Android signed bundles (for distribution via Google Store).
+ + Added the `contactErp()`, `jointErp()`, `setContactErp()`,
+   and `setJointErp()` methods to the `SolverInfo` class,
+   to give applications better control over joint elasticity.
+ + Based on v3.5.1-stable of JMonkeyEngine.
+ + Updated the native libraries to v14.1.0 of Libbulletjme.
+
 ## Version 4.7.1 released on 11 March 2022
 
  + Bugfix:  `PhysicsCollisionEvent.getNormalWorldOnB()` returns wrong value
