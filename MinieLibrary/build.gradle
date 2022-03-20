@@ -15,6 +15,7 @@ ext {
     //libbulletjmeUrl = 'file:///home/sgold/NetBeansProjects/Libbulletjme/dist/' // to test a local build
     //libbulletjmeUrl = 'file:///c:\\users\\sgold\\My%20Documents\\NetBeansProjects\\Libbulletjme\\dist\\' // to test a local build
 
+    jarType = ''
     pdbWindows64 = ''
     if (rootProject.hasProperty('btdebug')) {
         // -Pbtdebug specified on the command line
@@ -74,7 +75,15 @@ ext {
         btfWindows64 = 'ReleaseSpMt'
         metadata = 'mt' + jmeTarget
 
-    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt specified
+    } else if (rootProject.hasProperty('ano')) {
+        // -Pano specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt
+
+        configureAndroidBtfs('ReleaseSp')
+        configureDesktopBtfs('')
+        jarType = 'nativesOnly'
+        metadata = 'ano' + jmeTarget
+
+    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt not -Pano specified
 
         // Specify the BTF (buildType + flavor) of native library for each platform:
         // (Specify '' for no native library.)
@@ -303,6 +312,10 @@ tasks.register('release') {
 jar {
     archiveBaseName = project.ext.baseName
     exclude('**/empty')
+    if (project.ext.jarType == 'nativesOnly') {
+        exclude '**/*.class'  // no class files
+        includeEmptyDirs false
+    }
 }
 tasks.register('javadocJar', Jar) {
     archiveBaseName = project.ext.baseName
