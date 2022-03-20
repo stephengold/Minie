@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.8.0 released on TBD
+## Version 4.8.0 released on 20 March 2022
 
  + Added native libraries for the MacOSX_ARM64 platform,
    so that Minie applications can run on "Apple Silicon" Macs.

@@ -2,25 +2,28 @@
 
 == Standard build
 
-. Install a https://openjdk.java.net[Java Development Kit (JDK)],
+. Install a https://adoptium.net/releases.html[Java Development Kit (JDK)],
   if you don't already have one.
-. Download and extract the source code from GitHub:
+. Point the `JAVA_HOME` environment variable to your JDK installation:
+  (The path might be something like "C:\Program Files\Java\jre1.8.0_301"
+  or "/usr/lib/jvm/java-8-openjdk-amd64/" or
+  "/Library/Java/JavaVirtualMachines/liberica-jdk-17-full.jdk/Contents/Home" .)
+.. using Bash or Zsh:  `export JAVA_HOME="` *path to installation* `"`
+.. using Windows Command Prompt:  `set JAVA_HOME="` *path to installation* `"`
+.. using PowerShell: `$env:JAVA_HOME = '` *path to installation* `'`
+. Download and extract the Minie source code from GitHub:
 .. using Git:
 ... `git clone https://github.com/stephengold/Minie.git`
 ... `cd Minie`
-... `git checkout -b latest 4.7.1`
+... `git checkout -b latest 4.8.0`
 .. using a web browser:
 ... browse to https://github.com/stephengold/Minie/releases/latest
 ... follow the "Source code (zip)" link
 ... save the ZIP file
 ... unzip the saved ZIP file
 ... `cd` to the extracted directory
-. Set the `JAVA_HOME` environment variable:
-.. using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
-.. using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
-.. using PowerShell: `$env:JAVA_HOME = '` *path to your JDK* `'`
 . Run the Gradle wrapper:
-.. using Bash or PowerShell:  `./gradlew build`
+.. using Bash or PowerShell or Zsh:  `./gradlew build`
 .. using Windows Command Prompt:  `.\gradlew build`
 
 After a successful build,
@@ -30,14 +33,14 @@ Maven artifacts will be found in the "MinieLibrary/build/libs" directory.
 
 You can install the artifacts to your local Maven repository:
 
-* using Bash or PowerShell:  `./gradlew install`
+* using Bash or PowerShell or Zsh:  `./gradlew install`
 * using Windows Command Prompt:  `.\gradlew install`
 
 === Cleanup
 
 After a build, you can restore the repository to a pristine state:
 
- * using Bash or PowerShell:  `./gradlew clean`
+ * using Bash or PowerShell or Zsh:  `./gradlew clean`
  * using Windows Command Prompt:  `.\gradlew clean`
 
 == Customizing native libraries
@@ -66,6 +69,7 @@ btfLinux_ARM32 = 'hfReleaseSp'
 btfLinux_ARM64 = 'ReleaseSp'
 btfMacOSX32 = 'ReleaseSp'
 btfMacOSX64 = 'ReleaseSp'
+btfMacOSX_ARM64 = 'ReleaseSp'
 btfWindows32 = 'ReleaseSp'
 btfWindows64 = 'ReleaseSp'
 ----
@@ -85,6 +89,7 @@ btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = ''
+btfMacOSX_ARM64 = ''
 btfWindows32 = ''
 btfWindows64 = ''
 ----
@@ -104,6 +109,7 @@ btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = ''
+btfMacOSX_ARM64 = ''
 btfWindows32 = ''
 btfWindows64 = 'DebugSp'
 ----
@@ -123,11 +129,12 @@ btfLinux_ARM32 = ''
 btfLinux_ARM64 = ''
 btfMacOSX32 = ''
 btfMacOSX64 = 'ReleaseDp'
+btfMacOSX_ARM64 = 'ReleaseDp'
 btfWindows32 = ''
 btfWindows64 = 'ReleaseDp'
 ----
 
-== Build a local version of the site
+== Build a local copy of the website
 
 . Download and extract the source code from GitHub:
 .. `git clone https://github.com/stephengold/Minie.git`
