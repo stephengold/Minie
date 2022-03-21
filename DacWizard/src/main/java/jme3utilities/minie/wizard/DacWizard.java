@@ -178,7 +178,7 @@ public class DacWizard extends GuiApplication {
      * Find the first attached AppState that's an instance of the specified
      * class.
      *
-     * @param <T>
+     * @param <T> type of subclass
      * @param subclass the kind of AppState to search for (not null)
      * @return the pre-existing instance (not null)
      */
@@ -387,7 +387,7 @@ public class DacWizard extends GuiApplication {
     // GuiApplication methods
 
     /**
-     * Initialize this application.
+     * Initialize the DacWizard application.
      */
     @Override
     public void guiInitializeApplication() {
@@ -397,13 +397,10 @@ public class DacWizard extends GuiApplication {
             logger.warning("Assertions are disabled!");
         }
         /*
-         * Log the jMonkeyEngine version string.
+         * Log version strings.
          */
         logger.log(Level.INFO, "jme3-core version is {0}",
                 MyString.quote(JmeVersion.FULL_NAME));
-        /*
-         * Log the Heart version string.
-         */
         logger.log(Level.INFO, "Heart version is {0}",
                 MyString.quote(Heart.versionShort()));
         /*
@@ -445,6 +442,9 @@ public class DacWizard extends GuiApplication {
             handled = Action.processOngoing(actionString);
         }
         if (!handled) {
+            /*
+             * Forward unhandled action to the superclass.
+             */
             super.onAction(actionString, ongoing, tpf);
         }
     }
@@ -452,7 +452,7 @@ public class DacWizard extends GuiApplication {
     /**
      * Callback invoked once per frame.
      *
-     * @param tpf time interval between frames (in seconds, &ge;0)
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float tpf) {
@@ -556,9 +556,7 @@ public class DacWizard extends GuiApplication {
      * Initialization performed immediately after parsing the command-line
      * arguments.
      *
-     * @param forceDialog true&rarr;force startup to show the JME settings
-     * dialog, false&rarr; show the dialog only if persistent settings are
-     * missing
+     * @param showDialog when to show the JME settings dialog (not null)
      * @param renderer the value passed to
      * {@link com.jme3.system.AppSettings#setRenderer(java.lang.String)}
      * @param title for the title bar of the app's window
@@ -634,6 +632,7 @@ public class DacWizard extends GuiApplication {
         logger.info("");
         /*
          * Disable the JME statistic displays.
+         * These can be re-enabled by pressing the F5 hotkey.
          */
         setDisplayFps(false);
         setDisplayStatView(false);
