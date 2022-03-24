@@ -46,8 +46,7 @@ The demos are controlled by primarily by keyboard input.
 Each includes a _help node_
 that displays a brief description of each key's function.
 
-NOTE:
-The descriptions below assume a keyboard with the "US" (QWERTY) layout.
+NOTE: The descriptions below assume a keyboard with the "US" (QWERTY) layout.
 On keyboards with other layouts, the keys may be labeled differently:
 refer to the help node for localized key labels.
 
