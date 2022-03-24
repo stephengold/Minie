@@ -273,6 +273,13 @@
 <div class="sect1">
 <h2 id="_standard_build"><a class="anchor" href="#_standard_build"></a>Standard build</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The <em>standard build</em> of the Minie library includes a non-debug,
+single-precision native library for each of the 13 platforms Minie supports.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s the recommended procedure:</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -344,7 +351,7 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 </div>
 </li>
 <li>
-<p>Run the Gradle wrapper:</p>
+<p>Run the Gradle wrapper to build the entire project:</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
@@ -363,9 +370,40 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 Maven artifacts will be found in the "MinieLibrary/build/libs" directory.</p>
 </div>
 <div class="sect2">
+<h3 id="_quicker_builds"><a class="anchor" href="#_quicker_builds"></a>Quicker builds</h3>
+<div class="paragraph">
+<p>In addition to the library, the Minie project includes subprojects for
+assets and applications that take time to build.
+To save time, you can build just the library subproject:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>using Bash or PowerShell or Zsh:  <code>./gradlew :MinieLibrary:build</code></p>
+</li>
+<li>
+<p>using Windows Command Prompt:  <code>.\gradlew :MinieLibrary:build</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To save even more time, you can skip the automated tests:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>using Bash or PowerShell or Zsh:  <code>./gradlew :MinieLibrary:assemble</code></p>
+</li>
+<li>
+<p>using Windows Command Prompt:  <code>.\gradlew :MinieLibrary:assemble</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_install_artifacts"><a class="anchor" href="#_install_artifacts"></a>Install artifacts</h3>
 <div class="paragraph">
-<p>You can install the artifacts to your local Maven repository:</p>
+<p>You can install the built artifacts to your local Maven repository:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -381,7 +419,7 @@ Maven artifacts will be found in the "MinieLibrary/build/libs" directory.</p>
 <div class="sect2">
 <h3 id="_cleanup"><a class="anchor" href="#_cleanup"></a>Cleanup</h3>
 <div class="paragraph">
-<p>After a build, you can restore the repository to a pristine state:</p>
+<p>After a build, you can restore the project to a pristine state:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -400,12 +438,86 @@ Maven artifacts will be found in the "MinieLibrary/build/libs" directory.</p>
 <h2 id="_customizing_native_libraries"><a class="anchor" href="#_customizing_native_libraries"></a>Customizing native libraries</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>By default, Minie&#8217;s class JAR includes native libraries
-for all platforms Minie supports.
-While this is convenient, it results in a large JAR
-and (potentially) a bloated application.
-If you build Minie from source,
-you can customize it to include native libraries only for specific platforms.</p>
+<p>The standard build is very convenient.
+However, it&#8217;s sub-optimal for many situations.</p>
+</div>
+<div class="sect2">
+<h3 id="_debug_builds"><a class="anchor" href="#_debug_builds"></a>Debug builds</h3>
+<div class="paragraph">
+<p>During application development, debug-enabled native libraries should be used.
+Most Minie releases provide a "+debug" build of the library for this purpose.
+You can replicate it by adding the "-Pbtdebug" option to the build command:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>using Bash or PowerShell or Zsh:  <code>./gradlew -Pbtdebug clean build</code></p>
+</li>
+<li>
+<p>using Windows Command Prompt:  <code>.\gradlew -Pbtdebug clean build</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Don&#8217;t confuse the "-Pbtdebug" option with "-Pdebug",
+which had special significance to certain old versions of Gradle.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_double_precision_builds"><a class="anchor" href="#_double_precision_builds"></a>Double-precision builds</h3>
+<div class="paragraph">
+<p>Some applications may benefit from double-precision native libraries.
+Most Minie releases provide "+dp" and "+debugdp" builds of the library,
+which you can replicate by adding the "-Pdp" option to the build command.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multithreaded_builds"><a class="anchor" href="#_multithreaded_builds"></a>Multithreaded builds</h3>
+<div class="paragraph">
+<p>Some applications may benefit from multithreaded native libraries.
+Some Minie releases provide "+mt" builds of the library,
+which you can replicate by specifying the "-Pmt" option in the build command.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reduced_builds"><a class="anchor" href="#_reduced_builds"></a>Reduced builds</h3>
+<div class="paragraph">
+<p>Supporting 13 platforms requires 13 native libraries,
+which results in a big, fat JAR and (potentially) a bloated application.
+To address bloat, some Minie releases provide reduced builds that
+don&#8217;t support all 13 platforms.
+These include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A "+big3" build, built using the "-Pbig3" option,
+with support for just the 3 main platforms (Linux64, MacOSX64, and Windows64).</p>
+</li>
+<li>
+<p>A "+bare" build, built using the "-Pbare" option,
+which doesn&#8217;t include <strong>any</strong> native libraries.</p>
+</li>
+<li>
+<p>A "+ano" build, built using the "-Pano" option,
+which includes native libraries for Android only and <strong>no</strong> Java classes.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_further_customization"><a class="anchor" href="#_further_customization"></a>Further customization</h3>
+<div class="paragraph">
+<p>You can customize Minie to include precisely the native libraries you need.</p>
 </div>
 <div class="paragraph">
 <p>To configure which native libraries will be included in the JAR,
@@ -452,8 +564,8 @@ btfWindows64 = ''</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can also customize Minie to include debug-enabled native libraries
-for specific platforms:</p>
+<p>Similarly, you could customize Minie
+with the debug-enabled native library for a specific platform:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -491,6 +603,13 @@ btfMacOSX64 = 'ReleaseDp'
 btfMacOSX_ARM64 = 'ReleaseDp'
 btfWindows32 = ''
 btfWindows64 = 'ReleaseDp'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>NOTE:
+Native libraries aren&#8217;t available for every possible combination of options.
+For instance, double-precisions native libraries aren&#8217;t available for Android platforms.
+For further information, see the Libbulletjme project.</p>
 </div>
 </div>
 </div>
