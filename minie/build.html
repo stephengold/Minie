@@ -500,16 +500,16 @@ These include:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>A "+big3" build, built using the "-Pbig3" option,
+<p>A "+big3" build (created using the "-Pbig3" option)
 with support for just the 3 main platforms (Linux64, MacOSX64, and Windows64).</p>
 </li>
 <li>
-<p>A "+bare" build, built using the "-Pbare" option,
+<p>A "+bare" build (created using the "-Pbare" option)
 which doesn&#8217;t include <strong>any</strong> native libraries.</p>
 </li>
 <li>
-<p>A "+ano" build, built using the "-Pano" option,
-which includes native libraries for Android only and <strong>no</strong> Java classes.</p>
+<p>A "+ano" build (created using the "-Pano" option)
+which contains native libraries for Android only --- <strong>no</strong> Java classes!</p>
 </li>
 </ul>
 </div>
@@ -607,9 +607,11 @@ btfWindows64 = 'ReleaseDp'</code></pre>
 </div>
 <div class="paragraph">
 <p>NOTE:
-Native libraries aren&#8217;t available for every possible combination of options.
-For instance, double-precisions native libraries aren&#8217;t available for Android platforms.
-For further information, see the Libbulletjme project.</p>
+Native libraries aren&#8217;t published for every possible combination of options.
+For instance, if you want Dp native libraries for Android platforms,
+you&#8217;ll probably have to build them yourself.
+For more information,
+see <a href="https://github.com/stephengold/Libbulletjme">the Libbulletjme project</a>.</p>
 </div>
 </div>
 </div>
