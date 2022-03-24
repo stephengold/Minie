@@ -55,7 +55,7 @@ they won't interfere with Minie.
 
 === Ant-built projects
 
-Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
+Open the project's properties in the IDE (JME SDK or NetBeans):
 
 . Right-click on the project (not its assets) in the "Projects" window.
 . Select menu:Properties[] to open the "Project Properties" dialog.
@@ -159,16 +159,10 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 . Click on the btn:[OK] button to exit the "Project Properties" dialog.
 
 In order to use the latest Minie release,
-you'll need version 3.5.x JMonkeyEngine libraries:
-
-* Minie v4.8.0 depends on jme3-core-3.5.1-stable and jme3-terrain-3.5.1-stable .
-
-* Starting with version 1.6,
-  Minie no longer supports version 3.2.x JMonkeyEngine libraries.
-* Starting with version 4.1.1,
-  Minie no longer supports version 3.3.x JMonkeyEngine libraries.
-* Starting with version 4.6.1,
-  Minie no longer supports version 3.4.x JMonkeyEngine libraries.
+you'll need version 3.5.1 JMonkeyEngine libraries.
+(You can still use a JME 3.2 or 3.3 SDK, however.)
+For more information about the libraries Minie depends on,
+see xref:depends.adoc[the Library version dependencies page].
 
 == Load the native library
 
