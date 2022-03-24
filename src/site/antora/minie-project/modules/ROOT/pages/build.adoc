@@ -99,12 +99,12 @@ To address bloat, some Minie releases provide reduced builds that
 don't support all 13 platforms.
 These include:
 
-* A "+big3" build, built using the "-Pbig3" option,
+* A "+big3" build (created using the "-Pbig3" option)
   with support for just the 3 main platforms (Linux64, MacOSX64, and Windows64).
-* A "+bare" build, built using the "-Pbare" option,
+* A "+bare" build (created using the "-Pbare" option)
   which doesn't include *any* native libraries.
-* A "+ano" build, built using the "-Pano" option,
-  which includes native libraries for Android only and *no* Java classes.
+* A "+ano" build (created using the "-Pano" option)
+  which contains native libraries for Android only --- *no* Java classes!
 
 === Further customization
 
@@ -193,9 +193,11 @@ btfWindows64 = 'ReleaseDp'
 ----
 
 NOTE:
-Native libraries aren't available for every possible combination of options.
-For instance, double-precisions native libraries aren't available for Android platforms.
-For further information, see the Libbulletjme project.
+Native libraries aren't published for every possible combination of options.
+For instance, if you want Dp native libraries for Android platforms,
+you'll probably have to build them yourself.
+For more information,
+see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
 
 == Build a local copy of the website
 
