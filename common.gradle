@@ -67,7 +67,7 @@ clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanPDBs', \
 tasks.register('cleanDLLs', Delete) { // extracted Windows native libraries
     delete fileTree(dir: '.', include: '*.dll')
 }
-tasks.register('cleanDyLibs', Delete) { // extracted macOSX native libraries
+tasks.register('cleanDyLibs', Delete) { // extracted macOS native libraries
     delete fileTree(dir: '.', include: '*.dylib')
 }
 tasks.register('cleanLogs', Delete) { // JVM crash logs
