@@ -192,12 +192,14 @@ btfWindows32 = ''
 btfWindows64 = 'ReleaseDp'
 ----
 
-NOTE:
+[NOTE]
+====
 Native libraries aren't published for every possible combination of options.
 For instance, if you want Dp native libraries for Android platforms,
 you'll probably have to build them yourself.
 For more information,
 see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
+====
 
 == Build a local copy of the website
 
