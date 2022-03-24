@@ -13,33 +13,33 @@ In case you want to use Minie
 without upgrading one or more of the libraries it depends on,
 the following table may help you decide which release to use.
 
-[cols="1,4,2",grid="none"]
+[cols="1,4,3",grid="none"]
 |===
 |Minie release |direct dependencies |indirect dependencies
 
 |v4.8.0
 |Heart v7.4.1, sim-math v1.4.1, jme3-terrain v3.5.1-stable
-|jme3-core v3.5.1-stable
+|jme3-core v3.5.1-stable, slf4j-api v1.7.13
 
 |v4.7.1
 |Heart v7.4.1, sim-math v1.4.1, jme3-terrain v3.5.0-stable
-|jme3-core v3.5.0-stable
+|jme3-core v3.5.0-stable, slf4j-api v1.7.13
 
 |v4.6.1
 |Heart v7.2.0, sim-math v1.4.1, jme3-terrain v3.5.0-stable
-|jme3-core v3.5.0-stable
+|jme3-core v3.5.0-stable, slf4j-api v1.7.13
 
 |v4.6.0
 |Heart v7.1.0, sim-math v1.4.1, jme3-terrain v3.4.1-stable
-|jme3-core v3.4.1-stable
+|jme3-core v3.4.1-stable, slf4j-api v1.7.13
 
 |v4.5.0
 |Heart v7.1.0, sim-math v1.4.1, jme3-terrain v3.4.0-stable
-|jme3-core v3.4.0-stable
+|jme3-core v3.4.0-stable, slf4j-api v1.7.13
 
 |v4.4.0
 |Heart v7.1.0, sim-math v1.4.1, jme3-terrain v3.4.0-stable
-|jme3-core v3.4.0-stable
+|jme3-core v3.4.0-stable, slf4j-api v1.7.13
 
 |v4.3.0
 |Heart v7.0.0, jme3-terrain v3.4.0-stable
