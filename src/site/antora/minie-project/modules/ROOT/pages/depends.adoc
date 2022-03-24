@@ -1,5 +1,4 @@
 = Library version dependencies
-:page-pagination:
 
 Each release of the Minie library targets specific versions
 of the libraries it depends on, such as "jme3-core", "Heart", and "sim-math".
@@ -81,8 +80,8 @@ the following table may help you decide which release to use.
 |===
 
 Additional details about each release
-(such as bugfixes, features, and release dates)
-can be found in the release log.
+(such as bugfixes, features, and release dates) can be found in the
+https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[release log].
 
 NOTE: All releases mentioned the table above
 are available from the Maven Central Repository.
