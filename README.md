@@ -314,6 +314,7 @@ YouTube videos about Minie:
 
 [Jump to table of contents](#toc)
 
+
 <a name="history"></a>
 
 ## History
@@ -342,7 +343,7 @@ have gone before.  I therefore acknowledge the following
 artists and software developers:
 
 + Normen Hansen (aka "normen") for creating most of the `jme3-bullet` library
- (on which Minie is based) and also for helpful insights
+  (on which Minie is based) and also for helpful insights
 + Rémy Bouquet (aka "nehon") for co-creating
   `KinematicRagdollControl` (on which `DynamicAnimControl` is based),
   for creating the Jaime model, and also for many helpful insights
@@ -356,7 +357,7 @@ artists and software developers:
 + Pavly Gerges (aka "Pavl_G") for testing Minie on Raspberry Pi
 + Adam T. Ryder (aka "tryder") for creating and licensing
   the [jME-TTF] rendering system
-+ [Paul Speed (aka "pspeed42")][pspeed], for creating the SimMath library
++ [Paul Speed (aka "pspeed42")][pspeed], for creating the [SimMath library][simmath]
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down
 + "duncanj", for pull request #15
 + "qwq", for suggesting changes to how rigid-body contacts are managed
@@ -427,7 +428,7 @@ correct the situation: sgold@sonic.net
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
 [manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
-[meld]: https://meldmerge.org/ "Meld Tool"
+[meld]: https://meldmerge.org "Meld Tool"
 [minie]: https://github.com/stephengold/Minie "Minie Repository"
 [mint]: https://linuxmint.com "Linux Mint Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
@@ -435,6 +436,7 @@ correct the situation: sgold@sonic.net
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
 [profont]: https://tobiasjung.name/profont "ProFont Project"
 [project]: https://stephengold.github.io/Minie "Minie Project"
+[simmath]: https://github.com/Simsilica/SimMath "SimMath Library"
 [sonatype]: https://www.sonatype.com "Sonatype"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: https://www.cessen.com "Nathan Vegdahl"
