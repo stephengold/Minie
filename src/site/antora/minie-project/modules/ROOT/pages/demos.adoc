@@ -48,7 +48,7 @@ that displays a brief description of each key's function.
 
 NOTE: The descriptions below assume a keyboard with the "US" (QWERTY) layout.
 On keyboards with other layouts, the keys may be labeled differently:
-refer to the help node for localized key labels.
+refer to the help nodes for localized key labels.
 
 For convenience, the mapping of keys to actions
 is largely standardized.
