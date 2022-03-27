@@ -55,10 +55,12 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
@@ -352,6 +354,21 @@ abstract public class PhysicsDemo extends AbstractDemo {
 
         CollisionShape result = namedShapes.get(name);
         return result;
+    }
+
+    /**
+     * Initialize the library of named materials. Invoke during startup.
+     */
+    public void generateMaterials() {
+        super.generateMaterials();
+
+        Texture texture = MyAsset.loadTexture(assetManager,
+                "Textures/greenTile.png", true);
+        texture.setMinFilter(Texture.MinFilter.Trilinear);
+        texture.setWrap(Texture.WrapMode.Repeat);
+        Material greenTile
+                = MyAsset.createShadedMaterial(assetManager, texture);
+        registerMaterial("greenTile", greenTile);
     }
 
     /**
