@@ -334,10 +334,10 @@ public class JointElasticityStatus extends SimpleAppState {
         BitmapText spatial = statusLines[lineIndex];
 
         if (lineIndex == selectedLine) {
-            spatial.setColor(ColorRGBA.Yellow);
-            spatial.setText("-> " + text);
+            spatial.setColor(ColorRGBA.Yellow.clone());
+            spatial.setText("--> " + text);
         } else {
-            spatial.setColor(ColorRGBA.White);
+            spatial.setColor(ColorRGBA.White.clone());
             spatial.setText(" " + text);
         }
     }

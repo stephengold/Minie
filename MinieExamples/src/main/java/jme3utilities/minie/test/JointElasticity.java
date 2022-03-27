@@ -84,6 +84,22 @@ public class JointElasticity extends PhysicsDemo {
     final private static String applicationName
             = JointElasticity.class.getSimpleName();
     /**
+     * action string to advance to the next field
+     */
+    final private static String asNextField = "next field";
+    /**
+     * action string to advance to the next value
+     */
+    final private static String asNextValue = "next value";
+    /**
+     * action string to go to the previous field
+     */
+    final private static String asPreviousField = "previous field";
+    /**
+     * action string to go to the previous value
+     */
+    final private static String asPreviousValue = "previous value";
+    /**
      * signal names for the CameraOrbitAppState
      */
     final public static String signalOrbitLeft = "cameraOrbitLeft";
@@ -130,7 +146,7 @@ public class JointElasticity extends PhysicsDemo {
         }
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
-        settings.setTitle(applicationName); // the window's title bar
+        settings.setTitle(applicationName); // Customize the window's title bar.
         settings.setVSync(true);
 
         JointElasticity application = new JointElasticity();
@@ -224,32 +240,33 @@ public class JointElasticity extends PhysicsDemo {
         dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(asToggleVArrows, KeyInput.KEY_K);
         /*
+         * Build and attach the help node for default mode.
          * The help node can't be created until all hotkeys are bound.
          */
         addHelp();
     }
 
     /**
-     * Process an action that wasn't handled by the active input mode.
+     * Process an action that wasn't handled by the active InputMode.
      *
      * @param actionString textual description of the action (not null)
      * @param ongoing true if the action is ongoing, otherwise false
-     * @param tpf time interval between frames (in seconds, &ge;0)
+     * @param tpf the time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
-                case "next field":
+                case asNextField:
                     status.advanceSelectedField(+1);
                     return;
-                case "next value":
+                case asNextValue:
                     status.advanceValue(+1);
                     return;
-                case "previous field":
+                case asPreviousField:
                     status.advanceSelectedField(-1);
                     return;
-                case "previous value":
+                case asPreviousValue:
                     status.advanceValue(-1);
                     return;
 
@@ -262,18 +279,10 @@ public class JointElasticity extends PhysicsDemo {
                 return;
             }
         }
+        /*
+         * The action is not handled: forward it to the superclass.
+         */
         super.onAction(actionString, ongoing, tpf);
-    }
-
-    /**
-     * Callback invoked once per frame.
-     *
-     * @param tpf the time interval between frames (in seconds, &ge;0)
-     */
-    @Override
-    public void simpleUpdate(float tpf) {
-        super.simpleUpdate(tpf);
-
     }
     // *************************************************************************
     // private methods
