@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -38,14 +38,14 @@ import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
-import jme3utilities.minie.test.mesh.ClothGrid;
+import jme3utilities.tutorial.mesh.ClothGrid;
 
 /**
- * A simple cloth simulation with a pinned node.
+ * A simple cloth simulation using a soft body.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class HelloPin extends SimpleApplication {
+public class HelloCloth extends SimpleApplication {
     // *************************************************************************
     // fields
 
@@ -57,12 +57,12 @@ public class HelloPin extends SimpleApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the HelloPin application.
+     * Main entry point for the HelloCloth application.
      *
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        HelloPin application = new HelloPin();
+        HelloCloth application = new HelloCloth();
         application.start();
     }
     // *************************************************************************
@@ -99,19 +99,15 @@ public class HelloPin extends SimpleApplication {
         NativeSoftBodyUtil.appendFromTriMesh(squareGrid, cloth);
         physicsSpace.addCollisionObject(cloth);
 
-        // Pin one of the corner nodes by setting its mass to zero.
-        int nodeIndex = 0;
-        cloth.setNodeMass(nodeIndex, PhysicsBody.massForStatic);
-
         // Make the cloth flexible by altering the angular stiffness
         // of its material.
         SoftBodyMaterial mat = cloth.getSoftMaterial();
-        mat.setAngularStiffness(0f); // default=1
+        mat.setAngularStiffness(0f); // default = 1
 
-        // Improve simulation accuracy by increasing
-        // the number of position-solver iterations for the cloth.
+        // Improve simulation quality by increasing
+        // the number of position iterations for the cloth.
         SoftBodyConfig config = cloth.getSoftConfig();
-        config.setPositionIterations(9);  // default=1
+        config.setPositionIterations(9);  // default = 1
 
         // Translate the cloth upward to its starting location.
         cloth.applyTranslation(new Vector3f(0f, 2f, 0f));

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -27,21 +27,19 @@
 package jme3utilities.tutorial;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.PhysicsSpace;
-import com.jme3.bullet.animation.DynamicAnimControl;
-import com.jme3.bullet.animation.LinkConfig;
-import com.jme3.bullet.animation.RangeOfMotion;
+import com.jme3.bullet.PhysicsSoftSpace;
+import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.control.SoftBodyControl;
 import com.jme3.bullet.objects.PhysicsBody;
-import com.jme3.input.KeyInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.InputListener;
-import com.jme3.input.controls.KeyTrigger;
+import com.jme3.bullet.objects.PhysicsSoftBody;
+import com.jme3.bullet.objects.infos.Sbcp;
+import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
@@ -50,30 +48,28 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 /**
- * A simple example of a DynamicAnimControl with 3 bone links.
- *
- * Builds upon HelloDac.
+ * A simple example of a soft body.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class HelloBoneLink extends SimpleApplication {
+public class HelloSoftBody extends SimpleApplication {
     // *************************************************************************
     // fields
 
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private PhysicsSoftSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point for the HelloBoneLink application.
+     * Main entry point for the HelloSoftBody application.
      *
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        HelloBoneLink application = new HelloBoneLink();
+        HelloSoftBody application = new HelloSoftBody();
         application.start();
     }
     // *************************************************************************
@@ -84,50 +80,45 @@ public class HelloBoneLink extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics (with debug enabled).
-        BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true); // default = false
+        // Set up Bullet physics.
+        SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Add a box to the scene and relocate the camera.
         addBox();
         cam.setLocation(new Vector3f(0f, 1f, 8f));
 
         // Add a light to the scene.
-        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
+        Vector3f direction = new Vector3f(1f, -2f, -4f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
 
         // Add a model to the scene.
-        Spatial ninjaModel = assetManager.loadModel("Models/Ninja/Ninja.j3o");
-        rootNode.attachChild(ninjaModel);
-        ninjaModel.rotate(0f, 3f, 0f);
-        ninjaModel.scale(0.02f);
+        Spatial cgModel = assetManager.loadModel("Models/MonkeyHead/MonkeyHead.mesh.xml");
+        rootNode.attachChild(cgModel);
 
-        // Configure a DynamicAnimControl.
-        LinkConfig defaultConfig = new LinkConfig();
-        RangeOfMotion defaultRom = new RangeOfMotion(1f);
-        final DynamicAnimControl dac = new DynamicAnimControl();
-        dac.link("Joint9", defaultConfig, defaultRom); // right shoulder
-        dac.link("Joint11", defaultConfig, defaultRom); // right elbow
-        dac.link("Joint12", defaultConfig, defaultRom); // right wrist
+        // Add a soft-body control to the model.
+        SoftBodyControl sbc = new SoftBodyControl();
+        cgModel.addControl(sbc);
 
-        // NOTE: Complete configuration BEFORE adding control to a model.
-        ninjaModel.addControl(dac);
-        dac.setPhysicsSpace(physicsSpace);
+        // Translate and rotate the model's physics body.  Since the control
+        // is "dynamic", the model will follow its body.
+        PhysicsSoftBody body = sbc.getBody();
+        body.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
+        body.applyTranslation(new Vector3f(0f, 3f, 0f));
 
-        // Configure InputManager to respond to the spacebar.
-        inputManager.addMapping("go limp", new KeyTrigger(KeyInput.KEY_SPACE));
-        InputListener actionListener = new ActionListener() {
-            @Override
-            public void onAction(String actionString, boolean ongoing, float tpf) {
-                if (actionString.equals("go limp") && ongoing) {
-                    dac.setRagdollMode();
-                }
-            }
-        };
-        inputManager.addListener(actionListener, "go limp");
+        // Set the body's default frame pose:  if deformed,
+        // it will tend to return to its current shape.
+        boolean setVolumePose = false;
+        boolean setFramePose = true;
+        body.setPose(setVolumePose, setFramePose);
+
+        // Make the body bouncy by enabling pose matching.
+        SoftBodyConfig config = body.getSoftConfig();
+        config.set(Sbcp.PoseMatching, 0.5f);
+
+        sbc.setPhysicsSpace(physicsSpace);
     }
     // *************************************************************************
     // private methods
@@ -136,7 +127,7 @@ public class HelloBoneLink extends SimpleApplication {
      * Add a large static cube to serve as a platform.
      */
     private void addBox() {
-        float halfExtent = 50f; // mesh units
+        float halfExtent = 2f; // mesh units
         Mesh mesh = new Box(halfExtent, halfExtent, halfExtent);
         Geometry geometry = new Geometry("cube platform", mesh);
         rootNode.attachChild(geometry);

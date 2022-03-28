@@ -1,0 +1,37 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+plugins {
+    id 'application'
+}
+
+tasks.withType(JavaCompile) { // Java compile-time options:
+    options.deprecation = true
+}
+
+mainClassName = 'jme3utilities.tutorial.HelloRigidBody'
+if (!hasProperty('mainClass')) {
+    ext.mainClass = mainClassName
+}
+jar.manifest.attributes('Main-Class': mainClassName)
+
+dependencies {
+    implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
+    runtimeOnly testdataCoordinates // for MonkeyHead, Ninja, and Oto
+
+    // select one version of LWJGL
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // LWJGL 2.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // LWJGL 3.x
+
+    // TutorialApps doesn't use jme3-jogg
+    //  -- it is included solely to avoid warnings from AssetConfig.
+    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
+
+    //implementation 'com.github.stephengold:Minie:' + minieVersion
+    implementation project(':MinieLibrary')
+}
+
+startScripts.dependsOn(':MinieLibrary:assemble')

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -27,38 +27,31 @@
 package jme3utilities.tutorial;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.bullet.PhysicsSoftSpace;
-import com.jme3.bullet.SoftPhysicsAppState;
-import com.jme3.bullet.objects.PhysicsBody;
-import com.jme3.bullet.objects.PhysicsSoftBody;
-import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.light.DirectionalLight;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Mesh;
-import jme3utilities.minie.test.mesh.DividedLine;
+import com.jme3.scene.Spatial;
+import java.util.List;
+import jme3utilities.MySpatial;
 
 /**
- * A simple rope simulation using a soft body.
+ * A very simple example using DynamicAnimControl.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class HelloSoftRope extends SimpleApplication {
-    // *************************************************************************
-    // fields
-
-    /**
-     * PhysicsSpace for simulation
-     */
-    private PhysicsSoftSpace physicsSpace;
+public class HelloDac extends SimpleApplication {
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point for the HelloSoftRope application.
+     * Main entry point for the HelloDac application.
      *
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        HelloSoftRope application = new HelloSoftRope();
+        HelloDac application = new HelloDac();
         application.start();
     }
     // *************************************************************************
@@ -70,27 +63,40 @@ public class HelloSoftRope extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         // Set up Bullet physics (with debug enabled).
-        SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
+        BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSoftSpace();
+        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // Relocate the camera.
-        cam.setLocation(new Vector3f(0f, 1f, 8f));
+        // Add a light to the scene.
+        Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction);
+        rootNode.addLight(sun);
 
-        // Generate a subdivided line segment.
-        int numSegments = 40;
-        Vector3f endPoint1 = new Vector3f(0f, 4f, 0f);
-        Vector3f endPoint2 = new Vector3f(2f, 4f, 2f);
-        Mesh lineMesh = new DividedLine(endPoint1, endPoint2, numSegments);
+        // Add a model to the scene.
+        Spatial ninjaModel = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
+        rootNode.attachChild(ninjaModel);
+        ninjaModel.rotate(0f, 3f, 0f);
+        ninjaModel.scale(0.02f);
 
-        // Create a soft body and add it to the physics space.
-        PhysicsSoftBody rope = new PhysicsSoftBody();
-        NativeSoftBodyUtil.appendFromLineMesh(lineMesh, rope);
-        physicsSpace.addCollisionObject(rope);
+        // The DynamicAnimControl must be added to the Spatial controlled by
+        // the model's SkinningControl (or SkeletonControl).
+        // MySpatial.listAnimationSpatials() is used to locate that Spatial.
+        List<Spatial> list = MySpatial.listAnimationSpatials(ninjaModel, null);
+        assert list.size() == 1 : list.size();
+        Spatial controlled = list.get(0);
 
-        // Pin one of the end nodes by setting its mass to zero.
-        int nodeIndex = 0;
-        rope.setNodeMass(nodeIndex, PhysicsBody.massForStatic);
+        // In the Ninja model, that Spatial is the model's root Node.
+        assert controlled == ninjaModel;
+
+        // Add a DynamicAnimControl to the model.
+        DynamicAnimControl dac = new DynamicAnimControl();
+        controlled.addControl(dac);
+
+        dac.setPhysicsSpace(physicsSpace);
+
+        // Because no bone links are configured, the model would behave more
+        // like a rigid body than a ragdoll.  See HelloBoneLink for an
+        // example of configuring bone links.
     }
 }
