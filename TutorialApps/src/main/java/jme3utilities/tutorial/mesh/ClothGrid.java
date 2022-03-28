@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 
 /**
  * A dynamic, Triangles-mode Mesh (with indices and normals but no texture
- * coordinates) that renders a subdivided rectangle.
+ * coordinates) that renders a subdivided rectangle. TODO use Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  */

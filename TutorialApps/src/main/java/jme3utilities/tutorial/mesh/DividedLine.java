@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 
 /**
  * A 3-D, static, Lines-mode mesh (with indices) that renders a subdivided line
- * segment.
+ * segment. TODO use Heart library
  *
  * @author Stephen Gold sgold@sonic.net
  */
