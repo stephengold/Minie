@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephen Gold
+ Copyright (c) 2021-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -158,7 +158,7 @@ public class TestIssue18Heightfield
      * @param physicsSpace (not null)
      */
     private void addGround(PhysicsSpace physicsSpace) {
-        float[] heightmap = new float[]{0f, 0f, 0f, 0f};
+        float[] heightmap = {0f, 0f, 0f, 0f};
         Vector3f scale = new Vector3f(1000f, 1f, 1000f);
         CollisionShape shape = new HeightfieldCollisionShape(heightmap, scale);
 

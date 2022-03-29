@@ -99,27 +99,27 @@ final class Action {
     static boolean processOngoing(String actionString) {
         boolean handled = false;
         switch (actionString) {
-            case Action.dumpAppStates:
+            case dumpAppStates:
                 dumpAppStates();
                 handled = true;
                 break;
 
-            case Action.dumpPhysicsSpace:
+            case dumpPhysicsSpace:
                 dumpPhysicsSpace();
                 handled = true;
                 break;
 
-            case Action.dumpRenderer:
+            case dumpRenderer:
                 dumpRenderer();
                 handled = true;
                 break;
 
-            case Action.editBindings:
+            case editBindings:
                 editBindings();
                 handled = true;
                 break;
 
-            case Action.editDisplaySettings:
+            case editDisplaySettings:
                 editDisplaySettings();
                 handled = true;
                 break;

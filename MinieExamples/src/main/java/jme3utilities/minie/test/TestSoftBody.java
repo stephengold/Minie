@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -168,7 +168,7 @@ public class TestSoftBody
      * indices of the waistline vertices in the Puppet model, arranged clockwise
      * as seen from above, starting at her right hip
      */
-    final private static int[] waistlineVertices = new int[]{2396, 2394, 569,
+    final private static int[] waistlineVertices = {2396, 2394, 569,
         545, 553, 554, 562, 2401};
     /**
      * message logger for this class

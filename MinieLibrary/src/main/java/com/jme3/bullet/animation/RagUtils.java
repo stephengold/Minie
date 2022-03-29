@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -691,7 +691,7 @@ public class RagUtils {
         int numBones = armature.getJointCount();
         float[] result = new float[numBones];
         for (Mesh mesh : meshes) {
-            RagUtils.addWeights(mesh, result);
+            addWeights(mesh, result);
         }
 
         List<Joint> joints = MySkeleton.preOrderJoints(armature);
@@ -722,7 +722,7 @@ public class RagUtils {
         int numBones = skeleton.getBoneCount();
         float[] result = new float[numBones];
         for (Mesh mesh : meshes) {
-            RagUtils.addWeights(mesh, result);
+            addWeights(mesh, result);
         }
 
         List<Bone> bones = MySkeleton.preOrderBones(skeleton);

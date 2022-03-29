@@ -143,15 +143,14 @@ public class DacWizard extends GuiApplication {
      * Clear the scene.
      */
     void clearScene() {
-        BulletAppState bulletAppState
-                = DacWizard.findAppState(BulletAppState.class);
+        BulletAppState bulletAppState = findAppState(BulletAppState.class);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
         DynamicAnimControl ragdoll = findDac();
         if (ragdoll != null) {
             ragdoll.setPhysicsSpace(null);
         }
         if (!physicsSpace.isEmpty()) {
-            DacWizard.dumper.dump(physicsSpace);
+            dumper.dump(physicsSpace);
         }
         assert physicsSpace.isEmpty();
 
@@ -376,7 +375,7 @@ public class DacWizard extends GuiApplication {
      * Toggle the skeleton visualizer on/off.
      */
     void toggleSkeletonVisualizer() {
-        DacWizard app = DacWizard.getApplication();
+        DacWizard app = getApplication();
         SkeletonVisualizer sv = app.findSkeletonVisualizer();
         if (sv != null) {
             boolean newState = !sv.isEnabled();

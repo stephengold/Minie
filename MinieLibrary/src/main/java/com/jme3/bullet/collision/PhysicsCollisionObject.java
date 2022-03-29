@@ -1246,8 +1246,7 @@ abstract public class PhysicsCollisionObject
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
         long[] ignoredIds = old.listIgnoredIds();
         for (long oldPcoId : ignoredIds) {
-            PhysicsCollisionObject oldPco
-                    = PhysicsCollisionObject.findInstance(oldPcoId);
+            PhysicsCollisionObject oldPco = findInstance(oldPcoId);
             /*
              * Don't do any real cloning here because rigid bodies get
              * rebuilt during cloneFields(), which alters their native IDs.
@@ -1512,7 +1511,7 @@ abstract public class PhysicsCollisionObject
         Savable[] ignoreList = new Savable[numIgnored];
         for (int index = 0; index < numIgnored; ++index) {
             long pcoId = ignoredIds[index];
-            ignoreList[index] = PhysicsCollisionObject.findInstance(pcoId);
+            ignoreList[index] = findInstance(pcoId);
         }
         capsule.write(ignoreList, tagIgnoreList, null);
     }

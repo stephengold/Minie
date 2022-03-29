@@ -52,7 +52,7 @@ final public class MinieTestTerrains {
     /**
      * 3x3 height array
      */
-    final private static float[] nineHeights = new float[]{
+    final private static float[] nineHeights = {
         1f, 0f, 1f,
         0f, 0.5f, 0f,
         1f, 0f, 1f

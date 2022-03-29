@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -91,7 +91,7 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
         NativePhysicsObject.removeTracker(id);
         Method[] methods = FreeingMethods.listMethods(referentClass);
         // Avoid re-boxing in case more than one method is invoked.
-        Object[] boxedId = new Object[]{id};
+        Object[] boxedId = {id};
         for (Method method : methods) {
             try {
                 method.invoke(null, boxedId);

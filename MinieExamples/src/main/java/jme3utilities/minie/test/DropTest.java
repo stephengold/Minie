@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -423,7 +423,7 @@ public class DropTest
          * letter shapes
          */
         for (char character = 'A'; character <= 'Z'; ++character) {
-            char[] array = new char[]{character};
+            char[] array = {character};
             String glyphString = new String(array);
             String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
                     glyphString);
@@ -434,7 +434,7 @@ public class DropTest
          * digit shapes
          */
         for (char character = '0'; character <= '9'; ++character) {
-            char[] array = new char[]{character};
+            char[] array = {character};
             String glyphString = new String(array);
             String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
                     glyphString);
