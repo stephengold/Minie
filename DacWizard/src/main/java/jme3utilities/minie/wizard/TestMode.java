@@ -225,7 +225,7 @@ class TestMode extends InputMode {
             if (actionString.startsWith(Action.setMargin + " ")) {
                 String arg = MyString.remainder(actionString,
                         Action.setMargin + " ");
-                float newMargin = Float.valueOf(arg);
+                float newMargin = Float.parseFloat(arg);
                 setMargin(newMargin);
                 handled = true;
             }
