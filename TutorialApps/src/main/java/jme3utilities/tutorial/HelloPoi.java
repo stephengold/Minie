@@ -62,7 +62,6 @@ import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import java.util.List;
-import jme3utilities.MyAsset;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyVector3f;
 
@@ -138,8 +137,9 @@ public class HelloPoi
         configureCamera();
         configureInput();
         physicsSpace = configurePhysics();
-        redMaterial
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Red);
+
+        redMaterial = new Material(assetManager, Materials.UNSHADED);
+        redMaterial.setColor("Color", ColorRGBA.Red.clone());
 
         // Add an indicator for the predicted point of impact.
         int indicatorSize = 15; // in pixels
