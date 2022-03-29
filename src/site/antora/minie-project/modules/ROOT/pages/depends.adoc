@@ -17,6 +17,10 @@ the following table may help you decide which release to use.
 |===
 |Minie release |direct dependencies |transitive dependencies
 
+|v4.8.1
+|Heart v7.4.1, sim-math v1.4.1, jme3-terrain v3.5.1-stable
+|jme3-core v3.5.1-stable, slf4j-api v1.7.13
+
 |v4.8.0
 |Heart v7.4.1, sim-math v1.4.1, jme3-terrain v3.5.1-stable
 |jme3-core v3.5.1-stable, slf4j-api v1.7.13
@@ -81,5 +85,5 @@ https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[r
 
 NOTE: All releases mentioned the table above
 are available from the Maven Central Repository.
-However, Minie's release log describes many releases
+However, Minie's release log also describes many releases
 that haven't been published to Maven Central.

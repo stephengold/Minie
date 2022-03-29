@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.8.1 released on TBD
+## Version 4.8.1 released on 29 March 2022
 
 + Bugfix:  issue #23 (access violations on 64-bit Windows)
 + Split off "TutorialApps" from the "MinieExamples" sub-project.
