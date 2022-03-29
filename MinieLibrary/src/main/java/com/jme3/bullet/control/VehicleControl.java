@@ -182,7 +182,9 @@ public class VehicleControl
      */
     @Override
     public Control cloneForSpatial(Spatial spatial) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(
+                "cloneForSpatial() isn't implemented."
+        );
     }
 
     /**

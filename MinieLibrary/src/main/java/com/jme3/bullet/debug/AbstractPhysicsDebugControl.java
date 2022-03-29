@@ -97,7 +97,8 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(
+                "cloneFields() isn't implemented.");
     }
 
     /**
@@ -121,7 +122,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      */
     @Override
     public Object jmeClone() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("jmeClone() isn't implemented.");
     }
 
     /**
@@ -134,7 +135,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      */
     @Override
     public void read(JmeImporter importer) throws IOException {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("read() isn't implemented.");
     }
 
     /**
@@ -147,7 +148,7 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      */
     @Override
     public void write(JmeExporter exporter) throws IOException {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("write() isn't implemented.");
     }
     // *************************************************************************
     // private methods

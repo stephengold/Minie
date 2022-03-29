@@ -241,9 +241,9 @@ public class ImportCgms extends SimpleApplication {
         if (parent != null && !parent.exists()) {
             boolean success = parent.mkdirs();
             if (!success) {
-                logger.log(Level.SEVERE, "Mkdirs failed while saving {0}",
-                        MyString.quote(writeFilePath));
-                throw new RuntimeException();
+                String message = "mkdirs() failed while saving "
+                        + MyString.quote(writeFilePath);
+                throw new RuntimeException(message);
             }
         }
         /*
@@ -253,8 +253,8 @@ public class ImportCgms extends SimpleApplication {
         try {
             ImageIO.write(image, suffix, file);
         } catch (IOException exception) {
-            logger.log(Level.SEVERE, "failed to write {0}",
-                    MyString.quote(writeFilePath));
+            String message = "write() failed while saving "
+                    + MyString.quote(writeFilePath);
             throw new RuntimeException(exception);
         }
         logger.log(Level.INFO, "wrote file {0}", MyString.quote(writeFilePath));
