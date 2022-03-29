@@ -31,12 +31,6 @@
  */
 package jme3test.bullet;
 
-/**
- * Test case for JME issue #894: SliderJoint.setRestitutionOrthoLin() sets wrong
- * joint parameter. The bug existed in Native Bullet only.
- * <p>
- * If successful, no exception will be thrown during initialization.
- */
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -44,6 +38,12 @@ import com.jme3.bullet.joints.SliderJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Vector3f;
 
+/**
+ * Test case for JME issue #894: SliderJoint.setRestitutionOrthoLin() sets wrong
+ * joint parameter. The bug existed in Native Bullet only.
+ * <p>
+ * If successful, no exception will be thrown during initialization.
+ */
 public class TestIssue894 extends SimpleApplication {
 
     public static void main(String[] args) {
