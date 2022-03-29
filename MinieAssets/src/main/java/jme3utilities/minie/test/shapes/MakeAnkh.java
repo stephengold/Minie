@@ -124,7 +124,7 @@ public class MakeAnkh {
                     CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
         } else {
             VHACD.addProgressListener(new VHACDProgressListener() {
-                double lastOP = -1.0;
+                private double lastOP = -1.0;
 
                 @Override
                 public void update(double overallPercent, double stagePercent,

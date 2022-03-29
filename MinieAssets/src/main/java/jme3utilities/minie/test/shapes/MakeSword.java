@@ -140,7 +140,7 @@ public class MakeSword {
          * Generate a CollisionShape to approximate the Mesh.
          */
         VHACD.addProgressListener(new VHACDProgressListener() {
-            double lastOP = -1.0;
+            private double lastOP = -1.0;
 
             @Override
             public void update(double overallPercent, double stagePercent,
