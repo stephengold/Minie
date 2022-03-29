@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -782,7 +782,7 @@ public class TargetDemo
     /**
      * Set up a single brick as a target.
      *
-     * @param shapeName
+     * @param shapeName the key to the shapes library
      * @param location the desired world location (not null, unaffected)
      * @param orientation the desired world orientation (not null, unaffected)
      */

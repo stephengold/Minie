@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -205,7 +205,7 @@ public class DropTestStatus extends SimpleAppState {
     /**
      * Advance the value of the selected field by the specified amount.
      *
-     * @param amount
+     * @param amount the number of values to advance (may be negative)
      */
     void advanceValue(int amount) {
         switch (selectedLine) {

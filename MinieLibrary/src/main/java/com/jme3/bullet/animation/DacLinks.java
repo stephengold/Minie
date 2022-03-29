@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1406,7 +1406,6 @@ public class DacLinks
      * @param skeletonControl (not null)
      * @param managerMap a map from bone indices to managing link names (not
      * null, unaffected)
-     * @return an attachment link with a joint, added to the boneLinks map
      */
     private void createAttachmentLink(String boneName,
             SkeletonControl skeletonControl, String[] managerMap) {
@@ -1463,8 +1462,6 @@ public class DacLinks
      * @param skinningControl (not null)
      * @param managerMap a map from joint indices to managing link names (not
      * null, unaffected)
-     * @return an attachment link with a physics joint, added to the boneLinks
-     * map
      */
     private void createAttachmentLink(String jointName,
             SkinningControl skinningControl, String[] managerMap) {

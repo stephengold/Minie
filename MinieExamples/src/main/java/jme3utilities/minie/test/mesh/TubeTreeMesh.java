@@ -400,7 +400,7 @@ public class TubeTreeMesh extends Mesh {
      * Test whether the specified Joint is a leaf.
      *
      * @param joint the Joint to test (not null, unaffected)
-     * @return
+     * @return true for a leaf, otherwise false
      */
     private static boolean isLeaf(Joint joint) {
         boolean result = joint.getChildren().isEmpty();
