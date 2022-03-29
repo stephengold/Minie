@@ -18,7 +18,7 @@ jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
     implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
+    runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     runtimeOnly testdataCoordinates // for MonkeyHead, Ninja, and Oto
 
     // select one version of LWJGL
