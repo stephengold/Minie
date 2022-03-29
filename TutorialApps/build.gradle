@@ -18,7 +18,6 @@ jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
     implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     runtimeOnly testdataCoordinates // for MonkeyHead, Ninja, and Oto
 
