@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -141,10 +141,6 @@ public class BuoyDemo extends PhysicsDemo {
      * visualizer for the skeleton of the C-G model
      */
     private SkeletonVisualizer sv;
-    /**
-     * SkinningControl of the loaded model
-     */
-    private SkinningControl sc;
     /**
      * name of the Animation/Action to play on the C-G model
      */
@@ -435,7 +431,7 @@ public class BuoyDemo extends PhysicsDemo {
         setCgmHeight(cgModel, 10f);
         centerCgm(cgModel);
 
-        sc = (SkinningControl) RagUtils.findSControl(cgModel);
+        SkinningControl sc = (SkinningControl) RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);

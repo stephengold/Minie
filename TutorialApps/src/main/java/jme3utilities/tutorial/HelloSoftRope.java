@@ -43,13 +43,6 @@ import jme3utilities.tutorial.mesh.DividedLine;
  */
 public class HelloSoftRope extends SimpleApplication {
     // *************************************************************************
-    // fields
-
-    /**
-     * PhysicsSpace for simulation
-     */
-    private PhysicsSoftSpace physicsSpace;
-    // *************************************************************************
     // new methods exposed
 
     /**
@@ -73,7 +66,7 @@ public class HelloSoftRope extends SimpleApplication {
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSoftSpace();
+        PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Relocate the camera.
         cam.setLocation(new Vector3f(0f, 1f, 8f));

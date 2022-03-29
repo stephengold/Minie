@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -55,10 +55,6 @@ import java.util.Collection;
  */
 public class HelloVehicle extends SimpleApplication {
     // *************************************************************************
-    // fields
-
-    private PhysicsVehicle vehicle;
-    // *************************************************************************
     // new methods exposed
 
     /**
@@ -97,7 +93,7 @@ public class HelloVehicle extends SimpleApplication {
         HullCollisionShape wedgeShape
                 = new HullCollisionShape(cornerLocations);
         float mass = 5f;
-        vehicle = new PhysicsVehicle(wedgeShape, mass);
+        PhysicsVehicle vehicle = new PhysicsVehicle(wedgeShape, mass);
         vehicle.setSuspensionCompression(6f); // default=0.83
         vehicle.setSuspensionDamping(7f); // default=0.88
         vehicle.setSuspensionStiffness(150f); // default=5.88

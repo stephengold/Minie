@@ -49,10 +49,6 @@ public class HelloCloth extends SimpleApplication {
     // *************************************************************************
     // fields
 
-    /**
-     * PhysicsSpace for simulation
-     */
-    private PhysicsSoftSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -77,7 +73,7 @@ public class HelloCloth extends SimpleApplication {
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSoftSpace();
+        PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Relocate the camera.
         cam.setLocation(new Vector3f(0f, 1f, 8f));

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -45,13 +45,6 @@ import jme3utilities.mesh.Icosphere;
  */
 public class HelloSoftSoft extends SimpleApplication {
     // *************************************************************************
-    // fields
-
-    /**
-     * PhysicsSpace for simulation
-     */
-    private PhysicsSoftSpace physicsSpace;
-    // *************************************************************************
     // new methods exposed
 
     /**
@@ -75,7 +68,7 @@ public class HelloSoftSoft extends SimpleApplication {
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true); // default = false
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSoftSpace();
+        PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Set gravity to zero.
         physicsSpace.setGravity(Vector3f.ZERO); // default = default=(0,-9.81,0)

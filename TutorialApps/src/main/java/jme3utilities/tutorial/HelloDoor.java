@@ -106,10 +106,6 @@ public class HelloDoor
      */
     private PhysicsRigidBody doorFrameBody;
     /**
-     * static floor
-     */
-    private PhysicsRigidBody floorBody;
-    /**
      * latest ground location indicated by the mouse cursor
      */
     private final Vector3f mouseLocation = new Vector3f();
@@ -307,7 +303,8 @@ public class HelloDoor
     private void addPlane(float y, PhysicsSpace physicsSpace) {
         Plane plane = new Plane(Vector3f.UNIT_Y, y);
         PlaneCollisionShape shape = new PlaneCollisionShape(plane);
-        floorBody = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
+        PhysicsRigidBody floorBody
+                = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         // Load a repeating tile texture.
         String assetPath = "Textures/greenTile.png";

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephen Gold
+ Copyright (c) 2021-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,6 @@ import jme3utilities.mesh.PointMesh;
  */
 public class TestIssue13 extends SimpleApplication {
 
-    private Material hiMat, loMat;
     final private Random random = new Random();
     // *************************************************************************
     // new methods exposed
@@ -77,9 +76,9 @@ public class TestIssue13 extends SimpleApplication {
         cam.setRotation(new Quaternion(-0.013f, 0.98608f, -0.1254f, -0.1084f));
         flyCam.setMoveSpeed(100f);
 
-        hiMat = MyAsset.createWireframeMaterial(assetManager,
+        Material hiMat = MyAsset.createWireframeMaterial(assetManager,
                 ColorRGBA.Red, 3f);
-        loMat = MyAsset.createWireframeMaterial(assetManager,
+        Material loMat = MyAsset.createWireframeMaterial(assetManager,
                 ColorRGBA.Green, 3f);
 
         // Add axes
