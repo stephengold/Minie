@@ -599,7 +599,7 @@ class Model {
         try {
             rootSpatial = assetManager.loadModel(assetPath);
             loadException = null;
-        } catch (Exception exception) {
+        } catch (RuntimeException exception) {
             rootSpatial = null;
             loadException = exception;
         }

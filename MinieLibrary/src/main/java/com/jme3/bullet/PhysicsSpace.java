@@ -1381,7 +1381,7 @@ public class PhysicsSpace
             }
             try {
                 task.invoke();
-            } catch (Exception exception) {
+            } catch (RuntimeException exception) {
                 logger.log(Level.SEVERE, null, exception);
             }
         }

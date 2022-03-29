@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -265,7 +265,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
      * @return a new map from bone indices to ranges of motion
      */
     @Override
-    public RangeOfMotion[] call() throws Exception {
+    public RangeOfMotion[] call() throws InterruptedException {
         /*
          * Accumulate joint-angle statistics for 10 seconds.
          */
