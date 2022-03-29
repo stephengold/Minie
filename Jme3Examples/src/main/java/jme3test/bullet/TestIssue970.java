@@ -82,7 +82,7 @@ public class TestIssue970 extends SimpleApplication {
     /**
      * Clone a body that implements Control by saving and then loading it.
      *
-     * @param sgc the body/control to copy (not null, unaffected)
+     * @param body the body/control to copy (not null, unaffected)
      * @return a new body/control
      */
     private PhysicsRigidBody saveThenLoad(PhysicsRigidBody body) {
