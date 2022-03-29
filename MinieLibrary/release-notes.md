@@ -1,5 +1,14 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.8.1 released on TBD
+
++ Bugfix:  issue #23 (access violations on 64-bit Windows)
++ Split off "TutorialApps" from the "MinieExamples" sub-project.
++ Based on:
+  + v0.9.11 of the Acorus library and
+  + v0.9.28 of the jme3-utilities-nifty library.
++ Updated the native libraries to v14.2.0 of Libbulletjme.
+
 ## Version 4.8.0 released on 20 March 2022
 
 + Added native libraries for the MacOSX_ARM64 platform,
