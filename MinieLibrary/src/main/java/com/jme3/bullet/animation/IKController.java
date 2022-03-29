@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ abstract public class IKController implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate an enabled controller.
+     * Instantiate an enabled controller. TODO protect
      *
      * @param controlledLink the link to be controlled (not null)
      */

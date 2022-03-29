@@ -116,7 +116,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
 
     /**
      * Instantiate a SoftPhysicsJoint to join a soft-body cluster and a rigid
-     * body.
+     * body. TODO protect
      * <p>
      * To be fully effective, the joint must be added to the PhysicsSoftSpace of
      * both bodies.
@@ -140,7 +140,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
-     * Instantiate a SoftPhysicsJoint to join 2 soft bodies.
+     * Instantiate a SoftPhysicsJoint to join 2 soft bodies. TODO protect
      * <p>
      * To be effective, the joint must be added to the PhysicsSoftSpace of both
      * bodies. Also, the bodies must be distinct.
