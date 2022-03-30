@@ -304,9 +304,7 @@ public class SimplexCollisionShape extends ConvexShape {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         result.zero();
-        int numVertices = locations.length;
-        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
-            Vector3f location = locations[vertexIndex];
+        for (Vector3f location : locations) {
             float x = FastMath.abs(location.x);
             if (x > result.x) {
                 result.x = x;
@@ -397,11 +395,9 @@ public class SimplexCollisionShape extends ConvexShape {
      */
     @Override
     public float maxRadius() {
-        int numVertices = locations.length;
         double maxLengthSquared = 0.0;
 
-        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
-            Vector3f location = locations[vertexIndex];
+        for (Vector3f location : locations) {
             double lengthSquared = MyVector3f.lengthSquared(location);
             if (lengthSquared > maxLengthSquared) {
                 maxLengthSquared = lengthSquared;

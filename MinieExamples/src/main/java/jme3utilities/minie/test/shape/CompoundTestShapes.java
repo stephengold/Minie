@@ -235,8 +235,8 @@ final public class CompoundTestShapes {
             sum += volume;
         }
         FloatBuffer masses = BufferUtils.createFloatBuffer(volumes.length);
-        for (int i = 0; i < volumes.length; ++i) {
-            masses.put(volumes[i] / sum);
+        for (float volume : volumes) {
+            masses.put(volume / sum);
         }
         Vector3f inertia = new Vector3f();
         Transform transform = result.principalAxes(masses, null, inertia);

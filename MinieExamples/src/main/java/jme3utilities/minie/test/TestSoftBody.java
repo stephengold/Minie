@@ -834,8 +834,8 @@ public class TestSoftBody
         int numWaistVerts = waistlineVertices.length;
         int numXLines = local.length;
 
-        for (int zIndex = 0; zIndex < numXLines; ++zIndex) {
-            local[zIndex].zero();
+        for (Vector3f vector3f : local) {
+            vector3f.zero();
         }
         /*
          * Calculate locations (in local coordinates of the

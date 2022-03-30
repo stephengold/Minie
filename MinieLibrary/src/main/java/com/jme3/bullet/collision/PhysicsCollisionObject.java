@@ -1331,10 +1331,8 @@ abstract public class PhysicsCollisionObject
         }
 
         Savable[] ignoreList = capsule.readSavableArray(tagIgnoreList, null);
-        int numIgnored = ignoreList.length;
-        for (int index = 0; index < numIgnored; ++index) {
-            PhysicsCollisionObject pco
-                    = (PhysicsCollisionObject) ignoreList[index];
+        for (Savable savable : ignoreList) {
+            PhysicsCollisionObject pco = (PhysicsCollisionObject) savable;
             addToIgnoreList(pco);
         }
 
