@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -480,7 +480,8 @@ public class TestRbc
         Vector3f farLocation = cam.getWorldCoordinates(screenXY, MyCamera.farZ);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        List rayTest = physicsSpace.rayTestRaw(nearLocation, farLocation);
+        List<PhysicsRayTestResult> rayTest
+                = physicsSpace.rayTestRaw(nearLocation, farLocation);
         if (rayTest.size() > 0) {
             inputManager.setMouseCursor(hitCursor);
         } else {

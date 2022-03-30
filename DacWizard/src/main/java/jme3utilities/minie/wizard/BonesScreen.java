@@ -166,14 +166,14 @@ class BonesScreen extends GuiScreenController {
         TreeItem<BoneValue>[] boneItems = new TreeItem[numBones];
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             BoneValue value = new BoneValue(boneIndex);
-            boneItems[boneIndex] = new TreeItem(value);
+            boneItems[boneIndex] = new TreeItem<BoneValue>(value);
             boneItems[boneIndex].setExpanded(true);
         }
         /*
          * Parent each item.
          */
         for (int childIndex = 0; childIndex < numBones; ++childIndex) {
-            TreeItem childItem = boneItems[childIndex];
+            TreeItem<BoneValue> childItem = boneItems[childIndex];
             int parentIndex = model.parentIndex(childIndex);
             if (parentIndex == -1) {
                 rootItem.addTreeItem(childItem);
@@ -186,7 +186,7 @@ class BonesScreen extends GuiScreenController {
          * Pre-select items.
          */
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
-            TreeItem item = boneItems[boneIndex];
+            TreeItem<BoneValue> item = boneItems[boneIndex];
             if (model.isBoneLinked(boneIndex)) {
                 treeBox.selectItem(item);
             }
