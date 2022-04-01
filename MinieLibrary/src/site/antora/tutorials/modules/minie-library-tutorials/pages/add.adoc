@@ -24,7 +24,7 @@ Adding Minie to an existing JMonkeyEngine project is a 7-step process:
 
 == Remove libraries that might interfere
 
-If any directory where the application might runs contains files
+If any directory where the application might run contains files
 named "libbulletjme.so" or "bulletjme.dll" or "libbulletjme.dylib",
 you should remove those files.
 Those filenames are used by JMonkeyEngine when it loads the native library,
