@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -72,9 +72,9 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.mesh.ClothGrid;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.test.common.PhysicsDemo;
-import jme3utilities.minie.test.mesh.ClothGrid;
 import jme3utilities.minie.test.shape.CompoundTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.minie.test.tunings.BaseMeshControl;

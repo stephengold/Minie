@@ -38,7 +38,7 @@ import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
-import jme3utilities.tutorial.mesh.ClothGrid;
+import jme3utilities.mesh.ClothGrid;
 
 /**
  * A simple cloth simulation using a soft body.
@@ -46,9 +46,6 @@ import jme3utilities.tutorial.mesh.ClothGrid;
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloCloth extends SimpleApplication {
-    // *************************************************************************
-    // fields
-
     // *************************************************************************
     // new methods exposed
 

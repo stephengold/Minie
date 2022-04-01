@@ -34,7 +34,7 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
-import jme3utilities.tutorial.mesh.DividedLine;
+import jme3utilities.mesh.DividedLine;
 
 /**
  * A simple rope simulation using a soft body.
