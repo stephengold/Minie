@@ -44,7 +44,7 @@ they won't interfere with Minie.
 === Gradle-built projects
 
 . Look for artifacts with those names in the `dependencies` section(s)
-  of the project's "build.gradle" file(s).
+  of the project's "*.gradle" file(s).
 . Remove those dependencies.
 
 === Maven-built projects
