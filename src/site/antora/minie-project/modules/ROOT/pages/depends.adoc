@@ -18,72 +18,72 @@ the following table may help you decide which release to use.
 |Minie release |direct dependencies |transitive dependencies
 
 |v4.8.1
-|Heart v7.4.1, sim-math v1.4.1, jme3-terrain v3.5.1-stable
-|jme3-core v3.5.1-stable, slf4j-api v1.7.13
+|Heart v7.4.1 / sim-math v1.4.1 / jme3-terrain v3.5.1-stable
+|jme3-core v3.5.1-stable / slf4j-api v1.7.13
 
 |v4.8.0
-|Heart v7.4.1, sim-math v1.4.1, jme3-terrain v3.5.1-stable
-|jme3-core v3.5.1-stable, slf4j-api v1.7.13
+|Heart v7.4.1 / sim-math v1.4.1 / jme3-terrain v3.5.1-stable
+|jme3-core v3.5.1-stable / slf4j-api v1.7.13
 
 |v4.7.1
-|Heart v7.4.1, sim-math v1.4.1, jme3-terrain v3.5.0-stable
-|jme3-core v3.5.0-stable, slf4j-api v1.7.13
+|Heart v7.4.1 / sim-math v1.4.1 / jme3-terrain v3.5.0-stable
+|jme3-core v3.5.0-stable / slf4j-api v1.7.13
 
 |v4.6.1
-|Heart v7.2.0, sim-math v1.4.1, jme3-terrain v3.5.0-stable
+|Heart v7.2.0 / sim-math v1.4.1 / jme3-terrain v3.5.0-stable
 |jme3-core v3.5.0-stable, slf4j-api v1.7.13
 
 |v4.6.0
-|Heart v7.1.0, sim-math v1.4.1, jme3-terrain v3.4.1-stable
-|jme3-core v3.4.1-stable, slf4j-api v1.7.13
+|Heart v7.1.0 / sim-math v1.4.1 / jme3-terrain v3.4.1-stable
+|jme3-core v3.4.1-stable / slf4j-api v1.7.13
 
 |v4.5.0
-|Heart v7.1.0, sim-math v1.4.1, jme3-terrain v3.4.0-stable
-|jme3-core v3.4.0-stable, slf4j-api v1.7.13
+|Heart v7.1.0 / sim-math v1.4.1 / jme3-terrain v3.4.0-stable
+|jme3-core v3.4.0-stable / slf4j-api v1.7.13
 
 |v4.4.0
-|Heart v7.1.0, sim-math v1.4.1, jme3-terrain v3.4.0-stable
-|jme3-core v3.4.0-stable, slf4j-api v1.7.13
+|Heart v7.1.0 / sim-math v1.4.1 / jme3-terrain v3.4.0-stable
+|jme3-core v3.4.0-stable / slf4j-api v1.7.13
 
 |v4.3.0
-|Heart v7.0.0, jme3-terrain v3.4.0-stable
+|Heart v7.0.0 / jme3-terrain v3.4.0-stable
 |jme3-core v3.4.0-stable
 
 |v4.2.0
-|Heart v6.4.4, jme3-terrain v3.4.0-stable
+|Heart v6.4.4 / jme3-terrain v3.4.0-stable
 |jme3-core v3.4.0-stable
 
 |v4.1.1
-|Heart v6.4.4, jme3-terrain v3.4.0-stable
+|Heart v6.4.4 / jme3-terrain v3.4.0-stable
 |jme3-core v3.4.0-stable
 
 |v4.1.0+for33
-|Heart v6.4.3+for33, jme3-terrain v3.3.2-stable
+|Heart v6.4.3+for33 / jme3-terrain v3.3.2-stable
 |jme3-core v3.3.2-stable
 
 |v4.0.2
-|Heart v6.4.2, jme3-terrain v3.3.2-stable
+|Heart v6.4.2 / jme3-terrain v3.3.2-stable
 |jme3-core v3.3.2-stable
 
 |v4.0.1
-|Heart v6.4.2, jme3-terrain v3.3.2-stable
+|Heart v6.4.2 / jme3-terrain v3.3.2-stable
 |jme3-core v3.3.2-stable
 
 |v4.0.0
-|Heart v6.4.2, jme3-terrain v3.3.2-stable
+|Heart v6.4.2 / jme3-terrain v3.3.2-stable
 |jme3-core v3.3.2-stable
 
 |v1.6.0+for32
-|Heart v5.2.0for32, jme3-terrain v3.2.4-stable
+|Heart v5.2.0for32 / jme3-terrain v3.2.4-stable
 |jme3-core v3.2.4-stable
 
 |===
 
-Additional details about each release
+Additional details about each Minie release
 (such as bugfixes, features, and release dates) can be found in the
 https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[release log].
 
-NOTE: All releases mentioned the table above
+NOTE: All Minie releases in the table above
 are available from the Maven Central Repository.
-However, Minie's release log also describes many releases
+However, the release log also describes many releases
 that haven't been published to Maven Central.
