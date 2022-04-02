@@ -456,20 +456,22 @@ public class CollisionShapeFactory {
      * @param geometry the Geometry on which to base the shape (not null)
      * @param modelRoot the ancestor for which the shape is being generated (not
      * null, unaffected)
+     * @return a new MeshCollisionShape, or null if the Geometry doesn't contain
+     * any triangles
      */
     private static MeshCollisionShape createSingleMeshShape(Geometry geometry,
             Spatial modelRoot) {
         Mesh mesh = geometry.getMesh();
-        if (mesh == null) {
+        if (mesh == null || !MyMesh.hasTriangles(mesh)) {
             return null;
         }
 
         Transform transform = relativeTransform(geometry, modelRoot);
         // TODO recognize AbstractBox, Cylinder, Quad, and Sphere from com.jme3.scene.shape package
-        MeshCollisionShape meshShape = new MeshCollisionShape(mesh);
-        meshShape.setScale(transform.getScale());
+        MeshCollisionShape result = new MeshCollisionShape(mesh);
+        result.setScale(transform.getScale());
 
-        return meshShape;
+        return result;
     }
 
     /**
