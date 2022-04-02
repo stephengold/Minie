@@ -272,6 +272,7 @@ tasks.register('cleanWindows64', Delete) {
 
 tasks.register('copyJavadocToSite') {
     dependsOn 'copyMasterJavadocToSite', \
+     'copy47JavadocToSite', \
      'copy46JavadocToSite', \
      'copy45JavadocToSite', \
      'copy44JavadocToSite', \
@@ -288,6 +289,7 @@ tasks.register('copyMasterJavadocToSite', Copy) {
     from "${buildDir}/docs/javadoc"
     into '../build/site/javadoc/master'
 }
+defineJavadocTasksForRelease('4', '7', '1')
 defineJavadocTasksForRelease('4', '6', '1')
 defineJavadocTasksForRelease('4', '5', '0')
 defineJavadocTasksForRelease('4', '4', '0')
@@ -299,7 +301,7 @@ defineJavadocTasksForRelease('3', '1', '0')
 defineJavadocTasksForRelease('3', '0', '0')
 defineJavadocTasksForRelease('2', '0', '1')
 
-// publishing tasks
+// publishing tasks:
 
 tasks.register('install') {
     dependsOn 'publishMavenPublicationToMavenLocal'
