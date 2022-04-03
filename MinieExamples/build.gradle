@@ -26,9 +26,9 @@ dependencies {
     implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     runtimeOnly testdataCoordinates
 
-    // select one version of LWJGL
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // LWJGL 2.x
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // LWJGL 3.x
+    // select one version of LWJGL:
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
 
     // MinieExamples doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.

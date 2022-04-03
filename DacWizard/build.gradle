@@ -24,9 +24,9 @@ dependencies {
     implementation wesCoordinates
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
 
-    // select one version of LWJGL
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // LWJGL 2.x
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // LWJGL 3.x
+    // select one version of LWJGL:
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
 
     // DacWizard doesn't use jme3-jogg or jme3-plugins.
     // They are included solely to avoid warnings from AssetConfig.
