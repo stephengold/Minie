@@ -208,8 +208,38 @@
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">Related projects</span>
+    <span class="nav-text">Projects using Minie</span>
 <ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/rvandoosselaer/Blocks">Blocks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Garrett">Garrett</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/jme-vehicles">More Advanced Vehicles</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://myworldvw.com">MyWorld</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/tlf30/PhysicsSync">PhysicsSync</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Other related projects</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Acorus">Acorus</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://pybullet.org/wordpress">Bullet</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Heart">Heart</a>
+  </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="https://jmonkeyengine.org">JMonkeyEngine</a>
   </li>
@@ -217,22 +247,10 @@
     <a class="nav-link" href="https://github.com/stephengold/Libbulletjme">Libbulletjme</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="https://pybullet.org/wordpress">Bullet</a>
+    <a class="nav-link" href="https://github.com/Simsilica/SimMath">SimMath</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="https://github.com/kmammou/v-hacd">V-HACD</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="https://github.com/stephengold/jme-vehicles">More Advanced Vehicles</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="https://github.com/stephengold/Garrett">Garrett</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="https://github.com/stephengold/Heart">Heart</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="https://github.com/rvandoosselaer/Blocks">Blocks</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="https://github.com/stephengold/antora-ui-bundle">Website UI bundle</a>
@@ -287,23 +305,42 @@ provides ragdoll physics and inverse kinematics.
 </div>
 <div class="paragraph">
 <p>Configuration of <code>DynamicAnimControl</code> mostly takes place
-before the <code>Control</code> is added to a model <code>Spatial</code>.
-Adding the <code>Control</code> to a <code>Spatial</code> automatically creates the ragdoll,
-including rigid bodies and joints.
-No ragdoll exists before the <code>Control</code> is added to a <code>Spatial</code>,
-and removing a <code>Control</code> from its controlled <code>Spatial</code> destroys the ragdoll.</p>
+before the control is added to a model spatial.
+Adding the control to a spatial automatically creates the ragdoll,
+including rigid bodies and physics joints.
+No ragdoll exists before the control is added to a spatial,
+and removing a control from its controlled spatial destroys the ragdoll.</p>
 </div>
 <div class="paragraph">
-<p>The controlled <code>Spatial</code>
+<p>The controlled spatial
 must include the model&#8217;s <code>SkinningControl</code> or <code>SkeletonControl</code>.
-Usually this is the model&#8217;s root <code>Spatial</code>, but not always.
-If unsure about the model&#8217;s structure, use <code>MySpatial.listAnimationSpatials()</code>.
+Often these controls are found in model&#8217;s root spatial, but not always.
+If unsure about a model&#8217;s structure, use <code>MySpatial.listAnimationSpatials()</code>.
 For a very simple example, see
 <a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloDac.java">HelloDac.java</a>.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In Minie documentation,
+the word <em>skeleton</em> refers to both <code>com.jme3.animation.Skeleton</code> instances
+and <code>com.jme3.anim.Armature</code> instances.
+Similarly, the word <em>bone</em> refers to both <code>com.jme3.animation.Bone</code> instances
+and <code>com.jme3.anim.Joint</code> instances.
+In contexts where "joint" might be ambiguous,
+the phrases <em>physics joint</em> (for <code>com.jme3.bullet.joints.PhysicsJoint</code>)
+and <em>skeleton joint</em> (for `com.jme3.anim.Joint') are used.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>A model&#8217;s ragdoll is composed of rigid bodies joined by physics joints.
-Within the <code>Control</code>, each <code>PhysicsRigidBody</code> is represented by
+Within the control, each <code>PhysicsRigidBody</code> is represented by
 a <code>PhysicsLink</code>, and the links are organized in a tree hierarchy.</p>
 </div>
 <div class="paragraph">
@@ -312,15 +349,15 @@ a <code>PhysicsLink</code>, and the links are organized in a tree hierarchy.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>BoneLink</code>: manages one or more bones in the model’s <code>Skeleton</code>.
+<p><code>BoneLink</code>: manages one or more bones in the model’s skeleton.
 Each <code>BoneLink</code> has a parent link, to which it is jointed.
 Its parent may be another <code>BoneLink</code> or it may be a <code>TorsoLink</code>.</p>
 </li>
 <li>
 <p><code>TorsoLink</code>: is always the root of a link hierarchy,
 so it has no parent link.
-It manages all root bones in the model&#8217;s <code>Skeleton</code>.  It also manages any
-<code>Skeleton</code> bones that aren&#8217;t managed by a <code>BoneLink</code>.</p>
+It manages all root bones in the model&#8217;s skeleton.  It also manages any
+skeleton bones that aren&#8217;t managed by a <code>BoneLink</code>.</p>
 </li>
 <li>
 <p><code>AttachmentLink</code>: manages a non-animated model that&#8217;s
@@ -332,7 +369,7 @@ An <code>AttachmentLink</code> cannot be the parent of a link.</p>
 <div class="paragraph">
 <p>The default constructor for <code>DynamicAnimControl</code> is configured to create a
 ragdoll with no bone links, only a <code>TorsoLink</code>.
-Before adding the <code>Control</code> to a <code>Spatial</code>, specify which bones
+Before adding the control to a spatial, specify which bones
 should be linked, by invoking the <code>link()</code> method for each of those bones.
 The order in which bones are linked doesn&#8217;t matter.</p>
 </div>
@@ -363,13 +400,83 @@ which samples animation tracks to estimate
 the range of motion for each linked bone.</p>
 </div>
 <div class="paragraph">
-<p>You probably don&#8217;t want to link every <code>Bone</code> in the model&#8217;s <code>Skeleton</code>.
+<p>You probably don&#8217;t want to link every bone in the model&#8217;s skeleton.
 For instance, if the model has articulated fingers, you probably want to link
 the hand bones but not the individual finger bones.
-Unlinked bones will be managed by the nearest linked ancestor <code>Bone</code>.
-The <code>TorsoLink</code> will manage any bones for which no ancestor <code>Bone</code> is linked.
+Unlinked bones will be managed by the nearest linked ancestor bone.
+The <code>TorsoLink</code> will manage any bones for which no ancestor bone is linked.
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don&#8217;t share a <code>PhysicsJoint</code>.</p>
+</div>
+<div class="paragraph">
+<p>Once a <code>DynamicAnimControl</code> is added to a spatial,
+the next step is to add it to a <code>PhysicsSpace</code>.
+Then, on the next physics tick,
+the ragdoll automatically becomes <em>"ready for dynamic mode"</em>.</p>
+</div>
+<div class="paragraph">
+<p>Within a ready ragdoll, each link can be independently configured
+as dynamic (controlled by physics) or kinematic (not affected by physics).
+Initially, all links are kinematic.</p>
+</div>
+<div class="paragraph">
+<p>Kinematic mode has 4 <em>submodes</em>.
+The default submode is <code>Animated</code>, which applies bone rotations obtained
+from the model&#8217;s <code>AnimComposer</code> or <code>AnimControl</code>.
+This is the submode you&#8217;d use to play an <code>AnimClip</code> on the ragdoll.</p>
+</div>
+<div class="paragraph">
+<p>The other kinematic submodes are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Frozen</code>, which freezes bone rotations at their current values,</p>
+</li>
+<li>
+<p><code>Bound</code>, which sets bone rotations to their bind positions,</p>
+</li>
+<li>
+<p><code>Amputated</code> which reduces bone scales to simulate amputated limbs.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Dynamic mode includes options for locking rotational axes
+and applying uniform acceleration (to simulate gravity).</p>
+</div>
+<div class="paragraph">
+<p>To make an entire ragdoll go limp, use <code>setRagdollMode()</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>DynamicAnimControl</code> doesn&#8217;t actually have a "ragdoll mode".
+<code>setRagdollMode()</code> is a convenience method
+that puts all links into dynamic mode, applies gravity,
+and releases most attachments.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Since each link can be independently configured,
+its possible for a ragdoll to be part dynamic, part kinematic.
+For instance, you can make an NPC flee in terror (kinematic torso and legs)
+while its injured arm dangles limply (dynamic mode).</p>
+</div>
+<div class="paragraph">
+<p>To make a subtree of a ragdoll go limp, use <code>setDynamicSubtree()</code>.
+You can also configure the links individually using <code>PhysicsLink.setDynamic()</code>.</p>
+</div>
+<div class="paragraph">
+<p>To avoid sudden jumps
+when a link transitions from dynamic mode to kinematic mode,
+there&#8217;s a configurable blending period.</p>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="new6dof.html">New6Dof constraints</a></span>
