@@ -82,3 +82,45 @@ Unlinked bones will be managed by the nearest linked ancestor bone.
 The `TorsoLink` will manage any bones for which no ancestor bone is linked.
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don't share a `PhysicsJoint`.
+
+Once a `DynamicAnimControl` is added to a spatial,
+the next step is to add it to a `PhysicsSpace`.
+Then, on the next physics tick,
+the ragdoll automatically becomes _"ready for dynamic mode"_.
+
+Within a ready ragdoll, each link can be independently configured
+as dynamic (controlled by physics) or kinematic (not affected by physics).
+Initially, all links are kinematic.
+
+Kinematic mode has 4 _submodes_.
+The default submode is `Animated`, which applies bone rotations obtained
+from the model's `AnimComposer` or `AnimControl`.
+This is the submode you'd use to play an `AnimClip` on the ragdoll.
+
+The other kinematic submodes are:
+
+* `Frozen`, which freezes bone rotations at their current values,
+* `Bound`, which sets bone rotations to their bind positions,
+* `Amputated` which reduces bone scales to simulate amputated limbs.
+
+Dynamic mode includes options for locking rotational axes
+and applying uniform acceleration (to simulate gravity).
+
+To make an entire ragdoll go limp, use `setRagdollMode()`.
+
+NOTE:  `DynamicAnimControl` doesn't actually have a "ragdoll mode".
+`setRagdollMode()` is a convenience method
+that puts all links into dynamic mode, applies gravity,
+and releases most attachments.
+
+Since each link can be independently configured,
+its possible for a ragdoll to be part dynamic, part kinematic.
+For instance, you can make an NPC flee in terror (kinematic torso and legs)
+while its injured arm dangles limply (dynamic mode).
+
+To make a subtree of a ragdoll go limp, use `setDynamicSubtree()`.
+You can also configure the links individually using `PhysicsLink.setDynamic()`.
+
+To avoid sudden jumps
+when a link transitions from dynamic mode to kinematic mode,
+there's a configurable blending period.
