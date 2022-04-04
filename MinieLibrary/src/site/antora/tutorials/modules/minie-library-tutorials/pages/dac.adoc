@@ -21,6 +21,15 @@ If unsure about a model's structure, use `MySpatial.listAnimationSpatials()`.
 For a very simple example, see
 {url-tutorial}/HelloDac.java[HelloDac.java].
 
+NOTE:  In Minie documentation,
+the word _skeleton_ refers to both `com.jme3.animation.Skeleton` instances
+and `com.jme3.anim.Armature` instances.
+Similarly, the word _bone_ refers to both `com.jme3.animation.Bone` instances
+and `com.jme3.anim.Joint` instances.
+In contexts where "joint" might be ambiguous,
+the phrases _physics joint_ (for `com.jme3.bullet.joints.PhysicsJoint`)
+and _skeleton joint_ (for `com.jme3.anim.Joint') are used.
+
 A model's ragdoll is composed of rigid bodies joined by physics joints.
 Within the control, each `PhysicsRigidBody` is represented by
 a `PhysicsLink`, and the links are organized in a tree hierarchy.
