@@ -8,39 +8,39 @@ provides ragdoll physics and inverse kinematics.
 `DynamicAnimControl` can also be used to simulate ropes.
 
 Configuration of `DynamicAnimControl` mostly takes place
-before the `Control` is added to a model `Spatial`.
-Adding the `Control` to a `Spatial` automatically creates the ragdoll,
-including rigid bodies and joints.
-No ragdoll exists before the `Control` is added to a `Spatial`,
-and removing a `Control` from its controlled `Spatial` destroys the ragdoll.
+before the control is added to a model spatial.
+Adding the control to a spatial automatically creates the ragdoll,
+including rigid bodies and physics joints.
+No ragdoll exists before the control is added to a spatial,
+and removing a control from its controlled spatial destroys the ragdoll.
 
-The controlled `Spatial`
+The controlled spatial
 must include the model's `SkinningControl` or `SkeletonControl`.
-Usually this is the model's root `Spatial`, but not always.
-If unsure about the model's structure, use `MySpatial.listAnimationSpatials()`.
+Often these controls are found in model's root spatial, but not always.
+If unsure about a model's structure, use `MySpatial.listAnimationSpatials()`.
 For a very simple example, see
 {url-tutorial}/HelloDac.java[HelloDac.java].
 
 A model's ragdoll is composed of rigid bodies joined by physics joints.
-Within the `Control`, each `PhysicsRigidBody` is represented by
+Within the control, each `PhysicsRigidBody` is represented by
 a `PhysicsLink`, and the links are organized in a tree hierarchy.
 
 `PhysicsLink` has 3 subclasses:
 
-* `BoneLink`: manages one or more bones in the model’s `Skeleton`.
+* `BoneLink`: manages one or more bones in the model’s skeleton.
   Each `BoneLink` has a parent link, to which it is jointed.
   Its parent may be another `BoneLink` or it may be a `TorsoLink`.
 * `TorsoLink`: is always the root of a link hierarchy,
   so it has no parent link.
-  It manages all root bones in the model's `Skeleton`.  It also manages any
-  `Skeleton` bones that aren't managed by a `BoneLink`.
+  It manages all root bones in the model's skeleton.  It also manages any
+  skeleton bones that aren't managed by a `BoneLink`.
 * `AttachmentLink`: manages a non-animated model that's
   attached to the main model by means of an attachment `Node`.
   An `AttachmentLink` cannot be the parent of a link.
 
 The default constructor for `DynamicAnimControl` is configured to create a
 ragdoll with no bone links, only a `TorsoLink`.
-Before adding the `Control` to a `Spatial`, specify which bones
+Before adding the control to a spatial, specify which bones
 should be linked, by invoking the `link()` method for each of those bones.
 The order in which bones are linked doesn't matter.
 
@@ -66,10 +66,10 @@ https://github.com/stephengold/Minie/tree/master/DacWizard[the DacWizard applica
 which samples animation tracks to estimate
 the range of motion for each linked bone.
 
-You probably don't want to link every `Bone` in the model's `Skeleton`.
+You probably don't want to link every bone in the model's skeleton.
 For instance, if the model has articulated fingers, you probably want to link
 the hand bones but not the individual finger bones.
-Unlinked bones will be managed by the nearest linked ancestor `Bone`.
-The `TorsoLink` will manage any bones for which no ancestor `Bone` is linked.
+Unlinked bones will be managed by the nearest linked ancestor bone.
+The `TorsoLink` will manage any bones for which no ancestor bone is linked.
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don't share a `PhysicsJoint`.
