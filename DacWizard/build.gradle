@@ -38,6 +38,6 @@ dependencies {
 }
 
 tasks.register('runForceDialog', JavaExec) {
-    args = ['--forceDialog']
+    args '--forceDialog'
     mainClass = mainClassName
 }

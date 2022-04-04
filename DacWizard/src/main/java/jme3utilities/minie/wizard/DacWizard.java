@@ -289,6 +289,10 @@ public class DacWizard extends GuiApplication {
                     showDialog = ShowDialog.Always;
                     break;
 
+                case "--showSettingsDialog":
+                    showDialog = ShowDialog.FirstTime;
+                    break;
+
                 case "-v":
                 case "--verbose":
                     Heart.setLoggingLevels(Level.INFO);
