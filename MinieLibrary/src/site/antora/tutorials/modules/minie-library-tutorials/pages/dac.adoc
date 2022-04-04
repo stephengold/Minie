@@ -44,7 +44,7 @@ a `PhysicsLink`, and the links are organized in a tree hierarchy.
   It manages all root bones in the model's skeleton.  It also manages any
   skeleton bones that aren't managed by a `BoneLink`.
 * `AttachmentLink`: manages a non-animated model that's
-  attached to the main model by means of an attachment `Node`.
+  attached to the main model by means of an attachment node.
   An `AttachmentLink` cannot be the parent of a link.
 
 The default constructor for `DynamicAnimControl` is configured to create a
@@ -89,7 +89,7 @@ Then, on the next physics tick,
 the ragdoll automatically becomes _"ready for dynamic mode"_.
 
 Within a ready ragdoll, each link can be independently configured
-as dynamic (controlled by physics) or kinematic (not affected by physics).
+as _dynamic_ (controlled by physics) or _kinematic_ (unaffected by physics).
 Initially, all links are kinematic.
 
 Kinematic mode has 4 _submodes_.
@@ -100,7 +100,8 @@ This is the submode you'd use to play an `AnimClip` on the ragdoll.
 The other kinematic submodes are:
 
 * `Frozen`, which freezes bone rotations at their current values,
-* `Bound`, which sets bone rotations to their bind positions,
+* `Bound`, which sets bone rotations
+  based on the bind position of the model's skeleton, and
 * `Amputated` which reduces bone scales to simulate amputated limbs.
 
 Dynamic mode includes options for locking rotational axes
