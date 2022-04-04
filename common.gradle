@@ -56,7 +56,6 @@ tasks.withType(JavaExec) { // Java runtime options:
 repositories {
     //mavenLocal() // to find local SNAPSHOTs of libraries
     mavenCentral()
-    maven { url 'https://jcenter.bintray.com' } // for SimMath
 }
 
 // cleanup tasks:
