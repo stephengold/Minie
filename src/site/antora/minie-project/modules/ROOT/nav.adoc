@@ -45,6 +45,7 @@
 ** https://store.jmonkeyengine.org/38308161-c3cf-4e23-8754-528ca8387c11[JmonkeyStore]
 ** https://jitpack.io/#stephengold/Minie[JitPack (unofficial)]
 * Projects using Minie
+** https://www.indiedb.com/games/the-afflicted-forests[The Afflicted Forests]
 ** https://github.com/rvandoosselaer/Blocks[Blocks]
 ** https://github.com/stephengold/Garrett[Garrett]
 ** https://github.com/stephengold/jme-vehicles[More Advanced Vehicles]
