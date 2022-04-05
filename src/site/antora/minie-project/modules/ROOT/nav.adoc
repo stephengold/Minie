@@ -25,7 +25,7 @@
 ** https://github.com/stephengold/Minie/commits/master[Recent commits]
 ** https://github.com/stephengold/Minie/issues[Issue tracker]
 ** https://github.com/stephengold/Minie/issues/new[File an issue]
-* Library APIs
+* Library APIs (javadoc)
 ** https://stephengold.github.io/Minie/javadoc/master[Master branch]
 ** https://stephengold.github.io/Minie/javadoc/v4-7[Version 4.7]
 ** https://stephengold.github.io/Minie/javadoc/v4-6[Version 4.6]
