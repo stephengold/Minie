@@ -93,7 +93,7 @@ The `TorsoLink` will manage any bones for which no ancestor bone is linked.
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
-== Link modes:  dynamic versus kinematic
+== Link modes:  dynamic/kinematic
 
 Once a `DynamicAnimControl` is added to a spatial,
 the next step is to add it to a `PhysicsSpace`.
@@ -138,10 +138,26 @@ To avoid sudden jumps
 when a link transitions from dynamic mode to kinematic mode,
 there's a configurable blending period.
 
+== Canned animations in dynamic mode
+
+(Documentation not yet written)
+
+== Collisions between links
+
+(Documentation not yet written)
+
 == Inverse kinematics
 
 (Documentation not yet written)
 
-== Ropes
+== Collision detection
+
+(Documentation not yet written)
+
+== Contact response
+
+(Documentation not yet written)
+
+== Simulating chain/rope
 
 (Documentation not yet written)
