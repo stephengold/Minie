@@ -51,6 +51,7 @@
 ** https://github.com/stephengold/jme-vehicles[More Advanced Vehicles]
 ** https://myworldvw.com[MyWorld]
 ** https://github.com/tlf30/PhysicsSync[PhysicsSync]
+** https://scenemax3d.com[SceneMax3D]
 * Other related projects
 ** https://github.com/stephengold/Acorus[Acorus]
 ** https://pybullet.org/wordpress[Bullet]
