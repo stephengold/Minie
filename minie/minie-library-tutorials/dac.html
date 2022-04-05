@@ -145,7 +145,7 @@
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">Library APIs</span>
+    <span class="nav-text">Library APIs (javadoc)</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/master">Master branch</a>
@@ -438,7 +438,7 @@ due to collisions between rigid bodies that don&#8217;t share a <code>PhysicsJoi
 </div>
 </div>
 <div class="sect1">
-<h2 id="_link_modes_dynamic_versus_kinematic"><a class="anchor" href="#_link_modes_dynamic_versus_kinematic"></a>Link modes:  dynamic versus kinematic</h2>
+<h2 id="_link_modes_dynamickinematic"><a class="anchor" href="#_link_modes_dynamickinematic"></a>Link modes:  dynamic/kinematic</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Once a <code>DynamicAnimControl</code> is added to a spatial,
@@ -514,7 +514,7 @@ there&#8217;s a configurable blending period.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_inverse_kinematics"><a class="anchor" href="#_inverse_kinematics"></a>Inverse kinematics</h2>
+<h2 id="_canned_animations_in_dynamic_mode"><a class="anchor" href="#_canned_animations_in_dynamic_mode"></a>Canned animations in dynamic mode</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>(Documentation not yet written)</p>
@@ -522,7 +522,113 @@ there&#8217;s a configurable blending period.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ropes"><a class="anchor" href="#_ropes"></a>Ropes</h2>
+<h2 id="_collisions_between_links"><a class="anchor" href="#_collisions_between_links"></a>Collisions between links</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>(Documentation not yet written)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inverse_kinematics"><a class="anchor" href="#_inverse_kinematics"></a>Inverse kinematics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Given a set of rigid bodies joined by rotational constraints,
+the problem of finding joint angles to satisfy additional constraints
+is referred to as an <em>inverse-kinematic</em> (IK) problem.
+For example, you might want to ensure that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a character’s nose stays at a particular location, or</p>
+</li>
+<li>
+<p>a character’s forearm remains horizontal, or</p>
+</li>
+<li>
+<p>a character’s eyes gaze toward a moving vehicle, or</p>
+</li>
+<li>
+<p>the tip of a character&#8217;s thumb touches their ear, or</p>
+</li>
+<li>
+<p>a character’s feet stay within 5 cm of the ground plane, or</p>
+</li>
+<li>
+<p>a character&#8217;s center of gravity stays directly above their left foot, or</p>
+</li>
+<li>
+<p>2 characters hold hands.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the context of a <code>DynamicAnimControl</code> ragdoll, you can solve such problems
+by adding joints and/or controllers to its physics links.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An <em>IK joint</em> (<code>IKJoint</code>) is simply a physics constraint
+that&#8217;s been augmented for use with <code>DynamicAnimControl</code>.</p>
+</li>
+<li>
+<p>A <em>IK controller</em> (<code>IKController</code>) is a software object
+that calculates forces, impulses, and torques
+and applies them to a <code>PhysicsLink</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Both mechanisms work only on dynamic links, not static ones.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For instance, to constrain a character’s nose to be at a particular location,
+you might add a single-ended IK joint to the head&#8217;s <code>BoneLink</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An IK joint that constrains both location and orientation is called a <em>fix</em>.</p>
+</li>
+<li>
+<p>An IK joint that constrains location but not orientation is called a <em>pin</em>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>(More documentation to be written)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_collision_detection"><a class="anchor" href="#_collision_detection"></a>Collision detection</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>(Documentation not yet written)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact_response"><a class="anchor" href="#_contact_response"></a>Contact response</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>(Documentation not yet written)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_simulating_chainrope"><a class="anchor" href="#_simulating_chainrope"></a>Simulating chain/rope</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>(Documentation not yet written)</p>
