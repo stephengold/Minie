@@ -7,6 +7,8 @@ Adding a `DynamicAnimControl` to an animated model
 provides ragdoll physics and inverse kinematics.
 `DynamicAnimControl` can also be used to simulate ropes.
 
+== Adding the control to a spatial
+
 Configuration of `DynamicAnimControl` mostly takes place
 before the control is added to a model spatial.
 Adding the control to a spatial automatically creates the ragdoll,
@@ -30,6 +32,8 @@ In contexts where "joint" might be ambiguous,
 the phrases _physics joint_ (for `com.jme3.bullet.joints.PhysicsJoint`)
 and _skeleton joint_ (for `com.jme3.anim.Joint') are used.
 
+== Physics links
+
 A model's ragdoll is composed of rigid bodies joined by physics joints.
 Within the control, each `PhysicsRigidBody` is represented by
 a `PhysicsLink`, and the links are organized in a tree hierarchy.
@@ -46,6 +50,8 @@ a `PhysicsLink`, and the links are organized in a tree hierarchy.
 * `AttachmentLink`: manages a non-animated model that's
   attached to the main model by means of an attachment node.
   An `AttachmentLink` cannot be the parent of a link.
+
+== Configuring a ragdoll
 
 The default constructor for `DynamicAnimControl` is configured to create a
 ragdoll with no bone links, only a `TorsoLink`.
@@ -83,12 +89,14 @@ The `TorsoLink` will manage any bones for which no ancestor bone is linked.
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
+== Link modes:  dynamic versus kinematic
+
 Once a `DynamicAnimControl` is added to a spatial,
 the next step is to add it to a `PhysicsSpace`.
 Then, on the next physics tick,
 the ragdoll automatically becomes _"ready for dynamic mode"_.
 
-Within a ready ragdoll, each link can be independently configured
+Within such a ragdoll, each link can be independently configured
 as _dynamic_ (controlled by physics) or _kinematic_ (unaffected by physics).
 Initially, all links are kinematic.
 
@@ -115,7 +123,7 @@ that puts all links into dynamic mode, applies gravity,
 and releases most attachments.
 
 Since each link can be independently configured,
-its possible for a ragdoll to be part dynamic, part kinematic.
+it's possible for a ragdoll to be part dynamic, part kinematic.
 For instance, you can make an NPC flee in terror (kinematic torso and legs)
 while its injured arm dangles limply (dynamic mode).
 
@@ -125,3 +133,11 @@ You can also configure the links individually using `PhysicsLink.setDynamic()`.
 To avoid sudden jumps
 when a link transitions from dynamic mode to kinematic mode,
 there's a configurable blending period.
+
+== Inverse kinematics
+
+(Documentation not yet written)
+
+== Ropes
+
+(Documentation not yet written)
