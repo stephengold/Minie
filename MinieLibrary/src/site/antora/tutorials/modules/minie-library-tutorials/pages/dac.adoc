@@ -148,7 +148,37 @@ there's a configurable blending period.
 
 == Inverse kinematics
 
-(Documentation not yet written)
+Given a set of rigid bodies joined by rotational constraints,
+the problem of finding joint angles to satisfy additional constraints
+is referred to as an _inverse-kinematic_ (IK) problem.
+For example, you might want to ensure that:
+
+* a character’s nose stays at a particular location, or
+* a character’s forearm remains horizontal, or
+* a character’s eyes gaze toward a moving vehicle, or
+* the tip of a character's thumb touches their ear, or
+* a character’s feet stay within 5 cm of the ground plane, or
+* a character's center of gravity stays directly above their left foot, or
+* 2 characters hold hands.
+
+In the context of a `DynamicAnimControl` ragdoll, you can solve such problems
+by adding joints and/or controllers to its physics links.
+
+* An _IK joint_ (`IKJoint`) is simply a physics constraint
+  that's been augmented for use with `DynamicAnimControl`.
+* A _IK controller_ (`IKController`) is a software object
+  that calculates forces, impulses, and torques
+  and applies them to a `PhysicsLink`.
+
+NOTE: Both mechanisms work only on dynamic links, not static ones.
+
+For instance, to constrain a character’s nose to be at a particular location,
+you might add a single-ended IK joint to the head's `BoneLink`.
+
+* An IK joint that constrains both location and orientation is called a _fix_.
+* An IK joint that constrains location but not orientation is called a _pin_.
+
+(More documentation to be written)
 
 == Collision detection
 
