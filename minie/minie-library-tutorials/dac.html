@@ -297,12 +297,19 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">An introduction to <code>DynamicAnimControl</code></h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p>The centerpiece of Minie is <code>DynamicAnimControl</code>, a kind of <code>PhysicsControl</code>.
 Adding a <code>DynamicAnimControl</code> to an animated model
 provides ragdoll physics and inverse kinematics.
 <code>DynamicAnimControl</code> can also be used to simulate ropes.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adding_the_control_to_a_spatial"><a class="anchor" href="#_adding_the_control_to_a_spatial"></a>Adding the control to a spatial</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Configuration of <code>DynamicAnimControl</code> mostly takes place
 before the control is added to a model spatial.
@@ -338,6 +345,11 @@ and <em>skeleton joint</em> (for `com.jme3.anim.Joint') are used.
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_physics_links"><a class="anchor" href="#_physics_links"></a>Physics links</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>A model&#8217;s ragdoll is composed of rigid bodies joined by physics joints.
 Within the control, each <code>PhysicsRigidBody</code> is represented by
@@ -361,11 +373,16 @@ skeleton bones that aren&#8217;t managed by a <code>BoneLink</code>.</p>
 </li>
 <li>
 <p><code>AttachmentLink</code>: manages a non-animated model that&#8217;s
-attached to the main model by means of an attachment <code>Node</code>.
+attached to the main model by means of an attachment node.
 An <code>AttachmentLink</code> cannot be the parent of a link.</p>
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuring_a_ragdoll"><a class="anchor" href="#_configuring_a_ragdoll"></a>Configuring a ragdoll</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The default constructor for <code>DynamicAnimControl</code> is configured to create a
 ragdoll with no bone links, only a <code>TorsoLink</code>.
@@ -408,6 +425,11 @@ The <code>TorsoLink</code> will manage any bones for which no ancestor bone is l
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don&#8217;t share a <code>PhysicsJoint</code>.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_link_modes_dynamic_versus_kinematic"><a class="anchor" href="#_link_modes_dynamic_versus_kinematic"></a>Link modes:  dynamic versus kinematic</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Once a <code>DynamicAnimControl</code> is added to a spatial,
 the next step is to add it to a <code>PhysicsSpace</code>.
@@ -415,8 +437,8 @@ Then, on the next physics tick,
 the ragdoll automatically becomes <em>"ready for dynamic mode"</em>.</p>
 </div>
 <div class="paragraph">
-<p>Within a ready ragdoll, each link can be independently configured
-as dynamic (controlled by physics) or kinematic (not affected by physics).
+<p>Within such a ragdoll, each link can be independently configured
+as <em>dynamic</em> (controlled by physics) or <em>kinematic</em> (unaffected by physics).
 Initially, all links are kinematic.</p>
 </div>
 <div class="paragraph">
@@ -434,7 +456,8 @@ This is the submode you&#8217;d use to play an <code>AnimClip</code> on the ragd
 <p><code>Frozen</code>, which freezes bone rotations at their current values,</p>
 </li>
 <li>
-<p><code>Bound</code>, which sets bone rotations to their bind positions,</p>
+<p><code>Bound</code>, which sets bone rotations
+based on the bind position of the model&#8217;s skeleton, and</p>
 </li>
 <li>
 <p><code>Amputated</code> which reduces bone scales to simulate amputated limbs.</p>
@@ -465,7 +488,7 @@ and releases most attachments.
 </div>
 <div class="paragraph">
 <p>Since each link can be independently configured,
-its possible for a ragdoll to be part dynamic, part kinematic.
+it&#8217;s possible for a ragdoll to be part dynamic, part kinematic.
 For instance, you can make an NPC flee in terror (kinematic torso and legs)
 while its injured arm dangles limply (dynamic mode).</p>
 </div>
@@ -477,6 +500,24 @@ You can also configure the links individually using <code>PhysicsLink.setDynamic
 <p>To avoid sudden jumps
 when a link transitions from dynamic mode to kinematic mode,
 there&#8217;s a configurable blending period.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inverse_kinematics"><a class="anchor" href="#_inverse_kinematics"></a>Inverse kinematics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>(Documentation not yet written)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ropes"><a class="anchor" href="#_ropes"></a>Ropes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>(Documentation not yet written)</p>
+</div>
+</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="new6dof.html">New6Dof constraints</a></span>
