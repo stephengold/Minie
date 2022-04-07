@@ -52,6 +52,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
+import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.minie.test.common.PhysicsDemo;
@@ -120,6 +121,7 @@ public class NewtonsCradle
         }
 
         Application application = new NewtonsCradle();
+        String title = applicationName + " " + MyString.join(arguments);
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
 
@@ -127,7 +129,7 @@ public class NewtonsCradle
         settings.setGammaCorrection(true);
         settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
-        settings.setTitle(applicationName); // Customize the window's title bar.
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(true);
 
         application.setSettings(settings);
