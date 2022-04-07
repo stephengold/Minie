@@ -210,15 +210,6 @@ public class NewtonsCradle
         dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
         dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(asToggleVArrows, KeyInput.KEY_K);
-
-        float margin = 10f; // in pixels
-        float width = cam.getWidth() - 2f * margin;
-        float height = cam.getHeight() - (2f * margin + 20f);
-        float leftX = margin;
-        float topY = margin + height;
-        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
-
-        attachHelpNode(rectangle);
     }
 
     /**
