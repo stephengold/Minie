@@ -37,7 +37,6 @@ import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.font.BitmapText;
-import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -126,6 +125,7 @@ public class NewtonsCradle
 
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
+        settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(applicationName); // Customize the window's title bar.
         settings.setVSync(true);
@@ -154,6 +154,8 @@ public class NewtonsCradle
         statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
+
+        super.actionInitializeApplication();
 
         restartSimulation(5);
     }
