@@ -59,7 +59,10 @@ import com.jme3.texture.Texture;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
@@ -341,6 +344,31 @@ abstract public class PhysicsDemo extends AbstractDemo {
         }
 
         return result;
+    }
+
+    /**
+     * Delete the application's stored settings, if any. TODO use Heart library
+     *
+     * @param applicationName the name of the application
+     */
+    public static void deleteStoredSettings(String applicationName) {
+        try {
+            if (Preferences.userRoot().nodeExists(applicationName)) {
+                Preferences.userRoot().node(applicationName).removeNode();
+                loggerP.log(Level.WARNING,
+                        "The stored settings for \"{0}\" were deleted.",
+                        applicationName);
+            } else {
+                loggerP.log(Level.WARNING,
+                        "No stored settings for \"{0}\" were found.",
+                        applicationName);
+            }
+
+        } catch (BackingStoreException exception) {
+            loggerP.log(Level.SEVERE,
+                    "The stored settings for \"{0}\" are inaccessible.",
+                    applicationName);
+        }
     }
 
     /**
