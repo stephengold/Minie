@@ -143,7 +143,7 @@ public class NewtonsCradle
          * Add the status text to the GUI.
          */
         statusText = new BitmapText(guiFont);
-        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
+        statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
 
         restartSimulation(5);
