@@ -51,10 +51,15 @@ import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.post.SceneProcessor;
+import com.jme3.profile.AppProfiler;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.FrameBuffer;
 import com.jme3.texture.Texture;
 import java.util.List;
 import java.util.Map;
@@ -596,6 +601,24 @@ abstract public class PhysicsDemo extends AbstractDemo {
     // AbstractDemo methods
 
     /**
+     * Initialize this application. TODO included in AbstractDemo in the next
+     * Acorus release
+     */
+    @Override
+    public void actionInitializeApplication() {
+        /*
+         * Ensure that size-dependent data get initialized.
+         */
+        int width = cam.getWidth();
+        int height = cam.getHeight();
+        resize(width, height);
+        /*
+         * Ensure that size-dependent data get updated.
+         */
+        addSceneProcessor();
+    }
+
+    /**
      * Process an action that wasn't handled by the active InputMode.
      *
      * @param actionString textual description of the action (not null)
@@ -797,6 +820,55 @@ abstract public class PhysicsDemo extends AbstractDemo {
         body.setPhysicsLocation(new Vector3f(0f, topY, 0f));
 
         addPlatform(body);
+    }
+
+    /**
+     * Add a SceneProcessor to invoke resize().
+     */
+    private void addSceneProcessor() {
+        SceneProcessor sceneProcessor = new SceneProcessor() {
+            @Override
+            public void cleanup() {
+                // do nothing
+            }
+
+            @Override
+            public void initialize(RenderManager rm, ViewPort unused2) {
+                // do nothing
+            }
+
+            @Override
+            public boolean isInitialized() {
+                return true;
+            }
+
+            @Override
+            public void postFrame(FrameBuffer unused) {
+                // do nothing
+            }
+
+            @Override
+            public void postQueue(RenderQueue unused) {
+                // do nothing
+            }
+
+            @Override
+            public void preFrame(float tpf) {
+                // do nothing
+            }
+
+            @Override
+            public void reshape(ViewPort unused, int newWidth, int newHeight) {
+                resize(newWidth, newHeight);
+            }
+
+            @Override
+            public void setProfiler(AppProfiler unused) {
+                // do nothing
+            }
+        };
+
+        guiViewPort.addProcessor(sceneProcessor);
     }
 
     /**
