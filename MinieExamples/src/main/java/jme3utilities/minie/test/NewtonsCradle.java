@@ -103,13 +103,22 @@ public class NewtonsCradle
     /**
      * Main entry point for the NewtonsCradle application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         /*
          * Mute the chatty loggers in certain packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
+
+        for (String arg : arguments) {
+            switch (arg) {
+                case "--deleteOnly":
+                    deleteStoredSettings(applicationName);
+                    System.exit(0);
+                    break;
+            }
+        }
 
         Application application = new NewtonsCradle();
         boolean loadDefaults = true;
