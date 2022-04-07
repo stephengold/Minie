@@ -26,7 +26,6 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.app.Application;
 import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -55,9 +54,13 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.RectSizeLimits;
 import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.ui.CameraOrbitAppState;
+import jme3utilities.ui.DisplaySettings;
+import jme3utilities.ui.DsEditOverlay;
 import jme3utilities.ui.InputMode;
+import jme3utilities.ui.ShowDialog;
 
 /**
  * A PhysicsDemo to simulate Newton's cradle.
@@ -94,6 +97,10 @@ public class NewtonsCradle
      */
     private BulletAppState bulletAppState;
     /**
+     * proposed display settings, for the DsEditOverlay
+     */
+    private static DisplaySettings proposedSettings;
+    /**
      * temporary storage used in updateStatusText()
      */
     final private static Vector3f tmpVector = new Vector3f();
@@ -120,20 +127,38 @@ public class NewtonsCradle
             }
         }
 
-        Application application = new NewtonsCradle();
+        NewtonsCradle application = new NewtonsCradle();
+        RectSizeLimits sizeLimits = new RectSizeLimits(
+                480, 240, // min width, height
+                2_048, 1_080 // max width, height
+        );
         String title = applicationName + " " + MyString.join(arguments);
-        boolean loadDefaults = true;
-        AppSettings settings = new AppSettings(loadDefaults);
+        proposedSettings = new DisplaySettings(application, applicationName,
+                sizeLimits) {
+            @Override
+            protected void applyOverrides(AppSettings settings) {
+                setShowDialog(ShowDialog.Never);
+                settings.setAudioRenderer(null);
+                settings.setRenderer(AppSettings.LWJGL_OPENGL32);
+                if (settings.getSamples() < 1) {
+                    settings.setSamples(4); // anti-aliasing
+                }
+                settings.setResizable(true);
+                settings.setTitle(title); // Customize the window's title bar.
+            }
+        };
 
-        settings.setAudioRenderer(null);
-        settings.setGammaCorrection(true);
-        settings.setResizable(true);
-        settings.setSamples(4); // anti-aliasing
-        settings.setTitle(title); // Customize the window's title bar.
-        settings.setVSync(true);
+        AppSettings appSettings = proposedSettings.initialize();
+        if (appSettings != null) {
+            application.setSettings(appSettings);
+            /*
+             * If the settings dialog should be shown,
+             * it has already been shown by DisplaySettings.initialize().
+             */
+            application.setShowSettings(false);
 
-        application.setSettings(settings);
-        application.start();
+            application.start();
+        }
     }
     // *************************************************************************
     // PhysicsDemo methods
@@ -156,6 +181,10 @@ public class NewtonsCradle
         statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
+
+        AppState dseOverlay = new DsEditOverlay(proposedSettings);
+        boolean success = stateManager.attach(dseOverlay);
+        assert success;
 
         super.actionInitializeApplication();
 
@@ -204,6 +233,8 @@ public class NewtonsCradle
         dim.bind(asDumpSpace, KeyInput.KEY_O);
         dim.bind(asDumpViewport, KeyInput.KEY_P);
 
+        dim.bind(asEditDisplaySettings, KeyInput.KEY_TAB);
+
         dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
@@ -236,6 +267,11 @@ public class NewtonsCradle
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
+                case asEditDisplaySettings:
+                    InputMode editor = InputMode.findMode("dsEdit");
+                    InputMode.suspendAndActivate(editor);
+                    return;
+
                 case "simulate 1":
                     restartSimulation(1);
                     return;
@@ -251,6 +287,21 @@ public class NewtonsCradle
             }
         }
         super.onAction(actionString, ongoing, tpf);
+    }
+
+    /**
+     * Callback invoked after the framebuffer is resized.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        proposedSettings.resize(newWidth, newHeight);
+        DsEditOverlay dseOverlay = stateManager.getState(DsEditOverlay.class);
+        dseOverlay.resize(newWidth, newHeight);
+
+        super.resize(newWidth, newHeight);
     }
 
     /**
