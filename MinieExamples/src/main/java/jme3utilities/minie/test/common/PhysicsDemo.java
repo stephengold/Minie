@@ -98,6 +98,10 @@ abstract public class PhysicsDemo extends AbstractDemo {
     final public static String asDumpScene = "dump scene";
     final public static String asDumpScenes = "dump scenes";
     final public static String asDumpViewport = "dump viewport";
+
+    // TODO included in AbstractDemo in next Acorus relese
+    final public static String asEditDisplaySettings = "edit display settings";
+
     final public static String asToggleAabbs = "toggle aabbs";
     final public static String asToggleCcdSpheres = "toggle ccdSpheres";
     final public static String asToggleDebug = "toggle debug";
