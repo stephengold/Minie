@@ -99,7 +99,7 @@ abstract public class PhysicsDemo extends AbstractDemo {
     final public static String asDumpScenes = "dump scenes";
     final public static String asDumpViewport = "dump viewport";
 
-    // TODO included in AbstractDemo in next Acorus relese
+    // TODO included in AbstractDemo in the next Acorus release
     final public static String asEditDisplaySettings = "edit display settings";
 
     final public static String asToggleAabbs = "toggle aabbs";
@@ -482,6 +482,18 @@ abstract public class PhysicsDemo extends AbstractDemo {
         assert !namedShapes.containsKey(name);
 
         namedShapes.put(name, shape);
+    }
+
+    /**
+     * Callback invoked after the framebuffer is resized. TODO included in
+     * AbstractDemo in the next Acorus release
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    public void resize(int newWidth, int newHeight) {
+        Validate.positive(newWidth, "new width");
+        Validate.positive(newHeight, "new height");
     }
 
     /**
