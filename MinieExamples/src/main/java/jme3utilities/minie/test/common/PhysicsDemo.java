@@ -79,6 +79,8 @@ import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.AbstractDemo;
+import jme3utilities.ui.HelpVersion;
+import jme3utilities.ui.InputMode;
 
 /**
  * An AbstractDemo with additional data and methods to test and/or demonstrate
@@ -499,6 +501,9 @@ abstract public class PhysicsDemo extends AbstractDemo {
     public void resize(int newWidth, int newHeight) {
         Validate.positive(newWidth, "new width");
         Validate.positive(newHeight, "new height");
+
+        InputMode activeMode = InputMode.getActiveMode();
+        updateHelpNodes(activeMode, newWidth, newHeight, HelpVersion.Detailed);
     }
 
     /**
