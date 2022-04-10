@@ -213,14 +213,14 @@ public class ConveyorDemo
         PhysicsCollisionObject beltPco = aIsAConveyorBelt ? pcoA : pcoB;
         int beltIndex = (Integer) beltPco.getApplicationData();
         Vector3f direction = beltDirections[beltIndex - 1];
-        float speed = beltSpeeds[beltIndex - 1];
+        float beltSpeed = beltSpeeds[beltIndex - 1];
 
         // modify its motion and its friction direction:
         if (MyMath.isOdd(beltIndex)) {
-            ManifoldPoints.setContactMotion1(contactPointId, speed);
+            ManifoldPoints.setContactMotion1(contactPointId, beltSpeed);
             ManifoldPoints.setLateralFrictionDir1(contactPointId, direction);
         } else {
-            ManifoldPoints.setContactMotion2(contactPointId, speed);
+            ManifoldPoints.setContactMotion2(contactPointId, beltSpeed);
             ManifoldPoints.setLateralFrictionDir2(contactPointId, direction);
         }
     }
