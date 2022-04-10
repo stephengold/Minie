@@ -13,7 +13,8 @@ Use it to:
 * simulate cloth, rope, and deformable volumes,
   including their interactions with rigid bodies and each other.
 
-Forked from the jme3-bullet library, Minie adds many useful features
+Forked from https://github.com/jMonkeyEngine-Contributions/Jme3Bullet[the jme3-bullet library]
+in 2018, Minie adds many useful features
 while preserving most of the jme3-bullet
 {url-enwiki}/Application_programming_interface[API].
 Most JMonkeyEngine physics examples can use Minie without modification,
