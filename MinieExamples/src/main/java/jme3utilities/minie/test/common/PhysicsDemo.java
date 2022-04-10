@@ -315,6 +315,31 @@ abstract public class PhysicsDemo extends AbstractDemo {
     }
 
     /**
+     * Delete an application's stored settings, if any. TODO use Heart library
+     *
+     * @param applicationName the name of the application
+     */
+    public static void deleteStoredSettings(String applicationName) {
+        try {
+            if (Preferences.userRoot().nodeExists(applicationName)) {
+                Preferences.userRoot().node(applicationName).removeNode();
+                loggerP.log(Level.WARNING,
+                        "The stored settings for \"{0}\" were deleted.",
+                        applicationName);
+            } else {
+                loggerP.log(Level.WARNING,
+                        "No stored settings for \"{0}\" were found.",
+                        applicationName);
+            }
+
+        } catch (BackingStoreException exception) {
+            loggerP.log(Level.SEVERE,
+                    "The stored settings for \"{0}\" are inaccessible.",
+                    applicationName);
+        }
+    }
+
+    /**
      * Describe the current physics debug options, assuming debug is enabled.
      *
      * @return a descriptive string of text (not null, not empty)
@@ -344,31 +369,6 @@ abstract public class PhysicsDemo extends AbstractDemo {
         }
 
         return result;
-    }
-
-    /**
-     * Delete the application's stored settings, if any. TODO use Heart library
-     *
-     * @param applicationName the name of the application
-     */
-    public static void deleteStoredSettings(String applicationName) {
-        try {
-            if (Preferences.userRoot().nodeExists(applicationName)) {
-                Preferences.userRoot().node(applicationName).removeNode();
-                loggerP.log(Level.WARNING,
-                        "The stored settings for \"{0}\" were deleted.",
-                        applicationName);
-            } else {
-                loggerP.log(Level.WARNING,
-                        "No stored settings for \"{0}\" were found.",
-                        applicationName);
-            }
-
-        } catch (BackingStoreException exception) {
-            loggerP.log(Level.SEVERE,
-                    "The stored settings for \"{0}\" are inaccessible.",
-                    applicationName);
-        }
     }
 
     /**
