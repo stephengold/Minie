@@ -29,7 +29,6 @@ package jme3utilities.minie.test;
 import com.jme3.anim.Armature;
 import com.jme3.anim.Joint;
 import com.jme3.anim.SkinningControl;
-import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
@@ -44,6 +43,7 @@ import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RangeOfMotion;
 import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.bullet.joints.Constraint;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -68,17 +68,22 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySkeleton;
+import jme3utilities.MyString;
 import jme3utilities.NameGenerator;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.RectSizeLimits;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.mesh.TubeTreeMesh;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
+import jme3utilities.ui.DisplaySettings;
+import jme3utilities.ui.DsEditOverlay;
 import jme3utilities.ui.InputMode;
+import jme3utilities.ui.ShowDialog;
 
 /**
  * Simulate ropes using DynamicAnimControl.
@@ -124,6 +129,14 @@ public class RopeDemo extends PhysicsDemo {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * proposed display settings (for editing)
+     */
+    private static DisplaySettings proposedSettings;
+    /**
+     * AppState to manage the display-settings editor
+     */
+    private DsEditOverlay dseOverlay;
     /**
      * cross-section radius for ropes (in mesh units)
      */
@@ -207,29 +220,40 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * Main entry point for the RopeDemo application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
-
-        Application application = new RopeDemo();
         /*
-         * Customize the window's title bar.
+         * Process any command-line arguments.
          */
-        boolean loadDefaults = true;
-        AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
+        ShowDialog showDialog = ShowDialog.Never;
+        for (String arg : arguments) {
+            switch (arg) {
+                case "--deleteOnly":
+                    deleteStoredSettings(applicationName);
+                    System.exit(0);
+                    break;
 
-        settings.setAudioRenderer(null);
-        settings.setGammaCorrection(true);
-        settings.setSamples(4); // anti-aliasing
-        settings.setVSync(true);
-        application.setSettings(settings);
+                case "--showSettingsDialog":
+                    showDialog = ShowDialog.FirstTime;
+                    break;
 
-        application.start();
+                case "--verbose":
+                    Heart.setLoggingLevels(Level.INFO);
+                    break;
+
+                default:
+                    logger.log(Level.WARNING,
+                            "Ignored unknown command-line argument {0}",
+                            MyString.quote(arg));
+            }
+        }
+        mainStartup(showDialog, title);
     }
     // *************************************************************************
     // PhysicsDemo methods
@@ -239,6 +263,12 @@ public class RopeDemo extends PhysicsDemo {
      */
     @Override
     public void actionInitializeApplication() {
+        dseOverlay = new DsEditOverlay(proposedSettings);
+        dseOverlay.setBackgroundColor(new ColorRGBA(0.05f, 0f, 0f, 1f));
+        boolean success = stateManager.attach(dseOverlay);
+        assert success;
+        super.actionInitializeApplication();
+
         configureCamera();
         configureDumper();
         generateMaterials();
@@ -270,6 +300,28 @@ public class RopeDemo extends PhysicsDemo {
 
         PhysicsDumper dumper = getDumper();
         dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+    }
+
+    /**
+     * Calculate screen bounds for a detailed help node.
+     *
+     * @param viewPortWidth (in pixels, &gt;0)
+     * @param viewPortHeight (in pixels, &gt;0)
+     * @return a new instance
+     */
+    @Override
+    public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
+        /*
+         * Position help nodes on the right side of the viewport.
+         */
+        float margin = 10f; // in pixels
+        float height = viewPortHeight - (2f * margin);
+        float width = 260f; // in pixels
+        float leftX = viewPortWidth - (width + margin);
+        float topY = margin + height;
+        Rectangle result = new Rectangle(leftX, topY, width, height);
+
+        return result;
     }
 
     /**
@@ -325,6 +377,7 @@ public class RopeDemo extends PhysicsDemo {
         dim.bind(asDumpSpace, KeyInput.KEY_O);
         dim.bind(asDumpViewport, KeyInput.KEY_P);
 
+        dim.bind(asEditDisplaySettings, KeyInput.KEY_TAB);
         dim.bind("go limp", KeyInput.KEY_SPACE);
         dim.bind("pull a pin", KeyInput.KEY_X);
         dim.bind("save", KeyInput.KEY_SEMICOLON);
@@ -358,6 +411,10 @@ public class RopeDemo extends PhysicsDemo {
                     delete();
                     return;
 
+                case asEditDisplaySettings:
+                    activateInputMode("dsEdit");
+                    return;
+
                 case "go limp":
                     goLimp();
                     return;
@@ -382,6 +439,20 @@ public class RopeDemo extends PhysicsDemo {
 
         }
         super.onAction(actionString, ongoing, tpf);
+    }
+
+    /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        dseOverlay.resize(newWidth, newHeight);
+        proposedSettings.resize(newWidth, newHeight);
+
+        super.resize(newWidth, newHeight);
     }
 
     /**
@@ -894,6 +965,49 @@ public class RopeDemo extends PhysicsDemo {
 
         String name = String.format("branch%d.bone%d", branchIndex, stepIndex);
         return name;
+    }
+
+    /**
+     * Initialization performed immediately after parsing the command-line
+     * arguments.
+     *
+     * @param showDialog when to show the JME settings dialog (not null)
+     * @param title for the title bar of the app's window
+     */
+    private static void mainStartup(final ShowDialog showDialog,
+            final String title) {
+        RopeDemo application = new RopeDemo();
+
+        RectSizeLimits sizeLimits = new RectSizeLimits(
+                530, 480, // min width, height
+                2_048, 1_080 // max width, height
+        );
+        proposedSettings = new DisplaySettings(application, applicationName,
+                sizeLimits) {
+            @Override
+            protected void applyOverrides(AppSettings settings) {
+                setShowDialog(showDialog);
+                settings.setAudioRenderer(null);
+                settings.setRenderer(AppSettings.LWJGL_OPENGL32);
+                if (settings.getSamples() < 1) {
+                    settings.setSamples(4); // anti-aliasing
+                }
+                settings.setResizable(true);
+                settings.setTitle(title); // Customize the window's title bar.
+            }
+        };
+        AppSettings appSettings = proposedSettings.initialize();
+        if (appSettings == null) {
+            return;
+        }
+
+        application.setSettings(appSettings);
+        /*
+         * If the settings dialog should be shown,
+         * it has already been shown by DisplaySettings.initialize().
+         */
+        application.setShowSettings(false);
+        application.start();
     }
 
     /**
