@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,7 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.minie.test;
+package jme3utilities.tutorial;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -34,85 +34,56 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.material.Material;
+import com.jme3.material.Materials;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.shape.Box;
-import com.jme3.system.AppSettings;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import jme3utilities.Heart;
-import jme3utilities.MyAsset;
 
 /**
- * A SimpleApplication to test debug visualization in a post ViewPort.
+ * A simple example of debug visualization in a post ViewPort.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestDebugToPost extends SimpleApplication {
-    // *************************************************************************
-    // constants and loggers
-
-    /**
-     * message logger for this class
-     */
-    final public static Logger logger
-            = Logger.getLogger(TestDebugToPost.class.getName());
-    /**
-     * application name (for the title bar of the app's window)
-     */
-    final private static String applicationName
-            = TestDebugToPost.class.getSimpleName();
+public class HelloDebugToPost extends SimpleApplication {
     // *************************************************************************
     // fields
 
     /**
-     * space for physics simulation
+     * PhysicsSpace for simulation
      */
     private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Main entry point for the TestDebugToPost application.
+     * Main entry point for the HelloDebugToPost application.
      *
      * @param ignored array of command-line arguments (not null)
      */
     public static void main(String[] ignored) {
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
-        Heart.setLoggingLevels(Level.WARNING);
-
-        Application application = new TestDebugToPost();
-        /*
-         * Customize the window's title bar.
-         */
-        boolean loadDefaults = true;
-        AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
-        settings.setAudioRenderer(null);
-        application.setSettings(settings);
+        Application application = new HelloDebugToPost();
         application.start();
     }
     // *************************************************************************
     // SimpleApplication methods
 
     /**
-     * Initialize the TestDebugToPost application.
+     * Initialize this application.
      */
     @Override
     public void simpleInitApp() {
-        flyCam.setMoveSpeed(10f);
-        flyCam.setZoomSpeed(10f);
+        configureCamera();
         /*
          * Set up Bullet physics (with debug enabled).
          */
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
+        physicsSpace = bulletAppState.getPhysicsSpace();
         /*
          * Direct debug visuals to a post ViewPort that clears the depth buffer.
          * This prevents z-fighting between the box and its debug visuals,
@@ -122,12 +93,13 @@ public class TestDebugToPost extends SimpleApplication {
         overlay.setClearFlags(false, true, false);
         bulletAppState.setDebugViewPorts(overlay);
 
-        physicsSpace = bulletAppState.getPhysicsSpace();
         addBox();
     }
+    // *************************************************************************
+    // private methods
 
     /**
-     * Add a large, static, gray box to the scene.
+     * Add a large static cube.
      */
     private void addBox() {
         float halfExtent = 1f; // mesh units
@@ -135,8 +107,8 @@ public class TestDebugToPost extends SimpleApplication {
         Geometry geometry = new Geometry("box", mesh);
         rootNode.attachChild(geometry);
 
-        Material boxMaterial
-                = MyAsset.createUnshadedMaterial(assetManager, ColorRGBA.Gray);
+        Material boxMaterial = new Material(assetManager, Materials.UNSHADED);
+        boxMaterial.setColor("Color", ColorRGBA.Gray.clone());
         geometry.setMaterial(boxMaterial);
 
         BoxCollisionShape shape = new BoxCollisionShape(halfExtent);
@@ -144,5 +116,16 @@ public class TestDebugToPost extends SimpleApplication {
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);
         geometry.addControl(boxBody);
         boxBody.setPhysicsSpace(physicsSpace);
+    }
+
+    /**
+     * Configure the camera during startup.
+     */
+    private void configureCamera() {
+        flyCam.setMoveSpeed(10f);
+        flyCam.setZoomSpeed(10f);
+
+        cam.setLocation(new Vector3f(4.4f, 4.8f, 14.8f));
+        cam.setRotation(new Quaternion(-0.0152f, 0.98352f, -0.15f, -0.09974f));
     }
 }
