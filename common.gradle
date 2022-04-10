@@ -61,7 +61,7 @@ repositories {
 // cleanup tasks:
 
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanPDBs', \
-    'cleanSOs', 'cleanWrittenAssets')
+    'cleanSandbox', 'cleanSOs')
 
 tasks.register('cleanDLLs', Delete) { // extracted Windows native libraries
     delete fileTree(dir: '.', include: '*.dll')
@@ -75,9 +75,9 @@ tasks.register('cleanLogs', Delete) { // JVM crash logs
 tasks.register('cleanPDBs', Delete) { // Windows program database files
     delete fileTree(dir: '.', include: '*.pdb')
 }
+tasks.register('cleanSandbox', Delete) { // Acorus output directory
+    delete 'Written Assets'
+}
 tasks.register('cleanSOs', Delete) { // extracted Linux and Android native libraries
     delete fileTree(dir: '.', include: '*.so')
-}
-tasks.register('cleanWrittenAssets', Delete) { // Acorus output directory
-    delete 'Written Assets'
 }
