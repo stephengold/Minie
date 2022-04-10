@@ -74,6 +74,7 @@ import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.AbstractDemo;
+import jme3utilities.ui.InputMode;
 
 /**
  * An AbstractDemo with additional data and methods to test and/or demonstrate
@@ -144,6 +145,22 @@ abstract public class PhysicsDemo extends AbstractDemo {
     public void activateAll() {
         PhysicsSpace space = getPhysicsSpace();
         space.activateAll(true);
+    }
+
+    /**
+     * Activate the named InputMode. TODO included in next Acorus release
+     *
+     * @param shortName the short name of the desired InputMode (not null, mode
+     * must be initialized)
+     */
+    public static void activateInputMode(String shortName) {
+        InputMode desired = InputMode.findMode(shortName);
+        Validate.require(desired != null, "an initialized InputMode");
+
+        InputMode active = InputMode.getActiveMode();
+        if (active != desired) {
+            InputMode.suspendAndActivate(desired);
+        }
     }
 
     /**
