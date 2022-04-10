@@ -43,3 +43,13 @@ processResources.dependsOn(':MinieAssets:models', ':MinieAssets:shapes', ':Minie
 // cleanup tasks:
 
 clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanShapes', ':MinieAssets:cleanTextures')
+
+// tasks to run specific apps:
+
+tasks.register('RopeDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.RopeDemo'
+}
+tasks.register('RopeDemoDeleteSettings', JavaExec) {
+    args '--deleteOnly'
+    mainClass = 'jme3utilities.minie.test.RopeDemo'
+}
