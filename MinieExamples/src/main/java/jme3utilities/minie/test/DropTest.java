@@ -515,10 +515,6 @@ public class DropTest
 
         dim.bind("value+7", KeyInput.KEY_NUMPAD9);
         dim.bind("value-7", KeyInput.KEY_NUMPAD7);
-        /*
-         * The help node can't be created until all hotkeys are bound.
-         */
-        addHelp();
     }
 
     /**
@@ -704,20 +700,6 @@ public class DropTest
         }
 
         return false;
-    }
-
-    /**
-     * Attach a Node to display hotkey help/hints.
-     */
-    private void addHelp() {
-        float margin = 10f; // in pixels
-        float width = 400f; // in pixels
-        float height = cam.getHeight() - (2f * margin + 2f * 20f);
-        float leftX = cam.getWidth() - (width + margin);
-        float topY = margin + height;
-        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
-
-        attachHelpNode(rectangle);
     }
 
     /**

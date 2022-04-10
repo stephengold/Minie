@@ -35,7 +35,6 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.joints.HingeJoint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.objects.PhysicsRigidBody;
-import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.math.ColorRGBA;
@@ -239,11 +238,6 @@ public class JointElasticity extends PhysicsDemo {
         dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
         dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(asToggleVArrows, KeyInput.KEY_K);
-        /*
-         * Build and attach the help node for default mode.
-         * The help node can't be created until all hotkeys are bound.
-         */
-        addHelp();
     }
 
     /**
@@ -315,20 +309,6 @@ public class JointElasticity extends PhysicsDemo {
 
         // Disable sleep (deactivation).
         doorBody.setEnableSleep(false);
-    }
-
-    /**
-     * Attach a Node to display hotkey help/hints.
-     */
-    private void addHelp() {
-        float margin = 10f; // in pixels
-        float width = 250f; // in pixels
-        float height = cam.getHeight() - (2f * margin);
-        float leftX = cam.getWidth() - (width + margin);
-        float topY = margin + height;
-        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
-
-        attachHelpNode(rectangle);
     }
 
     /**

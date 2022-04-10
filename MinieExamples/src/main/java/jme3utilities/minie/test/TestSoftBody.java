@@ -279,6 +279,28 @@ public class TestSoftBody
     }
 
     /**
+     * Calculate screen bounds for a detailed help node.
+     *
+     * @param viewPortWidth (in pixels, &gt;0)
+     * @param viewPortHeight (in pixels, &gt;0)
+     * @return a new instance
+     */
+    @Override
+    public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
+        /*
+         * Position help nodes just below the status lines.
+         */
+        float margin = 10f; // in pixels
+        float width = viewPortWidth - 2f * margin;
+        float height = viewPortHeight - (2f * margin + numStatusLines * 20f);
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle result = new Rectangle(leftX, topY, width, height);
+
+        return result;
+    }
+
+    /**
      * Configure materials during startup.
      */
     @Override
@@ -366,8 +388,6 @@ public class TestSoftBody
         dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
         dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
-
-        addHelp();
     }
 
     /**
@@ -491,20 +511,6 @@ public class TestSoftBody
 
         physicsSpace.addCollisionObject(cylinderBody);
         hiddenObjects.addException(cylinderBody);
-    }
-
-    /**
-     * Attach a Node to display hotkey help/hints.
-     */
-    private void addHelp() {
-        float margin = 10f; // pixels
-        float width = cam.getWidth() - 2f * margin;
-        float height = cam.getHeight() - (2f * margin + numStatusLines * 20f);
-        float leftX = margin;
-        float topY = height + margin;
-        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
-
-        attachHelpNode(rectangle);
     }
 
     /**

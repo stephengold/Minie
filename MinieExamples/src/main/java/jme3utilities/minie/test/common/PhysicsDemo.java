@@ -51,15 +51,10 @@ import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
-import com.jme3.post.SceneProcessor;
-import com.jme3.profile.AppProfiler;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.shape.Box;
-import com.jme3.texture.FrameBuffer;
 import com.jme3.texture.Texture;
 import java.util.List;
 import java.util.Map;
@@ -79,8 +74,6 @@ import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.AbstractDemo;
-import jme3utilities.ui.HelpVersion;
-import jme3utilities.ui.InputMode;
 
 /**
  * An AbstractDemo with additional data and methods to test and/or demonstrate
@@ -105,10 +98,6 @@ abstract public class PhysicsDemo extends AbstractDemo {
     final public static String asDumpScene = "dump scene";
     final public static String asDumpScenes = "dump scenes";
     final public static String asDumpViewport = "dump viewport";
-
-    // TODO included in AbstractDemo in the next Acorus release
-    final public static String asEditDisplaySettings = "edit display settings";
-
     final public static String asToggleAabbs = "toggle aabbs";
     final public static String asToggleCcdSpheres = "toggle ccdSpheres";
     final public static String asToggleDebug = "toggle debug";
@@ -492,21 +481,6 @@ abstract public class PhysicsDemo extends AbstractDemo {
     }
 
     /**
-     * Callback invoked after the framebuffer is resized. TODO included in
-     * AbstractDemo in the next Acorus release
-     *
-     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
-     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
-     */
-    public void resize(int newWidth, int newHeight) {
-        Validate.positive(newWidth, "new width");
-        Validate.positive(newHeight, "new height");
-
-        InputMode activeMode = InputMode.getActiveMode();
-        updateHelpNodes(activeMode, newWidth, newHeight, HelpVersion.Detailed);
-    }
-
-    /**
      * Alter the damping fractions of all rigid bodies in the PhysicsSpace.
      *
      * @param damping the desired fraction (&ge;0, &le;1)
@@ -604,24 +578,6 @@ abstract public class PhysicsDemo extends AbstractDemo {
     abstract protected float maxArrowLength();
     // *************************************************************************
     // AbstractDemo methods
-
-    /**
-     * Initialize this application. TODO included in AbstractDemo in the next
-     * Acorus release
-     */
-    @Override
-    public void actionInitializeApplication() {
-        /*
-         * Ensure that size-dependent data get initialized.
-         */
-        int width = cam.getWidth();
-        int height = cam.getHeight();
-        resize(width, height);
-        /*
-         * Ensure that size-dependent data get updated.
-         */
-        addSceneProcessor();
-    }
 
     /**
      * Process an action that wasn't handled by the active InputMode.
@@ -825,55 +781,6 @@ abstract public class PhysicsDemo extends AbstractDemo {
         body.setPhysicsLocation(new Vector3f(0f, topY, 0f));
 
         addPlatform(body);
-    }
-
-    /**
-     * Add a SceneProcessor to invoke resize().
-     */
-    private void addSceneProcessor() {
-        SceneProcessor sceneProcessor = new SceneProcessor() {
-            @Override
-            public void cleanup() {
-                // do nothing
-            }
-
-            @Override
-            public void initialize(RenderManager rm, ViewPort unused2) {
-                // do nothing
-            }
-
-            @Override
-            public boolean isInitialized() {
-                return true;
-            }
-
-            @Override
-            public void postFrame(FrameBuffer unused) {
-                // do nothing
-            }
-
-            @Override
-            public void postQueue(RenderQueue unused) {
-                // do nothing
-            }
-
-            @Override
-            public void preFrame(float tpf) {
-                // do nothing
-            }
-
-            @Override
-            public void reshape(ViewPort unused, int newWidth, int newHeight) {
-                resize(newWidth, newHeight);
-            }
-
-            @Override
-            public void setProfiler(AppProfiler unused) {
-                // do nothing
-            }
-        };
-
-        guiViewPort.addProcessor(sceneProcessor);
     }
 
     /**

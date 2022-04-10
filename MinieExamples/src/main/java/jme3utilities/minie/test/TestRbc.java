@@ -55,7 +55,6 @@ import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.font.BitmapText;
-import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -376,15 +375,6 @@ public class TestRbc
         dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle view", KeyInput.KEY_SLASH);
-
-        float margin = 10f; // in pixels
-        float width = cam.getWidth() - 2f * margin;
-        float height = cam.getHeight() - (2f * margin + 2f * 20f);
-        float leftX = margin;
-        float topY = margin + height;
-        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
-
-        attachHelpNode(rectangle);
     }
 
     /**

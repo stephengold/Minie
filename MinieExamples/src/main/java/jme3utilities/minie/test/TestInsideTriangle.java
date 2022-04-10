@@ -28,7 +28,6 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.bullet.util.NativeLibrary;
-import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
@@ -156,15 +155,6 @@ public class TestInsideTriangle extends AbstractDemo {
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
         dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind(asToggleWorldAxes, KeyInput.KEY_SPACE);
-
-        float margin = 10f; // in pixels
-        float width = cam.getWidth() - 2f * margin;
-        float height = cam.getHeight() - (2f * margin + 20f);
-        float leftX = margin;
-        float topY = margin + height;
-        Rectangle rectangle = new Rectangle(leftX, topY, width, height);
-
-        attachHelpNode(rectangle);
     }
     // *************************************************************************
     // private methods
