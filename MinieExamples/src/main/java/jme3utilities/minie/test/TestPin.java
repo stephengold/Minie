@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -26,7 +26,6 @@
  */
 package jme3utilities.minie.test;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -40,13 +39,14 @@ import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.Vector3f;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.ui.AbstractDemo;
 
 /**
  * A simple cloth simulation with a pinned node, using a native mesh.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestPin extends SimpleApplication {
+public class TestPin extends AbstractDemo {
     // *************************************************************************
     // new methods exposed
 
@@ -66,7 +66,9 @@ public class TestPin extends SimpleApplication {
      * Initialize this application.
      */
     @Override
-    public void simpleInitApp() {
+    public void actionInitializeApplication() {
+        super.actionInitializeApplication();
+
         // Set up Bullet physics (with debug enabled).
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
@@ -86,7 +88,8 @@ public class TestPin extends SimpleApplication {
         // Generate a subdivided square mesh with alternating diagonals.
         int numLines = 41;
         float lineSpacing = 0.1f; // mesh units
-        IndexedMesh squareGrid = createClothGrid(numLines, numLines, lineSpacing);
+        IndexedMesh squareGrid
+                = createClothGrid(numLines, numLines, lineSpacing);
 
         // Create a soft square and add it to the physics space.
         PhysicsSoftBody cloth = new PhysicsSoftBody();
