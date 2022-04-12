@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,7 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.joints.ConeJoint;
 import com.jme3.bullet.joints.Constraint;
+import com.jme3.bullet.joints.GearJoint;
 import com.jme3.bullet.joints.HingeJoint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.New6Dof;
@@ -77,7 +78,9 @@ public class TestCloneJoints {
     final private static Quaternion qa = new Quaternion(1f, 0f, 0f, 0f);
     final private static Quaternion qb = new Quaternion(0.5f, 0.5f, 0.5f, 0.5f);
     final private static Vector3f va = new Vector3f(-1f, -2f, -3f);
+    final private static Vector3f vaNorm = va.normalize();
     final private static Vector3f vb = new Vector3f(-4f, -5f, -6f);
+    final private static Vector3f vbNorm = vb.normalize();
     // *************************************************************************
     // fields
 
@@ -104,14 +107,15 @@ public class TestCloneJoints {
             newBodies();
 
             cloneCone();
+            cloneGear();
             cloneHinge();
             cloneNew6Dof();
             cloneP2P();
             cloneSix();
-            cloneSpring();
             cloneSlide();
             cloneSoftAngular();
             cloneSoftLinear();
+            cloneSpring();
         }
     }
     // *************************************************************************
@@ -134,6 +138,17 @@ public class TestCloneJoints {
         verifyParameters(seCone, 0f);
         ConeJoint seConeClone = Heart.deepCopy(seCone);
         cloneTest(seCone, seConeClone);
+    }
+
+    /**
+     * GearJoint
+     */
+    private void cloneGear() {
+        GearJoint gear = new GearJoint(rigidA, rigidB, va, vb);
+        setParameters(gear, 0f);
+        verifyParameters(gear, 0f);
+        GearJoint gearClone = Heart.deepCopy(gear);
+        cloneTest(gear, gearClone);
     }
 
     /**
@@ -160,14 +175,15 @@ public class TestCloneJoints {
      */
     private void cloneNew6Dof() {
         New6Dof deNew6 = new New6Dof(rigidA, rigidB, va, vb,
-                qa.toRotationMatrix(), qb.toRotationMatrix(), RotationOrder.XYZ);
+                qa.toRotationMatrix(), qb.toRotationMatrix(),
+                RotationOrder.XYZ);
         setParameters(deNew6, 0f);
         verifyParameters(deNew6, 0f);
         New6Dof deNew6Clone = Heart.deepCopy(deNew6);
         cloneTest(deNew6, deNew6Clone);
 
-        New6Dof seNew6 = new New6Dof(rigidA, vb, va,
-                qb.toRotationMatrix(), qa.toRotationMatrix(), RotationOrder.XYZ);
+        New6Dof seNew6 = new New6Dof(rigidA, vb, va, qb.toRotationMatrix(),
+                qa.toRotationMatrix(), RotationOrder.XYZ);
         setParameters(seNew6, 0f);
         verifyParameters(seNew6, 0f);
         New6Dof seNew6Clone = Heart.deepCopy(seNew6);
@@ -372,16 +388,18 @@ public class TestCloneJoints {
 
         if (joint instanceof ConeJoint) {
             setCone((ConeJoint) joint, b);
+        } else if (joint instanceof GearJoint) {
+            setGear((GearJoint) joint, b);
         } else if (joint instanceof HingeJoint) {
             setHinge((HingeJoint) joint, b);
         } else if (joint instanceof New6Dof) {
             setNew6Dof((New6Dof) joint, b);
         } else if (joint instanceof Point2PointJoint) {
             setP2P((Point2PointJoint) joint, b);
-        } else if (joint instanceof SixDofSpringJoint) {
-            setSpring((SixDofSpringJoint) joint, b);
         } else if (joint instanceof SixDofJoint) {
             setSix((SixDofJoint) joint, b);
+        } else if (joint instanceof SixDofSpringJoint) {
+            setSpring((SixDofSpringJoint) joint, b);
         } else if (joint instanceof SliderJoint) {
             setSlide((SliderJoint) joint, b);
         } else if (joint instanceof SoftAngularJoint) {
@@ -398,6 +416,10 @@ public class TestCloneJoints {
         cone.setAngularOnly(!flag);
 
         cone.setLimit(b + 0.01f, b + 0.02f, b + 0.03f);
+    }
+
+    private void setGear(GearJoint gear, float b) {
+        gear.setRatio(b + 0.01f);
     }
 
     private void setHinge(HingeJoint hinge, float b) {
@@ -574,16 +596,18 @@ public class TestCloneJoints {
 
         if (joint instanceof ConeJoint) {
             verifyCone((ConeJoint) joint, b);
+        } else if (joint instanceof GearJoint) {
+            verifyGear((GearJoint) joint, b);
         } else if (joint instanceof HingeJoint) {
             verifyHinge((HingeJoint) joint, b);
         } else if (joint instanceof New6Dof) {
             verifyNew6Dof((New6Dof) joint, b);
         } else if (joint instanceof Point2PointJoint) {
             verifyP2P((Point2PointJoint) joint, b);
-        } else if (joint instanceof SixDofSpringJoint) {
-            verifySpring((SixDofSpringJoint) joint, b);
         } else if (joint instanceof SixDofJoint) {
             verifySix((SixDofJoint) joint, b);
+        } else if (joint instanceof SixDofSpringJoint) {
+            verifySpring((SixDofSpringJoint) joint, b);
         } else if (joint instanceof SliderJoint) {
             verifySlide((SliderJoint) joint, b);
         } else if (joint instanceof SoftAngularJoint) {
@@ -622,6 +646,20 @@ public class TestCloneJoints {
         Assert.assertEquals(b + 0.01f, cone.getSwingSpan1(), 0f);
         Assert.assertEquals(b + 0.02f, cone.getSwingSpan2(), 0f);
         Assert.assertEquals(b + 0.03f, cone.getTwistSpan(), 0f);
+    }
+
+    private void verifyGear(GearJoint gear, float b) {
+        Vector3f axisA = gear.getAxisA(null);
+        assert axisA.x == vaNorm.x : axisA;
+        assert axisA.y == vaNorm.y : axisA;
+        assert axisA.z == vaNorm.z : axisA;
+
+        Vector3f axisB = gear.getAxisB(null);
+        assert axisB.x == vbNorm.x : axisB;
+        assert axisB.y == vbNorm.y : axisB;
+        assert axisB.z == vbNorm.z : axisB;
+
+        Assert.assertEquals(b + 0.01f, gear.getRatio(), 0f);
     }
 
     private void verifyHinge(HingeJoint hinge, float b) {

@@ -58,6 +58,7 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
+import com.jme3.bullet.joints.GearJoint;
 import com.jme3.bullet.joints.HingeJoint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.New6Dof;
@@ -356,6 +357,10 @@ public class TestDefaults {
 
         // TODO Anchor
         // TODO ConeJoint
+        GearJoint gear = new GearJoint(rigidA, rigidB, new Vector3f(1f, 0f, 0f),
+                new Vector3f(1f, 0f, 0f));
+        testGear(gear, 2);
+
         HingeJoint seHinge = new HingeJoint(rigidA,
                 new Vector3f(), new Vector3f(),
                 new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f), JointEnd.A);
@@ -460,6 +465,13 @@ public class TestDefaults {
                 linkCollider.getPhysicsRotation(null), 0f);
         testPco(linkCollider);
         Assert.assertFalse(linkCollider.isStatic());
+    }
+
+    private void testGear(GearJoint constraint, int numEnds) {
+        Assert.assertEquals(numEnds, constraint.countEnds());
+        testConstraint(constraint);
+
+        Assert.assertEquals(1f, constraint.getRatio(), 0f);
     }
 
     private void testHinge(HingeJoint constraint, int numEnds) {
