@@ -199,10 +199,8 @@ public class BalanceDemo extends PhysicsDemo {
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setAudioRenderer(null);
-        settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
-        settings.setVSync(true);
 
         Application application = new BalanceDemo();
         application.setSettings(settings);

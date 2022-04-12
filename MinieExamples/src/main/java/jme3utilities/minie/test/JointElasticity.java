@@ -146,9 +146,7 @@ public class JointElasticity extends PhysicsDemo {
             logger.warning("Failed to load AppSettings.");
         }
         settings.setAudioRenderer(null);
-        settings.setGammaCorrection(true);
         settings.setTitle(title); // Customize the window's title bar.
-        settings.setVSync(true);
 
         JointElasticity application = new JointElasticity();
         application.setSettings(settings);

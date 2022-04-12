@@ -166,7 +166,6 @@ public class BuoyDemo extends PhysicsDemo {
         settings.setAudioRenderer(null);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
-        settings.setVSync(true);
 
         Application application = new BuoyDemo();
         application.setSettings(settings);
