@@ -65,6 +65,7 @@ import jme3utilities.Heart;
 import jme3utilities.InfluenceUtil;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
+import jme3utilities.MyString;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.math.MyArray;
@@ -186,28 +187,25 @@ public class BalanceDemo extends PhysicsDemo {
     /**
      * Main entry point for the BalanceDemo application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
 
-        Application application = new BalanceDemo();
-        /*
-         * Customize the window's title bar.
-         */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(true);
-        application.setSettings(settings);
 
+        Application application = new BalanceDemo();
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
@@ -249,7 +247,7 @@ public class BalanceDemo extends PhysicsDemo {
     }
 
     /**
-     * Configure the PhysicsDumper.
+     * Configure the PhysicsDumper during startup.
      */
     @Override
     public void configureDumper() {
@@ -293,7 +291,7 @@ public class BalanceDemo extends PhysicsDemo {
     }
 
     /**
-     * Determine the length of debug axis arrows when visible.
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -303,7 +301,8 @@ public class BalanceDemo extends PhysicsDemo {
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {
@@ -344,7 +343,7 @@ public class BalanceDemo extends PhysicsDemo {
     }
 
     /**
-     * Process an action that wasn't handled by the active input mode.
+     * Process an action that wasn't handled by the active InputMode.
      *
      * @param actionString textual description of the action (not null)
      * @param ongoing true if the action is ongoing, otherwise false
@@ -367,6 +366,7 @@ public class BalanceDemo extends PhysicsDemo {
                     toggleSkeleton();
                     return;
             }
+
             String[] words = actionString.split(" ");
             if (words.length == 2 && "load".equals(words[0])) {
                 addModel(words[1]);
@@ -376,6 +376,9 @@ public class BalanceDemo extends PhysicsDemo {
                 return;
             }
         }
+        /*
+         * The action is not handled: forward it to the superclass.
+         */
         super.onAction(actionString, ongoing, tpf);
     }
 

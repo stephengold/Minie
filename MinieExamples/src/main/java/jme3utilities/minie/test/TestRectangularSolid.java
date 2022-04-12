@@ -122,28 +122,25 @@ public class TestRectangularSolid extends PhysicsDemo {
     /**
      * Main entry point for the TestRectangularSolid application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
 
-        Application application = new TestRectangularSolid();
-        /*
-         * Customize the window's title bar.
-         */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(true);
-        application.setSettings(settings);
 
+        Application application = new TestRectangularSolid();
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************

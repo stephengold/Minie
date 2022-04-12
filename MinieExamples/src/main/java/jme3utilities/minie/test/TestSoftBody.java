@@ -85,6 +85,7 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
+import jme3utilities.MyString;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.mesh.ClothGrid;
@@ -98,7 +99,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
 /**
- * Demo/testbed for soft-body physics.
+ * Test/demonstrate soft-body physics.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -210,9 +211,10 @@ public class TestSoftBody
     /**
      * Main entry point for the TestSoftBody application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
@@ -222,20 +224,16 @@ public class TestSoftBody
          */
         BufferUtils.setTrackDirectMemoryEnabled(true);
 
-        Application application = new TestSoftBody();
-        /*
-         * Customize the window's title bar.
-         */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(false);
-        application.setSettings(settings);
 
+        Application application = new TestSoftBody();
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
@@ -301,7 +299,7 @@ public class TestSoftBody
     }
 
     /**
-     * Configure materials during startup.
+     * Initialize the library of named materials during startup.
      */
     @Override
     public void generateMaterials() {
@@ -351,7 +349,7 @@ public class TestSoftBody
     }
 
     /**
-     * Determine the length of debug axis arrows when visible.
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -361,7 +359,8 @@ public class TestSoftBody
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {

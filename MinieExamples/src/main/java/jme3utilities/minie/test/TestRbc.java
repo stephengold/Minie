@@ -87,6 +87,7 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
+import jme3utilities.MyString;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyBuffer;
@@ -200,9 +201,10 @@ public class TestRbc
     /**
      * Main entry point for the TestRbc application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
@@ -218,7 +220,7 @@ public class TestRbc
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
-        settings.setTitle(applicationName); // the window's title bar
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(true);
 
         Application application = new TestRbc();
@@ -321,7 +323,7 @@ public class TestRbc
     }
 
     /**
-     * Determine the length of debug axis arrows (when they're visible).
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -331,8 +333,8 @@ public class TestRbc
     }
 
     /**
-     * Add application-specific hotkey/button bindings and override existing
-     * ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {

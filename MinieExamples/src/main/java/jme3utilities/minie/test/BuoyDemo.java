@@ -67,6 +67,7 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.InfluenceUtil;
 import jme3utilities.MySpatial;
+import jme3utilities.MyString;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
@@ -150,27 +151,24 @@ public class BuoyDemo extends PhysicsDemo {
     /**
      * Main entry point for the BuoyDemo application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
 
-        Application application = new BuoyDemo();
-        /*
-         * Customize the window's title bar.
-         */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
         settings.setAudioRenderer(null);
         settings.setSamples(4); // anti-aliasing
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(true);
-        application.setSettings(settings);
 
+        Application application = new BuoyDemo();
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
@@ -199,7 +197,7 @@ public class BuoyDemo extends PhysicsDemo {
     }
 
     /**
-     * Configure the PhysicsDumper.
+     * Configure the PhysicsDumper during startup.
      */
     @Override
     public void configureDumper() {
@@ -221,7 +219,7 @@ public class BuoyDemo extends PhysicsDemo {
     }
 
     /**
-     * Determine the length of debug axis arrows when visible.
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -231,7 +229,8 @@ public class BuoyDemo extends PhysicsDemo {
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {

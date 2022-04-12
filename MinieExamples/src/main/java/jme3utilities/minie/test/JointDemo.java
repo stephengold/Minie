@@ -59,6 +59,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
+import jme3utilities.MyString;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.PhysicsDemo;
@@ -89,7 +90,7 @@ public class JointDemo extends PhysicsDemo {
     // fields
 
     /**
-     * status displayed in the upper-left corner of the GUI node
+     * text displayed in the upper-left corner of the GUI node
      */
     private BitmapText statusText;
     /**
@@ -122,28 +123,25 @@ public class JointDemo extends PhysicsDemo {
     /**
      * Main entry point for the JointDemo application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
 
-        Application application = new JointDemo();
-        /*
-         * Customize the window's title bar.
-         */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(true);
-        application.setSettings(settings);
 
+        Application application = new JointDemo();
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
@@ -220,7 +218,7 @@ public class JointDemo extends PhysicsDemo {
     }
 
     /**
-     * Determine the length of physics-debug arrows when visible.
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -230,7 +228,8 @@ public class JointDemo extends PhysicsDemo {
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {
@@ -450,7 +449,7 @@ public class JointDemo extends PhysicsDemo {
     }
 
     /**
-     * Toggle solid mesh rendering on/off.
+     * Toggle mesh rendering on/off.
      */
     private void toggleMeshes() {
         Spatial.CullHint hint = meshesNode.getLocalCullHint();

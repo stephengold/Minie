@@ -46,6 +46,7 @@ import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import jme3utilities.Heart;
 import jme3utilities.MyCamera;
+import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -128,9 +129,10 @@ public class JointElasticity extends PhysicsDemo {
     /**
      * Main entry point for the JointElasticity application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
@@ -145,7 +147,7 @@ public class JointElasticity extends PhysicsDemo {
         }
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
-        settings.setTitle(applicationName); // Customize the window's title bar.
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(true);
 
         JointElasticity application = new JointElasticity();
@@ -200,7 +202,7 @@ public class JointElasticity extends PhysicsDemo {
     }
 
     /**
-     * Determine the length of debug axis arrows (when they're visible).
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -210,7 +212,8 @@ public class JointElasticity extends PhysicsDemo {
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {
@@ -332,7 +335,7 @@ public class JointElasticity extends PhysicsDemo {
     }
 
     /**
-     * Create and configure a new PhysicsSpace.
+     * Configure physics during startup.
      */
     private void configurePhysics() {
         bulletAppState = new BulletAppState();

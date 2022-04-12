@@ -53,6 +53,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyCamera;
+import jme3utilities.MyString;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
@@ -98,28 +99,25 @@ public class TestSoftBodyControl
     /**
      * Main entry point for the TestSoftBodyControl application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
         Heart.setLoggingLevels(Level.WARNING);
 
-        Application application = new TestSoftBodyControl();
-        /*
-         * Customize the window's title bar.
-         */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(false);
-        application.setSettings(settings);
 
+        Application application = new TestSoftBodyControl();
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
@@ -152,7 +150,6 @@ public class TestSoftBodyControl
     @Override
     public void configureDumper() {
         PhysicsDumper dumper = getDumper();
-
         dumper.setEnabled(DumpFlags.MatParams, true);
         dumper.setEnabled(DumpFlags.ShadowModes, true);
         dumper.setEnabled(DumpFlags.Transforms, true);
@@ -170,7 +167,7 @@ public class TestSoftBodyControl
     }
 
     /**
-     * Determine the length of debug axis arrows when visible.
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -180,7 +177,8 @@ public class TestSoftBodyControl
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {
@@ -240,7 +238,7 @@ public class TestSoftBodyControl
     // private methods
 
     /**
-     * Add lighting to the specified scene.
+     * Add lighting and shadows to the specified scene.
      *
      * @param rootSpatial which scene (not null)
      * @param shadowFlag if true, add a shadow renderer to the default viewport
@@ -347,7 +345,7 @@ public class TestSoftBodyControl
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        CollisionShape.setDefaultMargin(0.005f);
+        CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
         bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);

@@ -37,7 +37,9 @@ import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.math.Vector3f;
+import com.jme3.system.AppSettings;
 import jme3utilities.MyMesh;
+import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.ui.AbstractDemo;
 
@@ -48,19 +50,32 @@ import jme3utilities.ui.AbstractDemo;
  */
 public class TestPin extends AbstractDemo {
     // *************************************************************************
+    // constants and loggers
+
+    /**
+     * application name (for the title bar of the app's window)
+     */
+    final private static String applicationName = TestPin.class.getSimpleName();
+    // *************************************************************************
     // new methods exposed
 
     /**
      * Main entry point for the TestPin application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
+        settings.setTitle(title); // Customize the window's title bar.
+
         TestPin application = new TestPin();
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
-    // SimpleApplication methods
+    // AbstractDemo methods
 
     /**
      * Initialize this application.

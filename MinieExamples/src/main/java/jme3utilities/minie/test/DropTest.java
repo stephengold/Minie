@@ -46,7 +46,6 @@ import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
-import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -78,6 +77,7 @@ import java.util.prefs.BackingStoreException;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.MyString;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.mesh.ClothHexagon;
@@ -175,9 +175,10 @@ public class DropTest
     /**
      * Main entry point for the DropTest application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
@@ -197,7 +198,7 @@ public class DropTest
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(4); // anti-aliasing
-        settings.setTitle(applicationName); // the window's title bar
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(true);
 
         Application application = new DropTest();
@@ -455,7 +456,7 @@ public class DropTest
     }
 
     /**
-     * Determine the length of debug axis arrows (when they're visible).
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -465,8 +466,8 @@ public class DropTest
     }
 
     /**
-     * Add application-specific hotkey/button bindings and override existing
-     * ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {
@@ -783,7 +784,7 @@ public class DropTest
     }
 
     /**
-     * Create and configure a new PhysicsSpace.
+     * Configure physics during startup.
      */
     private void configurePhysics() {
         DebugShapeFactory.setIndexBuffers(200);

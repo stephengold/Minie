@@ -56,6 +56,7 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
+import jme3utilities.MyString;
 import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -83,11 +84,12 @@ public class TestMultiBody extends PhysicsDemo {
     // fields
 
     /**
-     * text displayed in the upper-left corner of the GUI node
+     * lines of text displayed in the upper-left corner of the GUI node ([0] is
+     * the top line)
      */
     final private BitmapText[] statusLines = new BitmapText[1];
     /**
-     * AppState to manage the MultiBodySpace
+     * AppState to manage the PhysicsSpace
      */
     private MultiBodyAppState bulletAppState;
     /**
@@ -100,9 +102,10 @@ public class TestMultiBody extends PhysicsDemo {
     /**
      * Main entry point for the TestMultiBody application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
+        String title = applicationName + " " + MyString.join(arguments);
         /*
          * Mute the chatty loggers in certain packages.
          */
@@ -112,20 +115,16 @@ public class TestMultiBody extends PhysicsDemo {
          */
         BufferUtils.setTrackDirectMemoryEnabled(true);
 
-        Application application = new TestMultiBody();
-        /*
-         * Customize the window's title bar.
-         */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setTitle(applicationName);
-
         settings.setAudioRenderer(null);
         settings.setGammaCorrection(true);
         settings.setSamples(16); // anti-aliasing
+        settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(false);
-        application.setSettings(settings);
 
+        Application application = new TestMultiBody();
+        application.setSettings(settings);
         application.start();
     }
     // *************************************************************************
@@ -156,7 +155,7 @@ public class TestMultiBody extends PhysicsDemo {
     }
 
     /**
-     * Configure materials during startup.
+     * Initialize the library of named materials during startup.
      */
     @Override
     public void generateMaterials() {
@@ -177,7 +176,7 @@ public class TestMultiBody extends PhysicsDemo {
     }
 
     /**
-     * Determine the length of debug axis arrows when visible.
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -187,7 +186,8 @@ public class TestMultiBody extends PhysicsDemo {
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {
