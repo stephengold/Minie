@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,8 +52,8 @@ import jme3utilities.Validate;
  * <li>A double-ended Constraint connects 2 rigid bodies together in the same
  * PhysicsSpace. One or both of the bodies must be dynamic.</li>
  * </ul>
- * Subclasses include: ConeJoint, HingeJoint, New6Dof, Point2PointJoint,
- * SixDofJoint, SixDofSpringJoint, and SliderJoint.
+ * Subclasses include: ConeJoint, GearJoint, HingeJoint, New6Dof,
+ * Point2PointJoint, SixDofJoint, SixDofSpringJoint, and SliderJoint.
  *
  * @author Stephen Gold sgold@sonic.net
  *
