@@ -130,14 +130,6 @@ public class RopeDemo extends PhysicsDemo {
     // constants and loggers
 
     /**
-     * proposed display settings (for editing)
-     */
-    private static DisplaySettings proposedSettings;
-    /**
-     * AppState to manage the display-settings editor
-     */
-    private DsEditOverlay dseOverlay;
-    /**
      * cross-section radius for ropes (in mesh units)
      */
     final private static float ropeRadius = 0.4f;
@@ -202,6 +194,14 @@ public class RopeDemo extends PhysicsDemo {
      * shapes of the ropes, in order of creation
      */
     final private Deque<RopeShape> shapes = new ArrayDeque<>(12);
+    /**
+     * proposed display settings (for editing)
+     */
+    private static DisplaySettings proposedSettings;
+    /**
+     * AppState to manage the display-settings editor
+     */
+    private DsEditOverlay dseOverlay;
     /**
      * generate names for rope geometries
      */
@@ -268,6 +268,10 @@ public class RopeDemo extends PhysicsDemo {
         boolean success = stateManager.attach(dseOverlay);
         assert success;
         super.actionInitializeApplication();
+        /*
+         * Hide the render-statistics overlay.
+         */
+        stateManager.getState(StatsAppState.class).toggleStats();
 
         configureCamera();
         configureDumper();
@@ -278,10 +282,6 @@ public class RopeDemo extends PhysicsDemo {
         viewPort.setBackgroundColor(skyColor);
 
         addLighting();
-        /*
-         * Hide the render-statistics overlay.
-         */
-        stateManager.getState(StatsAppState.class).toggleStats();
 
         float halfExtent = 650f;
         float topY = 0f;
