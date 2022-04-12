@@ -53,3 +53,6 @@ tasks.register('RopeDemoDeleteSettings', JavaExec) {
     args '--deleteOnly'
     mainClass = 'jme3utilities.minie.test.RopeDemo'
 }
+tasks.register('TestGearJoint', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestGearJoint'
+}
