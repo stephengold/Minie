@@ -89,7 +89,7 @@ public class NewtonsCradle
     // fields
 
     /**
-     * status displayed in the upper-left corner of the GUI node
+     * text displayed in the upper-left corner of the GUI node
      */
     private BitmapText statusText;
     /**
@@ -192,7 +192,7 @@ public class NewtonsCradle
     }
 
     /**
-     * Initialize materials during startup.
+     * Initialize the library of named materials during startup.
      */
     @Override
     public void generateMaterials() {
@@ -214,7 +214,7 @@ public class NewtonsCradle
     }
 
     /**
-     * Determine the length of debug axis arrows when visible.
+     * Determine the length of debug axis arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -224,7 +224,8 @@ public class NewtonsCradle
     }
 
     /**
-     * Add application-specific hotkey bindings and override existing ones.
+     * Add application-specific hotkey bindings (and override existing ones, if
+     * necessary).
      */
     @Override
     public void moreDefaultBindings() {
