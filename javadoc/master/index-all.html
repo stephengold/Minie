@@ -1467,6 +1467,12 @@ loadScripts(document, 'script');</script>
  shallow-cloned Constraint into a deep-cloned one, using the specified
  Cloner and original to resolve copied fields.</div>
 </dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Callback from <code>Cloner</code> to convert this
+ shallow-cloned joint into a deep-cloned one, using the specified Cloner
+ and original to resolve copied fields.</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/HingeJoint.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
 <div class="block">Callback from <code>Cloner</code> to convert this
@@ -3359,6 +3365,23 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:G">G</h2>
 <dl class="index">
+<dt><a href="com/jme3/bullet/joints/GearJoint.html" class="type-name-link" title="class in com.jme3.bullet.joints">GearJoint</a> - Class in <a href="com/jme3/bullet/joints/package-summary.html">com.jme3.bullet.joints</a></dt>
+<dd>
+<div class="block">A joint that couples the angular velocities of two bodies, based on Bullet's
+ btGearConstraint.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#%3Cinit%3E()" class="member-name-link">GearJoint()</a> - Constructor for class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#%3Cinit%3E(com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">GearJoint(PhysicsRigidBody, PhysicsRigidBody, Vector3f, Vector3f)</a> - Constructor for class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Instantiate a double-ended GearJoint with a 1:1 ratio.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#%3Cinit%3E(com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.math.Vector3f,com.jme3.math.Vector3f,float)" class="member-name-link">GearJoint(PhysicsRigidBody, PhysicsRigidBody, Vector3f, Vector3f, float)</a> - Constructor for class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Instantiate a double-ended GearJoint with the specified gear ratio.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#generateBendingConstraints(int,com.jme3.bullet.objects.infos.SoftBodyMaterial)" class="member-name-link">generateBendingConstraints(int, SoftBodyMaterial)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
 <div class="block">Generate bending constraints based on hops in the adjacency graph.</div>
@@ -3592,6 +3615,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/joints/NewHinge.html#getAxis2(com.jme3.math.Vector3f)" class="member-name-link">getAxis2(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
 <dd>
 <div class="block">Determine the direction of axis2.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#getAxisA(com.jme3.math.Vector3f)" class="member-name-link">getAxisA(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Copy A body's axis of rotation.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#getAxisB(com.jme3.math.Vector3f)" class="member-name-link">getAxisB(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Copy the B body's axis of rotation.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/VehicleWheel.html#getAxle(com.jme3.math.Vector3f)" class="member-name-link">getAxle(Vector3f)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></dt>
 <dd>
@@ -4836,6 +4867,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/MultiSphere.html#getRadius(int)" class="member-name-link">getRadius(int)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MultiSphere.html" title="class in com.jme3.bullet.collision.shapes">MultiSphere</a></dt>
 <dd>
 <div class="block">Read the radius of the indexed sphere.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#getRatio()" class="member-name-link">getRatio()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Get the gear ratio.</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#getRayTestFlags()" class="member-name-link">getRayTestFlags()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
@@ -6267,6 +6302,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create a shallow clone for the JME cloner.</div>
 </dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#jmeClone()" class="member-name-link">jmeClone()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Create a shallow clone for the JME cloner.</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/HingeJoint.html#jmeClone()" class="member-name-link">jmeClone()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
 <div class="block">Create a shallow clone for the JME cloner.</div>
@@ -7003,6 +7042,10 @@ loadScripts(document, 'script');</script>
 <div class="block">message logger for this class</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/ConeJoint.html#logger2" class="member-name-link">logger2</a> - Static variable in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/ConeJoint.html" title="class in com.jme3.bullet.joints">ConeJoint</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#logger2" class="member-name-link">logger2</a> - Static variable in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
@@ -8508,6 +8551,11 @@ loadScripts(document, 'script');</script>
 <div class="block">De-serialize this Constraint from the specified importer, for example
  when loading from a J3O file.</div>
 </dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">De-serialize this joint from the specified importer, for example when
+ loading from a J3O file.</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/HingeJoint.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
 <div class="block">De-serialize this joint from the specified importer, for example when
@@ -9257,9 +9305,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter the joint axis.</div>
 </dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#setAxisA(com.jme3.math.Vector3f)" class="member-name-link">setAxisA(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Alter the A body's axis of rotation.</div>
+</dd>
 <dt><a href="com/jme3/bullet/debug/DebugConfiguration.html#setAxisArrowLength(float)" class="member-name-link">setAxisArrowLength(float)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/DebugConfiguration.html" title="class in com.jme3.bullet.debug">DebugConfiguration</a></dt>
 <dd>
 <div class="block">Alter the length of axis arrows.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#setAxisB(com.jme3.math.Vector3f)" class="member-name-link">setAxisB(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Alter the B body's axis of rotation.</div>
 </dd>
 <dt><a href="com/jme3/bullet/debug/DebugConfiguration.html#setAxisLineWidth(float)" class="member-name-link">setAxisLineWidth(float)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/DebugConfiguration.html" title="class in com.jme3.bullet.debug">DebugConfiguration</a></dt>
 <dd>
@@ -10628,6 +10684,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/animation/TorsoLink.html#setRagdollMode()" class="member-name-link">setRagdollMode()</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/TorsoLink.html" title="class in com.jme3.bullet.animation">TorsoLink</a></dt>
 <dd>
 <div class="block">Immediately put this link into ragdoll mode.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#setRatio(float)" class="member-name-link">setRatio(float)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Alter the joint's gear ratio.</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#setRayTestFlags(int)" class="member-name-link">setRayTestFlags(int)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
@@ -12504,6 +12564,11 @@ the order they are declared.</div>
 <dd>
 <div class="block">Serialize this Constraint to the specified exporter, for example when
  saving to a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/joints/GearJoint.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/GearJoint.html" title="class in com.jme3.bullet.joints">GearJoint</a></dt>
+<dd>
+<div class="block">Serialize this joint to the specified exporter, for example when saving
+ to a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/HingeJoint.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
