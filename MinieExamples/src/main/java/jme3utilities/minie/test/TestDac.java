@@ -52,6 +52,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.xml.XMLExporter;
 import com.jme3.font.BitmapText;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -281,6 +282,28 @@ public class TestDac extends PhysicsDemo {
 
         PhysicsDumper dumper = getDumper();
         dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+    }
+
+    /**
+     * Calculate screen bounds for the detailed help node.
+     *
+     * @param viewPortWidth (in pixels, &gt;0)
+     * @param viewPortHeight (in pixels, &gt;0)
+     * @return a new instance
+     */
+    @Override
+    public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
+        /*
+         * Position help nodes below the status.
+         */
+        float margin = 10f; // in pixels
+        float leftX = margin;
+        float topY = viewPortHeight - 20f - margin;
+        float width = viewPortWidth - leftX - margin;
+        float height = topY - margin;
+        Rectangle result = new Rectangle(leftX, topY, width, height);
+
+        return result;
     }
 
     /**

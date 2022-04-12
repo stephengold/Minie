@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.app.StatsAppState;
 import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -46,6 +47,7 @@ import com.jme3.bullet.objects.infos.ConfigFlag;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -263,6 +265,10 @@ public class DropTest
         generateMaterials();
         configurePhysics();
         generateShapes();
+        /*
+         * Hide the render-statistics overlay.
+         */
+        stateManager.getState(StatsAppState.class).toggleStats();
 
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
@@ -307,6 +313,28 @@ public class DropTest
             default:
                 super.addPlatform(platformName, topY);
         }
+    }
+
+    /**
+     * Calculate screen bounds for the detailed help node.
+     *
+     * @param viewPortWidth (in pixels, &gt;0)
+     * @param viewPortHeight (in pixels, &gt;0)
+     * @return a new instance
+     */
+    @Override
+    public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
+        /*
+         * Position help nodes below the status.
+         */
+        float margin = 10f; // in pixels
+        float leftX = margin;
+        float topY = viewPortHeight - 160f - margin;
+        float width = viewPortWidth - leftX - margin;
+        float height = topY - margin;
+        Rectangle result = new Rectangle(leftX, topY, width, height);
+
+        return result;
     }
 
     /**

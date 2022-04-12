@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
+import com.jme3.app.StatsAppState;
 import com.jme3.app.state.AppState;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.BulletAppState;
@@ -45,6 +46,7 @@ import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.util.DebugShapeFactory;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -231,6 +233,10 @@ public class TargetDemo
         generateMaterials();
         configurePhysics();
         generateShapes();
+        /*
+         * Hide the render-statistics overlay.
+         */
+        stateManager.getState(StatsAppState.class).toggleStats();
 
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
@@ -243,6 +249,28 @@ public class TargetDemo
         renderer.setDefaultAnisotropicFilter(degree);
 
         setUpScenario();
+    }
+
+    /**
+     * Calculate screen bounds for the detailed help node.
+     *
+     * @param viewPortWidth (in pixels, &gt;0)
+     * @param viewPortHeight (in pixels, &gt;0)
+     * @return a new instance
+     */
+    @Override
+    public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
+        /*
+         * Position help nodes below the status.
+         */
+        float margin = 10f; // in pixels
+        float leftX = margin;
+        float topY = viewPortHeight - 220f - margin;
+        float width = viewPortWidth - leftX - margin;
+        float height = topY - margin;
+        Rectangle result = new Rectangle(leftX, topY, width, height);
+
+        return result;
     }
 
     /**
@@ -292,7 +320,7 @@ public class TargetDemo
     }
 
     /**
-     * Determine the length of debug axis arrows (when they're visible).
+     * Determine the length of physics-debug arrows (when they're visible).
      *
      * @return the desired length (in physics-space units, &ge;0)
      */
@@ -489,7 +517,7 @@ public class TargetDemo
         flyCam.setZoomSpeed(10f);
 
         cam.setLocation(new Vector3f(0f, platformTopY + 20f, 40f));
-        cam.setRotation(new Quaternion(0f, 0.9649f, -0.263f, 0f));
+        cam.setRotation(new Quaternion(-0.002f, 0.991408f, -0.1295f, 0.0184f));
 
         AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");

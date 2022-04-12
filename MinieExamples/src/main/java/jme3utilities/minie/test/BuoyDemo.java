@@ -40,6 +40,7 @@ import com.jme3.bullet.animation.MassHeuristic;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.ShapeHeuristic;
+import com.jme3.font.Rectangle;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.light.AmbientLight;
@@ -205,6 +206,28 @@ public class BuoyDemo extends PhysicsDemo {
 
         PhysicsDumper dumper = getDumper();
         dumper.setEnabled(DumpFlags.JointsInSpaces, true);
+    }
+
+    /**
+     * Calculate screen bounds for the detailed help node.
+     *
+     * @param viewPortWidth (in pixels, &gt;0)
+     * @param viewPortHeight (in pixels, &gt;0)
+     * @return a new instance
+     */
+    @Override
+    public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
+        /*
+         * Position help nodes along the top edge of the viewport.
+         */
+        float margin = 10f; // in pixels
+        float width = viewPortWidth - 2f * margin;
+        float height = viewPortHeight - 2f * margin;
+        float leftX = margin;
+        float topY = margin + height;
+        Rectangle result = new Rectangle(leftX, topY, width, height);
+
+        return result;
     }
 
     /**
