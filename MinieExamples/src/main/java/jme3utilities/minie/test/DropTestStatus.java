@@ -310,6 +310,21 @@ public class DropTestStatus extends SimpleAppState {
     }
 
     /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    void resize(int newWidth, int newHeight) {
+        if (isInitialized()) {
+            for (int lineIndex = 0; lineIndex < numStatusLines; ++lineIndex) {
+                float y = newHeight - 20f * lineIndex;
+                statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
+            }
+        }
+    }
+
+    /**
      * Determine the selected restitution fraction for all rigid bodies.
      *
      * @return the fraction (&ge;0, &le;1)

@@ -219,6 +219,7 @@ public class TestRbc
             logger.warning("Failed to load AppSettings.");
         }
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
 
@@ -234,6 +235,9 @@ public class TestRbc
      */
     @Override
     public void actionInitializeApplication() {
+        addStatusLines();
+        super.actionInitializeApplication();
+
         MinieTestTerrains.initialize(assetManager);
         assert MyArray.isSorted(testNames);
 
@@ -248,7 +252,6 @@ public class TestRbc
         viewPort.setBackgroundColor(skyColor);
 
         addLighting(rootNode);
-        addStatusLines();
 
         float length = 0.8f;
         attachWorldAxes(length);
@@ -474,6 +477,22 @@ public class TestRbc
             }
         }
         super.onAction(actionString, ongoing, tpf);
+    }
+
+    /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
+            float y = newHeight - 20f * lineIndex;
+            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
+        }
+
+        super.resize(newWidth, newHeight);
     }
 
     /**
@@ -1030,8 +1049,6 @@ public class TestRbc
     private void addStatusLines() {
         for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
             statusLines[lineIndex] = new BitmapText(guiFont);
-            float y = cam.getHeight() - 20f * lineIndex;
-            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
             guiNode.attachChild(statusLines[lineIndex]);
         }
     }

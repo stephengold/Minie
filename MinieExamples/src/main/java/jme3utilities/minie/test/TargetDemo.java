@@ -136,7 +136,6 @@ public class TargetDemo
      */
     int countActive() {
         int result = 0;
-
         Collection<PhysicsRigidBody> rigidBodies
                 = getPhysicsSpace().getRigidBodyList();
         for (PhysicsRigidBody rigidBody : rigidBodies) {
@@ -167,6 +166,7 @@ public class TargetDemo
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
 
@@ -225,6 +225,8 @@ public class TargetDemo
         status = new TargetDemoStatus();
         boolean success = stateManager.attach(status);
         assert success;
+
+        super.actionInitializeApplication();
 
         configureCamera();
         configureDumper();
@@ -375,7 +377,7 @@ public class TargetDemo
     }
 
     /**
-     * Process an action that wasn't handled by the active input mode.
+     * Process an action that wasn't handled by the active InputMode.
      *
      * @param actionString textual description of the action (not null)
      * @param ongoing true if the action is ongoing, otherwise false
@@ -428,6 +430,9 @@ public class TargetDemo
                     return;
             }
         }
+        /*
+         * The action is not handled: forward it to the superclass.
+         */
         super.onAction(actionString, ongoing, tpf);
     }
 
@@ -457,6 +462,18 @@ public class TargetDemo
 
         setDebugMaterial(pco);
         pco.setDebugMeshResolution(DebugShapeFactory.highResolution);
+    }
+
+    /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        status.resize(newWidth, newHeight);
+        super.resize(newWidth, newHeight);
     }
     // *************************************************************************
     // DebugInitListener methods
@@ -523,7 +540,7 @@ public class TargetDemo
     }
 
     /**
-     * Create and configure a new PhysicsSpace.
+     * Configure physics during startup.
      */
     private void configurePhysics() {
         DebugShapeFactory.setIndexBuffers(200);

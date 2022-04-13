@@ -164,6 +164,7 @@ public class BuoyDemo extends PhysicsDemo {
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
 
@@ -179,6 +180,8 @@ public class BuoyDemo extends PhysicsDemo {
      */
     @Override
     public void actionInitializeApplication() {
+        super.actionInitializeApplication();
+
         rootNode.attachChild(reflectiblesNode);
         rootNode.attachChild(reflectorsNode);
 

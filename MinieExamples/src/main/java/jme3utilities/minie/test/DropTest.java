@@ -198,6 +198,7 @@ public class DropTest
             logger.warning("Failed to load AppSettings.");
         }
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
 
@@ -257,6 +258,8 @@ public class DropTest
         status = new DropTestStatus();
         boolean success = stateManager.attach(status);
         assert success;
+
+        super.actionInitializeApplication();
 
         configureCamera();
         configureDumper();
@@ -657,6 +660,18 @@ public class DropTest
         pco.setRestitution(restitution);
 
         setDebugMaterial(pco);
+    }
+
+    /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        status.resize(newWidth, newHeight);
+        super.resize(newWidth, newHeight);
     }
 
     /**

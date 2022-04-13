@@ -118,6 +118,7 @@ public class TestMultiBody extends PhysicsDemo {
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setSamples(16); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(false);
@@ -134,6 +135,9 @@ public class TestMultiBody extends PhysicsDemo {
      */
     @Override
     public void actionInitializeApplication() {
+        addStatusLines();
+        super.actionInitializeApplication();
+
         configureCamera();
         configureDumper();
         generateMaterials();
@@ -143,7 +147,6 @@ public class TestMultiBody extends PhysicsDemo {
         viewPort.setBackgroundColor(skyColor);
 
         addLighting(rootNode, false);
-        addStatusLines();
         speed = pausedSpeed;
 
         float halfExtent = 4f;
@@ -235,6 +238,22 @@ public class TestMultiBody extends PhysicsDemo {
     }
 
     /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
+            float y = newHeight - 20f * lineIndex;
+            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
+        }
+
+        super.resize(newWidth, newHeight);
+    }
+
+    /**
      * Callback invoked once per frame.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
@@ -311,8 +330,6 @@ public class TestMultiBody extends PhysicsDemo {
     private void addStatusLines() {
         for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
             statusLines[lineIndex] = new BitmapText(guiFont);
-            float y = cam.getHeight() - 20f * lineIndex;
-            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
             guiNode.attachChild(statusLines[lineIndex]);
         }
     }

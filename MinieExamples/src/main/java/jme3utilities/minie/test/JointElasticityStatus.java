@@ -198,6 +198,21 @@ public class JointElasticityStatus extends SimpleAppState {
         return numIterations;
     }
 
+    /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    void resize(int newWidth, int newHeight) {
+        if (isInitialized()) {
+            for (int lineIndex = 0; lineIndex < numStatusLines; ++lineIndex) {
+                float y = newHeight - 20f * lineIndex;
+                statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
+            }
+        }
+    }
+
     float timeStep() {
         assert timestep > 0f : timestep;
         return timestep;

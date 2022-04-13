@@ -104,6 +104,7 @@ public class TestInsideTriangle extends AbstractDemo {
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
 
@@ -119,6 +120,7 @@ public class TestInsideTriangle extends AbstractDemo {
      */
     @Override
     public void actionInitializeApplication() {
+        super.actionInitializeApplication();
         configureCamera();
         attachWorldAxes(2f);
 
@@ -128,8 +130,8 @@ public class TestInsideTriangle extends AbstractDemo {
         registerMaterial("sample", sampleMaterial);
 
         float trianglePointSize = 5f;
-        Material triangleMaterial = MyAsset.createWireframeMaterial(assetManager,
-                ColorRGBA.Green, trianglePointSize);
+        Material triangleMaterial = MyAsset.createWireframeMaterial(
+                assetManager, ColorRGBA.Green, trianglePointSize);
         registerMaterial("triangle", triangleMaterial);
 
         ColorRGBA darkGray = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);

@@ -146,6 +146,7 @@ public class JointElasticity extends PhysicsDemo {
             logger.warning("Failed to load AppSettings.");
         }
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setTitle(title); // Customize the window's title bar.
 
         JointElasticity application = new JointElasticity();
@@ -176,6 +177,8 @@ public class JointElasticity extends PhysicsDemo {
         status = new JointElasticityStatus();
         boolean success = stateManager.attach(status);
         assert success;
+
+        super.actionInitializeApplication();
 
         configureCamera();
         configureDumper();
@@ -278,6 +281,18 @@ public class JointElasticity extends PhysicsDemo {
          * The action is not handled: forward it to the superclass.
          */
         super.onAction(actionString, ongoing, tpf);
+    }
+
+    /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        status.resize(newWidth, newHeight);
+        super.resize(newWidth, newHeight);
     }
     // *************************************************************************
     // private methods

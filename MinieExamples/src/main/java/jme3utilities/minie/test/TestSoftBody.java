@@ -227,6 +227,7 @@ public class TestSoftBody
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
         settings.setVSync(false);
@@ -243,6 +244,9 @@ public class TestSoftBody
      */
     @Override
     public void actionInitializeApplication() {
+        addStatusLines();
+        super.actionInitializeApplication();
+
         configureCamera();
         configureDumper();
         generateMaterials();
@@ -251,7 +255,6 @@ public class TestSoftBody
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
 
-        addStatusLines();
         addLighting(rootNode, false);
 
         float halfExtent = 4f;
@@ -461,6 +464,22 @@ public class TestSoftBody
             }
         }
         super.onAction(actionString, ongoing, tpf);
+    }
+
+    /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
+            float y = newHeight - 20f * lineIndex;
+            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
+        }
+
+        super.resize(newWidth, newHeight);
     }
 
     /**
@@ -731,8 +750,6 @@ public class TestSoftBody
     private void addStatusLines() {
         for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
             statusLines[lineIndex] = new BitmapText(guiFont);
-            float y = cam.getHeight() - 20f * lineIndex;
-            statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
             guiNode.attachChild(statusLines[lineIndex]);
         }
     }

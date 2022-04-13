@@ -134,6 +134,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setAudioRenderer(null);
+        settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
         settings.setTitle(title); // Customize the window's title bar.
 
@@ -154,8 +155,8 @@ public class TestRectangularSolid extends PhysicsDemo {
          * Add the status text to the GUI.
          */
         statusText = new BitmapText(guiFont);
-        statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
+        super.actionInitializeApplication();
 
         Material material = MyAsset.createWireframeMaterial(assetManager,
                 sampleColor, samplePointSize);
@@ -230,6 +231,18 @@ public class TestRectangularSolid extends PhysicsDemo {
             }
         }
         super.onAction(actionString, ongoing, tpf);
+    }
+
+    /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void resize(int newWidth, int newHeight) {
+        statusText.setLocalTranslation(0f, newHeight, 0f);
+        super.resize(newWidth, newHeight);
     }
     // *************************************************************************
     // private methods
