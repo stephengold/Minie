@@ -162,10 +162,6 @@ public class TargetDemoStatus extends SimpleAppState {
      */
     private boolean isWireframe = false;
     /**
-     * reference to the application instance TODO re-order fields
-     */
-    private TargetDemo appInstance;
-    /**
      * damping fraction for all dynamic bodies (&ge;0, &le;1)
      */
     private float damping = 0.6f;
@@ -207,6 +203,10 @@ public class TargetDemoStatus extends SimpleAppState {
      * name of the selected scenario
      */
     private String scenarioName = "brick wall";
+    /**
+     * reference to the application instance
+     */
+    private TargetDemo appInstance;
     // *************************************************************************
     // constructors
 
