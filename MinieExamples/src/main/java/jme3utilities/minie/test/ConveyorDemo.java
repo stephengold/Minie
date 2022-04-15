@@ -551,10 +551,6 @@ public class ConveyorDemo
 
         cam.setLocation(new Vector3f(12f, 6f, 5f));
         cam.setRotation(new Quaternion(-0.066f, 0.91052f, -0.1912f, -0.36053f));
-
-        AppState orbitState
-                = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
-        stateManager.attach(orbitState);
     }
 
     /**
