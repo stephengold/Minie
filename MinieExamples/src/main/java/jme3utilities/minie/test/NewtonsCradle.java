@@ -167,7 +167,7 @@ public class NewtonsCradle
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
+    public void acorusInit() {
         configureCamera();
         configureDumper();
         generateMaterials();
@@ -186,7 +186,7 @@ public class NewtonsCradle
         boolean success = stateManager.attach(dseOverlay);
         assert success;
 
-        super.actionInitializeApplication();
+        super.acorusInit();
 
         restartSimulation(5);
     }
@@ -297,12 +297,12 @@ public class NewtonsCradle
      * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
      */
     @Override
-    public void resize(int newWidth, int newHeight) {
+    public void onViewPortResize(int newWidth, int newHeight) {
         proposedSettings.resize(newWidth, newHeight);
         DsEditOverlay dseOverlay = stateManager.getState(DsEditOverlay.class);
-        dseOverlay.resize(newWidth, newHeight);
+        dseOverlay.onViewPortResize(newWidth, newHeight);
 
-        super.resize(newWidth, newHeight);
+        super.onViewPortResize(newWidth, newHeight);
     }
 
     /**

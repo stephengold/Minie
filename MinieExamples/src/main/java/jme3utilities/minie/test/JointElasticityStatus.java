@@ -38,7 +38,7 @@ import jme3utilities.SimpleAppState;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
 import jme3utilities.minie.test.common.PhysicsDemo;
-import jme3utilities.ui.AbstractDemo;
+import jme3utilities.ui.AcorusDemo;
 
 /**
  * AppState to display the status of the JointElasticity application in an
@@ -304,8 +304,8 @@ public class JointElasticityStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceIterations(int amount) {
-        numIterations = AbstractDemo.advanceInt(iterationsValues,
-                numIterations, amount);
+        numIterations = AcorusDemo.advanceInt(
+                iterationsValues, numIterations, amount);
         PhysicsSpace physicsSpace = appInstance.getPhysicsSpace();
         physicsSpace.getSolverInfo().setNumIterations(numIterations);
     }

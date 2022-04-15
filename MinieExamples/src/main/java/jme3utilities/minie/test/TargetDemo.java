@@ -221,12 +221,12 @@ public class TargetDemo
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
+    public void acorusInit() {
         status = new TargetDemoStatus();
         boolean success = stateManager.attach(status);
         assert success;
 
-        super.actionInitializeApplication();
+        super.acorusInit();
 
         configureCamera();
         configureDumper();
@@ -471,9 +471,9 @@ public class TargetDemo
      * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
      */
     @Override
-    public void resize(int newWidth, int newHeight) {
+    public void onViewPortResize(int newWidth, int newHeight) {
         status.resize(newWidth, newHeight);
-        super.resize(newWidth, newHeight);
+        super.onViewPortResize(newWidth, newHeight);
     }
     // *************************************************************************
     // DebugInitListener methods

@@ -144,12 +144,12 @@ public class TestGearJoint
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
+    public void acorusInit() {
         DsEditOverlay dseOverlay = new DsEditOverlay(proposedSettings);
         dseOverlay.setBackgroundColor(new ColorRGBA(0.05f, 0f, 0f, 1f));
         boolean success = stateManager.attach(dseOverlay);
         assert success;
-        super.actionInitializeApplication();
+        super.acorusInit();
         /*
          * Hide the render-statistics overlay.
          */

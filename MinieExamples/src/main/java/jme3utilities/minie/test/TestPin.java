@@ -41,14 +41,14 @@ import com.jme3.system.AppSettings;
 import jme3utilities.MyMesh;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
-import jme3utilities.ui.AbstractDemo;
+import jme3utilities.ui.AcorusDemo;
 
 /**
  * A simple cloth simulation with a pinned node, using a native mesh.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestPin extends AbstractDemo {
+public class TestPin extends AcorusDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -75,14 +75,14 @@ public class TestPin extends AbstractDemo {
         application.start();
     }
     // *************************************************************************
-    // AbstractDemo methods
+    // AcorusDemo methods
 
     /**
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
-        super.actionInitializeApplication();
+    public void acorusInit() {
+        super.acorusInit();
 
         // Set up Bullet physics (with debug enabled).
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();

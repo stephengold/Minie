@@ -149,7 +149,7 @@ public class JointDemo extends PhysicsDemo {
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
+    public void acorusInit() {
         configureCamera();
         configureDumper();
         generateMaterials();

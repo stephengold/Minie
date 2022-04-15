@@ -201,14 +201,14 @@ public class SeJointDemo extends PhysicsDemo {
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
+    public void acorusInit() {
         /*
          * Add the status text to the GUI.
          */
         statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
-        super.actionInitializeApplication();
+        super.acorusInit();
 
         configureCamera();
         configureDumper();
@@ -359,9 +359,9 @@ public class SeJointDemo extends PhysicsDemo {
      * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
      */
     @Override
-    public void resize(int newWidth, int newHeight) {
+    public void onViewPortResize(int newWidth, int newHeight) {
         statusText.setLocalTranslation(0f, newHeight, 0f);
-        super.resize(newWidth, newHeight);
+        super.onViewPortResize(newWidth, newHeight);
     }
 
     /**

@@ -134,9 +134,9 @@ public class TestMultiBody extends PhysicsDemo {
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
+    public void acorusInit() {
         addStatusLines();
-        super.actionInitializeApplication();
+        super.acorusInit();
 
         configureCamera();
         configureDumper();
@@ -244,13 +244,13 @@ public class TestMultiBody extends PhysicsDemo {
      * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
      */
     @Override
-    public void resize(int newWidth, int newHeight) {
+    public void onViewPortResize(int newWidth, int newHeight) {
         for (int lineIndex = 0; lineIndex < statusLines.length; ++lineIndex) {
             float y = newHeight - 20f * lineIndex;
             statusLines[lineIndex].setLocalTranslation(0f, y, 0f);
         }
 
-        super.resize(newWidth, newHeight);
+        super.onViewPortResize(newWidth, newHeight);
     }
 
     /**

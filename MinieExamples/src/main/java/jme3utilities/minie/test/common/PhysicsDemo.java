@@ -73,16 +73,16 @@ import jme3utilities.minie.FilterAll;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.shape.MinieTestShapes;
 import jme3utilities.minie.test.shape.ShapeGenerator;
-import jme3utilities.ui.AbstractDemo;
+import jme3utilities.ui.AcorusDemo;
 import jme3utilities.ui.InputMode;
 
 /**
- * An AbstractDemo with additional data and methods to test and/or demonstrate
+ * An AcorusDemo with additional data and methods to test and/or demonstrate
  * the capabilities of Minie.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-abstract public class PhysicsDemo extends AbstractDemo {
+abstract public class PhysicsDemo extends AcorusDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -594,7 +594,7 @@ abstract public class PhysicsDemo extends AbstractDemo {
      */
     abstract protected float maxArrowLength();
     // *************************************************************************
-    // AbstractDemo methods
+    // AcorusDemo methods
 
     /**
      * Process an action that wasn't handled by the active InputMode.

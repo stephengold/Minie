@@ -48,7 +48,7 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.mesh.PointMesh;
-import jme3utilities.ui.AbstractDemo;
+import jme3utilities.ui.AcorusDemo;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
@@ -57,7 +57,7 @@ import jme3utilities.ui.InputMode;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestInsideTriangle extends AbstractDemo {
+public class TestInsideTriangle extends AcorusDemo {
     // *************************************************************************
     // constants and loggers
 
@@ -119,8 +119,8 @@ public class TestInsideTriangle extends AbstractDemo {
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
-        super.actionInitializeApplication();
+    public void acorusInit() {
+        super.acorusInit();
         configureCamera();
         attachWorldAxes(2f);
 

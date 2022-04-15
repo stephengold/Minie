@@ -179,8 +179,8 @@ public class BuoyDemo extends PhysicsDemo {
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
-        super.actionInitializeApplication();
+    public void acorusInit() {
+        super.acorusInit();
 
         rootNode.attachChild(reflectiblesNode);
         rootNode.attachChild(reflectorsNode);

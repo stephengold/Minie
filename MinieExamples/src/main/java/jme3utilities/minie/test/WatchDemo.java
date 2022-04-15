@@ -186,8 +186,8 @@ public class WatchDemo extends PhysicsDemo {
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
-        super.actionInitializeApplication();
+    public void acorusInit() {
+        super.acorusInit();
         configureCamera();
         configureDumper();
         generateMaterials();

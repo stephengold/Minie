@@ -262,12 +262,12 @@ public class RopeDemo extends PhysicsDemo {
      * Initialize this application.
      */
     @Override
-    public void actionInitializeApplication() {
+    public void acorusInit() {
         dseOverlay = new DsEditOverlay(proposedSettings);
         dseOverlay.setBackgroundColor(new ColorRGBA(0.05f, 0f, 0f, 1f));
         boolean success = stateManager.attach(dseOverlay);
         assert success;
-        super.actionInitializeApplication();
+        super.acorusInit();
         /*
          * Hide the render-statistics overlay.
          */
@@ -448,11 +448,11 @@ public class RopeDemo extends PhysicsDemo {
      * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
      */
     @Override
-    public void resize(int newWidth, int newHeight) {
-        dseOverlay.resize(newWidth, newHeight);
+    public void onViewPortResize(int newWidth, int newHeight) {
+        dseOverlay.onViewPortResize(newWidth, newHeight);
         proposedSettings.resize(newWidth, newHeight);
 
-        super.resize(newWidth, newHeight);
+        super.onViewPortResize(newWidth, newHeight);
     }
 
     /**
