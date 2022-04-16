@@ -73,7 +73,8 @@ The most relevant categories are:
 * https://hub.jmonkeyengine.org/c/troubleshooting/physics/17[Troubleshooting : Physics].
 
 For issues that are best handled privately, contact me by e-mail.
-My personal e-mail address appears often in the source code.
+My personal e-mail address appears
+on https://stephengold.github.io/[my homepage] and in the source code.
 
 == The name
 
