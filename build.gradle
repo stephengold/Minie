@@ -8,14 +8,14 @@ subprojects {
     apply from: rootProject.file('common.gradle')
 }
 
-// cleanup tasks
+// cleanup tasks:
 
 clean.dependsOn('cleanNodeModules')
 tasks.register('cleanNodeModules', Delete) {
     delete 'node_modules'
 }
 
-// publishing tasks
+// publishing tasks:
 
 tasks.register('install') {
     dependsOn ':MinieLibrary:install'
