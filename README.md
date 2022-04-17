@@ -92,7 +92,7 @@ Summary of added features:
    collision shapes, contact/constraint solvers, etcetera
  + option to apply scaling with a `RigidBodyControl`
 
-Some jme3-jbullet` classes that Minie omits:
+Some jme3-jbullet classes that Minie omits:
 
  + `KinematicRagdollControl`, `HumanoidRagdollPreset`, and `RagdollPreset`:
    use `DynamicAnimControl` instead
