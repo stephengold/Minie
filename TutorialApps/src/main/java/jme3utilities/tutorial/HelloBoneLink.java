@@ -100,7 +100,8 @@ public class HelloBoneLink extends SimpleApplication {
         rootNode.addLight(sun);
 
         // Add a model to the scene.
-        Spatial ninjaModel = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
+        Spatial ninjaModel
+                = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
         rootNode.attachChild(ninjaModel);
         ninjaModel.rotate(0f, 3f, 0f);
         ninjaModel.scale(0.02f);
@@ -121,8 +122,8 @@ public class HelloBoneLink extends SimpleApplication {
         inputManager.addMapping("go limp", new KeyTrigger(KeyInput.KEY_SPACE));
         InputListener actionListener = new ActionListener() {
             @Override
-            public void onAction(String actionString, boolean ongoing, float tpf) {
-                if (actionString.equals("go limp") && ongoing) {
+            public void onAction(String action, boolean ongoing, float tpf) {
+                if (action.equals("go limp") && ongoing) {
                     dac.setRagdollMode();
                 }
             }
