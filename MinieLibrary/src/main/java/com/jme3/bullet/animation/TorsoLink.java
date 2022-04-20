@@ -52,6 +52,7 @@ import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * Link the torso of an animated model to a rigid body in a ragdoll.
@@ -451,8 +452,10 @@ public class TorsoLink extends PhysicsLink {
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
                 }
-                MyMath.slerp(kinematicWeight(), start, transform, transform);
                 // TODO smarter sign flipping
+
+                MyQuaternion.normalizeLocal(endQuat);
+                MyMath.slerp(kinematicWeight(), start, transform, transform);
             }
             /*
              * Update the managed bone.
