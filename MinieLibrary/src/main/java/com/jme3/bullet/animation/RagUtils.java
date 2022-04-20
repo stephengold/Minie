@@ -441,12 +441,15 @@ public class RagUtils {
      * @param transform the transform to convert (not null, modified)
      */
     public static void meshToLocal(Bone parentBone, Transform transform) {
+        Quaternion msr = parentBone.getModelSpaceRotation();
+        Validate.require(msr.norm() > 0f, "non-zero parent rotation");
+
         Vector3f location = transform.getTranslation();
         Quaternion orientation = transform.getRotation();
         Vector3f scale = transform.getScale();
 
         Vector3f pmTranslate = parentBone.getModelSpacePosition();
-        Quaternion pmRotInv = parentBone.getModelSpaceRotation().inverse();
+        Quaternion pmRotInv = msr.inverse(); // TODO garbage
         Vector3f pmScale = parentBone.getModelSpaceScale();
 
         location.subtractLocal(pmTranslate);
@@ -464,13 +467,16 @@ public class RagUtils {
      * @param transform the transform to convert (not null, modified)
      */
     static void meshToLocal(Joint parent, Transform transform) {
+        Transform pm = parent.getModelTransform();
+        Validate.require(
+                pm.getRotation().norm() > 0f, "non-zero parent rotation");
+
         Vector3f location = transform.getTranslation();
         Quaternion orientation = transform.getRotation();
         Vector3f scale = transform.getScale();
 
-        Transform pm = parent.getModelTransform();
         Vector3f pmTranslate = pm.getTranslation();
-        Quaternion pmRotInv = pm.getRotation().inverse();
+        Quaternion pmRotInv = pm.getRotation().inverse(); // TODO garbage
         Vector3f pmScale = pm.getScale();
 
         location.subtractLocal(pmTranslate);
