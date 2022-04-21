@@ -277,8 +277,8 @@ public class DropTest
         String platformName = status.platformType();
         addPlatform(platformName, platformSurfaceY);
 
-        int maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
-        int degree = Math.min(8, maxDegree);
+        Integer maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
+        int degree = (maxDegree == null) ? 1 : Math.min(8, maxDegree);
         renderer.setDefaultAnisotropicFilter(degree);
 
         addADrop(1);
