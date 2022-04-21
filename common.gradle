@@ -13,7 +13,7 @@ ext {
     wesCoordinates = 'com.github.stephengold:Wes:0.7.1' + jmeTarget
 
     // current versions of libraries:
-    jme3Version = '3.5.1-stable'
+    jme3Version = '3.5.2-stable'
     minieVersion = '4.8.2'
     minieSnapshot = '-SNAPSHOT' // distinguish development builds from releases
 }
