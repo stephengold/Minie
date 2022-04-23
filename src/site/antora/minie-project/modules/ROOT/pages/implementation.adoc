@@ -20,11 +20,11 @@ All {cplusplus} source code associated with Minie
 (including JNI "glue code" and a modified partial snapshot of the Bullet SDK)
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
 The Libbulletjme project builds _native libraries_
-for each of the 12 platforms Minie supports:
+for each of the 13 platforms Minie supports:
 
 * Windows (32-bit and 64-bit),
 * Linux (x86-64, x86, armhf, and aarch64),
-* macOS (32-bit and 64-bit), and
+* macOS (x86-64, IA-32, and ARM64), and
 * Android (armeabi-v7a, arm64-v8a, x86, and x86_64).
 
 On desktop platforms, JMonkeyEngine automatically loads
