@@ -61,4 +61,5 @@
 ** https://github.com/Simsilica/SimMath[SimMath]
 ** https://github.com/kmammou/v-hacd[V-HACD]
 ** https://github.com/stephengold/antora-ui-bundle[Website UI bundle]
-* https://stephengold.github.io[Stephen Gold]
+* People
+** https://stephengold.github.io[Stephen Gold]
