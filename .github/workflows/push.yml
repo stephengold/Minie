@@ -1,5 +1,5 @@
 ---
-# GitHub workflow for commits pushed to the Minie repo - all branches
+# GitHub Actions workflow for commits pushed to the Minie repo - all branches
 
 name: CI at GitHub
 on: [push]
@@ -23,7 +23,7 @@ jobs:
 
   Java8-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: windows-2019
+    runs-on: windows-2016
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -40,7 +40,7 @@ jobs:
 
   Java11-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -57,7 +57,7 @@ jobs:
 
   Java11-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-latest
+    runs-on: macOS-10.15
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -73,7 +73,7 @@ jobs:
 
   Java11-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -90,7 +90,7 @@ jobs:
 
   Java17-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -106,7 +106,7 @@ jobs:
 
   Java17-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-latest
+    runs-on: macOS-11
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -122,7 +122,7 @@ jobs:
 
   Java17-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
