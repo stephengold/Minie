@@ -16,7 +16,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.14.2
       - run: npm ci
