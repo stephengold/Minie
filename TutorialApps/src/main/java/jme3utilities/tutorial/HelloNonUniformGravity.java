@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@ import jme3utilities.minie.FilterAll;
 
 /**
  * A simple example of non-uniform gravity.
- *
+ * <p>
  * Builds upon HelloRigidBody.
  *
  * @author Stephen Gold sgold@sonic.net

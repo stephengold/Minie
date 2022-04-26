@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import com.jme3.math.Vector3f;
 
 /**
  * A simple example combining static and dynamic rigid bodies.
- *
+ * <p>
  * Builds upon HelloRigidBody.
  *
  * @author Stephen Gold sgold@sonic.net
