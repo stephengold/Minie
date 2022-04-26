@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -42,11 +42,11 @@ import com.jme3.math.Vector3f;
 
 /**
  * A simple demonstration of contact response.
- *
+ * <p>
  * Press the spacebar to disable the ball's contact response. Once this happens,
  * the blue (static) box no longer exerts any contact force on the ball. Gravity
  * takes over, and the ball falls through.
- *
+ * <p>
  * Builds on HelloStaticBody.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -105,6 +105,9 @@ public class HelloContactResponse extends SimpleApplication {
                 if (action.equals("freefall") && ongoing) {
                     // Disable the ball's contact response.
                     ball.setContactResponse(false);
+
+                    // Activate the ball in case it got deactivated.
+                    ball.activate();
                 }
             }
         };
