@@ -1,7 +1,8 @@
 = Project overview
 :url-enwiki: https://en.wikipedia.org/wiki
 
-_Minie_ is a physics library for https://jmonkeyengine.org[JMonkeyEngine]
+_Minie_ is a 3-D {url-enwiki}/Physics_engine[physics simulation] library
+for https://jmonkeyengine.org[JMonkeyEngine]
 that takes physics-based games to the next level.
 
 Use it to:
@@ -18,13 +19,13 @@ in 2018, Minie adds many useful features
 while preserving most of the jme3-bullet
 {url-enwiki}/Application_programming_interface[API].
 Most JMonkeyEngine physics examples can use Minie without modification,
-and Minie adds its own demos and tutorials to help you get started.
+plus Minie provides its own tutorials and example apps to help you get started.
 
 All software in the Minie project is free and open-source,
 including the library itself, the demo, tutorial, and utility apps,
 and the software used to build, test, and run them.
 
-The underlying simulation software  comes from
+The underlying simulation software comes from
 https://pybullet.org/wordpress[_Bullet_], a mature real-time physics simulator.
 But although Bullet is written in {url-enwiki}/C%2B%2B[C&#43;&#43;],
 you won't need any knowledge of C&#43;&#43; to use Minie.
