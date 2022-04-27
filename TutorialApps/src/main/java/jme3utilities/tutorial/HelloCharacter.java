@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@ import com.jme3.material.Material;
 import com.jme3.material.Materials;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
@@ -55,7 +55,7 @@ import com.jme3.system.AppSettings;
 
 /**
  * A simple example of character physics.
- *
+ * <p>
  * Builds upon HelloCustomDebug.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -203,8 +203,8 @@ public class HelloCharacter
         physicsSpace.addCollisionObject(result);
 
         // Rotate it 90 degrees to a horizontal orientation.
-        Matrix3f rotate90 = new Matrix3f();
-        rotate90.fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X);
+        Quaternion rotate90 = new Quaternion();
+        rotate90.fromAngles(-FastMath.HALF_PI, 0f, 0f);
         result.setPhysicsRotation(rotate90);
 
         // Translate it to the desired elevation.
