@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@ import java.nio.FloatBuffer;
 /**
  * A simple example to demonstrate the use of principalAxes() and correctAxes()
  * to improve the plausibility of a compound shape.
- *
+ * <p>
  * Builds upon HelloMadMallet.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -89,7 +89,8 @@ public class HelloMassDistribution extends SimpleApplication {
         float handleLength = 3f;
         float handleRadius = 0.3f;
         hes.set(handleRadius, handleRadius, handleLength / 2f);
-        CollisionShape handleShape = new CylinderCollisionShape(hes, PhysicsSpace.AXIS_Z);
+        CollisionShape handleShape
+                = new CylinderCollisionShape(hes, PhysicsSpace.AXIS_Z);
 
         CompoundCollisionShape malletShape = new CompoundCollisionShape();
         malletShape.addChildShape(handleShape, 0f, 0f, handleLength / 2f);
@@ -101,8 +102,8 @@ public class HelloMassDistribution extends SimpleApplication {
         FloatBuffer massDistribution = BufferUtils.createFloatBuffer(
                 handleMass, headMass);
         Vector3f inertiaVector = new Vector3f();
-        Transform correction = malletShape.principalAxes(massDistribution, null,
-                inertiaVector);
+        Transform correction = malletShape.principalAxes(
+                massDistribution, null, inertiaVector);
 
         // Correct the shape.
         malletShape.correctAxes(correction);
