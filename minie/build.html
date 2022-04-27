@@ -309,9 +309,28 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">How to build Minie from source</h1>
-<div class="sect1">
-<h2 id="_standard_build"><a class="anchor" href="#_standard_build"></a>Standard build</h2>
+<div id="preamble">
 <div class="sectionbody">
+<div class="paragraph">
+<p>Minie is open-source software.</p>
+</div>
+<div class="paragraph">
+<p>While pre-built artifacts
+can be downloaded from GitHub and the Maven Central Repository,
+some people prefer to build them from source.</p>
+</div>
+<div class="paragraph">
+<p>You can also build a local copy of the documentation (website content).
+This is useful if you are editing the content
+or if your Internet access is limited/unreliable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_library_artifacts"><a class="anchor" href="#_library_artifacts"></a>Library artifacts</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_standard_build"><a class="anchor" href="#_standard_build"></a>Standard build</h3>
 <div class="paragraph">
 <p>The <em>standard build</em> of the Minie library includes a non-debug,
 single-precision native library for each of the 13 platforms Minie supports.</p>
@@ -333,10 +352,10 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>using Bash or Zsh:  <code>export JAVA_HOME="</code> <strong>path to installation</strong> <code>"</code></p>
+<p>using Bash or Zsh: <code>export JAVA_HOME="</code> <strong>path to installation</strong> <code>"</code></p>
 </li>
 <li>
-<p>using Windows Command Prompt:  <code>set JAVA_HOME="</code> <strong>path to installation</strong> <code>"</code></p>
+<p>using Windows Command Prompt: <code>set JAVA_HOME="</code> <strong>path to installation</strong> <code>"</code></p>
 </li>
 <li>
 <p>using PowerShell: <code>$env:JAVA_HOME = '</code> <strong>path to installation</strong> <code>'</code></p>
@@ -378,7 +397,7 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 <p>save the ZIP file</p>
 </li>
 <li>
-<p>unzip the saved ZIP file</p>
+<p>extract the contents of the saved ZIP file</p>
 </li>
 <li>
 <p><code>cd</code> to the extracted directory</p>
@@ -394,10 +413,10 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>using Bash or PowerShell or Zsh:  <code>./gradlew build</code></p>
+<p>using Bash or PowerShell or Zsh: <code>./gradlew build</code></p>
 </li>
 <li>
-<p>using Windows Command Prompt:  <code>.\gradlew build</code></p>
+<p>using Windows Command Prompt: <code>.\gradlew build</code></p>
 </li>
 </ol>
 </div>
@@ -407,6 +426,7 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 <div class="paragraph">
 <p>After a successful build,
 Maven artifacts will be found in the "MinieLibrary/build/libs" directory.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_quicker_builds"><a class="anchor" href="#_quicker_builds"></a>Quicker builds</h3>
@@ -418,10 +438,10 @@ To save time, you can build just the library subproject:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh:  <code>./gradlew :MinieLibrary:build</code></p>
+<p>using Bash or PowerShell or Zsh: <code>./gradlew :MinieLibrary:build</code></p>
 </li>
 <li>
-<p>using Windows Command Prompt:  <code>.\gradlew :MinieLibrary:build</code></p>
+<p>using Windows Command Prompt: <code>.\gradlew :MinieLibrary:build</code></p>
 </li>
 </ul>
 </div>
@@ -431,10 +451,10 @@ To save time, you can build just the library subproject:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh:  <code>./gradlew :MinieLibrary:assemble</code></p>
+<p>using Bash or PowerShell or Zsh: <code>./gradlew :MinieLibrary:assemble</code></p>
 </li>
 <li>
-<p>using Windows Command Prompt:  <code>.\gradlew :MinieLibrary:assemble</code></p>
+<p>using Windows Command Prompt: <code>.\gradlew :MinieLibrary:assemble</code></p>
 </li>
 </ul>
 </div>
@@ -447,10 +467,10 @@ To save time, you can build just the library subproject:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh:  <code>./gradlew install</code></p>
+<p>using Bash or PowerShell or Zsh: <code>./gradlew install</code></p>
 </li>
 <li>
-<p>using Windows Command Prompt:  <code>.\gradlew install</code></p>
+<p>using Windows Command Prompt: <code>.\gradlew install</code></p>
 </li>
 </ul>
 </div>
@@ -463,10 +483,10 @@ To save time, you can build just the library subproject:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh:  <code>./gradlew clean</code></p>
+<p>using Bash or PowerShell or Zsh: <code>./gradlew clean</code></p>
 </li>
 <li>
-<p>using Windows Command Prompt:  <code>.\gradlew clean</code></p>
+<p>using Windows Command Prompt: <code>.\gradlew clean</code></p>
 </li>
 </ul>
 </div>
@@ -490,10 +510,10 @@ You can replicate it by adding the "-Pbtdebug" option to the build command:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh:  <code>./gradlew -Pbtdebug clean build</code></p>
+<p>using Bash or PowerShell or Zsh: <code>./gradlew -Pbtdebug clean build</code></p>
 </li>
 <li>
-<p>using Windows Command Prompt:  <code>.\gradlew -Pbtdebug clean build</code></p>
+<p>using Windows Command Prompt: <code>.\gradlew -Pbtdebug clean build</code></p>
 </li>
 </ul>
 </div>
@@ -666,7 +686,7 @@ see <a href="https://github.com/stephengold/Libbulletjme">the Libbulletjme proje
 </div>
 </div>
 <div class="sect1">
-<h2 id="_build_a_local_copy_of_the_website"><a class="anchor" href="#_build_a_local_copy_of_the_website"></a>Build a local copy of the website</h2>
+<h2 id="_website_content"><a class="anchor" href="#_website_content"></a>Website content</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -704,7 +724,7 @@ with an absolute path to your checkout directory (3 places).</p>
 </div>
 <div class="paragraph">
 <p>After a successful build,
-the local version of the site will be found in the "build/site" directory.</p>
+the local copy of the site will be found in the "build/site" directory.</p>
 </div>
 </div>
 </div>
