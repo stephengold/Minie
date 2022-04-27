@@ -1,6 +1,18 @@
 = How to build Minie from source
 
-== Standard build
+Minie is open-source software.
+
+While pre-built artifacts
+can be downloaded from GitHub and the Maven Central Repository,
+some people prefer to build them from source.
+
+You can also build a local copy of the documentation (website content).
+This is useful if you are editing the content
+or if your Internet access is limited/unreliable.
+
+== Library artifacts
+
+=== Standard build
 
 The _standard build_ of the Minie library includes a non-debug,
 single-precision native library for each of the 13 platforms Minie supports.
@@ -13,8 +25,8 @@ Here's the recommended procedure:
   (The path might be something like "C:\Program Files\Java\jre1.8.0_301"
   or "/usr/lib/jvm/java-8-openjdk-amd64/" or
   "/Library/Java/JavaVirtualMachines/liberica-jdk-17-full.jdk/Contents/Home" .)
-.. using Bash or Zsh:  `export JAVA_HOME="` *path to installation* `"`
-.. using Windows Command Prompt:  `set JAVA_HOME="` *path to installation* `"`
+.. using Bash or Zsh: `export JAVA_HOME="` *path to installation* `"`
+.. using Windows Command Prompt: `set JAVA_HOME="` *path to installation* `"`
 .. using PowerShell: `$env:JAVA_HOME = '` *path to installation* `'`
 . Download and extract the Minie source code from GitHub:
 .. using Git:
@@ -25,11 +37,11 @@ Here's the recommended procedure:
 ... browse to https://github.com/stephengold/Minie/releases/latest
 ... follow the "Source code (zip)" link
 ... save the ZIP file
-... unzip the saved ZIP file
+... extract the contents of the saved ZIP file
 ... `cd` to the extracted directory
 . Run the Gradle wrapper to build the entire project:
-.. using Bash or PowerShell or Zsh:  `./gradlew build`
-.. using Windows Command Prompt:  `.\gradlew build`
+.. using Bash or PowerShell or Zsh: `./gradlew build`
+.. using Windows Command Prompt: `.\gradlew build`
 
 After a successful build,
 Maven artifacts will be found in the "MinieLibrary/build/libs" directory.
@@ -40,27 +52,27 @@ In addition to the library, the Minie project includes subprojects for
 assets and applications that take time to build.
 To save time, you can build just the library subproject:
 
-* using Bash or PowerShell or Zsh:  `./gradlew :MinieLibrary:build`
-* using Windows Command Prompt:  `.\gradlew :MinieLibrary:build`
+* using Bash or PowerShell or Zsh: `./gradlew :MinieLibrary:build`
+* using Windows Command Prompt: `.\gradlew :MinieLibrary:build`
 
 To save even more time, you can skip the automated tests:
 
-* using Bash or PowerShell or Zsh:  `./gradlew :MinieLibrary:assemble`
-* using Windows Command Prompt:  `.\gradlew :MinieLibrary:assemble`
+* using Bash or PowerShell or Zsh: `./gradlew :MinieLibrary:assemble`
+* using Windows Command Prompt: `.\gradlew :MinieLibrary:assemble`
 
 === Install artifacts
 
 You can install the built artifacts to your local Maven repository:
 
-* using Bash or PowerShell or Zsh:  `./gradlew install`
-* using Windows Command Prompt:  `.\gradlew install`
+* using Bash or PowerShell or Zsh: `./gradlew install`
+* using Windows Command Prompt: `.\gradlew install`
 
 === Cleanup
 
 After a build, you can restore the project to a pristine state:
 
-* using Bash or PowerShell or Zsh:  `./gradlew clean`
-* using Windows Command Prompt:  `.\gradlew clean`
+* using Bash or PowerShell or Zsh: `./gradlew clean`
+* using Windows Command Prompt: `.\gradlew clean`
 
 == Customizing native libraries
 
@@ -73,8 +85,8 @@ During application development, debug-enabled native libraries should be used.
 Most Minie releases provide a "+debug" build of the library for this purpose.
 You can replicate it by adding the "-Pbtdebug" option to the build command:
 
-* using Bash or PowerShell or Zsh:  `./gradlew -Pbtdebug clean build`
-* using Windows Command Prompt:  `.\gradlew -Pbtdebug clean build`
+* using Bash or PowerShell or Zsh: `./gradlew -Pbtdebug clean build`
+* using Windows Command Prompt: `.\gradlew -Pbtdebug clean build`
 
 NOTE: Don't confuse the "-Pbtdebug" option with "-Pdebug",
 which had special significance to certain old versions of Gradle.
@@ -201,7 +213,7 @@ For more information,
 see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
 ====
 
-== Build a local copy of the website
+== Website content
 
 . Download and extract the source code from GitHub:
 .. `git clone https://github.com/stephengold/Minie.git`
@@ -213,4 +225,4 @@ see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
 .. `npx antora src/site/antora/playbook.yml`
 
 After a successful build,
-the local version of the site will be found in the "build/site" directory.
+the local copy of the site will be found in the "build/site" directory.
