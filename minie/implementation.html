@@ -318,7 +318,8 @@ a mature, open-source, 3-D physics simulator,
 released under <a href="https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt">a Zlib license</a>.</p>
 </div>
 <div class="paragraph">
-<p>To enable efficient simulation of moving meshes, Minie also incorporates Khaled Mamou&#8217;s
+<p>To enable efficient simulation of moving meshes,
+Minie also incorporates Khaled Mamou&#8217;s
 <a href="https://github.com/kmammou/v-hacd">Volumetric-Hierarchical Approximate Convex Decomposition <em>(V-HACD)</em> algorithm</a>.</p>
 </div>
 </div>
@@ -333,10 +334,15 @@ to access their objects and methods.</p>
 </div>
 <div class="paragraph">
 <p>All C&#43;&#43; source code associated with Minie
-(including JNI "glue code" and a modified partial snapshot of the Bullet SDK)
+(including JNI "glue code" and a modified snapshot of Bullet)
 resides in <a href="https://github.com/stephengold/Libbulletjme">the Libbulletjme repository</a>.
-The Libbulletjme project builds <em>native libraries</em>
-for each of the 13 platforms Minie supports:</p>
+Before instantiating physics objects,
+a Minie application must dynamically load a <em>native library</em> of this code,
+compiled for the platform on which the app is executing.</p>
+</div>
+<div class="paragraph">
+<p>The Libbulletjme project publishes native libraries
+for the 13 platforms Minie supports:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -365,19 +371,19 @@ during static initialization of the <code>JmeAndroidSystem</code> class.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_collision_objects_and_spaces"><a class="anchor" href="#_collision_objects_and_spaces"></a>Collision objects and spaces</h2>
+<h2 id="_collision_objects_spaces_and_shapes"><a class="anchor" href="#_collision_objects_spaces_and_shapes"></a>Collision objects, spaces, and shapes</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Collision detection is organized around <em>collision objects</em>
 that interact in the context of a <em>collision space</em>.
 Collision objects can be <em>soft</em> (varying shape) or <em>rigid</em> (non-varying shape).
 Rigid objects can be <em>mobile</em> (moving) or <em>static</em> (non-moving).
-And mobile objects can be <em>dynamic</em> (moved by <a href="https://en.wikipedia.org/wiki/Force">forces</a>,
+And mobile objects can be <em>dynamic</em> (driven by <a href="https://en.wikipedia.org/wiki/Force">forces</a>,
 <a href="https://en.wikipedia.org/wiki/Torque">torques</a>, and <a href="https://en.wikipedia.org/wiki/Impulse_(physics)">impulses</a>)
-or <em>kinematic</em> (moved directly by external calculations).</p>
+or <em>kinematic</em> (driven directly by external calculations).</p>
 </div>
 <div class="paragraph">
-<p>In this document, collision spaces that simulate forces, torques, and impulses
+<p>In Minie, collision spaces that simulate forces, torques, and impulses
 are referred to as <em>physics spaces</em>.</p>
 </div>
 <div class="paragraph">
@@ -391,12 +397,42 @@ For full-custom visualization, a <em>physics control</em>
 should be used to associate collision objects with spatials.</p>
 </div>
 <div class="paragraph">
-<p>A collision object&#8217;s location and orientation are quantified
-using <em>physics-space coordinates</em>.
+<p>Each rigid collision object references a <em>collision shape</em>
+that describes the shape of its surface.
+Most collision shapes are <em>scalable</em>,
+allowing you to grow or shrink objects
+simply by varying the shape&#8217;s scale factors.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_coordinate_systems_and_units"><a class="anchor" href="#_coordinate_systems_and_units"></a>Coordinate systems and units</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A collision object&#8217;s absolute location and orientation are quantified
+in <em>physics-space coordinates</em>,
+based on a right-handed Cartesian coordinate system.
 These typically correspond to world coordinates of the scene.
 However, Minie supports scaling the physics space relative to the scene,
 in which case the <em>physics-space units</em> (psu)
 might differ the from world units (wu).</p>
+</div>
+<div class="paragraph">
+<p>With notable exceptions,
+Minie doesn&#8217;t specify real-world units for distance.
+Instead, its documentation refers to physics-space units,
+which could be light-years or millimeters, depending on the application.
+Nor does Minie specify which axis serves as the "up" direction.
+If you use a Y-up coordinate system with a psu of one meter,
+then Minie&#8217;s default gravity
+will be roughly correct for the Earth&#8217;s surface.
+However, there are good reasons to use physics-space units other than meters.</p>
+</div>
+<div class="paragraph">
+<p>Locations relative to a collision object&#8217;s center and subject to its rotation
+are quantified using <em>local coordinates</em>.
+The documentation distinguishes <em>scaled local coordinates</em> (measured in psu)
+from <em>shape coordinates</em> (which depend on scale factors).</p>
 </div>
 </div>
 </div>
@@ -404,9 +440,12 @@ might differ the from world units (wu).</p>
 <h2 id="_discrete_time_and_collision_detection"><a class="anchor" href="#_discrete_time_and_collision_detection"></a>Discrete time and collision detection</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Within a physics space, simulation occurs in discrete <em>time steps</em>,
-which need not correspond to rendered frames.
-Each time step consists of 4 <em>phases</em>:</p>
+<p>Within a physics space, simulation occurs in discrete <em>time steps</em>.
+While it&#8217;s possible to vary the step size from step to step,
+a fixed step size tends to yield more reproducible results.</p>
+</div>
+<div class="paragraph">
+<p>Each time step consists of 4 <em>phases</em>:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -431,11 +470,11 @@ to apply contact forces, solve constraints, and update positions.</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>Collisions are reported asynchronously to listeners registered at the space.
+<p>Collisions are reported to listeners registered at the space.
 For fast-moving objects,
 Minie offers optional continuous collision detection (CCD)
 using swept spheres;
-such collisions are reported to those same listeners.</p>
+collisions detected by CCD are reported to those same listeners.</p>
 </div>
 </div>
 </div>
