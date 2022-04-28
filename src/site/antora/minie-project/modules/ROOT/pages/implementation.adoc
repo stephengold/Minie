@@ -1,5 +1,5 @@
 = How Minie works
-:cplusplus: C&#43;&#43;
+:Cplusplus: C&#43;&#43;
 :url-enwiki: https://en.wikipedia.org/wiki
 
 For physics simulation and collision detection,
@@ -13,11 +13,11 @@ https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Dec
 
 == Native libraries
 
-Bullet and V-HACD are written in {cplusplus}, so Minie uses
+Bullet and V-HACD are written in {Cplusplus}, so Minie uses
 https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html[the Java Native Interface (JNI)]
 to access their objects and methods.
 
-All {cplusplus} source code associated with Minie
+All {Cplusplus} source code associated with Minie
 (including JNI "glue code" and a modified snapshot of Bullet)
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
 Before instantiating physics objects,
