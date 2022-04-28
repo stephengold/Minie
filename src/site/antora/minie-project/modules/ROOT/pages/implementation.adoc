@@ -7,7 +7,8 @@ Minie uses https://pybullet.org/wordpress[the _Bullet Physics SDK_],
 a mature, open-source, 3-D physics simulator,
 released under https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt[a Zlib license].
 
-To enable efficient simulation of moving meshes, Minie also incorporates Khaled Mamou's
+To enable efficient simulation of moving meshes,
+Minie also incorporates Khaled Mamou's
 https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Decomposition _(V-HACD)_ algorithm].
 
 == Native libraries
@@ -17,10 +18,14 @@ https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html[the J
 to access their objects and methods.
 
 All {cplusplus} source code associated with Minie
-(including JNI "glue code" and a modified partial snapshot of the Bullet SDK)
+(including JNI "glue code" and a modified snapshot of Bullet)
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
-The Libbulletjme project builds _native libraries_
-for each of the 13 platforms Minie supports:
+Before instantiating physics objects,
+a Minie application must dynamically load a _native library_ of this code,
+compiled for the platform on which the app is executing.
+
+The Libbulletjme project publishes native libraries
+for the 13 platforms Minie supports:
 
 * Windows (32-bit and 64-bit),
 * Linux (x86-64, x86, armhf, and aarch64),
@@ -34,17 +39,17 @@ if it detects Minie's `NativeMeshUtil` class.
 On Android platforms, the native library is loaded (if present)
 during static initialization of the `JmeAndroidSystem` class.
 
-== Collision objects and spaces
+== Collision objects, spaces, and shapes
 
 Collision detection is organized around _collision objects_
 that interact in the context of a _collision space_.
 Collision objects can be _soft_ (varying shape) or _rigid_ (non-varying shape).
 Rigid objects can be _mobile_ (moving) or _static_ (non-moving).
-And mobile objects can be _dynamic_ (moved by {url-enwiki}/Force[forces],
+And mobile objects can be _dynamic_ (driven by {url-enwiki}/Force[forces],
 {url-enwiki}/Torque[torques], and {url-enwiki}/Impulse_(physics)[impulses])
-or _kinematic_ (moved directly by external calculations).
+or _kinematic_ (driven directly by external calculations).
 
-In this document, collision spaces that simulate forces, torques, and impulses
+In Minie, collision spaces that simulate forces, torques, and impulses
 are referred to as _physics spaces_.
 
 By themselves, collision objects are invisible,
@@ -56,17 +61,43 @@ collision objects by auto-generating spatials for them.
 For full-custom visualization, a _physics control_
 should be used to associate collision objects with spatials.
 
-A collision object's location and orientation are quantified
-using _physics-space coordinates_.
+Each rigid collision object references a _collision shape_
+that describes the shape of its surface.
+Most collision shapes are _scalable_,
+allowing you to grow or shrink objects
+simply by varying the shape's scale factors.
+
+== Coordinate systems and units
+
+A collision object's absolute location and orientation are quantified
+in _physics-space coordinates_,
+based on a right-handed Cartesian coordinate system.
 These typically correspond to world coordinates of the scene.
 However, Minie supports scaling the physics space relative to the scene,
 in which case the _physics-space units_ (psu)
 might differ the from world units (wu).
 
+With notable exceptions,
+Minie doesn't specify real-world units for distance.
+Instead, its documentation refers to physics-space units,
+which could be light-years or millimeters, depending on the application.
+Nor does Minie specify which axis serves as the "up" direction.
+If you use a Y-up coordinate system with a psu of one meter,
+then Minie's default gravity
+will be roughly correct for the Earth's surface.
+However, there are good reasons to use physics-space units other than meters.
+
+Locations relative to a collision object's center and subject to its rotation
+are quantified using _local coordinates_.
+The documentation distinguishes _scaled local coordinates_ (measured in psu)
+from _shape coordinates_ (which depend on scale factors).
+
 == Discrete time and collision detection
 
-Within a physics space, simulation occurs in discrete _time steps_,
-which need not correspond to rendered frames.
+Within a physics space, simulation occurs in discrete _time steps_.
+While it's possible to vary the step size from step to step,
+a fixed step size tends to yield more reproducible results.
+
 Each time step consists of 4 _phases_:
 
 . _forward dynamics part one_,
@@ -80,11 +111,11 @@ Each time step consists of 4 _phases_:
 . _forward dynamics part 2_,
   to apply contact forces, solve constraints, and update positions.
 
-Collisions are reported asynchronously to listeners registered at the space.
+Collisions are reported to listeners registered at the space.
 For fast-moving objects,
 Minie offers optional continuous collision detection (CCD)
 using swept spheres;
-such collisions are reported to those same listeners.
+collisions detected by CCD are reported to those same listeners.
 
 == App states
 
