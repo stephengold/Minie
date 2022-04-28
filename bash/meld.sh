@@ -14,7 +14,7 @@ S3=$GitDir/LbjExamples/apps/src/main/java/com/github/stephengold/lbjexamples/app
 D3=$GitDir/Minie/TutorialApps/src/main/java/jme3utilities/tutorial
 
 S4=$GitDir/LbjExamples/docs/en/modules/ROOT
-D4=$GitDir/Minie/MinieLibrary/src/site/antora/tutorials/modules/mini-library-tutorials
+D4=$GitDir/Minie/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials
 
 S5=$GitDir/LbjExamples/docs/en/modules/ROOT
 D5=$GitDir/Minie/src/site/antora/minie-project/modules/ROOT
