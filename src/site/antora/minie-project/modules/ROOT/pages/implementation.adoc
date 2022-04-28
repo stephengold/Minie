@@ -1,31 +1,32 @@
 = How Minie works
 :Cplusplus: C&#43;&#43;
+:Project: Minie
 :url-enwiki: https://en.wikipedia.org/wiki
 
 For physics simulation and collision detection,
-Minie uses https://pybullet.org/wordpress[the _Bullet Physics SDK_],
+{Project} uses https://pybullet.org/wordpress[the _Bullet Physics SDK_],
 a mature, open-source, 3-D physics simulator,
 released under https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt[a Zlib license].
 
 To enable efficient simulation of moving meshes,
-Minie also incorporates Khaled Mamou's
+{Project} also incorporates Khaled Mamou's
 https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Decomposition _(V-HACD)_ algorithm].
 
 == Native libraries
 
-Bullet and V-HACD are written in {Cplusplus}, so Minie uses
+Bullet and V-HACD are written in {Cplusplus}, so {Project} uses
 https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html[the Java Native Interface (JNI)]
 to access their objects and methods.
 
-All {Cplusplus} source code associated with Minie
+All {Cplusplus} source code associated with {Project}
 (including JNI "glue code" and a modified snapshot of Bullet)
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
 Before instantiating physics objects,
-a Minie application must dynamically load a _native library_ of this code,
+a {Project} application must dynamically load a _native library_ of this code,
 compiled for the platform on which the app is executing.
 
 The Libbulletjme project publishes native libraries
-for the 13 platforms Minie supports:
+for the 13 platforms {Project} supports:
 
 * Windows (32-bit and 64-bit),
 * Linux (x86-64, x86, armhf, and aarch64),
@@ -49,7 +50,7 @@ And mobile objects can be _dynamic_ (driven by {url-enwiki}/Force[forces],
 {url-enwiki}/Torque[torques], and {url-enwiki}/Impulse_(physics)[impulses])
 or _kinematic_ (driven directly by external calculations).
 
-In Minie, collision spaces that simulate forces, torques, and impulses
+In {Project}, collision spaces that simulate forces, torques, and impulses
 are referred to as _physics spaces_.
 
 By themselves, collision objects are invisible,
@@ -78,12 +79,12 @@ in which case the _physics-space units_ (psu)
 might differ the from world units (wu).
 
 With notable exceptions,
-Minie doesn't specify real-world units for distance.
+{Project} doesn't specify real-world units for distance.
 Instead, its documentation refers to physics-space units,
 which could be light-years or millimeters, depending on the application.
-Nor does Minie specify which axis serves as the "up" direction.
+Nor does {Project} specify which axis serves as the "up" direction.
 If you use a Y-up coordinate system with a psu of one meter,
-then Minie's default gravity
+then {Project}'s default gravity
 will be roughly correct for the Earth's surface.
 However, there are good reasons to use physics-space units other than meters.
 
@@ -113,7 +114,7 @@ Each time step consists of 4 _phases_:
 
 Collisions are reported to listeners registered at the space.
 For fast-moving objects,
-Minie offers optional continuous collision detection (CCD)
+{Project} offers optional continuous collision detection (CCD)
 using swept spheres;
 collisions detected by CCD are reported to those same listeners.
 

@@ -1,7 +1,8 @@
 = Project overview
+:Project: Minie
 :url-enwiki: https://en.wikipedia.org/wiki
 
-_Minie_ is a 3-D {url-enwiki}/Physics_engine[physics simulation] library
+_{Project}_ is a 3-D {url-enwiki}/Physics_engine[physics simulation] library
 for https://jmonkeyengine.org[JMonkeyEngine]
 that takes physics-based games to the next level.
 
@@ -21,18 +22,18 @@ while preserving most of the jme3-bullet
 Most JMonkeyEngine physics examples can use Minie without modification,
 plus Minie provides its own tutorials and example apps to help you get started.
 
-All software in the Minie project is free and open-source,
+All software in the {Project} project is free and open-source,
 including the library itself, the demo, tutorial, and utility apps,
 and the software used to build, test, and run them.
 
 The underlying simulation software comes from
 https://pybullet.org/wordpress[_Bullet_], a mature real-time physics simulator.
 But although Bullet is written in {url-enwiki}/C%2B%2B[C&#43;&#43;],
-you won't need any knowledge of C&#43;&#43; to use Minie.
+you won't need any knowledge of C&#43;&#43; to use {Project}.
 
 == Caveats
 
-Minie's focus is on simulating
+{Project}'s focus is on simulating
 {url-enwiki}/Classical_mechanics[classical mechanics]
 in just enough detail to add verisimilitude to 3-D games.
 It's not intended for 2-D {url-enwiki}/Platform_game[platformers],
@@ -45,7 +46,7 @@ you'll need version 3.5.1 JMonkeyEngine libraries.
 For more information about the libraries Minie depends on,
 see xref:depends.adoc[the Library version dependencies page].
 
-Like JMonkeyEngine, Minie and its documentation
+Like JMonkeyEngine, {Project} and its documentation
 assume a certain level of proficiency with
 {url-enwiki}/Java_(programming_language)[the Java programming language].
 This project isn't aimed at non-programmers,
@@ -89,7 +90,7 @@ but "MIN-ee" is also acceptable.
 
 == Next steps
 
-If you're curious how Minie works,
+If you're curious how {Project} works,
 proceed to xref:implementation.adoc[the Implementation page].
 
 To gain hands-on experience,

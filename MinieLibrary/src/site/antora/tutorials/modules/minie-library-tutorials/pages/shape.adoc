@@ -1,4 +1,5 @@
 = Choosing collision shapes
+:Project: Minie
 :item: &rarr;
 :page-pagination:
 :url-enwiki: https://en.wikipedia.org/wiki
@@ -513,7 +514,7 @@ This approach comes with 3 caveats:
 ==== Automated decomposition
 
 For situations where manual decomposition is impractical,
-Minie incorporates Khaled Mamou's
+{Project} incorporates Khaled Mamou's
 https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Decomposition (V-HACD) algorithm].
 V-HACD makes it easy to decompose a 3-D model into a
 compound of hull shapes:
@@ -532,7 +533,7 @@ than a GImpact shape.
 
 == Summary
 
-* Minie provides 16 types of collision shapes,
+* {Project} provides 16 types of collision shapes,
   ranging from the trivial {url-shape}/EmptyShape.html[`EmptyShape`]
   to the costly {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`].
 * Collision-shape instances classified as "concave"
