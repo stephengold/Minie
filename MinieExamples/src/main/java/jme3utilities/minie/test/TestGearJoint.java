@@ -117,7 +117,7 @@ public class TestGearJoint
         for (String arg : arguments) {
             switch (arg) {
                 case "--deleteOnly":
-                    deleteStoredSettings(applicationName);
+                    Heart.deleteStoredSettings(applicationName);
                     System.exit(0);
                     break;
 
