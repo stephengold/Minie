@@ -11,17 +11,27 @@ provides ragdoll physics and inverse kinematics.
 
 Configuration of `DynamicAnimControl` mostly takes place
 before the control is added to a model spatial.
-Adding the control to a spatial automatically creates the ragdoll,
+Adding the control to a spatial automatically creates a ragdoll,
 including rigid bodies and physics joints.
 No ragdoll exists before the control is added to a spatial,
-and removing a control from its controlled spatial destroys the ragdoll.
+and removing a control from its spatial destroys the ragdoll.
 
-The controlled spatial
-must include the model's `SkinningControl` or `SkeletonControl`.
-Often these controls are found in model's root spatial, but not always.
+The controlled spatial must include the model's `SkinningControl`
+(or its `SkeletonControl`, if using the old animation system).
+
+[NOTE]
+====
+Often this is the model's root spatial, but not always.
 If unsure about a model's structure, use `MySpatial.listAnimationSpatials()`.
 For a very simple example, see
 {url-tutorial}/HelloDac.java[HelloDac.java].
+====
+
+`DynamicAnimControl` positions itself just before the `SkinningControl`
+(or the `SkeletonControl`) in the spatial's list of scene-graph controls.
+There it can read the armatures's joint transforms (skeleton's bone transforms)
+*after* they've been written by canned animations
+and store new values *before* the transforms get applied to any meshes.
 
 [NOTE]
 ====
@@ -39,7 +49,7 @@ and _skeleton joint_ (for `com.jme3.anim.Joint`) are used.
 == Physics links
 
 A model's ragdoll is composed of rigid bodies joined by physics joints.
-Within the control, each `PhysicsRigidBody` is represented by
+Within `DynamicAnimControl`, each `PhysicsRigidBody` is represented by
 a `PhysicsLink`, and the links are organized in a tree hierarchy.
 
 `PhysicsLink` has 3 subclasses:
