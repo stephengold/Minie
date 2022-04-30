@@ -328,18 +328,38 @@ provides ragdoll physics and inverse kinematics.
 <div class="paragraph">
 <p>Configuration of <code>DynamicAnimControl</code> mostly takes place
 before the control is added to a model spatial.
-Adding the control to a spatial automatically creates the ragdoll,
+Adding the control to a spatial automatically creates a ragdoll,
 including rigid bodies and physics joints.
 No ragdoll exists before the control is added to a spatial,
-and removing a control from its controlled spatial destroys the ragdoll.</p>
+and removing a control from its spatial destroys the ragdoll.</p>
 </div>
 <div class="paragraph">
-<p>The controlled spatial
-must include the model&#8217;s <code>SkinningControl</code> or <code>SkeletonControl</code>.
-Often these controls are found in model&#8217;s root spatial, but not always.
+<p>The controlled spatial must include the model&#8217;s <code>SkinningControl</code>
+(or its <code>SkeletonControl</code>, if using the old animation system).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Often this is the model&#8217;s root spatial, but not always.
 If unsure about a model&#8217;s structure, use <code>MySpatial.listAnimationSpatials()</code>.
 For a very simple example, see
 <a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloDac.java">HelloDac.java</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>DynamicAnimControl</code> positions itself just before the <code>SkinningControl</code>
+(or the <code>SkeletonControl</code>) in the spatial&#8217;s list of scene-graph controls.
+There it can read the armatures&#8217;s joint transforms (skeleton&#8217;s bone transforms)
+<strong>after</strong> they&#8217;ve been written by canned animations
+and store new values <strong>before</strong> the transforms get applied to any meshes.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -371,7 +391,7 @@ and <em>skeleton joint</em> (for <code>com.jme3.anim.Joint</code>) are used.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A model&#8217;s ragdoll is composed of rigid bodies joined by physics joints.
-Within the control, each <code>PhysicsRigidBody</code> is represented by
+Within <code>DynamicAnimControl</code>, each <code>PhysicsRigidBody</code> is represented by
 a <code>PhysicsLink</code>, and the links are organized in a tree hierarchy.</p>
 </div>
 <div class="paragraph">
