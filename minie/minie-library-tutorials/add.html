@@ -835,6 +835,42 @@ set the gravity of the space to zero:</p>
 <h2 id="_create_collision_objects"><a class="anchor" href="#_create_collision_objects"></a>Create collision objects</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p>Collision objects come in several different types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>bodies (<code>PhysicsBody</code>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>soft bodies (<code>PhysicsSoftBody</code>)</p>
+</li>
+<li>
+<p>rigid bodies (<code>PhysicsRigidBody</code>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>vehicles (<code>PhysicsVehicle</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ghost objects (<code>PhysicsGhostObject</code>)</p>
+</li>
+<li>
+<p>characters (<code>PhysicsCharacter</code>)</p>
+</li>
+<li>
+<p>colliders (<code>MultiBodyCollider</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
 <p>You can create collision objects directly, using the constructors:</p>
 </div>
 <div class="listingblock">
@@ -865,7 +901,8 @@ rigidNode1.addControl(rbc1);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Either way, the objects won&#8217;t get simulated unless they&#8217;re added to a space.</p>
+<p>Either way, the objects
+aren&#8217;t simulated unless they&#8217;re added to a space.</p>
 </div>
 </div>
 </div>
