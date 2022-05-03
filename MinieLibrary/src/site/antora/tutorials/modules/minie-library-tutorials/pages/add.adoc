@@ -1,4 +1,5 @@
 = How to add Minie to an existing project
+:Project: Minie
 :experimental:
 :page-pagination:
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
@@ -7,7 +8,7 @@ TIP: If you're creating a JMonkeyEngine desktop application from scratch,
 https://github.com/stephengold/BasicGame-on-Gradle[the BasicGame-on-Gradle project]
 provides a good template.
 
-Adding Minie to an existing JMonkeyEngine project is a 7-step process:
+Adding {Project} to an existing JMonkeyEngine project is a 7-step process:
 
 . Remove any libraries that might interfere with Minie.
 . Add libraries to the classpath.
@@ -126,7 +127,7 @@ Add to the project's "pom.xml" file:
 
 === Ant-built projects
 
-Download the Minie, Heart, and SimMath libraries from GitHub:
+Download the {Project}, Heart, and SimMath libraries from GitHub:
 
 * https://github.com/stephengold/Minie/releases/tag/4.8.1
 * https://github.com/stephengold/Heart/releases/tag/7.4.1
@@ -313,6 +314,16 @@ space.setGravity(Vector3f.ZERO);
 
 == Create collision objects
 
+Collision objects come in several different types:
+
+* bodies (`PhysicsBody`)
+** soft bodies (`PhysicsSoftBody`)
+** rigid bodies (`PhysicsRigidBody`)
+*** vehicles (`PhysicsVehicle`)
+* ghost objects (`PhysicsGhostObject`)
+* characters (`PhysicsCharacter`)
+* colliders (`MultiBodyCollider`)
+
 You can create collision objects directly, using the constructors:
 
 [source,java]
@@ -341,7 +352,8 @@ RigidBodyControl rbc1 = new RigidBodyControl(sphere2, mass);
 rigidNode1.addControl(rbc1);
 ----
 
-Either way, the objects won't get simulated unless they're added to a space.
+Either way, the objects
+aren't simulated unless they're added to a space.
 
 == Summary
 
