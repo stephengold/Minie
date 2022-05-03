@@ -46,6 +46,7 @@ import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeVersion;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,14 +57,15 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
+import jme3utilities.math.RectSizeLimits;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.nifty.GuiApplication;
 import jme3utilities.nifty.bind.BindScreen;
 import jme3utilities.nifty.displaysettings.DsScreen;
+import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.DisplaySettings;
-import jme3utilities.ui.DisplaySizeLimits;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.ShowDialog;
 
@@ -573,8 +575,7 @@ public class DacWizard extends GuiApplication {
         /*
          * Instantiate the display-settings screen.
          */
-        String applicationName = "DacWizard";
-        DisplaySizeLimits dsl = new DisplaySizeLimits(
+        RectSizeLimits dsl = new RectSizeLimits(
                 640, 480, // min width, height
                 2_048, 1_080 // max width, height
         );
@@ -607,6 +608,14 @@ public class DacWizard extends GuiApplication {
              * by DisplaySettings.initialize().
              */
             application.setShowSettings(false);
+            /*
+             * Designate a sandbox directory.
+             * This has to be done *prior to* initialization.
+             */
+            try {
+                ActionApplication.designateSandbox("Written Assets");
+            } catch (IOException exception) {
+            }
             application.start();
             /*
              * ... and onward to DacWizard.guiInitializeApplication()!

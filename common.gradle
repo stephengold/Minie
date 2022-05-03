@@ -6,7 +6,7 @@ ext {
     jmeTarget = '' // distinguish libraries built for different JME releases
 
     // module coordinates of dependencies:
-    acorusCoordinates = 'com.github.stephengold:Acorus:0.9.14' + jmeTarget
+    acorusCoordinates = 'com.github.stephengold:Acorus:0.9.15' + jmeTarget
     heartCoordinates = 'com.github.stephengold:Heart:7.6.0' + jmeTarget
     junitCoordinates = 'junit:junit:4.13.2'
     testdataCoordinates = 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
