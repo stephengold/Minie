@@ -260,8 +260,6 @@ public class ImportCgms extends SimpleApplication {
         try {
             ImageIO.write(image, suffix, file);
         } catch (IOException exception) {
-            String message = "write() failed while saving "
-                    + MyString.quote(writeFilePath);
             throw new RuntimeException(exception);
         }
         logger.log(Level.INFO, "wrote file {0}", MyString.quote(writeFilePath));
