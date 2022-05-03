@@ -27,13 +27,13 @@ dependencies {
     //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
     runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
 
-    // DacWizard doesn't use jme3-jogg or jme3-plugins.
-    // They are included solely to avoid warnings from AssetConfig.
+    // DacWizard doesn't use jme3-jogg nor jme3-plugins
+    //  -- they are included solely to avoid warnings from AssetConfig.
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jme3Version
 
-    //implementation 'com.github.stephengold:Minie:' + minieVersion
-    implementation project(':MinieLibrary')
+    //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
+    implementation project(':MinieLibrary') // for latest sourcecode
 }
 
 tasks.register('runForceDialog', JavaExec) {

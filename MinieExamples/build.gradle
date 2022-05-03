@@ -34,8 +34,8 @@ dependencies {
     //  -- it is included solely to avoid warnings from AssetConfig.
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
 
-    //implementation 'com.github.stephengold:Minie:' + minieVersion
-    implementation project(':MinieLibrary')
+    //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
+    implementation project(':MinieLibrary') // for latest sourcecode
 }
 
 processResources.dependsOn(':MinieAssets:models', ':MinieAssets:shapes', ':MinieAssets:textures')
