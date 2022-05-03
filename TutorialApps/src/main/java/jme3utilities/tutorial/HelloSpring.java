@@ -311,8 +311,8 @@ public class HelloSpring
         texture.setWrap(Texture.WrapMode.Repeat);
 
         // Enable anisotropic filtering, to reduce blurring.
-        int maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
-        int degree = Math.min(8, maxDegree);
+        Integer maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
+        int degree = (maxDegree == null) ? 1 : Math.min(8, maxDegree);
         texture.setAnisotropicFilter(degree);
 
         // Apply a tiled, unshaded debug material to the body.
