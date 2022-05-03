@@ -1,5 +1,29 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 4.9.0 released on TBD
+
++ Elimiated the last dependency on JCenter!
++ Bugfix:  `IllegalArgumentException` caused by slerps in `TorsoLink`
++ Changed `CollisionShapeFactory` to skip meshes without triangles.
++ Added the `GearJoint` class.
++ Changes to the apps:
+  + Bugfix:  rigid body becomes deactivated in `HelloContactReponse`
+  + Bugfix:  `get(Limits.TextureAnisotropy)` returns `null` on some platforms
+  + Renamed `TestDebugToPost` and moved it from MinieExamples to TutorialApps.
+  + Added `TestGearJoint` to MinieExamples.
+  + Added 3rd body to `HelloDeactivation` for a visual reference point.
+  + Added monkey-head test to `TestSoftBodyControl`.
+  + Added display-settings editors to `NewtonsCradle` and `RopeDemo`.
+  + Enabled window resizing for `DacWizard` and all apps in MinieExamples.
++ Based on:
+  + v3.5.2-stable of JMonkeyEngine,
+  + v1.5.0 of the SimMath library,
+  + v7.6.0 of the Heart library,
+  + v0.9.15 of the Acorus library, and
+  + v0.9.29 of the jme3-utilities-nifty library.
++ Built using Gradle v7.4.2 .
++ Updated the native libraries to v14.3.0 of Libbulletjme.
+
 ## Version 4.8.1 released on 29 March 2022
 
 + Bugfix:  issue #23 (access violations on 64-bit Windows)

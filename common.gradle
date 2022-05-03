@@ -14,8 +14,8 @@ ext {
 
     // current versions of libraries:
     jme3Version = '3.5.2-stable'
-    minieVersion = '4.8.2'
-    minieSnapshot = '-SNAPSHOT' // to distinguish development builds from releases
+    minieVersion = '4.9.0'
+    minieSnapshot = '' // to distinguish development builds from releases
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7
