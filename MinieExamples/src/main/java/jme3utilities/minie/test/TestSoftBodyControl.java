@@ -193,7 +193,8 @@ public class TestSoftBodyControl
         dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
 
-        dim.bind("test rubberDuck", KeyInput.KEY_F1);
+        dim.bind("test monkeyHead", KeyInput.KEY_F1);
+        dim.bind("test rubberDuck", KeyInput.KEY_F2);
         dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
     }
@@ -207,15 +208,19 @@ public class TestSoftBodyControl
      */
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
+        float halfExtent = 4f;
+        float topY = 0f;
         if (ongoing) {
             switch (actionString) {
+                case "test monkeyHead":
+                    cleanupAfterTest();
+                    attachCubePlatform(halfExtent, topY);
+                    addMonkeyHead();
+                    return;
+
                 case "test rubberDuck":
                     cleanupAfterTest();
-
-                    float halfExtent = 4f;
-                    float topY = 0f;
                     attachCubePlatform(halfExtent, topY);
-
                     addRubberDuck();
                     return;
             }
@@ -267,6 +272,38 @@ public class TestSoftBodyControl
             dlsr.setShadowIntensity(0.5f);
             viewPort.addProcessor(dlsr);
         }
+    }
+
+    /**
+     * Add a monkey head to the scene.
+     */
+    private void addMonkeyHead() {
+        Spatial cgModel
+                = assetManager.loadModel("Models/MonkeyHead/MonkeyHead.j3o");
+        cgModel = Heart.deepCopy(cgModel); // clone vertex buffers
+        rootNode.attachChild(cgModel);
+
+        SoftBodyControl sbc = new SoftBodyControl();
+        cgModel.addControl(sbc);
+        PhysicsSoftBody psb = sbc.getBody();
+
+        psb.applyScale(new Vector3f(0.6f, 0.6f, 0.6f));
+        psb.applyTranslation(new Vector3f(0f, 1.4f, 0f));
+
+        float totalMass = 1f;
+        psb.setMassByArea(totalMass);
+
+        SoftBodyConfig config = psb.getSoftConfig();
+        config.set(Sbcp.KineticHardness, 1f);
+        config.set(Sbcp.PoseMatching, 0.03f);
+
+        boolean setVolumePose = false;
+        boolean setFramePose = true;
+        psb.setPose(setVolumePose, setFramePose);
+
+        PhysicsSpace space = getPhysicsSpace();
+        sbc.setPhysicsSpace(space);
+        hiddenObjects.addException(sbc);
     }
 
     /**
@@ -334,8 +371,8 @@ public class TestSoftBodyControl
         flyCam.setMoveSpeed(2f);
         flyCam.setZoomSpeed(2f);
 
-        cam.setLocation(new Vector3f(0f, 2.6f, 4.6f));
-        cam.setRotation(new Quaternion(-0.014f, 0.9642f, -0.26f, -0.05f));
+        cam.setLocation(new Vector3f(-1.7f, 0.5f, 4.4f));
+        cam.setRotation(new Quaternion(-0.0065f, 0.977669f, 0.0283f, 0.20814f));
 
         AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
