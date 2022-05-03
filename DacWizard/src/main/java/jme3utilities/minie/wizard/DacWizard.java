@@ -588,6 +588,7 @@ public class DacWizard extends GuiApplication {
                 setShowDialog(showDialog);
                 settings.setAudioRenderer(null);
                 settings.setRenderer(renderer);
+                settings.setResizable(true);
                 settings.setSamples(4);
                 settings.setTitle(title);
                 settings.setVSync(true);
