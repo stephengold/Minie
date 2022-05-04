@@ -5,7 +5,7 @@
 This page acts as a holding area for tutorial material that's waiting
 to be organized.
 
-== Global configuration
+== Startup message
 
 By default, the native library prints a startup message to `System.out`.
 Once the library is loaded (but not started) you can disable this message:
@@ -14,6 +14,8 @@ Once the library is loaded (but not started) you can disable this message:
 ----
 NativeLibrary.setStartupMessageEnabled(false);
 ----
+
+== Library versions and properties
 
 Once the native library is loaded,
 you can test whether it uses double-precision arithmetic:
@@ -31,6 +33,26 @@ and debug information generated):
 ----
 boolean debug = NativeLibrary.isDebug();
 ----
+
+You can also read the native library's version string,
+which consists of 3 decimal numbers separated by dots:
+
+[source,java]
+----
+String nativeVersion = NativeLibrary.versionNumber();
+----
+
+Java code can also read the Minie version string,
+which consists of 2 words separated by a space:
+
+[source,java]
+----
+import jme3utilities.minie.MinieVersion;
+
+String minieVersion = MinieVersion.versionShort();
+----
+
+== Default collision margin
 
 The default collision margin for new shapes is 0.04 physics-space units.
 To configure a default margin of 0.1 psu:
