@@ -34,7 +34,7 @@ that replaces the older {url-api}/joints/SixDofJoint.html[`SixDofJoint`]
 and {url-api}/joints/SixDofSpringJoint.html[`SixDofSpringJoint`] constraints.
 As its name implies,
 {url-api}/joints/New6Dof.html[`New6Dof`] can simulate up to 6 DOFs.
-It's so versatile, it can also emulate Minie's other 4 constraints:
+It's so versatile, it can also emulate 4 other kinds of constraints:
 
 . {url-api}/joints/ConeJoint.html[`ConeJoint`]
 . {url-api}/joints/HingeJoint.html[`HingeJoint`]
