@@ -321,7 +321,7 @@ to be organized.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_global_configuration"><a class="anchor" href="#_global_configuration"></a>Global configuration</h2>
+<h2 id="_startup_message"><a class="anchor" href="#_startup_message"></a>Startup message</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>By default, the native library prints a startup message to <code>System.out</code>.
@@ -332,6 +332,11 @@ Once the library is loaded (but not started) you can disable this message:</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">NativeLibrary.setStartupMessageEnabled(false);</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_library_versions_and_properties"><a class="anchor" href="#_library_versions_and_properties"></a>Library versions and properties</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Once the native library is loaded,
 you can test whether it uses double-precision arithmetic:</p>
@@ -351,6 +356,31 @@ and debug information generated):</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">boolean debug = NativeLibrary.isDebug();</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>You can also read the native library&#8217;s version string,
+which consists of 3 decimal numbers separated by dots:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">String nativeVersion = NativeLibrary.versionNumber();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Java code can also read the Minie version string,
+which consists of 2 words separated by a space:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import jme3utilities.minie.MinieVersion;
+
+String minieVersion = MinieVersion.versionShort();</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_default_collision_margin"><a class="anchor" href="#_default_collision_margin"></a>Default collision margin</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The default collision margin for new shapes is 0.04 physics-space units.
 To configure a default margin of 0.1 psu:</p>
@@ -473,6 +503,25 @@ which tends to prevent a body from spinning when grasped.</p>
 <p>To simulate objects with grooved surfaces, it&#8217;s also possible to configure
 a rigid body for <em>anisotropic friction</em>:
 friction that depends on the direction of relative motion.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gear_joint"><a class="anchor" href="#_gear_joint"></a>Gear joint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>{url-api}/joints/GearJoint.html[<code>GearJoint</code>] implements
+a special type of constraint used to simulate rotating shafts
+linked by belts, cables, chains, or gears.
+Unlike other constraints, it has no pivot points, only axes.
+It&#8217;s a double-ended constraint
+with a single rotational degree-of-freedom.
+The rotational rate of the A body around its axis
+is matched to that of the B body around its axis, or made proportional.</p>
+</div>
+<div class="paragraph">
+<p>To see a gear joint in action, run
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestGearJoint.java">the TestGearJoint application</a>.</p>
 </div>
 </div>
 </div>
