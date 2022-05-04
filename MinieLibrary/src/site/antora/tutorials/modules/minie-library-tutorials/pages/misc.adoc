@@ -120,3 +120,17 @@ To see rolling and spinning friction in action, run
 To simulate objects with grooved surfaces, it's also possible to configure
 a rigid body for _anisotropic friction_:
 friction that depends on the direction of relative motion.
+
+== Gear joint
+
+{url-api}/joints/GearJoint.html[`GearJoint`] implements
+a special type of constraint used to simulate rotating shafts
+linked by belts, cables, chains, or gears.
+Unlike other constraints, it has no pivot points, only axes.
+It's a double-ended constraint
+with a single rotational degree-of-freedom.
+The rotational rate of the A body around its axis
+is matched to that of the B body around its axis, or made proportional.
+
+To see a gear joint in action, run
+{url-examples}/TestGearJoint.java[the TestGearJoint application].
