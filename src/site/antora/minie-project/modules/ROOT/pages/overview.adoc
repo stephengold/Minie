@@ -41,7 +41,7 @@ nor for scientific research.
 For 2-D physics, consider using http://www.dyn4j.org/[dyn4j] instead.
 
 In order to use the latest Minie release,
-you'll need version 3.5.1 JMonkeyEngine libraries.
+you'll need version 3.5.2 JMonkeyEngine libraries.
 (You can still use a JME 3.2 or 3.3 SDK, however.)
 For more information about the libraries Minie depends on,
 see xref:depends.adoc[the Library version dependencies page].

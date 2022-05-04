@@ -119,10 +119,8 @@ Newer releases (since v0.5.0) can be downloaded from
 Older releases (v0.1.1 through v0.4.5) can be downloaded from
 [the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
-Newer Maven artifacts (since v3.1.0) are available from
+Maven artifacts since v3.1.0 are available from
 [MavenCentral](https://search.maven.org/artifact/com.github.stephengold/Minie).
-
-Old Maven artifacts (v1.4.0 through v3.1.0) are available from JCenter.
 
 [Jump to table of contents](#toc)
 

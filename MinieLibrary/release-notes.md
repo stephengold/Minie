@@ -1,8 +1,8 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 4.9.0 released on TBD
+## Version 4.9.0 released on 2 May 2022
 
-+ Elimiated the last dependency on JCenter!
++ Eliminated the last dependency on JCenter!
 + Bugfix:  `IllegalArgumentException` caused by slerps in `TorsoLink`
 + Changed `CollisionShapeFactory` to skip meshes without triangles.
 + Added the `GearJoint` class.

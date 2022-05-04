@@ -90,10 +90,9 @@ Add to the application's "build.gradle" file:
 ----
 repositories {
     mavenCentral()
-    maven { url 'https://jcenter.bintray.com' } // for SimMath
 }
 dependencies {
-    implementation 'com.github.stephengold:Minie:4.8.1'
+    implementation 'com.github.stephengold:Minie:4.9.0'
 }
 ----
 
@@ -111,17 +110,12 @@ Add to the project's "pom.xml" file:
       <id>mvnrepository</id>
       <url>https://repo1.maven.org/maven2/</url>
     </repository>
-    <repository>
-        <id>jcenter</id>
-        <name>jcenter</name>
-        <url>https://jcenter.bintray.com</url>
-    </repository>
 </repositories>
 
 <dependency>
   <groupId>com.github.stephengold</groupId>
   <artifactId>Minie</artifactId>
-  <version>4.8.1</version>
+  <version>4.9.0</version>
 </dependency>
 ----
 
@@ -129,9 +123,9 @@ Add to the project's "pom.xml" file:
 
 Download the {Project}, Heart, and SimMath libraries from GitHub:
 
-* https://github.com/stephengold/Minie/releases/tag/4.8.1
-* https://github.com/stephengold/Heart/releases/tag/7.4.1
-* https://github.com/Simsilica/SimMath/releases/tag/sim-math-v1.4.1
+* https://github.com/stephengold/Minie/releases/tag/4.9.0
+* https://github.com/stephengold/Heart/releases/tag/7.6.0
+* https://github.com/Simsilica/SimMath/releases/tag/sim-math-v1.5.0
 
 You'll want both class JARs
 and probably the "-sources" and "-javadoc" JARs as well.
@@ -145,22 +139,22 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 . Add the Heart class JAR:
 .. Click on the btn:[Add JAR/Folder] button.
 .. Navigate to the download directory.
-.. Select the "Heart-7.4.1" file.
+.. Select the "Heart-7.6.0" file.
 .. Click on the btn:[Open] button.
 . (optional) Add JARs for javadoc and sources:
 .. Click on the btn:[Edit] button.
 .. Click on the btn:[Browse...] button to the right of "Javadoc:"
-.. Select the "Heart-7.4.1-javadoc.jar" file.
+.. Select the "Heart-7.6.0-javadoc.jar" file.
 .. Click on the btn:[Open] button.
 .. Click on the btn:[Browse...] button to the right of "Sources:"
-.. Select the "Heart-7.4.1-sources.jar" file.
+.. Select the "Heart-7.6.0-sources.jar" file.
 .. Click on the btn:[Open] button button again.
 .. Click on the btn:[OK] button to close the "Edit Jar Reference" dialog.
 . Similarly, add the Minie and sim-math JAR(s).
 . Click on the btn:[OK] button to exit the "Project Properties" dialog.
 
 In order to use the latest Minie release,
-you'll need version 3.5.1 JMonkeyEngine libraries.
+you'll need version 3.5.2 JMonkeyEngine libraries.
 (You can still use a JME 3.2 or 3.3 SDK, however.)
 For more information about the libraries Minie depends on,
 see https://stephengold.github.io/Minie/minie/depends.html[the Library version dependencies page in the Minie documentation].

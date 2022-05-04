@@ -12,7 +12,7 @@ During development, Java assertions should be enabled using:
 * the `enableAssertions` setting of Gradle `JavaExec` tasks.
 
 Similarly, native-code assertions should be enabled during development,
-by specifying a Minie library of the "debug" type, such as "Minie-4.8.1+debug".
+by specifying a Minie library of the "debug" type, such as "Minie-4.9.0+debug".
 
 When a physics simulation doesn't behave as expected,
 _debug visualization_ should be enabled
