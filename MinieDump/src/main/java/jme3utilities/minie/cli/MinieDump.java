@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephen Gold
+ Copyright (c) 2021-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@ public class MinieDump {
      */
     final private static AssetManager assetManager = new DesktopAssetManager();
     /**
-     * dump asset descriptions to System.out
+     * dump asset descriptions to {@code System.out}
      */
     final private static PhysicsDumper dumper = new PhysicsDumper();
     // *************************************************************************

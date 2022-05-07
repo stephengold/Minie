@@ -128,7 +128,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
      */
     final private Map<String, CollisionShape> namedShapes = new TreeMap<>();
     /**
-     * dump debugging information to System.out
+     * dump debugging information to {@code System.out}
      */
     final private PhysicsDumper dumper = new PhysicsDumper();
     /**

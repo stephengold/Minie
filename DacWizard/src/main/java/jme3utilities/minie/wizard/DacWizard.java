@@ -120,7 +120,7 @@ public class DacWizard extends GuiApplication {
      */
     private Node cgmParent = null;
     /**
-     * dump debugging information to System.out
+     * dump debugging information to {@code System.out}
      */
     final static PhysicsDumper dumper = new PhysicsDumper();
     // *************************************************************************

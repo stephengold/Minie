@@ -44,7 +44,7 @@ import com.jme3.scene.Node;
 /**
  * Test for Minie issue #18 (BetterCharacterController hops across seams) using
  * a HeightfieldCollisionShape. If the issue is present, numeric data will be
- * printed to System.out .
+ * printed to {@code System.out}.
  *
  * @author Stephen Gold sgold@sonic.net
  */

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephen Gold
+ Copyright (c) 2021-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,7 @@ import com.jme3.scene.shape.Quad;
 /**
  * Test for Minie issue #18 (BetterCharacterController hops across seams) using
  * a GImpactCollisionShape. If the issue is present, numeric data will be
- * printed to System.out .
+ * printed to {@code System.out}.
  *
  * @author Stephen Gold sgold@sonic.net
  */

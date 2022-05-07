@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 
 /**
  * Test case for JME issue #1058: native Bullet crash while removing a rigid
- * body from a BroadphaseType.SIMPLE PhysicsSpace.
+ * body from a {@code BroadphaseType.SIMPLE} PhysicsSpace.
  * <p>
  * If successful, the app will complete normally.
  *

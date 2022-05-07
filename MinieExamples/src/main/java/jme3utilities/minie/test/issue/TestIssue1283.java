@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -92,7 +92,7 @@ public class TestIssue1283 extends SimpleApplication {
      */
     private Material wallMaterial;
     /**
-     * dump debugging information to System.out
+     * dump debugging information to {@code System.out}
      */
     final private PhysicsDumper dumper = new PhysicsDumper();
     /**

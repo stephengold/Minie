@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2021, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -151,7 +151,7 @@ public class PhysicsDumper extends Dumper {
     // constructors
 
     /**
-     * Instantiate a PhysicsDumper that uses System.out for output.
+     * Instantiate a PhysicsDumper that uses {@code System.out} for output.
      */
     public PhysicsDumper() {
         super();
