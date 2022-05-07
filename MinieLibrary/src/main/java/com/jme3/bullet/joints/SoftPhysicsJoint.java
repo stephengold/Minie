@@ -169,7 +169,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // new methods exposed
 
     /**
-     * Compare Bullet parameters against their the local copies.
+     * Compare Bullet parameters against their local copies.
      *
      * @return true if the local copies are accurate, otherwise false
      */
