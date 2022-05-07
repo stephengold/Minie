@@ -256,34 +256,34 @@ public class TestCloneJoints {
      * SoftAngularJoint: soft-soft and soft-rigid
      */
     private void cloneSoftAngular() {
-        SoftAngularJoint ssaj = new SoftAngularJoint(va, softA, 0, softB, 0);
-        setParameters(ssaj, 0f);
-        verifyParameters(ssaj, 0f);
-        SoftAngularJoint ssajClone = Heart.deepCopy(ssaj);
-        cloneTest(ssaj, ssajClone);
+        SoftAngularJoint softSoft = new SoftAngularJoint(va, softA, 0, softB, 0);
+        setParameters(softSoft, 0f);
+        verifyParameters(softSoft, 0f);
+        SoftAngularJoint ssClone = Heart.deepCopy(softSoft);
+        cloneTest(softSoft, ssClone);
 
-        SoftAngularJoint sraj = new SoftAngularJoint(va, softA, 0, rigidB);
-        setParameters(sraj, 0f);
-        verifyParameters(sraj, 0f);
-        SoftAngularJoint srajClone = Heart.deepCopy(sraj);
-        cloneTest(sraj, srajClone);
+        SoftAngularJoint softRigid = new SoftAngularJoint(va, softA, 0, rigidB);
+        setParameters(softRigid, 0f);
+        verifyParameters(softRigid, 0f);
+        SoftAngularJoint srClone = Heart.deepCopy(softRigid);
+        cloneTest(softRigid, srClone);
     }
 
     /**
      * Clone SoftLinearJoint: soft-soft and soft-rigid
      */
     private void cloneSoftLinear() {
-        SoftLinearJoint sslj = new SoftLinearJoint(va, softA, 0, softB, 0);
-        setParameters(sslj, 0f);
-        verifyParameters(sslj, 0f);
-        SoftLinearJoint ssljClone = Heart.deepCopy(sslj);
-        cloneTest(sslj, ssljClone);
+        SoftLinearJoint softSoft = new SoftLinearJoint(va, softA, 0, softB, 0);
+        setParameters(softSoft, 0f);
+        verifyParameters(softSoft, 0f);
+        SoftLinearJoint ssClone = Heart.deepCopy(softSoft);
+        cloneTest(softSoft, ssClone);
 
-        SoftLinearJoint srlj = new SoftLinearJoint(va, softA, 0, rigidB);
-        setParameters(srlj, 0f);
-        verifyParameters(srlj, 0f);
-        SoftLinearJoint srljClone = Heart.deepCopy(srlj);
-        cloneTest(srlj, srljClone);
+        SoftLinearJoint softRigid = new SoftLinearJoint(va, softA, 0, rigidB);
+        setParameters(softRigid, 0f);
+        verifyParameters(softRigid, 0f);
+        SoftLinearJoint srClone = Heart.deepCopy(softRigid);
+        cloneTest(softRigid, srClone);
     }
 
     /**

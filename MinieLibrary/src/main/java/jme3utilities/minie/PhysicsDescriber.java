@@ -442,8 +442,8 @@ public class PhysicsDescriber extends Describer {
                 result.append(MyString.describe(erp));
 
                 result.append(" rest=");
-                float restit = motor.getRestitution();
-                result.append(MyString.describe(restit));
+                float rest = motor.getRestitution();
+                result.append(MyString.describe(rest));
 
                 result.append(" soft=");
                 float softness = motor.getLimitSoftness();

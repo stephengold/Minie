@@ -666,14 +666,14 @@ public class TestSoftBody
      * @param puppetDac the model's physics control (not null)
      */
     private void addSkirt(DynamicAnimControl puppetDac) {
-        int numSubdiv = 5;
+        int numDivisions = 5;
         int numAnchors = 51;
         float length = 0.57f;
         Vector3f[] anchorLocs = new Vector3f[numAnchors];
         for (int zIndex = 0; zIndex < numAnchors; ++zIndex) {
             anchorLocs[zIndex] = new Vector3f();
         }
-        Mesh mesh = createSkirtMesh(puppetDac, numSubdiv, length, anchorLocs);
+        Mesh mesh = createSkirtMesh(puppetDac, numDivisions, length, anchorLocs);
         /*
          * Create and configure the soft body.
          */

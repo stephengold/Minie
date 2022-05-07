@@ -185,18 +185,18 @@ public class TestDefaults {
         Assert.assertFalse(ghost.isContactResponse());
         Assert.assertTrue(ghost.isStatic());
 
-        PhysicsRigidBody srb
+        PhysicsRigidBody staticPrb
                 = new PhysicsRigidBody(box, PhysicsBody.massForStatic);
-        testRigidBody(srb);
-        RigidBodyControl srbc
+        testRigidBody(staticPrb);
+        RigidBodyControl staticRbc
                 = new RigidBodyControl(box, PhysicsBody.massForStatic);
-        testRigidBody(srbc);
+        testRigidBody(staticRbc);
 
         rigidA = new PhysicsRigidBody(box);
         testRigidBody(rigidA);
 
-        RigidBodyControl drbc = new RigidBodyControl(box);
-        testRigidBody(drbc);
+        RigidBodyControl dynamicRbc = new RigidBodyControl(box);
+        testRigidBody(dynamicRbc);
 
         softA = new PhysicsSoftBody();
         testPco(softA);
@@ -405,13 +405,13 @@ public class TestDefaults {
                 new Vector3f(0f, 0f, 0f), new Vector3f(0f, 0f, 0f), false);
         testSlider(deSlider, 2);
 
-        SoftAngularJoint sraj = new SoftAngularJoint(new Vector3f(0f, 0f, 0f),
-                softA, 0, rigidB);
-        Assert.assertEquals(2, sraj.countEnds());
-        Assert.assertEquals(1f, sraj.getCFM(), 0f);
-        Assert.assertTrue(sraj.isEnabled());
-        Assert.assertEquals(1f, sraj.getERP(), 0f);
-        Assert.assertEquals(1f, sraj.getSplit(), 0f);
+        SoftAngularJoint srAngularJoint = new SoftAngularJoint(
+                new Vector3f(0f, 0f, 0f), softA, 0, rigidB);
+        Assert.assertEquals(2, srAngularJoint.countEnds());
+        Assert.assertEquals(1f, srAngularJoint.getCFM(), 0f);
+        Assert.assertTrue(srAngularJoint.isEnabled());
+        Assert.assertEquals(1f, srAngularJoint.getERP(), 0f);
+        Assert.assertEquals(1f, srAngularJoint.getSplit(), 0f);
     }
 
     private void testMultiBody() {
