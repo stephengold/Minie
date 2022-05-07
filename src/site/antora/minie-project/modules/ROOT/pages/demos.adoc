@@ -7,15 +7,17 @@ The following demos are found in
 {url-code}[the "jme3utilities.minie.test" package of the MinieExamples sub-project]:
 
 * `BalanceDemo`
-  demonstrates models that balance their weight between 2 feet
+  demonstrates ragdolls that balance their weight between 2 feet
 * `BuoyDemo`
   demonstrates ragdolls with buoyancy
+* `ConveyorDemo`
+  demonstrates conveyor belt simulation using the `ContactListener` interface
 * `DropTest` (also known as `MultiSphereDemo`)
   demonstrates falling rigid bodies with various shapes
 * `ForceDemo`
   demonstrates forces, torques, and impulses applied in zero gravity
 * `JointDemo`
-  demonstrates a crawling robot made of boxes and 6-DOF joints
+  demonstrates a crawling robot composed of boxes and 6-DOF joints
 * `NewtonsCradle`
   demonstrates dynamic restitution and point-to-point joints
 * `PoolDemo`
@@ -23,17 +25,19 @@ The following demos are found in
 * `RopeDemo`
   demonstrates simulation of ropes using `DynamicAnimControl`
 * `SeJointDemo`
-  demonstrates various single-ended joints
+  demonstrates various kinds of single-ended physics joints
 * `TargetDemo`
   demonstrates shooting balls at various targets
 * `TestDac`
   demonstrates `DynamicAnimControl` applied to various models
-* `TestDebugToPost`
-  demonstrates debug visualization to a post `ViewPort`
+* `TestGearJoint`
+  demonstrates `GearJoint`
 * `TestSoftBody`
   demonstrates soft-body physics without `SoftBodyControl`
 * `TestSoftBodyControl`
-  demonstrates soft-body physics with `SoftBodyControl`
+  demonstrates soft-body physics using `SoftBodyControl`
+* `TrackDemo`
+  demonstrates inverse kinematics using `IKController`
 * `WatchDemo`
   demonstrates head/eye inverse kinematics for various models
 
