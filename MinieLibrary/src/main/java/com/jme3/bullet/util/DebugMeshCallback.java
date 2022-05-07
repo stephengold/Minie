@@ -207,9 +207,8 @@ class DebugMeshCallback {
         double maxSquaredDistance = 0.0;
         Vector3f tmpVector = new Vector3f(); // TODO garbage
         for (Vector3f vertex : list) {
-            tmpVector.set(vertex);
-            meshToWorld.transformVector(vertex, vertex);
-            double lengthSquared = MyVector3f.lengthSquared(vertex);
+            meshToWorld.transformVector(vertex, tmpVector);
+            double lengthSquared = MyVector3f.lengthSquared(tmpVector);
             if (lengthSquared > maxSquaredDistance) {
                 maxSquaredDistance = lengthSquared;
             }
