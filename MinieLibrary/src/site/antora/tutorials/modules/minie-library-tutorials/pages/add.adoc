@@ -207,7 +207,7 @@ PhysicsSpace physicsSpace = appState.getPhysicsSpace();
 ----
 
 If the application needs multibodies, instantiate a
-{url-api}/MultiBodyBulletAppState.html[`MultiBodyBulletAppState`].
+{url-api}/MultiBodyAppState.html[`MultiBodyAppState`].
 (Minie doesn't yet support combining soft bodies and multibodies in
 a single physics space.)
 
