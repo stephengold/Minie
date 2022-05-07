@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2021, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ public class MyShape {
     // new methods exposed
 
     /**
-     * Describe the type of a shape.
+     * Describe the type of the specified shape.
      *
      * @param shape the shape to describe (not null, unaffected)
      * @return the type description (not null)

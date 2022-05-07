@@ -54,7 +54,7 @@ tasks.withType(JavaExec) { // Java runtime options:
 }
 
 repositories {
-    //mavenLocal() // to find local SNAPSHOTs of libraries
+    //mavenLocal() // to find local snapshots of libraries
     mavenCentral()
 }
 

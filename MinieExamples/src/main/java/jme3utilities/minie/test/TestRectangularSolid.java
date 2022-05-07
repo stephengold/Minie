@@ -270,8 +270,8 @@ public class TestRectangularSolid extends PhysicsDemo {
      * Perform a new trial after cleaning up from the previous one.
      *
      * @param shapeName type of collision shape to generate:
-     * "square"&rarr;HullCollisionShape, "capsule"&rarr;MultiSphere with 2
-     * spheres, or "rounded"&rarr;MultiSphere with 4 spheres
+     * "square" &rarr;HullCollisionShape, "capsule" &rarr;MultiSphere with 2
+     * spheres, or "rounded" &rarr;MultiSphere with 4 spheres
      */
     private void nextTrial(String shapeName) {
         if (trialNode != null) {

@@ -181,7 +181,7 @@ public class TestRbc
      */
     final private Node meshesNode = new Node("meshes node");
     /**
-     * visualizer for the most recent raytest/sweeptest hit
+     * visualizer for the most recent ray/sweep test hit
      */
     private PointVisualizer hitPoint;
     /**
