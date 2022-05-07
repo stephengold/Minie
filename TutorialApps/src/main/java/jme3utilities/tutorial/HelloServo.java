@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephen Gold
+ Copyright (c) 2021-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -132,7 +132,7 @@ public class HelloServo extends SimpleApplication {
         inputManager.addMapping("pos2", new KeyTrigger(KeyInput.KEY_2));
         inputManager.addMapping("pos3", new KeyTrigger(KeyInput.KEY_3));
         inputManager.addMapping("pos4", new KeyTrigger(KeyInput.KEY_4));
-        InputListener listener = new ActionListener() {
+        InputListener actionListener = new ActionListener() {
             @Override
             public void onAction(String action, boolean ongoing, float tpf) {
                 if (!ongoing) {
@@ -157,7 +157,7 @@ public class HelloServo extends SimpleApplication {
                 }
             }
         };
-        inputManager.addListener(listener, "pos1", "pos2", "pos3", "pos4");
+        inputManager.addListener(actionListener, "pos1", "pos2", "pos3", "pos4");
     }
     // *************************************************************************
     // private methods
