@@ -29,7 +29,7 @@ For a very simple example, see
 
 `DynamicAnimControl` positions itself just before the `SkinningControl`
 (or the `SkeletonControl`) in the spatial's list of scene-graph controls.
-There it can read the armatures's joint transforms (skeleton's bone transforms)
+There it can read the armature's joint transforms (skeleton's bone transforms)
 *after* they've been written by canned animations
 and store new values *before* the transforms get applied to any meshes.
 
