@@ -193,7 +193,7 @@ public class HelloCharacter
      * @param physicsSpace (not null)
      * @return the new body (not null)
      */
-    private PhysicsRigidBody addSquare(float halfExtent, float y,
+    private static PhysicsRigidBody addSquare(float halfExtent, float y,
             PhysicsSpace physicsSpace) {
         // Construct a static rigid body with a square shape.
         Box2dShape shape = new Box2dShape(halfExtent);
