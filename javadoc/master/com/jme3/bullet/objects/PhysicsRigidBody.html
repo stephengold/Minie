@@ -1197,11 +1197,18 @@ loadScripts(document, 'script');</script>
 <div class="block">Alter this body's gravitational acceleration.
  <p>
  Invoke this method <em>after</em> adding the body to a PhysicsSpace.
- Adding a body to a PhysicsSpace may override its gravity.</div>
+ Unless protection is set, adding a body to a PhysicsSpace overrides its
+ gravity.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>acceleration</code> - the desired acceleration vector (in physics-space
  coordinates, not null, unaffected, default=(0,0,0))</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="#setProtectGravity(boolean)"><code>setProtectGravity(boolean)</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
@@ -1543,13 +1550,21 @@ loadScripts(document, 'script');</script>
 <div class="block">Alter this body's gravitational acceleration.
  <p>
  Invoke this method <em>after</em> adding the body to a PhysicsSpace.
- Adding a body to a PhysicsSpace may override its gravity.</div>
+ Unless protection is set, adding a body to a PhysicsSpace overrides its
+ gravity.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="PhysicsBody.html#setGravity(com.jme3.math.Vector3f)">setGravity</a></code>&nbsp;in class&nbsp;<code><a href="PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>acceleration</code> - the desired acceleration vector (in physics-space
  coordinates, not null, unaffected, default=(0,0,0))</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="#setProtectGravity(boolean)"><code>setProtectGravity(boolean)</code></a></li>
+<li><a href="#setGravityDp(com.simsilica.mathd.Vec3d)"><code>setGravityDp(com.simsilica.mathd.Vec3d)</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>

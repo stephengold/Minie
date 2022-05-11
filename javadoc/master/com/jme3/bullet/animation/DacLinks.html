@@ -327,7 +327,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#verifyReadyForDynamicMode(java.lang.String)" class="member-name-link">verifyReadyForDynamicMode</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;desiredAction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Verify that this control is ready for dynamic mode, which implies that it
- is added to a Spatial.</div>
+ is added to a Spatial, added to a PhysicsSpace, and the physics has been
+ stepped.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -549,7 +550,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <h3>verifyReadyForDynamicMode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">verifyReadyForDynamicMode</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;desiredAction)</span></div>
 <div class="block">Verify that this control is ready for dynamic mode, which implies that it
- is added to a Spatial.</div>
+ is added to a Spatial, added to a PhysicsSpace, and the physics has been
+ stepped.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>desiredAction</code> - (not null, not empty)</dd>
