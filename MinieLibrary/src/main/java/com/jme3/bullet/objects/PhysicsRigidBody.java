@@ -810,15 +810,22 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Alter this body's gravitational acceleration.
      * <p>
      * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
-     * Adding a body to a PhysicsSpace may override its gravity.
+     * Unless protection is set, adding a body to a PhysicsSpace overrides its
+     * gravity.
+     *
+     * @see #setProtectGravity(boolean)
      *
      * @param acceleration the desired acceleration vector (in physics-space
      * coordinates, not null, unaffected, default=(0,0,0))
      */
     public void setGravityDp(Vec3d acceleration) {
         Validate.nonNull(acceleration, "acceleration");
-        if (!isInWorld()) {
-            logger2.warning("The body is not in any PhysicsSpace.");
+        if (!isInWorld() && !isGravityProtected()) {
+            logger2.warning(
+                    "The body isn't in any PhysicsSpace, and its gravity isn't"
+                    + " protected. Unless protection is set, adding it"
+                    + " to a PhysicsSpace will override its gravity."
+            );
         }
 
         long objectId = nativeId();
@@ -1293,7 +1300,11 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Alter this body's gravitational acceleration.
      * <p>
      * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
-     * Adding a body to a PhysicsSpace may override its gravity.
+     * Unless protection is set, adding a body to a PhysicsSpace overrides its
+     * gravity.
+     *
+     * @see #setProtectGravity(boolean)
+     * @see #setGravityDp(com.simsilica.mathd.Vec3d)
      *
      * @param acceleration the desired acceleration vector (in physics-space
      * coordinates, not null, unaffected, default=(0,0,0))
@@ -1301,8 +1312,12 @@ public class PhysicsRigidBody extends PhysicsBody {
     @Override
     public void setGravity(Vector3f acceleration) {
         Validate.nonNull(acceleration, "acceleration");
-        if (!isInWorld()) {
-            logger2.warning("The body is not in any PhysicsSpace.");
+        if (!isInWorld() && !isGravityProtected()) {
+            logger2.warning(
+                    "The body isn't in any PhysicsSpace, and its gravity isn't"
+                    + " protected. Unless protection is set, adding it"
+                    + " to a PhysicsSpace will override its gravity."
+            );
         }
 
         long objectId = nativeId();
