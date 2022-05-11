@@ -588,7 +588,8 @@ public class DacLinks
 
     /**
      * Verify that this control is ready for dynamic mode, which implies that it
-     * is added to a Spatial.
+     * is added to a Spatial, added to a PhysicsSpace, and the physics has been
+     * stepped.
      *
      * @param desiredAction (not null, not empty)
      */
@@ -596,6 +597,12 @@ public class DacLinks
         assert desiredAction != null;
 
         verifyAddedToSpatial(desiredAction);
+
+        if (!added) {
+            String message = "Cannot " + desiredAction
+                    + " unless the control is added to a PhysicsSpace.";
+            throw new IllegalStateException(message);
+        }
 
         if (!isReady) {
             String message = "Cannot " + desiredAction
@@ -1035,6 +1042,7 @@ public class DacLinks
                 space.removeJoint(joint);
             }
         }
+        isReady = false;
     }
 
     /**
