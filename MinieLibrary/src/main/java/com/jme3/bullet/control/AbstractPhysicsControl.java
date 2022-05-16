@@ -272,6 +272,11 @@ abstract public class AbstractPhysicsControl
      */
     @Override
     public AbstractPhysicsControl jmeClone() {
+        if (added) {
+            String message = "Can't clone a " + getClass().getSimpleName()
+                    + " while it's added to a physics space.";
+            throw new IllegalStateException(message);
+        }
         try {
             AbstractPhysicsControl clone
                     = (AbstractPhysicsControl) super.clone();
