@@ -258,21 +258,6 @@ public class CharacterControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new Control (not null)
-     */
-    @Override
-    public CharacterControl jmeClone() {
-        try {
-            CharacterControl clone = (CharacterControl) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this Control from the specified importer, for example when
      * loading from a J3O file.
      *

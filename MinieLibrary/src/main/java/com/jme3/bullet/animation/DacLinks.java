@@ -934,21 +934,6 @@ public class DacLinks
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public DacLinks jmeClone() {
-        try {
-            DacLinks clone = (DacLinks) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Read the mass of the named bone/torso.
      *
      * @param boneName the name of the bone/torso (not null)

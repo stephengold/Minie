@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -850,21 +850,6 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         }
 
         gravityVector = cloner.clone(gravityVector);
-    }
-
-    /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public DacConfiguration jmeClone() {
-        try {
-            DacConfiguration clone = (DacConfiguration) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
     }
 
     /**
