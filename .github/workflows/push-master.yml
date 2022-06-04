@@ -1,7 +1,7 @@
 ---
-# GitHub workflow for commits pushed to the Minie repo - master branch
+# GitHub Actions workflow for commits pushed to the Minie repo - master branch only
 
-name: GitHub website
+name: GitHub Pages website
 on:
   push:
     branches: [master]
