@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,6 +103,13 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     }
 
     /**
+     * Return the global deactivation deadline.
+     *
+     * @return the deadline (in simulated seconds, &gt;0)
+     */
+    native public static float getDeactivationDeadline();
+
+    /**
      * Copy this body's gravitational acceleration.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -117,6 +124,13 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * @return the total mass (&ge;0)
      */
     abstract public float getMass();
+
+    /**
+     * Test the global deactivation enabled flag.
+     *
+     * @return true if deactivation is enabled, otherwise false
+     */
+    native public static boolean isDeactivationEnabled();
 
     /**
      * Enumerate the joints connected to this body. (The semantics have changed
@@ -156,6 +170,22 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
         boolean success = joints.remove(joint);
         assert success;
     }
+
+    /**
+     * Alter the global deactivation deadline.
+     *
+     * @param newDeadline the desired deadline (in simulated seconds, &gt;0,
+     * default=2)
+     */
+    native public static void setDeactivationDeadline(float newDeadline);
+
+    /**
+     * Alter the global deactivation enabled flag.
+     *
+     * @param newSetting true to enable deactivation, false to disable it
+     * (default=true)
+     */
+    native public static void setDeactivationEnabled(boolean newSetting);
 
     /**
      * Alter this body's gravitational acceleration. TODO scalar alternative
