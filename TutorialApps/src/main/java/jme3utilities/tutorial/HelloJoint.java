@@ -63,7 +63,7 @@ import com.jme3.texture.Texture;
 
 /**
  * A simple example of a PhysicsJoint.
- *
+ * <p>
  * Builds upon HelloKinematics.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -172,25 +172,23 @@ public class HelloJoint
     // PhysicsTickListener methods
 
     /**
-     * Callback from Bullet, invoked just before the simulation is stepped.
+     * Callback from Bullet, invoked just before each simulation step.
      *
-     * @param ignored the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
-    public void prePhysicsTick(PhysicsSpace ignored, float timeStep) {
-        /*
-         * Reposition the paddle based on the mouse location.
-         */
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+        // Reposition the paddle based on the mouse location.
         Vector3f bodyLocation = mouseLocation.add(0f, paddleHalfHeight, 0f);
         paddleBody.setPhysicsLocation(bodyLocation);
     }
 
     /**
-     * Callback from Bullet, invoked just after the simulation has been stepped.
+     * Callback from Bullet, invoked just after each simulation step.
      *
-     * @param space ignored
-     * @param timeStep ignored
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {

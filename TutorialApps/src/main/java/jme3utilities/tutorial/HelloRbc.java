@@ -42,10 +42,13 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
+import com.jme3.system.JmeSystem;
+import com.jme3.system.Platform;
+import org.lwjgl.system.Configuration;
 
 /**
  * A simple example using RigidBodyControl.
- *
+ * <p>
  * Builds upon HelloStaticBody.
  *
  * @author Stephen Gold sgold@sonic.net

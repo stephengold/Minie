@@ -62,9 +62,9 @@ import com.jme3.texture.Texture;
 
 /**
  * A simple example of character physics.
- *
+ * <p>
  * Press the W key to walk. Press the space bar to jump.
- *
+ * <p>
  * Builds upon HelloCharacter.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -214,7 +214,7 @@ public class HelloWalk
     // private methods
 
     /**
-     * Add lighting and shadows to the specified scene.
+     * Add lighting and shadows to the specified scene and set the background color.
      */
     private void addLighting(Spatial scene) {
         ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
@@ -241,7 +241,7 @@ public class HelloWalk
         dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the background color to light blue.
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }

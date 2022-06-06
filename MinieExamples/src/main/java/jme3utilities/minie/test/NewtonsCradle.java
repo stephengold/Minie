@@ -63,7 +63,9 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.ShowDialog;
 
 /**
- * A PhysicsDemo to simulate Newton's cradle.
+ * A physics demo that simulates a Newton's cradle.
+ * <p>
+ * https://en.wikipedia.org/wiki/Newton%27s_cradle
  * <p>
  * Collision objects are rendered entirely by debug visualization.
  *
