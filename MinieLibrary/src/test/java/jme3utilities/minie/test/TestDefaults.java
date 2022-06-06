@@ -129,6 +129,22 @@ public class TestDefaults {
     public void testDefaults() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
+        // default margin for collision shapes
+        float margin = CollisionShape.getDefaultMargin();
+        Assert.assertEquals(0.04f, margin, 0f);
+
+        // deactivation deadline
+        float deadline = PhysicsBody.getDeactivationDeadline();
+        Assert.assertEquals(2f, deadline, 0f);
+
+        // deactivation enabled flag
+        boolean enabled = PhysicsBody.isDeactivationEnabled();
+        Assert.assertTrue(enabled);
+
+        PhysicsBody.setDeactivationEnabled(false);
+        enabled = PhysicsBody.isDeactivationEnabled();
+        Assert.assertFalse(enabled);
+
         CollisionSpace cSpace = new CollisionSpace(
                 new Vector3f(-10000f, -10000f, -10000f),
                 new Vector3f(10000f, 10000f, 10000f),
