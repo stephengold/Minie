@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -134,7 +134,7 @@ public class NativeLibrary {
     native public static boolean isThreadSafe();
 
     /**
-     * Reset a Quickprof. This feature is enabled only in native libraries built
+     * Reset Quickprof. This feature is enabled only in native libraries built
      * with the BT_ENABLE_PROFILE macro defined. Must be invoked on the
      * designated physics thread.
      */
