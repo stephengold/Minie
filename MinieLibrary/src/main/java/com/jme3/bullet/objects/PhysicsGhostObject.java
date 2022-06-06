@@ -112,6 +112,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
 
     /**
      * Access an overlapping collision object by its position in the list.
+     * Important: {@link #getOverlappingObjects()} must be invoked first!
      *
      * @param index which list position (&ge;0, &lt;count)
      * @return the pre-existing object
