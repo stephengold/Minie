@@ -484,7 +484,7 @@ public class NativeSoftBodyUtil {
      * @param body the soft body to provide locations (not null, unaffected)
      * @param store the Mesh to update (not null, position buffer must be
      * direct, modified)
-     * @param meshInLocalSpace if true, transform the cluster locations into the
+     * @param meshInLocalSpace if true, transform the pin locations into the
      * body's local coordinates (relative to its bounding-box center), otherwise
      * use physics-space coordinates
      */
