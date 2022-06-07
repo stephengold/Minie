@@ -1,5 +1,6 @@
 = Miscellaneous tutorial material
 :page-pagination:
+:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
 
 This page acts as a holding area for tutorial material that's waiting
