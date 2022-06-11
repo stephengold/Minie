@@ -251,7 +251,7 @@ public class SolverInfo extends NativePhysicsObject {
     }
 
     /**
-     * Alter the error reduction parameter (ERP) used with split impulse (native
+     * Alter the error-reduction parameter (ERP) used with split impulse (native
      * field: m_splitImpulseTurnErp).
      *
      * @param erp the parameter (default=0.1)
@@ -275,7 +275,7 @@ public class SolverInfo extends NativePhysicsObject {
     }
 
     /**
-     * Determine the error reduction parameter (ERP) used with split impulse
+     * Determine the error-reduction parameter (ERP) used with split impulse
      * (native field: m_splitImpulseTurnErp).
      *
      * @return the parameter value
