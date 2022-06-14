@@ -348,8 +348,8 @@ A joint that can only connect rigid bodies is called a <em>constraint</em>.</p>
 that replaces the older <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/SixDofJoint.html"><code>SixDofJoint</code></a>
 and <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/SixDofSpringJoint.html"><code>SixDofSpringJoint</code></a> constraints.
 As its name implies,
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> can simulate up to 6 DOFs.
-It&#8217;s so versatile, it can also emulate 4 other kinds of constraints:</p>
+<code>New6Dof</code> can simulate up to 6 DOFs.
+It&#8217;s so versatile, it can also emulate 4 other constraints:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -376,12 +376,12 @@ It&#8217;s so versatile, it can also emulate 4 other kinds of constraints:</p>
 <h2 id="_features"><a class="anchor" href="#_features"></a>Features</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> constraint can be instantiated
+<p>A <code>New6Dof</code> constraint can be instantiated
 either as a <em>double-ended</em> constraint (connecting 2 rigid bodies)
 or as a <em>single-ended</em> constraint (connecting a rigid body to a fixed point).</p>
 </div>
 <div class="paragraph">
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> can simulate up to 3 rotation DOFs
+<p><code>New6Dof</code> can simulate up to 3 rotation DOFs
 and up to 3 translation DOFs, so an instance
 can potentially rotate or slide on any axis or axes.
 By default, the translation DOFs are <em>locked</em> at a zero,
@@ -409,7 +409,7 @@ By imposing limits, you can prevent a door from sliding or swinging
 beyond certain points.</p>
 </div>
 <div class="paragraph">
-<p>In addition to limits, <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a>
+<p>In addition to limits, <code>New6Dof</code>
 also implements springs, motors, and servos:</p>
 </div>
 <div class="ulist">
@@ -457,7 +457,7 @@ whether collisions between the end bodies should be simulated or not.</p>
 <h2 id="_caveats"><a class="anchor" href="#_caveats"></a>Caveats</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> constraint
+<p>A <code>New6Dof</code> constraint
 can only connect rigid bodies (including RBCs and vehicles):
 no ghost objects, characters, multibodies, or soft bodies.</p>
 </div>
@@ -491,7 +491,7 @@ based on their order of appearance in the constructor.</p>
 </div>
 <div class="paragraph">
 <p>By convention, the body connected to a single-ended
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> is denoted "B".
+<code>New6Dof</code> is denoted "B".
 In effect, the "A" end of a single-ended constraint
 connects to the physics space itself.</p>
 </div>
@@ -509,7 +509,7 @@ subclasses use different end-naming conventions for single-ended constraints.
 </table>
 </div>
 <div class="paragraph">
-<p>There are 2 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> constructors,
+<p>There are 2 <code>New6Dof</code> constructors,
 one for a single-ended constraint:</p>
 </div>
 <div class="listingblock">
@@ -598,9 +598,8 @@ Then you can specify <code>Matrix3f.IDENTITY</code> for each "rot" parameter.
 <div class="sect2">
 <h3 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h3>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloJoint.java">HelloJoint</a> is a simple
-application that demonstrates a single-ended
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> constraint.</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloJoint.java">HelloJoint</a> is a simple application
+that demonstrates a single-ended <code>New6Dof</code> constraint.</p>
 </div>
 <div class="paragraph">
 <p>Things to notice while running the app:</p>
@@ -621,9 +620,8 @@ a constant distance from the pivot point.</p>
 </ol>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloDoubleEnded.java">HelloDoubleEnded</a> is a simple
-application that demonstrates a double-ended
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> constraint.</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloDoubleEnded.java">HelloDoubleEnded</a> is a simple application
+that demonstrates a double-ended <code>New6Dof</code> constraint.</p>
 </div>
 <div class="paragraph">
 <p>Things to notice while running the app:</p>
@@ -706,9 +704,8 @@ The limits of a rotational DOF are measured in radians.
 </table>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloLimit.java">HelloLimit</a> is a simple
-application that demonstrates a single-ended
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> constraint
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloLimit.java">HelloLimit</a> is a simple application
+that demonstrates a single-ended <code>New6Dof</code> constraint
 with limited translation DOFs.
 The joint&#8217;s translations are limited,
 confining the ball to a 6x6 horizontal square centered on the origin.</p>
@@ -723,7 +720,7 @@ confining the ball to a 6x6 horizontal square centered on the origin.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloMotor.java">HelloMotor</a> is a simple application
-that demonstrates a double-ended <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a>
+that demonstrates a double-ended <code>New6Dof</code>
 with its Y rotation motor enabled.</p>
 </div>
 <div class="olist arabic">
@@ -755,8 +752,8 @@ If desired, you can also configure
 the spring&#8217;s equilibrium value and damping ratio.</p>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloSpring.java">HelloSpring</a> is a simple
-application that demonstrates a single-ended constraint with springs.</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloSpring.java">HelloSpring</a> is a simple application
+that demonstrates a single-ended constraint with springs.</p>
 </div>
 <div class="paragraph">
 <p>Things to notice while running the app:</p>
@@ -789,7 +786,7 @@ cause the ball to accelerate toward its equilibrium location.</p>
 <p>Joints for rigid bodies are called constraints.</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> is a versatile constraint
+<p><code>New6Dof</code> is a versatile constraint
 with 6 degrees of freedom (DOFs).
 It can emulate hinges, sliders, and point-to-point joints.</p>
 </li>
