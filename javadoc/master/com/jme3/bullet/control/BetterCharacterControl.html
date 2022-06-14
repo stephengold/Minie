@@ -355,7 +355,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWalkDirection(com.jme3.math.Vector3f)" class="member-name-link">setWalkDirection</a><wbr>(com.jme3.math.Vector3f&nbsp;vec)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the character's walk velocity, which will be applied on every
- physics tick.</div>
+ simulation step.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;tpf)</code></div>
@@ -715,7 +715,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <h3>setWalkDirection</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setWalkDirection</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;vec)</span></div>
 <div class="block">Alter the character's walk velocity, which will be applied on every
- physics tick.</div>
+ simulation step.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>vec</code> - the desired velocity (in physics-space units per second)</dd>
@@ -899,7 +899,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dd><code><a href="../PhysicsTickListener.html#physicsTick(com.jme3.bullet.PhysicsSpace,float)">physicsTick</a></code>&nbsp;in interface&nbsp;<code><a href="../PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>space</code> - the space that was just stepped (not null)</dd>
-<dd><code>timeStep</code> - the time per physics step (in seconds, &ge;0)</dd>
+<dd><code>timeStep</code> - the time per simulation step (in seconds, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -913,8 +913,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dt>Specified by:</dt>
 <dd><code><a href="../PhysicsTickListener.html#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)">prePhysicsTick</a></code>&nbsp;in interface&nbsp;<code><a href="../PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>space</code> - the space that is about to be stepped (not null)</dd>
-<dd><code>timeStep</code> - the time per physics step (in seconds, &ge;0)</dd>
+<dd><code>space</code> - the space that's about to be stepped (not null)</dd>
+<dd><code>timeStep</code> - the time per simulation step (in seconds, &ge;0)</dd>
 </dl>
 </section>
 </li>

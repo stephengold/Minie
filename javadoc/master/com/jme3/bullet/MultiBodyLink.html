@@ -256,8 +256,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jointTorque(int)" class="member-name-link">jointTorque</a><wbr>(int&nbsp;dofIndex)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Determine the torque applied to the indexed DOF using
- <a href="#addJointTorque(int,float)"><code>addJointTorque(int, float)</code></a>, which is zeroed after each physics
- tick.</div>
+ <a href="#addJointTorque(int,float)"><code>addJointTorque(int, float)</code></a>, which is zeroed after each
+ simulation step.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="MultiBodyJointType.html" title="enum class in com.jme3.bullet">MultiBodyJointType</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jointType()" class="member-name-link">jointType</a>()</code></div>
@@ -635,8 +635,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>jointTorque</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">jointTorque</span><wbr><span class="parameters">(int&nbsp;dofIndex)</span></div>
 <div class="block">Determine the torque applied to the indexed DOF using
- <a href="#addJointTorque(int,float)"><code>addJointTorque(int, float)</code></a>, which is zeroed after each physics
- tick.</div>
+ <a href="#addJointTorque(int,float)"><code>addJointTorque(int, float)</code></a>, which is zeroed after each
+ simulation step.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dofIndex</code> - which degree of freedom (&ge;0, &lt;numDofs)</dd>

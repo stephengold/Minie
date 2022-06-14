@@ -3144,7 +3144,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html#enqueue(java.util.concurrent.Callable)" class="member-name-link">enqueue(Callable&lt;V&gt;)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Invoke the specified callable during the next physics tick.</div>
+<div class="block">Invoke the specified callable during the next simulation step.</div>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html#enqueueOnThisThread(java.util.concurrent.Callable)" class="member-name-link">enqueueOnThisThread(Callable&lt;V&gt;)</a> - Static method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
@@ -3975,7 +3975,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/VehicleWheel.html#getDeltaRotation()" class="member-name-link">getDeltaRotation()</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></dt>
 <dd>
-<div class="block">Determine how much this wheel has turned since the last physics step.</div>
+<div class="block">Determine how much this wheel has turned since the last simulation step.</div>
 </dd>
 <dt><a href="jme3utilities/minie/PhysicsDumper.html#getDescriber()" class="member-name-link">getDescriber()</a> - Method in class jme3utilities.minie.<a href="jme3utilities/minie/PhysicsDumper.html" title="class in jme3utilities.minie">PhysicsDumper</a></dt>
 <dd>
@@ -6418,8 +6418,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/MultiBodyLink.html#jointTorque(int)" class="member-name-link">jointTorque(int)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodyLink.html" title="class in com.jme3.bullet">MultiBodyLink</a></dt>
 <dd>
 <div class="block">Determine the torque applied to the indexed DOF using
- <a href="com/jme3/bullet/MultiBodyLink.html#addJointTorque(int,float)"><code>MultiBodyLink.addJointTorque(int, float)</code></a>, which is zeroed after each physics
- tick.</div>
+ <a href="com/jme3/bullet/MultiBodyLink.html#addJointTorque(int,float)"><code>MultiBodyLink.addJointTorque(int, float)</code></a>, which is zeroed after each
+ simulation step.</div>
 </dd>
 <dt><a href="com/jme3/bullet/MultiBodyLink.html#jointType()" class="member-name-link">jointType()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodyLink.html" title="class in com.jme3.bullet">MultiBodyLink</a></dt>
 <dd>
@@ -10307,7 +10307,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html#setMaxSubSteps(int)" class="member-name-link">setMaxSubSteps(int)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Alter the maximum number of time steps per frame.</div>
+<div class="block">Alter the maximum number of simulation steps per frame.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/VehicleTuning.html#setMaxSuspensionForce(float)" class="member-name-link">setMaxSuspensionForce(float)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/VehicleTuning.html" title="class in com.jme3.bullet.objects.infos">VehicleTuning</a></dt>
 <dd>
@@ -11179,7 +11179,7 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#setWalkDirection(com.jme3.math.Vector3f)" class="member-name-link">setWalkDirection(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
 <div class="block">Alter the character's walk velocity, which will be applied on every
- physics tick.</div>
+ simulation step.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/CharacterControl.html#setWalkDirection(com.jme3.math.Vector3f)" class="member-name-link">setWalkDirection(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>

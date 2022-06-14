@@ -309,7 +309,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;V&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enqueue(java.util.concurrent.Callable)" class="member-name-link">enqueue</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;V&gt;&nbsp;callable)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Invoke the specified callable during the next physics tick.</div>
+<div class="block">Invoke the specified callable during the next simulation step.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#enqueueOnThisThread(java.util.concurrent.Callable)" class="member-name-link">enqueueOnThisThread</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;V&gt;&nbsp;callable)</code></div>
@@ -490,7 +490,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxSubSteps(int)" class="member-name-link">setMaxSubSteps</a><wbr>(int&nbsp;steps)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the maximum number of time steps per frame.</div>
+<div class="block">Alter the maximum number of simulation steps per frame.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxTimeStep(float)" class="member-name-link">setMaxTimeStep</a><wbr>(float&nbsp;maxTimeStep)</code></div>
@@ -806,9 +806,9 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addTickListener</span><wbr><span class="parameters">(<a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a>&nbsp;listener)</span></div>
 <div class="block">Register the specified tick listener with this space.
  <p>
- Tick listeners are notified before and after each physics step. A physics
- step is not necessarily the same as a frame; it is more influenced by the
- accuracy of the PhysicsSpace.</div>
+ Tick listeners are notified before and after each simulation step. A
+ simulation step is not necessarily the same as a frame; it is more
+ influenced by the accuracy of the PhysicsSpace.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>listener</code> - the listener to register (not null, alias created)</dd>
@@ -900,7 +900,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <section class="detail" id="enqueue(java.util.concurrent.Callable)">
 <h3>enqueue</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;V&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;</span>&nbsp;<span class="element-name">enqueue</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;V&gt;&nbsp;callable)</span></div>
-<div class="block">Invoke the specified callable during the next physics tick. This is
+<div class="block">Invoke the specified callable during the next simulation step. This is
  useful for applying forces.</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
@@ -1231,11 +1231,11 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <section class="detail" id="setMaxSubSteps(int)">
 <h3>setMaxSubSteps</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxSubSteps</span><wbr><span class="parameters">(int&nbsp;steps)</span></div>
-<div class="block">Alter the maximum number of time steps per frame.
+<div class="block">Alter the maximum number of simulation steps per frame.
  <p>
- Extra physics steps help maintain determinism when the render fps drops
- below 1/accuracy. For example a value of 2 can compensate for frame rates
- as low as 30fps, assuming the physics has an accuracy of 1/60 sec.
+ Extra simulation steps help maintain determinism when the render fps
+ drops below 1/accuracy. For example a value of 2 can compensate for frame
+ rates as low as 30fps, assuming the physics has an accuracy of 1/60 sec.
  <p>
  Setting this value too high can depress the frame rate.</div>
 <dl class="notes">
