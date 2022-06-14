@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -171,7 +171,7 @@ public class BalanceController extends IKController {
     /**
      * Apply an impulse to the controlled rigid body to keep the model's center
      * of mass located directly above its center of support. Meant to be invoked
-     * by the controlled link before each physics tick.
+     * by the controlled link before each simulation step.
      *
      * @param timeStep the physics timestep (in seconds, &ge;0)
      */

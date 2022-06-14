@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -177,7 +177,7 @@ public class TrackController extends IKController {
     /**
      * Apply an impulse to the controlled rigid body to keep the controlled link
      * aimed/looking/pointed at the target body. Meant to be invoked by the
-     * controlled link before each physics tick.
+     * controlled link before each simulation step.
      *
      * @param timeStep the physics timestep (in seconds, &ge;0)
      */

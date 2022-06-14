@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2019, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -160,8 +160,8 @@ public class UprightController extends IKController {
 
     /**
      * Apply an impulse to the controlled rigid body to keep the controlled link
-     * upright. Meant to be invoked by the controlled link before each physics
-     * tick.
+     * upright. Meant to be invoked by the controlled link before each
+     * simulation step.
      *
      * @param timeStep the physics timestep (in seconds, &ge;0)
      */
