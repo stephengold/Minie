@@ -8,8 +8,8 @@ can be downloaded from GitHub and the Maven Central Repository,
 some people prefer to build them from source.
 
 You can also build a local copy of the documentation (website content).
-This is useful if you are editing the content
-or if your Internet access is limited/unreliable.
+This is useful if you are editing the content,
+or if your Internet access is limited or unreliable.
 
 == Library artifacts
 
@@ -45,7 +45,7 @@ Here's the recommended procedure:
 .. using Windows Command Prompt: `.\gradlew build`
 
 After a successful build,
-Maven artifacts will be found in the "MinieLibrary/build/libs" directory.
+artifacts will be found in the "MinieLibrary/build/libs" directory.
 
 === Quicker builds
 

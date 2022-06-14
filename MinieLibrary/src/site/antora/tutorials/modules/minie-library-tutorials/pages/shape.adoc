@@ -195,7 +195,7 @@ those classes don't guarantee it for *all* instances.
 
 _Concave_ is essentially the opposite of convex, except that compound shapes
 are regarded as neither convex nor concave.
-No shape is both convex and concave.
+No shape is both convex *and* concave.
 To test whether a shape belongs to a concave class, use `shape.isConcave()`.
 
 == Margin
@@ -336,7 +336,7 @@ Things to notice while running the app:
 . After landing, the mallet comes to rest on its side,
   which is a natural orientation for a mallet.
 
-Note: The `principalAxes()` method relies on each child having an accurate
+NOTE: The `principalAxes()` method relies on each child having an accurate
 center, axes, and moment of inertia.
 
 == Scaling

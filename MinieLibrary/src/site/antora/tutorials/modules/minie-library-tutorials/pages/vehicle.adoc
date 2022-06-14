@@ -8,7 +8,7 @@
 A _physics vehicle_ is a collision object
 used to simulate a vehicle driving on (or gliding over) a smooth surface.
 
-The standard physics vehicle makes many simplifying assumptions:
+Bullet's physics vehicle makes many simplifying assumptions:
 
 * A rigid _chassis_, supported by _wheels_.
 * Acceleration, steering, and braking forces are applied to the chassis,
@@ -24,7 +24,8 @@ to calculate the height of each wheel's axis above the ground.
 Those heights are used to calculate the forces
 exerted on the chassis by the suspension.
 
-An app that uses a physics vehicle
+Instead of applying forces or directly updating the vehicle's velocities,
+an app using a physics vehicle
 should specify when and how the vehicle accelerates, steers, and brakes.
 
 == Direct creation
@@ -32,13 +33,13 @@ should specify when and how the vehicle accelerates, steers, and brakes.
 You can create a vehicle without wheels by directly invoking the
 {url-api}/objects/PhysicsVehicle.html[`PhysicsVehicle`] constructor.
 This allows you to specify the shape and mass of the chassis.
-Before adding a vehicle to a physics space, you should add wheels to it.
+Before adding it to a physics space, you should add wheels to it.
 For stability, a vehicle needs at least 3 wheels, and the chassis center of mass
-should be located between the wheels, more or less.
+should be located between the wheels, roughly speaking.
 
 {url-tutorial}/HelloVehicle.java[HelloVehicle] is a simple application
 that demonstrates the direct creation of a vehicle,
-followed by continuous steering and acceleration.
+followed by automated steering and acceleration.
 Things to notice while running the app:
 
 . The vehicle has a wedge-shaped chassis.
@@ -98,12 +99,12 @@ Most of the remaining keyboard controls are standardized:
 
 == Configuration and tuning
 
-The physics vehicle model includes many details that
+Bullet's vehicle model includes many details that
 can affect stability and/or realism.
 The complexity of the model
 is often an obstacle to achieving the desired behavior.
 Kester Maddock has published
-https://docs.google.com/document/d/18edpOwtGgCwNyvakS78jxMajCuezotCU_0iezcwiFQc[a 16-page article on this subject].
+https://docs.google.com/document/d/18edpOwtGgCwNyvakS78jxMajCuezotCU_0iezcwiFQc[a 16-page document on this subject].
 
 === Chassis shape
 
@@ -114,11 +115,16 @@ In particular:
 * it should be 3-dimensional, and
 * its center and local axes should be plausible.
 
-NOTE: A symmetrical collision shape
+[NOTE]
+====
+A symmetrical collision shape
 will place the center of gravity rather high,
 resulting in a vehicle prone to tipping.
-To avoid this pitfall, use an asymmetrical shape such as a `HullCollisionShape`
-or a compound shape and make sure its center is low.
+To avoid this pitfall,
+
+* use an asymmetrical shape such as a `HullCollisionShape` or compound shape and
+* make sure its center is low.
+====
 
 By default, the local axes of the chassis are assigned as follows:
 
@@ -126,7 +132,7 @@ By default, the local axes of the chassis are assigned as follows:
 * +Y points up, and
 * +Z points forward.
 
-However, the local-axis assignments can be customized to match any model.
+However, the local-axis assignments can be customized to match any 3-D model.
 For instance:
 
 [source,java]
@@ -141,8 +147,8 @@ controller.setCoordinateSystem(right, up, forward);
 
 === Maximum suspension force
 
-A vehicle's _suspension_ connects its wheels to its chassis.
-The suspension must support the weight of its chassis.
+A vehicle's _suspension_ connects its wheels to its chassis
+and supports the weight of the chassis.
 If the maximum suspension force is set too low, the suspension will collapse,
 causing the chassis to scrape the ground.
 

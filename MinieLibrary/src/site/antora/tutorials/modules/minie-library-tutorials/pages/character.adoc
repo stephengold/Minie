@@ -22,7 +22,7 @@ The standard physics character makes some simplifying assumptions:
 Like a dynamic rigid body,
 a physics character has a collision shape, a location, and
 a gravity vector, along with velocities and damping parameters.
-It also has an optional contact response, which is enabled by default.
+It also has an option for contact response, which is enabled by default.
 
 However, a physics character has no concept of mass,
 and its motion is controlled very differently from a dynamic body.

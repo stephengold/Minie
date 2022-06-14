@@ -54,8 +54,8 @@ or as a _single-ended_ constraint (connecting a rigid body to a fixed point).
 and up to 3 translation DOFs, so an instance
 can potentially rotate or slide on any axis or axes.
 By default, the translation DOFs are _locked_ at a zero,
-while the rotation DOFs are _free_ to assume any angular value:
-in other words, a point-to-point joint.
+while the rotation DOFs are _free_ to assume any angular value.
+In other words, it defaults to a point-to-point joint.
 
 By locking and/or unlocking DOFs, you simulate different types of joints:
 
@@ -73,9 +73,9 @@ also implements springs, motors, and servos:
 
 * Using a _spring_, you can cause a door to automatically return
   to a neutral position when released.
-* Using a _motor_, you can control the rate at which a door opens and closes.
-* Using a _servo_, you can cause a robot arm to turn smoothly from one
-  orientation to another, as if under remote control.
+* Using a _motor_, you can open or close a door at a specific rate.
+* Using a _servo_, you can cause a door
+  to move smoothly to a specific position, as if under remote control.
 
 You can also:
 
@@ -102,6 +102,8 @@ For a constraint to be effective:
 Even when locked, constraints exhibit some softness.
 A strong force, torque, or impulse can drag a locked DOF out of position
 or overpower the limits of a limited DOF.
+To reduce the softness,
+increase the joint ERP using `physicsSpace.getSolverInfo().setJointErp()`.
 
 == Constructors
 
@@ -167,7 +169,7 @@ the constraint and its end body(s) so that their local coordinate systems
 all share the same orientation.
 Then you can specify `Matrix3f.IDENTITY` for each "rot" parameter.
 
-=== Examples
+=== Example apps
 
 {url-tutorial}/HelloJoint.java[HelloJoint] is a simple application
 that demonstrates a single-ended `New6Dof` constraint.
@@ -188,8 +190,8 @@ Things to notice while running the app:
 . The red paddle is moved by the mouse.
 . A double-ended point-to-point joint (indicated by red and green arrows)
   connects the ball to the paddle.
-. If the ball moves fast enough, the red and green arrows no longer meet.
-  Even though all 3 translation DOFs are locked, the ball's
+. If the paddle moves fast enough, the red and green arrows no longer meet.
+  Even though all 3 translation DOFs are locked, the paddle's
   motion drags them out of position.
 
 == Limiting DOFs
@@ -216,7 +218,7 @@ To lock a DOF that is limited or free, set both limits to the same value.
 
 To free a DOF that is limited or locked,
 use the `set()` method with lowerLimit &gt; upperLimit.
-(For a free DOF, the limits themselves have no significance.)
+(For a free DOF, the precise limit values have no significance.)
 
 NOTE: The limits of a rotational DOF are measured in radians.
 
@@ -255,12 +257,12 @@ Things to notice while running the app:
 . The joint's X and Z translation DOFs are free.
 . Springs on the X and Z translation DOFs
   cause the ball to accelerate toward its equilibrium location.
-. Because there's no damping, the ball tends to oscillate.
+. Since there's no damping, the ball tends to oscillate.
 
 == Summary
 
 * Physics joints constrain the motion of connected bodies.
-* Joints for rigid bodies are called constraints.
+* In {Project}, joints for rigid bodies are called constraints.
 * `New6Dof` is a versatile constraint
   with 6 degrees of freedom (DOFs).
   It can emulate hinges, sliders, and point-to-point joints.

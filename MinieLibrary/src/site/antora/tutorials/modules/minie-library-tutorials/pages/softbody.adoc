@@ -29,7 +29,7 @@ It provides access to properties that rigid bodies and soft bodies
 have in common, such as gravity, location, mass, and joints.
 
 Soft bodies can collide with both rigid bodies and other soft bodies.
-They can also be joined to other bodies of both types, using special subclasses
+They can also be joined to bodies of both types, using special subclasses
 of `PhysicsJoint`.
 
 
@@ -78,7 +78,7 @@ dynamic (`Spatial` follows body) never kinematic (body follows `Spatial`).
 
 == Constructing a soft body
 
-To construct a soft body directly, start with the null constructor:
+To construct a soft body directly, start with the no-argument constructor:
 
 [source,java]
 ----
@@ -219,8 +219,8 @@ the pre-existing nodes in various ways:
 
 `softBody.setMass()` is equivalent to `setMassByCurrent()`.
 
-If a soft-body node has mass=0, it becomes pinned/immovable, like a static
-`PhysicsRigidBody`.
+If a soft-body node has mass=0, it becomes _pinned_ (immovable, like a static
+rigid body).
 
 For a simple example of a pinned node, see
 {url-tutorial}/HelloPin.java[HelloPin.java].

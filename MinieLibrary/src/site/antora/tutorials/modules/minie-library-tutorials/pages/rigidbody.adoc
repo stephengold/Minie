@@ -95,6 +95,8 @@ Things to notice while running the app:
   that alter the path of the dynamic ball.
 . The static ball stays fixed in place,
   unaffected by gravity and contact forces.
+. In {Project}, dynamic rigid bodies are conventionally colored magenta,
+  while non-dynamic ones are shown in blue.
 
 === Position
 
@@ -181,6 +183,10 @@ Things to notice while running the app:
 . Press kbd:[Space bar] to disable the ball's contact response.
 . Afterwards, the box no longer exerts any force on the ball.
   Gravity takes over, and the ball falls through the box.
+. In {Project}, non-responsive rigid bodies are shown in yellow.
+
+NOTE: This documentation assumes a keyboard with the "US" (QWERTY) layout.
+On keyboards with other layouts, keys may be labeled differently.
 
 === Velocity
 
@@ -299,7 +305,8 @@ to which it's added, use `rigidBody.setProtectGravity(true)`.
 To simulate a non-uniform gravitational field,
 update the gravity of each body before each simulation step.
 {url-tutorial}/HelloNonUniformGravity.java[HelloNonUniformGravity]
-is a simple application that demonstrates this technique.
+is a simple application
+that demonstrates this technique.
 The planet's gravity vector is visualized by a thin cyan arrow.
 It orbits a black hole whose location is indicated by 3 thick arrows.
 
@@ -433,7 +440,7 @@ Things to notice while running the app:
 
 == Continuous collision detection
 
-A common issue with discrete-time simulations
+A common issue with discrete-time physics simulation
 involves a fast-moving dynamic body passing through a thin obstacle
 without any collision being detected.
 The issue arises because the body can pass from one side of the obstacle to
@@ -450,8 +457,8 @@ the simulator offers _continuous collision detection_ (CCD),
 an algorithm for detecting collisions that occur *between* simulation steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body's projected path,
-and then performs more detailed collision tests on any potential
-obstacles found by the sweep.
+and performs detailed collision tests on any potential
+obstacles found during the sweep.
 
 Because CCD involves extra computation, it's disabled by default.
 Since it's only necessary for fast-moving bodies, it's enabled only
