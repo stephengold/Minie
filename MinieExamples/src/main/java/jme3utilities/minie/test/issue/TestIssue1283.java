@@ -105,9 +105,9 @@ public class TestIssue1283 extends SimpleApplication {
     /**
      * Main entry point for the TestIssue1283 application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         TestIssue1283 application = new TestIssue1283();
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);

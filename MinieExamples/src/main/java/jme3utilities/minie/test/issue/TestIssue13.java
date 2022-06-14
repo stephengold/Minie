@@ -61,9 +61,9 @@ public class TestIssue13 extends SimpleApplication {
     /**
      * Main entry point for the TestIssue13 application.
      *
-     * @param ignored unused
+     * @param arguments unused
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         TestIssue13 application = new TestIssue13();
         application.start();
     }

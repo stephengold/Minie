@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -65,9 +65,9 @@ public class TestIssue9 extends SimpleApplication {
     /**
      * Main entry point for the TestIssue9 application.
      *
-     * @param ignored unused
+     * @param arguments unused
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         TestIssue9 app = new TestIssue9();
         app.start();
     }

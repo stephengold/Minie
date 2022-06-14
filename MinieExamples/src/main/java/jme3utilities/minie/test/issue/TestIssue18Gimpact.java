@@ -76,7 +76,7 @@ public class TestIssue18Gimpact
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         TestIssue18Gimpact application = new TestIssue18Gimpact();
         application.start();
     }

@@ -73,7 +73,7 @@ public class TestIssue18Heightfield
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         TestIssue18Heightfield application = new TestIssue18Heightfield();
         application.start();
     }

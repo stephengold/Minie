@@ -76,7 +76,7 @@ public class TestIssue18Mesh
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         TestIssue18Mesh application = new TestIssue18Mesh();
         application.start();
     }
