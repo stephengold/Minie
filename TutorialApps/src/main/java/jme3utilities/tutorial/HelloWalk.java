@@ -34,7 +34,6 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
@@ -240,7 +239,7 @@ public class HelloWalk
         // Construct a static rigid body based on the HeightMap.
         CollisionShape shape = new HeightfieldCollisionShape(heightMap);
         PhysicsRigidBody body
-                = new RigidBodyControl(shape, PhysicsBody.massForStatic);
+                = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         physicsSpace.addCollisionObject(body);
 
