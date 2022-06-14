@@ -180,25 +180,23 @@ public class HelloLimit
     // PhysicsTickListener methods
 
     /**
-     * Callback from Bullet, invoked just before the simulation is stepped.
+     * Callback from Bullet, invoked just before each simulation step.
      *
-     * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        /*
-         * Reposition the paddle based on the mouse location.
-         */
+        // Reposition the paddle based on the mouse location.
         Vector3f bodyLocation = mouseLocation.add(0f, paddleHalfHeight, 0f);
         paddleBody.setPhysicsLocation(bodyLocation);
     }
 
     /**
-     * Callback from Bullet, invoked just after the simulation has been stepped.
+     * Callback from Bullet, invoked just after each simulation step.
      *
-     * @param space ignored
-     * @param timeStep ignored
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
@@ -346,7 +344,7 @@ public class HelloLimit
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, add this application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener.
         result.addTickListener(this);
 
         // Reduce the time step for better accuracy.

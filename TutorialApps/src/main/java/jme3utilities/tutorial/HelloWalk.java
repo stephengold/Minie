@@ -174,18 +174,19 @@ public class HelloWalk
     // PhysicsTickListener methods
 
     /**
-     * Callback from Bullet, invoked just before the physics is stepped.
+     * Callback from Bullet, invoked just before each simulation step.
      *
-     * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Clear any motion from the previous tick.
+        // Clear any motion from the previous simulation step.
         character.setWalkDirection(Vector3f.ZERO);
-
-        // If the character is touching the ground,
-        // cause it respond to keyboard input.
+        /*
+         * If the character is touching the ground,
+         * cause it respond to keyboard input.
+         */
         if (character.onGround()) {
             if (jumpRequested) {
                 character.jump();
@@ -201,10 +202,10 @@ public class HelloWalk
     }
 
     /**
-     * Callback from Bullet, invoked just after the physics has been stepped.
+     * Callback from Bullet, invoked just after each simulation step.
      *
      * @param space the space that was just stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
@@ -214,7 +215,8 @@ public class HelloWalk
     // private methods
 
     /**
-     * Add lighting and shadows to the specified scene and set the background color.
+     * Add lighting and shadows to the specified scene and set the background
+     * color.
      */
     private void addLighting(Spatial scene) {
         ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);

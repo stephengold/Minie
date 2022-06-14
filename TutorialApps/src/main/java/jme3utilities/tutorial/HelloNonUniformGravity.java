@@ -77,7 +77,7 @@ public class HelloNonUniformGravity
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, add this application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener.
         physicsSpace.addTickListener(this);
 
         // Reduce the time step for better accuracy.
@@ -118,16 +118,14 @@ public class HelloNonUniformGravity
     // PhysicsTickListener methods
 
     /**
-     * Callback from Bullet, invoked just before the simulation is stepped.
+     * Callback from Bullet, invoked just before each simulation step.
      *
-     * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        /*
-         * Calculate the gravitational acceleration GM/r^2.
-         */
+        // Calculate the gravitational acceleration GM/r^2.
         planet.getPhysicsLocation(tmpVector);
         float r2 = tmpVector.lengthSquared(); //squared distance from black hole
         tmpVector.normalizeLocal();
@@ -136,10 +134,10 @@ public class HelloNonUniformGravity
     }
 
     /**
-     * Callback from Bullet, invoked just after the simulation has been stepped.
+     * Callback from Bullet, invoked just after each simulation step.
      *
-     * @param space ignored
-     * @param timeStep ignored
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {

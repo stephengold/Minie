@@ -340,7 +340,7 @@ public class HelloJoint
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, add this application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener.
         result.addTickListener(this);
 
         // Reduce the time step for better accuracy.

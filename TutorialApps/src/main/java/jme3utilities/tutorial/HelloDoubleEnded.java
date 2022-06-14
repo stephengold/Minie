@@ -175,7 +175,7 @@ public class HelloDoubleEnded
     /**
      * Callback from Bullet, invoked just before each simulation step.
      *
-     * @param space the space that is about to be stepped (not null)
+     * @param space the space that's about to be stepped (not null)
      * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
@@ -341,7 +341,7 @@ public class HelloDoubleEnded
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, add this application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener.
         result.addTickListener(this);
 
         // Reduce the time step for better accuracy.
