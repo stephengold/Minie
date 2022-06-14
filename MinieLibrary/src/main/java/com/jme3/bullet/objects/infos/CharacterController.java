@@ -489,7 +489,7 @@ public class CharacterController
      * Alter the character's walk offset. The offset must be perpendicular to
      * the "up" direction. It will continue to be applied until altered again.
      *
-     * @param offset the desired location increment for each physics tick (in
+     * @param offset the desired location increment for each simulation step (in
      * physics-space coordinates, not null, unaffected, default=(0,0,0))
      */
     public void setWalkDirection(Vector3f offset) {

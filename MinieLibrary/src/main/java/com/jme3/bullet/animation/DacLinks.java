@@ -120,8 +120,8 @@ public class DacLinks
      */
     private Armature armature = null;
     /**
-     * false until the first physics tick, true thereafter, indicating that all
-     * links are ready for dynamic mode
+     * false until the first simulation step, true thereafter, indicating that
+     * all links are ready for dynamic mode
      */
     private boolean isReady = false;
     /**
@@ -1289,7 +1289,7 @@ public class DacLinks
      * Used to re-activate any deactivated rigid bodies.
      *
      * @param space the space that was just stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
@@ -1312,7 +1312,7 @@ public class DacLinks
      * time to clear/apply forces.
      *
      * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {

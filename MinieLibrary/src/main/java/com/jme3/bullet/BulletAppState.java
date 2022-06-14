@@ -897,8 +897,8 @@ public class BulletAppState
      * Callback from Bullet, invoked just after the physics is stepped. A good
      * time to clear/apply forces. Meant to be overridden.
      *
-     * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
@@ -909,8 +909,8 @@ public class BulletAppState
      * Callback from Bullet, invoked just before the physics is stepped. A good
      * time to clear/apply forces. Meant to be overridden.
      *
-     * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {

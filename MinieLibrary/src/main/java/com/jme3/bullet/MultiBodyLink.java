@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -434,8 +434,8 @@ public class MultiBodyLink
 
     /**
      * Determine the torque applied to the indexed DOF using
-     * {@link #addJointTorque(int, float)}, which is zeroed after each physics
-     * tick.
+     * {@link #addJointTorque(int, float)}, which is zeroed after each
+     * simulation step.
      *
      * @param dofIndex which degree of freedom (&ge;0, &lt;numDofs)
      * @return the torque

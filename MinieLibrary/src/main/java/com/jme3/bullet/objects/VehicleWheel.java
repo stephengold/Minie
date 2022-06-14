@@ -319,7 +319,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * Determine how much this wheel has turned since the last physics step.
+     * Determine how much this wheel has turned since the last simulation step.
      *
      * @return the rotation angle (in radians)
      */
@@ -698,7 +698,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
     /**
      * Alter the length of this wheel's suspension (native field:
-     * m_suspensionLength). Bullet updates the length on every physics tick.
+     * m_suspensionLength). Bullet updates the length during every simulation
+     * step.
      *
      * @param length the desired length (in physics-space units)
      */

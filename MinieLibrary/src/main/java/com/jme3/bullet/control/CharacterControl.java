@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -208,7 +208,7 @@ public class CharacterControl extends AbstractPhysicsControl {
      * Alter the character's walk offset. The offset must be perpendicular to
      * the "up" direction. It will continue to be applied until altered again.
      *
-     * @param offset the desired position increment for each physics tick (in
+     * @param offset the desired position increment for each simulation step (in
      * physics-space coordinates, not null, unaffected)
      */
     public void setWalkDirection(Vector3f offset) {

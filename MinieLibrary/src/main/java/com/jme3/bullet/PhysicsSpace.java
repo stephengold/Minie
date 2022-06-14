@@ -423,9 +423,9 @@ public class PhysicsSpace
     /**
      * Register the specified tick listener with this space.
      * <p>
-     * Tick listeners are notified before and after each physics step. A physics
-     * step is not necessarily the same as a frame; it is more influenced by the
-     * accuracy of the PhysicsSpace.
+     * Tick listeners are notified before and after each simulation step. A
+     * simulation step is not necessarily the same as a frame; it is more
+     * influenced by the accuracy of the PhysicsSpace.
      *
      * @see #setAccuracy(float)
      *
@@ -527,7 +527,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Invoke the specified callable during the next physics tick. This is
+     * Invoke the specified callable during the next simulation step. This is
      * useful for applying forces.
      *
      * @param <V> the return type of the Callable
@@ -851,11 +851,11 @@ public class PhysicsSpace
     }
 
     /**
-     * Alter the maximum number of time steps per frame.
+     * Alter the maximum number of simulation steps per frame.
      * <p>
-     * Extra physics steps help maintain determinism when the render fps drops
-     * below 1/accuracy. For example a value of 2 can compensate for frame rates
-     * as low as 30fps, assuming the physics has an accuracy of 1/60 sec.
+     * Extra simulation steps help maintain determinism when the render fps
+     * drops below 1/accuracy. For example a value of 2 can compensate for frame
+     * rates as low as 30fps, assuming the physics has an accuracy of 1/60 sec.
      * <p>
      * Setting this value too high can depress the frame rate.
      *
@@ -1360,7 +1360,7 @@ public class PhysicsSpace
     /**
      * Callback invoked (by native code) just after the physics is stepped.
      *
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     private void postTick_native(float timeStep) {
         for (PhysicsTickListener listener : tickListeners) {
@@ -1371,7 +1371,7 @@ public class PhysicsSpace
     /**
      * Callback invoked (by native code) just before the physics is stepped.
      *
-     * @param timeStep the time per physics step (in seconds, &ge;0)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     private void preTick_native(float timeStep) {
         AppTask task;
