@@ -169,9 +169,8 @@ Then you can specify `Matrix3f.IDENTITY` for each "rot" parameter.
 
 === Examples
 
-{url-tutorial}/HelloJoint.java[HelloJoint] is a simple
-application that demonstrates a single-ended
-`New6Dof` constraint.
+{url-tutorial}/HelloJoint.java[HelloJoint] is a simple application
+that demonstrates a single-ended `New6Dof` constraint.
 
 Things to notice while running the app:
 
@@ -181,9 +180,8 @@ Things to notice while running the app:
 . If you strike the ball with the paddle, it swings around, maintaining
   a constant distance from the pivot point.
 
-{url-tutorial}/HelloDoubleEnded.java[HelloDoubleEnded] is a simple
-application that demonstrates a double-ended
-`New6Dof` constraint.
+{url-tutorial}/HelloDoubleEnded.java[HelloDoubleEnded] is a simple application
+that demonstrates a double-ended `New6Dof` constraint.
 
 Things to notice while running the app:
 
@@ -222,9 +220,8 @@ use the `set()` method with lowerLimit &gt; upperLimit.
 
 NOTE: The limits of a rotational DOF are measured in radians.
 
-{url-tutorial}/HelloLimit.java[HelloLimit] is a simple
-application that demonstrates a single-ended
-`New6Dof` constraint
+{url-tutorial}/HelloLimit.java[HelloLimit] is a simple application
+that demonstrates a single-ended `New6Dof` constraint
 with limited translation DOFs.
 The joint's translations are limited,
 confining the ball to a 6x6 horizontal square centered on the origin.
@@ -250,8 +247,8 @@ and set its stiffness to a positive value.
 If desired, you can also configure
 the spring's equilibrium value and damping ratio.
 
-{url-tutorial}/HelloSpring.java[HelloSpring] is a simple
-application that demonstrates a single-ended constraint with springs.
+{url-tutorial}/HelloSpring.java[HelloSpring] is a simple application
+that demonstrates a single-ended constraint with springs.
 
 Things to notice while running the app:
 

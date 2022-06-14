@@ -32,6 +32,7 @@ Soft bodies can collide with both rigid bodies and other soft bodies.
 They can also be joined to other bodies of both types, using special subclasses
 of `PhysicsJoint`.
 
+
 == A comparison of soft bodies and rigid bodies
 
 Unlike a rigid body, a soft body doesn't have a `CollisionShape` or
@@ -73,6 +74,7 @@ or they can be created using physics controls (such as `SoftBodyControl`)
 that tie them to one or more spatials in the scene graph.
 However, unlike a `RigidBodyControl`, a `SoftBodyControl` can only be
 dynamic (`Spatial` follows body) never kinematic (body follows `Spatial`).
+
 
 == Constructing a soft body
 
@@ -116,6 +118,7 @@ Access the newly-constructed `PhysicsSoftBody` using `sbc.getBody()`.
 If you add the control to a scene-graph `Node` instead of a `Geometry`,
 it will traverse the node's subtree and use the first `Geometry` it finds.
 
+
 == Soft-body configuration and pose matching
 
 Each soft body has numerous properties that can affect its behavior.
@@ -134,6 +137,7 @@ For a simple example using `SoftPhysicsAppState`, `SoftBodyControl`, and
 pose matching, see
 {url-tutorial}/HelloSoftBody.java[HelloSoftBody].
 
+
 == Soft-soft collisions
 
 By default, collisions between soft bodies are not handled (ignored).
@@ -149,6 +153,7 @@ config.setCollisionFlags(oldFlags, ConfigFlag.VF_SS);
 
 For a simple example of a collision between 2 soft bodies, see
 {url-tutorial}/HelloSoftSoft.java[HelloSoftSoft].
+
 
 == Solver iterations
 
@@ -171,6 +176,7 @@ SoftBodyConfig config = softBody.getSoftConfig();
 config.setPositionIterations(numIterations);  // default=1
 ----
 
+
 == Stiffness coefficients
 
 Each soft body has 3 stiffness coefficients.
@@ -192,6 +198,7 @@ softMaterial.setAngularStiffness(0f); // default=1
 
 For a simple example of cloth simulation, see
 {url-tutorial}/HelloCloth.java[HelloCloth].
+
 
 == Mass distribution
 
@@ -219,6 +226,7 @@ For a simple example of a pinned node, see
 {url-tutorial}/HelloPin.java[HelloPin.java].
 
 TODO: ropes, applying forces, anchors, soft joints, world info, aerodynamics
+
 
 == Clusters
 

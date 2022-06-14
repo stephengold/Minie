@@ -35,8 +35,8 @@ You can create a character by directly invoking the
 {url-api}/objects/PhysicsCharacter.html[`PhysicsCharacter`] constructor.
 This allows you to specify its collision shape and step height.
 
-{url-tutorial}/HelloCharacter.java[HelloCharacter] is a simple
-application that demonstrates the direct creation of a character,
+{url-tutorial}/HelloCharacter.java[HelloCharacter] is a simple application
+that demonstrates the direct creation of a character,
 followed by automated jumps.
 Things to notice about the app:
 

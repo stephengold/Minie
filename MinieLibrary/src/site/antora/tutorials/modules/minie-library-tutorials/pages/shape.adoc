@@ -296,8 +296,8 @@ the center of mass and principal axes.
 At the very least,
 the shape's center should be located well inside its convex hull.
 
-{url-tutorial}/HelloMadMallet.java[HelloMadMallet] is a simple
-application that demonstrates the effect of an implausibly centered shape.
+{url-tutorial}/HelloMadMallet.java[HelloMadMallet] is a simple application
+that demonstrates the effect of an implausibly centered shape.
 Things to notice while running the app:
 
 . A dynamic rigid body, shaped like a mallet,
@@ -326,8 +326,9 @@ In the case of a
 the `principalAxes()` and `correctAxes()` methods
 may be used to adjust its center and axes for a specific mass distribution.
 
-{url-tutorial}/HelloMassDistribution.java[HelloMassDistribution] is a simple
-application that demonstrates the use of `principalAxes()` and `correctAxes()`.
+{url-tutorial}/HelloMassDistribution.java[HelloMassDistribution]
+is a simple application
+that demonstrates the use of `principalAxes()` and `correctAxes()`.
 Things to notice while running the app:
 
 . This time, the mallet's center of mass (visualized by 3 arrows)

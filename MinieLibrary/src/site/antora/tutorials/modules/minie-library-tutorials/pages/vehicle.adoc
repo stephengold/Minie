@@ -36,8 +36,8 @@ Before adding a vehicle to a physics space, you should add wheels to it.
 For stability, a vehicle needs at least 3 wheels, and the chassis center of mass
 should be located between the wheels, more or less.
 
-{url-tutorial}/HelloVehicle.java[HelloVehicle] is a simple
-application that demonstrates the direct creation of a vehicle,
+{url-tutorial}/HelloVehicle.java[HelloVehicle] is a simple application
+that demonstrates the direct creation of a vehicle,
 followed by continuous steering and acceleration.
 Things to notice while running the app:
 

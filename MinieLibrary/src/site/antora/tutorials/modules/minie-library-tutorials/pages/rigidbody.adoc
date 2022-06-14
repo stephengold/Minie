@@ -54,8 +54,8 @@ However, these last 3 features are optional and can easily be disabled.
 
 === HelloRigidBody
 
-{url-tutorial}/HelloRigidBody.java[HelloRigidBody] is a simple
-application that demonstrates the 5 familiar features of rigid bodies.
+{url-tutorial}/HelloRigidBody.java[HelloRigidBody] is a simple application
+that demonstrates the 5 familiar features of rigid bodies.
 
 IMPORTANT: {url-tutorial}/HelloRigidBody.java[HelloRigidBody] is the first of
 many tutorial apps designed for hands-on learning.
@@ -86,8 +86,8 @@ Unlike a dynamic body,
 a static one is unaffected by forces, torques, and impulses,
 as if its mass were infinite.
 
-{url-tutorial}/HelloStaticBody.java[HelloStaticBody]
-is a simple application that combines static and dynamic rigid bodies.
+{url-tutorial}/HelloStaticBody.java[HelloStaticBody] is a simple application
+that combines static and dynamic rigid bodies.
 Things to notice while running the app:
 
 . Two balls: the top one dynamic, the bottom one static.
@@ -152,8 +152,8 @@ rigidBody.setMass(1f);
 rigidBody.setKinematic(true);
 ----
 
-{url-tutorial}/HelloKinematics.java[HelloKinematics]
-is a simple application that combines kinematic and dynamic rigid bodies.
+{url-tutorial}/HelloKinematics.java[HelloKinematics] is a simple application
+that combines kinematic and dynamic rigid bodies.
 Things to notice while running the app:
 
 . Two balls: the top one dynamic, the bottom one kinematic.
@@ -172,7 +172,8 @@ To disable contact response for a particular rigid body,
 use `rigidBody.setContactResponse(false)`.
 
 {url-tutorial}/HelloContactResponse.java[HelloContactResponse]
-is a simple application that demonstrates contact response.
+is a simple application
+that demonstrates contact response.
 Things to notice while running the app:
 
 . The ball falls until it collides with the blue (static) box,
@@ -255,8 +256,8 @@ float angularDamping = 0.2f;
 rigidBody.setDamping(linearDamping, angularDamping);
 ----
 
-{url-tutorial}/HelloDamping.java[HelloDamping]
-is a simple application that demonstrates damping.
+{url-tutorial}/HelloDamping.java[HelloDamping] is a simple application
+that demonstrates damping.
 Things to notice while running the app:
 
 . 4 cubes initially share the same linear and angular velocities.
@@ -419,8 +420,8 @@ Puzzling behavior may occur if a deactivated body is:
 The deactivated body will seem to be "stuck"
 because the events listed above do not, by themselves, reactivate it.
 
-{url-tutorial}/HelloDeactivation.java[HelloDeactivation]
-is a simple application that demonstrates deactivation.
+{url-tutorial}/HelloDeactivation.java[HelloDeactivation] is a simple application 
+that demonstrates deactivation.
 Things to notice while running the app:
 
 . The upper (dynamic) box falls until it collides with the lower (static) box,
@@ -473,8 +474,8 @@ if (rigidBody.isDynamic()) {
 }
 ----
 
-{url-tutorial}/HelloCcd.java[HelloCcd]
-is a simple application that demonstrates CCD.
+{url-tutorial}/HelloCcd.java[HelloCcd] is a simple application
+that demonstrates CCD.
 Things to notice while running the app:
 
 . The 2 balls have the same size, mass, initial height, and initial velocity.
