@@ -104,9 +104,9 @@ public class HelloWalkOtoCc
     /**
      * Main entry point for the HelloWalkOtoCc application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloWalkOtoCc application = new HelloWalkOtoCc();
 
         // Enable gamma correction for accurate lighting.

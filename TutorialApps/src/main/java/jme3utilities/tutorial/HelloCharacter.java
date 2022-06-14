@@ -73,9 +73,9 @@ public class HelloCharacter
     /**
      * Main entry point for the HelloCharacter application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloCharacter application = new HelloCharacter();
 
         // Enable gamma correction for accurate lighting.

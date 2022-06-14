@@ -100,9 +100,9 @@ public class HelloSpring
     /**
      * Main entry point for the HelloSpring application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloSpring application = new HelloSpring();
 
         boolean loadDefaults = true;
@@ -192,11 +192,11 @@ public class HelloSpring
     /**
      * Callback from Bullet, invoked just before the simulation is stepped.
      *
-     * @param ignored the space that is about to be stepped (not null)
+     * @param space the space that is about to be stepped (not null)
      * @param timeStep the time per physics step (in seconds, &ge;0)
      */
     @Override
-    public void prePhysicsTick(PhysicsSpace ignored, float timeStep) {
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         /*
          * Reposition the paddle based on the mouse location.
          */

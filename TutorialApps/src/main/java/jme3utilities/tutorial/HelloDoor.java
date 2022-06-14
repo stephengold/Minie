@@ -115,9 +115,9 @@ public class HelloDoor
     /**
      * Main entry point for the HelloDoor application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloDoor application = new HelloDoor();
 
         boolean loadDefaults = true;
@@ -197,11 +197,11 @@ public class HelloDoor
     /**
      * Callback from Bullet, invoked just before the simulation is stepped.
      *
-     * @param ignored the space that is about to be stepped (not null)
+     * @param space the space that is about to be stepped (not null)
      * @param timeStep the time per physics step (in seconds, &ge;0)
      */
     @Override
-    public void prePhysicsTick(PhysicsSpace ignored, float timeStep) {
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         /*
          * Reposition the ball based on the mouse location.
          */

@@ -48,9 +48,9 @@ public class HelloDac extends SimpleApplication {
     /**
      * Main entry point for the HelloDac application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloDac application = new HelloDac();
         application.start();
     }

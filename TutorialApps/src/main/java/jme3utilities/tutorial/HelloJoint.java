@@ -99,9 +99,9 @@ public class HelloJoint
     /**
      * Main entry point for the HelloJoint application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloJoint application = new HelloJoint();
 
         boolean loadDefaults = true;

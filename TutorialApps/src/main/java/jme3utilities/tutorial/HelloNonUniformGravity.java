@@ -58,9 +58,9 @@ public class HelloNonUniformGravity
     /**
      * Main entry point for the HelloNonUniformGravity application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloNonUniformGravity application = new HelloNonUniformGravity();
         application.start();
     }

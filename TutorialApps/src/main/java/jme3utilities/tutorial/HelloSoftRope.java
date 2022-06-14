@@ -48,9 +48,9 @@ public class HelloSoftRope extends SimpleApplication {
     /**
      * Main entry point for the HelloSoftRope application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloSoftRope application = new HelloSoftRope();
         application.start();
     }

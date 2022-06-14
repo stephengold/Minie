@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -61,9 +61,9 @@ public class HelloCustomDebug extends SimpleApplication {
     /**
      * Main entry point for the HelloCustomDebug application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloCustomDebug application = new HelloCustomDebug();
 
         // Enable gamma correction for accurate lighting.

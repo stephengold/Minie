@@ -52,9 +52,9 @@ public class HelloCloth extends SimpleApplication {
     /**
      * Main entry point for the HelloCloth application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloCloth application = new HelloCloth();
         application.start();
     }

@@ -50,9 +50,9 @@ public class HelloMadMallet extends SimpleApplication {
     /**
      * Main entry point for the HelloMadMallet application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloMadMallet application = new HelloMadMallet();
         application.start();
     }

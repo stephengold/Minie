@@ -59,9 +59,9 @@ public class HelloDeactivation
     /**
      * Main entry point for the HelloDeactivation application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloDeactivation application = new HelloDeactivation();
         application.start();
     }

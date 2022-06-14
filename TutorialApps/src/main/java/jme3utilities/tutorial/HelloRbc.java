@@ -57,9 +57,9 @@ public class HelloRbc extends SimpleApplication {
     /**
      * Main entry point for the HelloRbc application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloRbc application = new HelloRbc();
 
         // Enable gamma correction for accurate lighting.

@@ -50,9 +50,9 @@ public class HelloCcd extends SimpleApplication {
     /**
      * Main entry point for the HelloCcd application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloCcd application = new HelloCcd();
         application.start();
     }

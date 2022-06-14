@@ -99,9 +99,9 @@ public class HelloDoubleEnded
     /**
      * Main entry point for the HelloDoubleEnded application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloDoubleEnded application = new HelloDoubleEnded();
 
         boolean loadDefaults = true;
@@ -175,11 +175,11 @@ public class HelloDoubleEnded
     /**
      * Callback from Bullet, invoked just before each simulation step.
      *
-     * @param ignored the space that is about to be stepped (not null)
+     * @param space the space that is about to be stepped (not null)
      * @param timeStep the time per simulation step (in seconds, &ge;0)
      */
     @Override
-    public void prePhysicsTick(PhysicsSpace ignored, float timeStep) {
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         // Reposition the paddle based on the mouse location.
         Vector3f bodyLocation = mouseLocation.add(0f, paddleHalfHeight, 0f);
         paddleBody.setPhysicsLocation(bodyLocation);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -105,9 +105,9 @@ public class HelloWalkOtoBcc
     /**
      * Main entry point for the HelloWalkOtoBcc application.
      *
-     * @param ignored array of command-line arguments (not null)
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] ignored) {
+    public static void main(String[] arguments) {
         HelloWalkOtoBcc application = new HelloWalkOtoBcc();
 
         // Enable gamma correction for accurate lighting.
