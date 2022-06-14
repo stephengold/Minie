@@ -140,13 +140,13 @@ NOTE: Unlike the gravity of a rigid body, a character's gravity is never
 overridden by any physics space.
 
 To alter a character's gravity vector,
-use `character.setGravity(gravityVector)`.
+use `character.setGravity(Vector3f)`.
 
 Altering the gravity vector automatically updates the character's up direction.
 To alter the *magnitude* of a character's gravity
-(without changing its direction) use `character.setGravity(g)`.
+(without changing its direction) use `character.setGravity(float)`.
 
-To alter a character's up direction, use `character.setUp(upVector)`.
+To alter a character's up direction, use `character.setUp(Vector3f)`.
 Altering the up direction automatically updates the gravity vector.
 
 === Jump speed
@@ -165,7 +165,7 @@ float jumpHeight = v0 * v0 / (2f * g);
 ----
 
 The default jump speed is 10 psu per second.
-To alter a character's jump speed, use `character.setJumpSpeed(speed)`.
+To alter a character's jump speed, use `character.setJumpSpeed(float)`.
 
 === Fall speed
 
@@ -173,7 +173,7 @@ _Fall speed_ limits the speed of a falling character.
 To be realistic, it should be larger than the character's jump speed.
 
 The default fall speed is 55 psu per second.
-To alter a character's fall speed, use `character.setFallSpeed(speed)`.
+To alter a character's fall speed, use `character.setFallSpeed(float)`.
 
 === Step height
 
@@ -181,7 +181,7 @@ _Step height_ limits how high a step the character can climb.
 To be realistic, it should be less than the character's height.
 
 A character's initial step height is set by the constructor.
-To alter it, use `character.setStepHeight()`.
+To alter it, use `character.setStepHeight(float)`.
 
 === Maximum slope
 
@@ -189,7 +189,7 @@ _Maximum slope_ limits how steep a slope the character can climb.
 It is expressed as an angle in radians relative to the horizontal plane.
 
 The default maximum slope is {pi}/4, indicating a 45-degree angle.
-To alter it, use `character.setMaxSlope(angle)`.
+To alter it, use `character.setMaxSlope(float)`.
 
 === Contact response
 
