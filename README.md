@@ -421,7 +421,6 @@ correct the situation: sgold@sonic.net
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: https://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
 [latest]: https://github.com/stephengold/Minie/releases/tag/latest "latest release"
-[libbulletjme]: https://github.com/stephengold/Libbulletjme "Libbulletjme Project"
 [license]: https://github.com/stephengold/Minie/blob/master/LICENSE "Minie license"
 [log]: https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md "release log"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
