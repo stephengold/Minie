@@ -468,6 +468,10 @@ that alter the path of the dynamic ball.</p>
 <p>The static ball stays fixed in place,
 unaffected by gravity and contact forces.</p>
 </li>
+<li>
+<p>In Minie, dynamic rigid bodies are conventionally colored magenta,
+while non-dynamic ones are shown in blue.</p>
+</li>
 </ol>
 </div>
 </div>
@@ -607,7 +611,23 @@ which provides a contact force to halt its motion and counteract gravity.</p>
 <p>Afterwards, the box no longer exerts any force on the ball.
 Gravity takes over, and the ball falls through the box.</p>
 </li>
+<li>
+<p>In Minie, non-responsive rigid bodies are shown in yellow.</p>
+</li>
 </ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This documentation assumes a keyboard with the "US" (QWERTY) layout.
+On keyboards with other layouts, keys may be labeled differently.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -828,7 +848,8 @@ to which it&#8217;s added, use <code>rigidBody.setProtectGravity(true)</code>.</
 <p>To simulate a non-uniform gravitational field,
 update the gravity of each body before each simulation step.
 <a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloNonUniformGravity.java">HelloNonUniformGravity</a>
-is a simple application that demonstrates this technique.
+is a simple application
+that demonstrates this technique.
 The planet&#8217;s gravity vector is visualized by a thin cyan arrow.
 It orbits a black hole whose location is indicated by 3 thick arrows.</p>
 </div>
@@ -1050,7 +1071,7 @@ Due to deactivation, it seems to be "stuck".</p>
 <h2 id="_continuous_collision_detection"><a class="anchor" href="#_continuous_collision_detection"></a>Continuous collision detection</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A common issue with discrete-time simulations
+<p>A common issue with discrete-time physics simulation
 involves a fast-moving dynamic body passing through a thin obstacle
 without any collision being detected.
 The issue arises because the body can pass from one side of the obstacle to
@@ -1069,8 +1090,8 @@ the simulator offers <em>continuous collision detection</em> (CCD),
 an algorithm for detecting collisions that occur <strong>between</strong> simulation steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body&#8217;s projected path,
-and then performs more detailed collision tests on any potential
-obstacles found by the sweep.</p>
+and performs detailed collision tests on any potential
+obstacles found during the sweep.</p>
 </div>
 <div class="paragraph">
 <p>Because CCD involves extra computation, it&#8217;s disabled by default.

@@ -537,7 +537,7 @@ those classes don&#8217;t guarantee it for <strong>all</strong> instances.
 <div class="paragraph">
 <p><em>Concave</em> is essentially the opposite of convex, except that compound shapes
 are regarded as neither convex nor concave.
-No shape is both convex and concave.
+No shape is both convex <strong>and</strong> concave.
 To test whether a shape belongs to a concave class, use <code>shape.isConcave()</code>.</p>
 </div>
 </div>
@@ -802,9 +802,18 @@ which is a natural orientation for a mallet.</p>
 </li>
 </ol>
 </div>
-<div class="paragraph">
-<p>Note: The <code>principalAxes()</code> method relies on each child having an accurate
-center, axes, and moment of inertia.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>principalAxes()</code> method relies on each child having an accurate
+center, axes, and moment of inertia.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

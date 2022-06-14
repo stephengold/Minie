@@ -319,7 +319,7 @@
 used to simulate a vehicle driving on (or gliding over) a smooth surface.</p>
 </div>
 <div class="paragraph">
-<p>The standard physics vehicle makes many simplifying assumptions:</p>
+<p>Bullet&#8217;s physics vehicle makes many simplifying assumptions:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -348,7 +348,8 @@ Those heights are used to calculate the forces
 exerted on the chassis by the suspension.</p>
 </div>
 <div class="paragraph">
-<p>An app that uses a physics vehicle
+<p>Instead of applying forces or directly updating the vehicle&#8217;s velocities,
+an app using a physics vehicle
 should specify when and how the vehicle accelerates, steers, and brakes.</p>
 </div>
 </div>
@@ -360,14 +361,14 @@ should specify when and how the vehicle accelerates, steers, and brakes.</p>
 <p>You can create a vehicle without wheels by directly invoking the
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsVehicle.html"><code>PhysicsVehicle</code></a> constructor.
 This allows you to specify the shape and mass of the chassis.
-Before adding a vehicle to a physics space, you should add wheels to it.
+Before adding it to a physics space, you should add wheels to it.
 For stability, a vehicle needs at least 3 wheels, and the chassis center of mass
-should be located between the wheels, more or less.</p>
+should be located between the wheels, roughly speaking.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloVehicle.java">HelloVehicle</a> is a simple application
 that demonstrates the direct creation of a vehicle,
-followed by continuous steering and acceleration.
+followed by automated steering and acceleration.
 Things to notice while running the app:</p>
 </div>
 <div class="olist arabic">
@@ -507,12 +508,12 @@ This demo uses the <code>PhysicsHoverControl</code> custom vehicle control.</p>
 <h2 id="_configuration_and_tuning"><a class="anchor" href="#_configuration_and_tuning"></a>Configuration and tuning</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The physics vehicle model includes many details that
+<p>Bullet&#8217;s vehicle model includes many details that
 can affect stability and/or realism.
 The complexity of the model
 is often an obstacle to achieving the desired behavior.
 Kester Maddock has published
-<a href="https://docs.google.com/document/d/18edpOwtGgCwNyvakS78jxMajCuezotCU_0iezcwiFQc">a 16-page article on this subject</a>.</p>
+<a href="https://docs.google.com/document/d/18edpOwtGgCwNyvakS78jxMajCuezotCU_0iezcwiFQc">a 16-page document on this subject</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="_chassis_shape"><a class="anchor" href="#_chassis_shape"></a>Chassis shape</h3>
@@ -538,11 +539,22 @@ In particular:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-A symmetrical collision shape
+<div class="paragraph">
+<p>A symmetrical collision shape
 will place the center of gravity rather high,
 resulting in a vehicle prone to tipping.
-To avoid this pitfall, use an asymmetrical shape such as a <code>HullCollisionShape</code>
-or a compound shape and make sure its center is low.
+To avoid this pitfall,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>use an asymmetrical shape such as a <code>HullCollisionShape</code> or compound shape and</p>
+</li>
+<li>
+<p>make sure its center is low.</p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
@@ -564,7 +576,7 @@ or a compound shape and make sure its center is low.
 </ul>
 </div>
 <div class="paragraph">
-<p>However, the local-axis assignments can be customized to match any model.
+<p>However, the local-axis assignments can be customized to match any 3-D model.
 For instance:</p>
 </div>
 <div class="listingblock">
@@ -581,8 +593,8 @@ controller.setCoordinateSystem(right, up, forward);</code></pre>
 <div class="sect2">
 <h3 id="_maximum_suspension_force"><a class="anchor" href="#_maximum_suspension_force"></a>Maximum suspension force</h3>
 <div class="paragraph">
-<p>A vehicle&#8217;s <em>suspension</em> connects its wheels to its chassis.
-The suspension must support the weight of its chassis.
+<p>A vehicle&#8217;s <em>suspension</em> connects its wheels to its chassis
+and supports the weight of the chassis.
 If the maximum suspension force is set too low, the suspension will collapse,
 causing the chassis to scrape the ground.</p>
 </div>

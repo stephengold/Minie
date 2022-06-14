@@ -355,7 +355,7 @@ have in common, such as gravity, location, mass, and joints.</p>
 </div>
 <div class="paragraph">
 <p>Soft bodies can collide with both rigid bodies and other soft bodies.
-They can also be joined to other bodies of both types, using special subclasses
+They can also be joined to bodies of both types, using special subclasses
 of <code>PhysicsJoint</code>.</p>
 </div>
 </div>
@@ -433,7 +433,7 @@ dynamic (<code>Spatial</code> follows body) never kinematic (body follows <code>
 <h2 id="_constructing_a_soft_body"><a class="anchor" href="#_constructing_a_soft_body"></a>Constructing a soft body</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To construct a soft body directly, start with the null constructor:</p>
+<p>To construct a soft body directly, start with the no-argument constructor:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -631,8 +631,8 @@ the pre-existing nodes in various ways:</p>
 <p><code>softBody.setMass()</code> is equivalent to <code>setMassByCurrent()</code>.</p>
 </div>
 <div class="paragraph">
-<p>If a soft-body node has mass=0, it becomes pinned/immovable, like a static
-<code>PhysicsRigidBody</code>.</p>
+<p>If a soft-body node has mass=0, it becomes <em>pinned</em> (immovable, like a static
+rigid body).</p>
 </div>
 <div class="paragraph">
 <p>For a simple example of a pinned node, see

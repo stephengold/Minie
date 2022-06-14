@@ -385,8 +385,8 @@ or as a <em>single-ended</em> constraint (connecting a rigid body to a fixed poi
 and up to 3 translation DOFs, so an instance
 can potentially rotate or slide on any axis or axes.
 By default, the translation DOFs are <em>locked</em> at a zero,
-while the rotation DOFs are <em>free</em> to assume any angular value:
-in other words, a point-to-point joint.</p>
+while the rotation DOFs are <em>free</em> to assume any angular value.
+In other words, it defaults to a point-to-point joint.</p>
 </div>
 <div class="paragraph">
 <p>By locking and/or unlocking DOFs, you simulate different types of joints:</p>
@@ -419,11 +419,11 @@ also implements springs, motors, and servos:</p>
 to a neutral position when released.</p>
 </li>
 <li>
-<p>Using a <em>motor</em>, you can control the rate at which a door opens and closes.</p>
+<p>Using a <em>motor</em>, you can open or close a door at a specific rate.</p>
 </li>
 <li>
-<p>Using a <em>servo</em>, you can cause a robot arm to turn smoothly from one
-orientation to another, as if under remote control.</p>
+<p>Using a <em>servo</em>, you can cause a door
+to move smoothly to a specific position, as if under remote control.</p>
 </li>
 </ul>
 </div>
@@ -478,7 +478,9 @@ must all be added to the same physics space, and</p>
 <div class="paragraph">
 <p>Even when locked, constraints exhibit some softness.
 A strong force, torque, or impulse can drag a locked DOF out of position
-or overpower the limits of a limited DOF.</p>
+or overpower the limits of a limited DOF.
+To reduce the softness,
+increase the joint ERP using <code>physicsSpace.getSolverInfo().setJointErp()</code>.</p>
 </div>
 </div>
 </div>
@@ -596,7 +598,7 @@ Then you can specify <code>Matrix3f.IDENTITY</code> for each "rot" parameter.
 </table>
 </div>
 <div class="sect2">
-<h3 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h3>
+<h3 id="_example_apps"><a class="anchor" href="#_example_apps"></a>Example apps</h3>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloJoint.java">HelloJoint</a> is a simple application
 that demonstrates a single-ended <code>New6Dof</code> constraint.</p>
@@ -636,8 +638,8 @@ that demonstrates a double-ended <code>New6Dof</code> constraint.</p>
 connects the ball to the paddle.</p>
 </li>
 <li>
-<p>If the ball moves fast enough, the red and green arrows no longer meet.
-Even though all 3 translation DOFs are locked, the ball&#8217;s
+<p>If the paddle moves fast enough, the red and green arrows no longer meet.
+Even though all 3 translation DOFs are locked, the paddle&#8217;s
 motion drags them out of position.</p>
 </li>
 </ol>
@@ -689,7 +691,7 @@ constraint.set(MotorParam.UpperLimit, dofIndex, upperLimit);</code></pre>
 <div class="paragraph">
 <p>To free a DOF that is limited or locked,
 use the <code>set()</code> method with lowerLimit &gt; upperLimit.
-(For a free DOF, the limits themselves have no significance.)</p>
+(For a free DOF, the precise limit values have no significance.)</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -768,7 +770,7 @@ that demonstrates a single-ended constraint with springs.</p>
 cause the ball to accelerate toward its equilibrium location.</p>
 </li>
 <li>
-<p>Because there&#8217;s no damping, the ball tends to oscillate.</p>
+<p>Since there&#8217;s no damping, the ball tends to oscillate.</p>
 </li>
 </ol>
 </div>
@@ -783,7 +785,7 @@ cause the ball to accelerate toward its equilibrium location.</p>
 <p>Physics joints constrain the motion of connected bodies.</p>
 </li>
 <li>
-<p>Joints for rigid bodies are called constraints.</p>
+<p>In Minie, joints for rigid bodies are called constraints.</p>
 </li>
 <li>
 <p><code>New6Dof</code> is a versatile constraint
