@@ -10,17 +10,21 @@ as individual bodies that can be deformed.
 To this end, {Project} supports simulation of soft bodies
 in a manner roughly analogous to rigid bodies:
 
-* In place of `BulletAppState`, use `SoftPhysicsAppState`.
-* In place of `PhysicsSpace`, use `PhysicsSoftSpace`.
-* In place of `PhysicsRigidBody`, use `PhysicsSoftBody`.
-* In place of `RigidBodyControl`, use `SoftBodyControl`.
+* In place of {url-api}/BulletAppState.html[`BulletAppState`],
+  use {url-api}/SoftPhysicsAppState.html[`SoftPhysicsAppState`].
+* In place of {url-api}/PhysicsSpace.html[`PhysicsSpace`],
+  use {url-api}/PhysicsSoftSpace.html[`PhysicsSoftSpace`].
+* In place of {url-api}/objects/PhysicsRigidBody.html[`PhysicsRigidBody`],
+  use {url-api}/objects/PhysicsSoftBody.html[`PhysicsSoftBody`].
+* In place of {url-api}/control/RigidBodyControl.html[`RigidBodyControl`],
+  use {url-api}/control/SoftBodyControl.html[`SoftBodyControl`].
 
 `PhysicsSoftSpace` is a subclass of `PhysicsSpace`.
 It implements soft-body physics in addition to all the
 features of an ordinary `PhysicsSpace` (such as rigid bodies).
 
-The abstract class `PhysicsBody` is a superclass of both `PhysicsRigidBody`
-and `PhysicsSoftBody`.
+The abstract class {url-api}/PhysicsBody.html[`PhysicsBody`]
+is a superclass of both `PhysicsRigidBody` and `PhysicsSoftBody`.
 It provides access to properties that rigid bodies and soft bodies
 have in common, such as gravity, location, mass, and joints.
 
