@@ -16,11 +16,6 @@ The examples so far have all used spheres, cubes, and/or cylinders.
 However, those are only 3 of the 16 subclasses of
 {url-shape}/CollisionShape.html[`CollisionShape`].
 
-The {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`]
-class is especially important because
-it enables any number of _child shapes_
-to be combined into a single _compound shape_.
-
 The subclasses are summarized here, in lexicographic order,
 with illustrations and lists of key properties (explained below):
 
@@ -164,6 +159,11 @@ with illustrations and lists of key properties (explained below):
 |image:sphere.png[height=160]
 
 |===
+
+The {url-shape}/CompoundCollisionShape.html[`CompoundCollisionShape`]
+class is especially important because
+it enables any number of _child shapes_
+to be combined into a single _compound shape_.
 
 [NOTE]
 ====
