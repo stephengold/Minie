@@ -42,6 +42,7 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.input.CameraInput;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.InputListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -71,7 +72,7 @@ import com.jme3.texture.Texture;
  */
 public class HelloWalk
         extends SimpleApplication
-        implements ActionListener, PhysicsTickListener {
+        implements PhysicsTickListener {
     // *************************************************************************
     // fields
 
@@ -144,31 +145,6 @@ public class HelloWalk
         // This overrides any translation requested by FlyByCamera.
         Vector3f location = character.getPhysicsLocation(null);
         cam.setLocation(location);
-    }
-    // *************************************************************************
-    // ActionListener methods
-
-    /**
-     * Callback to handle keyboard input events.
-     *
-     * @param action the name of the input event
-     * @param ongoing true &rarr; pressed, false &rarr; released
-     * @param tpf the time per frame (in seconds, &ge;0)
-     */
-    @Override
-    public void onAction(String action, boolean ongoing, float tpf) {
-        switch (action) {
-            case CameraInput.FLYCAM_FORWARD:
-                walkRequested = ongoing;
-                return;
-
-            case "jump":
-                jumpRequested = ongoing;
-                return;
-
-            default:
-                System.out.println("Unknown action: " + action);
-        }
     }
     // *************************************************************************
     // PhysicsTickListener methods
@@ -294,7 +270,24 @@ public class HelloWalk
      */
     private void configureInput() {
         inputManager.addMapping("jump", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addListener(this, "jump", CameraInput.FLYCAM_FORWARD);
+        InputListener input = new ActionListener() {
+            @Override
+            public void onAction(String action, boolean isPressed, float tpf) {
+                switch (action) {
+                    case "jump":
+                        jumpRequested = isPressed;
+                        return;
+
+                    case CameraInput.FLYCAM_FORWARD:
+                        walkRequested = isPressed;
+                        return;
+
+                    default:
+                        System.out.println("Unknown action: " + action);
+                }
+            }
+        };
+        inputManager.addListener(input, "jump", CameraInput.FLYCAM_FORWARD);
     }
 
     /**
