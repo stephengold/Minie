@@ -148,7 +148,7 @@ For a simple example of a collision between 2 soft bodies, see
 
 == Solver iterations
 
-During each time step, the simulator applies a series of
+During each simulation step, Bullet applies a series of
 iterative solvers to each soft body:
 
 * a cluster solver

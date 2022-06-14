@@ -19,7 +19,7 @@ The standard physics vehicle makes many simplifying assumptions:
 * Engine power is unlimited. There is no transmission and no gearing.
 
 The chassis is simulated by a dynamic rigid body, with all the features thereof.
-On each time step, the vehicle controller casts physics rays
+During each simulation step, the vehicle controller casts physics rays
 to calculate the height of each wheel's axis above the ground.
 Those heights are used to calculate the forces
 exerted on the chassis by the suspension.

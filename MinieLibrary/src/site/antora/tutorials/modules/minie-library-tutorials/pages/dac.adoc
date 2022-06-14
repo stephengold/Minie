@@ -107,7 +107,7 @@ due to collisions between rigid bodies that don't share a `PhysicsJoint`.
 
 Once a `DynamicAnimControl` is added to a spatial,
 the next step is to add it to a `PhysicsSpace`.
-Then, on the next physics tick,
+Then, on the next simulation step,
 the ragdoll automatically becomes _"ready for dynamic mode"_.
 
 Within such a ragdoll, each link can be independently configured

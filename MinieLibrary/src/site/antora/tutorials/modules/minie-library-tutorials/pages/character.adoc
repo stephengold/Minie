@@ -92,7 +92,7 @@ Things to notice about the app:
 == Walking
 
 A character's walking motion is controlled by its _walk direction_ vector.
-On each physics tick, the horizontal component of the walk direction
+During each simulation step, the horizontal component of the walk direction
 gets added to the character's location.
 To stop the character from walking, invoke `setWalkDirection(Vector3f.ZERO)`.
 
