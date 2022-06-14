@@ -1,8 +1,9 @@
 = An overview of the demo applications
+:Project: Minie
 :experimental:
 :url-code: https://github.com/stephengold/Minie/tree/master/MinieExamples/src/main/java/jme3utilities/minie/test
 
-_Demo applications_ are provided to showcase certain features of Minie.
+_Demo applications_ are provided to showcase certain features of {Project}.
 The following demos are found in
 {url-code}[the "jme3utilities.minie.test" package of the MinieExamples sub-project]:
 

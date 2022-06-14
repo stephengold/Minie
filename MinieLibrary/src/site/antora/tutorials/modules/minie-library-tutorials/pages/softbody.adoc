@@ -1,4 +1,5 @@
 = An introduction to soft-body physics
+:Project: Minie
 :page-pagination:
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial
 
@@ -6,7 +7,7 @@ While rope, cloth, and foam rubber
 can be simulated using many small rigid bodies,
 it is more convenient and efficient to treat them
 as individual bodies that can be deformed.
-To this end, Minie supports simulation of soft bodies
+To this end, {Project} supports simulation of soft bodies
 in a manner roughly analogous to rigid bodies:
 
 * In place of `BulletAppState`, use `SoftPhysicsAppState`.

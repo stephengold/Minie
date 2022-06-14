@@ -1,18 +1,19 @@
 = Debugging physics issues
+:Project: Minie
 :page-pagination:
 :page-toclevels: 3
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial
 
-Minie uses `assert` statements to verify assumptions made while coding.
+{Project} uses `assert` statements to verify assumptions made while coding.
 During development, Java assertions should be enabled using:
 
 * the "-ea" JVM argument or
 * the `enableAssertions` setting of Gradle `JavaExec` tasks.
 
 Similarly, native-code assertions should be enabled during development,
-by specifying a Minie library of the "debug" type, such as "Minie-4.9.0+debug".
+by specifying a {Project} library of the "debug" type, such as "Minie-4.9.0+debug".
 
 When a physics simulation doesn't behave as expected,
 _debug visualization_ should be enabled
@@ -22,7 +23,7 @@ and collision objects not added to the space.
 
 If further details are desired,
 temporary print statements may be added at key points.
-To streamline this process, Minie provides a configurable _dumper_
+To streamline this process, {Project} provides a configurable _dumper_
 to print out app states, physics spaces, collision shapes, multibodies,
 viewports, and scene graphs.
 
@@ -81,7 +82,7 @@ For example, see {url-examples}/TestDebugToPost.java[TestDebugToPost].
 === Which features are rendered
 
 By default, debug visualization renders the shape of every collision object.
-In addition to the shape, Minie can render other features, such as:
+In addition to the shape, {Project} can render other features, such as:
 
 * its axis-aligned bounding box,
 * its gravity vector,
@@ -132,7 +133,7 @@ bulletAppState.setDebugAxisLineWidth(0f); // solid arrows
 
 === Materials
 
-By default, Minie visualizes the shapes of collision objects
+By default, {Project} visualizes the shapes of collision objects
 using single-sided wireframe materials.
 
 NOTE: On Android platforms,
@@ -203,7 +204,7 @@ collisionObject3.setDebugMeshNormals(DebugMeshNormals.Sphere);
 Generating index buffers for meshes usually reduces
 the number of vertices that must be rendered.
 However, generating index buffers for large meshes can take a long time.
-By default, Minie doesn't generate index buffers for debug meshes
+By default, {Project} doesn't generate index buffers for debug meshes
 with than 6,000 vertices.
 
 You can tune this threshold:
@@ -251,7 +252,7 @@ collisionObject.setDebugMeshInitListener(callbackObject);
 
 Without texture coordinates,
 objects with plane collision shapes are especially tricky to visualize.
-For such objects, Minie provides a standard callback class:
+For such objects, {Project} provides a standard callback class:
 
 [source, java]
 ----

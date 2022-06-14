@@ -1,4 +1,5 @@
 = An introduction to rigid-body physics
+:Project: Minie
 :experimental:
 :page-pagination:
 :page-toclevels: 3
