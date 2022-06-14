@@ -468,7 +468,7 @@ the app never accesses the collision object directly.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A character&#8217;s walking motion is controlled by its <em>walk direction</em> vector.
-On each physics tick, the horizontal component of the walk direction
+During each simulation step, the horizontal component of the walk direction
 gets added to the character&#8217;s location.
 To stop the character from walking, invoke <code>setWalkDirection(Vector3f.ZERO)</code>.</p>
 </div>
@@ -580,15 +580,15 @@ overridden by any physics space.
 </div>
 <div class="paragraph">
 <p>To alter a character&#8217;s gravity vector,
-use <code>character.setGravity(gravityVector)</code>.</p>
+use <code>character.setGravity(Vector3f)</code>.</p>
 </div>
 <div class="paragraph">
 <p>Altering the gravity vector automatically updates the character&#8217;s up direction.
 To alter the <strong>magnitude</strong> of a character&#8217;s gravity
-(without changing its direction) use <code>character.setGravity(g)</code>.</p>
+(without changing its direction) use <code>character.setGravity(float)</code>.</p>
 </div>
 <div class="paragraph">
-<p>To alter a character&#8217;s up direction, use <code>character.setUp(upVector)</code>.
+<p>To alter a character&#8217;s up direction, use <code>character.setUp(Vector3f)</code>.
 Altering the up direction automatically updates the gravity vector.</p>
 </div>
 </div>
@@ -610,7 +610,7 @@ float jumpHeight = v0 * v0 / (2f * g);</code></pre>
 </div>
 <div class="paragraph">
 <p>The default jump speed is 10 psu per second.
-To alter a character&#8217;s jump speed, use <code>character.setJumpSpeed(speed)</code>.</p>
+To alter a character&#8217;s jump speed, use <code>character.setJumpSpeed(float)</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -621,7 +621,7 @@ To be realistic, it should be larger than the character&#8217;s jump speed.</p>
 </div>
 <div class="paragraph">
 <p>The default fall speed is 55 psu per second.
-To alter a character&#8217;s fall speed, use <code>character.setFallSpeed(speed)</code>.</p>
+To alter a character&#8217;s fall speed, use <code>character.setFallSpeed(float)</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -632,7 +632,7 @@ To be realistic, it should be less than the character&#8217;s height.</p>
 </div>
 <div class="paragraph">
 <p>A character&#8217;s initial step height is set by the constructor.
-To alter it, use <code>character.setStepHeight()</code>.</p>
+To alter it, use <code>character.setStepHeight(float)</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -643,7 +643,7 @@ It is expressed as an angle in radians relative to the horizontal plane.</p>
 </div>
 <div class="paragraph">
 <p>The default maximum slope is &#960;/4, indicating a 45-degree angle.
-To alter it, use <code>character.setMaxSlope(angle)</code>.</p>
+To alter it, use <code>character.setMaxSlope(float)</code>.</p>
 </div>
 </div>
 <div class="sect2">

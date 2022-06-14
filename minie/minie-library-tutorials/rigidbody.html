@@ -532,7 +532,7 @@ in the choice of center and local axes.</p>
 Like dynamic bodies, kinematic ones can move.
 However, they are unaffected by forces, torques, and impulses.
 Their movement is dictated by application logic that may, if desired,
-reposition them prior to every time step.</p>
+reposition them before each simulation step.</p>
 </div>
 <div class="paragraph">
 <p>In the presence of dynamic bodies, a kinematic body acts like
@@ -825,7 +825,7 @@ to which it&#8217;s added, use <code>rigidBody.setProtectGravity(true)</code>.</
 </div>
 <div class="paragraph">
 <p>To simulate a non-uniform gravitational field,
-update the gravity of each body prior to each physics tick.
+update the gravity of each body before each simulation step.
 <a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloNonUniformGravity.java">HelloNonUniformGravity</a>
 is a simple application that demonstrates this technique.
 The planet&#8217;s gravity vector is visualized by a thin cyan arrow.
@@ -1065,7 +1065,7 @@ this approach quickly becomes inefficient.</p>
 <div class="paragraph">
 <p>To solve this issue,
 the simulator offers <em>continuous collision detection</em> (CCD),
-an algorithm for detecting collisions that occur <strong>between</strong> time steps.
+an algorithm for detecting collisions that occur <strong>between</strong> simulation steps.
 CCD substitutes a sphere for the collision shape of the fast-moving body,
 sweeps that sphere forward along the body&#8217;s projected path,
 and then performs more detailed collision tests on any potential
