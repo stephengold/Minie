@@ -34,8 +34,8 @@ A joint that can only connect rigid bodies is called a _constraint_.
 that replaces the older {url-api}/joints/SixDofJoint.html[`SixDofJoint`]
 and {url-api}/joints/SixDofSpringJoint.html[`SixDofSpringJoint`] constraints.
 As its name implies,
-{url-api}/joints/New6Dof.html[`New6Dof`] can simulate up to 6 DOFs.
-It's so versatile, it can also emulate 4 other kinds of constraints:
+`New6Dof` can simulate up to 6 DOFs.
+It's so versatile, it can also emulate 4 other constraints:
 
 . {url-api}/joints/ConeJoint.html[`ConeJoint`]
 . {url-api}/joints/HingeJoint.html[`HingeJoint`]
@@ -46,11 +46,11 @@ It might be the only physics joint you'll ever need.
 
 == Features
 
-A {url-api}/joints/New6Dof.html[`New6Dof`] constraint can be instantiated
+A `New6Dof` constraint can be instantiated
 either as a _double-ended_ constraint (connecting 2 rigid bodies)
 or as a _single-ended_ constraint (connecting a rigid body to a fixed point).
 
-{url-api}/joints/New6Dof.html[`New6Dof`] can simulate up to 3 rotation DOFs
+`New6Dof` can simulate up to 3 rotation DOFs
 and up to 3 translation DOFs, so an instance
 can potentially rotate or slide on any axis or axes.
 By default, the translation DOFs are _locked_ at a zero,
@@ -68,7 +68,7 @@ a DOF can be _limited_:  allowed to assume values only in a specific range.
 By imposing limits, you can prevent a door from sliding or swinging
 beyond certain points.
 
-In addition to limits, {url-api}/joints/New6Dof.html[`New6Dof`]
+In addition to limits, `New6Dof`
 also implements springs, motors, and servos:
 
 * Using a _spring_, you can cause a door to automatically return
@@ -89,7 +89,7 @@ You can also:
 
 == Caveats
 
-A {url-api}/joints/New6Dof.html[`New6Dof`] constraint
+A `New6Dof` constraint
 can only connect rigid bodies (including RBCs and vehicles):
 no ghost objects, characters, multibodies, or soft bodies.
 
@@ -109,14 +109,14 @@ The ends of a double-ended physics joint are denoted "A" and "B",
 based on their order of appearance in the constructor.
 
 By convention, the body connected to a single-ended
-{url-api}/joints/New6Dof.html[`New6Dof`] is denoted "B".
+`New6Dof` is denoted "B".
 In effect, the "A" end of a single-ended constraint
 connects to the physics space itself.
 
 NOTE: Different {url-api}/joints/Constraint.html[`Constraint`]
 subclasses use different end-naming conventions for single-ended constraints.
 
-There are 2 {url-api}/joints/New6Dof.html[`New6Dof`] constructors,
+There are 2 `New6Dof` constructors,
 one for a single-ended constraint:
 
 [source,java]
@@ -171,7 +171,7 @@ Then you can specify `Matrix3f.IDENTITY` for each "rot" parameter.
 
 {url-tutorial}/HelloJoint.java[HelloJoint] is a simple
 application that demonstrates a single-ended
-{url-api}/joints/New6Dof.html[`New6Dof`] constraint.
+`New6Dof` constraint.
 
 Things to notice while running the app:
 
@@ -183,7 +183,7 @@ Things to notice while running the app:
 
 {url-tutorial}/HelloDoubleEnded.java[HelloDoubleEnded] is a simple
 application that demonstrates a double-ended
-{url-api}/joints/New6Dof.html[`New6Dof`] constraint.
+`New6Dof` constraint.
 
 Things to notice while running the app:
 
@@ -224,7 +224,7 @@ NOTE: The limits of a rotational DOF are measured in radians.
 
 {url-tutorial}/HelloLimit.java[HelloLimit] is a simple
 application that demonstrates a single-ended
-{url-api}/joints/New6Dof.html[`New6Dof`] constraint
+`New6Dof` constraint
 with limited translation DOFs.
 The joint's translations are limited,
 confining the ball to a 6x6 horizontal square centered on the origin.
@@ -234,7 +234,7 @@ confining the ball to a 6x6 horizontal square centered on the origin.
 Each DOF has a motor, which is disabled by default.
 
 {url-tutorial}/HelloMotor.java[HelloMotor] is a simple application
-that demonstrates a double-ended {url-api}/joints/New6Dof.html[`New6Dof`]
+that demonstrates a double-ended `New6Dof`
 with its Y rotation motor enabled.
 
 . All DOFs except Y rotation are locked at zero.
@@ -264,7 +264,7 @@ Things to notice while running the app:
 
 * Physics joints constrain the motion of connected bodies.
 * Joints for rigid bodies are called constraints.
-* {url-api}/joints/New6Dof.html[`New6Dof`] is a versatile constraint
+* `New6Dof` is a versatile constraint
   with 6 degrees of freedom (DOFs).
   It can emulate hinges, sliders, and point-to-point joints.
 * New6Dof also implements limits, springs, motors, and servos.
