@@ -22,8 +22,10 @@ All {Cplusplus} source code associated with {Project}
 (including JNI "glue code" and a modified snapshot of Bullet)
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
 Before instantiating physics objects,
-a {Project} application must dynamically load a _native library_ of this code,
-compiled for the platform on which the app is executing.
+a {Project} application must {url-enwiki}/Dynamic_loading[dynamically load]
+a _native library_ of this code,
+compiled for the {url-enwiki}/Computing_platform[platform]
+on which the app is executing.
 
 The Libbulletjme project publishes native libraries
 for the 13 platforms {Project} supports:
