@@ -65,6 +65,10 @@ public class HelloCharacterControl
     // fields
 
     private CharacterControl characterControl;
+    /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -92,7 +96,7 @@ public class HelloCharacterControl
      */
     @Override
     public void simpleInitApp() {
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Load the Jaime model from jme3-testdata-3.1.0-stable.jar
         Spatial jaime = assetManager.loadModel("Models/Jaime/Jaime.j3o");
@@ -122,7 +126,7 @@ public class HelloCharacterControl
         // Add a square to represent the ground.
         float halfExtent = 4f;
         float y = -2f;
-        addSquare(halfExtent, y, physicsSpace);
+        addSquare(halfExtent, y);
 
         // Add lighting.
         addLighting(rootNode);
@@ -191,16 +195,13 @@ public class HelloCharacterControl
     }
 
     /**
-     * Attach a horizontal square to the scene and also to the specified
-     * PhysicsSpace.
+     * Attach a horizontal square to the scene and also to the space.
      *
      * @param halfExtent (half of the desired side length)
      * @param y (the desired elevation, in physics-space coordinates)
-     * @param physicsSpace (not null)
      * @return the new body (not null)
      */
-    private RigidBodyControl addSquare(float halfExtent, float y,
-            PhysicsSpace physicsSpace) {
+    private RigidBodyControl addSquare(float halfExtent, float y) {
         // Add a Quad to the scene.
         Mesh quad = new Quad(2 * halfExtent, 2 * halfExtent);
         Geometry geometry = new Geometry("square", quad);

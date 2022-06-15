@@ -65,6 +65,13 @@ import com.jme3.system.AppSettings;
  */
 public class HelloMotor extends SimpleApplication {
     // *************************************************************************
+    // fields
+
+    /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
+    // *************************************************************************
     // new methods exposed
 
     /**
@@ -92,13 +99,13 @@ public class HelloMotor extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         configureCamera();
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Add a dynamic, green frame.
-        PhysicsRigidBody frameBody = addFrame(physicsSpace);
+        PhysicsRigidBody frameBody = addFrame();
 
         // Add a dynamic, yellow box for the door.
-        PhysicsRigidBody doorBody = addDoor(physicsSpace);
+        PhysicsRigidBody doorBody = addDoor();
 
         // Add a double-ended physics joint to join the door to the frame.
         Vector3f pivotLocation = new Vector3f(-1f, 0f, 0f);
@@ -146,10 +153,9 @@ public class HelloMotor extends SimpleApplication {
     /**
      * Create a dynamic rigid body with a box shape and add it to the space.
      *
-     * @param physicsSpace (not null)
      * @return the new body
      */
-    private PhysicsRigidBody addDoor(PhysicsSpace physicsSpace) {
+    private PhysicsRigidBody addDoor() {
         BoxCollisionShape shape = new BoxCollisionShape(0.8f, 0.8f, 0.1f);
 
         float mass = 0.2f;
@@ -201,10 +207,9 @@ public class HelloMotor extends SimpleApplication {
     /**
      * Create a dynamic body with a square-frame shape and add it to the space.
      *
-     * @param physicsSpace (not null)
      * @return the new body
      */
-    private PhysicsRigidBody addFrame(PhysicsSpace physicsSpace) {
+    private PhysicsRigidBody addFrame() {
         CapsuleCollisionShape xShape
                 = new CapsuleCollisionShape(0.1f, 2f, PhysicsSpace.AXIS_X);
         CapsuleCollisionShape yShape

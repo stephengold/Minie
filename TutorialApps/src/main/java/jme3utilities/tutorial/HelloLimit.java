@@ -86,6 +86,10 @@ public class HelloLimit
      */
     private PhysicsRigidBody paddleBody;
     /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
+    /**
      * latest ground location indicated by the mouse cursor
      */
     private final Vector3f mouseLocation = new Vector3f();
@@ -121,11 +125,11 @@ public class HelloLimit
     @Override
     public void simpleInitApp() {
         configureCamera();
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Add a static, green square to represent the ground.
         float halfExtent = 3f;
-        addSquare(halfExtent, groundY, physicsSpace);
+        addSquare(halfExtent, groundY);
 
         // Add a mouse-controlled kinematic paddle.
         addPaddle(physicsSpace);
@@ -281,15 +285,13 @@ public class HelloLimit
     }
 
     /**
-     * Add a horizontal square body to the specified PhysicsSpace.
+     * Add a horizontal square body to the space.
      *
      * @param halfExtent (half of the desired side length)
      * @param y (the desired elevation, in physics-space coordinates)
-     * @param physicsSpace (not null)
      * @return the new body (not null)
      */
-    private PhysicsRigidBody addSquare(float halfExtent, float y,
-            PhysicsSpace physicsSpace) {
+    private PhysicsRigidBody addSquare(float halfExtent, float y) {
         // Construct a static rigid body with a square shape.
         Box2dShape shape = new Box2dShape(halfExtent);
         PhysicsRigidBody result

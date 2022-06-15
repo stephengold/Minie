@@ -98,6 +98,10 @@ public class HelloWalkOtoCc
     private volatile boolean walkToward;
 
     private CharacterControl character;
+    /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -153,7 +157,7 @@ public class HelloWalkOtoCc
         character.setPhysicsLocation(new Vector3f(-73.6f, 19.09f, -45.58f));
 
         // Add a static heightmap to represent the ground.
-        addTerrain(physicsSpace);
+        addTerrain();
     }
 
     /**
@@ -286,11 +290,9 @@ public class HelloWalkOtoCc
     }
 
     /**
-     * Add a heightfield body to the specified PhysicsSpace.
-     *
-     * @param physicsSpace (not null)
+     * Add a heightfield body to the space.
      */
-    private void addTerrain(PhysicsSpace physicsSpace) {
+    private void addTerrain() {
         // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);

@@ -90,6 +90,10 @@ public class HelloJoint
      */
     private PhysicsRigidBody paddleBody;
     /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
+    /**
      * latest ground location indicated by the mouse cursor
      */
     private final Vector3f mouseLocation = new Vector3f();
@@ -125,13 +129,13 @@ public class HelloJoint
     @Override
     public void simpleInitApp() {
         configureCamera();
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Add a static plane to represent the ground.
-        addPlane(groundY, physicsSpace);
+        addPlane(groundY);
 
         // Add a mouse-controlled kinematic paddle.
-        addPaddle(physicsSpace);
+        addPaddle();
 
         // Add a dynamic, yellow ball.
         PhysicsRigidBody ballBody = addBall(physicsSpace);
@@ -253,10 +257,8 @@ public class HelloJoint
 
     /**
      * Create a kinematic body with a box shape and add it to the space.
-     *
-     * @param physicsSpace (not null)
      */
-    private void addPaddle(PhysicsSpace physicsSpace) {
+    private void addPaddle() {
         BoxCollisionShape shape
                 = new BoxCollisionShape(0.3f, paddleHalfHeight, 1f);
         paddleBody = new PhysicsRigidBody(shape);
@@ -269,12 +271,11 @@ public class HelloJoint
     }
 
     /**
-     * Add a horizontal plane body to the specified PhysicsSpace.
+     * Add a horizontal plane body to the space.
      *
      * @param y (the desired elevation, in physics-space coordinates)
-     * @param physicsSpace (not null)
      */
-    private void addPlane(float y, PhysicsSpace physicsSpace) {
+    private void addPlane(float y) {
         Plane plane = new Plane(Vector3f.UNIT_Y, y);
         PlaneCollisionShape shape = new PlaneCollisionShape(plane);
         PhysicsRigidBody body

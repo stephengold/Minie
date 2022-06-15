@@ -136,7 +136,7 @@ public class HelloPoi
     public void simpleInitApp() {
         configureCamera();
         configureInput();
-        physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         redMaterial = new Material(assetManager, Materials.UNSHADED);
         redMaterial.setColor("Color", ColorRGBA.Red.clone());
@@ -149,7 +149,7 @@ public class HelloPoi
         poiIndicator.setDepthTest(true);
 
         // Add a static heightmap to represent the ground.
-        addTerrain(physicsSpace);
+        addTerrain();
     }
 
     /**
@@ -248,11 +248,9 @@ public class HelloPoi
     }
 
     /**
-     * Add a heightfield body to the specified PhysicsSpace.
-     *
-     * @param physicsSpace (not null)
+     * Add a heightfield body to the space.
      */
-    private void addTerrain(PhysicsSpace physicsSpace) {
+    private void addTerrain() {
         // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);

@@ -82,7 +82,7 @@ public class HelloUpdate extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         // Create the physics space.
-        physicsSpace = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
+        this.physicsSpace = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
 
         // Create a material and a mesh for balls.
         float ballRadius = 1f;

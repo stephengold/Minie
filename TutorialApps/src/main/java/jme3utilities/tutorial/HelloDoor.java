@@ -106,6 +106,10 @@ public class HelloDoor
      */
     private PhysicsRigidBody doorFrameBody;
     /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
+    /**
      * latest ground location indicated by the mouse cursor
      */
     private final Vector3f mouseLocation = new Vector3f();
@@ -141,16 +145,16 @@ public class HelloDoor
     @Override
     public void simpleInitApp() {
         configureCamera();
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Add a static plane to represent the floor.
-        addPlane(groundY, physicsSpace);
+        addPlane(groundY);
 
         // Add a static body for the door frame.
-        addDoorFrame(physicsSpace);
+        addDoorFrame();
 
         // Add a dynamic body for the door.
-        addDoor(physicsSpace);
+        addDoor();
 
         // Add a single-ended physics joint to constrain the door's motion.
         Vector3f pivotInDoor = new Vector3f(-doorHalfWidth, 0f, 0f);
@@ -166,7 +170,7 @@ public class HelloDoor
         doorBody.addToIgnoreList(doorFrameBody);
 
         // Add a kinematic, yellow ball.
-        ballBody = addBall(physicsSpace);
+        ballBody = addBall();
     }
 
     /**
@@ -224,10 +228,9 @@ public class HelloDoor
      * Create a kinematic rigid body with a sphere shape and add it to the
      * space.
      *
-     * @param physicsSpace (not null)
      * @return the new body
      */
-    private PhysicsRigidBody addBall(PhysicsSpace physicsSpace) {
+    private PhysicsRigidBody addBall() {
         float radius = 0.4f;
         SphereCollisionShape shape = new SphereCollisionShape(radius);
 
@@ -243,12 +246,9 @@ public class HelloDoor
     }
 
     /**
-     * Create a dynamic body with a box shape and add it to the specified
-     * PhysicsSpace.
-     *
-     * @param physicsSpace (not null)
+     * Create a dynamic body with a box shape and add it to the space.
      */
-    private void addDoor(PhysicsSpace physicsSpace) {
+    private void addDoor() {
         BoxCollisionShape shape = new BoxCollisionShape(doorHalfWidth,
                 doorHalfHeight, halfThickness);
         float mass = 1f;
@@ -264,11 +264,9 @@ public class HelloDoor
     }
 
     /**
-     * Add a static door frame to the specified PhysicsSpace.
-     *
-     * @param physicsSpace (not null)
+     * Add a static door frame to the space.
      */
-    private void addDoorFrame(PhysicsSpace physicsSpace) {
+    private void addDoorFrame() {
         float frameHalfWidth = 0.5f;
         BoxCollisionShape jambShape = new BoxCollisionShape(frameHalfWidth,
                 doorHalfHeight, halfThickness);
@@ -293,12 +291,11 @@ public class HelloDoor
     }
 
     /**
-     * Add a horizontal plane body to the specified PhysicsSpace.
+     * Add a horizontal plane body to the space.
      *
      * @param y (the desired elevation, in physics-space coordinates)
-     * @param physicsSpace (not null)
      */
-    private void addPlane(float y, PhysicsSpace physicsSpace) {
+    private void addPlane(float y) {
         Plane plane = new Plane(Vector3f.UNIT_Y, y);
         PlaneCollisionShape shape = new PlaneCollisionShape(plane);
         PhysicsRigidBody floorBody

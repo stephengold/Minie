@@ -90,6 +90,10 @@ public class HelloDoubleEnded
      */
     private PhysicsRigidBody paddleBody;
     /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
+    /**
      * latest ground location indicated by the mouse cursor
      */
     private final Vector3f mouseLocation = new Vector3f();
@@ -125,16 +129,16 @@ public class HelloDoubleEnded
     @Override
     public void simpleInitApp() {
         configureCamera();
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Add a static plane to represent the ground.
-        addPlane(groundY, physicsSpace);
+        addPlane(groundY);
 
         // Add a mouse-controlled kinematic paddle.
-        addPaddle(physicsSpace);
+        addPaddle();
 
-        // Add a dynamic, yellow ball.
-        PhysicsRigidBody ballBody = addBall(physicsSpace);
+        // Add a dynamic ball.
+        PhysicsRigidBody ballBody = addBall();
 
         // Add a double-ended physics joint to connect the ball to the paddle.
         Vector3f pivotInBall = new Vector3f(0f, 3f, 0f);
@@ -201,10 +205,9 @@ public class HelloDoubleEnded
     /**
      * Create a dynamic rigid body with a sphere shape and add it to the space.
      *
-     * @param physicsSpace (not null)
      * @return the new body
      */
-    private PhysicsRigidBody addBall(PhysicsSpace physicsSpace) {
+    private PhysicsRigidBody addBall() {
         float radius = 0.4f;
         SphereCollisionShape shape = new SphereCollisionShape(radius);
 
@@ -257,10 +260,10 @@ public class HelloDoubleEnded
      *
      * @param physicsSpace (not null)
      */
-    private void addPaddle(PhysicsSpace physicsSpace) {
+    private void addPaddle() {
         BoxCollisionShape shape
                 = new BoxCollisionShape(0.3f, paddleHalfHeight, 1f);
-        paddleBody = new PhysicsRigidBody(shape);
+        this.paddleBody = new PhysicsRigidBody(shape);
         paddleBody.setKinematic(true);
         physicsSpace.addCollisionObject(paddleBody);
 
@@ -270,12 +273,11 @@ public class HelloDoubleEnded
     }
 
     /**
-     * Add a horizontal plane body to the specified PhysicsSpace.
+     * Add a horizontal plane body to the space.
      *
      * @param y (the desired elevation, in physics-space coordinates)
-     * @param physicsSpace (not null)
      */
-    private void addPlane(float y, PhysicsSpace physicsSpace) {
+    private void addPlane(float y) {
         Plane plane = new Plane(Vector3f.UNIT_Y, y);
         PlaneCollisionShape shape = new PlaneCollisionShape(plane);
         PhysicsRigidBody body

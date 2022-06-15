@@ -99,6 +99,10 @@ public class HelloWalkOtoBcc
     private volatile boolean walkToward;
 
     final private Node translationNode = new Node("translation node");
+    /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -129,7 +133,7 @@ public class HelloWalkOtoBcc
         addLighting(rootNode);
         configureCamera();
         configureInput();
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Load the Oto model and find its animation actions.
         Spatial oto = assetManager.loadModel("Models/Oto/Oto.mesh.xml");
@@ -156,7 +160,7 @@ public class HelloWalkOtoBcc
         character.warp(new Vector3f(-73.6f, 14.09f, -45.58f));
 
         // Add a static heightmap to represent the ground.
-        addTerrain(physicsSpace);
+        addTerrain();
     }
 
     /**
@@ -288,11 +292,11 @@ public class HelloWalkOtoBcc
     }
 
     /**
-     * Add a heightfield body to the specified PhysicsSpace.
+     * Add a heightfield body to the space.
      *
      * @param physicsSpace (not null)
      */
-    private void addTerrain(PhysicsSpace physicsSpace) {
+    private void addTerrain() {
         // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);

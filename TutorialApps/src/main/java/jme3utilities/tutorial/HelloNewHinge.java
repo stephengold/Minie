@@ -137,7 +137,7 @@ public class HelloNewHinge
 
         // Add a static plane to represent the ground.
         float y = -radius - 0.35f;
-        addPlane(y, physicsSpace);
+        addPlane(y);
     }
     // *************************************************************************
     // PhysicsTickListener methods
@@ -172,12 +172,11 @@ public class HelloNewHinge
     // private methods
 
     /**
-     * Add a horizontal plane body to the specified PhysicsSpace.
+     * Add a horizontal plane body to the space.
      *
      * @param y (the desired elevation, in physics-space coordinates)
-     * @param physicsSpace (not null)
      */
-    private void addPlane(float y, PhysicsSpace physicsSpace) {
+    private void addPlane(float y) {
         Plane plane = new Plane(Vector3f.UNIT_Y, y);
         PlaneCollisionShape shape = new PlaneCollisionShape(plane);
         PhysicsRigidBody body

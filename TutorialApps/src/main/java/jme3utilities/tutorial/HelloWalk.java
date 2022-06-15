@@ -84,6 +84,10 @@ public class HelloWalk
      */
     private volatile boolean walkRequested;
     private PhysicsCharacter character;
+    /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -113,7 +117,7 @@ public class HelloWalk
     public void simpleInitApp() {
         configureCamera();
         configureInput();
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Create a character with a capsule shape and add it to the space.
         float capsuleRadius = 3f;
@@ -129,7 +133,7 @@ public class HelloWalk
         character.setPhysicsLocation(new Vector3f(-73.6f, 19.09f, -45.58f));
 
         // Add a static heightmap to represent the ground.
-        addTerrain(physicsSpace);
+        addTerrain();
     }
 
     /**
@@ -224,11 +228,9 @@ public class HelloWalk
     }
 
     /**
-     * Add a heightfield body to the specified PhysicsSpace.
-     *
-     * @param physicsSpace (not null)
+     * Add a heightfield body to the space.
      */
-    private void addTerrain(PhysicsSpace physicsSpace) {
+    private void addTerrain() {
         // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);

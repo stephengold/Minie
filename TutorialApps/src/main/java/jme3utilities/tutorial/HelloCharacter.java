@@ -67,6 +67,10 @@ public class HelloCharacter
     // fields
 
     private PhysicsCharacter character;
+    /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -94,7 +98,7 @@ public class HelloCharacter
      */
     @Override
     public void simpleInitApp() {
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Create a character with a capsule shape and add it to the space.
         float capsuleRadius = 0.5f;
@@ -108,7 +112,7 @@ public class HelloCharacter
         // Add a square to represent the ground.
         float halfExtent = 4f;
         float y = -2f;
-        PhysicsRigidBody ground = addSquare(halfExtent, y, physicsSpace);
+        PhysicsRigidBody ground = addSquare(halfExtent, y);
 
         // Customize the debug visualization of each object.
         Material redMaterial = createLitMaterial(1f, 0f, 0f);
@@ -186,15 +190,13 @@ public class HelloCharacter
     }
 
     /**
-     * Add a horizontal square body to the specified PhysicsSpace.
+     * Add a horizontal square body to the space.
      *
      * @param halfExtent (half of the desired side length)
      * @param y (the desired elevation, in physics-space coordinates)
-     * @param physicsSpace (not null)
      * @return the new body (not null)
      */
-    private static PhysicsRigidBody addSquare(float halfExtent, float y,
-            PhysicsSpace physicsSpace) {
+    private PhysicsRigidBody addSquare(float halfExtent, float y) {
         // Construct a static rigid body with a square shape.
         Box2dShape shape = new Box2dShape(halfExtent);
         PhysicsRigidBody result

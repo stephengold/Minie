@@ -55,6 +55,13 @@ import java.util.Collection;
  */
 public class HelloVehicle extends SimpleApplication {
     // *************************************************************************
+    // fields
+
+    /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSpace physicsSpace;
+    // *************************************************************************
     // new methods exposed
 
     /**
@@ -127,18 +134,17 @@ public class HelloVehicle extends SimpleApplication {
 
         // Add a static plane to represent the ground.
         float y = -radius - 0.35f;
-        addPlane(y, physicsSpace);
+        addPlane(y);
     }
     // *************************************************************************
     // private methods
 
     /**
-     * Add a horizontal plane body to the specified PhysicsSpace.
+     * Add a horizontal plane body to the space.
      *
      * @param y (the desired elevation, in physics-space coordinates)
-     * @param physicsSpace (not null)
      */
-    private void addPlane(float y, PhysicsSpace physicsSpace) {
+    private void addPlane(float y) {
         Plane plane = new Plane(Vector3f.UNIT_Y, y);
         PlaneCollisionShape shape = new PlaneCollisionShape(plane);
         PhysicsRigidBody body
