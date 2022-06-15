@@ -45,7 +45,7 @@ import com.jme3.system.AppSettings;
 
 /**
  * A simple example combining kinematic and dynamic rigid-body controls.
- *
+ * <p>
  * Builds upon HelloKinematics and HelloRbc.
  *
  * @author Stephen Gold sgold@sonic.net

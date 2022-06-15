@@ -49,7 +49,7 @@ import com.jme3.system.AppSettings;
 /**
  * A simple example that demonstrates customization of debug materials, debug
  * meshes, and lighting.
- *
+ * <p>
  * Builds upon HelloRbc.
  *
  * @author Stephen Gold sgold@sonic.net

@@ -143,9 +143,11 @@ public class HelloWalk
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Synchronize the (first-person) camera location
-        // with the PhysicsCharacter.
-        // This overrides any translation requested by FlyByCamera.
+        /*
+         * Synchronize the (first-person) camera location
+         * with the PhysicsCharacter.
+         * This overrides any translation requested by FlyByCamera.
+         */
         Vector3f location = character.getPhysicsLocation(null);
         cam.setLocation(location);
     }

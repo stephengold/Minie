@@ -64,7 +64,7 @@ import com.jme3.texture.Texture;
 
 /**
  * A simple example of a PhysicsJoint with springs.
- *
+ * <p>
  * Builds upon HelloJoint.
  *
  * @author Stephen Gold sgold@sonic.net

@@ -53,7 +53,7 @@ import java.util.List;
 
 /**
  * An example of vehicle physics using NewHinge.
- *
+ * <p>
  * Builds upon HelloVehicle.
  *
  * @author Stephen Gold sgold@sonic.net

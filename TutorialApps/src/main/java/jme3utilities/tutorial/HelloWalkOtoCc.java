@@ -60,9 +60,9 @@ import com.jme3.texture.Texture;
 
 /**
  * An example of character physics using Oto and CharacterControl.
- *
+ * <p>
  * Press the U/H/J/K keys to walk. Press the space bar to jump.
- *
+ * <p>
  * Builds upon HelloWalk.
  *
  * @author Stephen Gold sgold@sonic.net

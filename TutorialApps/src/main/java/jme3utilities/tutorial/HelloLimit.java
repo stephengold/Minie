@@ -59,7 +59,7 @@ import com.jme3.system.AppSettings;
 
 /**
  * A simple example of a PhysicsJoint with limits.
- *
+ * <p>
  * Builds upon HelloJoint.
  *
  * @author Stephen Gold sgold@sonic.net

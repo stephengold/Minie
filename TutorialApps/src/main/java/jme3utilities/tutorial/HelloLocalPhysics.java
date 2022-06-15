@@ -47,7 +47,7 @@ import com.jme3.system.AppSettings;
 /**
  * A simple example involving a RigidBodyControl with
  * setApplyPhysicsLocal(true).
- *
+ * <p>
  * Builds upon HelloKinematicRbc.
  *
  * @author Stephen Gold sgold@sonic.net

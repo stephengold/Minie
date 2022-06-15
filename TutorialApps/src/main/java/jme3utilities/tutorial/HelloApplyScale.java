@@ -47,7 +47,7 @@ import com.jme3.system.AppSettings;
 
 /**
  * A simple example of a kinematic RigidBodyControl with setApplyScale(true).
- *
+ * <p>
  * Builds upon HelloKinematicRbc.
  *
  * @author Stephen Gold sgold@sonic.net

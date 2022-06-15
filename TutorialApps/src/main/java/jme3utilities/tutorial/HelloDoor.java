@@ -63,7 +63,7 @@ import com.jme3.texture.Texture;
 
 /**
  * Simulate a swinging door using a single-ended HingeJoint.
- *
+ * <p>
  * Builds upon HelloJoint.
  *
  * @author Stephen Gold sgold@sonic.net

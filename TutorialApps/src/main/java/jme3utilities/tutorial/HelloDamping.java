@@ -95,7 +95,7 @@ public class HelloDamping extends SimpleApplication {
         cube[2].setPhysicsLocation(new Vector3f(0f, -2f, 0f));
         cube[3].setPhysicsLocation(new Vector3f(4f, -2f, 0f));
 
-        // Give each cube its own set of damping parameters.
+        // Give each cube its own set of damping parameters (linear, angular).
         cube[0].setDamping(0f, 0f);
         cube[1].setDamping(0f, 0.9f);
         cube[2].setDamping(0.9f, 0f);

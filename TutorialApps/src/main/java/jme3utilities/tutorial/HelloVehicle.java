@@ -48,7 +48,7 @@ import java.util.Collection;
 
 /**
  * A simple example of vehicle physics.
- *
+ * <p>
  * Builds upon HelloStaticBody.
  *
  * @author Stephen Gold sgold@sonic.net

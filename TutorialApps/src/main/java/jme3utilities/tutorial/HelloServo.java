@@ -58,7 +58,7 @@ import com.jme3.system.AppSettings;
 
 /**
  * A simple example of a PhysicsJoint with a servo.
- *
+ * <p>
  * Builds upon HelloMotor.
  *
  * @author Stephen Gold sgold@sonic.net

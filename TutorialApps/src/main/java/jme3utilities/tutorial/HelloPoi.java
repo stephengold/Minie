@@ -67,7 +67,7 @@ import jme3utilities.math.MyVector3f;
 
 /**
  * A simple example of point-of-impact prediction.
- *
+ * <p>
  * Press the spacebar or LMB to launch a missile.
  *
  * Builds upon HelloWalk.

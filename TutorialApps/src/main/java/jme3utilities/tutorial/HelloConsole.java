@@ -36,7 +36,7 @@ import com.jme3.system.NativeLibraryLoader;
 
 /**
  * A simple example of a console application without a scene graph.
- *
+ * <p>
  * Builds upon HelloStaticBody.
  *
  * @author Stephen Gold sgold@sonic.net

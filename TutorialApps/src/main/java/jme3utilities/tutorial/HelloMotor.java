@@ -58,7 +58,7 @@ import com.jme3.system.AppSettings;
 
 /**
  * A simple example of a PhysicsJoint with a motor.
- *
+ * <p>
  * Builds upon HelloLimit.
  *
  * @author Stephen Gold sgold@sonic.net

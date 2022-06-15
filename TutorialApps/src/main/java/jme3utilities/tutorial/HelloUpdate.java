@@ -44,7 +44,7 @@ import com.jme3.system.AppSettings;
 
 /**
  * A simple example without an AppState.
- *
+ * <p>
  * Builds upon HelloRbc.
  *
  * @author Stephen Gold sgold@sonic.net
