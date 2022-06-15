@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
+import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.motors.MotorParam;
@@ -648,8 +649,12 @@ public class Windlass
 
         // Visualize only the rigid bodies, not the joints.
         bulletAppState.setDebugFilter(
-                (Object object) -> object instanceof PhysicsRigidBody
-        );
+                new BulletDebugAppState.DebugAppStateFilter() {
+            @Override
+            public boolean displayObject(Object object) {
+                return object instanceof PhysicsRigidBody;
+            }
+        });
         bulletAppState.setDebugInitListener(this);
 
         stateManager.attach(bulletAppState);
