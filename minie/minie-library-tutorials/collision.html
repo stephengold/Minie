@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Managing collisions :: The Minie project</title>
+    <link rel="canonical" href="https://stephengold.github.io/Minie/minie/minie-library-tutorials/collision.html">
+    <link rel="prev" href="dac.html">
+    <link rel="next" href="softbody.html">
+    <meta name="generator" content="Antora 3.0.1">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<meta property="og:image" content="../../_/img/iconx128.png">
+<meta property="og:description" content="Managing collisions">
+<meta property="og:title" content="The Minie project">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://stephengold.github.io/Minie">
+        <img alt="" src="../../_/img/iconx128.png" width="32" type="image/x-icon" style="margin-right:16px">
+        The Minie project
+      </a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Color themes</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" onclick="setTheme('canyon')">Canyon</a>
+            <a class="navbar-item" onclick="setTheme('dark')">Dark</a>
+            <a class="navbar-item" onclick="setTheme('jungle')">Jungle</a>
+            <a class="navbar-item" onclick="setTheme('light')">Light</a>
+            <a class="navbar-item" onclick="setTheme('pastel')">Pastel</a>
+            <a class="navbar-item" onclick="setTheme('phosphor')">Phosphor<a>
+            <a class="navbar-item" style="padding-top: 5px;padding-left: 1px;padding-right: 1px;"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="minie" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../overview.html">Project links</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../implementation.html">Implementation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Library tutorials</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="add.html">Add to existing project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rigidbody.html">Rigid bodies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="shape.html">Collision shapes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rbc.html">RigidBodyControl</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debug.html">Debug aids</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="character.html">Characters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="vehicle.html">Vehicles</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="new6dof.html">New6Dof constraints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="dac.html">Ragdolls</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="collision.html">Managing collisions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="softbody.html">Soft bodies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="server.html">Physics without appstates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="misc.html">Miscellany</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../build.html">Build procedures</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../demos.html">Demo apps</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../depends.html">Dependencies</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="https://github.com/stephengold/Minie">Git repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/releases/latest">Latest release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/releases">Recent releases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/blob/master/README.md">ReadMe file</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE">License</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md">Release log</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/commits/master">Recent commits</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/issues">Issue tracker</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Minie/issues/new">File an issue</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Library APIs (javadoc)</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/master">Master branch</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v4-7">Version 4.7</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v4-6">Version 4.6</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v4-5">Version 4.5</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v4-4">Version 4.4</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v4-3">Version 4.3</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v4-2">Version 4.2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v4-1">Version 4.1</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v4-0">Version 4.0</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v3-1">Version 3.1</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v3-0">Version 3.0</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Minie/javadoc/v2-0">Version 2.0</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Minie at other sites</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://hub.jmonkeyengine.org/c/user-code-projects/minie/63">JMonkeyEngine forum</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://repo1.maven.org/maven2/com/github/stephengold/Minie">Maven Central download</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://search.maven.org/artifact/com.github.stephengold/Minie">Maven Central search</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://store.jmonkeyengine.org/38308161-c3cf-4e23-8754-528ca8387c11">JmonkeyStore</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://jitpack.io/#stephengold/Minie">JitPack (unofficial)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Projects using Minie</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://www.indiedb.com/games/the-afflicted-forests">The Afflicted Forests</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/rvandoosselaer/Blocks">Blocks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Garrett">Garrett</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/jme-vehicles">More Advanced Vehicles</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://myworldvw.com">MyWorld</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/tlf30/PhysicsSync">PhysicsSync</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://scenemax3d.com">SceneMax3D</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Other related projects</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Acorus">Acorus</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://pybullet.org/wordpress">Bullet</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/Heart">Heart</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://jmonkeyengine.org">JMonkeyEngine</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io/Libbulletjme">Libbulletjme</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/Simsilica/SimMath">SimMath</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/kmammou/v-hacd">V-HACD</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/stephengold/antora-ui-bundle">Website UI bundle</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">People</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://stephengold.github.io">Stephen Gold</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">The Minie project</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">The Minie project</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="../overview.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle-label">Project links</span>
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../overview.html">The Minie project</a></li>
+    <li>Library tutorials</li>
+    <li><a href="collision.html">Managing collisions</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/stephengold/Minie/edit/master/MinieLibrary/src/site/antora/tutorials/modules/minie-library-tutorials/pages/collision.adoc">Edit this page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Managing collisions</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>During each simulation step, Bullet performs collision detection in 2 phases:
+broadphase and narrowphase.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><em>Broadphase</em> enumerates pairs of objects in close proximity,
+based on overlaps between their axis-aligned bounding boxes (AABBs).</p>
+</li>
+<li>
+<p><em>Narrowphase</em> uses detailed collision shapes
+to test each pair found during broadphase,
+resulting in a list of <em>manifolds</em> where the shapes intersect.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Each manifold is composed of up to 4 <em>contact points</em>.
+Rigid-body dynamics use manifolds and contact points implement contact response,
+including friction and restitution.</p>
+</div>
+<div class="paragraph">
+<p>Minie provides mechanisms to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>count or enumerate overlaps,</p>
+</li>
+<li>
+<p>customize which overlaps are handled and which are ignored,</p>
+</li>
+<li>
+<p>access the manifolds and contact points, and</p>
+</li>
+<li>
+<p>perform custom actions when Bullet creates or destroys a manifold
+or when it processes a contact point.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It also provides mechanisms
+to count or enumerate collision objects that intersect with:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a specific line segment,</p>
+</li>
+<li>
+<p>a shape in a specific position, or</p>
+</li>
+<li>
+<p>a shape sweeping from one position to another.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Such <em>intersection tests</em> are usually performed <strong>between</strong> simulation steps.
+They are useful (for instance) when you want to add an object to a space without
+causing an immediate collision.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ghosts"><a class="anchor" href="#_ghosts"></a>Ghosts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <em>ghost</em> is a collision object without contact response,
+created solely to detect overlaps with other collision objects.
+You can create a ghost directly by invoking the
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsGhostObject.html"><code>PhysicsGhostObject</code></a> constructor.
+In order to work, the ghost must be added to a space.</p>
+</div>
+<div class="paragraph">
+<p>The constructor allows you to specify a collision shape.
+However, the details of the shape are unimportant.
+The key property of a ghost is its axis-aligned bounding box,
+which is determined by the ghost&#8217;s shape and position.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The AABBs generated by Bullet
+aren&#8217;t <a href="https://en.wikipedia.org/wiki/Minimum_bounding_box">minimal</a>.
+Approximations in Bullet make them somewhat larger than necessary.
+However, they are usually accurate enough to be useful.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloGhost.java"><code>HelloGhost</code></a> is a SPORT app
+that illustrates how a ghost could be used
+to detect a character entering/leaving a box-shaped zone.</p>
+</div>
+<div class="paragraph">
+<p>Things notice while running the app:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The ghost (in yellow) has a spherical shape, but its AABB (in white) is box-shaped.</p>
+</li>
+<li>
+<p>The character (in pink) has a capsule shape.
+To clarify what&#8217;s going on, its AABB is outlined in white.</p>
+</li>
+<li>
+<p>The ghost&#8217;s overlap count (displayed at the bottom of the window) is initially one,
+due to its overlap with the ground plane.</p>
+</li>
+<li>
+<p>Press <kbd>Right arrow</kbd> to walk the character toward the ghost.</p>
+</li>
+<li>
+<p>As soon as the character&#8217;s AABB touches the ghost&#8217;s AABB, the count increases to 2,
+even though their collision shapes haven&#8217;t intersected yet.</p>
+</li>
+<li>
+<p>Press <kbd>Space bar</kbd> to jump.</p>
+</li>
+<li>
+<p>The character can jump high enough to leave the ghost&#8217;s AABB,
+at which time the count will momentarily return to 1.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In addition the counting overlapping objects,
+you can enumerate them using <code>ghost.getOverlappingObjects()</code>.</p>
+</div>
+<div class="paragraph">
+<p>The alternative to creating a ghost directly is to add a
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/GhostControl.html"><code>GhostControl</code></a>
+to the scene graph.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_filtering_aabb_overlaps"><a class="anchor" href="#_filtering_aabb_overlaps"></a>Filtering AABB overlaps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You might want to prevent collisions from occurring
+between cetrain objects, perhaps under specific conditions.
+Filtering out an overlap during broadphase
+prevents collisions between the overlapping objects.
+Minie provides several mechanisms to implement such filtering.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The wheels of a <code>PhysicsVehicle</code> aren&#8217;t collision objects,
+so these mechanisms don&#8217;t affect them.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_using_collision_groups"><a class="anchor" href="#_using_collision_groups"></a>Using collision groups</h3>
+<div class="paragraph">
+<p>You can filter overlaps using <em>collision groups</em>.
+This is the most efficient filtering mechanism.</p>
+</div>
+<div class="paragraph">
+<p>16 groups are defined,
+and each collision object belongs to exactly one group.
+By default, that group is <code>COLLISION_GROUP_01</code>.
+To assign an object to a different group,
+invoke <code>collisionObject.setCollisionGroup()</code>.</p>
+</div>
+<div class="paragraph">
+<p>By default, collision objects collide only with objects in <code>COLLISION_GROUP_01</code>.
+To alter an object&#8217;s collides-with set,
+invoke <code>collisionObject.setCollideWithGroup()</code>.</p>
+</div>
+<div class="paragraph">
+<p>For a collision to occur between objects X and Y,
+either X must collide with Y&#8217;s group <strong>OR</strong> Y must collide with X&#8217;s group.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_ignore_lists"><a class="anchor" href="#_using_ignore_lists"></a>Using ignore lists</h3>
+<div class="paragraph">
+<p>You can filter AABB overlaps on a pair-by-pair basis
+by creating <em>ignore lists</em> for specific collision objects.
+Ignore lists are more flexible than collision groups, but less efficient.</p>
+</div>
+<div class="paragraph">
+<p>Each collision object is created with an empty ignore list.
+You can disable collisions between two objects X and Y by invoking
+<code>x.addToIgnoreList(y)</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There&#8217;s no need to also invoke <code>y.addToIgnoreList(x)</code>.
+That would be redundant.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Ignore lists are used internally by physics joints
+to disable collisions between the ends of a joint.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_a_dynamic_filter"><a class="anchor" href="#_using_a_dynamic_filter"></a>Using a dynamic filter</h3>
+<div class="paragraph">
+<p>For each collision group in a space,
+you can register a collision-group listener.
+Minie invokes the collision-group listeners for each AABB overlap
+that isn&#8217;t suppressed by collision groups or ignore lists.</p>
+</div>
+<div class="paragraph">
+<p>You can dynamically filter AABB overlaps
+by registering a listener that returns <code>true</code> for overlaps that may
+cause collisions and <code>false</code> for those that should never cause collisions.</p>
+</div>
+<div class="paragraph">
+<p>Collision-group listeners
+are the most flexible mechanism for filtering collisions.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_access_to_manifolds_and_contact_points"><a class="anchor" href="#_access_to_manifolds_and_contact_points"></a>Access to manifolds and contact points</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>physicsSpace.countManifolds()</code> method
+returns the number of contact manifolds in the space.
+Each manifold has a native ID, as does each contact point.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>physicsSpace.listManifoldIds()</code> method
+enumerates the IDs of all manifolds in the space.</p>
+</li>
+<li>
+<p>To obtain detailed information about a specific manifold, use the methods in
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/PersistentManifolds.html"><code>PersistentManifolds</code></a>.</p>
+</li>
+<li>
+<p>The <code>PersistentManifolds.listPointIds()</code> method enumerates the IDs
+of the contact points in a particular manifold.</p>
+</li>
+<li>
+<p>To obtain detailed information about a specific contact point,
+use the methods in <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/ManifoldPoints.html"><code>ManifoldPoints</code></a>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A manifold may persist for a while after the bodies no longer intersect.
+To confirm intersection,
+use <code>ManifoldPoints.getDistance1()</code> to get the separation distance.
+When the distance is positive, there&#8217;s no intersection.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_collisioncontact_listeners"><a class="anchor" href="#_collisioncontact_listeners"></a>Collision/contact listeners</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For each physics space, you can register 3 kinds of collision/contact listeners:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">registration method</th>
+<th class="tableblock halign-left valign-top">Listeners are invoked during&#8230;&#8203;</th>
+<th class="tableblock halign-left valign-top">for every&#8230;&#8203;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>addCollisionListener()</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>physicsSpace.distributeEvents()</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>contact created since the last <code>distributeEvents()</code> call.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>addOngoingCollisionListener()</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>physicsSpace.distributeEvents()</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>contact point processed since the last <code>distributeEvents()</code> call.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>addContactListener()</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>physicsSpace.update()</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>contact created or removed and every contact point that is processed.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>BulletAppState</code> invokes <code>distributeEvents()</code> during each update.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ragdoll_listeners"><a class="anchor" href="#_ragdoll_listeners"></a>Ragdoll listeners</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For each <code>DynamicAnimControl</code>, you can register collision listeners
+that will be invoked after each contact is created, provided:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>the contact involves the ragdoll and</p>
+</li>
+<li>
+<p>the applied impulse exceeds a configurable threshold.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ray_testing"><a class="anchor" href="#_ray_testing"></a>Ray testing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>space.rayTest()</code> method performs <em>ray test</em> against a space,
+returning a list of objects in the space
+that intersect with the specified <a href="https://en.wikipedia.org/wiki/Line_segment">line segment</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Unlike a <a href="https://en.wikipedia.org/wiki/Line_(geometry)#Ray">mathematical ray</a>,
+the "ray" used in a ray test has both a starting point and an ending point.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To configure details of how ray tests are performed,
+use the <code>space.setRayTestFlags()</code> method.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contact_testing"><a class="anchor" href="#_contact_testing"></a>Contact testing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>contactTest()</code> method performs a <em>contact test</em> against a space,
+returning the number of contact points that would be created
+if a specified collision object were added to the space.</p>
+</div>
+<div class="paragraph">
+<p>To obtain more information about the contacts,
+you can request a callback for each point.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Contact testing doesn&#8217;t detect contacts involving soft bodies.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sweep_testing"><a class="anchor" href="#_sweep_testing"></a>Sweep testing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A sweep test combines features of a ray test and a contact test.</p>
+</div>
+<div class="paragraph">
+<p>The <code>sweepTest()</code> method performs a <em>sweep test</em> against a space,
+returning a list of objects in the space that would
+intersect with a collision shape sweeping from one position to another.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The shape must be convex.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Overlaps, intersections, manifolds, and contact points are distinct concepts.</p>
+</li>
+<li>
+<p>Minie provides filtering mechanisms to control
+which overlaps should be handled and which should be ignored.</p>
+</li>
+<li>
+<p>Minie provides methods
+to enumerate overlaps, manifolds, and contact points.</p>
+</li>
+<li>
+<p>You can trigger custom actions during each stage of collision processing.</p>
+</li>
+<li>
+<p>Between simulation steps,
+you can perform ray tests, contact tests, and sweep tests
+against a space.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="dac.html">Ragdolls</a></span>
+  <span class="next"><a href="softbody.html">Soft bodies</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Page contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright &copy; 2020&ndash;2022 by Stephen Gold</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
