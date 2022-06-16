@@ -9,7 +9,7 @@
 ** xref:minie-library-tutorials:vehicle.adoc[Vehicles]
 ** xref:minie-library-tutorials:new6dof.adoc[New6Dof constraints]
 ** xref:minie-library-tutorials:dac.adoc[Ragdolls]
-** xref:minie-library-tutorials:detect.adoc[Collision detection]
+** xref:minie-library-tutorials:collision.adoc[Managing collisions]
 ** xref:minie-library-tutorials:softbody.adoc[Soft bodies]
 ** xref:minie-library-tutorials:server.adoc[Physics without appstates]
 ** xref:minie-library-tutorials:misc.adoc[Miscellany]
