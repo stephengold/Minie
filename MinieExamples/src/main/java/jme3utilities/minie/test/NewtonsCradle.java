@@ -91,7 +91,7 @@ public class NewtonsCradle
     // fields
 
     /**
-     * text displayed in the upper-left corner of the GUI node
+     * text displayed at the bottom of the GUI node
      */
     private BitmapText statusText;
     /**
@@ -115,9 +115,7 @@ public class NewtonsCradle
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         for (String arg : arguments) {
@@ -177,9 +175,8 @@ public class NewtonsCradle
 
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
-        /*
-         * Add the status text to the GUI.
-         */
+
+        // Add the status text to the GUI.
         statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);

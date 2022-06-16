@@ -146,9 +146,8 @@ public class PoolDemo extends PhysicsDemo {
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         boolean loadDefaults = true;
@@ -180,9 +179,8 @@ public class PoolDemo extends PhysicsDemo {
         configurePhysics();
         generateMaterials();
         generateShapes();
-        /*
-         * Hide the render-statistics overlay.
-         */
+
+        // Hide the render-statistics overlay.
         stateManager.getState(StatsAppState.class).toggleStats();
 
         ColorRGBA bgColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);

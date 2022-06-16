@@ -163,9 +163,8 @@ public class WatchDemo extends PhysicsDemo {
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         boolean loadDefaults = true;
@@ -197,9 +196,8 @@ public class WatchDemo extends PhysicsDemo {
         viewPort.setBackgroundColor(skyColor);
 
         addLighting();
-        /*
-         * Hide the render-statistics overlay.
-         */
+
+        // Hide the render-statistics overlay.
         stateManager.getState(StatsAppState.class).toggleStats();
 
         float length = 4f;
@@ -217,9 +215,8 @@ public class WatchDemo extends PhysicsDemo {
         //addModel("Sinbad");
         //addModel("MhGame");
         addModel("SinbadWith1Sword");
-        /*
-         * Add a target rigid body, to be moved by dragging RMB.
-         */
+
+        // Add a target rigid body, to be moved by dragging RMB.
         CollisionShape shape = new SphereCollisionShape(0.1f);
         targetBody = new PhysicsRigidBody(shape);
         targetBody.setKinematic(true);
@@ -513,9 +510,8 @@ public class WatchDemo extends PhysicsDemo {
      */
     private void initWhenReady() {
         Vector3f pivot = new Vector3f();
-        /*
-         * The face and neck track the target.
-         */
+
+        // The face and neck track the target.
         Face face = (Face) dac;
         Vector3f faceDirection = face.faceDirection(null);
         String noseSpec = face.faceCenterSpec();
@@ -528,14 +524,12 @@ public class WatchDemo extends PhysicsDemo {
         watch.setEnabled(false);
         watch.setErrorGainFactor(0.3f);
         targetPoint.setEnabled(false);
-        /*
-         * If the model's eyes are animated, each eye also tracks the target.
-         */
+
+        // If the model's eyes are animated, each eye also tracks the target.
         if (dac instanceof Binocular) {
             Binocular binocular = (Binocular) dac;
-            /*
-             * left eye
-             */
+
+            // left eye
             String spec = binocular.leftPupilSpec();
             PhysicsLink link = dac.findManagerForVertex(spec, null, pivot);
             link.setDynamic(Vector3f.ZERO);
@@ -546,9 +540,8 @@ public class WatchDemo extends PhysicsDemo {
             leftWatch.setDeltaGainFactor(4f);
             leftWatch.setEnabled(false);
             leftWatch.setErrorGainFactor(1f);
-            /*
-             * right eye
-             */
+
+            // left eye
             spec = binocular.rightPupilSpec();
             link = dac.findManagerForVertex(spec, null, pivot);
             link.setDynamic(Vector3f.ZERO);

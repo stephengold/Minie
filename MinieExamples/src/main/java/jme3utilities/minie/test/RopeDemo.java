@@ -224,13 +224,11 @@ public class RopeDemo extends PhysicsDemo {
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Process any command-line arguments.
-         */
+
+        // Process any command-line arguments.
         ShowDialog showDialog = ShowDialog.Never;
         for (String arg : arguments) {
             switch (arg) {
@@ -268,9 +266,8 @@ public class RopeDemo extends PhysicsDemo {
         boolean success = stateManager.attach(dseOverlay);
         assert success;
         super.acorusInit();
-        /*
-         * Hide the render-statistics overlay.
-         */
+
+        // Hide the render-statistics overlay.
         stateManager.getState(StatsAppState.class).toggleStats();
 
         configureCamera();

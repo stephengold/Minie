@@ -151,9 +151,8 @@ public class ConveyorDemo
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Enable direct-memory tracking.
@@ -271,9 +270,8 @@ public class ConveyorDemo
 
         ColorRGBA bgColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         viewPort.setBackgroundColor(bgColor);
-        /*
-         * Hide the render-statistics overlay.
-         */
+
+        // Hide the render-statistics overlay.
         stateManager.getState(StatsAppState.class).toggleStats();
 
         addOuterWalls();

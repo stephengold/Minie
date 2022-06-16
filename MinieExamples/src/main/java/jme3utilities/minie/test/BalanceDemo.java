@@ -191,9 +191,8 @@ public class BalanceDemo extends PhysicsDemo {
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         boolean loadDefaults = true;
@@ -225,9 +224,8 @@ public class BalanceDemo extends PhysicsDemo {
         viewPort.setBackgroundColor(skyColor);
 
         addLighting();
-        /*
-         * Hide the render-statistics overlay.
-         */
+
+        // Hide the render-statistics overlay.
         stateManager.getState(StatsAppState.class).toggleStats();
 
         int indicatorSize = 16; // in pixels

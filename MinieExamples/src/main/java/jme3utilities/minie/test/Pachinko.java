@@ -100,7 +100,7 @@ public class Pachinko
     // fields
 
     /**
-     * text displayed in the upper-left corner of the GUI node
+     * text displayed at the bottom of the GUI node
      */
     private BitmapText statusText;
     /**
@@ -136,9 +136,7 @@ public class Pachinko
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         for (String arg : arguments) {

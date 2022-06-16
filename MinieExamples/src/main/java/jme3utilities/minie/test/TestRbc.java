@@ -206,9 +206,8 @@ public class TestRbc
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         boolean loadDefaults = true;
@@ -255,9 +254,8 @@ public class TestRbc
 
         float length = 0.8f;
         attachWorldAxes(length);
-        /*
-         * Hide the render-statistics overlay initially.
-         */
+
+        // Hide the render-statistics overlay initially.
         stateManager.getState(StatsAppState.class).toggleStats();
 
         int indicatorSize = 16; // in pixels

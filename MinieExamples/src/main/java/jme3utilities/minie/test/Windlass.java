@@ -155,9 +155,7 @@ public class Windlass
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         for (String arg : arguments) {

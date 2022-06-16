@@ -154,9 +154,8 @@ public class TargetDemo
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Enable direct-memory tracking.
@@ -233,9 +232,8 @@ public class TargetDemo
         generateMaterials();
         configurePhysics();
         generateShapes();
-        /*
-         * Hide the render-statistics overlay.
-         */
+
+        // Hide the render-statistics overlay.
         stateManager.getState(StatsAppState.class).toggleStats();
 
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);

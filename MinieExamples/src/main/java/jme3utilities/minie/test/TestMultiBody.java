@@ -106,9 +106,8 @@ public class TestMultiBody extends PhysicsDemo {
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Enable direct-memory tracking.

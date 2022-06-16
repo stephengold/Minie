@@ -81,7 +81,7 @@ public class TestGearJoint
     // fields
 
     /**
-     * text displayed in the upper-left corner of the GUI node
+     * text displayed at the bottom of the GUI node
      */
     private BitmapText statusText;
     /**
@@ -106,13 +106,11 @@ public class TestGearJoint
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Process any command-line arguments.
-         */
+
+        // Process any command-line arguments.
         ShowDialog showDialog = ShowDialog.Never;
         for (String arg : arguments) {
             switch (arg) {
@@ -150,13 +148,11 @@ public class TestGearJoint
         boolean success = stateManager.attach(dseOverlay);
         assert success;
         super.acorusInit();
-        /*
-         * Hide the render-statistics overlay.
-         */
+
+        // Hide the render-statistics overlay.
         stateManager.getState(StatsAppState.class).toggleStats();
-        /*
-         * Add the status text to the GUI.
-         */
+
+        // Add the status text to the GUI.
         statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
@@ -170,9 +166,8 @@ public class TestGearJoint
 
         float length = 0.8f;
         attachWorldAxes(length);
-        /*
-         * Add an elongated dynamic body for the driveshaft.
-         */
+
+        // Add an elongated dynamic body for the driveshaft.
         float radius = 0.5f;
         float height = 3f;
         CollisionShape driveshaftShape = new CylinderCollisionShape(
@@ -182,9 +177,8 @@ public class TestGearJoint
         driveshaft.setPhysicsLocation(new Vector3f(-1f, 0.2f, 0f));
         driveshaft.setEnableSleep(false);
         addCollisionObject(driveshaft);
-        /*
-         * Add a flattened dynamic body for the wheel.
-         */
+
+        // Add a flattened dynamic body for the wheel.
         radius = 2f;
         height = 0.5f;
         CollisionShape wheelShape = new CylinderCollisionShape(

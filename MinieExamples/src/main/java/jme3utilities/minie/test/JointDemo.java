@@ -127,9 +127,8 @@ public class JointDemo extends PhysicsDemo {
      */
     public static void main(String[] arguments) {
         String title = applicationName + " " + MyString.join(arguments);
-        /*
-         * Mute the chatty loggers in certain packages.
-         */
+
+        // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         boolean loadDefaults = true;
@@ -173,9 +172,8 @@ public class JointDemo extends PhysicsDemo {
 
         rootNode.attachChild(meshesNode);
         meshesNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-        /*
-         * Add the status text to the GUI.
-         */
+
+        // Add the status text to the GUI.
         statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
@@ -284,9 +282,8 @@ public class JointDemo extends PhysicsDemo {
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
-        /*
-         * Check UI signals and update motor velocities accordingly.
-         */
+
+        // Check UI signals and update motor velocities accordingly.
         Signals signals = getSignals();
 
         float lfVelocity = signals.test("turnLF") ? 2f : 0f;
@@ -329,18 +326,16 @@ public class JointDemo extends PhysicsDemo {
                 = pivotInChassis.add(chassisInWorld).subtractLocal(legInWorld);
         New6Dof joint = new New6Dof(chassisRbc, legRbc, pivotInChassis,
                 pivotInLeg, new Matrix3f(), new Matrix3f(), RotationOrder.ZYX);
-        /*
-         * Inhibit X- and Y-axis rotations.
-         */
+
+        // Inhibit X- and Y-axis rotations.
         RotationMotor xMotor = joint.getRotationMotor(PhysicsSpace.AXIS_X);
         xMotor.set(MotorParam.UpperLimit, 0f);
         xMotor.set(MotorParam.LowerLimit, 0f);
         RotationMotor yMotor = joint.getRotationMotor(PhysicsSpace.AXIS_Y);
         yMotor.set(MotorParam.UpperLimit, 0f);
         yMotor.set(MotorParam.LowerLimit, 0f);
-        /*
-         * Enable the motor for Z-axis rotation and return a reference to it.
-         */
+
+        // Enable the motor for Z-axis rotation and return a reference to it.
         RotationMotor zMotor = joint.getRotationMotor(PhysicsSpace.AXIS_Z);
         zMotor.setMotorEnabled(true);
         zMotor.set(MotorParam.MaxMotorForce, 9e9f);
