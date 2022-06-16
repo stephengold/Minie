@@ -266,5 +266,5 @@ Things to notice while running the app:
 * `New6Dof` is a versatile constraint
   with 6 degrees of freedom (DOFs).
   It can emulate hinges, sliders, and point-to-point joints.
-* New6Dof also implements limits, springs, motors, and servos.
+* `New6Dof` also implements limits, springs, motors, and servos.
 * Constraint DOFs will exhibit some softness, even when locked.

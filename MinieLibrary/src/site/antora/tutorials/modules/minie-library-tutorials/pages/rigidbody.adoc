@@ -191,7 +191,7 @@ On keyboards with other layouts, keys may be labeled differently.
 === Velocity
 
 Every dynamic body has a _velocity_ that quantifies its motion as of the
-end of the last time step (or the start of the next).
+end of the last simulation step (and the start of the next).
 
 More precisely, it has 2 velocities: _linear velocity_ and _angular velocity_,
 both represented as 3-D vectors.
@@ -444,8 +444,8 @@ A common issue with discrete-time physics simulation
 involves a fast-moving dynamic body passing through a thin obstacle
 without any collision being detected.
 The issue arises because the body can pass from one side of the obstacle to
-the other in a single time step.
-The dynamic body doesn't intersect the obstacle on any time step,
+the other in a single simulation step.
+The dynamic body doesn't intersect the obstacle after any step,
 so no collision is detected and no contact forces are simulated.
 
 To some extent, this issue could be mitigated by reducing the time step.
@@ -462,7 +462,7 @@ obstacles found during the sweep.
 
 Because CCD involves extra computation, it's disabled by default.
 Since it's only necessary for fast-moving bodies, it's enabled only
-when a body's distance traveled per time step exceeds a threshold.
+when a body's distance traveled per simulation step exceeds a threshold.
 To enable CCD for a particular rigid body,
 set its activation threshold to a positive value using
 `rigidBody.setCcdMotionThreshold(distancePerTimeStep)`.
@@ -490,7 +490,7 @@ Things to notice while running the app:
   making the time steps noticeable.
 . The ball with CCD enabled (on the left) sticks the landing on the platform.
 . The control ball (on the right) falls through the platform,
-  passing from one side to the other in a single time step.
+  passing from one side to the other in a single simulation step.
 
 == Summary
 
@@ -502,7 +502,7 @@ Things to notice while running the app:
 | |Static |Kinematic |Dynamic
 
 a|Movement
-a|prior to first time step only: `setPhysicsLocation()` `setPhysicsRotation()`
+a|prior to first simulation step only: `setPhysicsLocation()` `setPhysicsRotation()`
 a|`setPhysicsLocation()` `setPhysicsRotation()`
 a|`applyCentralForce()` `applyCentralImpulse()` `applyForce()` `applyImpulse()`
   `applyTorque()` `applyTorqueImpulse()` `setAngularVelocity()`

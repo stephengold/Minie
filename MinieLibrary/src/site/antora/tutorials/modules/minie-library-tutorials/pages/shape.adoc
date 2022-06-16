@@ -383,10 +383,10 @@ For instance:
 * A character's hair should probably be omitted from their collision shape.
 * Any small object that only encounters large, flat surfaces
   can probably be approximated by a convex hull.
-* If a container remains sealed,
+* As long as a container remains sealed,
   its collision shape need not be hollow.
 
-Because JMonkeyEngine models are composed of triangle meshes,
+Because most 3-D models are composed of triangle meshes,
 beginners are often tempted to use mesh-based shapes
 (such as {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`])
 for everything.

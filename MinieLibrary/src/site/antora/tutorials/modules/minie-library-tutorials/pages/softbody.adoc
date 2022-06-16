@@ -1,6 +1,7 @@
 = An introduction to soft-body physics
 :Project: Minie
 :page-pagination:
+:url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial
 
 While rope, cloth, and foam rubber
@@ -65,7 +66,7 @@ softBody.setMargin(0.1f);
 
 Soft bodies lack many other features of rigid bodies, including:
 
-* motion state (for extrapolating between time steps),
+* motion state (for extrapolating between simulation steps),
 * deactivation/sleeping (for efficient simulation), and
 * continuous collision detection (CCD) (for fast-moving objects).
 
@@ -95,9 +96,9 @@ with the desired shape and topology and append it to the body
 using a utility method:
 
 * `NativeSoftBodyUtil.appendFromTriMesh()`
-  to append nodes and faces from a mesh with Mode.Triangles
+  to append nodes and faces from a mesh with `Mode.Triangles`
 * `NativeSoftBodyUtil.appendFromLineMesh()`
-  to append nodes and links from a mesh with Mode.Lines
+  to append nodes and links from a mesh with `Mode.Lines`
 
 Be aware that meshes intended for graphics rendering often prove
 unsuitable for soft-body simulation.
@@ -225,7 +226,13 @@ rigid body).
 For a simple example of a pinned node, see
 {url-tutorial}/HelloPin.java[HelloPin.java].
 
-TODO: ropes, applying forces, anchors, soft joints, world info, aerodynamics
+
+== Simulating a rope
+
+{url-tutorial}/HelloSoftRope.java[HelloSoftRope] is a SPORT app
+that demonstrates one way to simulate rope using a soft body.
+
+TODO: applying forces, anchors, soft joints, world info, aerodynamics
 
 
 == Clusters

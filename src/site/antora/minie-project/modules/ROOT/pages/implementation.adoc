@@ -97,9 +97,9 @@ from _shape coordinates_ (which depend on scale factors).
 
 == Discrete time and collision detection
 
-Within a physics space, simulation occurs in discrete _time steps_.
-While it's possible to vary the step size from step to step,
-a fixed step size tends to yield more reproducible results.
+Within a physics space, simulation occurs in discrete steps.
+While it's possible to vary the time step from step to step,
+a fixed time step tends to yield more reproducible results.
 
 Each time step consists of 4 _phases_:
 
@@ -132,6 +132,21 @@ Either way, the app state attempts to synchronize to real time
 during each rendered frame.
 
 Debug visualization can be enabled or disabled simply by setting a parameter.
+
+== GC and threading
+
+Native objects created by {Project} are carefully tracked using
+weak references.
+
+Successful initialization of a native library causes {Project}
+to start a daemon thread named "Physics Cleaner".
+Its purpose is to free any tracked native objects
+whose corresponding java objects have been garbage collected (GC'ed).
+
+As a performance enhancement,
+{Project} can parallelize certain for-loops on platforms that support OpenMP.
+To enable this feature, a multi-threaded native library must be loaded.
+
 
 == Next steps
 

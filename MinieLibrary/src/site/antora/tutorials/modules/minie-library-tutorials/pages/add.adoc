@@ -84,7 +84,7 @@ resolve the remaining dependencies.
 
 === Gradle-built projects
 
-Add to the application's "build.gradle" file:
+Add to the project's "build.gradle" file:
 
 [source,groovy]
 ----
@@ -127,7 +127,7 @@ Download the {Project}, Heart, and SimMath libraries from GitHub:
 * https://github.com/stephengold/Heart/releases/tag/7.6.0
 * https://github.com/Simsilica/SimMath/releases/tag/sim-math-v1.5.0
 
-You'll want both class JARs
+You'll want all 3 class JARs
 and probably the "-sources" and "-javadoc" JARs as well.
 
 Open the project's properties in the IDE (JME SDK or NetBeans):
@@ -306,9 +306,9 @@ set the gravity of the space to zero:
 space.setGravity(Vector3f.ZERO);
 ----
 
-== Create collision objects
+== Create and add collision objects
 
-Collision objects come in several different types:
+Collision objects come in many different types:
 
 * bodies (`PhysicsBody`)
 ** soft bodies (`PhysicsSoftBody`)
