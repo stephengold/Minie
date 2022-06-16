@@ -150,6 +150,8 @@ public class JointDemo extends PhysicsDemo {
      */
     @Override
     public void acorusInit() {
+        super.acorusInit();
+
         configureCamera();
         configureDumper();
         generateMaterials();
