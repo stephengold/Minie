@@ -88,7 +88,7 @@ public class HelloBoneLink extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true); // default = false
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        this.physicsSpace = bulletAppState.getPhysicsSpace();
 
         // Add a box to the scene and relocate the camera.
         addBox();

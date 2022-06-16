@@ -83,7 +83,7 @@ public class HelloDebugToPost extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        this.physicsSpace = bulletAppState.getPhysicsSpace();
         /*
          * Direct debug visuals to a post ViewPort that clears the depth buffer.
          * This prevents z-fighting between the box and its debug visuals,

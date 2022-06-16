@@ -80,7 +80,7 @@ public class HelloDamping extends SimpleApplication {
         // Create 4 cubes (dynamic rigid bodies) and add them to the space.
         int numCubes = 4;
         float cubeMass = 2f;
-        PhysicsRigidBody[] cube = new PhysicsRigidBody[4];
+        PhysicsRigidBody[] cube = new PhysicsRigidBody[numCubes];
         for (int cubeIndex = 0; cubeIndex < numCubes; ++cubeIndex) {
             cube[cubeIndex] = new PhysicsRigidBody(cubeShape, cubeMass);
             physicsSpace.addCollisionObject(cube[cubeIndex]);

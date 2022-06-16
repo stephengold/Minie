@@ -252,7 +252,7 @@ public class HelloNewHinge
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        this.physicsSpace = bulletAppState.getPhysicsSpace();
 
         // Activate the PhysicsTickListener interface.
         physicsSpace.addTickListener(this);
