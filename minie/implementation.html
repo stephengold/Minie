@@ -442,9 +442,9 @@ from <em>shape coordinates</em> (which depend on scale factors).</p>
 <h2 id="_discrete_time_and_collision_detection"><a class="anchor" href="#_discrete_time_and_collision_detection"></a>Discrete time and collision detection</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Within a physics space, simulation occurs in discrete <em>time steps</em>.
-While it&#8217;s possible to vary the step size from step to step,
-a fixed step size tends to yield more reproducible results.</p>
+<p>Within a physics space, simulation occurs in discrete steps.
+While it&#8217;s possible to vary the time step from step to step,
+a fixed time step tends to yield more reproducible results.</p>
 </div>
 <div class="paragraph">
 <p>Each time step consists of 4 <em>phases</em>:</p>
@@ -495,6 +495,26 @@ during each rendered frame.</p>
 </div>
 <div class="paragraph">
 <p>Debug visualization can be enabled or disabled simply by setting a parameter.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gc_and_threading"><a class="anchor" href="#_gc_and_threading"></a>GC and threading</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Native objects created by Minie are carefully tracked using
+weak references.</p>
+</div>
+<div class="paragraph">
+<p>Successful initialization of a native library causes Minie
+to start a daemon thread named "Physics Cleaner".
+Its purpose is to free any tracked native objects
+whose corresponding java objects have been garbage collected (GC&#8217;ed).</p>
+</div>
+<div class="paragraph">
+<p>As a performance enhancement,
+Minie can parallelize certain for-loops on platforms that support OpenMP.
+To enable this feature, a multi-threaded native library must be loaded.</p>
 </div>
 </div>
 </div>

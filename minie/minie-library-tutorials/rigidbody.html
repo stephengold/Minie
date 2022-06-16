@@ -634,7 +634,7 @@ On keyboards with other layouts, keys may be labeled differently.
 <h3 id="_velocity"><a class="anchor" href="#_velocity"></a>Velocity</h3>
 <div class="paragraph">
 <p>Every dynamic body has a <em>velocity</em> that quantifies its motion as of the
-end of the last time step (or the start of the next).</p>
+end of the last simulation step (and the start of the next).</p>
 </div>
 <div class="paragraph">
 <p>More precisely, it has 2 velocities: <em>linear velocity</em> and <em>angular velocity</em>,
@@ -1075,8 +1075,8 @@ Due to deactivation, it seems to be "stuck".</p>
 involves a fast-moving dynamic body passing through a thin obstacle
 without any collision being detected.
 The issue arises because the body can pass from one side of the obstacle to
-the other in a single time step.
-The dynamic body doesn&#8217;t intersect the obstacle on any time step,
+the other in a single simulation step.
+The dynamic body doesn&#8217;t intersect the obstacle after any step,
 so no collision is detected and no contact forces are simulated.</p>
 </div>
 <div class="paragraph">
@@ -1096,7 +1096,7 @@ obstacles found during the sweep.</p>
 <div class="paragraph">
 <p>Because CCD involves extra computation, it&#8217;s disabled by default.
 Since it&#8217;s only necessary for fast-moving bodies, it&#8217;s enabled only
-when a body&#8217;s distance traveled per time step exceeds a threshold.
+when a body&#8217;s distance traveled per simulation step exceeds a threshold.
 To enable CCD for a particular rigid body,
 set its activation threshold to a positive value using
 <code>rigidBody.setCcdMotionThreshold(distancePerTimeStep)</code>.</p>
@@ -1135,7 +1135,7 @@ making the time steps noticeable.</p>
 </li>
 <li>
 <p>The control ball (on the right) falls through the platform,
-passing from one side to the other in a single time step.</p>
+passing from one side to the other in a single simulation step.</p>
 </li>
 </ol>
 </div>
@@ -1175,7 +1175,7 @@ passing from one side to the other in a single time step.</p>
 <p>Movement</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>prior to first time step only: <code>setPhysicsLocation()</code> <code>setPhysicsRotation()</code></p>
+<p>prior to first simulation step only: <code>setPhysicsLocation()</code> <code>setPhysicsRotation()</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>setPhysicsLocation()</code> <code>setPhysicsRotation()</code></p>

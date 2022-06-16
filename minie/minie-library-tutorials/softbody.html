@@ -325,20 +325,20 @@ in a manner roughly analogous to rigid bodies:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>In place of {url-api}/BulletAppState.html[<code>BulletAppState</code>],
-use {url-api}/SoftPhysicsAppState.html[<code>SoftPhysicsAppState</code>].</p>
+<p>In place of <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>,
+use <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/SoftPhysicsAppState.html"><code>SoftPhysicsAppState</code></a>.</p>
 </li>
 <li>
-<p>In place of {url-api}/PhysicsSpace.html[<code>PhysicsSpace</code>],
-use {url-api}/PhysicsSoftSpace.html[<code>PhysicsSoftSpace</code>].</p>
+<p>In place of <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>,
+use <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSoftSpace.html"><code>PhysicsSoftSpace</code></a>.</p>
 </li>
 <li>
-<p>In place of {url-api}/objects/PhysicsRigidBody.html[<code>PhysicsRigidBody</code>],
-use {url-api}/objects/PhysicsSoftBody.html[<code>PhysicsSoftBody</code>].</p>
+<p>In place of <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsRigidBody.html"><code>PhysicsRigidBody</code></a>,
+use <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/objects/PhysicsSoftBody.html"><code>PhysicsSoftBody</code></a>.</p>
 </li>
 <li>
-<p>In place of {url-api}/control/RigidBodyControl.html[<code>RigidBodyControl</code>],
-use {url-api}/control/SoftBodyControl.html[<code>SoftBodyControl</code>].</p>
+<p>In place of <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/RigidBodyControl.html"><code>RigidBodyControl</code></a>,
+use <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/control/SoftBodyControl.html"><code>SoftBodyControl</code></a>.</p>
 </li>
 </ul>
 </div>
@@ -348,7 +348,7 @@ It implements soft-body physics in addition to all the
 features of an ordinary <code>PhysicsSpace</code> (such as rigid bodies).</p>
 </div>
 <div class="paragraph">
-<p>The abstract class {url-api}/PhysicsBody.html[<code>PhysicsBody</code>]
+<p>The abstract class <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsBody.html"><code>PhysicsBody</code></a>
 is a superclass of both <code>PhysicsRigidBody</code> and <code>PhysicsSoftBody</code>.
 It provides access to properties that rigid bodies and soft bodies
 have in common, such as gravity, location, mass, and joints.</p>
@@ -410,7 +410,7 @@ softBody.setMargin(0.1f);</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>motion state (for extrapolating between time steps),</p>
+<p>motion state (for extrapolating between simulation steps),</p>
 </li>
 <li>
 <p>deactivation/sleeping (for efficient simulation), and</p>
@@ -455,11 +455,11 @@ using a utility method:</p>
 <ul>
 <li>
 <p><code>NativeSoftBodyUtil.appendFromTriMesh()</code>
-to append nodes and faces from a mesh with Mode.Triangles</p>
+to append nodes and faces from a mesh with <code>Mode.Triangles</code></p>
 </li>
 <li>
 <p><code>NativeSoftBodyUtil.appendFromLineMesh()</code>
-to append nodes and links from a mesh with Mode.Lines</p>
+to append nodes and links from a mesh with <code>Mode.Lines</code></p>
 </li>
 </ul>
 </div>
@@ -638,8 +638,17 @@ rigid body).</p>
 <p>For a simple example of a pinned node, see
 <a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloPin.java">HelloPin.java</a>.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_simulating_a_rope"><a class="anchor" href="#_simulating_a_rope"></a>Simulating a rope</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>TODO: ropes, applying forces, anchors, soft joints, world info, aerodynamics</p>
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloSoftRope.java">HelloSoftRope</a> is a SPORT app
+that demonstrates one way to simulate rope using a soft body.</p>
+</div>
+<div class="paragraph">
+<p>TODO: applying forces, anchors, soft joints, world info, aerodynamics</p>
 </div>
 </div>
 </div>
