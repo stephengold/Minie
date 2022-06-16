@@ -291,6 +291,35 @@ public class HelloDoor
     }
 
     /**
+     * Add lighting and shadows to the specified scene.
+     */
+    private void addLighting(Spatial scene) {
+        ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
+        AmbientLight ambient = new AmbientLight(ambientColor);
+        scene.addLight(ambient);
+        ambient.setName("ambient");
+
+        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
+        DirectionalLight sun = new DirectionalLight(direction, directColor);
+        scene.addLight(sun);
+        sun.setName("sun");
+
+        // Render shadows based on the directional light.
+        viewPort.clearProcessors();
+        int shadowMapSize = 2_048; // in pixels
+        int numSplits = 3;
+        DirectionalLightShadowRenderer dlsr
+                = new DirectionalLightShadowRenderer(assetManager,
+                        shadowMapSize, numSplits);
+        dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
+        dlsr.setEdgesThickness(5);
+        dlsr.setLight(sun);
+        dlsr.setShadowIntensity(0.6f);
+        viewPort.addProcessor(dlsr);
+    }
+
+    /**
      * Add a horizontal plane body to the space.
      *
      * @param y (the desired elevation, in physics-space coordinates)
@@ -327,35 +356,6 @@ public class HelloDoor
         floorBody.setDebugMeshInitListener(planeDmiListener);
 
         physicsSpace.addCollisionObject(floorBody);
-    }
-
-    /**
-     * Add lighting and shadows to the specified scene.
-     */
-    private void addLighting(Spatial scene) {
-        ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
-        AmbientLight ambient = new AmbientLight(ambientColor);
-        scene.addLight(ambient);
-        ambient.setName("ambient");
-
-        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
-        Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
-        DirectionalLight sun = new DirectionalLight(direction, directColor);
-        scene.addLight(sun);
-        sun.setName("sun");
-
-        // Render shadows based on the directional light.
-        viewPort.clearProcessors();
-        int shadowMapSize = 2_048; // in pixels
-        int numSplits = 3;
-        DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager,
-                        shadowMapSize, numSplits);
-        dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
-        dlsr.setEdgesThickness(5);
-        dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.6f);
-        viewPort.addProcessor(dlsr);
     }
 
     /**

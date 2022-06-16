@@ -191,6 +191,32 @@ public class HelloServo extends SimpleApplication {
     }
 
     /**
+     * Create a dynamic body with a square-frame shape and add it to the space.
+     *
+     * @return the new body
+     */
+    private PhysicsRigidBody addFrame() {
+        CapsuleCollisionShape xShape
+                = new CapsuleCollisionShape(0.1f, 2f, PhysicsSpace.AXIS_X);
+        CapsuleCollisionShape yShape
+                = new CapsuleCollisionShape(0.1f, 2f, PhysicsSpace.AXIS_Y);
+
+        CompoundCollisionShape frameShape = new CompoundCollisionShape();
+        frameShape.addChildShape(xShape, 0f, +1f, 0f);
+        frameShape.addChildShape(xShape, 0f, -1f, 0f);
+        frameShape.addChildShape(yShape, +1f, 0f, 0f);
+        frameShape.addChildShape(yShape, -1f, 0f, 0f);
+
+        PhysicsRigidBody result = new PhysicsRigidBody(frameShape);
+        physicsSpace.addCollisionObject(result);
+
+        Material greenMaterial = createLitMaterial(0f, 1f, 0f);
+        result.setDebugMaterial(greenMaterial);
+
+        return result;
+    }
+
+    /**
      * Add lighting and shadows to the specified scene.
      */
     private void addLighting(Spatial scene) {
@@ -221,32 +247,6 @@ public class HelloServo extends SimpleApplication {
         // Set the viewport's background color to light blue.
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
-    }
-
-    /**
-     * Create a dynamic body with a square-frame shape and add it to the space.
-     *
-     * @return the new body
-     */
-    private PhysicsRigidBody addFrame() {
-        CapsuleCollisionShape xShape
-                = new CapsuleCollisionShape(0.1f, 2f, PhysicsSpace.AXIS_X);
-        CapsuleCollisionShape yShape
-                = new CapsuleCollisionShape(0.1f, 2f, PhysicsSpace.AXIS_Y);
-
-        CompoundCollisionShape frameShape = new CompoundCollisionShape();
-        frameShape.addChildShape(xShape, 0f, +1f, 0f);
-        frameShape.addChildShape(xShape, 0f, -1f, 0f);
-        frameShape.addChildShape(yShape, +1f, 0f, 0f);
-        frameShape.addChildShape(yShape, -1f, 0f, 0f);
-
-        PhysicsRigidBody result = new PhysicsRigidBody(frameShape);
-        physicsSpace.addCollisionObject(result);
-
-        Material greenMaterial = createLitMaterial(0f, 1f, 0f);
-        result.setDebugMaterial(greenMaterial);
-
-        return result;
     }
 
     /**
