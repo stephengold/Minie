@@ -190,8 +190,7 @@ a|contact created or removed and every contact point that is processed.
 
 NOTE: `BulletAppState` invokes `distributeEvents()` during each update.
 
-
-== Ragdoll listeners
+=== Ragdoll listeners
 
 For each `DynamicAnimControl`, you can register collision listeners
 that will be invoked after each contact is created, provided:
