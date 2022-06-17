@@ -254,7 +254,7 @@ public class HelloNewHinge
         bulletAppState.setDebugEnabled(true);
         this.physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // Activate the PhysicsTickListener interface.
+        // To enable the callbacks, register the application as a tick listener.
         physicsSpace.addTickListener(this);
     }
 }

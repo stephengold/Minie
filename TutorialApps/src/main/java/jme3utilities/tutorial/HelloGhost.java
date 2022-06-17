@@ -381,7 +381,7 @@ public class HelloGhost
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // Activate the PhysicsTickListener interface.
+        // To enable the callbacks, register the application as a tick listener.
         result.addTickListener(this);
 
         return result;
