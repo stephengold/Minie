@@ -132,10 +132,10 @@ public class HelloLimit
         addSquare(halfExtent, groundY);
 
         // Add a mouse-controlled kinematic paddle.
-        addPaddle(physicsSpace);
+        addPaddle();
 
-        // Add a dynamic, yellow ball.
-        PhysicsRigidBody ballBody = addBall(physicsSpace);
+        // Add a dynamic yellow ball.
+        PhysicsRigidBody ballBody = addBall();
 
         // Add a single-ended physics joint to constrain the ball's center.
         Vector3f pivotInBall = new Vector3f(0f, 0f, 0f);
@@ -165,9 +165,7 @@ public class HelloLimit
      */
     @Override
     public void simpleUpdate(float tpf) {
-        /*
-         * Calculate the ground location (if any) selected by the mouse cursor.
-         */
+        // Calculate the ground location (if any) selected by the mouse cursor.
         Vector2f screenXY = inputManager.getCursorPosition();
         float nearZ = 0f;
         Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
@@ -212,10 +210,9 @@ public class HelloLimit
     /**
      * Create a dynamic rigid body with a sphere shape and add it to the space.
      *
-     * @param physicsSpace (not null)
      * @return the new body
      */
-    private PhysicsRigidBody addBall(PhysicsSpace physicsSpace) {
+    private PhysicsRigidBody addBall() {
         float radius = 0.4f;
         SphereCollisionShape shape = new SphereCollisionShape(radius);
 
@@ -269,10 +266,8 @@ public class HelloLimit
 
     /**
      * Create a kinematic body with a box shape and add it to the space.
-     *
-     * @param physicsSpace (not null)
      */
-    private void addPaddle(PhysicsSpace physicsSpace) {
+    private void addPaddle() {
         BoxCollisionShape shape
                 = new BoxCollisionShape(0.3f, paddleHalfHeight, 1f);
         paddleBody = new PhysicsRigidBody(shape);

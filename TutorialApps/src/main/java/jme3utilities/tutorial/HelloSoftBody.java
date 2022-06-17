@@ -95,26 +95,29 @@ public class HelloSoftBody extends SimpleApplication {
         rootNode.addLight(sun);
 
         // Add a model to the scene.
-        Spatial cgModel = assetManager.loadModel("Models/MonkeyHead/MonkeyHead.mesh.xml");
+        Spatial cgModel = assetManager.loadModel(
+                "Models/MonkeyHead/MonkeyHead.mesh.xml");
         rootNode.attachChild(cgModel);
 
         // Add a soft-body control to the model.
         SoftBodyControl sbc = new SoftBodyControl();
         cgModel.addControl(sbc);
-
-        // Translate and rotate the model's physics body.  Since the control
-        // is "dynamic", the model will follow its body.
+        /*
+         * Translate and rotate the model's physics body.  Since the control
+         * is "dynamic", the model will follow its body.
+         */
         PhysicsSoftBody body = sbc.getBody();
         body.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
         body.applyTranslation(new Vector3f(0f, 3f, 0f));
-
-        // Set the body's default frame pose:  if deformed,
-        // it will tend to return to its current shape.
+        /*
+         * Set the ball's default frame pose:  if deformed,
+         * it will tend to return to its current shape.
+         */
         boolean setVolumePose = false;
         boolean setFramePose = true;
         body.setPose(setVolumePose, setFramePose);
 
-        // Make the body bouncy by enabling pose matching.
+        // Enable pose matching to make the body bouncy.
         SoftBodyConfig config = body.getSoftConfig();
         config.set(Sbcp.PoseMatching, 0.5f);
 

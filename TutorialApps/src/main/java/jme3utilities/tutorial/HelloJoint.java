@@ -137,8 +137,8 @@ public class HelloJoint
         // Add a mouse-controlled kinematic paddle.
         addPaddle();
 
-        // Add a dynamic, yellow ball.
-        PhysicsRigidBody ballBody = addBall(physicsSpace);
+        // Add a dynamic yellow ball.
+        PhysicsRigidBody ballBody = addBall();
 
         // Add a single-ended physics joint to constrain the ball's motion.
         Vector3f pivotInBall = new Vector3f(0f, 3f, 0f);
@@ -204,10 +204,9 @@ public class HelloJoint
     /**
      * Create a dynamic rigid body with a sphere shape and add it to the space.
      *
-     * @param physicsSpace (not null)
      * @return the new body
      */
-    private PhysicsRigidBody addBall(PhysicsSpace physicsSpace) {
+    private PhysicsRigidBody addBall() {
         float radius = 0.4f;
         SphereCollisionShape shape = new SphereCollisionShape(radius);
 

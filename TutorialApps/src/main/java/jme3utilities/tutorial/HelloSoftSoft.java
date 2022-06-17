@@ -40,10 +40,19 @@ import jme3utilities.mesh.Icosphere;
 
 /**
  * A simple example of a soft-soft collision.
+ * <p>
+ * Builds upon HelloSoftBody.
  *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloSoftSoft extends SimpleApplication {
+    // *************************************************************************
+    // fields
+
+    /**
+     * PhysicsSpace for simulation
+     */
+    private PhysicsSoftSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -68,16 +77,17 @@ public class HelloSoftSoft extends SimpleApplication {
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true); // default = false
         stateManager.attach(bulletAppState);
-        PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
+        this.physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Set gravity to zero.
         physicsSpace.setGravity(Vector3f.ZERO); // default = default=(0,-9.81,0)
 
         // Relocate the camera.
         cam.setLocation(new Vector3f(0f, 1f, 8f));
-
-        // A mesh is used to generate the shape and topology
-        // for each soft body.
+        /*
+         * A mesh is used to generate the shape and topology
+         * of each soft body.
+         */
         int numRefinementIterations = 3;
         float radius = 1f;
         Mesh icosphere = new Icosphere(numRefinementIterations, radius);
@@ -90,22 +100,24 @@ public class HelloSoftSoft extends SimpleApplication {
         PhysicsSoftBody ball2 = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(icosphere, ball2);
         physicsSpace.addCollisionObject(ball2);
-
-        // Set each ball's default frame pose:  if deformed,
-        // it will tend to return to its current shape.
+        /*
+         * Set each ball's default frame pose:  if deformed,
+         * it will tend to return to its current shape.
+         */
         boolean setVolumePose = false;
         boolean setFramePose = true;
         ball1.setPose(setVolumePose, setFramePose);
         ball2.setPose(setVolumePose, setFramePose);
 
-        // Make each ball bouncy by enabling pose matching.
+        // Enable pose matching to make the balls bouncy.
         SoftBodyConfig config1 = ball1.getSoftConfig();
         config1.set(Sbcp.PoseMatching, 0.5f); // default = 0
         SoftBodyConfig config2 = ball2.getSoftConfig();
         config2.set(Sbcp.PoseMatching, 0.5f);
-
-        // Enable soft-soft collisions for each ball.
-        // Clearing all other collision flags disables soft-rigid collisions.
+        /*
+         * Enable soft-soft collisions for each ball.
+         * Clearing all other collision flags disables soft-rigid collisions.
+         */
         config1.setCollisionFlags(ConfigFlag.VF_SS); // default = SDF_RS
         config2.setCollisionFlags(ConfigFlag.VF_SS);
 

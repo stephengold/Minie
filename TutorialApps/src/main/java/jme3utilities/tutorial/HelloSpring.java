@@ -78,11 +78,11 @@ public class HelloSpring
     /**
      * physics-space Y coordinate of the ground plane
      */
-    private final float groundY = -2f;
+    final private float groundY = -2f;
     /**
      * half the height of the paddle (in physics-space units)
      */
-    private final float paddleHalfHeight = 1f;
+    final private float paddleHalfHeight = 1f;
     // *************************************************************************
     // fields
 
@@ -138,7 +138,7 @@ public class HelloSpring
         // Add a mouse-controlled kinematic paddle.
         addPaddle();
 
-        // Add a dynamic, yellow ball.
+        // Add a dynamic yellow ball.
         PhysicsRigidBody ballBody = addBall();
 
         // Add a single-ended physics joint to constrain the ball's center.
@@ -175,9 +175,7 @@ public class HelloSpring
      */
     @Override
     public void simpleUpdate(float tpf) {
-        /*
-         * Calculate the ground location (if any) selected by the mouse cursor.
-         */
+        // Calculate the ground location (if any) indicated by the mouse cursor.
         Vector2f screenXY = inputManager.getCursorPosition();
         float nearZ = 0f;
         Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
@@ -288,7 +286,7 @@ public class HelloSpring
     }
 
     /**
-     * Add a horizontal plane body to the specified PhysicsSpace.
+     * Add a horizontal plane body to the space.
      *
      * @param y (the desired elevation, in physics-space coordinates)
      */
