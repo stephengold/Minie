@@ -696,11 +696,10 @@ that will be invoked after each contact is created, provided:</p>
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>==Intersection tests
+=== Ray test</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_ray_testing"><a class="anchor" href="#_ray_testing"></a>Ray testing</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>The <code>space.rayTest()</code> method performs <em>ray test</em> against a space,
 returning a list of objects in the space
@@ -723,11 +722,8 @@ the "ray" used in a ray test has both a starting point and an ending point.
 <p>To configure details of how ray tests are performed,
 use the <code>space.setRayTestFlags()</code> method.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_contact_testing"><a class="anchor" href="#_contact_testing"></a>Contact testing</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_contact_test"><a class="anchor" href="#_contact_test"></a>Contact test</h3>
 <div class="paragraph">
 <p>The <code>contactTest()</code> method performs a <em>contact test</em> against a space,
 returning the number of contact points that would be created
@@ -750,10 +746,8 @@ Contact testing doesn&#8217;t detect contacts involving soft bodies.
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_sweep_testing"><a class="anchor" href="#_sweep_testing"></a>Sweep testing</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_sweep_test"><a class="anchor" href="#_sweep_test"></a>Sweep test</h3>
 <div class="paragraph">
 <p>A sweep test combines features of a ray test and a contact test.</p>
 </div>
@@ -773,6 +767,7 @@ The shape must be convex.
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 </div>
