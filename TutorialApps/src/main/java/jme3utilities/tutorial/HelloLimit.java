@@ -220,6 +220,9 @@ public class HelloLimit
         PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
         physicsSpace.addCollisionObject(result);
 
+        // Apply angular damping to reduce the ball's tendency to spin.
+        result.setAngularDamping(0.6f);
+
         // Disable sleep (deactivation).
         result.setEnableSleep(false);
 
