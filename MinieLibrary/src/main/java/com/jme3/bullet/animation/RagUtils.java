@@ -282,16 +282,13 @@ public class RagUtils {
             return;
         }
         int newRemainingHops = hopsRemaining - 1;
-        /*
-         * Consider each neighboring body that isn't the starting body.
-         */
+
+        // Consider each neighboring body that isn't the starting body.
         PhysicsJoint[] joints = current.listJoints();
         for (PhysicsJoint joint : joints) {
             PhysicsBody neighbor = joint.findOtherBody(current);
             if (neighbor != null && neighbor != start) {
-                /*
-                 * Decide whether to visit (or re-visit) the neighbor.
-                 */
+                // Decide whether to visit (or re-visit) the neighbor.
                 boolean visit = true;
                 if (visited.containsKey(neighbor)) { // previously visited
                     int mostRemainingHops = visited.get(neighbor);
@@ -387,18 +384,16 @@ public class RagUtils {
             Vector3f scaleFactors) {
         int numVectors = vectorSet.numVectors();
         assert numVectors > 1 : numVectors;
-        /*
-         * Orient local axes based on the eigenvectors of the covariance matrix.
-         */
+
+        // Orient local axes based on the eigenvectors of the covariance matrix.
         Matrix3f covariance = vectorSet.covariance(null);
         Eigen3f eigen = new Eigen3f(covariance);
         Vector3f[] basis = eigen.getEigenVectors();
         Quaternion localToWorld = new Quaternion();
         localToWorld.fromAxes(basis);
         Quaternion worldToLocal = localToWorld.inverse();
-        /*
-         * Calculate the min and max for each local axis.
-         */
+
+        // Calculate the min and max for each local axis.
         Vector3f maxima = new Vector3f(Float.NEGATIVE_INFINITY,
                 Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
         Vector3f minima = new Vector3f(Float.POSITIVE_INFINITY,
@@ -414,9 +409,8 @@ public class RagUtils {
             MyVector3f.accumulateMaxima(maxima, tempVector);
             MyVector3f.accumulateMinima(minima, tempVector);
         }
-        /*
-         * Apply scale factors to local coordinates of extrema.
-         */
+
+        // Apply scale factors to local coordinates of extrema.
         Vector3f center = MyVector3f.midpoint(minima, maxima, null);
 
         maxima.subtractLocal(center);

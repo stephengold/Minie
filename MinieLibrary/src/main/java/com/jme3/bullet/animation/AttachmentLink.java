@@ -262,9 +262,8 @@ public class AttachmentLink extends PhysicsLink {
 
         super.blendToKinematicMode(blendInterval);
         this.endModelTransform = endModelTransform;
-        /*
-         * Save initial transform for blending.
-         */
+
+        // Save initial transform for blending.
         if (endModelTransform != null) {
             Transform current = attachedModel.getLocalTransform();
             startModelTransform.set(current);
@@ -440,14 +439,12 @@ public class AttachmentLink extends PhysicsLink {
         result.setTranslation(localOffset(null));
         result.setRotation(rotateIdentity);
         result.setScale(1f);
-        /*
-         * Convert to bone local coordinates.
-         */
+
+        // Convert to bone local coordinates.
         Transform tmp = attachedModel.getLocalTransform();
         result.combineWithParent(tmp);
-        /*
-         * Convert to mesh coordinates.
-         */
+
+        // Convert to mesh coordinates.
         Bone bone = getBone();
         if (bone != null) {
             tmp = MySkeleton.copyMeshTransform(bone, null);
@@ -456,9 +453,8 @@ public class AttachmentLink extends PhysicsLink {
             tmp = armatureJoint.getModelTransform().clone();
         }
         result.combineWithParent(tmp);
-        /*
-         * Convert to physics/world coordinates.
-         */
+
+        // Convert to physics/world coordinates.
         getControl().meshTransform(tmp);
         result.combineWithParent(tmp);
 
@@ -556,18 +552,15 @@ public class AttachmentLink extends PhysicsLink {
         Vector3f location = result.getTranslation();
         Quaternion orientation = result.getRotation();
         Vector3f scale = result.getScale();
-        /*
-         * Start with the rigid body's Transform in physics/world coordinates.
-         */
+
+        // Start with the rigid body's Transform in physics/world coordinates.
         getRigidBody().getTransform(result);
-        /*
-         * Convert to mesh coordinates.
-         */
+
+        // Convert to mesh coordinates.
         Transform worldToMesh = getControl().meshTransform(null).invert();
         result.combineWithParent(worldToMesh);
-        /*
-         * Convert to bone local coordinates.
-         */
+
+        // Convert to bone local coordinates.
         Transform boneToMesh;
         Bone bone = getBone();
         if (bone != null) {
@@ -578,9 +571,8 @@ public class AttachmentLink extends PhysicsLink {
         }
         Transform meshToBone = boneToMesh.invert();
         result.combineWithParent(meshToBone);
-        /*
-         * Subtract the body's local offset, rotated and scaled.
-         */
+
+        // Subtract the body's local offset, rotated and scaled.
         Vector3f modelOffset = localOffset(null);
         modelOffset.multLocal(scale);
         orientation.mult(modelOffset, modelOffset);

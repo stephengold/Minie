@@ -312,9 +312,8 @@ public class DynamicAnimControl
         Validate.nonEmpty(vertexSpecifier, "vertex specifier");
         Vector3f worldLocation = (storeWorldLocation == null)
                 ? new Vector3f() : storeWorldLocation;
-        /*
-         * Parse the vertex index and geometry name from the specifier.
-         */
+
+        // Parse the vertex index and geometry name from the specifier.
         String[] fields = vertexSpecifier.split("/");
         int numFields = fields.length;
         if (numFields < 2 || numFields > 3) {
@@ -322,9 +321,8 @@ public class DynamicAnimControl
                     + MyString.quote(vertexSpecifier);
             throw new IllegalArgumentException(message);
         }
-        /*
-         * Find the mesh that contains the vertex.
-         */
+
+        // Find the mesh that contains the vertex.
         Armature armature = getArmature();
         Skeleton skeleton = getSkeleton();
         Spatial subtree;
@@ -375,9 +373,8 @@ public class DynamicAnimControl
         }
         Geometry geometry = (Geometry) gSpatial;
         Mesh mesh = geometry.getMesh();
-        /*
-         * Calculate the mesh location (pos) of the vertex.
-         */
+
+        // Calculate the mesh location (pos) of the vertex.
         int vertexIndex;
         try {
             vertexIndex = Integer.parseInt(fields[0]);
@@ -394,9 +391,8 @@ public class DynamicAnimControl
         }
         Vector3f pos = MyMesh.vertexVector3f(mesh, VertexBuffer.Type.Position,
                 vertexIndex, null);
-        /*
-         * Find the manager and convert the pos to a world location.
-         */
+
+        // Find the manager and convert the pos to a world location.
         PhysicsLink manager;
         if (numFields == 3) { // The vertex is in an attached model.
             assert !MyMesh.isAnimated(mesh);
@@ -455,16 +451,14 @@ public class DynamicAnimControl
         New6Dof new6dof = new New6Dof(linkBody, translateIdentity,
                 translateIdentity, worldToLocal, matrixIdentity,
                 RotationOrder.XYZ);
-        /*
-         * Initialize the fix location in physics-space coordinates.
-         */
+
+        // Initialize the fix location in physics-space coordinates.
         TranslationMotor motor = new6dof.getTranslationMotor();
         Vector3f location = localToWorld.getTranslation(); // alias
         motor.set(MotorParam.LowerLimit, location);
         motor.set(MotorParam.UpperLimit, location);
-        /*
-         * Lock all rotation axes at 0.
-         */
+
+        // Lock all rotation axes at 0.
         for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             RotationMotor rotMotor = new6dof.getRotationMotor(axisIndex);
             rotMotor.setSpringEnabled(true);
@@ -684,9 +678,8 @@ public class DynamicAnimControl
         New6Dof new6dof = new New6Dof(linkBody, translateIdentity,
                 translateIdentity, matrixIdentity, matrixIdentity,
                 RotationOrder.XYZ);
-        /*
-         * Initialize the pin location in physics-space coordinates.
-         */
+
+        // Initialize the pin location in physics-space coordinates.
         TranslationMotor motor = new6dof.getTranslationMotor();
         Vector3f location = linkBody.getPhysicsLocation(null);
         motor.set(MotorParam.LowerLimit, location);
@@ -1007,22 +1000,19 @@ public class DynamicAnimControl
             }
             otherPco = pcoA;
         }
-        /*
-         * Discard collisions that don't involve this Control.
-         */
+
+        // Discard collisions that don't involve this Control.
         if (!isThisControlInvolved) {
             return;
         }
-        /*
-         * Discard low-impulse collisions.
-         */
+
+        // Discard low-impulse collisions.
         float impulseThreshold = eventDispatchImpulseThreshold();
         if (event.getAppliedImpulse() < impulseThreshold) {
             return;
         }
-        /*
-         * Dispatch an event.
-         */
+
+        // Dispatch an event.
         for (RagdollCollisionListener listener : collisionListeners) {
             listener.collide(physicsLink, otherPco, event);
         }

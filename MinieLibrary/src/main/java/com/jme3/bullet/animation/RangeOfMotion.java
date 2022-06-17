@@ -369,9 +369,8 @@ public class RangeOfMotion implements Savable {
             rot.setMaxMotorForce(maxMotorForces.x);
             rot.setMaxLimitForce(10f * maxMotorForces.x);
         }
-        /*
-         * Prevent the joint from translating.
-         */
+
+        // Prevent the joint from translating.
         joint.setLinearLowerLimit(translateIdentity);
         joint.setLinearUpperLimit(translateIdentity);
 
@@ -433,9 +432,8 @@ public class RangeOfMotion implements Savable {
             RotationMotor rot = constraint.getRotationMotor(i);
             rot.set(MotorParam.MaxMotorForce, maxMotorForces.x);
         }
-        /*
-         * Inhibit translation.
-         */
+
+        // Inhibit translation.
         TranslationMotor tra = constraint.getTranslationMotor();
         tra.set(MotorParam.LowerLimit, translateIdentity);
         tra.set(MotorParam.MaxMotorForce, maxMotorForces);

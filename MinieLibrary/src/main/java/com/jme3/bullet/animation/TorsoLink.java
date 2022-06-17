@@ -212,9 +212,8 @@ public class TorsoLink extends PhysicsLink {
 
         this.submode = submode;
         this.endModelTransform = endModelTransform;
-        /*
-         * Save initial transforms for blending.
-         */
+
+        // Save initial transforms for blending.
         if (endModelTransform != null) {
             Transform current = getControl().getSpatial().getLocalTransform();
             startModelTransform.set(current);
@@ -229,9 +228,8 @@ public class TorsoLink extends PhysicsLink {
             }
             startBoneTransforms[managedIndex].set(transform);
         }
-        /*
-         * Take or release control of the managed bones.
-         */
+
+        // Take or release control of the managed bones.
         if (submode == KinematicSubmode.Animated) {
             setUserControl(false);
         } else {
@@ -327,9 +325,7 @@ public class TorsoLink extends PhysicsLink {
      */
     @Override
     protected void dynamicUpdate() {
-        /*
-         * Calculate the inverse world transform of the model's parent node.
-         */
+        // Calculate the inverse world transform of the model's parent node.
         Transform worldToParent;
         Node parent = getControl().getSpatial().getParent();
         if (parent == null) {
@@ -457,9 +453,8 @@ public class TorsoLink extends PhysicsLink {
                 MyQuaternion.normalizeLocal(endQuat);
                 MyMath.slerp(kinematicWeight(), start, transform, transform);
             }
-            /*
-             * Update the managed bone.
-             */
+
+            // Update the managed bone.
             setManagedTransform(managedIndex, transform);
         }
 
@@ -614,9 +609,8 @@ public class TorsoLink extends PhysicsLink {
         }
 
         super.update(tpf);
-        /*
-         * Save copies of the latest managed-bone transforms.
-         */
+
+        // Save copies of the latest managed-bone transforms.
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             Transform lastTransform = prevBoneTransforms[managedIndex];
             copyManagedTransform(managedIndex, lastTransform);
@@ -688,18 +682,15 @@ public class TorsoLink extends PhysicsLink {
         Vector3f location = result.getTranslation();
         Quaternion orientation = result.getRotation();
         Vector3f scale = result.getScale();
-        /*
-         * Start with the rigid body's Transform relative to world coordinates.
-         */
+
+        // Start with the rigid body's Transform relative to world coordinates.
         getRigidBody().getTransform(result);
-        /*
-         * Convert to mesh coordinates.
-         */
+
+        // Convert to mesh coordinates.
         Transform worldToMesh = getControl().meshTransform(null).invert();
         result.combineWithParent(worldToMesh);
-        /*
-         * Subtract the body's local offset, rotated and scaled.
-         */
+
+        // Subtract the body's local offset, rotated and scaled.
         Vector3f meshOffset = localOffset(null);
         meshOffset.multLocal(scale);
         orientation.mult(meshOffset, meshOffset);

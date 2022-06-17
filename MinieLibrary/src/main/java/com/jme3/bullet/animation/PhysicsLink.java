@@ -586,9 +586,8 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     protected void kinematicUpdate(float tpf) {
         assert tpf >= 0f : tpf;
         assert rigidBody.isKinematic();
-        /*
-         * If blending, increase the kinematic weight.
-         */
+
+        // If blending, increase the kinematic weight.
         if (blendInterval == 0f) {
             setKinematicWeight(1f); // done blending
         } else {

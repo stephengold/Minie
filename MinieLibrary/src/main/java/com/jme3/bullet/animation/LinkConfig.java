@@ -261,17 +261,14 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
              * the shape's center.
              */
             tempLocation.subtractLocal(center);
-            /*
-             * Transform vertex coordinates to de-scaled shape coordinates.
-             */
+
+            // Transform vertex coordinates to de-scaled shape coordinates.
             vertexToShape.transformVector(tempLocation, tempLocation);
             switch (shapeHeuristic) {
                 case AABB:
                 case Sphere:
                 case VertexHull:
-                    /*
-                     * Adjust the size of the shape by scaling the coordinates.
-                     */
+                    // Adjust the size of the shape by scaling the coordinates.
                     tempLocation.multLocal(shapeScale);
                     break;
             }

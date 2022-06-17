@@ -267,9 +267,8 @@ public class BoneLink extends PhysicsLink {
         super.blendToKinematicMode(blendInterval);
 
         this.submode = submode;
-        /*
-         * Save initial bone transforms for blending.
-         */
+
+        // Save initial bone transforms for blending.
         int numManaged = countManaged();
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             Transform transform;
@@ -280,9 +279,8 @@ public class BoneLink extends PhysicsLink {
             }
             startBoneTransforms[managedIndex].set(transform);
         }
-        /*
-         * Take or release control of the managed bones.
-         */
+
+        // Take or release control of the managed bones.
         if (submode == KinematicSubmode.Animated) {
             setUserControl(false);
         } else {
@@ -585,9 +583,8 @@ public class BoneLink extends PhysicsLink {
                         transform);
                 // TODO smarter sign flipping for bones
             }
-            /*
-             * Update the managed bone.
-             */
+
+            // Update the managed bone.
             setManagedTransform(managedIndex, transform);
         }
 
@@ -699,9 +696,8 @@ public class BoneLink extends PhysicsLink {
         }
 
         super.update(tpf);
-        /*
-         * Save copies of the latest managed-bone transforms.
-         */
+
+        // Save copies of the latest managed-bone transforms.
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             Transform lastTransform = prevBoneTransforms[managedIndex];
             copyManagedTransform(managedIndex, lastTransform);
@@ -768,13 +764,11 @@ public class BoneLink extends PhysicsLink {
         Vector3f location = result.getTranslation();
         Quaternion orientation = result.getRotation();
         Vector3f scale = result.getScale();
-        /*
-         * Start with the rigid body's transform in physics/world coordinates.
-         */
+
+        // Start with the rigid body's transform in physics/world coordinates.
         getRigidBody().getTransform(result);
-        /*
-         * Convert to mesh coordinates.
-         */
+
+        // Convert to mesh coordinates.
         Transform worldToMesh = getControl().meshTransform(null).invert();
         result.combineWithParent(worldToMesh);
         /*
@@ -788,9 +782,8 @@ public class BoneLink extends PhysicsLink {
             Joint parent = getArmatureJoint().getParent();
             RagUtils.meshToLocal(parent, result);
         }
-        /*
-         * Subtract the body's local offset, rotated and scaled.
-         */
+
+        // Subtract the body's local offset, rotated and scaled.
         Vector3f parentOffset = localOffset(null);
         parentOffset.multLocal(scale);
         orientation.mult(parentOffset, parentOffset);
