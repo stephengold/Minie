@@ -510,17 +510,4 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
 
         return result;
     }
-
-    /**
-     * Alter how many points should be used to calculate the area of the convex
-     * hull of a contact point.
-     *
-     * @param setting true to use 3 points (faster), false to use 4 points (more
-     * accurate) (default=true)
-     * @deprecated use ManifoldPoints#setContactCalcArea3Points(boolean)
-     */
-    @Deprecated
-    public static void setContactCalcArea3Points(boolean setting) {
-        ManifoldPoints.setContactCalcArea3Points(setting);
-    }
 }
