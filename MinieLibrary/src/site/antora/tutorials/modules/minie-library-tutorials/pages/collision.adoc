@@ -16,7 +16,8 @@ broadphase and narrowphase.
   resulting in a list of _manifolds_ where the shapes intersect.
 
 Each manifold is composed of up to 4 _contact points_.
-Rigid-body dynamics use manifolds and contact points implement contact response,
+Bullet's rigid-body dynamics
+uses manifolds and contact points implement contact response,
 including friction and restitution.
 
 {Project} provides mechanisms to:
