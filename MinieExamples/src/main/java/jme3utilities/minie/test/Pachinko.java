@@ -120,13 +120,13 @@ public class Pachinko
      */
     private static float timeSinceAdded;
     /**
+     * randomize initial motion of balls
+     */
+    final private static Generator generator = new Generator();
+    /**
      * rotation matrix for pins
      */
     final private static Matrix3f rot45 = new Matrix3f();
-    /**
-     * randomize ball motion
-     */
-    final private static Generator generator = new Generator();
     // *************************************************************************
     // new methods exposed
 
