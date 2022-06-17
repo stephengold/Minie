@@ -119,7 +119,7 @@ public class HelloSoftBody extends SimpleApplication {
 
         // Enable pose matching to make the body bouncy.
         SoftBodyConfig config = body.getSoftConfig();
-        config.set(Sbcp.PoseMatching, 0.5f);
+        config.set(Sbcp.PoseMatching, 0.05f);
 
         sbc.setPhysicsSpace(physicsSpace);
     }
