@@ -200,7 +200,8 @@ that will be invoked after each contact is created, provided:
 . the applied impulse exceeds a configurable threshold.
 
 
-==Intersection tests
+== Intersection tests
+
 === Ray test
 
 The `space.rayTest()` method performs _ray test_ against a space,
