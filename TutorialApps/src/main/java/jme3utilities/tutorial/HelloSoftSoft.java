@@ -111,9 +111,9 @@ public class HelloSoftSoft extends SimpleApplication {
 
         // Enable pose matching to make the balls bouncy.
         SoftBodyConfig config1 = ball1.getSoftConfig();
-        config1.set(Sbcp.PoseMatching, 0.5f); // default = 0
+        config1.set(Sbcp.PoseMatching, 0.01f); // default = 0
         SoftBodyConfig config2 = ball2.getSoftConfig();
-        config2.set(Sbcp.PoseMatching, 0.5f);
+        config2.set(Sbcp.PoseMatching, 0.01f);
         /*
          * Enable soft-soft collisions for each ball.
          * Clearing all other collision flags disables soft-rigid collisions.
