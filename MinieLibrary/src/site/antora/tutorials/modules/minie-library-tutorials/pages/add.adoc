@@ -318,7 +318,7 @@ Collision objects come in many different types:
 * characters (`PhysicsCharacter`)
 * colliders (`MultiBodyCollider`)
 
-You can create collision objects directly, using the constructors:
+You can either create them directly, using the constructors:
 
 [source,java]
 ----
