@@ -33,6 +33,7 @@ package com.jme3.bullet.util;
 
 import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.math.Vector3f;
+import java.util.logging.Logger;
 
 /**
  * Static interface to the Libbulletjme native library.
@@ -40,6 +41,18 @@ import com.jme3.math.Vector3f;
  * @author Stephen Gold sgold@sonic.net
  */
 public class NativeLibrary {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(NativeLibrary.class.getName());
+    /**
+     * expected version of the native library
+     */
+    final public static String expectedVersion = "15.1.0";
     // *************************************************************************
     // constructors
 
@@ -173,6 +186,12 @@ public class NativeLibrary {
      * native library, to start the Physics Cleaner thread.
      */
     private static void postInitialization() {
+        String lbjVersion = versionNumber();
+        if (!lbjVersion.equals(expectedVersion)) {
+            logger.warning("Expected a v" + expectedVersion
+                    + " native library but loaded v" + lbjVersion + "!");
+        }
+
         Thread physicsCleaner = new Thread("Physics Cleaner") {
             @Override
             public void run() {
