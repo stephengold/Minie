@@ -293,6 +293,7 @@ public class Pachinko
         dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
         dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind(asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(asToggleWArrows, KeyInput.KEY_N);
     }
 
     /**

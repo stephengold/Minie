@@ -306,6 +306,7 @@ public class PoolDemo extends PhysicsDemo {
         dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle scene", KeyInput.KEY_M);
         dim.bind(asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(asToggleWArrows, KeyInput.KEY_N);
     }
 
     /**

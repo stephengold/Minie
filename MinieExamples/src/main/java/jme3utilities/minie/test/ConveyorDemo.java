@@ -349,6 +349,7 @@ public class ConveyorDemo
         dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
         dim.bind(asToggleVArrows, KeyInput.KEY_K);
+        dim.bind(asToggleWArrows, KeyInput.KEY_N);
     }
 
     /**

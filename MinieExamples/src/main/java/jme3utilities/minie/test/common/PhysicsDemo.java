@@ -101,6 +101,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
     final public static String asToggleGArrows = "toggle gArrows";
     final public static String asTogglePcoAxes = "toggle pcoAxes";
     final public static String asToggleVArrows = "toggle vArrows";
+    final public static String asToggleWArrows = "toggle wArrows";
     // *************************************************************************
     // fields
 
@@ -120,6 +121,10 @@ abstract public class PhysicsDemo extends AcorusDemo {
      * filter to control visualization of velocity vectors
      */
     private FilterAll vArrowsFilter = null;
+    /**
+     * filter to control visualization of angular velocities
+     */
+    private FilterAll wArrowsFilter = null;
     /**
      * library of named physics collision shapes
      */
@@ -597,6 +602,9 @@ abstract public class PhysicsDemo extends AcorusDemo {
                 case asToggleVArrows:
                     toggleVelocityArrows();
                     return;
+                case asToggleWArrows:
+                    toggleAngularVelocityArrows();
+                    return;
             }
         }
         super.onAction(actionString, ongoing, tpf);
@@ -795,6 +803,20 @@ abstract public class PhysicsDemo extends AcorusDemo {
 
         BulletAppState bulletAppState = getBulletAppState();
         bulletAppState.setDebugBoundingBoxFilter(aabbsFilter);
+    }
+
+    /**
+     * Toggle visualization of rigid-body angular velocities.
+     */
+    private void toggleAngularVelocityArrows() {
+        if (wArrowsFilter == null) {
+            wArrowsFilter = new FilterAll(true);
+        } else {
+            wArrowsFilter = null;
+        }
+
+        BulletAppState bulletAppState = getBulletAppState();
+        bulletAppState.setDebugAngularVelocityFilter(wArrowsFilter);
     }
 
     /**
