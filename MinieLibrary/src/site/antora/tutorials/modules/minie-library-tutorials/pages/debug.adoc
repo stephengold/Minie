@@ -85,6 +85,7 @@ For example, see {url-examples}/TestDebugToPost.java[TestDebugToPost].
 By default, debug visualization renders the shape of every collision object.
 In addition to the shape, {Project} can render other features, such as:
 
+* its angular velocity,
 * its axis-aligned bounding box,
 * its gravity vector,
 * its CCD swept sphere, and
@@ -99,11 +100,12 @@ each feature should be visualized:
 ----
 BulletDebugAppState.DebugAppStateFilter all = new FilterAll(true);
 BulletDebugAppState.DebugAppStateFilter none = new FilterAll(false);
-bulletAppState.setDebugBoundingBoxFilter(all);     // all bounding boxes
-bulletAppState.setDebugGravityVectorFilter(none);  // no gravity vectors
-bulletAppState.setDebugFilter(none);               // no collision shapes
-bulletAppState.setDebugSweptSphereFilter(all);     // all swept spheres
-bulletAppState.setDebugVelocityVectorFilter(none); // no velocity vectors
+bulletAppState.setDebugAngularVelocityFilter(none); // no angular velocities
+bulletAppState.setDebugBoundingBoxFilter(all);      // all bounding boxes
+bulletAppState.setDebugFilter(none);                // no collision shapes
+bulletAppState.setDebugGravityVectorFilter(none);   // no gravity vectors
+bulletAppState.setDebugSweptSphereFilter(all);      // all swept spheres
+bulletAppState.setDebugVelocityVectorFilter(none);  // no velocity vectors
 ----
 
 === Centers and local axes
