@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,6 +62,11 @@ public class DebugConfiguration {
      * true if-and-only-if (debug) visualization is enabled
      */
     private boolean isEnabled = false;
+    /**
+     * limit which angular velocities are visualized, or null to visualize no
+     * angular velocities
+     */
+    private BulletDebugAppState.DebugAppStateFilter angularVelocityFilter;
     /**
      * limit which bounding boxes are visualized, or null to visualize no
      * bounding boxes
@@ -146,6 +151,15 @@ public class DebugConfiguration {
     public float axisLineWidth() {
         assert axisLineWidth >= 0f : axisLineWidth;
         return axisLineWidth;
+    }
+
+    /**
+     * Access the filter that limits which angular velocities are visualized.
+     *
+     * @return the pre-existing instance, or null
+     */
+    BulletDebugAppState.DebugAppStateFilter getAngularVelocityFilter() {
+        return angularVelocityFilter;
     }
 
     /**
@@ -294,6 +308,17 @@ public class DebugConfiguration {
                 renderManager.renderScene(rootNode, viewPort);
             }
         }
+    }
+
+    /**
+     * Alter which angular velocities are included in the visualization.
+     *
+     * @param filter the desired filter (alias created) or null to visualize no
+     * angular velocities (default=null)
+     */
+    public void setAngularVelocityFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        angularVelocityFilter = filter;
     }
 
     /**

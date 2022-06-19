@@ -348,6 +348,21 @@ public class BulletAppState
     }
 
     /**
+     * Alter which angular velocities are included in the debug visualization.
+     *
+     * @param filter the filter to use (alias created) or null to visualize no
+     * angular velocities (default=null)
+     */
+    public void setDebugAngularVelocityFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        if (debugAppState == null) {
+            debugConfig.setAngularVelocityFilter(filter);
+        } else {
+            debugAppState.setAngularVelocityFilter(filter);
+        }
+    }
+
+    /**
      * Alter the length of the debug axis arrows.
      *
      * @param length the desired length (in physics-space units, &ge;0)

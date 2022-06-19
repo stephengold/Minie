@@ -223,6 +223,16 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
     }
 
     /**
+     * Access the Material for visualizing angular-velocity vectors.
+     *
+     * @return the pre-existing Material (not null)
+     */
+    Material getAngularVelocityMaterial() {
+        assert magentas[2] != null;
+        return magentas[2];
+    }
+
+    /**
      * Access the Material for visualizing bounding boxes.
      *
      * @return the pre-existing Material (not null)
@@ -356,6 +366,23 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
     Material getVelocityVectorMaterial() {
         assert white != null;
         return white;
+    }
+
+    /**
+     * Alter which angular velocities are visualized. For internal use only.
+     *
+     * @param filter the desired filter, or null to visualize no angular
+     * velocities
+     */
+    public void setAngularVelocityFilter(DebugAppStateFilter filter) {
+        configuration.setAngularVelocityFilter(filter);
+
+        for (Node transformedNode : pcoMap.values()) {
+            Node parent = transformedNode.getParent();
+            Control control
+                    = parent.getControl(AngularVelocityDebugControl.class);
+            parent.removeControl(control);
+        }
     }
 
     /**
@@ -698,6 +725,7 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
         updatePcoMap();
         updateShapes();
         updateVehicles();
+        updateAngularVelocities();
         updateBoundingBoxes();
         updateGravityVectors();
         updateSweptSpheres();
@@ -717,6 +745,38 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Synchronize the angular-velocity debug controls with the dynamic rigid
+     * bodies in the PhysicsSpace.
+     */
+    private void updateAngularVelocities() {
+        DebugAppStateFilter filter = configuration.getAngularVelocityFilter();
+        if (filter == null) {
+            return;
+        }
+
+        for (Map.Entry<PhysicsCollisionObject, Node> entry
+                : pcoMap.entrySet()) {
+            PhysicsCollisionObject pco = entry.getKey();
+            boolean display = pco instanceof PhysicsRigidBody
+                    && ((PhysicsRigidBody) pco).isDynamic()
+                    && filter.displayObject(pco);
+
+            Node transformedNode = entry.getValue();
+            Node parent = transformedNode.getParent();
+            Control control
+                    = parent.getControl(AngularVelocityDebugControl.class);
+
+            if (control == null && display) {
+                logger.log(Level.FINE, "Create AngularVelocityDebugControl");
+                control = new AngularVelocityDebugControl(this, pco);
+                parent.addControl(control);
+            } else if (control != null && !display) {
+                parent.removeControl(control);
+            }
+        }
+    }
 
     /**
      * Synchronize the bounding-box debug controls with the collision objects in
@@ -954,6 +1014,7 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
      * Interface to restrict which physics objects are visualized.
      */
     public interface DebugAppStateFilter {
+
         /**
          * Test whether the specified physics object should be rendered in the
          * debug scene.
