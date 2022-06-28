@@ -255,8 +255,6 @@ public class HelloDoubleEnded
 
     /**
      * Create a kinematic body with a box shape and add it to the space.
-     *
-     * @param physicsSpace (not null)
      */
     private void addPaddle() {
         BoxCollisionShape shape

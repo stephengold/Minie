@@ -226,7 +226,7 @@ public class SeJointDemo extends PhysicsDemo {
         seedMesh = new Icosphere(numRefineSteps, seedRadius);
         seedShape = new MultiSphere(seedRadius);
 
-        meshesNode.setCullHint(Spatial.CullHint.Never);// meshes initially visible
+        meshesNode.setCullHint(Spatial.CullHint.Never); // with meshes visible
         rootNode.attachChild(meshesNode);
     }
 

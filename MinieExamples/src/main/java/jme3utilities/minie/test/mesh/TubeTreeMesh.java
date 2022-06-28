@@ -486,11 +486,6 @@ public class TubeTreeMesh extends Mesh {
             } else {
                 pos2 = circleSamples[triIndex + 1];
                 pos3 = circleSamples[triIndex];
-
-                //int i = (positionBuffer.position() - startBufferOffset) / numAxes;
-                //System.out.printf("+%d: %d%n", i, 0);
-                //System.out.printf("+%d: %d%n", i + 1, triIndex + 1);
-                //System.out.printf("+%d: %d%n", i + 2, triIndex);
             }
 
             a.set(radius * pos1.x, radius * pos1.y, posZ);

@@ -855,7 +855,10 @@ public class BetterCharacterControl
      * Z-forward rotation.
      */
     protected void updateLocalCoordinateSystem() {
-        //gravity vector has possibly changed, calculate new world forward (UNIT_Z)
+        /*
+         * gravity vector has possibly changed,
+         * calculate new world forward (UNIT_Z)
+         */
         calculateNewForward(localForwardRotation, localForward, localUp);
         localLeft.set(localUp).crossLocal(localForward);
         rigidBody.setPhysicsRotation(localForwardRotation);

@@ -293,8 +293,6 @@ public class HelloWalkOtoBcc
 
     /**
      * Add a heightfield body to the space.
-     *
-     * @param physicsSpace (not null)
      */
     private void addTerrain() {
         // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar

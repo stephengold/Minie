@@ -42,7 +42,7 @@ import jme3utilities.mesh.ClothGrid;
 
 /**
  * A simple cloth simulation using a soft body.
- * <p>
+ *
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloCloth extends SimpleApplication {

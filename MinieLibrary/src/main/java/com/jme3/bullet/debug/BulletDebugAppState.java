@@ -657,9 +657,11 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
 
     /**
      * Transition this state from terminating to detached. Should be invoked
-     * only by a subclass or by the AppStateManager. Invoked once for each time
-     * {@link #initialize(com.jme3.app.state.AppStateManager, com.jme3.app.Application)}
-     * is invoked.
+     * only by a subclass or by the AppStateManager.
+     * <p>
+     * Invoked once for each time {@link #initialize(
+     * com.jme3.app.state.AppStateManager, com.jme3.app.Application)} is
+     * invoked.
      */
     @Override
     public void cleanup() {

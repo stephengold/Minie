@@ -90,7 +90,7 @@ class DebugMeshCallback {
         assert meshToWorld != null;
         /*
          * Copy the location list, removing all duplicates in the process.
-         * TODO make this more efficient
+         * TODO use addAll()
          */
         VectorSet distinct = new VectorSetUsingBuffer(list.size(), false);
         for (Vector3f vector : list) {

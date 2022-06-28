@@ -204,9 +204,10 @@ public class CompoundCollisionShape extends CollisionShape {
     /**
      * Apply the inverse of the specified Transform to each child shape.
      *
-     * @param paTransform the Transform to un-apply, typically one calculated by
-     * {@link #principalAxes(java.nio.FloatBuffer, com.jme3.math.Transform, com.jme3.math.Vector3f)}
-     * (not null, unaffected, scale=1)
+     * @param paTransform the Transform to un-apply, typically one obtained
+     * using {@link #principalAxes(java.nio.FloatBuffer,
+     * com.jme3.math.Transform, com.jme3.math.Vector3f)} (not null, unaffected,
+     * scale=1)
      */
     public void correctAxes(Transform paTransform) {
         Matrix4f tmpMatrix4f = new Matrix4f(); // TODO garbage

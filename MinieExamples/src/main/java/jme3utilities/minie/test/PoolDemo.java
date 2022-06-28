@@ -640,7 +640,7 @@ public class PoolDemo extends PhysicsDemo {
             Object appObject = pco.getApplicationData();
             if (appObject instanceof Integer && cueBallId == (int) appObject) {
                 Vector3f impulseVector = farLocation.subtract(nearLocation);
-                float impulseMagnitude = 1_000f;//TODO player-controlled impulse
+                float impulseMagnitude = 1_000f; // TODO player-controlled
                 float factor = impulseMagnitude / impulseVector.length();
                 impulseVector.multLocal(factor);
 
