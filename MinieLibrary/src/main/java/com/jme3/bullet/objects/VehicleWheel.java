@@ -115,11 +115,11 @@ public class VehicleWheel implements JmeCloneable, Savable {
     /**
      * reusable rotation matrix
      */
-    private Matrix3f tmp_Matrix = new Matrix3f();
+    private Matrix3f tmpMatrix = new Matrix3f();
     /**
      * temporary storage during calculations
      */
-    private Quaternion tmp_inverseWorldRotation = new Quaternion();
+    private Quaternion tmpInverseWheelRotation = new Quaternion();
     /**
      * wheel orientation in physics-space coordinates
      */
@@ -207,11 +207,11 @@ public class VehicleWheel implements JmeCloneable, Savable {
             Quaternion parentRot = parent.getWorldRotation();
             localLocation.set(wheelWorldLocation).subtractLocal(parentOffset);
             localLocation.divideLocal(parent.getWorldScale());
-            tmp_inverseWorldRotation.set(parentRot).inverseLocal()
+            tmpInverseWheelRotation.set(parentRot).inverseLocal()
                     .multLocal(localLocation);
 
             localRotationQuat.set(wheelWorldRotation);
-            tmp_inverseWorldRotation.set(parentRot).inverseLocal()
+            tmpInverseWheelRotation.set(parentRot).inverseLocal()
                     .mult(localRotationQuat, localRotationQuat);
 
             subtree.setLocalTranslation(localLocation);
@@ -782,8 +782,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
      */
     public void updatePhysicsState() {
         getWheelLocation(vehicleId, wheelIndex, wheelWorldLocation);
-        getWheelRotation(vehicleId, wheelIndex, tmp_Matrix);
-        wheelWorldRotation.fromRotationMatrix(tmp_Matrix);
+        getWheelRotation(vehicleId, wheelIndex, tmpMatrix);
+        wheelWorldRotation.fromRotationMatrix(tmpMatrix);
     }
     // *************************************************************************
     // JmeCloneable methods
@@ -806,8 +806,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
         wheelWorldLocation = cloner.clone(wheelWorldLocation);
         wheelWorldRotation = cloner.clone(wheelWorldRotation);
         subtree = cloner.clone(subtree);
-        tmp_Matrix = cloner.clone(tmp_Matrix);
-        tmp_inverseWorldRotation = cloner.clone(tmp_inverseWorldRotation);
+        tmpMatrix = cloner.clone(tmpMatrix);
+        tmpInverseWheelRotation = cloner.clone(tmpInverseWheelRotation);
 
         VehicleWheel originalWheel = (VehicleWheel) original;
         setRotationAngle(originalWheel.getRotationAngle());
