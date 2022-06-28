@@ -589,9 +589,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * De-register the specified collision-group listener. For compatibility
      * with the jme3-bullet library.
      *
-     * @see
-     * #addCollisionGroupListener(com.jme3.bullet.collision.PhysicsCollisionGroupListener,
-     * int)
+     * @see #addCollisionGroupListener(
+     * com.jme3.bullet.collision.PhysicsCollisionGroupListener, int)
      * @param collisionGroup the group of the listener to de-register (bitmask
      * with exactly one bit set)
      */

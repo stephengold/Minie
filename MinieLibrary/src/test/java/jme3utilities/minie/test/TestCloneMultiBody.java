@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -143,7 +143,8 @@ public class TestCloneMultiBody {
         verifyParameters(mbCloneCopy, 0.6f);
     }
 
-    private static void setColliderParameters(MultiBodyCollider collider, float b) {
+    private static void setColliderParameters(
+            MultiBodyCollider collider, float b) {
         collider.setCcdMotionThreshold(b + 0.004f);
         collider.setCcdSweptSphereRadius(b + 0.005f);
         collider.setContactDamping(b + 0.006f);

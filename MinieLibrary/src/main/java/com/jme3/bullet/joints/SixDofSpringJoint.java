@@ -129,8 +129,9 @@ public class SixDofSpringJoint extends SixDofJoint {
      * @param useLinearReferenceFrameA true&rarr;use body A, false&rarr;use body
      * B
      */
-    public SixDofSpringJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
-            Vector3f pivotInA, Vector3f pivotInB, Matrix3f rotInA, Matrix3f rotInB,
+    public SixDofSpringJoint(PhysicsRigidBody rigidBodyA,
+            PhysicsRigidBody rigidBodyB, Vector3f pivotInA, Vector3f pivotInB,
+            Matrix3f rotInA, Matrix3f rotInB,
             boolean useLinearReferenceFrameA) {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB, rotInA, rotInB,
                 useLinearReferenceFrameA);

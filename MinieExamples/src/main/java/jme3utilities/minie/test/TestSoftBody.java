@@ -310,14 +310,16 @@ public class TestSoftBody
                 = MyAsset.loadTexture(assetManager, "Textures/plaid.png", true);
         plaid.setAnisotropicFilter(8);
         plaid.setWrap(Texture.WrapMode.Repeat);
-        Material plaidMaterial = MyAsset.createShadedMaterial(assetManager, plaid);
+        Material plaidMaterial
+                = MyAsset.createShadedMaterial(assetManager, plaid);
         RenderState renderState = plaidMaterial.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
         registerMaterial("plaid", plaidMaterial);
 
         Texture texture = MyAsset.loadTexture(assetManager,
                 "Interface/Logo/Monkey.png", true);
-        Material logoMaterial = MyAsset.createShadedMaterial(assetManager, texture);
+        Material logoMaterial
+                = MyAsset.createShadedMaterial(assetManager, texture);
         renderState = logoMaterial.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
         registerMaterial("logo", logoMaterial);
@@ -331,7 +333,8 @@ public class TestSoftBody
 
         ColorRGBA red = new ColorRGBA(0.7f, 0.01f, 0.01f, 1f);
         Material redMaterial = MyAsset.createShadedMaterial(assetManager, red);
-        redMaterial.setColor("Specular", new ColorRGBA(0.05f, 0.05f, 0.05f, 1f));
+        redMaterial.setColor(
+                "Specular", new ColorRGBA(0.05f, 0.05f, 0.05f, 1f));
         redMaterial.setFloat("Shininess", 4f);
         renderState = redMaterial.getAdditionalRenderState();
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
@@ -672,7 +675,8 @@ public class TestSoftBody
         for (int zIndex = 0; zIndex < numAnchors; ++zIndex) {
             anchorLocs[zIndex] = new Vector3f();
         }
-        Mesh mesh = createSkirtMesh(puppetDac, numDivisions, length, anchorLocs);
+        Mesh mesh
+                = createSkirtMesh(puppetDac, numDivisions, length, anchorLocs);
         /*
          * Create and configure the soft body.
          */

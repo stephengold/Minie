@@ -256,7 +256,8 @@ public class TestCloneJoints {
      * SoftAngularJoint: soft-soft and soft-rigid
      */
     private void cloneSoftAngular() {
-        SoftAngularJoint softSoft = new SoftAngularJoint(va, softA, 0, softB, 0);
+        SoftAngularJoint softSoft
+                = new SoftAngularJoint(va, softA, 0, softB, 0);
         setParameters(softSoft, 0f);
         verifyParameters(softSoft, 0f);
         SoftAngularJoint ssClone = Heart.deepCopy(softSoft);

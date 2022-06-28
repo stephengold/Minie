@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -47,9 +47,8 @@ public interface Binocular {
      * Read the vertex spec for the model's left pupil.
      *
      * @return the vertex specification (not null, not empty)
-     * @see
-     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
-     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
+     * @see com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(
+     * java.lang.String, com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     String leftPupilSpec();
 
@@ -66,9 +65,8 @@ public interface Binocular {
      * Read the vertex spec for the model's right pupil.
      *
      * @return the vertex specification (not null, not empty)
-     * @see
-     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
-     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
+     * @see com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(
+     * java.lang.String, com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     String rightPupilSpec();
 }

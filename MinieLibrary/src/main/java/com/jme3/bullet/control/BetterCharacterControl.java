@@ -764,8 +764,10 @@ public class BetterCharacterControl
         TempVars vars = TempVars.get();
         Vector3f loc = vars.vect1;
         Vector3f rayVector = vars.vect2;
-        loc.set(localUp).multLocal(FastMath.ZERO_TOLERANCE).addLocal(this.location);
-        rayVector.set(localUp).multLocal(height + FastMath.ZERO_TOLERANCE).addLocal(loc);
+        loc.set(localUp).multLocal(FastMath.ZERO_TOLERANCE)
+                .addLocal(this.location);
+        rayVector.set(localUp)
+                .multLocal(height + FastMath.ZERO_TOLERANCE).addLocal(loc);
         List<PhysicsRayTestResult> results
                 = getPhysicsSpace().rayTestRaw(loc, rayVector);
         vars.release();

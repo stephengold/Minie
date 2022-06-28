@@ -594,9 +594,12 @@ public class TubeTreeMesh extends Mesh {
                 putTransformedTriangle(normalBuffer, translateIdentity,
                         orientation, norm11, norm21, norm22);
 
-                putAnimationForVertex(endJointIndex, startJointIndex, fraction1);
-                putAnimationForVertex(endJointIndex, startJointIndex, fraction1);
-                putAnimationForVertex(endJointIndex, startJointIndex, fraction2);
+                putAnimationForVertex(
+                        endJointIndex, startJointIndex, fraction1);
+                putAnimationForVertex(
+                        endJointIndex, startJointIndex, fraction1);
+                putAnimationForVertex(
+                        endJointIndex, startJointIndex, fraction2);
                 /*
                  * Put the upper-left triangle.
                  */
@@ -612,9 +615,12 @@ public class TubeTreeMesh extends Mesh {
                 putTransformedTriangle(normalBuffer, translateIdentity,
                         orientation, norm11, norm22, norm12);
 
-                putAnimationForVertex(endJointIndex, startJointIndex, fraction1);
-                putAnimationForVertex(endJointIndex, startJointIndex, fraction2);
-                putAnimationForVertex(endJointIndex, startJointIndex, fraction2);
+                putAnimationForVertex(
+                        endJointIndex, startJointIndex, fraction1);
+                putAnimationForVertex(
+                        endJointIndex, startJointIndex, fraction2);
+                putAnimationForVertex(
+                        endJointIndex, startJointIndex, fraction2);
             }
         }
     }
@@ -702,7 +708,8 @@ public class TubeTreeMesh extends Mesh {
         int trianglesPerCap = samplesPerLoop - 2;
         int trianglesPerLoop = 2 * samplesPerLoop;
         int trianglesPerSegment = trianglesPerLoop * loopsPerSegment;
-        int numTriangles = trianglesPerCap * numCaps + trianglesPerSegment * numSegments;
+        int numTriangles
+                = trianglesPerCap * numCaps + trianglesPerSegment * numSegments;
         logger.log(Level.INFO, "{0} triangles", numTriangles);
 
         numVertices = vpt * numTriangles;

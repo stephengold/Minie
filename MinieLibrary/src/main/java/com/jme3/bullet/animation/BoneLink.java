@@ -430,7 +430,8 @@ public class BoneLink extends PhysicsLink {
         }
 
         userRotation.toRotationMatrix(tmpMatrix);
-        Vector3f eulerAngles = rotOrder.matrixToEuler(tmpMatrix, null); // garbage
+        Vector3f eulerAngles
+                = rotOrder.matrixToEuler(tmpMatrix, null); // garbage
         RangeOfMotion rom = new RangeOfMotion(eulerAngles);
         rom.setup(joint, false, false, false);
 

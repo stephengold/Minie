@@ -293,7 +293,8 @@ abstract public class CollisionShape
      * @return true if enabled, otherwise false
      */
     public boolean isContactFilterEnabled() {
-        assert enableContactFilter == isContactFilterEnabled(nativeId()) : enableContactFilter;
+        assert enableContactFilter == isContactFilterEnabled(nativeId()) :
+                enableContactFilter;
         return enableContactFilter;
     }
 

@@ -77,8 +77,8 @@ public class CollisionFlag {
      */
     final public static int HAS_CONTACT_STIFFNESS_DAMPING = 0x80;
     /**
-     * flag not supported by Minie: use
-     * {@link PhysicsCollisionObject#setDebugMaterial(com.jme3.material.Material)}
+     * flag not supported by Minie: use {@link
+     * PhysicsCollisionObject#setDebugMaterial(com.jme3.material.Material)}
      * instead
      */
     final public static int HAS_CUSTOM_DEBUG_RENDERING_COLOR = 0x100;

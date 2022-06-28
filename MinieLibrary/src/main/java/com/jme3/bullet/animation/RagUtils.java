@@ -292,7 +292,8 @@ public class RagUtils {
                 boolean visit = true;
                 if (visited.containsKey(neighbor)) { // previously visited
                     int mostRemainingHops = visited.get(neighbor);
-                    if (newRemainingHops <= mostRemainingHops) {// don't revisit
+                    if (newRemainingHops <= mostRemainingHops) {
+                        // don't revisit
                         visit = false;
                     }
                 }

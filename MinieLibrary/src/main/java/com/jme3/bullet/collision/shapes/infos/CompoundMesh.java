@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -236,7 +236,8 @@ public class CompoundMesh
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        scale = (Vector3f) capsule.readSavable(tagScale, new Vector3f(1f, 1f, 1f));
+        scale = (Vector3f) capsule.readSavable(
+                tagScale, new Vector3f(1f, 1f, 1f));
         submeshes = capsule.readSavableArrayList(tagSubmeshes, submeshes);
 
         setScale(scale);

@@ -100,7 +100,8 @@ final class FreeingMethods {
         Collection<Method> methods = new ArrayList<>(4);
         for (Class<?> c = clazz; c != Object.class; c = c.getSuperclass()) {
             try {
-                Method method = c.getDeclaredMethod("freeNativeObject", long.class);
+                Method method
+                        = c.getDeclaredMethod("freeNativeObject", long.class);
                 method.setAccessible(true);
                 methods.add(method);
             } catch (IllegalArgumentException

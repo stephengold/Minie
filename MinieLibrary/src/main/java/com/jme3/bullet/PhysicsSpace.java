@@ -520,7 +520,8 @@ public class PhysicsSpace
 
         while (!contactProcessedEvents.isEmpty()) {
             PhysicsCollisionEvent event = contactProcessedEvents.pop();
-            for (PhysicsCollisionListener listener : contactProcessedListeners) {
+            for (PhysicsCollisionListener listener
+                    : contactProcessedListeners) {
                 listener.collision(event);
             }
         }
@@ -797,11 +798,12 @@ public class PhysicsSpace
     /**
      * De-register the specified listener for ongoing contacts.
      *
-     * @see
-     * #addOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)
+     * @see #addOngoingCollisionListener(
+     * com.jme3.bullet.collision.PhysicsCollisionListener)
      * @param listener the listener to de-register (not null)
      */
-    public void removeOngoingCollisionListener(PhysicsCollisionListener listener) {
+    public void removeOngoingCollisionListener(
+            PhysicsCollisionListener listener) {
         Validate.nonNull(listener, "listener");
 
         boolean success = contactProcessedListeners.remove(listener);
@@ -1241,9 +1243,11 @@ public class PhysicsSpace
         }
 
         long bodyAId = PersistentManifolds.getBodyAId(manifoldId);
-        PhysicsCollisionObject pcoA = PhysicsCollisionObject.findInstance(bodyAId);
+        PhysicsCollisionObject pcoA
+                = PhysicsCollisionObject.findInstance(bodyAId);
         long bodyBId = PersistentManifolds.getBodyBId(manifoldId);
-        PhysicsCollisionObject pcoB = PhysicsCollisionObject.findInstance(bodyBId);
+        PhysicsCollisionObject pcoB
+                = PhysicsCollisionObject.findInstance(bodyBId);
 
         for (int i = 0; i < numPoints; ++i) {
             long pointId = PersistentManifolds.getPointId(manifoldId, i);
@@ -1457,14 +1461,14 @@ public class PhysicsSpace
 
     native private static void addAction(long spaceId, long actionId);
 
-    native private static void addCharacterObject(long spaceId,
-            long characterId);
+    native private static void addCharacterObject(
+            long spaceId, long characterId);
 
-    native private static void addConstraintC(long spaceId, long constraintId,
-            boolean disableCollisions);
+    native private static void addConstraintC(
+            long spaceId, long constraintId, boolean disableCollisions);
 
-    native private static void addRigidBody(long spaceId, long rigidBodyId,
-            int proxyGroup, int proxyMask);
+    native private static void addRigidBody(
+            long spaceId, long rigidBodyId, int proxyGroup, int proxyMask);
 
     native private static int countManifolds(long spaceId);
 
@@ -1473,8 +1477,8 @@ public class PhysicsSpace
 
     native private static void getGravity(long spaceId, Vector3f storeVector);
 
-    native private static long
-            getManifoldByIndex(long spaceId, int manifoldIndex);
+    native private static long getManifoldByIndex(
+            long spaceId, int manifoldIndex);
 
     native private static int getNumConstraints(long spaceId);
 
@@ -1484,11 +1488,11 @@ public class PhysicsSpace
 
     native private static void removeAction(long spaceId, long actionId);
 
-    native private static void removeCharacterObject(long spaceId,
-            long characterId);
+    native private static void removeCharacterObject(
+            long spaceId, long characterId);
 
-    native private static void removeConstraint(long spaceId,
-            long constraintId);
+    native private static void removeConstraint(
+            long spaceId, long constraintId);
 
     native private static void removeRigidBody(long spaceId, long rigidBodyId);
 
@@ -1496,8 +1500,8 @@ public class PhysicsSpace
 
     native private static void setSolverType(long spaceId, int solverType);
 
-    native private static void setSpeculativeContactRestitution(long spaceId,
-            boolean apply);
+    native private static void setSpeculativeContactRestitution(
+            long spaceId, boolean apply);
 
     native private static void stepSimulation(long spaceId, float timeInterval,
             int maxSubSteps, float accuracy, boolean enableContactEndedCallback,

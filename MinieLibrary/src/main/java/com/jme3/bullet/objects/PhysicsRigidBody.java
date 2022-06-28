@@ -1430,7 +1430,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return true if the flags are equal, otherwise false
      */
     private boolean checkKinematicFlag() {
-        if (mass == massForStatic) {// don't invoke getCollisionFlags(long) TODO
+        if (mass == massForStatic) {
+            // don't invoke getCollisionFlags(long) TODO
             return true;
         }
 

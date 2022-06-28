@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -137,9 +137,8 @@ public class BaseMeshControl
      * typically on the bridge of the nose, halfway between the pupils.
      *
      * @return the vertex specification (not null, not empty)
-     * @see
-     * com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(java.lang.String,
-     * com.jme3.math.Vector3f, com.jme3.math.Vector3f)
+     * @see com.jme3.bullet.animation.DynamicAnimControl#findManagerForVertex(
+     * java.lang.String, com.jme3.math.Vector3f, com.jme3.math.Vector3f)
      */
     @Override
     public String faceCenterSpec() {

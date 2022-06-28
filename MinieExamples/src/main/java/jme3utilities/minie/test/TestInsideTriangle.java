@@ -165,7 +165,8 @@ public class TestInsideTriangle extends AcorusDemo {
      * @param location the desired location (in world coordinates, not null)
      * @param materialName the name of the Material to use (not null)
      */
-    private void attachPoint(Vector3f location, String materialName, float radius) {
+    private void attachPoint(
+            Vector3f location, String materialName, float radius) {
         Mesh mesh;
         if (radius == 0f) {
             mesh = new PointMesh();

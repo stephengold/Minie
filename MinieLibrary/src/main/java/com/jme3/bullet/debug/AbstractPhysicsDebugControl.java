@@ -123,7 +123,8 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      */
     @Override
     public Object jmeClone() {
-        throw new UnsupportedOperationException("jmeClone() isn't implemented.");
+        throw new UnsupportedOperationException(
+                "jmeClone() isn't implemented.");
     }
 
     /**

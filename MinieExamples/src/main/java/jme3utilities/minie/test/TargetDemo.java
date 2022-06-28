@@ -284,7 +284,8 @@ public class TargetDemo
         registerMaterial("missile", missile);
 
         ColorRGBA lightGray = new ColorRGBA(0.6f, 0.6f, 0.6f, 1f);
-        Material selected = MyAsset.createShinyMaterial(assetManager, lightGray);
+        Material selected
+                = MyAsset.createShinyMaterial(assetManager, lightGray);
         selected.setFloat("Shininess", 15f);
         registerMaterial("selected", selected);
         /*

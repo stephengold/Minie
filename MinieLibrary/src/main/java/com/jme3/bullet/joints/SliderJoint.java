@@ -97,7 +97,8 @@ public class SliderJoint extends Constraint {
             = "targetLinMotorVelocity";
     final private static String tagUpperAngLimit = "upperAngLimit";
     final private static String tagUpperLinLimit = "upperLinLimit";
-    final private static String tagUseLinearReferenceFrameA = "useLinearReferenceFrameA";
+    final private static String tagUseLinearReferenceFrameA
+            = "useLinearReferenceFrameA";
     // *************************************************************************
     // fields
 

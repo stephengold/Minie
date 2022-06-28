@@ -1808,115 +1808,115 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private static void addForce(long bodyId, Vector3f forceVector);
 
-    native private static void addForce(long bodyId, Vector3f forceVector,
-            int nodeIndex);
+    native private static void addForce(
+            long bodyId, Vector3f forceVector, int nodeIndex);
 
-    native private static void addVelocity(long bodyId, Vector3f velocityVector);
+    native private static void addVelocity(
+            long bodyId, Vector3f velocityVector);
 
-    native private static void addVelocity(long bodyId, Vector3f velocityVector,
-            int nodeIndex);
+    native private static void addVelocity(
+            long bodyId, Vector3f velocityVector, int nodeIndex);
 
     native private static void appendCluster(long softBodyId,
             int numNodesInCluster, IntBuffer intBuffer);
 
-    native private static void appendFaces(long bodyId, int numFaces,
-            ByteBuffer byteBuffer);
+    native private static void appendFaces(
+            long bodyId, int numFaces, ByteBuffer byteBuffer);
 
-    native private static void appendFaces(long bodyId, int numFaces,
-            IntBuffer intBuffer);
+    native private static void appendFaces(
+            long bodyId, int numFaces, IntBuffer intBuffer);
 
-    native private static void appendFaces(long bodyId, int numFaces,
-            ShortBuffer shortBuffer);
+    native private static void appendFaces(
+            long bodyId, int numFaces, ShortBuffer shortBuffer);
 
-    native private static void appendLinks(long bodyId, int numLinks,
-            ByteBuffer byteBuffer);
+    native private static void appendLinks(
+            long bodyId, int numLinks, ByteBuffer byteBuffer);
 
-    native private static void appendLinks(long bodyId, int numLinks,
-            IntBuffer intBuffer);
+    native private static void appendLinks(
+            long bodyId, int numLinks, IntBuffer intBuffer);
 
-    native private static void appendLinks(long bodyId, int numLinks,
-            ShortBuffer shortBuffer);
+    native private static void appendLinks(
+            long bodyId, int numLinks, ShortBuffer shortBuffer);
 
-    native private static void appendNodes(long bodyId, int numNodes,
-            FloatBuffer locationBuffer);
+    native private static void appendNodes(
+            long bodyId, int numNodes, FloatBuffer locationBuffer);
 
-    native private static void appendTetras(long bodyId, int numNodes,
-            ByteBuffer byteBuffer);
+    native private static void appendTetras(
+            long bodyId, int numNodes, ByteBuffer byteBuffer);
 
-    native private static void appendTetras(long bodyId, int numNodes,
-            IntBuffer intBuffer);
+    native private static void appendTetras(
+            long bodyId, int numNodes, IntBuffer intBuffer);
 
-    native private static void appendTetras(long bodyId, int numNodes,
-            ShortBuffer shortBuffer);
+    native private static void appendTetras(
+            long bodyId, int numNodes, ShortBuffer shortBuffer);
 
     native private static void applyPhysicsRotation(long bodyId,
             Quaternion quaternion);
 
     native private static void applyPhysicsScale(long bodyId, Vector3f vector);
 
-    native private static void applyPhysicsTransform(long bodyId,
-            Transform transform);
+    native private static void applyPhysicsTransform(
+            long bodyId, Transform transform);
 
-    native private static void applyPhysicsTranslate(long bodyId,
-            Vector3f offsetVector);
+    native private static void applyPhysicsTranslate(
+            long bodyId, Vector3f offsetVector);
 
-    native private static int countNodesInCluster(long objectId,
-            int clusterIndex);
+    native private static int countNodesInCluster(
+            long objectId, int clusterIndex);
 
     native private static long createEmpty(long infoId);
 
-    native private static boolean cutLink(long bodyId, int nodeIndex0,
-            int nodeIndex1,
-            float cutLocation);
+    native private static boolean cutLink(
+            long bodyId, int nodeIndex0, int nodeIndex1, float cutLocation);
 
     native private static void finishClusters(long softBodyId);
 
-    native private static void generateBendingConstraints(long bodyId,
-            int distance, long materialId);
+    native private static void generateBendingConstraints(
+            long bodyId, int distance, long materialId);
 
-    native private static void generateClusters(long bodyId, int k,
-            int maxIterations);
+    native private static void generateClusters(
+            long bodyId, int k, int maxIterations);
 
-    native private static void getBounds(long objectId, Vector3f storeMinima,
-            Vector3f storeMaxima);
+    native private static void getBounds(
+            long objectId, Vector3f storeMinima, Vector3f storeMaxima);
 
-    native private static float getClusterAngularDamping(long bodyId,
-            int clusterIndex);
+    native private static float getClusterAngularDamping(
+            long bodyId, int clusterIndex);
 
-    native private static void getClusterCenter(long bodyId, int clusterIndex,
-            Vector3f storeVector);
+    native private static void getClusterCenter(
+            long bodyId, int clusterIndex, Vector3f storeVector);
 
     native private static int getClusterCount(long bodyId);
 
-    native private static float getClusterLinearDamping(long bodyId,
-            int clusterIndex);
+    native private static float getClusterLinearDamping(
+            long bodyId, int clusterIndex);
 
-    native private static float getClusterMatching(long bodyId,
-            int clusterIndex);
+    native private static float getClusterMatching(
+            long bodyId, int clusterIndex);
 
-    native private static float getClusterMaxSelfImpulse(long bodyId,
-            int clusterIndex);
+    native private static float getClusterMaxSelfImpulse(
+            long bodyId, int clusterIndex);
 
-    native private static float getClusterNodeDamping(long bodyId,
-            int clusterIndex);
+    native private static float getClusterNodeDamping(
+            long bodyId, int clusterIndex);
 
-    native private static float getClusterSelfImpulse(long bodyId,
-            int clusterIndex);
+    native private static float getClusterSelfImpulse(
+            long bodyId, int clusterIndex);
 
-    native private static void getClustersLinearVelocities(long bodyId,
-            FloatBuffer storeBuffer);
+    native private static void getClustersLinearVelocities(
+            long bodyId, FloatBuffer storeBuffer);
 
-    native private static void getClustersMasses(long bodyId,
-            FloatBuffer storeBuffer);
+    native private static void getClustersMasses(
+            long bodyId, FloatBuffer storeBuffer);
 
-    native private static void getClustersPositions(long bodyId,
-            FloatBuffer storeBuffer);
+    native private static void getClustersPositions(
+            long bodyId, FloatBuffer storeBuffer);
 
-    native private static void getFacesIndexes(long bodyId,
-            IntBuffer storeBuffer);
+    native private static void getFacesIndexes(
+            long bodyId, IntBuffer storeBuffer);
 
-    native private static void getLinksIndexes(long bodyId,
-            IntBuffer storeBuffer);
+    native private static void getLinksIndexes(
+            long bodyId, IntBuffer storeBuffer);
 
     native private static float getMargin(long bodyId);
 
@@ -1934,48 +1934,48 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private static int getNbTetras(long bodyId);
 
-    native private static void getNodeLocation(long bodyId, int nodeIndex,
-            Vector3f storeVector);
+    native private static void getNodeLocation(
+            long bodyId, int nodeIndex, Vector3f storeVector);
 
-    native private static void getNodeNormal(long bodyId, int nodeIndex,
-            Vector3f storeVector);
+    native private static void getNodeNormal(
+            long bodyId, int nodeIndex, Vector3f storeVector);
 
-    native private static void getNodesNormals(long bodyId,
-            FloatBuffer storeBuffer);
+    native private static void getNodesNormals(
+            long bodyId, FloatBuffer storeBuffer);
 
-    native private static void getNodesPositions(long bodyId,
-            FloatBuffer storeBuffer);
+    native private static void getNodesPositions(
+            long bodyId, FloatBuffer storeBuffer);
 
-    native private static void getNodesVelocities(long bodyId,
-            FloatBuffer storeBuffer);
+    native private static void getNodesVelocities(
+            long bodyId, FloatBuffer storeBuffer);
 
-    native private static void getNodeVelocity(long bodyId, int nodeIndex,
-            Vector3f storeVector);
+    native private static void getNodeVelocity(
+            long bodyId, int nodeIndex, Vector3f storeVector);
 
-    native private static void getPhysicsLocation(long bodyId,
-            Vector3f storeVector);
+    native private static void getPhysicsLocation(
+            long bodyId, Vector3f storeVector);
 
     native private static float getRestLengthScale(long bodyId);
 
     native private static long getSoftBodyWorldInfo(long bodyId);
 
-    native private static void getTetrasIndexes(long bodyId,
-            IntBuffer indexBuffer);
+    native private static void getTetrasIndexes(
+            long bodyId, IntBuffer indexBuffer);
 
     native private static float getTotalMass(long bodyId);
 
     native private static float getVolume(long bodyId);
 
-    native private static void getWindVelocity(long bodyId,
-            Vector3f storeVector);
+    native private static void getWindVelocity(
+            long bodyId, Vector3f storeVector);
 
     native private static void initDefault(long bodyId);
 
-    native private static boolean isCollisionAllowed(long softBodyId,
-            long pcoId);
+    native private static boolean isCollisionAllowed(
+            long softBodyId, long pcoId);
 
-    native private static void listNodesInCluster(long bodyId, int clusterIndex,
-            IntBuffer indexBuffer);
+    native private static void listNodesInCluster(
+            long bodyId, int clusterIndex, IntBuffer indexBuffer);
 
     native private static void randomizeConstraints(long bodyId);
 
@@ -1985,23 +1985,23 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private static void resetLinkRestLengths(long bodyId);
 
-    native private static void setClusterAngularDamping(long bodyId,
-            int clusterIndex, float damping);
+    native private static void setClusterAngularDamping(
+            long bodyId, int clusterIndex, float damping);
 
-    native private static void setClusterLinearDamping(long bodyId,
-            int clusterIndex, float damping);
+    native private static void setClusterLinearDamping(
+            long bodyId, int clusterIndex, float damping);
 
-    native private static void setClusterMatching(long bodyId, int clusterIndex,
-            float coefficient);
+    native private static void setClusterMatching(
+            long bodyId, int clusterIndex, float coefficient);
 
-    native private static void setClusterMaxSelfImpulse(long bodyId,
-            int clusterIndex, float impulse);
+    native private static void setClusterMaxSelfImpulse(
+            long bodyId, int clusterIndex, float impulse);
 
-    native private static void setClusterNodeDamping(long bodyId,
-            int clusterIndex, float damping);
+    native private static void setClusterNodeDamping(
+            long bodyId, int clusterIndex, float damping);
 
-    native private static void setClusterSelfImpulse(long bodyId,
-            int clusterIndex, float factor);
+    native private static void setClusterSelfImpulse(
+            long bodyId, int clusterIndex, float factor);
 
     native private static void setMargin(long bodyId, float margin);
 
@@ -2009,38 +2009,38 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private static void setMasses(long bodyId, FloatBuffer massBuffer);
 
-    native private static void setNodeVelocity(long bodyId, int nodeIndex,
-            Vector3f velocityVector);
+    native private static void setNodeVelocity(
+            long bodyId, int nodeIndex, Vector3f velocityVector);
 
-    native private static void setNormals(long bodyId,
-            FloatBuffer normalBuffer);
+    native private static void setNormals(
+            long bodyId, FloatBuffer normalBuffer);
 
-    native private static void setPhysicsLocation(long bodyId,
-            Vector3f locationVector);
+    native private static void setPhysicsLocation(
+            long bodyId, Vector3f locationVector);
 
-    native private static void setPose(long bodyId, boolean setVolumePose,
-            boolean setFramePose);
+    native private static void setPose(
+            long bodyId, boolean setVolumePose, boolean setFramePose);
 
     native private static void setRestLengthScale(long bodyId, float scale);
 
-    native private static void setSoftBodyWorldInfo(long bodyId,
-            long worldInfoId);
+    native private static void setSoftBodyWorldInfo(
+            long bodyId, long worldInfoId);
 
     native private static void setTotalDensity(long bodyId, float density);
 
-    native private static void setTotalMass(long bodyId, float mass,
-            boolean fromFaces);
+    native private static void setTotalMass(
+            long bodyId, float mass, boolean fromFaces);
 
-    native private static void setVelocities(long bodyId,
-            FloatBuffer velocityBuffer);
+    native private static void setVelocities(
+            long bodyId, FloatBuffer velocityBuffer);
 
-    native private static void setVelocity(long bodyId,
-            Vector3f velocityVector);
+    native private static void setVelocity(
+            long bodyId, Vector3f velocityVector);
 
     native private static void setVolumeDensity(long bodyId, float density);
 
     native private static void setVolumeMass(long bodyId, float mass);
 
-    native private static void setWindVelocity(long bodyId,
-            Vector3f velocityVector);
+    native private static void setWindVelocity(
+            long bodyId, Vector3f velocityVector);
 }

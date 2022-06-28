@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -198,7 +198,8 @@ public class AttachmentLink extends PhysicsLink {
     AttachmentLink(DacLinks control, Joint associatedJoint, PhysicsLink manager,
             Spatial attachModel, CollisionShape collisionShape,
             LinkConfig linkConfig, Vector3f localOffset) {
-        super(control, associatedJoint, collisionShape, linkConfig, localOffset);
+        super(control, associatedJoint, collisionShape, linkConfig,
+                localOffset);
         assert manager != null;
         assert attachModel != null;
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017-2019, Stephen Gold
+ Copyright (c) 2017-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -104,7 +104,8 @@ public class MyPco {
             name = String.format("chara%d", id);
         } else if (pco instanceof PhysicsGhostObject) {
             name = String.format("ghost%d", id);
-        } else if (pco instanceof PhysicsVehicle) {// must test before RigidBody
+        } else if (pco instanceof PhysicsVehicle) {
+            // must test before RigidBody
             name = String.format("vehic%d", id);
         } else if (pco instanceof PhysicsRigidBody) {
             name = String.format("rigid%d", id);

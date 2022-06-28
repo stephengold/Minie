@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -224,7 +224,8 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Creating link for joint {0} with mass={1}",
                     new Object[]{
-                        MyString.quote(armatureJoint.getName()), rigidBody.getMass()
+                        MyString.quote(armatureJoint.getName()),
+                        rigidBody.getMass()
                     });
         }
 

@@ -443,7 +443,8 @@ public class CollisionShapeFactory {
         }
 
         Transform transform = relativeTransform(geometry, modelRoot);
-        // TODO recognize AbstractBox, Cylinder, Quad, and Sphere from com.jme3.scene.shape package
+        // TODO recognize AbstractBox, Cylinder, Quad,
+        // and Sphere from com.jme3.scene.shape package
         HullCollisionShape hullShape = new HullCollisionShape(mesh);
         hullShape.setScale(transform.getScale());
 
@@ -467,7 +468,8 @@ public class CollisionShapeFactory {
         }
 
         Transform transform = relativeTransform(geometry, modelRoot);
-        // TODO recognize AbstractBox, Cylinder, Quad, and Sphere from com.jme3.scene.shape package
+        // TODO recognize AbstractBox, Cylinder, Quad,
+        // and Sphere from com.jme3.scene.shape package
         MeshCollisionShape result = new MeshCollisionShape(mesh);
         result.setScale(transform.getScale());
 

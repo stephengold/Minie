@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -526,7 +526,8 @@ public class ShapeGenerator extends Generator {
      */
     public CompoundCollisionShape nextSnowman() {
         float baseRadius = nextFloat(0.7f, 1.5f);
-        CompoundCollisionShape result = CompoundTestShapes.makeSnowman(baseRadius);
+        CompoundCollisionShape result
+                = CompoundTestShapes.makeSnowman(baseRadius);
 
         return result;
     }

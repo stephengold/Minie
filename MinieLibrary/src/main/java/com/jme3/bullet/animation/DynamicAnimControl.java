@@ -73,10 +73,10 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * Before adding this Control to a Spatial, configure it by invoking
- * {@link #link(java.lang.String, float, com.jme3.bullet.animation.RangeOfMotion)}
- * for each bone that should have its own rigid body. Leave unlinked bones near
- * the root of the skeleton to form the torso of the ragdoll.
+ * Before adding this Control to a Spatial, configure it by invoking {@link
+ * #link(java.lang.String, float, com.jme3.bullet.animation.RangeOfMotion)} for
+ * each bone that should have its own rigid body. Leave unlinked bones near the
+ * root of the skeleton to form the torso of the ragdoll.
  * <p>
  * When you add the Control to a Spatial, it generates a ragdoll consisting of a
  * rigid body for the torso and another for each linked bone. It also creates a

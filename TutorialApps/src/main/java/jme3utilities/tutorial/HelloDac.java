@@ -74,7 +74,8 @@ public class HelloDac extends SimpleApplication {
         rootNode.addLight(sun);
 
         // Add a model to the scene.
-        Spatial ninjaModel = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
+        Spatial ninjaModel
+                = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
         rootNode.attachChild(ninjaModel);
         ninjaModel.rotate(0f, 3f, 0f);
         ninjaModel.scale(0.02f);

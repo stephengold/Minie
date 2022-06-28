@@ -398,7 +398,8 @@ public class HelloPoi
              */
             float closestFraction = 9f;
             for (PhysicsRayTestResult hit : rayTest) {
-                if (hit.getCollisionObject() == terrain) { // ignore other missiles!
+                if (hit.getCollisionObject() == terrain) {
+                    // ignore other missiles!
                     float hitFraction = hit.getHitFraction();
                     if (hitFraction < closestFraction) {
                         closestFraction = hitFraction;

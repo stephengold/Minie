@@ -126,8 +126,8 @@ public class Point2PointJoint extends Constraint {
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      */
-    public Point2PointJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
-            Vector3f pivotInA, Vector3f pivotInB) {
+    public Point2PointJoint(PhysicsRigidBody rigidBodyA,
+            PhysicsRigidBody rigidBodyB, Vector3f pivotInA, Vector3f pivotInB) {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
         createJoint();
     }

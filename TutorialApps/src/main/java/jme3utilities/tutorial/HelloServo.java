@@ -164,7 +164,8 @@ public class HelloServo extends SimpleApplication {
                 }
             }
         };
-        inputManager.addListener(actionListener, "pos1", "pos2", "pos3", "pos4");
+        inputManager.addListener(
+                actionListener, "pos1", "pos2", "pos3", "pos4");
     }
     // *************************************************************************
     // private methods
