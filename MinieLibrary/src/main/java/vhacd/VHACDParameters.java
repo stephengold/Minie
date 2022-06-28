@@ -59,7 +59,7 @@ public class VHACDParameters
     /**
      * true&rarr;enable debug output
      */
-    private boolean DEBUG;
+    private boolean debug;
     // *************************************************************************
     // constructors
 
@@ -158,7 +158,7 @@ public class VHACDParameters
      * @return true if enabled, otherwise false
      */
     public boolean getDebugEnabled() {
-        return DEBUG;
+        return debug;
     }
 
     /**
@@ -289,7 +289,7 @@ public class VHACDParameters
      * @param d true &rarr; enable, false &rarr; disable (default=false)
      */
     public void setDebugEnabled(boolean d) {
-        DEBUG = d;
+        debug = d;
     }
 
     /**
@@ -466,7 +466,7 @@ public class VHACDParameters
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 83 * hash + (DEBUG ? 1 : 0);
+        hash = 83 * hash + (debug ? 1 : 0);
         hash = 83 * hash + getACDMode().hashCode();
         hash = 83 * hash + Double.hashCode(getAlpha());
         hash = 83 * hash + Double.hashCode(getBeta());
