@@ -563,7 +563,7 @@ public class LinksScreen extends GuiScreenController {
 
         TreeItem<LinkValue> result;
         int numLinkedBones = linkedBoneItems.length;
-        for (TreeItem<jme3utilities.minie.wizard.LinkValue> linkedBoneItem : linkedBoneItems) {
+        for (TreeItem<LinkValue> linkedBoneItem : linkedBoneItems) {
             result = linkedBoneItem;
             LinkValue value = result.getValue();
             if (boneName.equals(value.boneName())) {
