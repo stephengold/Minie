@@ -182,7 +182,7 @@ public class NativeSoftBodyUtilTest {
                 IndexBuffer.wrapIndexBuffer(facesIndex),
                 IndexBuffer.wrapIndexBuffer(resultIndex));
 
-        for (int i = 0, size = facesIndex.capacity(); i < size; i++) {
+        for (int i = 0, size = facesIndex.capacity(); i < size; ++i) {
             Assert.assertEquals(resultIndex.get(i),
                     jme2bulletIndexMap.get(facesIndex.get(i)));
         }
@@ -241,7 +241,7 @@ public class NativeSoftBodyUtilTest {
         int size = jme2bulletIndexMap.capacity();
         Map<Vector3f, Integer> verificationBulletPositions
                 = new HashMap<>(size);
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             int bulletIndex = jme2bulletIndexMap.get(i);
             int startPosition = MyVector3f.numAxes * bulletIndex;
             Vector3f bulletPosition = new Vector3f();

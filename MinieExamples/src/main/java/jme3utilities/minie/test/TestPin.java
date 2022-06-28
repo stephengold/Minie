@@ -159,7 +159,7 @@ public class TestPin extends AcorusDemo {
             for (int zIndex = 0; zIndex < xLines; ++zIndex) {
                 float z = (2 * zIndex - xLines + 1) * lineSpacing / 2f;
                 positionArray[vectorIndex] = new Vector3f(x, 0f, z);
-                vectorIndex++;
+                ++vectorIndex;
             }
         }
         assert vectorIndex == positionArray.length;

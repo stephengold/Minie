@@ -157,7 +157,7 @@ public class DacWizard extends GuiApplication {
         assert physicsSpace.isEmpty();
 
         int numControls = rootNode.getNumControls();
-        for (int controlI = numControls - 1; controlI >= 0; controlI--) {
+        for (int controlI = numControls - 1; controlI >= 0; --controlI) {
             Control control = rootNode.getControl(controlI);
             rootNode.removeControl(control);
         }
