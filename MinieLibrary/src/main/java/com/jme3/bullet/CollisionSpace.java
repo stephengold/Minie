@@ -100,7 +100,7 @@ public class CollisionSpace extends NativePhysicsObject {
     /**
      * map from collision groups to registered group listeners
      */
-    final private Map<Integer, PhysicsCollisionGroupListener> collisionGroupListeners
+    final private Map<Integer, PhysicsCollisionGroupListener> cgListeners
             = new ConcurrentHashMap<>(20);
     /**
      * map ghost IDs to added objects
@@ -199,11 +199,11 @@ public class CollisionSpace extends NativePhysicsObject {
     public void addCollisionGroupListener(
             PhysicsCollisionGroupListener listener, int collisionGroup) {
         Validate.nonNull(listener, "listener");
-        assert !collisionGroupListeners.containsKey(collisionGroup);
+        assert !cgListeners.containsKey(collisionGroup);
         Validate.require(Integer.bitCount(collisionGroup) == 1,
                 "exactly one bit set");
 
-        collisionGroupListeners.put(collisionGroup, listener);
+        cgListeners.put(collisionGroup, listener);
     }
 
     /**
@@ -268,7 +268,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @return the count (&ge;0)
      */
     public int countCollisionGroupListeners() {
-        int count = collisionGroupListeners.size();
+        int count = cgListeners.size();
         return count;
     }
 
@@ -475,9 +475,9 @@ public class CollisionSpace extends NativePhysicsObject {
     public boolean needsCollision(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB) {
         PhysicsCollisionGroupListener listenerA
-                = collisionGroupListeners.get(pcoA.getCollisionGroup());
+                = cgListeners.get(pcoA.getCollisionGroup());
         PhysicsCollisionGroupListener listenerB
-                = collisionGroupListeners.get(pcoB.getCollisionGroup());
+                = cgListeners.get(pcoB.getCollisionGroup());
         boolean result = true;
 
         if (listenerA != null) {
@@ -595,11 +595,11 @@ public class CollisionSpace extends NativePhysicsObject {
      * with exactly one bit set)
      */
     public void removeCollisionGroupListener(int collisionGroup) {
-        assert collisionGroupListeners.containsKey(collisionGroup);
+        assert cgListeners.containsKey(collisionGroup);
         Validate.require(Integer.bitCount(collisionGroup) == 1,
                 "exactly one bit set");
 
-        collisionGroupListeners.remove(collisionGroup);
+        cgListeners.remove(collisionGroup);
     }
 
     /**

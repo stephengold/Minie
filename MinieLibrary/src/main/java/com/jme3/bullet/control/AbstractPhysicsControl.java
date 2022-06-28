@@ -102,7 +102,7 @@ abstract public class AbstractPhysicsControl
     /**
      * temporary storage during calculations TODO thread safety
      */
-    private Quaternion tmp_inverseWorldRotation = new Quaternion();
+    private Quaternion tmpInverseWorldRotation = new Quaternion();
     /**
      * Spatial to which this Control is added, or null if none
      */
@@ -162,11 +162,21 @@ abstract public class AbstractPhysicsControl
             Vector3f localLocation = controlledSpatial.getLocalTranslation();
             Quaternion localRotationQuat = controlledSpatial.getLocalRotation();
             if (!localPhysics && controlledSpatial.getParent() != null) {
-                localLocation.set(physicsLocation).subtractLocal(controlledSpatial.getParent().getWorldTranslation());
-                localLocation.divideLocal(controlledSpatial.getParent().getWorldScale());
-                tmp_inverseWorldRotation.set(controlledSpatial.getParent().getWorldRotation()).inverseLocal().multLocal(localLocation);
+                localLocation
+                        .set(physicsLocation)
+                        .subtractLocal(
+                                controlledSpatial.getParent()
+                                        .getWorldTranslation());
+                localLocation.divideLocal(
+                        controlledSpatial.getParent().getWorldScale());
+                tmpInverseWorldRotation
+                        .set(controlledSpatial.getParent().getWorldRotation())
+                        .inverseLocal().multLocal(localLocation);
                 localRotationQuat.set(physicsOrientation);
-                tmp_inverseWorldRotation.set(controlledSpatial.getParent().getWorldRotation()).inverseLocal().mult(localRotationQuat, localRotationQuat);
+                tmpInverseWorldRotation
+                        .set(controlledSpatial.getParent().getWorldRotation())
+                        .inverseLocal()
+                        .mult(localRotationQuat, localRotationQuat);
 
                 controlledSpatial.setLocalTranslation(localLocation);
                 controlledSpatial.setLocalRotation(localRotationQuat);
@@ -260,7 +270,7 @@ abstract public class AbstractPhysicsControl
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        tmp_inverseWorldRotation = cloner.clone(tmp_inverseWorldRotation);
+        tmpInverseWorldRotation = cloner.clone(tmpInverseWorldRotation);
         controlledSpatial = cloner.clone(controlledSpatial);
         // space not cloned
     }

@@ -74,7 +74,7 @@ public class RigidBodyMotionState
     /**
      * temporary storage for a Quaternion
      */
-    private Quaternion tmp_inverseWorldRotation = new Quaternion();
+    private Quaternion tmpInverseWorldRotation = new Quaternion();
     // *************************************************************************
     // constructors
 
@@ -109,9 +109,9 @@ public class RigidBodyMotionState
             localLocation.subtractLocal(
                     spatial.getParent().getWorldTranslation());
             localLocation.divideLocal(spatial.getParent().getWorldScale());
-            tmp_inverseWorldRotation.set(spatial.getParent().getWorldRotation())
+            tmpInverseWorldRotation.set(spatial.getParent().getWorldRotation())
                     .inverseLocal().multLocal(localLocation);
-            tmp_inverseWorldRotation.mult(localRotationQuat, localRotationQuat);
+            tmpInverseWorldRotation.mult(localRotationQuat, localRotationQuat);
 
             spatial.setLocalTranslation(localLocation);
             spatial.setLocalRotation(localRotationQuat);
@@ -255,7 +255,7 @@ public class RigidBodyMotionState
         long motionStateId = createMotionState();
         reassignNativeId(motionStateId);
 
-        tmp_inverseWorldRotation = cloner.clone(tmp_inverseWorldRotation);
+        tmpInverseWorldRotation = cloner.clone(tmpInverseWorldRotation);
         vehicle = cloner.clone(vehicle);
     }
 
