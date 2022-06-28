@@ -161,6 +161,7 @@ public class HelloServo extends SimpleApplication {
                     case "pos4":
                         motor.set(MotorParam.ServoTarget, 0f);
                         break;
+                    default:
                 }
             }
         };

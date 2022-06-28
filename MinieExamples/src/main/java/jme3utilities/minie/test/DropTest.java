@@ -610,6 +610,8 @@ public class DropTest
                 case "value-7":
                     status.advanceValue(-7);
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

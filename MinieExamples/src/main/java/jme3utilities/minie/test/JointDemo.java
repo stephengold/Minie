@@ -269,6 +269,7 @@ public class JointDemo extends PhysicsDemo {
                     toggleMeshes();
                     togglePhysicsDebug();
                     return;
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

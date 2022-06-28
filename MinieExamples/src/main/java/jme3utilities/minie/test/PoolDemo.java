@@ -332,6 +332,7 @@ public class PoolDemo extends PhysicsDemo {
                     toggleScene();
                     return;
 
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

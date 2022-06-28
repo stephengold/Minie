@@ -363,6 +363,7 @@ public class BalanceDemo extends PhysicsDemo {
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
+                default:
             }
 
             String[] words = actionString.split(" ");

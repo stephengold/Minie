@@ -472,6 +472,8 @@ public class TestRbc
                     toggleMeshes();
                     togglePhysicsDebug();
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

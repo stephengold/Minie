@@ -231,6 +231,8 @@ public class TestMultiBody extends PhysicsDemo {
 
                     addMultiBody();
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

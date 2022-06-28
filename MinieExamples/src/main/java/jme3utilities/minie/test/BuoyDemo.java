@@ -310,6 +310,7 @@ public class BuoyDemo extends PhysicsDemo {
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
+                default:
             }
 
             String[] words = actionString.split(" ");

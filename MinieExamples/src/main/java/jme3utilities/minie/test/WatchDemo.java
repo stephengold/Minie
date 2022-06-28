@@ -311,6 +311,7 @@ public class WatchDemo extends PhysicsDemo {
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
+                default:
             }
 
             String[] words = actionString.split(" ");

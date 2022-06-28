@@ -605,6 +605,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
                 case asToggleWArrows:
                     toggleAngularVelocityArrows();
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

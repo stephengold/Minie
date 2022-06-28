@@ -271,6 +271,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                     // Adjust the size of the shape by scaling the coordinates.
                     tempLocation.multLocal(shapeScale);
                     break;
+                default:
             }
             buffer.reset();
             buffer.put(tempLocation.x);

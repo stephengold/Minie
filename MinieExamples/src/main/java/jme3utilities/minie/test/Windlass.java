@@ -164,6 +164,7 @@ public class Windlass
                     Heart.deleteStoredSettings(applicationName);
                     System.exit(0);
                     break;
+                default:
             }
         }
 

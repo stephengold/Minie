@@ -255,6 +255,8 @@ public class TestGearJoint
                 case asEditDisplaySettings:
                     activateInputMode("dsEdit");
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

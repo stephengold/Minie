@@ -270,6 +270,8 @@ public class JointElasticity extends PhysicsDemo {
                 case "restart":
                     restartScenario();
                     return;
+
+                default:
             }
             String[] words = actionString.split(" ");
             if (words.length == 2 && "load".equals(words[0])) {

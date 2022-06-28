@@ -367,6 +367,7 @@ public class ConveyorDemo
                     addBoxBody(new Vector3f(0.2f, 0.2f, 0.2f),
                             spawnLocation, massForDynamic, "box", null);
                     return;
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

@@ -463,6 +463,8 @@ public class TestSoftBody
                     float startY = 2f;
                     addTablecloth(startY);
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

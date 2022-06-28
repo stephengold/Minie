@@ -426,6 +426,8 @@ public class RopeDemo extends PhysicsDemo {
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
+
+                default:
             }
 
             String[] words = actionString.split(" ");

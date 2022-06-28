@@ -535,6 +535,8 @@ public class TestDac extends PhysicsDemo {
                 case "toggle skeleton":
                     toggleSkeleton();
                     return;
+
+                default:
             }
             String[] words = actionString.split(" ");
             if (words.length >= 2 && "load".equals(words[0])) {

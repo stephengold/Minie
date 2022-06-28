@@ -222,6 +222,8 @@ public class TestSoftBodyControl
                     attachCubePlatform(halfExtent, topY);
                     addRubberDuck();
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

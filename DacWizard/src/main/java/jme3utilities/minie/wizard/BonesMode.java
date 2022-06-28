@@ -140,6 +140,8 @@ class BonesMode extends InputMode {
                     previousScreen();
                     handled = true;
                     break;
+
+                default:
             }
         }
         if (!handled) {

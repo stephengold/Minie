@@ -815,6 +815,7 @@ class Model {
                         numComponentsInRoot = componentI;
                     }
                     break;
+                default:
             }
         }
     }

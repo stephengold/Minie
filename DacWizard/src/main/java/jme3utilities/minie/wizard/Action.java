@@ -123,6 +123,8 @@ final class Action {
                 editDisplaySettings();
                 handled = true;
                 break;
+
+            default:
         }
 
         return handled;

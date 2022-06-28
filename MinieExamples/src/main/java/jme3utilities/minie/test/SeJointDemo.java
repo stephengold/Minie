@@ -346,6 +346,8 @@ public class SeJointDemo extends PhysicsDemo {
                     toggleMeshes();
                     togglePhysicsDebug();
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

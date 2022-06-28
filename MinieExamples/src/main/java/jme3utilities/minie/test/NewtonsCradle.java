@@ -124,6 +124,7 @@ public class NewtonsCradle
                     Heart.deleteStoredSettings(applicationName);
                     System.exit(0);
                     break;
+                default:
             }
         }
 
@@ -284,6 +285,8 @@ public class NewtonsCradle
                 case "simulate 4":
                     restartSimulation(4);
                     return;
+
+                default:
             }
         }
         super.onAction(actionString, ongoing, tpf);

@@ -428,6 +428,8 @@ public class TargetDemo
                 case "toggle wireframe":
                     status.toggleWireframe();
                     return;
+
+                default:
             }
         }
         /*

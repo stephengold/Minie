@@ -170,6 +170,8 @@ class LinksMode extends InputMode {
                     screen.setShapeScale();
                     handled = true;
                     break;
+
+                default:
             }
             if (!handled) {
                 handled = testForPrefixes(actionString);
