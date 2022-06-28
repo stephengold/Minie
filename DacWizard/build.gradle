@@ -19,7 +19,7 @@ tasks.withType(JavaExec) { // Java runtime options:
 dependencies {
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     implementation heartCoordinates
-    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.29' + jmeTarget
+    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.30' + jmeTarget
     implementation wesCoordinates
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
 
