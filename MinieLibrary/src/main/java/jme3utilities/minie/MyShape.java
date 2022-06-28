@@ -366,7 +366,9 @@ public class MyShape {
         } else if (oldShape instanceof CapsuleCollisionShape
                 || oldShape instanceof ConeCollisionShape) {
             int axisIndex = mainAxisIndex(oldShape);
-            float axisHalfExtent, radius1, radius2;
+            float axisHalfExtent;
+            float radius1;
+            float radius2;
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     axisHalfExtent = newHalfExtents.x;

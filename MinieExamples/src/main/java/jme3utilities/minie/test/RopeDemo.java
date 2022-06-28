@@ -1103,7 +1103,8 @@ public class RopeDemo extends PhysicsDemo {
      * @param branchIndex2 (&ge;0)
      */
     private void spliceEnds(int branchIndex1, int branchIndex2) {
-        PhysicsLink linkA, linkB;
+        PhysicsLink linkA;
+        PhysicsLink linkB;
         Vector3f pivotA = new Vector3f(); // local coordinates in rigid body
         Vector3f pivotB = new Vector3f();
 
