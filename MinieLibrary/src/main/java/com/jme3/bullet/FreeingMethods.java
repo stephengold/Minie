@@ -58,7 +58,7 @@ final class FreeingMethods {
     /**
      * map classes to methods - initialized lazily
      */
-    final private static Map<Class<? extends NativePhysicsObject>, Method[]> methodsByClass
+    final private static Map<Class<? extends NativePhysicsObject>, Method[]> map
             = new ConcurrentHashMap<>(30);
     // *************************************************************************
     // constructors
@@ -78,10 +78,10 @@ final class FreeingMethods {
      * @return an internal array (not null, do not modify!)
      */
     static Method[] listMethods(Class<? extends NativePhysicsObject> clazz) {
-        Method[] result = methodsByClass.get(clazz);
+        Method[] result = map.get(clazz);
         if (result == null) {
             result = generate(clazz);
-            methodsByClass.put(clazz, result);
+            map.put(clazz, result);
         }
 
         return result;
