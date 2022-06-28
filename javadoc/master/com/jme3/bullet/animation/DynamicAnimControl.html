@@ -88,10 +88,9 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">DynamicAnimControl</span>
 <span class="extends-implements">extends <a href="DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a>
 implements <a href="../collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a></span></div>
-<div class="block">Before adding this Control to a Spatial, configure it by invoking
- <a href="DacConfiguration.html#link(java.lang.String,float,com.jme3.bullet.animation.RangeOfMotion)"><code>DacConfiguration.link(java.lang.String, float, com.jme3.bullet.animation.RangeOfMotion)</code></a>
- for each bone that should have its own rigid body. Leave unlinked bones near
- the root of the skeleton to form the torso of the ragdoll.
+<div class="block">Before adding this Control to a Spatial, configure it by invoking <a href="DacConfiguration.html#link(java.lang.String,float,com.jme3.bullet.animation.RangeOfMotion)"><code>DacConfiguration.link(java.lang.String, float, com.jme3.bullet.animation.RangeOfMotion)</code></a> for
+ each bone that should have its own rigid body. Leave unlinked bones near the
+ root of the skeleton to form the torso of the ragdoll.
  <p>
  When you add the Control to a Spatial, it generates a ragdoll consisting of a
  rigid body for the torso and another for each linked bone. It also creates a
