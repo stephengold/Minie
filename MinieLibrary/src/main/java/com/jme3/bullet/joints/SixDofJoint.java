@@ -31,7 +31,6 @@
  */
 package com.jme3.bullet.joints;
 
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.joints.motors.RotationalLimitMotor;
 import com.jme3.bullet.joints.motors.TranslationalLimitMotor;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -373,8 +372,7 @@ public class SixDofJoint extends Constraint {
      * @return the pre-existing instance
      */
     public RotationalLimitMotor getRotationalLimitMotor(int axisIndex) {
-        Validate.inRange(axisIndex, "index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
         return rotationalMotors[axisIndex];
     }
 

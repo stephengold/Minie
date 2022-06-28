@@ -267,12 +267,9 @@ public class VehicleController extends NativePhysicsObject {
      */
     public void setCoordinateSystem(int rightAxisIndex, int upAxisIndex,
             int forwardAxisIndex) {
-        Validate.inRange(rightAxisIndex, "right axis", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
-        Validate.inRange(upAxisIndex, "up axis", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
-        Validate.inRange(forwardAxisIndex, "forward axis", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(rightAxisIndex, "right axis");
+        Validate.axisIndex(upAxisIndex, "up axis");
+        Validate.axisIndex(forwardAxisIndex, "forward axis");
 
         long controllerId = nativeId();
         setCoordinateSystem(controllerId, rightAxisIndex, upAxisIndex,

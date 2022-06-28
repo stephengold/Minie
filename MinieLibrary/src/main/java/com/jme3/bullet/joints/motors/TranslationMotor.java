@@ -32,7 +32,6 @@
 package com.jme3.bullet.joints.motors;
 
 import com.jme3.bullet.NativePhysicsObject;
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.math.Vector3f;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -133,8 +132,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @return true if limited, otherwise false
      */
     public boolean isDampingLimited(int axisIndex) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         boolean result = isDampingLimited(motorId, axisIndex);
@@ -149,8 +147,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @return true if enabled, otherwise false
      */
     public boolean isMotorEnabled(int axisIndex) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         boolean result = isMotorEnabled(motorId, axisIndex);
@@ -165,8 +162,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @return true if enabled, otherwise false
      */
     public boolean isServoEnabled(int axisIndex) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         boolean result = isServoEnabled(motorId, axisIndex);
@@ -181,8 +177,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @return true if enabled, otherwise false
      */
     public boolean isSpringEnabled(int axisIndex) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         boolean result = isSpringEnabled(motorId, axisIndex);
@@ -198,8 +193,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @return true if limited, otherwise false
      */
     public boolean isStiffnessLimited(int axisIndex) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         boolean result = isStiffnessLimited(motorId, axisIndex);
@@ -270,8 +264,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * (default=false)
      */
     public void setDampingLimited(int axisIndex, boolean limitDamping) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         setDampingLimited(motorId, axisIndex, limitDamping);
@@ -284,8 +277,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setMotorEnabled(int axisIndex, boolean enableFlag) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         setMotorEnabled(motorId, axisIndex, enableFlag);
@@ -299,8 +291,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setServoEnabled(int axisIndex, boolean enableFlag) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         setServoEnabled(motorId, axisIndex, enableFlag);
@@ -313,8 +304,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setSpringEnabled(int axisIndex, boolean enableFlag) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         setSpringEnabled(motorId, axisIndex, enableFlag);
@@ -328,8 +318,7 @@ public class TranslationMotor extends NativePhysicsObject {
      * @param limitFlag true&rarr;limit, false&rarr;don't limit (default=false)
      */
     public void setStiffnessLimited(int axisIndex, boolean limitFlag) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         setStiffnessLimited(motorId, axisIndex, limitFlag);

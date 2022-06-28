@@ -101,8 +101,7 @@ public class ConeCollisionShape extends ConvexShape {
     public ConeCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
         Validate.nonNegative(height, "height");
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         this.radius = radius;
         this.height = height;

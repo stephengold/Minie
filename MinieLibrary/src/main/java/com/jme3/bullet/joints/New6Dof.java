@@ -31,7 +31,6 @@
  */
 package com.jme3.bullet.joints;
 
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.joints.motors.MotorParam;
 import com.jme3.bullet.joints.motors.RotationMotor;
@@ -230,8 +229,7 @@ public class New6Dof extends Constraint {
      * storeResult or a new vector, not null)
      */
     public Vector3f getAxis(int axisIndex, Vector3f storeResult) {
-        Validate.inRange(axisIndex, "index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         long constraintId = nativeId();
@@ -367,8 +365,7 @@ public class New6Dof extends Constraint {
      * @return the pre-existing instance
      */
     public RotationMotor getRotationMotor(int axisIndex) {
-        Validate.inRange(axisIndex, "index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
         return rotationMotor[axisIndex];
     }
 

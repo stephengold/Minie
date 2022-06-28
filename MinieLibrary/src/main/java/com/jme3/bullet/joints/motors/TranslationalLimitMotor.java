@@ -32,7 +32,6 @@
 package com.jme3.bullet.joints.motors;
 
 import com.jme3.bullet.NativePhysicsObject;
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.math.Vector3f;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -267,8 +266,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
      * @return true if enabled, otherwise false
      */
     public boolean isEnabled(int axisIndex) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         boolean result = isEnabled(motorId, axisIndex);
@@ -305,8 +303,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
      * @param enableMotor true&rarr;enable, false&rarr;disable (default=false)
      */
     public void setEnabled(int axisIndex, boolean enableMotor) {
-        Validate.inRange(axisIndex, "axis index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
 
         long motorId = nativeId();
         setEnabled(motorId, axisIndex, enableMotor);

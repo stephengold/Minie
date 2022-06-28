@@ -27,7 +27,6 @@
 package jme3utilities.minie;
 
 import com.jme3.bullet.MultiBody;
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -396,8 +395,7 @@ public class PhysicsDescriber extends Describer {
      * @return descriptive text (not null, not empty)
      */
     public String describe(TranslationalLimitMotor motor, int axisIndex) {
-        Validate.inRange(axisIndex, "index", PhysicsSpace.AXIS_X,
-                PhysicsSpace.AXIS_Z);
+        Validate.axisIndex(axisIndex, "axis index");
         StringBuilder result = new StringBuilder(80);
         Vector3f tmpVector = new Vector3f();
 
