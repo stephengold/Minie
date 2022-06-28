@@ -107,6 +107,7 @@ public class TestEmptyShape {
             shape = new HeightfieldCollisionShape(floatArray);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
@@ -114,65 +115,76 @@ public class TestEmptyShape {
                     Vector3f.UNIT_XYZ);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new HullCollisionShape(vectorList);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new HullCollisionShape(floatArray);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new HullCollisionShape(buffer);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new HullCollisionShape(jmeMesh);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new HullCollisionShape(jmeMeshArray);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new MeshCollisionShape(true, indexedMesh);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new MeshCollisionShape(true, indexedMeshArray);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new MeshCollisionShape(true, indexedMeshList);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new MeshCollisionShape(jmeMesh, true);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
 
         try {
             shape = new MultiSphere(vectorList, floatList);
         } catch (IllegalArgumentException exception) {
+            // do nothing
         }
     }
 }
