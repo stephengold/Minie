@@ -479,7 +479,8 @@ public class TubeTreeMesh extends Mesh {
          */
         for (int triIndex = 1; triIndex < samplesPerLoop - 1; ++triIndex) {
             Vector3f pos1 = circleSamples[0];
-            Vector3f pos2, pos3;
+            Vector3f pos2;
+            Vector3f pos3;
             if (normalZ > 0f) {
                 pos2 = circleSamples[triIndex];
                 pos3 = circleSamples[triIndex + 1];

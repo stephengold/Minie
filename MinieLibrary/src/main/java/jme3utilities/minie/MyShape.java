@@ -310,7 +310,8 @@ public class MyShape {
         } else if (shape instanceof CylinderCollisionShape) {
             Vector3f halfExtents = halfExtents(shape, null);
             int axisIndex = mainAxisIndex(shape);
-            float r1, r2;
+            float r1;
+            float r2;
             switch (axisIndex) {
                 case PhysicsSpace.AXIS_X:
                     r1 = halfExtents.y;

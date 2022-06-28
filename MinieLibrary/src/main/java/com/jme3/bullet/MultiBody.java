@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1112,7 +1112,10 @@ public class MultiBody
             parent = links[parentIndex];
         }
 
-        Vector3f axis, parent2Link, parent2Pivot, pivot2Link;
+        Vector3f axis;
+        Vector3f parent2Link;
+        Vector3f parent2Pivot;
+        Vector3f pivot2Link;
         MultiBodyLink result;
         switch (jointType) {
             case Fixed:

@@ -553,7 +553,8 @@ final public class CompoundTestShapes {
         float outerR = innerR + thickness;
         float segmentAngle = arc / numChildren; // in radians
 
-        float xOff, yOff; // TODO more accurate centering
+        float xOff;
+        float yOff; // TODO more accurate centering
         if (arc < 2) {
             float cos = FastMath.cos(segmentAngle);
             float sin = FastMath.sin(segmentAngle);
