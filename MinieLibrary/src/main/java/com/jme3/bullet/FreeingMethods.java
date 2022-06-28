@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 jMonkeyEngine
+ * Copyright (c) 2021-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -105,10 +105,10 @@ final class FreeingMethods {
                 methods.add(method);
             } catch (IllegalArgumentException
                     | NoClassDefFoundError
-                    | SecurityException e) {
+                    | SecurityException exception) {
                 System.out.println("c = " + c.getName());
-                throw new RuntimeException(e);
-            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(exception);
+            } catch (NoSuchMethodException exception) {
                 // do nothing
             }
         }

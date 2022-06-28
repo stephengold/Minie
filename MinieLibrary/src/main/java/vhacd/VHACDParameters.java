@@ -419,8 +419,8 @@ public class VHACDParameters
             clone.setVoxelResolution(getVoxelResolution());
             return clone;
 
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
         }
     }
 

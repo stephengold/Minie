@@ -378,7 +378,7 @@ public class DynamicAnimControl
         int vertexIndex;
         try {
             vertexIndex = Integer.parseInt(fields[0]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             vertexIndex = -1;
         }
         int numVertices = mesh.getVertexCount();

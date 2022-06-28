@@ -214,7 +214,7 @@ public class TestRbc
         AppSettings settings = new AppSettings(loadDefaults);
         try {
             settings.load(applicationName);
-        } catch (BackingStoreException e) {
+        } catch (BackingStoreException exception) {
             logger.warning("Failed to load AppSettings.");
         }
         settings.setAudioRenderer(null);
