@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -539,8 +539,9 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         } else if (otherObject != null
                 && otherObject.getClass() == getClass()) {
             LinkConfig other = (LinkConfig) otherObject;
+            float massP = other.massParameter();
             result = (centerHeuristic == other.centerHeuristic())
-                    && (Float.compare(massParameter, other.massParameter()) == 0)
+                    && (Float.compare(massParameter, massP) == 0)
                     && (massHeuristic == other.massHeuristic())
                     && (rotationOrder == other.rotationOrder())
                     && (shapeHeuristic == other.shapeHeuristic())

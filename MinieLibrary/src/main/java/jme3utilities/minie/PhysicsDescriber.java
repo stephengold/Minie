@@ -552,8 +552,8 @@ public class PhysicsDescriber extends Describer {
                 MyString.describe(config.get(Sbcp.VelocityCorrection)));
         result.append(description);
 
-        description = String.format(
-                "  coef[damp=%s drag=%s fric=%s lift=%s pose=%s pres=%s volCons=%s]",
+        description = String.format("  coef[damp=%s drag=%s fric=%s lift=%s"
+                + " pose=%s pres=%s volCons=%s]",
                 MyString.describe(config.get(Sbcp.Damping)),
                 MyString.describe(config.get(Sbcp.Drag)),
                 MyString.describe(config.get(Sbcp.DynamicFriction)),

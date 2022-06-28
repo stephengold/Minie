@@ -109,10 +109,11 @@ public class VHACD {
         assert positions.length % MyVector3f.numAxes == 0 : positions.length;
         assert indices.length % vpt == 0 : indices.length;
 
-        FloatBuffer b_pos = BufferUtils.createFloatBuffer(positions);
-        IntBuffer b_ind = BufferUtils.createIntBuffer(indices);
+        FloatBuffer positionsBuffer = BufferUtils.createFloatBuffer(positions);
+        IntBuffer indexBuffer = BufferUtils.createIntBuffer(indices);
         results = new ArrayList<>(50);
-        compute(b_pos, b_ind, params.nativeId(), params.getDebugEnabled());
+        compute(positionsBuffer, indexBuffer, params.nativeId(),
+                params.getDebugEnabled());
 
         return results;
     }

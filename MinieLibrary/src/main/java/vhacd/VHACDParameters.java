@@ -438,15 +438,19 @@ public class VHACDParameters
         } else if (otherObject != null
                 && otherObject.getClass() == getClass()) {
             VHACDParameters other = (VHACDParameters) otherObject;
+            int cha = other.getConvexHullApproximation();
+            int chds = other.getConvexHullDownSampling();
+            double maxConcavity = other.getMaxConcavity();
+            double mvph = other.getMinVolumePerHull();
             result = getACDMode() == other.getACDMode()
                     && (Double.compare(getAlpha(), other.getAlpha()) == 0)
                     && (Double.compare(getBeta(), other.getBeta()) == 0)
-                    && getConvexHullApproximation() == other.getConvexHullApproximation()
-                    && getConvexHullDownSampling() == other.getConvexHullDownSampling()
+                    && getConvexHullApproximation() == cha
+                    && getConvexHullDownSampling() == chds
                     && getDebugEnabled() == other.getDebugEnabled()
-                    && (Double.compare(getMaxConcavity(), other.getMaxConcavity()) == 0)
+                    && (Double.compare(getMaxConcavity(), maxConcavity) == 0)
                     && getMaxVerticesPerHull() == other.getMaxVerticesPerHull()
-                    && (Double.compare(getMinVolumePerHull(), other.getMinVolumePerHull()) == 0)
+                    && (Double.compare(getMinVolumePerHull(), mvph) == 0)
                     && getOclAcceleration() == other.getOclAcceleration()
                     && getPCA() == other.getPCA()
                     && getPlaneDownSampling() == other.getPlaneDownSampling()

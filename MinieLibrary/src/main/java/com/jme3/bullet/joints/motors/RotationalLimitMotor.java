@@ -423,7 +423,7 @@ public class RotationalLimitMotor extends NativePhysicsObject {
     native private static void setEnableMotor(
             long motorId, boolean enableMotor);
 
-    native private static void setERP(long motorId, float ERP);
+    native private static void setERP(long motorId, float erp);
 
     native private static void setHiLimit(long motorId, float hiLimit);
 
