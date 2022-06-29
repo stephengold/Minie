@@ -393,7 +393,7 @@ publishing {
                     developerConnection = 'scm:git:ssh://github.com:stephengold/Minie.git'
                     url = project.ext.websiteUrl + '/tree/master'
                 }
-                url = project.ext.websiteUrl
+                url = 'https://stephengold.github.io/Minie'
             }
             version project.ext.version + project.ext.minieSnapshot
         }
