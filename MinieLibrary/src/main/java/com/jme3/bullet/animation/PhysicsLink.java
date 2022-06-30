@@ -152,6 +152,10 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * coordinates)
      */
     private Vector3f localOffset;
+    /**
+     * temporary scale vector
+     */
+    final private Vector3f tmpScale = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -477,7 +481,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     void preTick(float timeStep) {
         if (isKinematic()) {
-            rigidBody.setPhysicsTransform(kpTransform);
+            updateRigidBodyTransform();
         } else {
             for (IKController controller : ikControllers) {
                 controller.preTick(timeStep);
@@ -796,7 +800,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
 
         if (wasKinematic && !isKinematic) {
             rigidBody.setKinematic(false);
-            rigidBody.setPhysicsTransform(kpTransform);
+            updateRigidBodyTransform();
             rigidBody.setLinearVelocity(kpVelocity);
         } else if (isKinematic && !wasKinematic) {
             rigidBody.getTransform(kpTransform);
@@ -813,6 +817,20 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
             control.physicsTransform(bone, localOffset, kpTransform);
         } else {
             control.physicsTransform(armatureJoint, localOffset, kpTransform);
+        }
+    }
+
+    /**
+     * Update the rigid-body transform based on the kinematic-physics transform.
+     */
+    private void updateRigidBodyTransform() {
+        rigidBody.setPhysicsLocation(kpTransform.getTranslation());
+        rigidBody.setPhysicsRotation(kpTransform.getRotation());
+
+        Vector3f kpScale = kpTransform.getScale(); // alias
+        rigidBody.getScale(tmpScale);
+        if (!control.areWithinTolerance(kpScale, tmpScale)) {
+            rigidBody.setPhysicsScale(kpScale);
         }
     }
 }
