@@ -41,6 +41,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
@@ -84,6 +85,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     final private static String tagIgnoredHops = "ignoredHops";
     final private static String tagLinkedBoneJoints = "linkedBoneJoints";
     final private static String tagLinkedBoneNames = "linkedBoneNames";
+    final private static String tagRelativeTolerance = "relativeTolerance";
     final private static String tagTorsoConfig = "torsoConfig";
     /**
      * name for the ragdoll's torso, must not be used for any bone
@@ -102,6 +104,10 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * listeners
      */
     private float eventDispatchImpulseThreshold = 0f;
+    /**
+     * relative tolerance for comparing scale factors
+     */
+    private float relativeTolerance = 0.001f;
     /**
      * maximum number of physics-joint hops across which bodies ignore
      * collisions
@@ -142,6 +148,21 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Test whether 2 scale vectors are equal within the tolerance set for this
+     * control.
+     *
+     * @param scale1 the first scale vector (not null, unaffected)
+     * @param scale2 the 2nd scale vector (not null, unaffected)
+     * @return true if within tolerance, otherwise false
+     */
+    boolean areWithinTolerance(Vector3f scale1, Vector3f scale2) {
+        boolean result = areWithinTolerance(scale1.x, scale2.x)
+                && areWithinTolerance(scale1.y, scale2.y)
+                && areWithinTolerance(scale1.z, scale2.z);
+        return result;
+    }
 
     /**
      * Configure the specified model as an attachment.
@@ -509,6 +530,16 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
+     * Return the relative tolerance for comparing scale factors.
+     *
+     * @return the relative tolerance (&ge;0)
+     */
+    public float relativeTolerance() {
+        assert relativeTolerance >= 0f;
+        return relativeTolerance;
+    }
+
+    /**
      * Alter the configuration of the attachment associated with the named bone.
      *
      * @param boneName the name of the associated bone (not null, not empty)
@@ -650,6 +681,16 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             String msg = "No bone/torso named " + MyString.quote(boneName);
             throw new IllegalArgumentException(msg);
         }
+    }
+
+    /**
+     * Alter the relative tolerance for comparing scale factors.
+     *
+     * @param newTolerance the desired value (&ge;0, default=0.001)
+     */
+    public void setRelativeTolerance(float newTolerance) {
+        Validate.nonNegative(newTolerance, "new tolerance");
+        this.relativeTolerance = newTolerance;
     }
 
     /**
@@ -899,6 +940,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
         torsoConfig = (LinkConfig) capsule.readSavable(tagTorsoConfig, null);
         gravityVector = (Vector3f) capsule.readSavable(tagGravity, null);
+        relativeTolerance = capsule.readFloat(tagRelativeTolerance, 0.001f);
     }
 
     /**
@@ -965,9 +1007,33 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
         capsule.write(torsoConfig, tagTorsoConfig, null);
         capsule.write(gravityVector, tagGravity, null);
+        capsule.write(relativeTolerance, tagRelativeTolerance, 0.001f);
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Test whether 2 scale factors are equal within the tolerance set for this
+     * control. TODO move to MyMath
+     *
+     * @param a the first scale factor
+     * @param b the 2nd scale factor
+     * @return true if within tolerance, otherwise false
+     */
+    private boolean areWithinTolerance(float a, float b) {
+        if (a == b) {
+            return true;
+        }
+
+        float maxAbsoluteValue = Math.max(FastMath.abs(a), FastMath.abs(b));
+        float tolerance = relativeTolerance * maxAbsoluteValue;
+        float absDiff = FastMath.abs(a - b);
+        if (absDiff < tolerance) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Verify that this Control is NOT added to a Spatial.
