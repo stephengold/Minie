@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -452,6 +452,9 @@ public class TorsoLink extends PhysicsLink {
 
                 MyQuaternion.normalizeLocal(endQuat);
                 MyMath.slerp(kinematicWeight(), start, transform, transform);
+
+            } else { // purely kinematic --- stop blending the model transform
+                this.endModelTransform = null;
             }
 
             // Update the managed bone.
