@@ -333,7 +333,7 @@ public class BetterCharacterControl
      * Makes the character jump with the set jump force.
      */
     public void jump() {
-        //TODO: debounce over some frames
+        // TODO: debounce over some frames
         if (!onGround) {
             return;
         }
@@ -608,7 +608,7 @@ public class BetterCharacterControl
         }
 
         rigidBody.getPhysicsLocation(location);
-        //rotation has been set through viewDirection
+        // rotation has been set through viewDirection
         applyPhysicsTransform(location, rotation);
     }
 
@@ -679,21 +679,21 @@ public class BetterCharacterControl
         float designatedVelocity = walkDirection.length();
         if (designatedVelocity > 0) {
             Vector3f localWalkDirection = vars.vect1;
-            //normalize walk direction
+            // normalize walk direction
             localWalkDirection.set(walkDirection).normalizeLocal();
-            //check for the existing velocity in the desired direction
+            // check for the existing velocity in the desired direction
             float existingVelocity = velocity.dot(localWalkDirection);
-            //calculate the final velocity in the desired direction
+            // calculate the final velocity in the desired direction
             float finalVelocity = designatedVelocity - existingVelocity;
             localWalkDirection.multLocal(finalVelocity);
-            //add resulting vector to existing velocity
+            // add resulting vector to existing velocity
             velocity.addLocal(localWalkDirection);
         }
         if (currentVelocity.distance(velocity) > FastMath.ZERO_TOLERANCE) {
             rigidBody.setLinearVelocity(velocity);
         }
         if (jump) {
-            //TODO: precalculate jump force
+            // TODO: precalculate jump force
             Vector3f rotatedJumpForce = vars.vect1;
             rotatedJumpForce.set(jumpForce);
             rigidBody.applyCentralImpulse(
@@ -827,7 +827,7 @@ public class BetterCharacterControl
      * @return a new compound shape (not null)
      */
     protected CollisionShape getShape() {
-        //TODO: cleanup size mess..
+        // TODO: cleanup size mess
         CapsuleCollisionShape capsuleCollisionShape
                 = new CapsuleCollisionShape(getFinalRadius(),
                         (getFinalHeight() - (2f * getFinalRadius())));

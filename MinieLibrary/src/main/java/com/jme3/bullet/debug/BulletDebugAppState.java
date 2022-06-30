@@ -851,7 +851,7 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
     private void updateJoints() {
         DebugAppStateFilter filter = configuration.getFilter();
         HashMap<PhysicsJoint, Node> oldMap = jointMap;
-        //create new map
+        // create new map
         jointMap = new HashMap<>(oldMap.size());
         PhysicsSpace space = configuration.getSpace();
         Collection<PhysicsJoint> list = space.getJointList();

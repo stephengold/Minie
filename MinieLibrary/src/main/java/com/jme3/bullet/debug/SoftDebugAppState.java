@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2015 jMonkeyEngine
+ * Copyright (c) 2009-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -252,7 +252,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
      */
     private void updateSoftBodies() {
         HashMap<PhysicsSoftBody, Node> oldMap = softBodies;
-        //create new map
+        // create new map
         softBodies = new HashMap<>(oldMap.size());
         DebugConfiguration config = getConfiguration();
         PhysicsSoftSpace pSpace = (PhysicsSoftSpace) config.getSpace();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,7 +96,7 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
      */
     private void updateMultiBodies() {
         HashMap<MultiBodyCollider, Node> oldMap = colliderMap;
-        //create new map
+        // create new map
         colliderMap = new HashMap<>(oldMap.size());
         DebugConfiguration config = getConfiguration();
         MultiBodySpace pSpace = (MultiBodySpace) config.getSpace();

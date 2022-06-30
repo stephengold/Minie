@@ -324,7 +324,7 @@ public class PhysicsSpace
      */
     public void addAll(Spatial spatial) {
         add(spatial);
-        //recursion
+        // recursion
         if (spatial instanceof Node) {
             List<Spatial> children = ((Node) spatial).getChildren();
             for (Spatial child : children) {
@@ -731,7 +731,7 @@ public class PhysicsSpace
      */
     public void removeAll(Spatial spatial) {
         remove(spatial);
-        //recursion
+        // recursion
         if (spatial instanceof Node) {
             List<Spatial> children = ((Node) spatial).getChildren();
             for (Spatial child : children) {
@@ -1310,11 +1310,12 @@ public class PhysicsSpace
         }
         long rigidBodyId = rigidBody.nativeId();
         rigidMap.put(rigidBodyId, rigidBody);
-
-        //Workaround
-        //It seems that adding a Kinematic RigidBody to the dynamicWorld
-        //prevents it from being dynamic again afterward.
-        //So we add it dynamic, then set it kinematic.
+        /*
+         * Workaround:
+         * It seems that adding a Kinematic RigidBody to the dynamicWorld
+         * prevents it from being dynamic again afterward.
+         * So we add it dynamic, then set it kinematic.
+         */
         boolean kinematic = false;
         if (rigidBody.isKinematic()) {
             kinematic = true;
