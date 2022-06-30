@@ -58,7 +58,7 @@ aren't {url-enwiki}/Minimum_bounding_box[minimal].
 Approximations in Bullet make them somewhat larger than necessary.
 However, they are usually accurate enough to be useful.
 
-{url-tutorial}/HelloGhost.java[`HelloGhost`] is a SPORT app
+{url-tutorial}/HelloGhost.java[`HelloGhost`] is a simple application
 that illustrates how a ghost could be used
 to detect a character entering/leaving a box-shaped zone.
 

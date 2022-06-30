@@ -229,7 +229,7 @@ For a simple example of a pinned node, see
 
 == Simulating a rope
 
-{url-tutorial}/HelloSoftRope.java[HelloSoftRope] is a SPORT app
+{url-tutorial}/HelloSoftRope.java[HelloSoftRope] is a simple application
 that demonstrates one way to simulate rope using a soft body.
 
 TODO: applying forces, anchors, soft joints, world info, aerodynamics
