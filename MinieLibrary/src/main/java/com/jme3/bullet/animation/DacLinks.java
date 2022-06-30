@@ -159,7 +159,8 @@ public class DacLinks
      * Instantiate an enabled control without any linked bones or attachments
      * (torso only).
      */
-    DacLinks() {
+    protected DacLinks() {
+        // do nothing
     }
     // *************************************************************************
     // new methods exposed
@@ -478,7 +479,7 @@ public class DacLinks
         result.setRotation(rotateIdentity);
         result.setScale(1f);
 
-        //Convert to mesh coordinates.
+        // Convert to mesh coordinates.
         Transform localToMesh = MySkeleton.copyMeshTransform(bone, null);
         result.combineWithParent(localToMesh);
 
