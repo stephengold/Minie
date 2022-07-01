@@ -119,14 +119,25 @@ loadScripts(document, 'script');</script>
 <div class="block">message logger for this class</div>
 </div>
 <div class="col-first even-row-color"><code>static final int</code></div>
-<div class="col-second even-row-color"><code><a href="#SDF_RD" class="member-name-link">SDF_RD</a></code></div>
+<div class="col-second even-row-color"><code><a href="#SDF_MDF" class="member-name-link">SDF_MDF</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">enable the SDF-based handler for rigid-versus-deformable collisions</div>
+<div class="block">enable the GJK-based handler for multibody-versus-deformable face
+ collisions</div>
 </div>
 <div class="col-first odd-row-color"><code>static final int</code></div>
-<div class="col-second odd-row-color"><code><a href="#SDF_RDF" class="member-name-link">SDF_RDF</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#SDF_RD" class="member-name-link">SDF_RD</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">enable the SDF-based handler for rigid-versus-deformable face collisions</div>
+<div class="block">enable the SDF-based handler for rigid-versus-deformable collisions</div>
+</div>
+<div class="col-first even-row-color"><code>static final int</code></div>
+<div class="col-second even-row-color"><code><a href="#SDF_RDF" class="member-name-link">SDF_RDF</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">enable the GJK-based handler for rigid-versus-deformable face collisions</div>
+</div>
+<div class="col-first odd-row-color"><code>static final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#SDF_RDN" class="member-name-link">SDF_RDN</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">enable the SDF-based handler for rigid-versus-deformable node collisions</div>
 </div>
 <div class="col-first even-row-color"><code>static final int</code></div>
 <div class="col-second even-row-color"><code><a href="#SDF_RS" class="member-name-link">SDF_RS</a></code></div>
@@ -225,21 +236,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="SDF_RDF">
-<h3>SDF_RDF</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">SDF_RDF</span></div>
-<div class="block">enable the SDF-based handler for rigid-versus-deformable face collisions</div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../constant-values.html#com.jme3.bullet.objects.infos.ConfigFlag.SDF_RDF">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="VF_SS">
 <h3>VF_SS</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">VF_SS</span></div>
@@ -294,6 +290,52 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../constant-values.html#com.jme3.bullet.objects.infos.ConfigFlag.VF_DD">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="SDF_RDF">
+<h3>SDF_RDF</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">SDF_RDF</span></div>
+<div class="block">enable the GJK-based handler for rigid-versus-deformable face collisions</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../constant-values.html#com.jme3.bullet.objects.infos.ConfigFlag.SDF_RDF">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="SDF_MDF">
+<h3>SDF_MDF</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">SDF_MDF</span></div>
+<div class="block">enable the GJK-based handler for multibody-versus-deformable face
+ collisions</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../constant-values.html#com.jme3.bullet.objects.infos.ConfigFlag.SDF_MDF">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="SDF_RDN">
+<h3>SDF_RDN</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">SDF_RDN</span></div>
+<div class="block">enable the SDF-based handler for rigid-versus-deformable node collisions</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../constant-values.html#com.jme3.bullet.objects.infos.ConfigFlag.SDF_RDN">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
