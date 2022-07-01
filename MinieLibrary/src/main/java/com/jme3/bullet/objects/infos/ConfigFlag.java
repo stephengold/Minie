@@ -116,6 +116,9 @@ public class ConfigFlag {
         if ((flags & CL_RS) != 0x0) {
             flagList.add("CL_RS");
         }
+        if ((flags & SDF_RD) != 0x0) {
+            flagList.add("SDF_RD");
+        }
         if ((flags & VF_SS) != 0x0) {
             flagList.add("VF_SS");
         }
@@ -124,6 +127,12 @@ public class ConfigFlag {
         }
         if ((flags & CL_SELF) != 0x0) {
             flagList.add("CL_SELF");
+        }
+        if ((flags & VF_DD) != 0x0) {
+            flagList.add("VF_DD");
+        }
+        if ((flags & SDF_RDF) != 0x0) {
+            flagList.add("SDF_RDF");
         }
         if ((flags & SDF_MDF) != 0x0) {
             flagList.add("SDF_MDF");
