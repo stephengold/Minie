@@ -78,6 +78,15 @@ public class ConfigFlag {
      */
     final public static int SDF_RDF = 0x100;
     /**
+     * enable the GJK-based handler for multibody-versus-deformable face
+     * collisions
+     */
+    final public static int SDF_MDF = 0x200;
+    /**
+     * enable the SDF-based handler for rigid-versus-deformable node collisions
+     */
+    final public static int SDF_RDN = 0x400;
+    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -116,8 +125,14 @@ public class ConfigFlag {
         if ((flags & CL_SELF) != 0x0) {
             flagList.add("CL_SELF");
         }
+        if ((flags & SDF_MDF) != 0x0) {
+            flagList.add("SDF_MDF");
+        }
+        if ((flags & SDF_RDN) != 0x0) {
+            flagList.add("SDF_RDN");
+        }
 
-        StringBuilder result = new StringBuilder(40);
+        StringBuilder result = new StringBuilder(60);
         boolean addSeparators = false;
         for (String flagName : flagList) {
             if (addSeparators) {
