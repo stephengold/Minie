@@ -132,7 +132,7 @@ public class HelloWalkOtoCc
         addLighting(rootNode);
         configureCamera();
         configureInput();
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Load the Oto model and find its animation actions.
         Spatial oto = assetManager.loadModel("Models/Oto/Oto.mesh.xml");
