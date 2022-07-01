@@ -155,7 +155,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     /**
      * temporary scale vector
      */
-    final private Vector3f tmpScale = new Vector3f();
+    private Vector3f tmpScale = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -680,6 +680,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         kpTransform = cloner.clone(kpTransform);
         kpVelocity = cloner.clone(kpVelocity);
         localOffset = cloner.clone(localOffset);
+        tmpScale = cloner.clone(tmpScale);
     }
 
     /**
