@@ -56,11 +56,11 @@ public class ConfigFlag {
     /**
      * enable the SDF-based handler for rigid-versus-deformable collisions
      */
-    final public static int SDF_RD = 0x3;
+    final public static int SDF_RD = 0x4;
     /**
      * enable the SDF-based handler for rigid-versus-deformable face collisions
      */
-    final public static int SDF_RDF = 0x4;
+    final public static int SDF_RDF = 0x100;
     /**
      * enable the Node-versus-Face handler for soft-versus-soft collisions
      */
@@ -76,7 +76,7 @@ public class ConfigFlag {
     /**
      * enable the Vertex-versus-Face handler for soft-versus-soft collisions
      */
-    final public static int VF_DD = 0x50;
+    final public static int VF_DD = 0x80;
     /**
      * message logger for this class
      */
