@@ -81,7 +81,7 @@ public class HelloVehicle extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        PhysicsSpace physicsSpace = configurePhysics();
+        this.physicsSpace = configurePhysics();
 
         // Create a wedge-shaped vehicle with a low center of gravity.
         // The local forward direction is +Z.
