@@ -963,6 +963,10 @@ public class TestSoftBody
      */
     private void nextPuppetAnimation() {
         SkinningControl sc = (SkinningControl) RagUtils.findSControl(rootNode);
+        if (sc == null) {
+            return;
+        }
+
         Spatial controlledSpatial = sc.getSpatial();
         AnimComposer composer
                 = controlledSpatial.getControl(AnimComposer.class);
