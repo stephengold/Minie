@@ -232,7 +232,20 @@ For a simple example of a pinned node, see
 {url-tutorial}/HelloSoftRope.java[HelloSoftRope] is a simple application
 that demonstrates one way to simulate rope using a soft body.
 
-TODO: applying forces, anchors, soft joints, world info, aerodynamics
+TODO: applying forces, anchors, soft joints, world info
+
+
+== Aerodynamics
+
+{url-tutorial}/HelloWind.java[HelloWind] is a simple application
+that simulates the effect of wind on a flag.
+
+Things notice while running the app:
+
+. The flag is a piece of cloth with 2 of its corners pinned.
+. Wind direction is indicated by the white arrow.
+. Initially, the wind blows from left to right.
+. Press kbd:[F1] and kbd:[F2] to alter the wind direction.
 
 
 == Clusters
