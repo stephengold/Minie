@@ -33,6 +33,7 @@ package com.jme3.bullet.debug;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSoftSpace;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
@@ -59,6 +60,10 @@ public class SoftDebugAppState extends BulletDebugAppState {
     // constants and loggers
 
     /**
+     * local copy of {@link com.jme3.math.ColorRGBA#White}
+     */
+    final private static ColorRGBA whiteColor = new ColorRGBA(1f, 1f, 1f, 1f);
+    /**
      * message logger for this class
      */
     final public static Logger logger2
@@ -70,6 +75,10 @@ public class SoftDebugAppState extends BulletDebugAppState {
      * limit which clusters are visualized, or null to visualize no clusters
      */
     private BulletDebugAppState.DebugAppStateFilter clusterFilter;
+    /**
+     * limit which wind velocities are visualized, or null to visualize none
+     */
+    private BulletDebugAppState.DebugAppStateFilter windVelocityFilter;
     /**
      * map soft bodies to visualization nodes
      */
@@ -90,6 +99,10 @@ public class SoftDebugAppState extends BulletDebugAppState {
      * material for visualizing all pinned soft-body nodes
      */
     private Material pinMaterial;
+    /**
+     * material for visualizing all soft-body wind velocities
+     */
+    private Material windVelocityMaterial;
     /**
      * materials for soft-body faces
      */
@@ -172,6 +185,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
     }
 
     /**
+     * Access the Material for visualizing wind velocities.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    Material getWindVelocityMaterial() {
+        assert windVelocityMaterial != null;
+        return windVelocityMaterial;
+    }
+
+    /**
      * Alter which soft-body clusters are visualized. For internal use only.
      *
      * @param filter the desired filter, or null to visualize no clusters
@@ -179,6 +202,17 @@ public class SoftDebugAppState extends BulletDebugAppState {
     public void setClusterFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
         clusterFilter = filter;
+    }
+
+    /**
+     * Alter which wind velocities are included in the debug visualization.
+     *
+     * @param filter the filter to use (alias created) or null to visualize no
+     * wind velocities (default=null)
+     */
+    public void setWindVelocityFilter(
+            BulletDebugAppState.DebugAppStateFilter filter) {
+        this.windVelocityFilter = filter;
     }
     // *************************************************************************
     // BulletDebugAppState methods
@@ -233,6 +267,19 @@ public class SoftDebugAppState extends BulletDebugAppState {
         renderState = pinMaterial.getAdditionalRenderState();
         renderState.setBlendMode(RenderState.BlendMode.Alpha);
         renderState.setDepthTest(false);
+
+        this.windVelocityMaterial = createWireMaterial(am, whiteColor,
+                "wind velocity", 2);
+    }
+
+    /**
+     * Synchronize the velocity visualizers with the collision objects in the
+     * PhysicsSpace.
+     */
+    @Override
+    protected void updateVelocities() {
+        super.updateVelocities();
+        updateWindVelocities();
     }
 
     /**
@@ -293,6 +340,37 @@ public class SoftDebugAppState extends BulletDebugAppState {
             }
 
             updateAxes(node, displayShape);
+        }
+    }
+
+    /**
+     * Synchronize the wind-velocity debug controls with the soft bodies in the
+     * PhysicsSpace.
+     */
+    private void updateWindVelocities() {
+        if (windVelocityFilter == null) {
+            return;
+        }
+
+        HashMap<PhysicsCollisionObject, Node> pcoMap = getPcoMap();
+        for (Map.Entry<PhysicsCollisionObject, Node> entry
+                : pcoMap.entrySet()) {
+            PhysicsCollisionObject pco = entry.getKey();
+            boolean display = pco instanceof PhysicsSoftBody
+                    && windVelocityFilter.displayObject(pco);
+
+            Node transformedNode = entry.getValue();
+            Node parent = transformedNode.getParent();
+            Control control
+                    = parent.getControl(WindVelocityDebugControl.class);
+
+            if (control == null && display) {
+                logger.log(Level.FINE, "Create new WindVelocityDebugControl");
+                control = new WindVelocityDebugControl(this, pco);
+                parent.addControl(control);
+            } else if (control != null && !display) {
+                parent.removeControl(control);
+            }
         }
     }
 }

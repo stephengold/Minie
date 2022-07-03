@@ -515,6 +515,15 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
     }
 
     /**
+     * Access the map from collision objects to transformed visualization nodes.
+     *
+     * @return the pre-existing instance
+     */
+    protected HashMap<PhysicsCollisionObject, Node> getPcoMap() {
+        return pcoMap;
+    }
+
+    /**
      * Initialize the wireframe materials and child materials.
      *
      * @param am the application's AssetManager (not null)
@@ -652,6 +661,15 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
             }
         }
     }
+
+    /**
+     * Synchronize the velocity visualizers with the collision objects in the
+     * PhysicsSpace.
+     */
+    protected void updateVelocities() {
+        updateAngularVelocities();
+        updateVelocityVectors();
+    }
     // *************************************************************************
     // AbstractAppState methods
 
@@ -727,11 +745,10 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
         updatePcoMap();
         updateShapes();
         updateVehicles();
-        updateAngularVelocities();
         updateBoundingBoxes();
         updateGravityVectors();
         updateSweptSpheres();
-        updateVelocityVectors();
+        updateVelocities();
         updateJoints();
 
         // Update the (debug) root node.
@@ -1016,7 +1033,6 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
      * Interface to restrict which physics objects are visualized.
      */
     public interface DebugAppStateFilter {
-
         /**
          * Test whether the specified physics object should be rendered in the
          * debug scene.
