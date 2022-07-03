@@ -157,18 +157,29 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Initialize the materials.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateShapes()" class="member-name-link">updateShapes</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWindVelocityFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)" class="member-name-link">setWindVelocityFilter</a><wbr>(<a href="BulletDebugAppState.DebugAppStateFilter.html" title="interface in com.jme3.bullet.debug">BulletDebugAppState.DebugAppStateFilter</a>&nbsp;filter)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter which wind velocities are included in the debug visualization.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateShapes()" class="member-name-link">updateShapes</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Synchronize the collision-shape debug controls and axis visualizers with
  the collision objects in the PhysicsSpace.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateVelocities()" class="member-name-link">updateVelocities</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Synchronize the velocity visualizers with the collision objects in the
+ PhysicsSpace.</div>
 </div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.jme3.bullet.debug.BulletDebugAppState">Methods inherited from class&nbsp;com.jme3.bullet.debug.<a href="BulletDebugAppState.html" title="class in com.jme3.bullet.debug">BulletDebugAppState</a></h3>
-<code><a href="BulletDebugAppState.html#attachChild(com.jme3.scene.Spatial)">attachChild</a>, <a href="BulletDebugAppState.html#cleanup()">cleanup</a>, <a href="BulletDebugAppState.html#createWireMaterial(com.jme3.asset.AssetManager,com.jme3.math.ColorRGBA,java.lang.String,int)">createWireMaterial</a>, <a href="BulletDebugAppState.html#getRootNode()">getRootNode</a>, <a href="BulletDebugAppState.html#initialize(com.jme3.app.state.AppStateManager,com.jme3.app.Application)">initialize</a>, <a href="BulletDebugAppState.html#render(com.jme3.renderer.RenderManager)">render</a>, <a href="BulletDebugAppState.html#setAngularVelocityFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setAngularVelocityFilter</a>, <a href="BulletDebugAppState.html#setBoundingBoxFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setBoundingBoxFilter</a>, <a href="BulletDebugAppState.html#setFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setFilter</a>, <a href="BulletDebugAppState.html#setGravityVectorFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setGravityVectorFilter</a>, <a href="BulletDebugAppState.html#setJointLineWidth(float)">setJointLineWidth</a>, <a href="BulletDebugAppState.html#setSweptSphereFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setSweptSphereFilter</a>, <a href="BulletDebugAppState.html#setVelocityVectorFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setVelocityVectorFilter</a>, <a href="BulletDebugAppState.html#update(float)">update</a>, <a href="BulletDebugAppState.html#updateAxes(com.jme3.scene.Node,boolean)">updateAxes</a></code></div>
+<code><a href="BulletDebugAppState.html#attachChild(com.jme3.scene.Spatial)">attachChild</a>, <a href="BulletDebugAppState.html#cleanup()">cleanup</a>, <a href="BulletDebugAppState.html#createWireMaterial(com.jme3.asset.AssetManager,com.jme3.math.ColorRGBA,java.lang.String,int)">createWireMaterial</a>, <a href="BulletDebugAppState.html#getPcoMap()">getPcoMap</a>, <a href="BulletDebugAppState.html#getRootNode()">getRootNode</a>, <a href="BulletDebugAppState.html#initialize(com.jme3.app.state.AppStateManager,com.jme3.app.Application)">initialize</a>, <a href="BulletDebugAppState.html#render(com.jme3.renderer.RenderManager)">render</a>, <a href="BulletDebugAppState.html#setAngularVelocityFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setAngularVelocityFilter</a>, <a href="BulletDebugAppState.html#setBoundingBoxFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setBoundingBoxFilter</a>, <a href="BulletDebugAppState.html#setFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setFilter</a>, <a href="BulletDebugAppState.html#setGravityVectorFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setGravityVectorFilter</a>, <a href="BulletDebugAppState.html#setJointLineWidth(float)">setJointLineWidth</a>, <a href="BulletDebugAppState.html#setSweptSphereFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setSweptSphereFilter</a>, <a href="BulletDebugAppState.html#setVelocityVectorFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">setVelocityVectorFilter</a>, <a href="BulletDebugAppState.html#update(float)">update</a>, <a href="BulletDebugAppState.html#updateAxes(com.jme3.scene.Node,boolean)">updateAxes</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.jme3.app.state.AbstractAppState">Methods inherited from class&nbsp;com.jme3.app.state.AbstractAppState</h3>
 <code>getId, isEnabled, isInitialized, postRender, setEnabled, setId, stateAttached, stateDetached</code></div>
@@ -233,6 +244,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="setWindVelocityFilter(com.jme3.bullet.debug.BulletDebugAppState.DebugAppStateFilter)">
+<h3>setWindVelocityFilter</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setWindVelocityFilter</span><wbr><span class="parameters">(<a href="BulletDebugAppState.DebugAppStateFilter.html" title="interface in com.jme3.bullet.debug">BulletDebugAppState.DebugAppStateFilter</a>&nbsp;filter)</span></div>
+<div class="block">Alter which wind velocities are included in the debug visualization.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>filter</code> - the filter to use (alias created) or null to visualize no
+ wind velocities (default=null)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="setupMaterials(com.jme3.asset.AssetManager)">
 <h3>setupMaterials</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupMaterials</span><wbr><span class="parameters">(com.jme3.asset.AssetManager&nbsp;am)</span></div>
@@ -242,6 +265,18 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="BulletDebugAppState.html#setupMaterials(com.jme3.asset.AssetManager)">setupMaterials</a></code>&nbsp;in class&nbsp;<code><a href="BulletDebugAppState.html" title="class in com.jme3.bullet.debug">BulletDebugAppState</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>am</code> - the application's AssetManager (not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="updateVelocities()">
+<h3>updateVelocities</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateVelocities</span>()</div>
+<div class="block">Synchronize the velocity visualizers with the collision objects in the
+ PhysicsSpace.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="BulletDebugAppState.html#updateVelocities()">updateVelocities</a></code>&nbsp;in class&nbsp;<code><a href="BulletDebugAppState.html" title="class in com.jme3.bullet.debug">BulletDebugAppState</a></code></dd>
 </dl>
 </section>
 </li>
