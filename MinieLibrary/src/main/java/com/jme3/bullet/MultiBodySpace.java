@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@ import jme3utilities.Validate;
  * A PhysicsSpace that supports multibodies, with its own
  * btMultiBodyDynamicsWorld.
  *
- * @author Stephen Gold
+ * @author Stephen Gold sgold@sonic.net
  */
 public class MultiBodySpace extends PhysicsSpace {
     // *************************************************************************
