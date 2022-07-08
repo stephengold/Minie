@@ -122,6 +122,7 @@ To simulate objects with grooved surfaces, it's also possible to configure
 a rigid body for _anisotropic friction_:
 friction that depends on the direction of relative motion.
 
+
 == Gear joint
 
 {url-api}/joints/GearJoint.html[`GearJoint`] implements

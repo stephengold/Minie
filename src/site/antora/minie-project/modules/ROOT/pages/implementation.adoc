@@ -19,7 +19,7 @@ https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html[the J
 to access their objects and methods.
 
 All {Cplusplus} source code associated with {Project}
-(including JNI "glue code" and a modified snapshot of Bullet)
+(including a modified partial snapshot of Bullet, a snapshot of V-HACD, and some "glue code")
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
 Before instantiating physics objects,
 a {Project} application must {url-enwiki}/Dynamic_loading[dynamically load]
@@ -34,6 +34,9 @@ for the 13 platforms {Project} supports:
 * Linux (x86-64, x86, armhf, and aarch64),
 * macOS (x86-64, IA-32, and ARM64), and
 * Android (armeabi-v7a, arm64-v8a, x86, and x86_64).
+
+NOTE: 32-bit and 64-bit versions of the same operating system
+count as distinct platforms!
 
 On desktop platforms, JMonkeyEngine automatically loads
 the appropriate native library

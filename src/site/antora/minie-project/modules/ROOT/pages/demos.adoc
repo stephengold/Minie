@@ -12,7 +12,7 @@ The following demos are found in
 * {url-examples}/BuoyDemo.java[`BuoyDemo`]
   demonstrates ragdolls with buoyancy
 * {url-examples}/ConveyorDemo.java[`ConveyorDemo`]
-  demonstrates conveyor belt simulation using the `ContactListener` interface
+  demonstrates contact-point modifications
 * {url-examples}/DropTest.java[`DropTest`] (also known as `MultiSphereDemo`)
   demonstrates falling rigid bodies with various shapes
 * {url-examples}/ForceDemo.java[`ForceDemo`]
@@ -34,7 +34,7 @@ The following demos are found in
 * {url-examples}/TestDac.java[`TestDac`]
   demonstrates `DynamicAnimControl` applied to various models
 * {url-examples}/TestGearJoint.java[`TestGearJoint`]
-  demonstrates `GearJoint`
+  demonstrates a gear joint
 * {url-examples}/TestSoftBody.java[`TestSoftBody`]
   demonstrates soft-body physics without `SoftBodyControl`
 * {url-examples}/TestSoftBodyControl.java[`TestSoftBodyControl`]
