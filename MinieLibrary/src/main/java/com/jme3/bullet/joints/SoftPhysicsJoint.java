@@ -116,7 +116,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
 
     /**
      * Instantiate a SoftPhysicsJoint to join a soft-body cluster and a rigid
-     * body. TODO protect
+     * body.
      * <p>
      * To be fully effective, the joint must be added to the PhysicsSoftSpace of
      * both bodies.
@@ -125,7 +125,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @param clusterIndexA the index of the cluster for the A end (&ge;0)
      * @param rigidBodyB the rigid body for the B end (not null, alias created)
      */
-    public SoftPhysicsJoint(PhysicsSoftBody softBodyA, int clusterIndexA,
+    protected SoftPhysicsJoint(PhysicsSoftBody softBodyA, int clusterIndexA,
             PhysicsRigidBody rigidBodyB) {
         int numClustersA = softBodyA.countClusters();
         Validate.inRange(clusterIndexA, "cluster index", 0, numClustersA - 1);
@@ -140,7 +140,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     }
 
     /**
-     * Instantiate a SoftPhysicsJoint to join 2 soft bodies. TODO protect
+     * Instantiate a SoftPhysicsJoint to join 2 soft bodies.
      * <p>
      * To be effective, the joint must be added to the PhysicsSoftSpace of both
      * bodies. Also, the bodies must be distinct.
@@ -150,7 +150,7 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * @param softBodyB the body for the B end (not null, alias created)
      * @param clusterIndexB the index of the cluster for the B end (&ge;0)
      */
-    public SoftPhysicsJoint(PhysicsSoftBody softBodyA, int clusterIndexA,
+    protected SoftPhysicsJoint(PhysicsSoftBody softBodyA, int clusterIndexA,
             PhysicsSoftBody softBodyB, int clusterIndexB) {
         int numClustersA = softBodyA.countClusters();
         Validate.inRange(clusterIndexA, "cluster index A", 0, numClustersA - 1);
