@@ -489,7 +489,7 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
     }
 
     /**
-     * Create the specified wireframe material. TODO make non-static
+     * Create the specified wireframe material.
      *
      * @param assetManager the application's AssetManager (not null)
      * @param color the desired color (not null, unaffected)
@@ -497,7 +497,7 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
      * @param numSides the desired number of sides (1 or 2)
      * @return a new instance
      */
-    protected static Material createWireMaterial(AssetManager assetManager,
+    protected Material createWireMaterial(AssetManager assetManager,
             ColorRGBA color, String name, int numSides) {
         Validate.nonNull(assetManager, "asset manager");
         Validate.nonNull(color, "color");
