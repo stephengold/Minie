@@ -62,11 +62,10 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
 
     /**
      * Instantiate an enabled Control to serve the specified debug app state.
-     * TODO protect
      *
      * @param debugAppState which app state (not null, alias created)
      */
-    public AbstractPhysicsDebugControl(BulletDebugAppState debugAppState) {
+    protected AbstractPhysicsDebugControl(BulletDebugAppState debugAppState) {
         this.debugAppState = debugAppState;
     }
     // *************************************************************************
