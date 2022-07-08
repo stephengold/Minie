@@ -84,11 +84,11 @@ abstract public class IKController implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate an enabled controller. TODO protect
+     * Instantiate an enabled controller.
      *
      * @param controlledLink the link to be controlled (not null)
      */
-    public IKController(PhysicsLink controlledLink) {
+    protected IKController(PhysicsLink controlledLink) {
         assert controlledLink != null;
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Creating controller for bone {0}.",
