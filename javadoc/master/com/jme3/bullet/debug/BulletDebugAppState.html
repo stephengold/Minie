@@ -71,7 +71,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class BulletDebugAppState" class="title">Class BulletDebugAppState</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.jme3.app.state.AbstractAppState
+<div class="inheritance">com.jme3.app.state.BaseAppState
 <div class="inheritance">com.jme3.bullet.debug.BulletDebugAppState</div>
 </div>
 </div>
@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BulletDebugAppState</span>
-<span class="extends-implements">extends com.jme3.app.state.AbstractAppState</span></div>
+<span class="extends-implements">extends com.jme3.app.state.BaseAppState</span></div>
 <div class="block">An AppState to manage debug visualization of a PhysicsSpace.</div>
 </section>
 <section class="summary">
@@ -128,9 +128,6 @@ loadScripts(document, 'script');</script>
 <div class="block">message logger for this class</div>
 </div>
 </div>
-<div class="inherited-list">
-<h3 id="fields-inherited-from-class-com.jme3.app.state.AbstractAppState">Fields inherited from class&nbsp;com.jme3.app.state.AbstractAppState</h3>
-<code>initialized</code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -153,7 +150,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
@@ -164,17 +161,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Attach the specified Spatial to the debug root node.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cleanup()" class="member-name-link">cleanup</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cleanup(com.jme3.app.Application)" class="member-name-link">cleanup</a><wbr>(com.jme3.app.Application&nbsp;app)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Transition this state from terminating to detached.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>protected static com.jme3.material.Material</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWireMaterial(com.jme3.asset.AssetManager,com.jme3.math.ColorRGBA,java.lang.String,int)" class="member-name-link">createWireMaterial</a><wbr>(com.jme3.asset.AssetManager&nbsp;assetManager,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected com.jme3.material.Material</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createWireMaterial(com.jme3.asset.AssetManager,com.jme3.math.ColorRGBA,java.lang.String,int)" class="member-name-link">createWireMaterial</a><wbr>(com.jme3.asset.AssetManager&nbsp;assetManager,
  com.jme3.math.ColorRGBA&nbsp;color,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;numSides)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create the specified wireframe material.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>,<wbr>com.jme3.scene.Node&gt;</code></div>
@@ -188,10 +185,19 @@ loadScripts(document, 'script');</script>
 <div class="block">Access the Node containing all the debug visualization.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initialize(com.jme3.app.state.AppStateManager,com.jme3.app.Application)" class="member-name-link">initialize</a><wbr>(com.jme3.app.state.AppStateManager&nbsp;stateManager,
- com.jme3.app.Application&nbsp;app)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initialize(com.jme3.app.Application)" class="member-name-link">initialize</a><wbr>(com.jme3.app.Application&nbsp;app)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Initialize this state prior to its first update.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onDisable()" class="member-name-link">onDisable</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Transition this state from enabled to disabled.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onEnable()" class="member-name-link">onEnable</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Transition this state from disabled to enabled.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(com.jme3.renderer.RenderManager)" class="member-name-link">render</a><wbr>(com.jme3.renderer.RenderManager&nbsp;rm)</code></div>
@@ -265,8 +271,8 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-com.jme3.app.state.AbstractAppState">Methods inherited from class&nbsp;com.jme3.app.state.AbstractAppState</h3>
-<code>getId, isEnabled, isInitialized, postRender, setEnabled, setId, stateAttached, stateDetached</code></div>
+<h3 id="methods-inherited-from-class-com.jme3.app.state.BaseAppState">Methods inherited from class&nbsp;com.jme3.app.state.BaseAppState</h3>
+<code>cleanup, getApplication, getId, getState, getState, getState, getState, getStateManager, initialize, isEnabled, isInitialized, postRender, setEnabled, setId, stateAttached, stateDetached</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -428,11 +434,11 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="createWireMaterial(com.jme3.asset.AssetManager,com.jme3.math.ColorRGBA,java.lang.String,int)">
 <h3>createWireMaterial</h3>
-<div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type">com.jme3.material.Material</span>&nbsp;<span class="element-name">createWireMaterial</span><wbr><span class="parameters">(com.jme3.asset.AssetManager&nbsp;assetManager,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">com.jme3.material.Material</span>&nbsp;<span class="element-name">createWireMaterial</span><wbr><span class="parameters">(com.jme3.asset.AssetManager&nbsp;assetManager,
  com.jme3.math.ColorRGBA&nbsp;color,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;numSides)</span></div>
-<div class="block">Create the specified wireframe material. TODO make non-static</div>
+<div class="block">Create the specified wireframe material.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>assetManager</code> - the application's AssetManager (not null)</dd>
@@ -496,37 +502,55 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="cleanup()">
+<section class="detail" id="cleanup(com.jme3.app.Application)">
 <h3>cleanup</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cleanup</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cleanup</span><wbr><span class="parameters">(com.jme3.app.Application&nbsp;app)</span></div>
 <div class="block">Transition this state from terminating to detached. Should be invoked
  only by a subclass or by the AppStateManager.
  <p>
- Invoked once for each time <a href="#initialize(com.jme3.app.state.AppStateManager,com.jme3.app.Application)"><code>initialize(com.jme3.app.state.AppStateManager, com.jme3.app.Application)</code></a> is
+ Invoked once for each time <code>BaseAppState.initialize(com.jme3.app.state.AppStateManager, com.jme3.app.Application)</code> is
  invoked.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>cleanup</code>&nbsp;in interface&nbsp;<code>com.jme3.app.state.AppState</code></dd>
-<dt>Overrides:</dt>
-<dd><code>cleanup</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.AbstractAppState</code></dd>
+<dd><code>cleanup</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.BaseAppState</code></dd>
+<dt>Parameters:</dt>
+<dd><code>app</code> - the application which owns this state (not null)</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="initialize(com.jme3.app.state.AppStateManager,com.jme3.app.Application)">
+<section class="detail" id="initialize(com.jme3.app.Application)">
 <h3>initialize</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initialize</span><wbr><span class="parameters">(com.jme3.app.state.AppStateManager&nbsp;stateManager,
- com.jme3.app.Application&nbsp;app)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initialize</span><wbr><span class="parameters">(com.jme3.app.Application&nbsp;app)</span></div>
 <div class="block">Initialize this state prior to its first update. Should be invoked only
  by a subclass or by the AppStateManager.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>initialize</code>&nbsp;in interface&nbsp;<code>com.jme3.app.state.AppState</code></dd>
-<dt>Overrides:</dt>
-<dd><code>initialize</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.AbstractAppState</code></dd>
+<dd><code>initialize</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.BaseAppState</code></dd>
 <dt>Parameters:</dt>
-<dd><code>stateManager</code> - the manager for this state (not null)</dd>
 <dd><code>app</code> - the application which owns this state (not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="onDisable()">
+<h3>onDisable</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onDisable</span>()</div>
+<div class="block">Transition this state from enabled to disabled.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code>onDisable</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.BaseAppState</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="onEnable()">
+<h3>onEnable</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onEnable</span>()</div>
+<div class="block">Transition this state from disabled to enabled.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code>onEnable</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.BaseAppState</code></dd>
 </dl>
 </section>
 </li>
@@ -541,7 +565,7 @@ loadScripts(document, 'script');</script>
 <dt>Specified by:</dt>
 <dd><code>render</code>&nbsp;in interface&nbsp;<code>com.jme3.app.state.AppState</code></dd>
 <dt>Overrides:</dt>
-<dd><code>render</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.AbstractAppState</code></dd>
+<dd><code>render</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.BaseAppState</code></dd>
 <dt>Parameters:</dt>
 <dd><code>rm</code> - the render manager (not null)</dd>
 </dl>
@@ -558,7 +582,7 @@ loadScripts(document, 'script');</script>
 <dt>Specified by:</dt>
 <dd><code>update</code>&nbsp;in interface&nbsp;<code>com.jme3.app.state.AppState</code></dd>
 <dt>Overrides:</dt>
-<dd><code>update</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.AbstractAppState</code></dd>
+<dd><code>update</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.BaseAppState</code></dd>
 <dt>Parameters:</dt>
 <dd><code>tpf</code> - the time interval between frames (in seconds, &ge;0)</dd>
 </dl>
