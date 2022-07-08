@@ -218,7 +218,7 @@ public class HelloWind
     // private methods
 
     /**
-     * Configure the camera during startup.
+     * Configure the Camera during startup.
      */
     private void configureCamera() {
         cam.setLocation(new Vector3f(7f, 1.2f, -0.7f));
