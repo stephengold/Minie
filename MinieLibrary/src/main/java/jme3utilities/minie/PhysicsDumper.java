@@ -29,6 +29,7 @@ package jme3utilities.minie;
 import com.jme3.app.state.AppState;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.DeformableSpace;
 import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.MultiBodyJointType;
 import com.jme3.bullet.MultiBodyLink;
@@ -700,6 +701,10 @@ public class PhysicsDumper extends Dumper {
         Collection<PhysicsSoftBody> softBodies = new ArrayList<>(0);
         if (space instanceof PhysicsSoftSpace) {
             softBodies = ((PhysicsSoftSpace) space).getSoftBodyList();
+            int numSofts = softBodies.size();
+            stream.printf("%d soft%s, ", numSofts, (numSofts == 1) ? "" : "s");
+        } else if (space instanceof DeformableSpace) {
+            softBodies = ((DeformableSpace) space).getSoftBodyList();
             int numSofts = softBodies.size();
             stream.printf("%d soft%s, ", numSofts, (numSofts == 1) ? "" : "s");
         }
