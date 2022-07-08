@@ -206,6 +206,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Add the specified collision object to this space.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#addCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">addCollisionObject(PhysicsCollisionObject)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Add the specified collision object to this space.</div>
+</dd>
 <dt><a href="com/jme3/bullet/PhysicsSoftSpace.html#addCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">addCollisionObject(PhysicsCollisionObject)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></dt>
 <dd>
 <div class="block">Add the specified collision object to this space.</div>
@@ -2049,6 +2053,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Test whether the specified collision object is added to this space.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#contains(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">contains(PhysicsCollisionObject)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Test whether the specified collision object is added to this space.</div>
+</dd>
 <dt><a href="com/jme3/bullet/MultiBodySpace.html#contains(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">contains(PhysicsCollisionObject)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodySpace.html" title="class in com.jme3.bullet">MultiBodySpace</a></dt>
 <dd>
 <div class="block">Test whether the specified collision object is added to this space.</div>
@@ -2306,6 +2314,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Count the collision objects in this object's ignore list.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#countJoints()" class="member-name-link">countJoints()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Count the joints in this space, including anchors and soft-body joints.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsBody.html#countJoints()" class="member-name-link">countJoints()</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></dt>
 <dd>
 <div class="block">Count how many joints connect to this body.</div>
@@ -2399,6 +2411,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Count the rigid bodies in this space, including vehicles.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#countSoftBodies()" class="member-name-link">countSoftBodies()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Count the soft bodies in this space.</div>
+</dd>
 <dt><a href="com/jme3/bullet/PhysicsSoftSpace.html#countSoftBodies()" class="member-name-link">countSoftBodies()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></dt>
 <dd>
 <div class="block">Count the soft bodies in this space.</div>
@@ -2456,6 +2472,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL, for testing.</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#create()" class="member-name-link">create()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Must be invoked on the designated physics thread.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#create()" class="member-name-link">create()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
 <dd>
 <div class="block">Must be invoked on the designated physics thread.</div>
 </dd>
@@ -2789,6 +2809,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Read the value returned by displayObject() for non-exceptional arguments.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html" class="type-name-link" title="class in com.jme3.bullet">DeformableSpace</a> - Class in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
+<dd>
+<div class="block">A MultiBodySpace that supports deformables, with its own
+ btDeformableMultiBodyDynamicsWorld.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType)" class="member-name-link">DeformableSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, SolverType)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Instantiate a DeformableSpace with the specified contact-and-constraint
+ solver.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/infos/Cluster.html#defValue()" class="member-name-link">defValue()</a> - Method in enum class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/Cluster.html" title="enum class in com.jme3.bullet.objects.infos">Cluster</a></dt>
 <dd>
 <div class="block">Determine the default value for this parameter.</div>
@@ -2913,6 +2943,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Describe the user of a collision object.</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#destroy()" class="member-name-link">destroy()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Remove all collision objects and physics joints.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#destroy()" class="member-name-link">destroy()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
 <dd>
 <div class="block">Remove all collision objects and physics joints.</div>
 </dd>
@@ -3977,6 +4011,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Read the default margin for new shapes that are neither capsules nor
  spheres.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#getDeformableSpace()" class="member-name-link">getDeformableSpace()</a> - Static method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Access the DeformableSpace <b>running on this thread</b>.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/VehicleWheel.html#getDeltaRotation()" class="member-name-link">getDeltaRotation()</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></dt>
 <dd>
 <div class="block">Determine how much this wheel has turned since the last simulation step.</div>
@@ -4689,6 +4727,11 @@ loadScripts(document, 'script');</script>
 <div class="block">Enumerate collision objects that have been added to this space and not
  yet removed.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#getPcoList()" class="member-name-link">getPcoList()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Enumerate collision objects that have been added to this space and not
+ yet removed.</div>
+</dd>
 <dt><a href="com/jme3/bullet/MultiBodySpace.html#getPcoList()" class="member-name-link">getPcoList()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodySpace.html" title="class in com.jme3.bullet">MultiBodySpace</a></dt>
 <dd>
 <div class="block">Enumerate collision objects that have been added to this space and not
@@ -5034,6 +5077,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Access the soft body at the B end.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#getSoftBodyList()" class="member-name-link">getSoftBodyList()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Enumerate soft bodies that have been added to this space and not yet
+ removed.</div>
+</dd>
 <dt><a href="com/jme3/bullet/PhysicsSoftSpace.html#getSoftBodyList()" class="member-name-link">getSoftBodyList()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></dt>
 <dd>
 <div class="block">Enumerate soft bodies that have been added to this space and not yet
@@ -5373,6 +5421,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/objects/VehicleWheel.html#getWheelWorldRotation(com.jme3.math.Quaternion)" class="member-name-link">getWheelWorldRotation(Quaternion)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></dt>
 <dd>
 <div class="block">Determine this wheel's orientation.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#getWorldInfo()" class="member-name-link">getWorldInfo()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Access the parameters applied when soft bodies are added to this space.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#getWorldInfo()" class="member-name-link">getWorldInfo()</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
@@ -5870,6 +5922,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Test whether this body is in dynamic mode.</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#isEmpty()" class="member-name-link">isEmpty()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Test whether this space is empty.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#isEmpty()" class="member-name-link">isEmpty()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
 <dd>
 <div class="block">Test whether this space is empty.</div>
 </dd>
@@ -7113,6 +7169,10 @@ loadScripts(document, 'script');</script>
 <div class="block">message logger for this class</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/RigidBodyControl.html#logger3" class="member-name-link">logger3</a> - Static variable in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/RigidBodyControl.html" title="class in com.jme3.bullet.control">RigidBodyControl</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#logger3" class="member-name-link">logger3</a> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
@@ -8788,6 +8848,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Remove the specified collision object from this space.</div>
 </dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">removeCollisionObject(PhysicsCollisionObject)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Remove the specified collision object from this space.</div>
+</dd>
 <dt><a href="com/jme3/bullet/PhysicsSoftSpace.html#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">removeCollisionObject(PhysicsCollisionObject)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></dt>
 <dd>
 <div class="block">Remove the specified collision object from this space.</div>
@@ -9946,6 +10010,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#setGravity(com.jme3.math.Vector3f)" class="member-name-link">setGravity(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
 <div class="block">Alter the gravity acting on this character.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DeformableSpace.html#setGravity(com.jme3.math.Vector3f)" class="member-name-link">setGravity(Vector3f)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DeformableSpace.html" title="class in com.jme3.bullet">DeformableSpace</a></dt>
+<dd>
+<div class="block">Alter the gravitational acceleration acting on newly-added bodies.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/CharacterController.html#setGravity(com.jme3.math.Vector3f)" class="member-name-link">setGravity(Vector3f)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/CharacterController.html" title="class in com.jme3.bullet.objects.infos">CharacterController</a></dt>
 <dd>
