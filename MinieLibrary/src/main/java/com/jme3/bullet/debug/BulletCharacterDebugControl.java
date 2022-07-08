@@ -64,13 +64,13 @@ public class BulletCharacterDebugControl extends CollisionShapeDebugControl {
     // fields
 
     /**
-     * debug-mesh normals option for which debugSpatial was generated
-     */
-    private MeshNormals oldNormals;
-    /**
      * debug-mesh resolution for which debugSpatial was generated
      */
     private int oldResolution;
+    /**
+     * debug-mesh normals option for which debugSpatial was generated
+     */
+    private MeshNormals oldNormals;
     /**
      * character to visualize (not null)
      */

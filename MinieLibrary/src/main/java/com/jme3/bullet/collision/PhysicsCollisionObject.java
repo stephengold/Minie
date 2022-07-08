@@ -187,10 +187,6 @@ abstract public class PhysicsCollisionObject
      */
     private DebugMeshInitListener debugMeshInitListener = null;
     /**
-     * which normals to generate for new debug meshes
-     */
-    private MeshNormals debugMeshNormals = MeshNormals.None;
-    /**
      * collision groups with which this object can collide
      */
     private int collideWithGroups = COLLISION_GROUP_01;
@@ -210,6 +206,10 @@ abstract public class PhysicsCollisionObject
      * custom material for the debug shape, or null to use the default material
      */
     private Material debugMaterial = null;
+    /**
+     * which normals to generate for new debug meshes
+     */
+    private MeshNormals debugMeshNormals = MeshNormals.None;
     /**
      * application-specific data of this collision object. Untouched unless
      * Cloneable or Savable.

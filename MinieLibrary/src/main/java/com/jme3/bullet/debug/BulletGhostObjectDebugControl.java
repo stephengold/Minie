@@ -60,13 +60,13 @@ public class BulletGhostObjectDebugControl extends CollisionShapeDebugControl {
     // fields
 
     /**
-     * mesh normals option for which debugSpatial was generated
-     */
-    private MeshNormals oldNormals;
-    /**
      * debug-mesh resolution for which debugSpatial was generated
      */
     private int oldResolution;
+    /**
+     * mesh normals option for which debugSpatial was generated
+     */
+    private MeshNormals oldNormals;
     /**
      * ghost object to visualize (not null)
      */

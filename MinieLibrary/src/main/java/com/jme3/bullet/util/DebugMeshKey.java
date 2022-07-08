@@ -55,10 +55,6 @@ class DebugMeshKey {
     // fields
 
     /**
-     * option for normals in the debug mesh
-     */
-    final private MeshNormals normals;
-    /**
      * margin of the CollisionShape
      */
     final private float margin;
@@ -70,6 +66,10 @@ class DebugMeshKey {
      * object ID of the CollisionShape
      */
     final private long shapeId;
+    /**
+     * option for normals in the debug mesh
+     */
+    final private MeshNormals normals;
     /**
      * scale factors of the CollisionShape
      */
