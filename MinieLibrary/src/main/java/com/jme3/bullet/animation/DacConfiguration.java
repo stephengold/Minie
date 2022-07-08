@@ -1015,7 +1015,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
 
     /**
      * Test whether 2 scale factors are equal within the tolerance set for this
-     * control. TODO move to MyMath
+     * control. TODO use MyMath
      *
      * @param a the first scale factor
      * @param b the 2nd scale factor

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ import jme3utilities.math.MyVector3f;
  * <li>Lowerlimit &lt; Upperlimit &rarr; axis is limited in that range</li>
  * </ul>
  *
- * @author sgold@sonic.net
+ * @author Stephen Gold sgold@sonic.net
  */
 public class New6Dof extends Constraint {
     // *************************************************************************

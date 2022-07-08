@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@ import jme3utilities.Validate;
  * A 3-axis motor based on Bullet's btTranslationalLimitMotor2, used to control
  * the translation of a New6Dof constraint.
  *
- * @author sgold@sonic.net
+ * @author Stephen Gold sgold@sonic.net
  */
 public class TranslationMotor extends NativePhysicsObject {
     // *************************************************************************
