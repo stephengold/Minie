@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -202,7 +202,7 @@ public class MultiSphere extends ConvexShape {
         Validate.nonEmpty(radii, "radii");
 
         int numSpheres = radii.size();
-        assert centers.size() == numSpheres : numSpheres;
+        Validate.require(centers.size() == numSpheres, "lists of equal length");
 
         this.centers = new Vector3f[numSpheres];
         this.radii = new float[numSpheres];
