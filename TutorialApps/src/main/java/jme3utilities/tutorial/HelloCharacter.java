@@ -32,7 +32,6 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.Box2dShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
@@ -52,6 +51,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
+import jme3utilities.MeshNormals;
 
 /**
  * A simple example of character physics.
@@ -117,12 +117,12 @@ public class HelloCharacter
         // Customize the debug visualization of each object.
         Material redMaterial = createLitMaterial(1f, 0f, 0f);
         character.setDebugMaterial(redMaterial);
-        character.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        character.setDebugMeshNormals(MeshNormals.Smooth);
         character.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         ground.setDebugMaterial(greenMaterial);
-        ground.setDebugMeshNormals(DebugMeshNormals.Facet);
+        ground.setDebugMeshNormals(MeshNormals.Facet);
 
         // Minie's BulletAppState simulates the dynamics...
     }

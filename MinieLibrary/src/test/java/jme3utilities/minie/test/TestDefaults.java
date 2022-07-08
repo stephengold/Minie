@@ -55,7 +55,6 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.GearJoint;
@@ -102,6 +101,7 @@ import com.jme3.scene.shape.Torus;
 import com.jme3.system.NativeLibraryLoader;
 import java.util.ArrayList;
 import java.util.List;
+import jme3utilities.MeshNormals;
 import org.junit.Assert;
 import org.junit.Test;
 import vhacd.ACDMode;
@@ -653,7 +653,7 @@ public class TestDefaults {
         Assert.assertEquals(0f, pco.getDeactivationTime(), 0f);
         Assert.assertNull(pco.getDebugMaterial());
         Assert.assertNull(pco.debugMeshInitListener());
-        Assert.assertSame(DebugMeshNormals.None, pco.debugMeshNormals());
+        Assert.assertSame(MeshNormals.None, pco.debugMeshNormals());
         Assert.assertEquals(DebugShapeFactory.lowResolution,
                 pco.debugMeshResolution());
         Assert.assertEquals(1, pco.debugNumSides());

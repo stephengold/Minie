@@ -33,7 +33,6 @@ import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsCharacter;
@@ -59,6 +58,7 @@ import com.jme3.terrain.heightmap.HeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import jme3utilities.MeshNormals;
 
 /**
  * A simple example of character physics.
@@ -250,7 +250,7 @@ public class HelloWalk
         // Customize its debug visualization.
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         body.setDebugMaterial(greenMaterial);
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setDebugMeshNormals(MeshNormals.Smooth);
     }
 
     /**

@@ -35,7 +35,6 @@ import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.objects.PhysicsBody;
@@ -60,6 +59,7 @@ import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
+import jme3utilities.MeshNormals;
 
 /**
  * A simple example of a PhysicsJoint.
@@ -219,7 +219,7 @@ public class HelloJoint
 
         Material yellowMaterial = createLitMaterial(1f, 1f, 0f);
         result.setDebugMaterial(yellowMaterial);
-        result.setDebugMeshNormals(DebugMeshNormals.Facet);
+        result.setDebugMeshNormals(MeshNormals.Facet);
         // faceted so that rotations will be visible
 
         return result;
@@ -266,7 +266,7 @@ public class HelloJoint
 
         Material redMaterial = createLitMaterial(1f, 0.1f, 0.1f);
         paddleBody.setDebugMaterial(redMaterial);
-        paddleBody.setDebugMeshNormals(DebugMeshNormals.Facet);
+        paddleBody.setDebugMeshNormals(MeshNormals.Facet);
     }
 
     /**

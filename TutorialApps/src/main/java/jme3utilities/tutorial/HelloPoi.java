@@ -34,7 +34,6 @@ import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
@@ -62,6 +61,7 @@ import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import java.util.List;
+import jme3utilities.MeshNormals;
 import jme3utilities.debug.PointVisualizer;
 import jme3utilities.math.MyVector3f;
 
@@ -267,7 +267,7 @@ public class HelloPoi
         // Customize its debug visualization.
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         terrain.setDebugMaterial(greenMaterial);
-        terrain.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        terrain.setDebugMeshNormals(MeshNormals.Smooth);
     }
 
     /**

@@ -37,7 +37,6 @@ import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsBody;
@@ -60,6 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
@@ -236,7 +236,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
                 break;
 
             case "triangle":
-                addPlatform(platformType, DebugMeshNormals.Facet, topY);
+                addPlatform(platformType, MeshNormals.Facet, topY);
                 break;
 
             default:
@@ -255,7 +255,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
      * @param centerY the desired Y coordinate of the center (in physics-space
      * coordinates)
      */
-    public void addPlatform(String shapeName, DebugMeshNormals normals,
+    public void addPlatform(String shapeName, MeshNormals normals,
             float centerY) {
         Validate.nonNull(shapeName, "shape name");
 
@@ -632,7 +632,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setDebugMeshNormals(MeshNormals.Facet);
         body.setPhysicsLocation(new Vector3f(0f, topY - thickness / 2f, 0f));
 
         addPlatform(body);
@@ -655,7 +655,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setDebugMeshNormals(MeshNormals.Smooth);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
         body.setPhysicsLocation(new Vector3f(0f, topY - height / 2f, 0f));
         /*
@@ -686,7 +686,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setDebugMeshNormals(MeshNormals.Smooth);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
         body.setPhysicsLocation(new Vector3f(0f, topY - height / 2f, 0f));
 
@@ -713,7 +713,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setDebugMeshNormals(MeshNormals.Facet);
         body.setPhysicsLocation(new Vector3f(0f, topY - thickness / 2f, 0f));
 
         addPlatform(body);
@@ -736,7 +736,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
         PlaneDmiListener planeDmiListener = new PlaneDmiListener(sideLength);
         body.setDebugMeshInitListener(planeDmiListener);
 
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setDebugMeshNormals(MeshNormals.Facet);
 
         addPlatform(body);
 
@@ -756,7 +756,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setDebugMeshNormals(MeshNormals.Facet);
         Quaternion rotation = new Quaternion();
         rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
         body.setPhysicsRotation(rotation);
@@ -783,7 +783,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setDebugMeshNormals(MeshNormals.Facet);
         body.setPhysicsLocation(new Vector3f(0f, topY, 0f));
         Quaternion rotation = new Quaternion();
         rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);

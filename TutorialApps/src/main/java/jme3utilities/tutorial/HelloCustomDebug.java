@@ -31,7 +31,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -45,6 +44,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
+import jme3utilities.MeshNormals;
 
 /**
  * A simple example that demonstrates customization of debug materials, debug
@@ -107,11 +107,11 @@ public class HelloCustomDebug extends SimpleApplication {
 
         // Customize the debug visualization of each object.
         dynaBall.setDebugMaterial(ballMaterial);
-        dynaBall.setDebugMeshNormals(DebugMeshNormals.Sphere);
+        dynaBall.setDebugMeshNormals(MeshNormals.Sphere);
         dynaBall.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
         statBall.setDebugMaterial(ballMaterial);
-        statBall.setDebugMeshNormals(DebugMeshNormals.Sphere);
+        statBall.setDebugMeshNormals(MeshNormals.Sphere);
         statBall.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
         // Minie's BulletAppState simulates the dynamics...

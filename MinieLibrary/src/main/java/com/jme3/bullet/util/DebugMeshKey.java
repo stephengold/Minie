@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,9 @@ package com.jme3.bullet.util;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.math.Vector3f;
 import java.util.logging.Logger;
+import jme3utilities.MeshNormals;
 
 /**
  * Key used to locate cached debug meshes. Note: immutable.
@@ -57,7 +57,7 @@ class DebugMeshKey {
     /**
      * option for normals in the debug mesh
      */
-    final private DebugMeshNormals normals;
+    final private MeshNormals normals;
     /**
      * margin of the CollisionShape
      */
@@ -84,8 +84,7 @@ class DebugMeshKey {
      * @param normals (not null)
      * @param resolution 0 or 1
      */
-    DebugMeshKey(CollisionShape shape, DebugMeshNormals normals,
-            int resolution) {
+    DebugMeshKey(CollisionShape shape, MeshNormals normals, int resolution) {
         assert normals != null;
         assert !(shape instanceof CompoundCollisionShape);
 

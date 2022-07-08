@@ -37,7 +37,6 @@ import com.jme3.bullet.collision.ManifoldPoints;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -58,6 +57,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import jme3utilities.Heart;
+import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
@@ -422,7 +422,7 @@ public class ConveyorDemo
         Material material = findMaterial(materialName);
         result.setDebugMaterial(material);
 
-        result.setDebugMeshNormals(DebugMeshNormals.Facet);
+        result.setDebugMeshNormals(MeshNormals.Facet);
         result.setPhysicsLocation(centerLocation);
 
         return result;

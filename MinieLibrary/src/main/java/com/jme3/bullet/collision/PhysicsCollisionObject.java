@@ -35,7 +35,6 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.CollisionSpace;
 import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
@@ -55,6 +54,7 @@ import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.MeshNormals;
 import jme3utilities.Validate;
 
 /**
@@ -189,7 +189,7 @@ abstract public class PhysicsCollisionObject
     /**
      * which normals to generate for new debug meshes
      */
-    private DebugMeshNormals debugMeshNormals = DebugMeshNormals.None;
+    private MeshNormals debugMeshNormals = MeshNormals.None;
     /**
      * collision groups with which this object can collide
      */
@@ -362,7 +362,7 @@ abstract public class PhysicsCollisionObject
      *
      * @return an enum value (not null)
      */
-    public DebugMeshNormals debugMeshNormals() {
+    public MeshNormals debugMeshNormals() {
         assert debugMeshNormals != null;
         return debugMeshNormals;
     }
@@ -1124,7 +1124,7 @@ abstract public class PhysicsCollisionObject
      *
      * @param newSetting an enum value (not null, default=None)
      */
-    public void setDebugMeshNormals(DebugMeshNormals newSetting) {
+    public void setDebugMeshNormals(MeshNormals newSetting) {
         Validate.nonNull(newSetting, "new setting");
         debugMeshNormals = newSetting;
     }
@@ -1440,7 +1440,7 @@ abstract public class PhysicsCollisionObject
         collideWithGroups = capsule.readInt(tagCollisionGroupsMask,
                 COLLISION_GROUP_01);
         debugMeshNormals = capsule.readEnum(tagDebugMeshNormals,
-                DebugMeshNormals.class, DebugMeshNormals.None);
+                MeshNormals.class, MeshNormals.None);
         debugMeshResolution = capsule.readInt(tagDebugMeshResolution, 0);
         debugMaterial = (Material) capsule.readSavable(tagDebugMaterial, null);
 
@@ -1467,7 +1467,7 @@ abstract public class PhysicsCollisionObject
         capsule.write(collideWithGroups, tagCollisionGroupsMask,
                 COLLISION_GROUP_01);
         capsule.write(debugMeshNormals, tagDebugMeshNormals,
-                DebugMeshNormals.None);
+                MeshNormals.None);
         capsule.write(debugMeshResolution, tagDebugMeshResolution, 0);
         capsule.write(debugMaterial, tagDebugMaterial, null);
         capsule.write(collisionShape, tagCollisionShape, null);

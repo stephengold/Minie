@@ -41,7 +41,6 @@ import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -71,6 +70,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
@@ -605,7 +605,7 @@ public class TargetDemo
         body.setCcdMotionThreshold(radius);
         body.setCcdSweptSphereRadius(radius);
         body.setDebugMaterial(debugMaterial);
-        body.setDebugMeshNormals(DebugMeshNormals.Sphere);
+        body.setDebugMeshNormals(MeshNormals.Sphere);
         body.setDebugMeshResolution(DebugShapeFactory.highResolution);
         body.setLinearVelocity(initialVelocity);
         body.setPhysicsLocation(nearLocation);
@@ -777,7 +777,7 @@ public class TargetDemo
         CollisionShape shape = findShape("ball");
         float mass = 0.2f;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setDebugMeshNormals(DebugMeshNormals.Sphere);
+        body.setDebugMeshNormals(MeshNormals.Sphere);
         body.setPhysicsLocation(location);
 
         setUpTarget(body);
@@ -793,7 +793,7 @@ public class TargetDemo
         CollisionShape shape = findShape("bowlingPin");
         float mass = 0.2f;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setDebugMeshNormals(MeshNormals.Smooth);
         body.setPhysicsLocation(location);
 
         Quaternion rotation = new Quaternion();
@@ -816,7 +816,7 @@ public class TargetDemo
 
         float mass = 3f;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setDebugMeshNormals(MeshNormals.Facet);
         body.setPhysicsLocation(location);
         body.setPhysicsRotation(orientation);
 
@@ -913,7 +913,7 @@ public class TargetDemo
         CollisionShape shape = findShape("can");
         float mass = 10f;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        body.setDebugMeshNormals(MeshNormals.Smooth);
         body.setPhysicsLocation(location);
 
         setUpTarget(body);
@@ -956,7 +956,7 @@ public class TargetDemo
 
         float mass = 10f;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
-        body.setDebugMeshNormals(DebugMeshNormals.Facet);
+        body.setDebugMeshNormals(MeshNormals.Facet);
         body.setPhysicsLocation(location);
         body.setPhysicsRotation(orientation);
 

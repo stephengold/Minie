@@ -35,7 +35,6 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.PcoType;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.objects.infos.Cluster;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.objects.infos.SoftBodyMaterial;
@@ -58,6 +57,7 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.MeshNormals;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 
@@ -1669,7 +1669,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * @param newSetting an enum value (either None or Smooth)
      */
     @Override
-    public void setDebugMeshNormals(DebugMeshNormals newSetting) {
+    public void setDebugMeshNormals(MeshNormals newSetting) {
         Validate.nonNull(newSetting, "new setting");
 
         switch (newSetting) {

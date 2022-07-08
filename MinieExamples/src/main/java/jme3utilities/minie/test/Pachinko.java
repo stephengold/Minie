@@ -35,7 +35,6 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
@@ -57,6 +56,7 @@ import com.jme3.system.AppSettings;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
@@ -411,7 +411,7 @@ public class Pachinko
         PhysicsRigidBody result = new PhysicsRigidBody(ballShape, mass);
         Material material = findMaterial("ball");
         result.setDebugMaterial(material);
-        result.setDebugMeshNormals(DebugMeshNormals.Sphere);
+        result.setDebugMeshNormals(MeshNormals.Sphere);
         result.setDebugMeshResolution(DebugShapeFactory.highResolution);
         addCollisionObject(result);
 

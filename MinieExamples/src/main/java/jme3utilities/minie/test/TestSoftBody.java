@@ -42,7 +42,6 @@ import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.joints.Anchor;
@@ -82,6 +81,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
@@ -579,7 +579,7 @@ public class TestSoftBody
         ColorRGBA color = new ColorRGBA(0.7f, 0.7f, 1f, 1f);
         Material material = MyAsset.createShadedMaterial(assetManager, color);
         polePrb.setDebugMaterial(material);
-        polePrb.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        polePrb.setDebugMeshNormals(MeshNormals.Smooth);
 
         physicsSpace.addCollisionObject(polePrb);
 
@@ -610,7 +610,7 @@ public class TestSoftBody
         Material logoMaterial = findMaterial("logo");
         flagPsb.setDebugMaterial(logoMaterial);
         flagPsb.setDebugMeshInitListener(flagDmiListener);
-        flagPsb.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        flagPsb.setDebugMeshNormals(MeshNormals.Smooth);
 
         Quaternion rotation = new Quaternion();
         rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
@@ -698,7 +698,7 @@ public class TestSoftBody
 
         Material redMaterial = findMaterial("red");
         skirtPsb.setDebugMaterial(redMaterial);
-        skirtPsb.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        skirtPsb.setDebugMeshNormals(MeshNormals.Smooth);
 
         String vSpec0 = puppetVSpec(0);
         PhysicsLink link = puppetDac.findManagerForVertex(vSpec0, null, null);
@@ -741,7 +741,7 @@ public class TestSoftBody
 
         Material pinkMaterial = findMaterial("pink");
         ballPsb.setDebugMaterial(pinkMaterial);
-        ballPsb.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        ballPsb.setDebugMeshNormals(MeshNormals.Smooth);
 
         Vector3f translation = new Vector3f(0f, startY, 0f);
         ballPsb.applyTranslation(translation);
@@ -780,7 +780,7 @@ public class TestSoftBody
         Material plaidMaterial = findMaterial("plaid");
         softBody.setDebugMaterial(plaidMaterial);
         softBody.setDebugMeshInitListener(tableclothDmiListener);
-        softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        softBody.setDebugMeshNormals(MeshNormals.Smooth);
 
         Vector3f translation = new Vector3f(0f, startY, 0f);
         softBody.applyTranslation(translation);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,6 @@
 package com.jme3.bullet.debug;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.objects.MultiBodyCollider;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.material.Material;
@@ -41,6 +40,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.MeshNormals;
 
 /**
  * A physics-debug control used to visualize a MultiBodyCollider.
@@ -62,7 +62,7 @@ class ColliderDebugControl extends CollisionShapeDebugControl {
     /**
      * debug-mesh normals option for which debugSpatial was generated
      */
-    private DebugMeshNormals oldNormals;
+    private MeshNormals oldNormals;
     /**
      * debug-mesh resolution for which debugSpatial was generated
      */
@@ -114,7 +114,7 @@ class ColliderDebugControl extends CollisionShapeDebugControl {
     @Override
     protected void controlUpdate(float tpf) {
         CollisionShape newShape = collider.getCollisionShape();
-        DebugMeshNormals newNormals = collider.debugMeshNormals();
+        MeshNormals newNormals = collider.debugMeshNormals();
         int newResolution = collider.debugMeshResolution();
 
         boolean rebuild;

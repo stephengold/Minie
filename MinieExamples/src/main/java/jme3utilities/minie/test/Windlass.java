@@ -37,7 +37,6 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.joints.New6Dof;
@@ -63,6 +62,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
@@ -480,7 +480,7 @@ public class Windlass
 
         Material material = findMaterial("drab");
         barrel.setDebugMaterial(material);
-        barrel.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        barrel.setDebugMeshNormals(MeshNormals.Smooth);
         barrel.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
         addCollisionObject(barrel);
@@ -512,7 +512,7 @@ public class Windlass
 
         Material material = findMaterial("shiny");
         result.setDebugMaterial(material);
-        result.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        result.setDebugMeshNormals(MeshNormals.Smooth);
         result.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
         addCollisionObject(result);
@@ -589,7 +589,7 @@ public class Windlass
 
         Material material = findMaterial("shiny");
         hook.setDebugMaterial(material);
-        hook.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        hook.setDebugMeshNormals(MeshNormals.Smooth);
         hook.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
         addCollisionObject(hook);

@@ -37,7 +37,6 @@ import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.debug.MeshCustomizer;
 import com.jme3.math.FastMath;
@@ -57,6 +56,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.logging.Logger;
+import jme3utilities.MeshNormals;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
@@ -243,11 +243,11 @@ public class DebugShapeFactory {
 
         } else if (shape instanceof CompoundCollisionShape) {
             result = createNode((CompoundCollisionShape) shape, noListener,
-                    DebugMeshNormals.None, lowResolution);
+                    MeshNormals.None, lowResolution);
 
         } else {
-            result = createGeometry(shape, noListener, DebugMeshNormals.None,
-                    lowResolution);
+            result = createGeometry(
+                    shape, noListener, MeshNormals.None, lowResolution);
         }
 
         return result;
@@ -265,7 +265,7 @@ public class DebugShapeFactory {
     public static Spatial getDebugShape(PhysicsCollisionObject pco) {
         CollisionShape shape = pco.getCollisionShape();
         DebugMeshInitListener listener = pco.debugMeshInitListener();
-        DebugMeshNormals normals = pco.debugMeshNormals();
+        MeshNormals normals = pco.debugMeshNormals();
         int resolution = pco.debugMeshResolution();
 
         Spatial result;
@@ -520,7 +520,7 @@ public class DebugShapeFactory {
      * @return a new Geometry (not null)
      */
     private static Geometry createGeometry(CollisionShape shape,
-            DebugMeshInitListener listener, DebugMeshNormals normals,
+            DebugMeshInitListener listener, MeshNormals normals,
             int resolution) {
         assert shape != null;
         assert !(shape instanceof CompoundCollisionShape);
@@ -564,8 +564,8 @@ public class DebugShapeFactory {
      * @param resolution how much detail for convex shapes (0=low, 1=high)
      * @return a new Mesh (not null)
      */
-    private static Mesh createMesh(CollisionShape shape,
-            DebugMeshNormals normals, int resolution) {
+    private static Mesh createMesh(
+            CollisionShape shape, MeshNormals normals, int resolution) {
         assert resolution >= lowResolution : resolution;
         assert resolution <= highResolution : resolution;
 
@@ -620,7 +620,7 @@ public class DebugShapeFactory {
      * @return a new Node (not null)
      */
     private static Node createNode(CompoundCollisionShape compoundShape,
-            DebugMeshInitListener listener, DebugMeshNormals normals,
+            DebugMeshInitListener listener, MeshNormals normals,
             int resolution) {
         assert normals != null;
         assert resolution >= lowResolution : resolution;
@@ -660,8 +660,8 @@ public class DebugShapeFactory {
      * @param normals which normals to generate (not null)
      * @return a new, indexed, Triangles-mode Mesh
      */
-    private static Mesh createPlaneMesh(PlaneCollisionShape shape,
-            DebugMeshNormals normals) {
+    private static Mesh createPlaneMesh(
+            PlaneCollisionShape shape, MeshNormals normals) {
         /*
          * Generate mesh positions for a large 2-sided square.
          */
@@ -701,7 +701,7 @@ public class DebugShapeFactory {
         /*
          * Add a normal buffer, if requested.
          */
-        if (normals != DebugMeshNormals.None) {
+        if (normals != MeshNormals.None) {
             Plane plane = shape.getPlane();
             Vector3f v1 = plane.getNormal();
 

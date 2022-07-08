@@ -35,7 +35,6 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.joints.HingeJoint;
 import com.jme3.bullet.joints.JointEnd;
@@ -60,6 +59,7 @@ import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
+import jme3utilities.MeshNormals;
 
 /**
  * Simulate a swinging door using a single-ended HingeJoint.
@@ -260,7 +260,7 @@ public class HelloDoor
 
         Material redMaterial = createLitMaterial(1f, 0.1f, 0.1f);
         doorBody.setDebugMaterial(redMaterial);
-        doorBody.setDebugMeshNormals(DebugMeshNormals.Facet);
+        doorBody.setDebugMeshNormals(MeshNormals.Facet);
     }
 
     /**
@@ -285,7 +285,7 @@ public class HelloDoor
 
         Material grayMaterial = createLitMaterial(0.5f, 0.5f, 0.5f);
         doorFrameBody.setDebugMaterial(grayMaterial);
-        doorFrameBody.setDebugMeshNormals(DebugMeshNormals.Facet);
+        doorFrameBody.setDebugMeshNormals(MeshNormals.Facet);
 
         physicsSpace.addCollisionObject(doorFrameBody);
     }

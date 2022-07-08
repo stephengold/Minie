@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 jMonkeyEngine
+ * Copyright (c) 2009-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,6 @@
  */
 package com.jme3.bullet.debug;
 
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.util.NativeSoftBodyUtil;
 import com.jme3.material.Material;
@@ -49,6 +48,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
+import jme3utilities.MeshNormals;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
@@ -215,9 +215,9 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             NativeSoftBodyUtil.updateClusterMesh(body, mesh, localFlag);
         }
 
-        DebugMeshNormals normals = body.debugMeshNormals();
+        MeshNormals normals = body.debugMeshNormals();
         IntBuffer noIndexMap = null; // node indices = vertex indices
-        boolean normalsFlag = (normals != DebugMeshNormals.None);
+        boolean normalsFlag = (normals != MeshNormals.None);
         Transform noTransform = null; // physics locations = mesh positions
 
         if (linksGeometry != null) {
@@ -467,7 +467,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         mesh.setBuffer(VertexBuffer.Type.Index, 3, body.copyFaces(null));
 
         DebugMeshInitListener listener = body.debugMeshInitListener();
-        DebugMeshNormals option = body.debugMeshNormals();
+        MeshNormals option = body.debugMeshNormals();
         if (listener == null) {
             /*
              * Allocate buffers for positions and normals.
@@ -476,7 +476,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             int numFloats = 3 * numNodes;
             FloatBuffer pos = BufferUtils.createFloatBuffer(numFloats);
             mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
-            if (option != DebugMeshNormals.None) {
+            if (option != MeshNormals.None) {
                 FloatBuffer norm = BufferUtils.createFloatBuffer(numFloats);
                 mesh.setBuffer(VertexBuffer.Type.Normal, 3, norm);
             }
@@ -487,7 +487,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
              */
             FloatBuffer pos = body.copyLocations(null);
             mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
-            if (option != DebugMeshNormals.None) {
+            if (option != MeshNormals.None) {
                 FloatBuffer norm = body.copyNormals(null);
                 mesh.setBuffer(VertexBuffer.Type.Normal, 3, norm);
             }

@@ -37,7 +37,6 @@ import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
-import com.jme3.bullet.collision.shapes.infos.DebugMeshNormals;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
 import com.jme3.bullet.objects.PhysicsBody;
@@ -77,6 +76,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import jme3utilities.Heart;
+import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
@@ -296,13 +296,13 @@ public class DropTest
             case "corner":
             case "sieve":
             case "tray":
-                addPlatform(platformName, DebugMeshNormals.Facet, topY);
+                addPlatform(platformName, MeshNormals.Facet, topY);
                 break;
 
             case "candyDish":
             case "dimples":
             case "smooth":
-                addPlatform(platformName, DebugMeshNormals.Smooth, topY);
+                addPlatform(platformName, MeshNormals.Smooth, topY);
                 break;
 
             case "trampoline":
@@ -794,7 +794,7 @@ public class DropTest
             softBody.setNodeMass(nodeI, PhysicsBody.massForStatic);
         }
 
-        softBody.setDebugMeshNormals(DebugMeshNormals.Smooth);
+        softBody.setDebugMeshNormals(MeshNormals.Smooth);
         softBody.setMargin(1f);
         softBody.setMass(100f);
 
