@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.bullet.CollisionSpace;
+import com.jme3.bullet.DeformableSpace;
 import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.MultiBodyLink;
 import com.jme3.bullet.MultiBodySpace;
@@ -36,6 +37,7 @@ import com.jme3.bullet.RayTestFlag;
 import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.SolverInfo;
+import com.jme3.bullet.SolverType;
 import com.jme3.bullet.collision.Activation;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.Box2dShape;
@@ -166,6 +168,12 @@ public class TestDefaults {
                 new Vector3f(10000f, 10000f, 10000f),
                 PhysicsSpace.BroadphaseType.DBVT);
         testPhysicsSpace(space);
+
+        DeformableSpace dSpace = new DeformableSpace(
+                new Vector3f(-10000f, -10000f, -10000f),
+                new Vector3f(10000f, 10000f, 10000f),
+                PhysicsSpace.BroadphaseType.AXIS_SWEEP_3, SolverType.SI);
+        testPhysicsSpace(mbSpace);
 
         testShapes();
         // TODO GhostControl, CharacterControl, VehicleControl
@@ -709,6 +717,21 @@ public class TestDefaults {
         if (space instanceof MultiBodySpace) {
             MultiBodySpace mbSpace = (MultiBodySpace) space;
             Assert.assertEquals(0, mbSpace.countMultiBodies());
+
+            if (space instanceof DeformableSpace) {
+                DeformableSpace dSpace = (DeformableSpace) space;
+                Assert.assertEquals(0, dSpace.countSoftBodies());
+
+                SoftBodyWorldInfo sbwi = dSpace.getWorldInfo();
+                Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
+                MinieTest.assertEquals(
+                        0f, -9.81f, 0f, sbwi.copyGravity(null), 0f);
+                Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
+                Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
+                MinieTest.assertEquals(
+                        0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
+                Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
+            }
 
         } else if (space instanceof PhysicsSoftSpace) {
             PhysicsSoftSpace softSpace = (PhysicsSoftSpace) space;
