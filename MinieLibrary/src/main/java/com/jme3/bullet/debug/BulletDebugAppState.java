@@ -32,8 +32,7 @@
 package com.jme3.bullet.debug;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.AbstractAppState;
-import com.jme3.app.state.AppStateManager;
+import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -72,7 +71,7 @@ import jme3utilities.math.MyMath;
  *
  * @author normenhansen
  */
-public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
+public class BulletDebugAppState extends BaseAppState {
     // *************************************************************************
     // constants and loggers
 
@@ -671,7 +670,7 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
         updateVelocityVectors();
     }
     // *************************************************************************
-    // AbstractAppState methods
+    // BaseAppState methods
 
     /**
      * Transition this state from terminating to detached. Should be invoked
@@ -680,27 +679,22 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
      * Invoked once for each time {@link #initialize(
      * com.jme3.app.state.AppStateManager, com.jme3.app.Application)} is
      * invoked.
+     *
+     * @param app the application which owns this state (not null)
      */
     @Override
-    public void cleanup() {
-        ViewPort[] viewPorts = configuration.listViewPorts();
-        for (ViewPort viewPort : viewPorts) {
-            viewPort.detachScene(root);
-        }
-        super.cleanup();
+    protected void cleanup(Application app) {
+        // do nothing
     }
 
     /**
      * Initialize this state prior to its first update. Should be invoked only
      * by a subclass or by the AppStateManager.
      *
-     * @param stateManager the manager for this state (not null)
      * @param app the application which owns this state (not null)
      */
     @Override
-    public void initialize(AppStateManager stateManager, Application app) {
-        super.initialize(stateManager, app);
-
+    public void initialize(Application app) {
         assetManager = app.getAssetManager();
         setupMaterials(assetManager);
 
@@ -709,13 +703,30 @@ public class BulletDebugAppState extends AbstractAppState { // TODO BaseAppState
             listener.bulletDebugInit(root);
         }
 
+        RenderQueue.ShadowMode mode = configuration.shadowMode();
+        root.setShadowMode(mode);
+    }
+
+    /**
+     * Transition this state from enabled to disabled.
+     */
+    @Override
+    protected void onDisable() {
+        ViewPort[] viewPorts = configuration.listViewPorts();
+        for (ViewPort viewPort : viewPorts) {
+            viewPort.detachScene(root);
+        }
+    }
+
+    /**
+     * Transition this state from disabled to enabled.
+     */
+    @Override
+    protected void onEnable() {
         ViewPort[] viewPorts = configuration.listViewPorts();
         for (ViewPort viewPort : viewPorts) {
             viewPort.attachScene(root);
         }
-
-        RenderQueue.ShadowMode mode = configuration.shadowMode();
-        root.setShadowMode(mode);
     }
 
     /**
