@@ -412,8 +412,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isWorldInfoProtected()" class="member-name-link">isWorldInfoProtected</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether this body's world info should be replaced by
- PhysicsSoftSpace.</div>
+<div class="block">Test whether this body's world info should be replaced when added to a
+ space.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -516,8 +516,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMass(float)" class="member-name-link">setMass</a><wbr>(float&nbsp;totalMass)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the total mass for this body, distributing it based on the current
- mass of each node.</div>
+<div class="block">Alter the total mass for this body, distributing it in proportion to the
+ current mass of each node.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMassByArea(float)" class="member-name-link">setMassByArea</a><wbr>(float&nbsp;totalMass)</code></div>
@@ -574,7 +574,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setProtectWorldInfo(boolean)" class="member-name-link">setProtectWorldInfo</a><wbr>(boolean&nbsp;newState)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter whether this body's world info should be replaced when the body
- gets added to a PhysicsSoftSpace.</div>
+ gets added to a space.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRestingLengthScale(float)" class="member-name-link">setRestingLengthScale</a><wbr>(float&nbsp;scale)</code></div>
@@ -1199,8 +1199,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isWorldInfoProtected()">
 <h3>isWorldInfoProtected</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isWorldInfoProtected</span>()</div>
-<div class="block">Test whether this body's world info should be replaced by
- PhysicsSoftSpace.</div>
+<div class="block">Test whether this body's world info should be replaced when added to a
+ space.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>false if the info should be replaced, true if it should be
@@ -1471,7 +1471,7 @@ loadScripts(document, 'script');</script>
 <h3>setProtectWorldInfo</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setProtectWorldInfo</span><wbr><span class="parameters">(boolean&nbsp;newState)</span></div>
 <div class="block">Alter whether this body's world info should be replaced when the body
- gets added to a PhysicsSoftSpace.</div>
+ gets added to a space.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>newState</code> - true to preserve the world info, false to allow it to be
@@ -1554,8 +1554,8 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setWorldInfo</span><wbr><span class="parameters">(<a href="../SoftBodyWorldInfo.html" title="class in com.jme3.bullet">SoftBodyWorldInfo</a>&nbsp;worldInfo)</span></div>
 <div class="block">Replace the world info of this body.
  <p>
- Invoke this method <em>after</em> adding the body to a PhysicsSoftSpace.
- Adding a body to a PhysicsSoftSpace may replace its world info.</div>
+ Invoke this method <em>after</em> adding the body to a space. Adding a
+ body to a space may replace its world info.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>worldInfo</code> - the desired SoftBodyWorldInfo (not null, alias created)</dd>
@@ -1793,8 +1793,8 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setGravity</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;acceleration)</span></div>
 <div class="block">Alter this body's gravitational acceleration.
  <p>
- Invoke this method <em>after</em> adding the body to a PhysicsSoftSpace.
- Adding a body to a PhysicsSoftSpace may override its gravity.</div>
+ Invoke this method <em>after</em> adding the body to a space. Adding a
+ body to a space may override its gravity.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="PhysicsBody.html#setGravity(com.jme3.math.Vector3f)">setGravity</a></code>&nbsp;in class&nbsp;<code><a href="PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></dd>
@@ -1808,8 +1808,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setMass(float)">
 <h3>setMass</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMass</span><wbr><span class="parameters">(float&nbsp;totalMass)</span></div>
-<div class="block">Alter the total mass for this body, distributing it based on the current
- mass of each node.</div>
+<div class="block">Alter the total mass for this body, distributing it in proportion to the
+ current mass of each node.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="PhysicsBody.html#setMass(float)">setMass</a></code>&nbsp;in class&nbsp;<code><a href="PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></dd>

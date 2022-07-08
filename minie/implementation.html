@@ -334,7 +334,7 @@ to access their objects and methods.</p>
 </div>
 <div class="paragraph">
 <p>All C&#43;&#43; source code associated with Minie
-(including JNI "glue code" and a modified snapshot of Bullet)
+(including a modified partial snapshot of Bullet, a snapshot of V-HACD, and some "glue code")
 resides in <a href="https://github.com/stephengold/Libbulletjme">the Libbulletjme repository</a>.
 Before instantiating physics objects,
 a Minie application must <a href="https://en.wikipedia.org/wiki/Dynamic_loading">dynamically load</a>
@@ -361,6 +361,19 @@ for the 13 platforms Minie supports:</p>
 <p>Android (armeabi-v7a, arm64-v8a, x86, and x86_64).</p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+32-bit and 64-bit versions of the same operating system
+count as distinct platforms!
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>On desktop platforms, JMonkeyEngine automatically loads
