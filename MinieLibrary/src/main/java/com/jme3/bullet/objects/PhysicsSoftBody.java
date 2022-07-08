@@ -1305,7 +1305,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     public void setWorldInfo(SoftBodyWorldInfo worldInfo) {
         if (!isInWorld()) {
-            logger2.warning("The body is not in any PhysicsSoftSpace.");
+            logger2.warning("The body is not in any space.");
         }
 
         long objectId = nativeId();
