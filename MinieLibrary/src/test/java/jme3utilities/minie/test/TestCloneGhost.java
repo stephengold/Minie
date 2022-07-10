@@ -39,6 +39,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
+import jme3utilities.math.MyQuaternion;
 import org.junit.Test;
 
 /**
@@ -133,7 +134,7 @@ public class TestCloneGhost {
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
-        orient.normalizeLocal();
+        MyQuaternion.normalizeLocal(orient);
         Matrix3f matrix = orient.toRotationMatrix();
         pgo.setPhysicsRotation(matrix);
 
@@ -176,7 +177,7 @@ public class TestCloneGhost {
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
-        orient.normalizeLocal();
+        MyQuaternion.normalizeLocal(orient);
         Matrix3f matrix = orient.toRotationMatrix();
         Matrix3f m = pgo.getPhysicsRotationMatrix(null);
         assert m.equals(matrix);

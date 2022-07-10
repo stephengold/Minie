@@ -53,6 +53,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
+import jme3utilities.math.MyQuaternion;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -279,7 +280,7 @@ public class TestCloneBody {
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
-        orient.normalizeLocal();
+        MyQuaternion.normalizeLocal(orient);
         Matrix3f matrix = orient.toRotationMatrix();
         body.setPhysicsRotation(matrix);
 
@@ -411,7 +412,7 @@ public class TestCloneBody {
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
-        orient.normalizeLocal();
+        MyQuaternion.normalizeLocal(orient);
         Matrix3f matrix = orient.toRotationMatrix();
         Matrix3f m = body.getPhysicsRotationMatrix(null);
         assert m.equals(matrix);

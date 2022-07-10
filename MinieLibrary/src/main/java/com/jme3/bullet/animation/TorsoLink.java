@@ -442,7 +442,7 @@ public class TorsoLink extends PhysicsLink {
                  */
                 Transform start = startBoneTransforms[managedIndex]; // alias
                 Quaternion startQuat = start.getRotation(); // alias
-                startQuat.normalizeLocal();
+                MyQuaternion.normalizeLocal(startQuat);
                 Quaternion endQuat = transform.getRotation(); // alias
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
