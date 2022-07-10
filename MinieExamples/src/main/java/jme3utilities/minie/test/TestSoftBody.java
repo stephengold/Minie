@@ -600,7 +600,7 @@ public class TestSoftBody
         SoftBodyConfig config = flagPsb.getSoftConfig();
         config.set(Sbcp.Damping, 0.01f);
         config.set(Sbcp.Drag, 0.5f);
-        config.set(Sbcp.Lift, 1);
+        config.set(Sbcp.Lift, 1f);
         config.setAerodynamics(Aero.F_TwoSidedLiftDrag);
         config.setPositionIterations(3);
 

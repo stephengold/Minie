@@ -1493,14 +1493,14 @@ public class DacLinks
         }
 
         Bone bone = null;
-        Joint joint = null;
+        Joint armatureJoint = null;
         Transform boneToMesh;
         if (skeleton != null) {
             bone = findBone(boneName);
             boneToMesh = MySkeleton.copyMeshTransform(bone, null);
         } else {
-            joint = findArmatureJoint(boneName);
-            boneToMesh = joint.getModelTransform();
+            armatureJoint = findArmatureJoint(boneName);
+            boneToMesh = armatureJoint.getModelTransform();
         }
         Transform meshToBone = boneToMesh.invert();
         LinkConfig linkConfig = config(boneName);
@@ -1514,16 +1514,17 @@ public class DacLinks
             center = centerHeuristic.center(vertexLocations, null);
             center.subtractLocal(boneToMesh.getTranslation());
         }
-        CollisionShape shape;
-        shape = linkConfig.createShape(meshToBone, center, vertexLocations);
+        CollisionShape shape
+                = linkConfig.createShape(meshToBone, center, vertexLocations);
 
         meshToBone.getTranslation().zero();
         Vector3f offset = meshToBone.transformVector(center, null);
+    
         BoneLink link;
         if (skeleton != null) {
             link = new BoneLink(this, bone, shape, linkConfig, offset);
         } else {
-            link = new BoneLink(this, joint, shape, linkConfig, offset);
+            link = new BoneLink(this, armatureJoint, shape, linkConfig, offset);
         }
         boneLinks.put(boneName, link);
     }
@@ -1562,8 +1563,8 @@ public class DacLinks
         assert centerHeuristic != CenterHeuristic.Joint;
         Vector3f center = centerHeuristic.center(vertexLocations, null);
         center.subtractLocal(boneToMesh.getTranslation());
-        CollisionShape shape = linkConfig.createShape(meshToBone, center,
-                vertexLocations);
+        CollisionShape shape
+                = linkConfig.createShape(meshToBone, center, vertexLocations);
 
         meshToBone.getTranslation().zero();
         Vector3f offset = meshToBone.transformVector(center, null);
@@ -1579,11 +1580,11 @@ public class DacLinks
         }
 
         if (skeleton != null) {
-            torsoLink = new TorsoLink(this, bone, shape, linkConfig,
+            this.torsoLink = new TorsoLink(this, bone, shape, linkConfig,
                     meshToModel, offset);
         } else {
-            torsoLink = new TorsoLink(this, armatureJoint, shape, linkConfig,
-                    meshToModel, offset);
+            this.torsoLink = new TorsoLink(this, armatureJoint, shape,
+                    linkConfig, meshToModel, offset);
         }
     }
 

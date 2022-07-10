@@ -70,7 +70,7 @@ class BombControl
     // *************************************************************************
     // fields
 
-    private float curTime = -1.0f;
+    private float curTime = -1f;
     private float timer;
     private ParticleEmitter effect;
     private PhysicsGhostObject ghostObject;

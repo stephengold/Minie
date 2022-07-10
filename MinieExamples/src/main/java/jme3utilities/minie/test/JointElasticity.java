@@ -340,8 +340,8 @@ public class JointElasticity extends PhysicsDemo {
         flyCam.setMoveSpeed(10f);
         flyCam.setZoomSpeed(10f);
 
-        cam.setLocation(new Vector3f(0.0f, 8.8f, 6.2f));
-        cam.setRotation(new Quaternion(0.0f, 0.9f, -0.43589f, 0.0f));
+        cam.setLocation(new Vector3f(0f, 8.8f, 6.2f));
+        cam.setRotation(new Quaternion(0f, 0.9f, -0.43589f, 0f));
 
         AppState orbitState = new CameraOrbitAppState(cam,
                 signalOrbitRight, signalOrbitLeft);
@@ -384,8 +384,8 @@ public class JointElasticity extends PhysicsDemo {
         Vector3f pivotInWorld = new Vector3f(doorHalfWidth, 0f, 0f);
         HingeJoint joint = new HingeJoint(doorBody, pivotInDoor, pivotInWorld,
                 Vector3f.UNIT_Y, Vector3f.UNIT_Y, JointEnd.B);
-        float lowAngle = 0;
-        float highAngle = 0;
+        float lowAngle = 0f;
+        float highAngle = 0f;
         joint.setLimit(lowAngle, highAngle); // disable rotation
         addJoint(joint);
 

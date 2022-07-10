@@ -416,8 +416,7 @@ public class TorsoLink extends PhysicsLink {
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             switch (submode) {
                 case Amputated:
-                    int boneIndex;
-                    boneIndex = boneIndex(managedIndex);
+                    int boneIndex = boneIndex(managedIndex);
                     getControl().copyBindTransform(boneIndex, transform);
                     transform.setScale(0.001f);
                     break;

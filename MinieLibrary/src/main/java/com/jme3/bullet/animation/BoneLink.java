@@ -746,7 +746,8 @@ public class BoneLink extends PhysicsLink {
             MySkeleton.copyLocalTransform(managed, result);
         } else {
             Joint managed = managedArmatureJoints[managedIndex];
-            result.set(managed.getLocalTransform());
+            Transform local = managed.getLocalTransform(); // alias
+            result.set(local);
         }
 
         return result;
