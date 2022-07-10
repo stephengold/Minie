@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -132,6 +132,7 @@ public class BoneLink extends PhysicsLink {
      * No-argument constructor needed by SavableClassUtil.
      */
     protected BoneLink() {
+        // do nothing
     }
 
     /**
@@ -659,7 +660,7 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Immediately put this link into ragdoll mode. The control must be "ready"
+     * Immediately put this link into ragdoll mode. The control must be ready
      * for dynamic mode.
      */
     @Override

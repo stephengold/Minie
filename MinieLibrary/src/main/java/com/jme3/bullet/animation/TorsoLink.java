@@ -86,8 +86,8 @@ public class TorsoLink extends PhysicsLink {
     // fields
 
     /**
-     * bones managed by this link, in a pre-order, depth-first traversal of the
-     * Skeleton, or null for an Armature
+     * skeleton bones managed by this link, in a pre-order, depth-first
+     * traversal of the Skeleton, or null for an Armature
      */
     private Bone[] managedBones = null;
     /**
@@ -402,8 +402,8 @@ public class TorsoLink extends PhysicsLink {
              * For a smooth transition, blend the saved model transform
              * (from the start of the blend interval) into the goal transform.
              */
-            Quaternion startQuat = startModelTransform.getRotation();
-            Quaternion endQuat = endModelTransform.getRotation();
+            Quaternion startQuat = startModelTransform.getRotation(); // alias
+            Quaternion endQuat = endModelTransform.getRotation(); // alias
             if (startQuat.dot(endQuat) < 0f) {
                 endQuat.multLocal(-1f);
             }
@@ -441,10 +441,10 @@ public class TorsoLink extends PhysicsLink {
                  * (from the start of the blend interval)
                  * into the goal transform.
                  */
-                Transform start = startBoneTransforms[managedIndex];
-                Quaternion startQuat = start.getRotation();
+                Transform start = startBoneTransforms[managedIndex]; // alias
+                Quaternion startQuat = start.getRotation(); // alias
                 startQuat.normalizeLocal();
-                Quaternion endQuat = transform.getRotation();
+                Quaternion endQuat = transform.getRotation(); // alias
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
                 }
@@ -686,7 +686,7 @@ public class TorsoLink extends PhysicsLink {
         Quaternion orientation = result.getRotation();
         Vector3f scale = result.getScale();
 
-        // Start with the rigid body's Transform relative to world coordinates.
+        // Start with the rigid body's transform in physics/world coordinates.
         getRigidBody().getTransform(result);
 
         // Convert to mesh coordinates.

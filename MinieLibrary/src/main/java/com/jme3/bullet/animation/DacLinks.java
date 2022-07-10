@@ -1556,6 +1556,8 @@ public class DacLinks
         }
         Transform meshToBone = boneToMesh.invert();
         LinkConfig linkConfig = config(torsoName);
+
+        // Create the CollisionShape and locate the center of mass.
         CenterHeuristic centerHeuristic = linkConfig.centerHeuristic();
         assert centerHeuristic != CenterHeuristic.Joint;
         Vector3f center = centerHeuristic.center(vertexLocations, null);
