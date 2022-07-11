@@ -44,6 +44,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -325,9 +326,12 @@ public class TorsoLink extends PhysicsLink {
      */
     @Override
     protected void dynamicUpdate() {
+        DacLinks control = getControl();
+        Spatial spatial = control.getSpatial();
+        Node parent = spatial.getParent();
+
         // Calculate the inverse world transform of the model's parent node.
         Transform worldToParent;
-        Node parent = getControl().getSpatial().getParent();
         if (parent == null) {
             worldToParent = new Transform();
         } else {
@@ -339,11 +343,11 @@ public class TorsoLink extends PhysicsLink {
         Transform shapeToWorld = getRigidBody().getTransform(null);
         transform.combineWithParent(shapeToWorld);
         transform.combineWithParent(worldToParent);
-        getControl().getSpatial().setLocalTransform(transform);
+        spatial.setLocalTransform(transform);
 
         localBoneTransform(transform);
         if (managedBones != null) {
-            Bone[] roots = getControl().getSkeleton().getRoots();
+            Bone[] roots = control.getSkeleton().getRoots();
             for (Bone root : roots) {
                 MySkeleton.setLocalTransform(root, transform);
             }
@@ -351,7 +355,7 @@ public class TorsoLink extends PhysicsLink {
                 managed.updateModelTransforms();
             }
         } else {
-            Joint[] roots = getControl().getArmature().getRoots();
+            Joint[] roots = control.getArmature().getRoots();
             for (Joint root : roots) {
                 root.setLocalTransform(transform);
             }
