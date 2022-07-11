@@ -357,7 +357,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
             int numAnimations = nameCollection.size();
             String[] nameArray = new String[numAnimations];
             nameCollection.toArray(nameArray);
-            String animationName = (String) generator.pick(nameArray);
+            String animationName = generator.pick(nameArray);
             if (animationName == null) {
                 return;
             }
@@ -382,7 +382,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
             int numClips = clips.size();
             AnimClip[] clipArray = new AnimClip[numClips];
             clips.toArray(clipArray);
-            AnimClip clip = (AnimClip) generator.pick(clipArray);
+            AnimClip clip = generator.pick(clipArray);
             if (clip == null) {
                 return;
             }
