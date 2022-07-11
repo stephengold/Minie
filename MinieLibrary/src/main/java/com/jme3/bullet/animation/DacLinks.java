@@ -1169,6 +1169,23 @@ public class DacLinks
     }
 
     /**
+     * Specify the main bone.
+     *
+     * @param boneName the name of the desired bone, or null to determine the
+     * main bone heuristically when the control is added to a spatial
+     */
+    @Override
+    public void setMainBoneName(String boneName) {
+        Spatial controlledSpatial = getSpatial();
+        if (controlledSpatial != null) {
+            throw new IllegalStateException("Cannot change the main bone once "
+                    + "the Control is added to a Spatial.");
+        }
+
+        super.setMainBoneName(boneName);
+    }
+
+    /**
      * Alter the mass of the named bone/torso.
      *
      * @param boneName the name of the bone, or torsoName (not null)
@@ -1545,14 +1562,35 @@ public class DacLinks
         // Create the CollisionShape.
         Bone bone = null;
         Joint armatureJoint = null;
+        String mainBoneName = mainBoneName();
         Transform boneToMesh;
         if (skeleton != null) {
-            bone = RagUtils.findMainBone(skeleton, meshes);
-            assert bone.getParent() == null;
+            if (mainBoneName == null) {
+                bone = RagUtils.findMainBone(skeleton, meshes);
+                assert bone.getParent() == null;
+                mainBoneName = bone.getName();
+                super.setMainBoneName(mainBoneName);
+            } else {
+                bone = skeleton.getBone(mainBoneName);
+                if (bone == null) {
+                    String q = MyString.quote(mainBoneName);
+                    throw new IllegalStateException("Bone not found: " + q);
+                }
+            }
             boneToMesh = MySkeleton.copyMeshTransform(bone, null);
         } else {
-            armatureJoint = RagUtils.findMainJoint(armature, meshes);
-            assert armatureJoint.getParent() == null;
+            if (mainBoneName == null) {
+                armatureJoint = RagUtils.findMainJoint(armature, meshes);
+                assert armatureJoint.getParent() == null;
+                mainBoneName = armatureJoint.getName();
+                super.setMainBoneName(mainBoneName);
+            } else {
+                armatureJoint = armature.getJoint(mainBoneName);
+                if (armatureJoint == null) {
+                    String q = MyString.quote(mainBoneName);
+                    throw new IllegalStateException("Joint not found: " + q);
+                }
+            }
             boneToMesh = armatureJoint.getModelTransform();
         }
         Transform meshToBone = boneToMesh.invert();

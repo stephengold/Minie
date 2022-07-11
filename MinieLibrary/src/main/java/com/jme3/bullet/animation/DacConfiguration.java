@@ -85,6 +85,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     final private static String tagIgnoredHops = "ignoredHops";
     final private static String tagLinkedBoneJoints = "linkedBoneJoints";
     final private static String tagLinkedBoneNames = "linkedBoneNames";
+    final private static String tagMainBoneName = "mainBoneName";
     final private static String tagRelativeTolerance = "relativeTolerance";
     final private static String tagTorsoConfig = "torsoConfig";
     /**
@@ -133,6 +134,10 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * map attachment bone names to models for createSpatialData()
      */
     private Map<String, Spatial> attachModelMap = new HashMap<>(5);
+    /**
+     * name of the main bone, or null if it hasn't been determined yet
+     */
+    private String mainBoneName = null;
     /**
      * gravitational acceleration vector for ragdolls
      */
@@ -519,6 +524,16 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
+     * Return the name of the main bone.
+     *
+     * @return the name of the bone, or null if the main bone hasn't been
+     * determined yet
+     */
+    public String mainBoneName() {
+        return mainBoneName;
+    }
+
+    /**
      * Read the mass of the named bone/torso.
      *
      * @param boneName the name of the bone/torso (not null)
@@ -661,6 +676,16 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         }
 
         jointMap.put(boneName, rom);
+    }
+
+    /**
+     * Specify the main bone.
+     *
+     * @param boneName the name of the desired bone, or null to determine the
+     * main bone heuristically when the control is added to a spatial
+     */
+    public void setMainBoneName(String boneName) {
+        this.mainBoneName = boneName;
     }
 
     /**
@@ -925,6 +950,8 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             blConfigMap.put(boneName, (LinkConfig) blConfigs[i]);
         }
 
+        mainBoneName = capsule.readString(tagMainBoneName, null);
+
         attachModelMap.clear();
         alConfigMap.clear();
         String[] attachBoneNames
@@ -990,6 +1017,8 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         capsule.write(linkedBoneNames, tagLinkedBoneNames, null);
         capsule.write(roms, tagLinkedBoneJoints, null);
         capsule.write(blConfigs, tagBlConfigs, null);
+
+        capsule.write(mainBoneName, tagMainBoneName, null);
 
         count = countAttachments();
         String[] attachBoneNames = new String[count];
