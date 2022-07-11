@@ -66,6 +66,7 @@ public class PuppetControl
                 CenterHeuristic.Mean, RotationOrder.XYZ);
 
         super.setConfig(torsoName, hull);
+        super.setMainBoneName("hips");
 
         super.link("spine", hull,
                 new RangeOfMotion(0f, -1f, 0.7f, -0.7f, 0.7f, -0.7f));
