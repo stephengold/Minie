@@ -131,7 +131,7 @@ class FilePathScreen extends GuiScreenController {
      *
      * @return "" if ready to proceed, otherwise an explanatory message
      */
-    String feedback() {
+    static String feedback() {
         Model model = DacWizard.getModel();
         String filePath = model.filePath();
 
@@ -292,7 +292,8 @@ class FilePathScreen extends GuiScreenController {
      * @param dirPath the file-system path to the directory (not null)
      * @param namePrefix required name prefix (not null)
      */
-    private Map<String, File> directoryMap(String dirPath, String namePrefix) {
+    private static Map<String, File> directoryMap(
+            String dirPath, String namePrefix) {
         assert dirPath != null;
         assert namePrefix != null;
 
