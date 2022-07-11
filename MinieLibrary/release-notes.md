@@ -1,5 +1,65 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 5.0.0 released on TBD
+
++ Replaced the "ano" build with "droid" build that includes Java classes.
++ Changes to the library API:
+  + Replaced the `DebugMeshNormals` enum with `MeshNormals` (from Heart).
+  + Protected the no-arg constructors of the `DacConfiguration`
+    and `DacLinks` classes.
+  + Protected the public constructors of 3 classes:
+    + `AbstractPhysicsDebugControl`
+    + `IKController`
+    + `SoftPhysicsJoint`
+  + Qualified 17 utility classes as `final`.
+  + Removed the `static` qualifier from the protected `createWireMaterial()`
+    method of the `BulletDebugAppState` class.
+  + Deleted the deprecated `setContractCalcArea3Points()`
+    method of the `PhysicsCollisionEvent` class.
+
++ Library bugfixes:
+  + `PhysicsCharacter.onGround()` is unreliable (stephengold/Libbuletjme#18)
+  + `TorsoLink` continues writing the model transform
+     after a blend to kinematic completes
+  + `DynamicAnimControl` rebuilds the ragdoll for minute changes to bone scaling
+  + `TorsoLink` plays some bone animations, even in dynamic mode
+  + outdated constant values in `ConfigFlag`
+  + `DynamicAnimControl` is still marked "ready"
+    after removal from the `PhysicsSpace`
+  + `DebugMeshCallback.maxDistance()` modifies the vertex list
+  + `ConfigFlag.describe()` ignores 3 flags
+
++ Other library improvements:
+  + Warn if the native library version differs from the expected version.
+  + Throw an exception in `AbstractPhysicsControl.jmeClone()`
+    if the control is added to a `PhysicsSpace`.
+  + Add capability to specify the main bone of a ragdoll,
+    which needn't be a root bone.
+  + Added accessors for global deactivation settings:
+    + `PhysicsBody.getDeactivationDeadline()`
+    + `PhysicsBody.isDeactivationEnabled()`
+    + `PhysicsBody.setDeactivationDeadline()`
+    + `PhysicsBody.setDeactivationEnabled()`
+  + Added debug visualizations of rigid-body angular velocities
+    and soft-body wind velocities.
+  + Added a "relative tolerance" parameter to `DynamicAnimControl`.
+  + Reimplemented `BulletDebugAppState` using `BaseAppState`.
+  + Added the `DeformableSpace` class that supports both multibodies
+    and soft bodies.
+  + Added `SDF_MDF` and `SDF_RDN` bitmasks to `ConfigFlag`.
+
++ Added the `Pachinko` and `Windlass` apps to MinieExamples.
++ Added the `HelloGhost` and `HelloWind` apps to TutorialApps.
++ Updated the project URL in the POM.
++ Added 10 "package-info.java" files.
++ Based on:
+  + v8.0.0 of the Heart library,
+  + v0.7.2 of the Wes library,
+  + v0.9.16 of the Acorus library, and
+  + v0.9.30 of the jme3-utilities-nifty library.
++ Updated the native libraries to v15.2.1 of Libbulletjme.
++ Added the "checkstyle" plugin to the build.
+
 ## Version 4.9.0 released on 2 May 2022
 
 + Eliminated the last dependency on JCenter!

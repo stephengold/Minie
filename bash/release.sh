@@ -2,13 +2,13 @@
 
 set -e
 
-V=4.9.0
+V=5.0.0
 D=/home/sgold/Releases/Minie/$V
 mkdir $D
 
 ./gradlew clean release
 cp MinieLibrary/build/libs/*.{jar,module,pom} $D
-// Note: the -javadoc.jar and -sources.jar are copied just once!
+# Note: the -javadoc.jar and -sources.jar are copied just once!
 
 ./gradlew clean release -Pbare
 cp MinieLibrary/build/libs/*bare.{jar,module,pom} $D
