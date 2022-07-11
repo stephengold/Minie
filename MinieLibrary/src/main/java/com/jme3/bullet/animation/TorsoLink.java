@@ -345,7 +345,14 @@ public class TorsoLink extends PhysicsLink {
         transform.combineWithParent(worldToParent);
         spatial.setLocalTransform(transform);
 
-        // Set the local transform of the main bone and update.
+        // Disable bone animations, if any.
+        int numManaged = countManaged();
+        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
+            Transform t = prevBoneTransforms[managedIndex];
+            setManagedTransform(managedIndex, t);
+        }
+
+        // Override the local transform of the main bone and update.
         localBoneTransform(transform);
         if (managedBones != null) {
             MySkeleton.setLocalTransform(getBone(), transform);
