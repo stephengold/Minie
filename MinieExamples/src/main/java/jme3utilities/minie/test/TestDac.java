@@ -96,6 +96,7 @@ import jme3utilities.minie.test.tunings.NinjaControl;
 import jme3utilities.minie.test.tunings.OtoControl;
 import jme3utilities.minie.test.tunings.PuppetControl;
 import jme3utilities.minie.test.tunings.SinbadControl;
+import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 import jme3utilities.wes.AnimationEdit;
@@ -225,6 +226,15 @@ public class TestDac extends PhysicsDemo {
 
         Application application = new TestDac();
         application.setSettings(settings);
+        /*
+         * Designate a sandbox directory.
+         * This has to be done *prior to* initialization.
+         */
+        try {
+            ActionApplication.designateSandbox("Written Assets");
+        } catch (IOException exception) {
+            // do nothing
+        }
         application.start();
     }
     // *************************************************************************
