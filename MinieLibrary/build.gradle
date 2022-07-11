@@ -36,7 +36,7 @@ ext {
             pdbWindows64 = 'DebugSp'
             metadata = 'debug' + jmeTarget
 
-        } else { // -Pbtdebug specified, but not -Pdp or -Ppdb64
+        } else { // -Pbtdebug specified, but not -Pdp nor -Ppdb64
             configureAndroidBtfs('DebugSp')
             configureDesktopBtfs('DebugSp')
             metadata = 'debug' + jmeTarget
@@ -75,7 +75,14 @@ ext {
         btfWindows64 = 'ReleaseSpMt'
         metadata = 'mt' + jmeTarget
 
-    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt specified
+    } else if (rootProject.hasProperty('droid')) {
+        // -Pdroid specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt
+
+        configureAndroidBtfs('ReleaseSp')
+        configureDesktopBtfs('')
+        metadata = 'droid' + jmeTarget
+
+    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt nor -Pdroid specified
 
         // Specify the BTF (buildType + flavor) of native library for each platform:
         // (Specify '' for no native library.)
