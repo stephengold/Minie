@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2021 jMonkeyEngine
+ * Copyright (c) 2009-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -278,16 +278,16 @@ public class TowerPerformance
     }
 
     private void shoot() {
-        Geometry bulletg = new Geometry("bullet", bullet);
-        bulletg.setMaterial(mat2);
-        bulletg.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-        bulletg.setLocalTranslation(cam.getLocation());
+        Geometry geometry = new Geometry("bullet", bullet);
+        geometry.setMaterial(mat2);
+        geometry.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        geometry.setLocalTranslation(cam.getLocation());
 
         RigidBodyControl bulletNode
                 = new BombControl(assetManager, bulletCollisionShape, 1f);
         bulletNode.setLinearVelocity(cam.getDirection().mult(25f));
-        bulletg.addControl(bulletNode);
-        rootNode.attachChild(bulletg);
+        geometry.addControl(bulletNode);
+        rootNode.attachChild(geometry);
         getPhysicsSpace().add(bulletNode);
 
         System.out.println("shoot");
