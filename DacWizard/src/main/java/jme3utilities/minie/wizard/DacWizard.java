@@ -380,7 +380,7 @@ public class DacWizard extends GuiApplication {
     /**
      * Toggle the skeleton visualizer on/off.
      */
-    void toggleSkeletonVisualizer() {
+    static void toggleSkeletonVisualizer() {
         DacWizard app = getApplication();
         SkeletonVisualizer sv = app.findSkeletonVisualizer();
         if (sv != null) {
@@ -550,7 +550,7 @@ public class DacWizard extends GuiApplication {
     /**
      * Configure the PhysicsDumper during startup.
      */
-    private void configureDumper() {
+    private static void configureDumper() {
         dumper.setEnabled(DumpFlags.CullHints, true);
         dumper.setEnabled(DumpFlags.JointsInBodies, true);
         dumper.setEnabled(DumpFlags.JointsInSpaces, true);
