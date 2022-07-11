@@ -75,15 +75,7 @@ ext {
         btfWindows64 = 'ReleaseSpMt'
         metadata = 'mt' + jmeTarget
 
-    } else if (rootProject.hasProperty('ano')) {
-        // -Pano specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt
-
-        configureAndroidBtfs('ReleaseSp')
-        configureDesktopBtfs('')
-        jarType = 'nativesOnly'
-        metadata = 'ano' + jmeTarget
-
-    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt not -Pano specified
+    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt specified
 
         // Specify the BTF (buildType + flavor) of native library for each platform:
         // (Specify '' for no native library.)

@@ -116,8 +116,6 @@ These include:
   with support for just the 3 main platforms (Linux64, MacOSX64, and Windows64).
 * A "+bare" build (created using the "-Pbare" option)
   which doesn't include *any* native libraries.
-* A "+ano" build (created using the "-Pano" option)
-  which contains native libraries for Android only --- *no* Java classes!
 
 === Further customization
 

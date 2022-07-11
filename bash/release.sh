@@ -9,9 +9,6 @@ mkdir $D
 ./gradlew clean release
 cp MinieLibrary/build/libs/*.{jar,module,pom} $D
 
-./gradlew clean release -Pano
-cp MinieLibrary/build/libs/*ano.{jar,module,pom} $D
-
 ./gradlew clean release -Pbare
 cp MinieLibrary/build/libs/*bare.{jar,module,pom} $D
 
