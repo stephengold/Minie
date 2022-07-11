@@ -486,12 +486,14 @@ public class BoneLink extends PhysicsLink {
     protected void dynamicUpdate() {
         assert !getRigidBody().isKinematic();
 
+        // Disable bone animations, if any.
         int numManaged = countManaged();
-        for (int managedI = 1; managedI < numManaged; ++managedI) {
-            Transform t = prevBoneTransforms[managedI];
-            setManagedTransform(managedI, t);
+        for (int managedIndex = 1; managedIndex < numManaged; ++managedIndex) {
+            Transform t = prevBoneTransforms[managedIndex];
+            setManagedTransform(managedIndex, t);
         }
 
+        // Override the local transform of the linked bone and update.
         Transform transform = localBoneTransform(null); // TODO garbage
         if (managedBones != null) {
             MySkeleton.setLocalTransform(getBone(), transform);
@@ -575,16 +577,16 @@ public class BoneLink extends PhysicsLink {
                  * (from the start of the blend interval)
                  * into the goal transform.
                  */
-                Transform start = startBoneTransforms[managedIndex];
-                Quaternion startQuat = start.getRotation();
-                Quaternion endQuat = transform.getRotation();
+                Transform start = startBoneTransforms[managedIndex]; // alias
+                Quaternion startQuat = start.getRotation(); // alias
+                Quaternion endQuat = transform.getRotation(); // alias
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
                 }
                 MyMath.slerp(kinematicWeight(),
                         startBoneTransforms[managedIndex], transform,
                         transform);
-                // TODO smarter sign flipping for bones
+                // TODO smarter sign flipping
             }
 
             // Update the managed bone.
