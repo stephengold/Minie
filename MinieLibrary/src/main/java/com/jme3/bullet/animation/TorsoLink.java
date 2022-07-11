@@ -697,6 +697,21 @@ public class TorsoLink extends PhysicsLink {
         // Convert to mesh coordinates.
         Transform worldToMesh = getControl().meshTransform(null).invert();
         result.combineWithParent(worldToMesh);
+        /*
+         * Convert to the bone's local coordinate system by factoring out the
+         * parent bone's transform, if any.
+         */
+        if (managedBones != null) {
+            Bone parent = getBone().getParent();
+            if (parent != null) {
+                RagUtils.meshToLocal(parent, result);
+            }
+        } else {
+            Joint parent = getArmatureJoint().getParent();
+            if (parent != null) {
+                RagUtils.meshToLocal(parent, result);
+            }
+        }
 
         // Subtract the body's local offset, rotated and scaled.
         Vector3f meshOffset = localOffset(null);
