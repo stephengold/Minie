@@ -94,7 +94,7 @@ public class TowerPerformance
     // *************************************************************************
     // new methods exposed
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         TowerPerformance f = new TowerPerformance();
         AppSettings s = new AppSettings(true);
         s.setAudioRenderer(null);
