@@ -438,8 +438,8 @@ public class Windlass
      *
      * @param cableRadius the radius of the cable (in physics-space units,
      * &gt;0)
-     * @return the an attachment point for the cable (a location vector in
-     * physics space)
+     * @return the attachment point for the cable (a location vector in physics
+     * space)
      */
     private Vector3f addBarrel(float cableRadius) {
         int axis = PhysicsSpace.AXIS_X;

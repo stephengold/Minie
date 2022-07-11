@@ -339,7 +339,7 @@ public class TorsoLink extends PhysicsLink {
             worldToParent = parentToWorld.invert();
         }
 
-        Transform transform = meshToModel.clone();
+        Transform transform = meshToModel.clone(); // TODO garbage
         Transform shapeToWorld = getRigidBody().getTransform(null);
         transform.combineWithParent(shapeToWorld);
         transform.combineWithParent(worldToParent);
@@ -687,9 +687,9 @@ public class TorsoLink extends PhysicsLink {
     private Transform localBoneTransform(Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
-        Vector3f location = result.getTranslation();
-        Quaternion orientation = result.getRotation();
-        Vector3f scale = result.getScale();
+        Vector3f location = result.getTranslation(); // alias
+        Quaternion orientation = result.getRotation(); // alias
+        Vector3f scale = result.getScale(); // alias
 
         // Start with the rigid body's transform in physics/world coordinates.
         getRigidBody().getTransform(result);

@@ -803,6 +803,7 @@ public class DacLinks
             MySkeleton.setUserControl(skeleton, false);
             skeleton.updateWorldVectors();
 
+            // Save the bind transform of each skeleton bone.
             bindTransforms = new Transform[numBones];
             for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
                 Bone bone = skeleton.getBone(jointIndex);
@@ -1536,7 +1537,7 @@ public class DacLinks
 
         meshToBone.getTranslation().zero();
         Vector3f offset = meshToBone.transformVector(center, null);
-    
+
         BoneLink link;
         if (skeleton != null) {
             link = new BoneLink(this, bone, shape, linkConfig, offset);
@@ -1578,6 +1579,7 @@ public class DacLinks
                 }
             }
             boneToMesh = MySkeleton.copyMeshTransform(bone, null);
+
         } else {
             if (mainBoneName == null) {
                 armatureJoint = RagUtils.findMainJoint(armature, meshes);
