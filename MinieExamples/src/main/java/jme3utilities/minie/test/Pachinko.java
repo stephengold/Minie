@@ -550,8 +550,7 @@ public class Pachinko
         playingField.setDebugMaterial(staticMaterial);
 
         addCollisionObject(playingField);
-
-        this.timeSinceAdded = addInterval;
+        timeSinceAdded = addInterval;
     }
 
     /**

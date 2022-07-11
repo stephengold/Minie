@@ -76,7 +76,7 @@ public class HelloDeactivation
         // Set up Bullet physics and create a physics space.
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        this.physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace = bulletAppState.getPhysicsSpace();
 
         // To enable the callbacks, register the application as a tick listener.
         physicsSpace.addTickListener(this);
