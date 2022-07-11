@@ -1087,7 +1087,7 @@ public class TestDac extends PhysicsDemo {
     /**
      * Save the specified model to a J3O or XML file.
      */
-    private void save(Spatial model, String assetPath) {
+    private static void save(Spatial model, String assetPath) {
         String filePath = filePath(assetPath);
         File file = new File(filePath);
 
