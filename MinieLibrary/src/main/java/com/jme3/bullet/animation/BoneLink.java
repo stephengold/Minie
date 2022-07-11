@@ -327,6 +327,7 @@ public class BoneLink extends PhysicsLink {
             result = managedArmatureJoints.length;
         }
 
+        assert result >= 1 : result;
         return result;
     }
 
