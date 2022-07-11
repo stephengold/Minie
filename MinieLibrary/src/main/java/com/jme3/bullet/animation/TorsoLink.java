@@ -345,20 +345,15 @@ public class TorsoLink extends PhysicsLink {
         transform.combineWithParent(worldToParent);
         spatial.setLocalTransform(transform);
 
+        // Set the local transform of the main bone and update.
         localBoneTransform(transform);
         if (managedBones != null) {
-            Bone[] roots = control.getSkeleton().getRoots();
-            for (Bone root : roots) {
-                MySkeleton.setLocalTransform(root, transform);
-            }
+            MySkeleton.setLocalTransform(getBone(), transform);
             for (Bone managed : managedBones) {
                 managed.updateModelTransforms();
             }
         } else {
-            Joint[] roots = control.getArmature().getRoots();
-            for (Joint root : roots) {
-                root.setLocalTransform(transform);
-            }
+            getArmatureJoint().setLocalTransform(transform);
             for (Joint managed : managedArmatureJoints) {
                 managed.updateModelTransforms();
             }
