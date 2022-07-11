@@ -68,7 +68,7 @@ import vhacd.VHACDParameters;
  *
  * @author normenhansen, tim8dev
  */
-public class CollisionShapeFactory {
+final public class CollisionShapeFactory {
     // *************************************************************************
     // constants and loggers
 

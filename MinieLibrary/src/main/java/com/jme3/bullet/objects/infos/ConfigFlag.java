@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  * @author Stephen Gold sgold@sonic.net
  * @see SoftBodyConfig#collisionFlags()
  */
-public class ConfigFlag {
+final public class ConfigFlag {
     // *************************************************************************
     // constants and loggers
 

@@ -42,7 +42,7 @@ import java.util.logging.Logger;
  * @author Stephen Gold sgold@sonic.net
  * @see com.jme3.bullet.CollisionSpace#getRayTestFlags()
  */
-public class RayTestFlag {
+final public class RayTestFlag {
     // *************************************************************************
     // constants and loggers
 

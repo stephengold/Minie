@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  * @author Stephen Gold sgold@sonic.net
  * @see com.jme3.bullet.SolverInfo#setMode(int)
  */
-public class SolverMode {
+final public class SolverMode {
     // *************************************************************************
     // constants and loggers
 

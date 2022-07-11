@@ -40,7 +40,7 @@ import jme3utilities.Validate;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MyPco {
+final public class MyPco {
     // *************************************************************************
     // constants and loggers
 

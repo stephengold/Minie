@@ -67,7 +67,7 @@ import jme3utilities.math.MyVector3f;
  *
  * @author CJ Hare, normenhansen
  */
-public class DebugShapeFactory {
+final public class DebugShapeFactory {
     // *************************************************************************
     // constants and loggers
 

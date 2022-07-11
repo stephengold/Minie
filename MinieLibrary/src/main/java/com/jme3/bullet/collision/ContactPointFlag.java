@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  * @see com.jme3.bullet.collision.ManifoldPoints#setFlags(long, int)
  * @see com.jme3.bullet.collision.PhysicsCollisionEvent#getFlags()
  */
-public class ContactPointFlag {
+final public class ContactPointFlag {
     // *************************************************************************
     // constants and loggers
 

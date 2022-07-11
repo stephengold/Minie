@@ -84,7 +84,7 @@ import jme3utilities.math.VectorSetUsingBuffer;
  *
  * Based on KinematicRagdollControl by Normen Hansen and Rémy Bouquet (Nehon).
  */
-public class RagUtils {
+final public class RagUtils {
     // *************************************************************************
     // constants and loggers
 

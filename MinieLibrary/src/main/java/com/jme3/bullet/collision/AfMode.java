@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  * @see PhysicsCollisionObject#setAnisotropicFriction(com.jme3.math.Vector3f,
  * int)
  */
-public class AfMode {
+final public class AfMode {
     // *************************************************************************
     // constants and loggers
 

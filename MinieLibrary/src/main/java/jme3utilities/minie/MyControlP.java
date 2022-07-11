@@ -49,7 +49,7 @@ import jme3utilities.Validate;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MyControlP {
+final public class MyControlP {
     // *************************************************************************
     // constants and loggers
 

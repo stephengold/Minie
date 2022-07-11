@@ -44,7 +44,7 @@ import jme3utilities.math.MyVector3f;
  * Utility class to perform Volumetric-Hierarchical Approximate Convex
  * Decomposition on an indexed mesh.
  */
-public class VHACD {
+final public class VHACD {
     // *************************************************************************
     // constants and loggers
 

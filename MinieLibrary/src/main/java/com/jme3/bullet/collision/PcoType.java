@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  * @author Stephen Gold sgold@sonic.net
  * @see PhysicsCollisionObject#getInternalType(long)
  */
-public class PcoType {
+final public class PcoType {
     // *************************************************************************
     // constants and loggers
 

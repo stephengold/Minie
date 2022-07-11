@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class NativeLibrary {
+final public class NativeLibrary {
     // *************************************************************************
     // constants and loggers
 

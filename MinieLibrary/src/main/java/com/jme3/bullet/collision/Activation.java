@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  * @author Stephen Gold sgold@sonic.net
  * @see PhysicsCollisionObject#getActivationState()
  */
-public class Activation {
+final public class Activation {
     // *************************************************************************
     // constants and loggers
 

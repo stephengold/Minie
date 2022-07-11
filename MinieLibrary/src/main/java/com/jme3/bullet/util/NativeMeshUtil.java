@@ -37,5 +37,5 @@ package com.jme3.bullet.util;
  *
  * @author normenhansen
  */
-public class NativeMeshUtil {
+final public class NativeMeshUtil {
 }
