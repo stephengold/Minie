@@ -78,11 +78,11 @@ public class HelloSpring
     /**
      * physics-space Y coordinate of the ground plane
      */
-    final private float groundY = -2f;
+    final private static float groundY = -2f;
     /**
      * half the height of the paddle (in physics-space units)
      */
-    final private float paddleHalfHeight = 1f;
+    final private static float paddleHalfHeight = 1f;
     // *************************************************************************
     // fields
 

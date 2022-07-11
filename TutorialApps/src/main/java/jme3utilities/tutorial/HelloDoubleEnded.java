@@ -77,11 +77,11 @@ public class HelloDoubleEnded
     /**
      * physics-space Y coordinate of the ground plane
      */
-    private final float groundY = -4f;
+    private final static float groundY = -4f;
     /**
      * half the height of the paddle (in physics-space units)
      */
-    private final float paddleHalfHeight = 1f;
+    private final static float paddleHalfHeight = 1f;
     // *************************************************************************
     // fields
 
