@@ -754,8 +754,7 @@ public class DacLinks
     @Override
     protected void createSpatialData(Spatial spatial) {
         RagUtils.validate(spatial);
-        int numDacs
-                = MySpatial.countControls(spatial, DynamicAnimControl.class);
+        int numDacs = MySpatial.countControls(spatial, DacLinks.class);
         if (numDacs > 1) {
             logger3.log(Level.WARNING, "Added a DynamicAnimControl to a model "
                     + "that already contains {0}.",
