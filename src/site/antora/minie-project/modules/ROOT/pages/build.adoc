@@ -33,7 +33,7 @@ Here's the recommended procedure:
 .. using Git:
 ... `git clone https://github.com/stephengold/Minie.git`
 ... `cd Minie`
-... `git checkout -b latest 4.9.0`
+... `git checkout -b latest 5.0.0`
 .. using a web browser:
 ... browse to https://github.com/stephengold/Minie/releases/latest
 ... follow the "Source code (zip)" link
@@ -116,6 +116,8 @@ These include:
   with support for just the 3 main platforms (Linux64, MacOSX64, and Windows64).
 * A "+bare" build (created using the "-Pbare" option)
   which doesn't include *any* native libraries.
+* A "+droid" build (created using the "-Pdroid" option)
+  with support for just the 4 Android platforms.
 
 === Further customization
 

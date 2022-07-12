@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 5.0.0 released on TBD
+## Version 5.0.0 released on 11 July 2022
 
 + Replaced the "ano" build with "droid" build that includes Java classes.
 + Changes to the library API:
