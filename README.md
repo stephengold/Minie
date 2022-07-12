@@ -366,10 +366,12 @@ artists and software developers:
 + plus the creators of (and contributors to) the following software:
     + the [Antora] static website generator
     + the [Blender] 3-D animation suite
+    + the [Checkstyle] tool
     + the [Bullet] real-time physics library
     + the [FindBugs] source-code analyzer
     + the [Firefox] and [Google Chrome][chrome] web browsers
     + the [Git] revision-control system and GitK commit viewer
+    + the [GitKraken] client
     + the [Gradle] build tool
     + the [IntelliJ IDEA][idea] and [NetBeans] integrated development environments
     + the [Java] compiler, standard doclet, and runtime environment
@@ -403,6 +405,7 @@ correct the situation: sgold@sonic.net
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
 [bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
+[checkstyle]: https://checkstyle.org "Checkstyle"
 [chrome]: https://www.google.com/chrome "Chrome"
 [dacwizard]: https://github.com/stephengold/Minie/tree/master/DacWizard "DacWizard Application"
 [dokthar]: https://github.com/dokthar/jmonkeyengine "Dokthar's fork of JMonkeyEngine"
@@ -411,6 +414,7 @@ correct the situation: sgold@sonic.net
 [firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
 [git]: https://git-scm.com "Git"
 [github]: https://github.com "GitHub"
+[gitkraken]: https://www.gitkraken.com "GitKraken client"
 [gltf]: https://www.khronos.org/gltf "glTF Project"
 [gradle]: https://gradle.org "Gradle Project"
 [heart]: https://github.com/stephengold/Heart "Heart Project"
