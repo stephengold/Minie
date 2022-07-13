@@ -680,27 +680,10 @@ If not, here is a snippet to guide you:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">SoftPhysicsAppState appState = new SoftPhysicsAppState();
-stateManager.attach(appState);
-PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the application doesn&#8217;t need soft bodies, you can instantiate
-a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> directly:</p>
-</div>
-<div class="listingblock">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BulletAppState appState = new BulletAppState();
 stateManager.attach(appState);
 PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>If the application needs multibodies, instantiate a
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/MultiBodyAppState.html"><code>MultiBodyAppState</code></a>.
-(Minie doesn&#8217;t yet support combining soft bodies and multibodies in
-a single physics space.)</p>
 </div>
 <div class="paragraph">
 <p>By default, the physics simulation runs on the render thread.
