@@ -69,6 +69,7 @@ public class JaimeControl
                 CenterHeuristic.Mean, RotationOrder.ZXY);
 
         super.setConfig(torsoName, hull);
+        super.setMainBoneName("pelvis");
 
         super.link("spine", hull,
                 new RangeOfMotion(1f));
