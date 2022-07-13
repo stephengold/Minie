@@ -197,9 +197,9 @@ You can override the no-normals default on a per-object basis:
 
 [source,java]
 ----
-collisionObject1.setDebugMeshNormals(DebugMeshNormals.Facet);
-collisionObject2.setDebugMeshNormals(DebugMeshNormals.Smooth);
-collisionObject3.setDebugMeshNormals(DebugMeshNormals.Sphere);
+collisionObject1.setDebugMeshNormals(MeshNormals.Facet);
+collisionObject2.setDebugMeshNormals(MeshNormals.Smooth);
+collisionObject3.setDebugMeshNormals(MeshNormals.Sphere);
 ----
 
 ==== Index buffers
