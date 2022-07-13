@@ -191,25 +191,10 @@ If not, here is a snippet to guide you:
 
 [source,java]
 ----
-SoftPhysicsAppState appState = new SoftPhysicsAppState();
-stateManager.attach(appState);
-PhysicsSoftSpace physicsSpace = appState.getPhysicsSoftSpace();
-----
-
-If the application doesn't need soft bodies, you can instantiate
-a {url-api}/BulletAppState.html[`BulletAppState`] directly:
-
-[source,java]
-----
 BulletAppState appState = new BulletAppState();
 stateManager.attach(appState);
 PhysicsSpace physicsSpace = appState.getPhysicsSpace();
 ----
-
-If the application needs multibodies, instantiate a
-{url-api}/MultiBodyAppState.html[`MultiBodyAppState`].
-(Minie doesn't yet support combining soft bodies and multibodies in
-a single physics space.)
 
 By default, the physics simulation runs on the render thread.
 To execute it on a dedicated thread, use:
