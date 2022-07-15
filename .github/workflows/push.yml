@@ -40,7 +40,7 @@ jobs:
 
   Java11-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-10.15
+    runs-on: macOS-11
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -73,7 +73,7 @@ jobs:
 
   Java17-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-11
+    runs-on: macOS-12
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
