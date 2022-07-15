@@ -239,15 +239,6 @@ the application can access immediately:
 PhysicsSpace space = bulletAppState.getPhysicsSpace();
 ----
 
-`SoftPhysicsAppState` instantiates a `PhysicsSoftSpace`, which is a subclass:
-
-[source,java]
-----
-PhysicsSoftSpace space = bulletAppState.getPhysicsSoftSpace();
-----
-
-and `MultiBodyAppState` instantiates a `MultiBodySpace`, another subclass.
-
 Physics simulation can run with a fixed time step or a variable time step.
 The default configuration is a fixed time step of 1/60th of a second
 with up to 4 time steps per frame.
