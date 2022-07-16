@@ -104,7 +104,7 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-Java18-Linux:
+  Java18-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-20.04
     steps:
