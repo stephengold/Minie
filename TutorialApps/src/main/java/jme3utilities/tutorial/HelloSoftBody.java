@@ -38,6 +38,7 @@ import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
+import com.jme3.material.Materials;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -137,8 +138,7 @@ public class HelloSoftBody extends SimpleApplication {
 
         geometry.move(0f, -halfExtent, 0f);
         ColorRGBA color = new ColorRGBA(0.1f, 0.4f, 0.1f, 1f);
-        Material material = new Material(assetManager,
-                "Common/MatDefs/Light/Lighting.j3md");
+        Material material = new Material(assetManager, Materials.LIGHTING);
         material.setBoolean("UseMaterialColors", true);
         material.setColor("Diffuse", color);
         geometry.setMaterial(material);
