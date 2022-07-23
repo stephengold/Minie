@@ -1195,19 +1195,6 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Describe the specified half extents. TODO use Describer
-     *
-     * @param he the half extent for each local axis (not null, unaffected)
-     * @return a bracketed description (not null, not empty)
-     */
-    private String describeHalfExtents(Vector3f he) {
-        String desc = MyVector3f.describe(he);
-        String result = String.format(" he[%s]", desc);
-
-        return result;
-    }
-
-    /**
      * Describe the specified height and radius.
      *
      * @param height the height of the shape
