@@ -90,12 +90,9 @@ class DebugMeshCallback {
         assert meshToWorld != null;
         /*
          * Copy the location list, removing all duplicates in the process.
-         * TODO use addAll()
          */
         VectorSet distinct = new VectorSetUsingBuffer(list.size(), false);
-        for (Vector3f vector : list) {
-            distinct.add(vector);
-        }
+        distinct.addAll(list);
         /*
          * Transform vertex locations to world coordinates and set all the
          * Y coordinates to the minimum coordinate value.

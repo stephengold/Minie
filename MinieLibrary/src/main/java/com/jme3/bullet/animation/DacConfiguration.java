@@ -41,7 +41,6 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
@@ -54,6 +53,7 @@ import java.util.logging.Logger;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 
 /**
  * Configure a DynamicAnimControl and access its configuration.
@@ -164,9 +164,8 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * @return true if within tolerance, otherwise false
      */
     boolean areWithinTolerance(Vector3f scale1, Vector3f scale2) {
-        boolean result = areWithinTolerance(scale1.x, scale2.x)
-                && areWithinTolerance(scale1.y, scale2.y)
-                && areWithinTolerance(scale1.z, scale2.z);
+        boolean result = MyVector3f.areWithinTolerance(
+                scale1, scale2, relativeTolerance);
         return result;
     }
 
@@ -1041,29 +1040,6 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Test whether 2 scale factors are equal within the tolerance set for this
-     * control. TODO use MyMath
-     *
-     * @param a the first scale factor
-     * @param b the 2nd scale factor
-     * @return true if within tolerance, otherwise false
-     */
-    private boolean areWithinTolerance(float a, float b) {
-        if (a == b) {
-            return true;
-        }
-
-        float maxAbsoluteValue = Math.max(FastMath.abs(a), FastMath.abs(b));
-        float tolerance = relativeTolerance * maxAbsoluteValue;
-        float absDiff = FastMath.abs(a - b);
-        if (absDiff < tolerance) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * Verify that this Control is NOT added to a Spatial.
