@@ -95,8 +95,8 @@ public class BulletRigidBodyDebugControl extends CollisionShapeDebugControl {
         this.body = body;
 
         super.setShape(body.getCollisionShape());
-        oldNormals = body.debugMeshNormals();
-        oldResolution = body.debugMeshResolution();
+        this.oldNormals = body.debugMeshNormals();
+        this.oldResolution = body.debugMeshResolution();
 
         debugSpatial = DebugShapeFactory.getDebugShape(body);
         debugSpatial.setName(body.toString());
@@ -133,13 +133,13 @@ public class BulletRigidBodyDebugControl extends CollisionShapeDebugControl {
             logger.log(Level.INFO, "Rebuild debugSpatial for {0}.", body);
 
             setShape(newShape);
-            oldNormals = newNormals;
-            oldResolution = newResolution;
+            this.oldNormals = newNormals;
+            this.oldResolution = newResolution;
 
             Node node = (Node) spatial;
             node.detachChild(debugSpatial);
 
-            debugSpatial = DebugShapeFactory.getDebugShape(body);
+            this.debugSpatial = DebugShapeFactory.getDebugShape(body);
             debugSpatial.setName(body.toString());
 
             node.attachChild(debugSpatial);

@@ -90,11 +90,11 @@ class GravityVectorDebugControl extends AbstractPhysicsDebugControl {
     GravityVectorDebugControl(BulletDebugAppState debugAppState,
             PhysicsCollisionObject pco) {
         super(debugAppState);
-        body = (PhysicsBody) pco;
+        this.body = (PhysicsBody) pco;
 
-        extent = body.getGravity(null);
+        this.extent = body.getGravity(null);
         Arrow mesh = new Arrow(extent);
-        geom = new Geometry("gravity of " + body, mesh);
+        this.geom = new Geometry("gravity of " + body, mesh);
 
         center = body.getPhysicsLocation(null);
         geom.setLocalTranslation(center);

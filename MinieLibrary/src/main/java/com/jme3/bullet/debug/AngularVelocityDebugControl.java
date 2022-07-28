@@ -90,11 +90,11 @@ class AngularVelocityDebugControl extends AbstractPhysicsDebugControl {
     AngularVelocityDebugControl(BulletDebugAppState debugAppState,
             PhysicsCollisionObject pco) {
         super(debugAppState);
-        rigidBody = (PhysicsRigidBody) pco;
+        this.rigidBody = (PhysicsRigidBody) pco;
 
         rigidBody.getAngularVelocity(tmpExtent);
         Arrow mesh = new Arrow(tmpExtent);
-        geom = new Geometry("angular velocity of " + rigidBody, mesh);
+        this.geom = new Geometry("angular velocity of " + rigidBody, mesh);
 
         rigidBody.getPhysicsLocation(tmpCenter);
         geom.setLocalTranslation(tmpCenter);

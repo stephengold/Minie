@@ -256,10 +256,10 @@ public class DebugConfiguration {
         Validate.nonNull(application, "application");
 
         if (camera == null) {
-            camera = application.getCamera();
+            this.camera = application.getCamera();
         }
         if (viewPorts == null) {
-            viewPorts = new ViewPort[1];
+            this.viewPorts = new ViewPort[1];
             viewPorts[0] = application.getViewPort();
         }
     }
@@ -318,7 +318,7 @@ public class DebugConfiguration {
      */
     public void setAngularVelocityFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        angularVelocityFilter = filter;
+        this.angularVelocityFilter = filter;
     }
 
     /**
@@ -328,7 +328,7 @@ public class DebugConfiguration {
      */
     public void setAxisArrowLength(float length) {
         Validate.nonNegative(length, "length");
-        axisArrowLength = length;
+        this.axisArrowLength = length;
     }
 
     /**
@@ -339,7 +339,7 @@ public class DebugConfiguration {
      */
     public void setAxisLineWidth(float width) {
         Validate.inRange(width, "width", 0f, Float.MAX_VALUE);
-        axisLineWidth = width;
+        this.axisLineWidth = width;
     }
 
     /**
@@ -350,7 +350,7 @@ public class DebugConfiguration {
      */
     public void setBoundingBoxFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        boundingBoxFilter = filter;
+        this.boundingBoxFilter = filter;
     }
 
     /**
@@ -370,7 +370,7 @@ public class DebugConfiguration {
      * @param enable true &rarr; enable, false &rarr; disable (default=false)
      */
     public void setEnabled(boolean enable) {
-        isEnabled = enable;
+        this.isEnabled = enable;
     }
 
     /**
@@ -391,7 +391,7 @@ public class DebugConfiguration {
      */
     public void setGravityVectorFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        gravityVectorFilter = filter;
+        this.gravityVectorFilter = filter;
     }
 
     /**
@@ -401,7 +401,7 @@ public class DebugConfiguration {
      * de-register the current listener (default=null)
      */
     public void setInitListener(DebugInitListener listener) {
-        initListener = listener;
+        this.initListener = listener;
     }
 
     /**
@@ -410,7 +410,7 @@ public class DebugConfiguration {
      * @param width the desired width (in pixels, &ge;1, default=1)
      */
     public void setJointLineWidth(float width) {
-        jointLineWidth = width;
+        this.jointLineWidth = width;
     }
 
     /**
@@ -420,7 +420,7 @@ public class DebugConfiguration {
      */
     public void setShadowMode(RenderQueue.ShadowMode mode) {
         Validate.nonNull(mode, "mode");
-        shadowMode = mode;
+        this.shadowMode = mode;
     }
 
     /**
@@ -430,7 +430,7 @@ public class DebugConfiguration {
      * for none
      */
     public void setSpace(PhysicsSpace physicsSpace) {
-        space = physicsSpace;
+        this.space = physicsSpace;
     }
 
     /**
@@ -441,7 +441,7 @@ public class DebugConfiguration {
      */
     public void setSweptSphereFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        sweptSphereFilter = filter;
+        this.sweptSphereFilter = filter;
     }
 
     /**
@@ -451,7 +451,7 @@ public class DebugConfiguration {
      * created) or null for physics=world (default=null)
      */
     public void setTransformSpatial(Spatial spatial) {
-        transformSpatial = spatial;
+        this.transformSpatial = spatial;
     }
 
     /**
@@ -462,7 +462,7 @@ public class DebugConfiguration {
      */
     public void setVelocityVectorFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        velocityVectorFilter = filter;
+        this.velocityVectorFilter = filter;
     }
 
     /**

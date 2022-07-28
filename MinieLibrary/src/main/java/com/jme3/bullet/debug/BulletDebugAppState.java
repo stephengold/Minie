@@ -203,7 +203,7 @@ public class BulletDebugAppState extends BaseAppState {
      */
     public BulletDebugAppState(DebugConfiguration config) {
         Validate.nonNull(config, "configuration");
-        configuration = config;
+        this.configuration = config;
     }
     // *************************************************************************
     // new methods exposed
@@ -551,11 +551,11 @@ public class BulletDebugAppState extends BaseAppState {
             childMaterials[childI].setName("debug child " + childI);
         }
 
-        gravity = createWireMaterial(am, cyanColor, "debug gravity", 2);
+        this.gravity = createWireMaterial(am, cyanColor, "debug gravity", 2);
 
-        jointMaterialA = createWireMaterial(am, greenColor,
+        this.jointMaterialA = createWireMaterial(am, greenColor,
                 "debug joint A wire", 2);
-        jointMaterialB = createWireMaterial(am, redColor,
+        this.jointMaterialB = createWireMaterial(am, redColor,
                 "debug joint B wire", 2);
         float jointLineWidth = configuration.jointLineWidth();
         setJointLineWidth(jointLineWidth);
@@ -928,7 +928,7 @@ public class BulletDebugAppState extends BaseAppState {
          * Create visualization nodes for PCOs that have been added.
          */
         HashMap<PhysicsCollisionObject, Node> oldMap = pcoMap;
-        pcoMap = new HashMap<>(oldMap.size());
+        this.pcoMap = new HashMap<>(oldMap.size());
         PhysicsSpace space = configuration.getSpace();
         Collection<PhysicsCollisionObject> list = space.getPcoList();
         for (PhysicsCollisionObject pco : list) {

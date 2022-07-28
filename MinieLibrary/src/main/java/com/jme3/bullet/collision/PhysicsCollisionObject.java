@@ -243,7 +243,7 @@ abstract public class PhysicsCollisionObject
      * @param collisionGroup the groups to add, ORed together (bitmask)
      */
     public void addCollideWithGroup(int collisionGroup) {
-        collideWithGroups |= collisionGroup;
+        this.collideWithGroups |= collisionGroup;
         if (hasAssignedNativeObject()) {
             long objectId = nativeId();
             setCollideWithGroups(objectId, collideWithGroups);
@@ -933,7 +933,7 @@ abstract public class PhysicsCollisionObject
      * @param collisionGroup the groups to remove, ORed together (bitmask)
      */
     public void removeCollideWithGroup(int collisionGroup) {
-        collideWithGroups &= ~collisionGroup;
+        this.collideWithGroups &= ~collisionGroup;
         if (hasAssignedNativeObject()) {
             setCollideWithGroups(collideWithGroups);
         }
@@ -982,7 +982,7 @@ abstract public class PhysicsCollisionObject
      * @see #getApplicationData()
      */
     public void setApplicationData(Object data) {
-        applicationData = data;
+        this.applicationData = data;
     }
 
     /**
@@ -1019,7 +1019,7 @@ abstract public class PhysicsCollisionObject
      */
     public void setCollideWithGroups(int collisionGroups) {
         long objectId = nativeId();
-        collideWithGroups = collisionGroups;
+        this.collideWithGroups = collisionGroups;
         setCollideWithGroups(objectId, collideWithGroups);
     }
 
@@ -1107,7 +1107,7 @@ abstract public class PhysicsCollisionObject
      * default debug materials (default=null)
      */
     public void setDebugMaterial(Material material) {
-        debugMaterial = material;
+        this.debugMaterial = material;
     }
 
     /**
@@ -1117,7 +1117,7 @@ abstract public class PhysicsCollisionObject
      * (default=null)
      */
     public void setDebugMeshInitListener(DebugMeshInitListener listener) {
-        debugMeshInitListener = listener;
+        this.debugMeshInitListener = listener;
     }
 
     /**
@@ -1127,7 +1127,7 @@ abstract public class PhysicsCollisionObject
      */
     public void setDebugMeshNormals(MeshNormals newSetting) {
         Validate.nonNull(newSetting, "new setting");
-        debugMeshNormals = newSetting;
+        this.debugMeshNormals = newSetting;
     }
 
     /**
@@ -1142,7 +1142,7 @@ abstract public class PhysicsCollisionObject
         Validate.inRange(newSetting, "new setting",
                 DebugShapeFactory.lowResolution,
                 DebugShapeFactory.highResolution);
-        debugMeshResolution = newSetting;
+        this.debugMeshResolution = newSetting;
     }
 
     /**
@@ -1153,7 +1153,7 @@ abstract public class PhysicsCollisionObject
      */
     public void setDebugNumSides(int numSides) {
         Validate.inRange(numSides, "number of sides", 0, 2);
-        debugNumSides = numSides;
+        this.debugNumSides = numSides;
     }
 
     /**
@@ -1210,7 +1210,7 @@ abstract public class PhysicsCollisionObject
      * @see #setApplicationData(java.lang.Object)
      */
     public void setUserObject(Object user) {
-        userObject = user;
+        this.userObject = user;
     }
 
     /**
@@ -1337,8 +1337,8 @@ abstract public class PhysicsCollisionObject
             addToIgnoreList(pco);
         }
 
-        applicationData = capsule.readSavable(tagApplicationData, null);
-        userObject = capsule.readSavable(tagUserObject, null);
+        this.applicationData = capsule.readSavable(tagApplicationData, null);
+        this.userObject = capsule.readSavable(tagUserObject, null);
     }
 
     /**
@@ -1393,14 +1393,14 @@ abstract public class PhysicsCollisionObject
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         if (applicationData instanceof Cloneable) {
-            applicationData = cloner.clone(applicationData);
+            this.applicationData = cloner.clone(applicationData);
         }
         if (userObject instanceof Cloneable) {
-            userObject = cloner.clone(userObject);
+            this.userObject = cloner.clone(userObject);
         }
 
-        collisionShape = cloner.clone(collisionShape);
-        debugMaterial = cloner.clone(debugMaterial);
+        this.collisionShape = cloner.clone(collisionShape);
+        this.debugMaterial = cloner.clone(debugMaterial);
         /*
          * The caller should unassign the old native object and invoke
          * cloneIgnoreList() and copyPcoProperties().
@@ -1437,16 +1437,18 @@ abstract public class PhysicsCollisionObject
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        collisionGroup = capsule.readInt(tagCollisionGroup, COLLISION_GROUP_01);
-        collideWithGroups = capsule.readInt(tagCollisionGroupsMask,
-                COLLISION_GROUP_01);
-        debugMeshNormals = capsule.readEnum(tagDebugMeshNormals,
+        this.collisionGroup
+                = capsule.readInt(tagCollisionGroup, COLLISION_GROUP_01);
+        this.collideWithGroups
+                = capsule.readInt(tagCollisionGroupsMask, COLLISION_GROUP_01);
+        this.debugMeshNormals = capsule.readEnum(tagDebugMeshNormals,
                 MeshNormals.class, MeshNormals.None);
-        debugMeshResolution = capsule.readInt(tagDebugMeshResolution, 0);
-        debugMaterial = (Material) capsule.readSavable(tagDebugMaterial, null);
+        this.debugMeshResolution = capsule.readInt(tagDebugMeshResolution, 0);
+        this.debugMaterial
+                = (Material) capsule.readSavable(tagDebugMaterial, null);
 
         Savable shape = capsule.readSavable(tagCollisionShape, null);
-        collisionShape = (CollisionShape) shape;
+        this.collisionShape = (CollisionShape) shape;
         /*
          * The subclass should create the btCollisionObject and then
          * invoke readPcoProperties() .

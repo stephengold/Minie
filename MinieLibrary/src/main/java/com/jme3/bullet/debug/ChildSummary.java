@@ -97,16 +97,16 @@ class ChildSummary {
      */
     void update(ChildCollisionShape child) {
         if (child == null) {
-            isValid = false;
+            this.isValid = false;
 
         } else {
             CollisionShape shape = child.getShape();
-            margin = shape.getMargin();
-            shapeId = shape.nativeId();
+            this.margin = shape.getMargin();
+            this.shapeId = shape.nativeId();
             child.copyRotation(rotation);
             child.copyOffset(offset);
             shape.getScale(scale);
-            isValid = true;
+            this.isValid = true;
         }
     }
     // *************************************************************************

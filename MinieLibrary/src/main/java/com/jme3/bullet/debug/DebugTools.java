@@ -292,30 +292,33 @@ public class DebugTools {
      * Initialize all the DebugTools materials.
      */
     protected void setupMaterials() {
-        DEBUG_BLUE = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
+        this.DEBUG_BLUE
+                = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
         DEBUG_BLUE.getAdditionalRenderState().setWireframe(true);
         DEBUG_BLUE.setColor("Color", ColorRGBA.Blue);
 
-        DEBUG_GREEN
+        this.DEBUG_GREEN
                 = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
         DEBUG_GREEN.getAdditionalRenderState().setWireframe(true);
         DEBUG_GREEN.setColor("Color", ColorRGBA.Green);
 
-        DEBUG_RED = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
+        this.DEBUG_RED
+                = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
         DEBUG_RED.getAdditionalRenderState().setWireframe(true);
         DEBUG_RED.setColor("Color", ColorRGBA.Red);
 
-        DEBUG_YELLOW
+        this.DEBUG_YELLOW
                 = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
         DEBUG_YELLOW.getAdditionalRenderState().setWireframe(true);
         DEBUG_YELLOW.setColor("Color", ColorRGBA.Yellow);
 
-        DEBUG_MAGENTA
+        this.DEBUG_MAGENTA
                 = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
         DEBUG_MAGENTA.getAdditionalRenderState().setWireframe(true);
         DEBUG_MAGENTA.setColor("Color", ColorRGBA.Magenta);
 
-        DEBUG_PINK = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
+        this.DEBUG_PINK
+                = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
         DEBUG_PINK.getAdditionalRenderState().setWireframe(true);
         DEBUG_PINK.setColor("Color", ColorRGBA.Pink);
     }

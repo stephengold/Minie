@@ -89,11 +89,11 @@ class WindVelocityDebugControl extends AbstractPhysicsDebugControl {
     WindVelocityDebugControl(BulletDebugAppState debugAppState,
             PhysicsCollisionObject pco) {
         super(debugAppState);
-        softBody = (PhysicsSoftBody) pco;
+        this.softBody = (PhysicsSoftBody) pco;
 
         softBody.windVelocity(tmpExtent);
         Arrow mesh = new Arrow(tmpExtent);
-        geom = new Geometry("wind velocity of " + softBody, mesh);
+        this.geom = new Geometry("wind velocity of " + softBody, mesh);
 
         softBody.getPhysicsLocation(tmpCenter);
         geom.setLocalTranslation(tmpCenter);

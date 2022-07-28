@@ -91,7 +91,7 @@ class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
         this.pco = pco;
 
         Mesh mesh = updateMesh(null);
-        geom = new Geometry("swept sphere of " + pco, mesh);
+        this.geom = new Geometry("swept sphere of " + pco, mesh);
 
         float radius = pco.getCcdSweptSphereRadius();
         geom.setLocalScale(radius);

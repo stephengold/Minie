@@ -87,7 +87,7 @@ class AnchorDebugControl extends AbstractPhysicsDebugControl {
         Validate.nonNull(anchor, "anchor");
         this.anchor = anchor;
 
-        anchorGeometry = createAnchorGeometry();
+        this.anchorGeometry = createAnchorGeometry();
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods

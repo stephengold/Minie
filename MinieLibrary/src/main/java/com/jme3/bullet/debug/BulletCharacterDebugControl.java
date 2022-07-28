@@ -91,13 +91,13 @@ public class BulletCharacterDebugControl extends CollisionShapeDebugControl {
     public BulletCharacterDebugControl(BulletDebugAppState debugAppState,
             PhysicsCharacter ch) {
         super(debugAppState);
-        character = ch;
+        this.character = ch;
 
         super.setShape(character.getCollisionShape());
-        oldNormals = character.debugMeshNormals();
-        oldResolution = character.debugMeshResolution();
+        this.oldNormals = character.debugMeshNormals();
+        this.oldResolution = character.debugMeshResolution();
 
-        debugSpatial = DebugShapeFactory.getDebugShape(character);
+        this.debugSpatial = DebugShapeFactory.getDebugShape(character);
         debugSpatial.setName(ch.toString());
         updateMaterial();
     }
@@ -137,7 +137,7 @@ public class BulletCharacterDebugControl extends CollisionShapeDebugControl {
             Node node = (Node) spatial;
             node.detachChild(debugSpatial);
 
-            debugSpatial = DebugShapeFactory.getDebugShape(character);
+            this.debugSpatial = DebugShapeFactory.getDebugShape(character);
             debugSpatial.setName(character.toString());
 
             node.attachChild(debugSpatial);
