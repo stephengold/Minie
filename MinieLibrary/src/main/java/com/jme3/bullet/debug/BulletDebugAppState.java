@@ -553,18 +553,18 @@ public class BulletDebugAppState extends BaseAppState {
 
         this.gravity = createWireMaterial(am, cyanColor, "debug gravity", 2);
 
-        this.jointMaterialA = createWireMaterial(am, greenColor,
-                "debug joint A wire", 2);
-        this.jointMaterialB = createWireMaterial(am, redColor,
-                "debug joint B wire", 2);
+        this.jointMaterialA = createWireMaterial(
+                am, greenColor, "debug joint A wire", 2);
+        this.jointMaterialB = createWireMaterial(
+                am, redColor, "debug joint B wire", 2);
         float jointLineWidth = configuration.jointLineWidth();
         setJointLineWidth(jointLineWidth);
 
         magentas[0] = invisible;
-        magentas[1] = createWireMaterial(am, magentaColor, "debug magenta ss",
-                1);
-        magentas[2] = createWireMaterial(am, magentaColor, "debug magenta ds",
-                2);
+        magentas[1] = createWireMaterial(
+                am, magentaColor, "debug magenta ss", 1);
+        magentas[2] = createWireMaterial(
+                am, magentaColor, "debug magenta ds", 2);
 
         pink[0] = invisible;
         pink[1] = createWireMaterial(am, pinkColor, "debug pink ss", 1);
@@ -614,8 +614,8 @@ public class BulletDebugAppState extends BaseAppState {
                 : pcoMap.entrySet()) {
             DebugAppStateFilter filter = configuration.getFilter();
             PhysicsCollisionObject pco = entry.getKey();
-            boolean displayShape = (filter == null)
-                    || filter.displayObject(pco);
+            boolean displayShape
+                    = (filter == null) || filter.displayObject(pco);
 
             Node node = entry.getValue();
             Control control;
@@ -624,8 +624,8 @@ public class BulletDebugAppState extends BaseAppState {
                 if (control == null && displayShape) {
                     logger.log(Level.FINE,
                             "Create new BulletCharacterDebugControl");
-                    control = new BulletCharacterDebugControl(this,
-                            (PhysicsCharacter) pco);
+                    control = new BulletCharacterDebugControl(
+                            this, (PhysicsCharacter) pco);
                     node.addControl(control);
                 } else if (control != null && !displayShape) {
                     node.removeControl(control);
@@ -637,8 +637,8 @@ public class BulletDebugAppState extends BaseAppState {
                 if (control == null && displayShape) {
                     logger.log(Level.FINE,
                             "Create new BulletGhostObjectDebugControl");
-                    control = new BulletGhostObjectDebugControl(this,
-                            (PhysicsGhostObject) pco);
+                    control = new BulletGhostObjectDebugControl(
+                            this, (PhysicsGhostObject) pco);
                     node.addControl(control);
                 } else if (control != null && !displayShape) {
                     node.removeControl(control);
@@ -650,8 +650,8 @@ public class BulletDebugAppState extends BaseAppState {
                 if (control == null && displayShape) {
                     logger.log(Level.FINE,
                             "Create new BulletRigidBodyDebugControl");
-                    control = new BulletRigidBodyDebugControl(this,
-                            (PhysicsRigidBody) pco);
+                    control = new BulletRigidBodyDebugControl(
+                            this, (PhysicsRigidBody) pco);
                     node.addControl(control);
                 } else if (control != null && !displayShape) {
                     node.removeControl(control);
@@ -1012,8 +1012,7 @@ public class BulletDebugAppState extends BaseAppState {
      * bodies in the PhysicsSpace.
      */
     private void updateVelocityVectors() {
-        DebugAppStateFilter filter
-                = configuration.getVelocityVectorFilter();
+        DebugAppStateFilter filter = configuration.getVelocityVectorFilter();
         if (filter == null) {
             return;
         }
