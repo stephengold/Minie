@@ -67,6 +67,15 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      */
     private ArrayList<PhysicsJoint> joints = new ArrayList<>(4);
     // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public PhysicsBody() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

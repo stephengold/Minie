@@ -72,6 +72,15 @@ abstract public class NativePhysicsObject
     final static ReferenceQueue<NativePhysicsObject> weakReferenceQueue
             = new ReferenceQueue<>();
     // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public NativePhysicsObject() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

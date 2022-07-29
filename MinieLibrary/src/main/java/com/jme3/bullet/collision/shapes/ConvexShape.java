@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,15 @@ abstract public class ConvexShape extends CollisionShape {
      */
     final public static Logger logger
             = Logger.getLogger(ConvexShape.class.getName());
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public ConvexShape() {
+        // do nothing
+    }
     // *************************************************************************
     // CollisionShape methods
 

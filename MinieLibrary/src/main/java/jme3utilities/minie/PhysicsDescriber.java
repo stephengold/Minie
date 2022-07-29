@@ -94,6 +94,15 @@ public class PhysicsDescriber extends Describer {
     final public static Logger logger
             = Logger.getLogger(PhysicsDescriber.class.getName());
     // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public PhysicsDescriber() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

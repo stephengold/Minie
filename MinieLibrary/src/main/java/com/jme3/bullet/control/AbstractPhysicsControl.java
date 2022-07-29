@@ -108,6 +108,15 @@ abstract public class AbstractPhysicsControl
      */
     private Spatial controlledSpatial;
     // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public AbstractPhysicsControl() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

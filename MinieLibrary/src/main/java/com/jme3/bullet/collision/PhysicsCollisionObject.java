@@ -222,6 +222,15 @@ abstract public class PhysicsCollisionObject
      */
     private Object userObject = null;
     // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public PhysicsCollisionObject() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

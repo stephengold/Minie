@@ -65,6 +65,15 @@ public class SoftPhysicsAppState extends BulletAppState {
      */
     private BulletDebugAppState.DebugAppStateFilter windVelocityFilter;
     // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public SoftPhysicsAppState() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

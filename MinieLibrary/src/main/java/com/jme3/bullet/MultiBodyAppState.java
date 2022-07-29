@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,6 +63,15 @@ public class MultiBodyAppState extends BulletAppState {
     public MultiBodySpace getMultiBodySpace() {
         MultiBodySpace pSpace = (MultiBodySpace) getPhysicsSpace();
         return pSpace;
+    }
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public MultiBodyAppState() {
+        // do nothing
     }
     // *************************************************************************
     // BulletAppState methods

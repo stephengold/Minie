@@ -112,6 +112,15 @@ abstract public class CollisionShape
      */
     protected Vector3f scale = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public CollisionShape() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**
