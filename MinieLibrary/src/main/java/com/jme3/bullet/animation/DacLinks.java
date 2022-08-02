@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.animation;
 
+import com.jme3.anim.AnimComposer;
 import com.jme3.anim.Armature;
 import com.jme3.anim.Joint;
 import com.jme3.anim.SkinningControl;
@@ -65,6 +66,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
+import jme3utilities.MyControl;
 import jme3utilities.MyMesh;
 import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
@@ -136,6 +138,10 @@ public class DacLinks
      * map bone names to bone links
      */
     private Map<String, BoneLink> boneLinks = new HashMap<>(32);
+    /**
+     * helper control, or null if none
+     */
+    private PreComposer preComposer = null;
     /**
      * Skeleton being controlled, or null for an Armature
      */
@@ -840,6 +846,19 @@ public class DacLinks
                 bindTransforms[jointI]
                         = armatureJoint.getLocalTransform().clone();
             }
+
+            /*
+             * If there's an AnimComposer, insert a PreComposer to hide
+             * our Armature modifications.
+             */
+            AnimComposer composer = spatial.getControl(AnimComposer.class);
+            if (composer == null) {
+                logger3.log(Level.WARNING, "Didn't find an AnimComposer.");
+            } else {
+                int composerIndex = MyControl.findIndex(composer, spatial);
+                this.preComposer = new PreComposer(this);
+                RagUtils.insertAt(spatial, composerIndex, preComposer);
+            }
         }
         /*
          * Find the target meshes and choose the transform spatial.
@@ -1241,6 +1260,10 @@ public class DacLinks
         verifyAddedToSpatial("update the control");
         if (!isEnabled()) {
             return;
+        }
+
+        if (preComposer != null) {
+            preComposer.saveArmature();
         }
 
         if (torsoLink != null) {
