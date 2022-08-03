@@ -2,7 +2,7 @@
 
 set -e
 
-V=5.0.0
+V=5.0.1
 D=/home/sgold/Releases/Minie/$V
 mkdir $D
 
