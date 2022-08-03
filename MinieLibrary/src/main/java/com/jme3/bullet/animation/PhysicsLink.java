@@ -187,7 +187,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
 
         this.control = control;
         this.bone = bone;
-        rigidBody = createRigidBody(linkConfig, collisionShape);
+        this.rigidBody = createRigidBody(linkConfig, collisionShape);
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Creating link for bone {0} with mass={1}",
@@ -223,7 +223,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
 
         this.control = control;
         this.armatureJoint = armatureJoint;
-        rigidBody = createRigidBody(linkConfig, collisionShape);
+        this.rigidBody = createRigidBody(linkConfig, collisionShape);
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Creating link for joint {0} with mass={1}",
@@ -459,11 +459,11 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         assert oldLink.getBone() == bone;
 
         if (oldLink.isKinematic()) {
-            blendInterval = oldLink.blendInterval;
-            kinematicWeight = oldLink.kinematicWeight();
+            this.blendInterval = oldLink.blendInterval;
+            this.kinematicWeight = oldLink.kinematicWeight();
         } else {
-            blendInterval = 0f;
-            kinematicWeight = 1f;
+            this.blendInterval = 0f;
+            this.kinematicWeight = 1f;
         }
     }
 
@@ -653,7 +653,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     protected void setRigidBody(PhysicsRigidBody body) {
         assert body != null;
         assert rigidBody != null;
-        rigidBody = body;
+        this.rigidBody = body;
     }
     // *************************************************************************
     // JmeCloneable methods
@@ -669,18 +669,18 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        armatureJoint = cloner.clone(armatureJoint);
-        bone = cloner.clone(bone);
-        control = cloner.clone(control);
-        ikControllers = cloner.clone(ikControllers);
-        children = cloner.clone(children);
-        joint = cloner.clone(joint);
-        parent = cloner.clone(parent);
-        rigidBody = cloner.clone(rigidBody);
-        kpTransform = cloner.clone(kpTransform);
-        kpVelocity = cloner.clone(kpVelocity);
-        localOffset = cloner.clone(localOffset);
-        tmpScale = cloner.clone(tmpScale);
+        this.armatureJoint = cloner.clone(armatureJoint);
+        this.bone = cloner.clone(bone);
+        this.control = cloner.clone(control);
+        this.ikControllers = cloner.clone(ikControllers);
+        this.children = cloner.clone(children);
+        this.joint = cloner.clone(joint);
+        this.parent = cloner.clone(parent);
+        this.rigidBody = cloner.clone(rigidBody);
+        this.kpTransform = cloner.clone(kpTransform);
+        this.kpVelocity = cloner.clone(kpVelocity);
+        this.localOffset = cloner.clone(localOffset);
+        this.tmpScale = cloner.clone(tmpScale);
     }
 
     /**
@@ -712,23 +712,26 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        ikControllers = capsule.readSavableArrayList(tagIkControllers,
-                new ArrayList(1));
-        children = capsule.readSavableArrayList(tagChildren, new ArrayList(1));
-        armatureJoint = (Joint) capsule.readSavable(tagArmatureJoint, null);
-        bone = (Bone) capsule.readSavable(tagBone, null);
-        control = (DacLinks) capsule.readSavable(tagControl, null);
-        blendInterval = capsule.readFloat(tagBlendInterval, 1f);
-        kinematicWeight = capsule.readFloat(tagKinematicWeight, 1f);
-        joint = (PhysicsJoint) capsule.readSavable(tagJoint, null);
-        parent = (PhysicsLink) capsule.readSavable(tagParent, null);
-        rigidBody = (PhysicsRigidBody) capsule.readSavable(tagRigidBody, null);
-        kpTransform = (Transform) capsule.readSavable(tagKpTransform,
-                new Transform());
-        kpVelocity
+        this.ikControllers = capsule.readSavableArrayList(
+                tagIkControllers, new ArrayList(1));
+        this.children
+                = capsule.readSavableArrayList(tagChildren, new ArrayList(1));
+        this.armatureJoint
+                = (Joint) capsule.readSavable(tagArmatureJoint, null);
+        this.bone = (Bone) capsule.readSavable(tagBone, null);
+        this.control = (DacLinks) capsule.readSavable(tagControl, null);
+        this.blendInterval = capsule.readFloat(tagBlendInterval, 1f);
+        this.kinematicWeight = capsule.readFloat(tagKinematicWeight, 1f);
+        this.joint = (PhysicsJoint) capsule.readSavable(tagJoint, null);
+        this.parent = (PhysicsLink) capsule.readSavable(tagParent, null);
+        this.rigidBody
+                = (PhysicsRigidBody) capsule.readSavable(tagRigidBody, null);
+        this.kpTransform = (Transform) capsule.readSavable(
+                tagKpTransform, new Transform());
+        this.kpVelocity
                 = (Vector3f) capsule.readSavable(tagKpVelocity, new Vector3f());
-        localOffset = (Vector3f) capsule.readSavable(tagLocalOffset,
-                new Vector3f());
+        this.localOffset = (Vector3f) capsule.readSavable(
+                tagLocalOffset, new Vector3f());
 
         rigidBody.setUserObject(this);
     }
@@ -774,7 +777,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
 
         float volume = MyShape.volume(collisionShape);
         float mass = linkConfig.mass(volume);
-        density = mass / volume;
+        this.density = mass / volume;
         PhysicsRigidBody body = new PhysicsRigidBody(collisionShape, mass);
 
         float viscousDamping = control.damping();
@@ -796,7 +799,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         assert weight >= 0f : weight;
 
         boolean wasKinematic = (kinematicWeight > 0f);
-        kinematicWeight = (weight > 1f) ? 1f : weight;
+        this.kinematicWeight = (weight > 1f) ? 1f : weight;
         boolean isKinematic = (kinematicWeight > 0f);
 
         if (wasKinematic && !isKinematic) {
