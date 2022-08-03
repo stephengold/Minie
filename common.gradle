@@ -51,7 +51,7 @@ tasks.withType(JavaExec) { // Java runtime options:
     //jvmArgs '-verbose:gc'
     //jvmArgs '-Xcheck:jni'
     jvmArgs '-Xms1024m', '-Xmx1024m'
-    jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
+    //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
 }
 
 repositories {
