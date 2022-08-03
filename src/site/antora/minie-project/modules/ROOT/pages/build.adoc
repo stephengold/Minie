@@ -33,7 +33,7 @@ Here's the recommended procedure:
 .. using Git:
 ... `git clone https://github.com/stephengold/Minie.git`
 ... `cd Minie`
-... `git checkout -b latest 5.0.0`
+... `git checkout -b latest 5.0.1`
 .. using a web browser:
 ... browse to https://github.com/stephengold/Minie/releases/latest
 ... follow the "Source code (zip)" link

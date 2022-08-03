@@ -1,10 +1,10 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 5.0.1 released on TBD
+## Version 5.0.1 released on 2 August 2022
 
 + Bugfix:  static rigid body misbehaves after being assigned a positive mass
 + Bugfix:  `DynamicAnimComposer` with `SceneComposer` exhibits glitches during
-  blends to kinematic mode.
+  blends to kinematic mode
 + Bugfix:  when rebuilding a rigid body, its ignore list is lost
 + Based on v8.1.0 of the Heart library.
 
