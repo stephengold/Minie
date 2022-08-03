@@ -1115,11 +1115,16 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     protected void rebuildRigidBody() {
         PhysicsSpace removedFrom = null;
+        long[] ignoredIds = null;
         if (hasAssignedNativeObject()) {
             removedFrom = (PhysicsSpace) getCollisionSpace();
             if (removedFrom != null) {
                 removedFrom.removeCollisionObject(this);
             }
+
+            ignoredIds = listIgnoredIds();
+            clearIgnoreList();
+
             logger2.log(Level.FINE, "Clearing {0}.", this);
             unassignNativeObject();
         }
@@ -1135,6 +1140,13 @@ public class PhysicsRigidBody extends PhysicsBody {
         logger2.log(Level.FINE, "Created {0}.", this);
 
         postRebuild();
+
+        if (ignoredIds != null) {
+            boolean toIgnore = true;
+            for (long id : ignoredIds) {
+                setIgnoreCollisionCheck(objectId, id, toIgnore);
+            }
+        }
 
         if (removedFrom != null) {
             removedFrom.addCollisionObject(this);
