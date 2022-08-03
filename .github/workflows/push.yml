@@ -16,7 +16,7 @@ jobs:
           java-version: 8
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: crash-log
           path: 'MinieLibrary/*.log'
@@ -33,7 +33,7 @@ jobs:
       - uses: gradle/wrapper-validation-action@v1.0.4
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: crash-log
           path: 'MinieLibrary/*.log'
@@ -49,7 +49,7 @@ jobs:
           java-version: 11
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: test-report
           path: 'build/reports/tests/test/index.html'
@@ -66,7 +66,7 @@ jobs:
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
         shell: bash
       - if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: crash-log
           path: 'MinieLibrary/*.log'
@@ -82,7 +82,7 @@ jobs:
           java-version: 17
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: crash-log
           path: 'MinieLibrary/*.log'
@@ -99,7 +99,7 @@ jobs:
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
         shell: bash
       - if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: crash-log
           path: 'MinieLibrary/*.log'
@@ -115,7 +115,7 @@ jobs:
           java-version: 18
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: crash-log
           path: 'MinieLibrary/*.log'
