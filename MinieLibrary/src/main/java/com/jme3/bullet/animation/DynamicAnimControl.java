@@ -126,6 +126,10 @@ public class DynamicAnimControl
      */
     private ArrayList<IKJoint> ikJoints = new ArrayList<>(20);
     /**
+     * report completion of the current blend-to-kinematic operation
+     */
+    private CompletionListener<DynamicAnimControl> blendListener;
+    /**
      * calculated total mass, not including released attachments
      */
     private float ragdollMass = 0f;
@@ -225,15 +229,14 @@ public class DynamicAnimControl
 
     /**
      * Begin blending all links to purely kinematic mode, driven by animation.
-     * TODO callback when the transition completes
      * <p>
      * Allowed only when the Control IS added to a Spatial.
      *
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
-     * @param endModelTransform the desired local Transform for the controlled
-     * spatial when the transition completes, or null for no change to local
-     * Transform (unaffected)
+     * @param endModelTransform the desired local transform for the controlled
+     * spatial when the blend completes (unaffected) or null for no change to
+     * the transform
      */
     public void blendToKinematicMode(float blendInterval,
             Transform endModelTransform) {
@@ -501,6 +504,15 @@ public class DynamicAnimControl
     }
 
     /**
+     * Access the blend listener.
+     *
+     * @return the pre-existing instance, or null of none
+     */
+    public CompletionListener<DynamicAnimControl> getBlendListener() {
+        return blendListener;
+    }
+
+    /**
      * Calculate the ragdoll's total kinetic energy, excluding released
      * attachments.
      *
@@ -725,6 +737,16 @@ public class DynamicAnimControl
     }
 
     /**
+     * Replace the current blend listener.
+     *
+     * @param listener the desired listener, or null for none
+     */
+    public void setBlendListener(
+            CompletionListener<DynamicAnimControl> listener) {
+        this.blendListener = listener;
+    }
+
+    /**
      * Alter the contact-response setting of the specified link and all its
      * descendants (excluding released attachments). Note: recursive!
      * <p>
@@ -938,6 +960,26 @@ public class DynamicAnimControl
         for (IKJoint ikJoint : ikJoints) {
             PhysicsJoint joint = ikJoint.getPhysicsJoint();
             space.removeJoint(joint);
+        }
+    }
+
+    /**
+     * Update this Control. Invoked once per frame during the logical-state
+     * update, provided the control is added to a scene. Do not invoke directly
+     * from user code.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
+
+        if (blendListener != null) {
+            float weight = getTorsoLink().kinematicWeight();
+            if (weight == 1f) {
+                blendListener.onCompletion(this);
+                this.blendListener = null;
+            }
         }
     }
 
