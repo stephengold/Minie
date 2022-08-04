@@ -238,73 +238,83 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Immediately freeze the specified link and all its descendants.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#kineticEnergy()" class="member-name-link">kineticEnergy</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CompletionListener.html" title="interface in com.jme3.bullet.animation">CompletionListener</a>&lt;<a href="DynamicAnimControl.html" title="class in com.jme3.bullet.animation">DynamicAnimControl</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBlendListener()" class="member-name-link">getBlendListener</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Access the blend listener.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#kineticEnergy()" class="member-name-link">kineticEnergy</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Calculate the ragdoll's total kinetic energy, excluding released
  attachments.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a>[]</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listIKJoints()" class="member-name-link">listIKJoints</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a>[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listIKJoints()" class="member-name-link">listIKJoints</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Enumerate IK joints managed by this Control.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mechanicalEnergy()" class="member-name-link">mechanicalEnergy</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mechanicalEnergy()" class="member-name-link">mechanicalEnergy</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Calculate the ragdoll's total mechanical energy, excluding released
  attachments.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#moveToBody(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f,com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.math.Vector3f)" class="member-name-link">moveToBody</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#moveToBody(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f,com.jme3.bullet.objects.PhysicsRigidBody,com.jme3.math.Vector3f)" class="member-name-link">moveToBody</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
  com.jme3.math.Vector3f&nbsp;pivotInLinkBody,
  <a href="../objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a>&nbsp;goalBody,
  com.jme3.math.Vector3f&nbsp;pivotInGoalBody)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an IK joint that will cause the specified link to move until its
  pivot location coincides with that of the specified goal body.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#moveToWorld(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">moveToWorld</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#moveToWorld(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">moveToWorld</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
  com.jme3.math.Vector3f&nbsp;pivotInLinkBody,
  com.jme3.math.Vector3f&nbsp;goalInWorld)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an IK joint that will cause the specified link to move until a fixed
  pivot location coincides with the specified goal location.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pinToSelf(com.jme3.bullet.animation.PhysicsLink,com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">pinToSelf</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;linkA,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pinToSelf(com.jme3.bullet.animation.PhysicsLink,com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">pinToSelf</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;linkA,
  <a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;linkB,
  com.jme3.math.Vector3f&nbsp;pivotInA,
  com.jme3.math.Vector3f&nbsp;pivotInB)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an IK joint that will restrict the specified links to pivoting around
  each other.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pinToWorld(com.jme3.bullet.animation.PhysicsLink,boolean)" class="member-name-link">pinToWorld</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pinToWorld(com.jme3.bullet.animation.PhysicsLink,boolean)" class="member-name-link">pinToWorld</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
  boolean&nbsp;disableForRagdoll)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an IK joint that restricts the specified link to rotating around a
  pin location.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pinToWorld(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f)" class="member-name-link">pinToWorld</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IKJoint.html" title="class in com.jme3.bullet.animation">IKJoint</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pinToWorld(com.jme3.bullet.animation.PhysicsLink,com.jme3.math.Vector3f)" class="member-name-link">pinToWorld</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;link,
  com.jme3.math.Vector3f&nbsp;pivotInWorld)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an IK joint that restricts the specified link to rotating around the
  specified location.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-serialize this Control from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removePhysics()" class="member-name-link">removePhysics</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removePhysics()" class="member-name-link">removePhysics</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove all managed physics objects from the PhysicsSpace.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBlendListener(com.jme3.bullet.animation.CompletionListener)" class="member-name-link">setBlendListener</a><wbr>(<a href="CompletionListener.html" title="interface in com.jme3.bullet.animation">CompletionListener</a>&lt;<a href="DynamicAnimControl.html" title="class in com.jme3.bullet.animation">DynamicAnimControl</a>&gt;&nbsp;listener)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Replace the current blend listener.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setContactResponseSubtree(com.jme3.bullet.animation.PhysicsLink,boolean)" class="member-name-link">setContactResponseSubtree</a><wbr>(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;rootLink,
@@ -341,8 +351,13 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 <div class="block">Immediately put all links and IK joints into ragdoll mode.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;tpf)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update this Control.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this Control to the specified exporter, for example when saving
  to a J3O file.</div>
 </div>
@@ -351,7 +366,7 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.jme3.bullet.animation.DacLinks">Methods inherited from class&nbsp;com.jme3.bullet.animation.<a href="DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a></h3>
-<code><a href="DacLinks.html#attachmentMass(java.lang.String)">attachmentMass</a>, <a href="DacLinks.html#createSpatialData(com.jme3.scene.Spatial)">createSpatialData</a>, <a href="DacLinks.html#findArmatureJoint(java.lang.String)">findArmatureJoint</a>, <a href="DacLinks.html#findAttachmentLink(java.lang.String)">findAttachmentLink</a>, <a href="DacLinks.html#findBone(java.lang.String)">findBone</a>, <a href="DacLinks.html#findBoneLink(java.lang.String)">findBoneLink</a>, <a href="DacLinks.html#findLink(java.lang.String)">findLink</a>, <a href="DacLinks.html#getArmature()">getArmature</a>, <a href="DacLinks.html#getBoneLinks()">getBoneLinks</a>, <a href="DacLinks.html#getSkeleton()">getSkeleton</a>, <a href="DacLinks.html#getTorsoLink()">getTorsoLink</a>, <a href="DacLinks.html#isReady()">isReady</a>, <a href="DacLinks.html#listAttachmentLinks()">listAttachmentLinks</a>, <a href="DacLinks.html#listLinks(java.lang.Class)">listLinks</a>, <a href="DacLinks.html#listRigidBodies()">listRigidBodies</a>, <a href="DacLinks.html#mass(java.lang.String)">mass</a>, <a href="DacLinks.html#physicsTick(com.jme3.bullet.PhysicsSpace,float)">physicsTick</a>, <a href="DacLinks.html#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)">prePhysicsTick</a>, <a href="DacLinks.html#rebuild()">rebuild</a>, <a href="DacLinks.html#removeSpatialData(com.jme3.scene.Spatial)">removeSpatialData</a>, <a href="DacLinks.html#setAttachmentConfig(java.lang.String,com.jme3.bullet.animation.LinkConfig)">setAttachmentConfig</a>, <a href="DacLinks.html#setAttachmentMass(java.lang.String,float)">setAttachmentMass</a>, <a href="DacLinks.html#setDamping(float)">setDamping</a>, <a href="DacLinks.html#setGravity(com.jme3.math.Vector3f)">setGravity</a>, <a href="DacLinks.html#setJointLimits(java.lang.String,com.jme3.bullet.animation.RangeOfMotion)">setJointLimits</a>, <a href="DacLinks.html#setMainBoneName(java.lang.String)">setMainBoneName</a>, <a href="DacLinks.html#setMass(com.jme3.bullet.animation.PhysicsLink,float)">setMass</a>, <a href="DacLinks.html#setMass(java.lang.String,float)">setMass</a>, <a href="DacLinks.html#setPhysicsLocation(com.jme3.math.Vector3f)">setPhysicsLocation</a>, <a href="DacLinks.html#setPhysicsRotation(com.jme3.math.Quaternion)">setPhysicsRotation</a>, <a href="DacLinks.html#update(float)">update</a>, <a href="DacLinks.html#verifyAddedToSpatial(java.lang.String)">verifyAddedToSpatial</a>, <a href="DacLinks.html#verifyReadyForDynamicMode(java.lang.String)">verifyReadyForDynamicMode</a></code></div>
+<code><a href="DacLinks.html#attachmentMass(java.lang.String)">attachmentMass</a>, <a href="DacLinks.html#createSpatialData(com.jme3.scene.Spatial)">createSpatialData</a>, <a href="DacLinks.html#findArmatureJoint(java.lang.String)">findArmatureJoint</a>, <a href="DacLinks.html#findAttachmentLink(java.lang.String)">findAttachmentLink</a>, <a href="DacLinks.html#findBone(java.lang.String)">findBone</a>, <a href="DacLinks.html#findBoneLink(java.lang.String)">findBoneLink</a>, <a href="DacLinks.html#findLink(java.lang.String)">findLink</a>, <a href="DacLinks.html#getArmature()">getArmature</a>, <a href="DacLinks.html#getBoneLinks()">getBoneLinks</a>, <a href="DacLinks.html#getSkeleton()">getSkeleton</a>, <a href="DacLinks.html#getTorsoLink()">getTorsoLink</a>, <a href="DacLinks.html#isReady()">isReady</a>, <a href="DacLinks.html#listAttachmentLinks()">listAttachmentLinks</a>, <a href="DacLinks.html#listLinks(java.lang.Class)">listLinks</a>, <a href="DacLinks.html#listRigidBodies()">listRigidBodies</a>, <a href="DacLinks.html#mass(java.lang.String)">mass</a>, <a href="DacLinks.html#physicsTick(com.jme3.bullet.PhysicsSpace,float)">physicsTick</a>, <a href="DacLinks.html#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)">prePhysicsTick</a>, <a href="DacLinks.html#rebuild()">rebuild</a>, <a href="DacLinks.html#removeSpatialData(com.jme3.scene.Spatial)">removeSpatialData</a>, <a href="DacLinks.html#setAttachmentConfig(java.lang.String,com.jme3.bullet.animation.LinkConfig)">setAttachmentConfig</a>, <a href="DacLinks.html#setAttachmentMass(java.lang.String,float)">setAttachmentMass</a>, <a href="DacLinks.html#setDamping(float)">setDamping</a>, <a href="DacLinks.html#setGravity(com.jme3.math.Vector3f)">setGravity</a>, <a href="DacLinks.html#setJointLimits(java.lang.String,com.jme3.bullet.animation.RangeOfMotion)">setJointLimits</a>, <a href="DacLinks.html#setMainBoneName(java.lang.String)">setMainBoneName</a>, <a href="DacLinks.html#setMass(com.jme3.bullet.animation.PhysicsLink,float)">setMass</a>, <a href="DacLinks.html#setMass(java.lang.String,float)">setMass</a>, <a href="DacLinks.html#setPhysicsLocation(com.jme3.math.Vector3f)">setPhysicsLocation</a>, <a href="DacLinks.html#setPhysicsRotation(com.jme3.math.Quaternion)">setPhysicsRotation</a>, <a href="DacLinks.html#verifyAddedToSpatial(java.lang.String)">verifyAddedToSpatial</a>, <a href="DacLinks.html#verifyReadyForDynamicMode(java.lang.String)">verifyReadyForDynamicMode</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.jme3.bullet.animation.DacConfiguration">Methods inherited from class&nbsp;com.jme3.bullet.animation.<a href="DacConfiguration.html" title="class in com.jme3.bullet.animation">DacConfiguration</a></h3>
 <code><a href="DacConfiguration.html#addUnlinkedDescendants(com.jme3.anim.Joint,java.util.Collection)">addUnlinkedDescendants</a>, <a href="DacConfiguration.html#addUnlinkedDescendants(com.jme3.animation.Bone,java.util.Collection)">addUnlinkedDescendants</a>, <a href="DacConfiguration.html#attach(java.lang.String,float,com.jme3.scene.Spatial)">attach</a>, <a href="DacConfiguration.html#attach(java.lang.String,com.jme3.bullet.animation.LinkConfig,com.jme3.scene.Spatial)">attach</a>, <a href="DacConfiguration.html#attachmentConfig(java.lang.String)">attachmentConfig</a>, <a href="DacConfiguration.html#config(java.lang.String)">config</a>, <a href="DacConfiguration.html#countAttachments()">countAttachments</a>, <a href="DacConfiguration.html#countLinkedBones()">countLinkedBones</a>, <a href="DacConfiguration.html#countLinks()">countLinks</a>, <a href="DacConfiguration.html#damping()">damping</a>, <a href="DacConfiguration.html#detach(java.lang.String)">detach</a>, <a href="DacConfiguration.html#eventDispatchImpulseThreshold()">eventDispatchImpulseThreshold</a>, <a href="DacConfiguration.html#findManager(com.jme3.anim.Joint)">findManager</a>, <a href="DacConfiguration.html#findManager(com.jme3.animation.Bone)">findManager</a>, <a href="DacConfiguration.html#getAttachmentModel(java.lang.String)">getAttachmentModel</a>, <a href="DacConfiguration.html#getJointLimits(java.lang.String)">getJointLimits</a>, <a href="DacConfiguration.html#gravity(com.jme3.math.Vector3f)">gravity</a>, <a href="DacConfiguration.html#hasAttachmentLink(java.lang.String)">hasAttachmentLink</a>, <a href="DacConfiguration.html#hasBoneLink(java.lang.String)">hasBoneLink</a>, <a href="DacConfiguration.html#ignoredHops()">ignoredHops</a>, <a href="DacConfiguration.html#link(java.lang.String,float,com.jme3.bullet.animation.RangeOfMotion)">link</a>, <a href="DacConfiguration.html#link(java.lang.String,com.jme3.bullet.animation.LinkConfig,com.jme3.bullet.animation.RangeOfMotion)">link</a>, <a href="DacConfiguration.html#listAttachmentBoneNames()">listAttachmentBoneNames</a>, <a href="DacConfiguration.html#listLinkedBoneNames()">listLinkedBoneNames</a>, <a href="DacConfiguration.html#mainBoneName()">mainBoneName</a>, <a href="DacConfiguration.html#managerMap(com.jme3.anim.Armature)">managerMap</a>, <a href="DacConfiguration.html#managerMap(com.jme3.animation.Skeleton)">managerMap</a>, <a href="DacConfiguration.html#relativeTolerance()">relativeTolerance</a>, <a href="DacConfiguration.html#setApplyPhysicsLocal(boolean)">setApplyPhysicsLocal</a>, <a href="DacConfiguration.html#setConfig(java.lang.String,com.jme3.bullet.animation.LinkConfig)">setConfig</a>, <a href="DacConfiguration.html#setEventDispatchImpulseThreshold(float)">setEventDispatchImpulseThreshold</a>, <a href="DacConfiguration.html#setIgnoredHops(int)">setIgnoredHops</a>, <a href="DacConfiguration.html#setRelativeTolerance(float)">setRelativeTolerance</a>, <a href="DacConfiguration.html#totalMass()">totalMass</a>, <a href="DacConfiguration.html#unlinkBone(java.lang.String)">unlinkBone</a></code></div>
@@ -467,16 +482,15 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">blendToKinematicMode</span><wbr><span class="parameters">(float&nbsp;blendInterval,
  com.jme3.math.Transform&nbsp;endModelTransform)</span></div>
 <div class="block">Begin blending all links to purely kinematic mode, driven by animation.
- TODO callback when the transition completes
  <p>
  Allowed only when the Control IS added to a Spatial.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>blendInterval</code> - the duration of the blend interval (in seconds,
  &ge;0)</dd>
-<dd><code>endModelTransform</code> - the desired local Transform for the controlled
- spatial when the transition completes, or null for no change to local
- Transform (unaffected)</dd>
+<dd><code>endModelTransform</code> - the desired local transform for the controlled
+ spatial when the blend completes (unaffected) or null for no change to
+ the transform</dd>
 </dl>
 </section>
 </li>
@@ -566,6 +580,17 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
  this control)</dd>
 <dd><code>forceKinematic</code> - true&rarr;force link to kinematic mode,
  false&rarr;preserve link modes</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getBlendListener()">
+<h3>getBlendListener</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CompletionListener.html" title="interface in com.jme3.bullet.animation">CompletionListener</a>&lt;<a href="DynamicAnimControl.html" title="class in com.jme3.bullet.animation">DynamicAnimControl</a>&gt;</span>&nbsp;<span class="element-name">getBlendListener</span>()</div>
+<div class="block">Access the blend listener.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the pre-existing instance, or null of none</dd>
 </dl>
 </section>
 </li>
@@ -720,6 +745,17 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 </section>
 </li>
 <li>
+<section class="detail" id="setBlendListener(com.jme3.bullet.animation.CompletionListener)">
+<h3>setBlendListener</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBlendListener</span><wbr><span class="parameters">(<a href="CompletionListener.html" title="interface in com.jme3.bullet.animation">CompletionListener</a>&lt;<a href="DynamicAnimControl.html" title="class in com.jme3.bullet.animation">DynamicAnimControl</a>&gt;&nbsp;listener)</span></div>
+<div class="block">Replace the current blend listener.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>listener</code> - the desired listener, or null for none</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="setContactResponseSubtree(com.jme3.bullet.animation.PhysicsLink,boolean)">
 <h3>setContactResponseSubtree</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setContactResponseSubtree</span><wbr><span class="parameters">(<a href="PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a>&nbsp;rootLink,
@@ -857,6 +893,23 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="DacLinks.html#removePhysics()">removePhysics</a></code>&nbsp;in class&nbsp;<code><a href="DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="update(float)">
+<h3>update</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(float&nbsp;tpf)</span></div>
+<div class="block">Update this Control. Invoked once per frame during the logical-state
+ update, provided the control is added to a scene. Do not invoke directly
+ from user code.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code>update</code>&nbsp;in interface&nbsp;<code>com.jme3.scene.control.Control</code></dd>
+<dt>Overrides:</dt>
+<dd><code><a href="DacLinks.html#update(float)">update</a></code>&nbsp;in class&nbsp;<code><a href="DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>tpf</code> - the time interval between frames (in seconds, &ge;0)</dd>
 </dl>
 </section>
 </li>
