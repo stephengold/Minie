@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -117,7 +117,7 @@ public class Box2dShape extends ConvexShape {
      * Instantiate a rectangle shape with the specified half extents.
      *
      * @param halfExtents the desired unscaled half extents (not null, no
-     * negative component, unaffected, Z component ignored)
+     * negative component, unaffected)
      */
     public Box2dShape(Vector2f halfExtents) {
         Validate.nonNegative(halfExtents, "half extents");

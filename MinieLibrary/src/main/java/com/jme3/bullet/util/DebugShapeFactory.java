@@ -77,7 +77,7 @@ final public class DebugShapeFactory {
      */
     final private static float planeDebugMeshSideLength = 1_500f;
     /**
-     * square root of 2
+     * square root of 2 TODO use MyMath
      */
     final private static float root2 = FastMath.sqrt(2f);
     /**
