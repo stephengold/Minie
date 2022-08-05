@@ -404,10 +404,8 @@ correct the situation: sgold@sonic.net
 [Jump to table of contents](#toc)
 
 
-[ant]: https://ant.apache.org "Apache Ant Project"
 [antora]: https://antora.org/ "Antora Project"
 [blender]: https://docs.blender.org "Blender Project"
-[bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
 [bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
 [checkstyle]: https://checkstyle.org "Checkstyle"
 [chrome]: https://www.google.com/chrome "Chrome"
@@ -420,7 +418,6 @@ correct the situation: sgold@sonic.net
 [git]: https://git-scm.com "Git"
 [github]: https://github.com "GitHub"
 [gitkraken]: https://www.gitkraken.com "GitKraken client"
-[gltf]: https://www.khronos.org/gltf "glTF Project"
 [gradle]: https://gradle.org "Gradle Project"
 [heart]: https://github.com/stephengold/Heart "Heart Project"
 [idea]: https://www.jetbrains.com/idea/ "IntelliJ IDEA"
@@ -429,7 +426,6 @@ correct the situation: sgold@sonic.net
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: https://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
-[latest]: https://github.com/stephengold/Minie/releases/tag/latest "latest release"
 [library]: https://library.jmonkeyengine.org "jMonkeyEngine Library"
 [license]: https://github.com/stephengold/Minie/blob/master/LICENSE "Minie license"
 [log]: https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md "release log"
