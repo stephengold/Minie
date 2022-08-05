@@ -113,6 +113,7 @@ public class TestCloneBody {
         setParameters(body0, 0f);
         verifyParameters(body0, 0f);
         PhysicsRigidBody body0Clone = Heart.deepCopy(body0);
+        assert body0Clone.isStatic();
         cloneTest(body0, body0Clone);
         /*
          * dynamic with mass=1
@@ -121,6 +122,8 @@ public class TestCloneBody {
         setParameters(body, 0f);
         verifyParameters(body, 0f);
         PhysicsRigidBody bodyClone = Heart.deepCopy(body);
+        assert bodyClone.isDynamic();
+        assert bodyClone.getMass() == 1f;
         cloneTest(body, bodyClone);
     }
 
@@ -170,6 +173,8 @@ public class TestCloneBody {
         setParameters(rbc, 0f);
         verifyParameters(rbc, 0f);
         RigidBodyControl rbcClone = Heart.deepCopy(rbc);
+        assert rbcClone.isDynamic();
+        assert rbcClone.getMass() == 1f;
         cloneTest(rbc, rbcClone);
     }
 
@@ -195,7 +200,12 @@ public class TestCloneBody {
 
     private void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
         assert bodyClone.nativeId() != body.nativeId();
-        if (body instanceof PhysicsSoftBody) {
+        if (body instanceof PhysicsRigidBody) {
+            PhysicsRigidBody rBody = (PhysicsRigidBody) body;
+            PhysicsRigidBody rBodyClone = (PhysicsRigidBody) bodyClone;
+            assert rBody.getMotionState() != rBodyClone.getMotionState();
+
+        } else if (body instanceof PhysicsSoftBody) {
             PhysicsSoftBody sBody = (PhysicsSoftBody) body;
             PhysicsSoftBody sBodyClone = (PhysicsSoftBody) bodyClone;
             assert sBodyClone.getSoftConfig() != sBody.getSoftConfig();
