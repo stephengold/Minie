@@ -659,6 +659,51 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
+     * Rebuild this rigid body with a new native object.
+     */
+    public void rebuildRigidBody() {
+        PhysicsSpace removedFrom = null;
+        long[] ignoredIds = null;
+
+        if (hasAssignedNativeObject()) {
+            // Gather information regarding the existing native object.
+            removedFrom = (PhysicsSpace) getCollisionSpace();
+            if (removedFrom != null) {
+                removedFrom.removeCollisionObject(this);
+            }
+
+            ignoredIds = listIgnoredIds();
+            clearIgnoreList();
+
+            logger2.log(Level.FINE, "Clearing {0}.", this);
+            unassignNativeObject();
+        }
+
+        preRebuild();
+
+        CollisionShape shape = getCollisionShape();
+        long objectId = createRigidBody(
+                mass, motionState.nativeId(), shape.nativeId());
+        setNativeId(objectId);
+        assert getInternalType(objectId) == PcoType.rigid :
+                getInternalType(objectId);
+        logger2.log(Level.FINE, "Created {0}.", this);
+
+        postRebuild();
+
+        if (ignoredIds != null) {
+            boolean toIgnore = true;
+            for (long id : ignoredIds) {
+                setIgnoreCollisionCheck(objectId, id, toIgnore);
+            }
+        }
+        if (removedFrom != null) {
+            removedFrom.addCollisionObject(this);
+        }
+        // TODO physics joints
+    }
+
+    /**
      * Alter this body's angular damping.
      *
      * @param angularDamping the desired angular damping fraction (&ge;0, &le;1,
@@ -1108,49 +1153,6 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     protected void preRebuild() {
         // do nothing
-    }
-
-    /**
-     * Build/rebuild this body after parameters have changed.
-     */
-    protected void rebuildRigidBody() {
-        PhysicsSpace removedFrom = null;
-        long[] ignoredIds = null;
-        if (hasAssignedNativeObject()) {
-            removedFrom = (PhysicsSpace) getCollisionSpace();
-            if (removedFrom != null) {
-                removedFrom.removeCollisionObject(this);
-            }
-
-            ignoredIds = listIgnoredIds();
-            clearIgnoreList();
-
-            logger2.log(Level.FINE, "Clearing {0}.", this);
-            unassignNativeObject();
-        }
-
-        preRebuild();
-
-        CollisionShape shape = getCollisionShape();
-        long objectId = createRigidBody(mass, motionState.nativeId(),
-                shape.nativeId());
-        setNativeId(objectId);
-        assert getInternalType(objectId) == PcoType.rigid :
-                getInternalType(objectId);
-        logger2.log(Level.FINE, "Created {0}.", this);
-
-        postRebuild();
-
-        if (ignoredIds != null) {
-            boolean toIgnore = true;
-            for (long id : ignoredIds) {
-                setIgnoreCollisionCheck(objectId, id, toIgnore);
-            }
-        }
-
-        if (removedFrom != null) {
-            removedFrom.addCollisionObject(this);
-        }
     }
     // *************************************************************************
     // PhysicsBody methods
