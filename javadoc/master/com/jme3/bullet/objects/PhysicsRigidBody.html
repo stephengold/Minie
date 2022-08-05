@@ -375,10 +375,10 @@ loadScripts(document, 'script');</script>
 <div class="block">De-serialize this body from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rebuildRigidBody()" class="member-name-link">rebuildRigidBody</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Build/rebuild this body after parameters have changed.</div>
+<div class="block">Rebuild this rigid body with a new native object.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAngularDamping(float)" class="member-name-link">setAngularDamping</a><wbr>(float&nbsp;angularDamping)</code></div>
@@ -1063,6 +1063,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="rebuildRigidBody()">
+<h3>rebuildRigidBody</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">rebuildRigidBody</span>()</div>
+<div class="block">Rebuild this rigid body with a new native object.</div>
+</section>
+</li>
+<li>
 <section class="detail" id="setAngularDamping(float)">
 <h3>setAngularDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAngularDamping</span><wbr><span class="parameters">(float&nbsp;angularDamping)</span></div>
@@ -1450,13 +1457,6 @@ loadScripts(document, 'script');</script>
 <h3>preRebuild</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">preRebuild</span>()</div>
 <div class="block">For use by subclasses.</div>
-</section>
-</li>
-<li>
-<section class="detail" id="rebuildRigidBody()">
-<h3>rebuildRigidBody</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">rebuildRigidBody</span>()</div>
-<div class="block">Build/rebuild this body after parameters have changed.</div>
 </section>
 </li>
 <li>
