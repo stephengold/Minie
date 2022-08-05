@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -165,6 +165,7 @@ public class TestCloneBody {
      * Clone rigid-body controls.
      */
     private void cloneRbc() {
+        // dynamic with mass=1
         RigidBodyControl rbc = new RigidBodyControl(shape, 1f);
         setParameters(rbc, 0f);
         verifyParameters(rbc, 0f);
@@ -202,13 +203,18 @@ public class TestCloneBody {
             assert sBodyClone.getWorldInfo() != sBody.getWorldInfo();
         }
 
+        // Verify that cloning didn't affect the original.
         verifyParameters(body, 0f);
+
+        // Verify that the clone matches the original.
         verifyParameters(bodyClone, 0f);
 
+        // Verify that changing the original doesn't affect the clone.
         setParameters(body, 0.3f);
         verifyParameters(body, 0.3f);
         verifyParameters(bodyClone, 0f);
 
+        // Verify that changing the clone doesn't affect the original.
         setParameters(bodyClone, 0.6f);
         verifyParameters(body, 0.3f);
         verifyParameters(bodyClone, 0.6f);
@@ -297,8 +303,9 @@ public class TestCloneBody {
         body.applyTorque(torque.divide(aFactor));
         body.setLinearVelocity(new Vector3f(b + 0.26f, b + 0.27f, b + 0.28f));
         body.setDeactivationTime(b + 0.087f);
+
         if (body instanceof PhysicsVehicle) {
-            // TODO
+            // TODO additional setup
         }
     }
 
