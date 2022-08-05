@@ -689,13 +689,17 @@ public class PhysicsRigidBody extends PhysicsBody {
                 getInternalType(objectId);
         logger2.log(Level.FINE, "Created {0}.", this);
 
+        if (mass != massForStatic) {
+            setKinematic(kinematic);
+        }
+
         postRebuild();
 
-        if (snapshot != null) {
-            snapshot.applyTo(this);
-        }
         if (removedFrom != null) {
             removedFrom.addCollisionObject(this);
+        }
+        if (snapshot != null) {
+            snapshot.applyTo(this);
         }
         // TODO physics joints
     }
@@ -1173,9 +1177,6 @@ public class PhysicsRigidBody extends PhysicsBody {
         cloneJoints(cloner);
         motionState = cloner.clone(motionState);
 
-        if (mass != massForStatic) {
-            setKinematic(kinematic);
-        }
         Vector3f tmpVector = new Vector3f(); // TODO garbage
         if (old.isDynamic()) {
             setAngularVelocity(old.getAngularVelocity(tmpVector));
@@ -1264,14 +1265,12 @@ public class PhysicsRigidBody extends PhysicsBody {
         super.read(importer);
 
         InputCapsule capsule = importer.getCapsule(this);
+        this.kinematic = capsule.readBoolean(tagKinematic, false);
         mass = capsule.readFloat(tagMass, 1f);
         rebuildRigidBody();
 
         setAngularVelocity((Vector3f) capsule.readSavable(tagAngularVelocity,
                 translateIdentity));
-        if (mass != massForStatic) {
-            setKinematic(capsule.readBoolean(tagKinematic, false));
-        }
         setLinearVelocity((Vector3f) capsule.readSavable(tagLinearVelocity,
                 translateIdentity));
         applyCentralForce((Vector3f) capsule.readSavable(tagAppliedForce,
