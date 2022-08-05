@@ -255,7 +255,10 @@ abstract public class NativePhysicsObject
     }
 
     /**
-     * Generate the hash code for this instance.
+     * Return the hash code for this instance.
+     * <p>
+     * Note: operations that alter the native ID are likely to affect the hash
+     * code as well!
      *
      * @return a 32-bit value for use in hashing
      */

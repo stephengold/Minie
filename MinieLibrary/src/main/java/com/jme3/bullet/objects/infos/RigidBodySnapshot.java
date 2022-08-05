@@ -42,8 +42,8 @@ import java.util.logging.Logger;
  * Copy certain properties of a PhysicsRigidBody in order to re-apply them
  * later. Immutable.
  * <p>
- * Snapshots are used for rebuilding, so they don't include the inertia, joints,
- * kinematic flag, mass, motion state, physics space, or shape.
+ * Snapshots are used for rebuilding, so they don't include the collision shape,
+ * inertia, joints, kinematic flag, mass, motion state, or physics space.
  *
  * @author Stephen Gold sgold@sonic.net
  */
