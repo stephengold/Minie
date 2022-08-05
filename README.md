@@ -368,8 +368,8 @@ artists and software developers:
 + plus the creators of (and contributors to) the following software:
     + the [Antora] static website generator
     + the [Blender] 3-D animation suite
-    + the [Checkstyle] tool
     + the [Bullet] real-time physics library
+    + the [Checkstyle] tool
     + the [FindBugs] source-code analyzer
     + the [Firefox] and [Google Chrome][chrome] web browsers
     + the [Git] revision-control system and GitK commit viewer
@@ -450,7 +450,7 @@ correct the situation: sgold@sonic.net
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: https://www.cessen.com "Nathan Vegdahl"
 [vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
-[vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "V-HACD Java Bindings Project"
+[vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "Riccardo's V-hacd-java-bindings Project"
 [wes]: https://github.com/stephengold/Wes "Wes Project"
 [winmerge]: https://winmerge.org "WinMerge Project"
 [youtube]: https://www.youtube.com/ "YouTube"
