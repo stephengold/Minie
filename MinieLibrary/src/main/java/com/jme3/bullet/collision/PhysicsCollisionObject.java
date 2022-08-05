@@ -1178,6 +1178,22 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Alter the ignore list.
+     *
+     * @param idList the desired collision-object IDs (not null, may be
+     * empty)
+     */
+    public void setIgnoreList(long[] idList) {
+        Validate.nonNull(idList, "ID list");
+        clearIgnoreList();
+
+        long thisId = nativeId();
+        for (long otherId : idList) {
+            setIgnoreCollisionCheck(thisId, otherId, true);
+        }
+    }
+
+    /**
      * Alter this object's restitution (bounciness) (native field:
      * m_restitution). For perfect elasticity, set restitution=1.
      *
