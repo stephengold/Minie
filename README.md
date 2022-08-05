@@ -374,6 +374,7 @@ artists and software developers:
     + the [Firefox] and [Google Chrome][chrome] web browsers
     + the [Git] revision-control system and GitK commit viewer
     + the [GitKraken] client
+    + the [GNU Project Debugger][gdb]
     + the [Gradle] build tool
     + the [IntelliJ IDEA][idea] and [NetBeans] integrated development environments
     + the [Java] compiler, standard doclet, and runtime environment
@@ -415,6 +416,7 @@ correct the situation: sgold@sonic.net
 [elements]: https://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
 [findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
 [firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
+[gdb]: https://www.gnu.org/software/gdb/ "GNU Project Debugger"
 [git]: https://git-scm.com "Git"
 [github]: https://github.com "GitHub"
 [gitkraken]: https://www.gitkraken.com "GitKraken client"
