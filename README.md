@@ -261,6 +261,8 @@ preferably early in the development process.
 
 ## External links
 
++ [the Minie Physics Library page](https://library.jmonkeyengine.org/#!entry=11511%2F38308161-c3cf-4e23-8754-528ca8387c11)
+  in [the JmonkeyEngine Library][library]
 + [The Minie Physics Library page](https://store.jmonkeyengine.org/38308161-c3cf-4e23-8754-528ca8387c11)
   at [the JmonkeyStore][store]
 + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
@@ -426,6 +428,7 @@ correct the situation: sgold@sonic.net
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [jme-ttf]: https://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
 [latest]: https://github.com/stephengold/Minie/releases/tag/latest "latest release"
+[library]: https://library.jmonkeyengine.org "jMonkeyEngine Library"
 [license]: https://github.com/stephengold/Minie/blob/master/LICENSE "Minie license"
 [log]: https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md "release log"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
