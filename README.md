@@ -391,7 +391,7 @@ artists and software developers:
     + the [WinMerge] differencing and merging tool
 
 I am grateful to [GitHub], [Sonatype], [JFrog],
-[YouTube], and [Imgur]
+[Travis], [MacStadium], [YouTube], and [Imgur]
 for providing free hosting for this project
 and many other open-source projects.
 
@@ -431,6 +431,7 @@ correct the situation: sgold@sonic.net
 [library]: https://library.jmonkeyengine.org "jMonkeyEngine Library"
 [license]: https://github.com/stephengold/Minie/blob/master/LICENSE "Minie license"
 [log]: https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md "release log"
+[macstadium]: https://www.macstadium.com/ "MacStadium"
 [makehuman]: http://www.makehumancommunity.org/ "MakeHuman Community"
 [manual]: https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf "Bullet User Manual"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
@@ -445,6 +446,7 @@ correct the situation: sgold@sonic.net
 [simmath]: https://github.com/Simsilica/SimMath "SimMath Library"
 [sonatype]: https://www.sonatype.com "Sonatype"
 [store]: https://store.jmonkeyengine.org "JmonkeyStore"
+[travis]: https://travis-ci.com "Travis CI"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: https://www.cessen.com "Nathan Vegdahl"
 [vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
