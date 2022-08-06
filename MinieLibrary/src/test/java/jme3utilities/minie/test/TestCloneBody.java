@@ -78,6 +78,10 @@ public class TestCloneBody {
      * wire mesh for generating soft bodies
      */
     final private Mesh wireBox = new WireBox();
+    /**
+     * body added to ignore lists
+     */
+    private PhysicsRigidBody ignoreBuddy;
     // *************************************************************************
     // new methods exposed
 
@@ -89,6 +93,7 @@ public class TestCloneBody {
     public void testCloneBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         shape = new SphereCollisionShape(1f);
+        this.ignoreBuddy = new PhysicsRigidBody(shape);
 
         for (int iteration = 0; iteration < 99; ++iteration) {
             clonePrb();
@@ -269,6 +274,11 @@ public class TestCloneBody {
         body.setContactResponse(flag);
         body.setProtectGravity(!flag);
 
+        body.clearIgnoreList();
+        if (flag) {
+            body.addToIgnoreList(ignoreBuddy);
+        }
+
         int afMode = Math.round(b / 0.3f);
         body.setAnisotropicFriction(
                 new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), afMode);
@@ -377,6 +387,7 @@ public class TestCloneBody {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert body.isContactResponse() == flag;
         assert body.isGravityProtected() == !flag;
+        assert body.countIgnored() == (flag ? 1 : 0);
 
         int index = Math.round(b / 0.3f);
         if (index == 0) {
