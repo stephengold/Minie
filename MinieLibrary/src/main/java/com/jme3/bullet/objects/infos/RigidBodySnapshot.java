@@ -66,112 +66,112 @@ public class RigidBodySnapshot {
     /**
      * contact-response flag
      */
-    final protected boolean contactResponse;
+    final private boolean contactResponse;
     /**
      * gravity-protection flag
      */
-    final protected boolean protectGravity;
+    final private boolean protectGravity;
     /**
      * angular damping fraction
      */
-    final protected float angularDamping;
+    final private float angularDamping;
     /**
      * angular-motion sleeping threshold (in radians per second)
      */
-    final protected float angularSleepingThreshold;
+    final private float angularSleepingThreshold;
     /**
      * continuous collision detection motion threshold (in physics-space units)
      */
-    final protected float ccdMotionThreshold;
+    final private float ccdMotionThreshold;
     /**
      * radius of the sphere used for continuous collision detection (in
      * physics-space units)
      */
-    final protected float ccdSweptSphereRadius;
+    final private float ccdSweptSphereRadius;
     /**
      * contact damping
      */
-    final protected float contactDamping;
+    final private float contactDamping;
     /**
      * contact processing threshold (in physics-space units)
      */
-    final protected float contactProcessingThreshold;
+    final private float contactProcessingThreshold;
     /**
      * contact stiffness
      */
-    final protected float contactStiffness;
+    final private float contactStiffness;
     /**
      * deactivation time (in seconds)
      */
-    final protected float deactivationTime;
+    final private float deactivationTime;
     /**
      * friction parameter
      */
-    final protected float friction;
+    final private float friction;
     /**
      * linear damping fraction
      */
-    final protected float linearDamping;
+    final private float linearDamping;
     /**
      * linear-motion threshold (in physics-space units per second)
      */
-    final protected float linearSleepingThreshold;
+    final private float linearSleepingThreshold;
     /**
      * restitution (bounciness)
      */
-    final protected float restitution;
+    final private float restitution;
     /**
      * rolling friction
      */
-    final protected float rollingFriction;
+    final private float rollingFriction;
     /**
      * spinning friction
      */
-    final protected float spinningFriction;
+    final private float spinningFriction;
     /**
      * anisotropic friction modes (bitmask)
      */
-    final protected int anisotropicFrictionModes;
+    final private int anisotropicFrictionModes;
     /**
      * native IDs of all collision objects in the ignore list
      */
-    final protected long[] ignoreList;
+    final private long[] ignoreList;
     /**
      * basis of the local coordinate system (in physics-space coordinates)
      */
-    final protected Matrix3f rotationMatrix;
+    final private Matrix3f rotationMatrix;
     /**
      * angular velocity (in physics-space coordinates)
      */
-    final protected Vec3d angularVelocity;
+    final private Vec3d angularVelocity;
     /**
      * linear velocity (in physics-space coordinates)
      */
-    final protected Vec3d linearVelocity;
+    final private Vec3d linearVelocity;
     /**
      * location of the center (in physics-space coordinates)
      */
-    final protected Vec3d location;
+    final private Vec3d location;
     /**
      * anisotropic friction components
      */
-    final protected Vector3f anisotropicFrictionComponents;
+    final private Vector3f anisotropicFrictionComponents;
     /**
      * angular factors
      */
-    final protected Vector3f angularFactor;
+    final private Vector3f angularFactor;
     /**
      * linear factors
      */
-    final protected Vector3f linearFactor;
+    final private Vector3f linearFactor;
     /**
      * applied central force (excluding contact forces, damping, and gravity)
      */
-    final protected Vector3f totalAppliedForce;
+    final private Vector3f totalAppliedForce;
     /**
      * applied torque (excluding contact forces and damping)
      */
-    final protected Vector3f totalAppliedTorque;
+    final private Vector3f totalAppliedTorque;
     // *************************************************************************
     // constructors
 
