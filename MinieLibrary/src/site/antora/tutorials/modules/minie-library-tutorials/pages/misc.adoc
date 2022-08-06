@@ -53,6 +53,27 @@ import jme3utilities.minie.MinieVersion;
 String minieVersion = MinieVersion.versionShort();
 ----
 
+== Dedicated physics thread
+
+By default, the physics simulation runs on the render thread.
+To execute it on a dedicated thread, use:
+
+[source,java]
+----
+bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+----
+
+== Simulation speed
+
+By default, simulation advances based on the time per frame (tpf)
+reported by the renderer.
+To advance the physics simulation at a different rate, use:
+
+[source,java]
+----
+bulletAppState.setSpeed(0.5f); // simulate physics at half speed
+----
+
 == Default collision margin
 
 The default collision margin for new shapes is 0.04 physics-space units.
