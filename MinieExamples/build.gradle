@@ -46,6 +46,13 @@ clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanShapes', ':MinieA
 
 // tasks to run specific apps:
 
+tasks.register('NewtonsCradle', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.NewtonsCradle'
+}
+tasks.register('NewtonsCradleDeleteSettings', JavaExec) {
+    args '--deleteOnly'
+    mainClass = 'jme3utilities.minie.test.NewtonsCradle'
+}
 tasks.register('RopeDemo', JavaExec) {
     mainClass = 'jme3utilities.minie.test.RopeDemo'
 }
@@ -55,4 +62,11 @@ tasks.register('RopeDemoDeleteSettings', JavaExec) {
 }
 tasks.register('TestGearJoint', JavaExec) {
     mainClass = 'jme3utilities.minie.test.TestGearJoint'
+}
+tasks.register('Windlass', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.Windlass'
+}
+tasks.register('WindlassDeleteSettings', JavaExec) {
+    args '--deleteOnly'
+    mainClass = 'jme3utilities.minie.test.Windlass'
 }
