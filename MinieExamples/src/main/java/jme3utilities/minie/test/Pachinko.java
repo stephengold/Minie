@@ -143,8 +143,7 @@ public class Pachinko
             switch (arg) {
                 case "--deleteOnly":
                     Heart.deleteStoredSettings(applicationName);
-                    System.exit(0);
-                    break;
+                    return;
                 default:
             }
         }

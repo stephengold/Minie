@@ -116,8 +116,7 @@ public class TestGearJoint
             switch (arg) {
                 case "--deleteOnly":
                     Heart.deleteStoredSettings(applicationName);
-                    System.exit(0);
-                    break;
+                    return;
 
                 case "--showSettingsDialog":
                     showDialog = ShowDialog.FirstTime;

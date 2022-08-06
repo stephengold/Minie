@@ -122,8 +122,7 @@ public class NewtonsCradle
             switch (arg) {
                 case "--deleteOnly":
                     Heart.deleteStoredSettings(applicationName);
-                    System.exit(0);
-                    break;
+                    return;
                 default:
             }
         }
