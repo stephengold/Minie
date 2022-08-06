@@ -74,6 +74,19 @@ To advance the physics simulation at a different rate, use:
 bulletAppState.setSpeed(0.5f); // simulate physics at half speed
 ----
 
+== Tuning the solver
+
+The contact-and-constraint solver
+performs a limited number of iterations per time step,
+by default, 10.
+For higher-quality (but slower) simulation, increase this number.
+For instance, to use 20 iterations:
+
+[source,java]
+----
+space.getSolverInfo().setNumIterations(20);
+----
+
 == Default collision margin
 
 The default collision margin for new shapes is 0.04 physics-space units.

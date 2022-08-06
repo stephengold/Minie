@@ -270,16 +270,6 @@ space.setMaxSubSteps(6);
 NOTE: `setAccuracy()` has no effect when `maxSubSteps==0`,
 while `setMaxTimeStep()` has no effect when `maxSubSteps>0`.
 
-The contact solver performs a fixed number of iterations per time step,
-by default, 10.
-For higher-quality (but slower) simulation, increase this number.
-For instance, to use 20 iterations:
-
-[source,java]
-----
-space.getSolverInfo().setNumIterations(20);
-----
-
 Each physics space has a gravity vector,
 which is typically applied to bodies as they get added to the space.
 To simulate a zero-gravity environment,
