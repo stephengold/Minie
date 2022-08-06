@@ -331,7 +331,7 @@ public class TestDefaults {
         testJoints();
 
         VHACDParameters parms = new VHACDParameters();
-        Assert.assertEquals(parms.getACDMode(), ACDMode.VOXEL);
+        Assert.assertEquals(ACDMode.VOXEL, parms.getACDMode());
         Assert.assertEquals(0.05, parms.getAlpha(), 0.0);
         Assert.assertEquals(0.05, parms.getBeta(), 0.0);
         Assert.assertEquals(4, parms.getConvexHullDownSampling());
@@ -501,11 +501,11 @@ public class TestDefaults {
         testConstraint(constraint);
 
         Assert.assertFalse(constraint.isAngularOnly());
-        Assert.assertEquals(constraint.getBiasFactor(), 0.3f, 0f);
-        Assert.assertEquals(constraint.getLimitSoftness(), 0.9f, 0f);
-        Assert.assertEquals(constraint.getLowerLimit(), 1f, 0f);
-        Assert.assertEquals(constraint.getRelaxationFactor(), 1f, 0f);
-        Assert.assertEquals(constraint.getUpperLimit(), -1f, 0f);
+        Assert.assertEquals(0.3f, constraint.getBiasFactor(), 0f);
+        Assert.assertEquals(0.9f, constraint.getLimitSoftness(), 0f);
+        Assert.assertEquals(1f, constraint.getLowerLimit(), 0f);
+        Assert.assertEquals(1f, constraint.getRelaxationFactor(), 0f);
+        Assert.assertEquals(-1f, constraint.getUpperLimit(), 0f);
     }
 
     private void testNew6Dof(New6Dof constraint, int numEnds) {
