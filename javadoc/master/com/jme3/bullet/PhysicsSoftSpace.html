@@ -135,10 +135,14 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">PhysicsSoftSpace</a><wbr>(com.jme3.math.Vector3f&nbsp;worldMin,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">PhysicsSoftSpace</a><wbr>(<a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Instantiate a PhysicsSoftSpace with sequential-impulse solvers.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">PhysicsSoftSpace</a><wbr>(com.jme3.math.Vector3f&nbsp;worldMin,
  com.jme3.math.Vector3f&nbsp;worldMax,
  <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</code></div>
-<div class="col-last even-row-color">
+<div class="col-last odd-row-color">
 <div class="block">Instantiate a PhysicsSoftSpace with a sequential-impulse solver.</div>
 </div>
 </div>
@@ -263,6 +267,18 @@ loadScripts(document, 'script');</script>
 <section class="constructor-details" id="constructor-detail">
 <h2>Constructor Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="&lt;init&gt;(com.jme3.bullet.PhysicsSpace.BroadphaseType)">
+<h3>PhysicsSoftSpace</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PhysicsSoftSpace</span><wbr><span class="parameters">(<a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</span></div>
+<div class="block">Instantiate a PhysicsSoftSpace with sequential-impulse solvers. Must be
+ invoked on the designated physics thread.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)">
 <h3>PhysicsSoftSpace</h3>
