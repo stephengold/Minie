@@ -60,7 +60,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading/rebuilding on PhysicsBody and its subclasses.
+ * Test cloning/saving/loading/rebuilding on subclasses of PhysicsBody.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -92,8 +92,8 @@ public class TestCloneBody {
     // new methods exposed
 
     /**
-     * Test cloning/saving/loading on subclasses of PhysicsBody. TODO add to
-     * PhysicsSpace, add joints
+     * Test cloning/saving/loading/rebuilding on subclasses of PhysicsBody. TODO
+     * add joints
      */
     @Test
     public void testCloneBody() {
