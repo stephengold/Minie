@@ -204,9 +204,8 @@ import com.jme3.bullet.PhysicsSpace;
 
 @Override
 public void simpleInitApp() {
-    BulletAppState appState = new BulletAppState();
-    stateManager.attach(appState);
-    PhysicsSpace physicsSpace = appState.getPhysicsSpace();
+    BulletAppState bulletAppState = new BulletAppState();
+    stateManager.attach(bulletAppState);
 ----
 
 [CAUTION]
@@ -218,7 +217,7 @@ That's why the following snippet fails:
 
 [source,java]
 ----
-static BulletAppState bas = new BulletAppState();
+static BulletAppState bulletAppState = new BulletAppState();
 ----
 ====
 
