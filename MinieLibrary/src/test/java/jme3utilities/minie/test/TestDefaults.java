@@ -163,10 +163,8 @@ public class TestDefaults {
                 PhysicsSpace.BroadphaseType.AXIS_SWEEP_3);
         testPhysicsSpace(mbSpace);
 
-        PhysicsSoftSpace space = new PhysicsSoftSpace(
-                new Vector3f(-10000f, -10000f, -10000f),
-                new Vector3f(10000f, 10000f, 10000f),
-                PhysicsSpace.BroadphaseType.DBVT);
+        PhysicsSoftSpace space
+                = new PhysicsSoftSpace(PhysicsSpace.BroadphaseType.DBVT);
         testPhysicsSpace(space);
 
         DeformableSpace dSpace = new DeformableSpace(

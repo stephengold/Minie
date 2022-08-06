@@ -73,6 +73,17 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     // constructors
 
     /**
+     * Instantiate a PhysicsSoftSpace with sequential-impulse solvers. Must be
+     * invoked on the designated physics thread.
+     *
+     * @param broadphaseType which broadphase accelerator to use (not null)
+     */
+    public PhysicsSoftSpace(BroadphaseType broadphaseType) {
+        this(new Vector3f(-10000f, -10000f, -10000f),
+                new Vector3f(10000f, 10000f, 10000f), broadphaseType);
+    }
+
+    /**
      * Instantiate a PhysicsSoftSpace with a sequential-impulse solver. Must be
      * invoked on the designated physics thread.
      *

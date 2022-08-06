@@ -100,11 +100,7 @@ public class TestCloneBody {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         shape = new SphereCollisionShape(1f);
         this.ignoreBuddy = new PhysicsRigidBody(shape);
-
-        Vector3f worldMin = new Vector3f(-999f, -999f, -999f); // value ignored
-        Vector3f worldMax = new Vector3f(+999f, +999f, +999f); // value ignored
-        this.space = new PhysicsSoftSpace(
-                worldMin, worldMax, PhysicsSpace.BroadphaseType.DBVT);
+        this.space = new PhysicsSoftSpace(PhysicsSpace.BroadphaseType.DBVT);
 
         for (int iteration = 0; iteration < 9; ++iteration) {
             clonePrb();
