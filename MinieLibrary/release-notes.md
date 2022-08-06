@@ -1,5 +1,20 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
+## Version 5.1.0 released on TBD
+
++ Bugfix:  `PhysicsRigidBody.setInverseInertiaLocal()` and
+  `PhysicsRigidBody.updateMassProps()` don't update the world inertia tensor
++ Bugfix:  when rebuilding a rigid body, many properties are lost
++ Added a `DynamicAnimControl` mechanism to report the completion
+  of a blend-to-kinematic operation.
++ Added the `CompletionListener` interface.
++ Added the `RigidBodySnapshot` class.
++ Added the `setIgnoreList()` method to the `PhysicsCollisionObject` class.
++ Added a simpler constructor to `PhysicsSoftSpace`.
++ Publicized the `rebuildRigidBody()` method.
++ Updated the native libraries to v16.0.0 of Libbulletjme.
++ Built using Gradle v7.5.1 .
+
 ## Version 5.0.1 released on 2 August 2022
 
 + Bugfix:  static rigid body misbehaves after being assigned a positive mass
@@ -7,6 +22,7 @@
   blends to kinematic mode
 + Bugfix:  when rebuilding a rigid body, its ignore list is lost
 + Based on v8.1.0 of the Heart library.
++ Built using Gradle v7.5 .
 
 ## Version 5.0.0 released on 11 July 2022
 
@@ -26,7 +42,7 @@
     method of the `PhysicsCollisionEvent` class.
 
 + Library bugfixes:
-  + `PhysicsCharacter.onGround()` is unreliable (stephengold/Libbuletjme#18)
+  + `PhysicsCharacter.onGround()` is unreliable (stephengold/Libbulletjme#18)
   + `TorsoLink` continues writing the model transform
      after a blend to kinematic completes
   + `DynamicAnimControl` rebuilds the ragdoll for minute changes to bone scaling
