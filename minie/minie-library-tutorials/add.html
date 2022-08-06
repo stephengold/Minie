@@ -329,7 +329,7 @@
 <td class="content">
 If you&#8217;re creating a JMonkeyEngine desktop application from scratch,
 <a href="https://github.com/stephengold/BasicGame-on-Gradle">the BasicGame-on-Gradle project</a>
-provides a good template.
+provides a good starting point.
 </td>
 </tr>
 </table>
@@ -479,17 +479,12 @@ The Minie library depends on:</p>
 <p><a href="https://github.com/Simsilica/SimMath">Simsilica&#8217;s SimMath library</a>, and</p>
 </li>
 <li>
-<p><a href="https://github.com/stephengold/Heart">the Heart library</a>,
-which in turn depend on:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>the standard jme3-core library.</p>
+<p><a href="https://github.com/stephengold/Heart">the Heart library</a>,</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
+<div class="paragraph">
+<p>and those libraries depend on other JVM libraries.</p>
 </div>
 <div class="paragraph">
 <p>For projects built using Gradle or Maven, it&#8217;s usually sufficient to specify the
@@ -541,7 +536,17 @@ it&#8217;s necessary to replace <code>implementation</code> with <code>compile</
 <div class="sect2">
 <h3 id="_ant_built_projects_2"><a class="anchor" href="#_ant_built_projects_2"></a>Ant-built projects</h3>
 <div class="paragraph">
-<p>Download the Minie, Heart, and SimMath libraries from GitHub:</p>
+<p><a href="https://ant.apache.org">Ant</a> doesn&#8217;t know about transitive dependencies,
+so you&#8217;ll need to resolve them manually.
+Furthermore, in order to use the latest Minie release,
+you&#8217;ll need version 3.5.2 JMonkeyEngine libraries.
+(You can still use a JME 3.2 or 3.3 SDK, however.)
+For more information about the libraries Minie depends on,
+see <a href="../depends.html" class="xref page">the Library version dependencies page</a>.</p>
+</div>
+<div class="paragraph">
+<p>Download the Minie library and its dependencies
+from GitHub and/or Maven Central:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -554,10 +559,19 @@ it&#8217;s necessary to replace <code>implementation</code> with <code>compile</
 <li>
 <p><a href="https://github.com/Simsilica/SimMath/releases/tag/sim-math-v1.5.0" class="bare">https://github.com/Simsilica/SimMath/releases/tag/sim-math-v1.5.0</a></p>
 </li>
+<li>
+<p><a href="https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-core/3.5.2-stable/" class="bare">https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-core/3.5.2-stable/</a></p>
+</li>
+<li>
+<p><a href="https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-terrain/3.5.2-stable/" class="bare">https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-terrain/3.5.2-stable/</a></p>
+</li>
+<li>
+<p><a href="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.32/" class="bare">https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.32/</a></p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
-<p>You&#8217;ll want all 3 class JARs
+<p>You&#8217;ll definitely want the class JARs
 and probably the "-sources" and "-javadoc" JARs as well.</p>
 </div>
 <div class="paragraph">
@@ -588,7 +602,7 @@ and probably the "-sources" and "-javadoc" JARs as well.</p>
 <p>Navigate to the download directory.</p>
 </li>
 <li>
-<p>Select the "Heart-8.1.0" file.</p>
+<p>Select the "Minie-5.0.1.jar" file.</p>
 </li>
 <li>
 <p>Click on the <b class="button">Open</b> button.</p>
@@ -607,7 +621,7 @@ and probably the "-sources" and "-javadoc" JARs as well.</p>
 <p>Click on the <b class="button">Browse&#8230;&#8203;</b> button to the right of "Javadoc:"</p>
 </li>
 <li>
-<p>Select the "Heart-8.1.0-javadoc.jar" file.</p>
+<p>Select the "Minie-5.0.1-javadoc.jar" file.</p>
 </li>
 <li>
 <p>Click on the <b class="button">Open</b> button.</p>
@@ -616,7 +630,7 @@ and probably the "-sources" and "-javadoc" JARs as well.</p>
 <p>Click on the <b class="button">Browse&#8230;&#8203;</b> button to the right of "Sources:"</p>
 </li>
 <li>
-<p>Select the "Heart-8.1.0-sources.jar" file.</p>
+<p>Select the "Minie-5.0.1-sources.jar" file.</p>
 </li>
 <li>
 <p>Click on the <b class="button">Open</b> button button again.</p>
@@ -628,19 +642,12 @@ and probably the "-sources" and "-javadoc" JARs as well.</p>
 </div>
 </li>
 <li>
-<p>Similarly, add the Minie and sim-math JAR(s).</p>
+<p>Add the other JVM libraries in a similar manner.</p>
 </li>
 <li>
 <p>Click on the <b class="button">OK</b> button to exit the "Project Properties" dialog.</p>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p>In order to use the latest Minie release,
-you&#8217;ll need version 3.5.2 JMonkeyEngine libraries.
-(You can still use a JME 3.2 or 3.3 SDK, however.)
-For more information about the libraries Minie depends on,
-see <a href="https://stephengold.github.io/Minie/minie/depends.html">the Library version dependencies page in the Minie documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -680,35 +687,44 @@ a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/Ph
 </div>
 <div class="paragraph">
 <p>If the application already has
-a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>, that code will probably
-work fine with Minie.
+a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>,
+that code might work with Minie.
 If not, here is a snippet to guide you:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BulletAppState appState = new BulletAppState();
-stateManager.attach(appState);
-PhysicsSpace physicsSpace = appState.getPhysicsSpace();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
+
+// ...
+
+@Override
+public void simpleInitApp() {
+    BulletAppState bulletAppState = new BulletAppState();
+    stateManager.attach(bulletAppState);</code></pre>
 </div>
 </div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>By default, the physics simulation runs on the render thread.
-To execute it on a dedicated thread, use:</p>
+<p>Initialization order matters.
+A <code>BulletAppState</code> can&#8217;t be instantiated until the native library is loaded,
+which (for desktop apps) occurs during <code>Application.start()</code>.
+That&#8217;s why the following snippet fails:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">static BulletAppState bulletAppState = new BulletAppState();</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>By default, simulation advances based on the time per frame (tpf)
-reported by the renderer.
-To advance the physics simulation at a different rate, use:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setSpeed(0.5f); // simulate physics at half speed</code></pre>
-</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>By default, debug visualization is disabled. To enable it, use:</p>
@@ -724,7 +740,7 @@ used to customize debug visualization,
 are described on <a href="debug.html" class="xref page">the debugging page</a>.</p>
 </div>
 <div class="paragraph">
-<p>Ways to simulate physics without using
+<p>Techniques to simulate physics without using
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>
 are described on <a href="server.html" class="xref page">the physics-without-appstates page</a>.</p>
 </div>
@@ -778,17 +794,6 @@ while <code>setMaxTimeStep()</code> has no effect when <code>maxSubSteps&gt;0</c
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>The contact solver performs a fixed number of iterations per time step,
-by default, 10.
-For higher-quality (but slower) simulation, increase this number.
-For instance, to use 20 iterations:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.getSolverInfo().setNumIterations(20);</code></pre>
-</div>
 </div>
 <div class="paragraph">
 <p>Each physics space has a gravity vector,

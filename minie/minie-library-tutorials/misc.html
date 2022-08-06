@@ -385,6 +385,52 @@ String minieVersion = MinieVersion.versionShort();</code></pre>
 </div>
 </div>
 <div class="sect1">
+<h2 id="_dedicated_physics_thread"><a class="anchor" href="#_dedicated_physics_thread"></a>Dedicated physics thread</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, the physics simulation runs on the render thread.
+To execute it on a dedicated thread, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_simulation_speed"><a class="anchor" href="#_simulation_speed"></a>Simulation speed</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, simulation advances based on the time per frame (tpf)
+reported by the renderer.
+To advance the physics simulation at a different rate, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">bulletAppState.setSpeed(0.5f); // simulate physics at half speed</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tuning_the_solver"><a class="anchor" href="#_tuning_the_solver"></a>Tuning the solver</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The contact-and-constraint solver
+performs a limited number of iterations per time step,
+by default, 10.
+For higher-quality (but slower) simulation, increase this number.
+For instance, to use 20 iterations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.getSolverInfo().setNumIterations(20);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_default_collision_margin"><a class="anchor" href="#_default_collision_margin"></a>Default collision margin</h2>
 <div class="sectionbody">
 <div class="paragraph">
