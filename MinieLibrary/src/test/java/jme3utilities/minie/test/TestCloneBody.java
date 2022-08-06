@@ -284,8 +284,7 @@ public class TestCloneBody {
         body.setContactProcessingThreshold(b + 0.0845f);
         body.setContactStiffness(b + 0.085f);
         body.setFriction(b + 0.09f);
-        body.setInverseInertiaLocal(
-                new Vector3f(b + 0.122f, b + 0.123f, b + 0.124f));
+        setRigidInertia(body, b);
         body.setLinearDamping(b + 0.13f);
         Vector3f lFactor = new Vector3f(b + 0.14f, b + 0.15f, b + 0.16f);
         body.setLinearFactor(lFactor);
@@ -314,6 +313,11 @@ public class TestCloneBody {
         if (body instanceof PhysicsVehicle) {
             // TODO additional setup
         }
+    }
+
+    private void setRigidInertia(PhysicsRigidBody body, float b) {
+        body.setInverseInertiaLocal(
+                new Vector3f(b + 0.122f, b + 0.123f, b + 0.124f));
     }
 
     private void setSoft(PhysicsSoftBody body, float b) {
