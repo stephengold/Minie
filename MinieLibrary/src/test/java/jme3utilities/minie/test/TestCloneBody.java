@@ -95,7 +95,7 @@ public class TestCloneBody {
         shape = new SphereCollisionShape(1f);
         this.ignoreBuddy = new PhysicsRigidBody(shape);
 
-        for (int iteration = 0; iteration < 99; ++iteration) {
+        for (int iteration = 0; iteration < 9; ++iteration) {
             clonePrb();
             cloneRbc();
             clonePv();
