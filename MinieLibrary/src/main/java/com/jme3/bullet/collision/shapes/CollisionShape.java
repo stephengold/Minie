@@ -115,7 +115,7 @@ abstract public class CollisionShape
     // constructors
 
     /**
-     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     * A no-arg constructor to avoid javadoc warnings from JDK 18. TODO protect
      */
     public CollisionShape() {
         // do nothing

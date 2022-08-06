@@ -111,7 +111,7 @@ abstract public class AbstractPhysicsControl
     // constructors
 
     /**
-     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     * A no-arg constructor to avoid javadoc warnings from JDK 18. TODO protect
      */
     public AbstractPhysicsControl() {
         // do nothing

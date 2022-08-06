@@ -70,7 +70,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     // constructors
 
     /**
-     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     * A no-arg constructor to avoid javadoc warnings from JDK 18. TODO protect
      */
     public PhysicsBody() {
         // do nothing
