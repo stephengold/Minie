@@ -243,6 +243,8 @@ public class TestCloneBody {
 
         PhysicsBody xmlCopy = MinieTest.saveAndLoadXml(assetManager, body);
         verifyParameters(xmlCopy, 0.3f);
+
+        ignoreBuddy.clearIgnoreList();
     }
 
     /**
