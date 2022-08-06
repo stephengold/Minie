@@ -191,16 +191,36 @@ for configuring, accessing, updating, and debugging
 a {url-api}/PhysicsSpace.html[`PhysicsSpace`].
 
 If the application already has
-a {url-api}/BulletAppState.html[`BulletAppState`], that code will probably
-work fine with Minie.
+a {url-api}/BulletAppState.html[`BulletAppState`],
+that code might work with Minie.
 If not, here is a snippet to guide you:
 
 [source,java]
 ----
-BulletAppState appState = new BulletAppState();
-stateManager.attach(appState);
-PhysicsSpace physicsSpace = appState.getPhysicsSpace();
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
+
+// ...
+
+@Override
+public void simpleInitApp() {
+    BulletAppState appState = new BulletAppState();
+    stateManager.attach(appState);
+    PhysicsSpace physicsSpace = appState.getPhysicsSpace();
 ----
+
+[CAUTION]
+====
+Initialization order matters.
+A `BulletAppState` can't be instantiated until the native library is loaded,
+which (for desktop apps) occurs during `Application.start()`.
+That's why the following snippet fails:
+
+[source,java]
+----
+static BulletAppState bas = new BulletAppState();
+----
+====
 
 By default, the physics simulation runs on the render thread.
 To execute it on a dedicated thread, use:
@@ -230,7 +250,7 @@ Other {url-api}/BulletAppState.html[`BulletAppState`] parameters,
 used to customize debug visualization,
 are described on xref:debug.adoc[the debugging page].
 
-Ways to simulate physics without using
+Techniques to simulate physics without using
 {url-api}/BulletAppState.html[`BulletAppState`]
 are described on xref:server.adoc[the physics-without-appstates page].
 
