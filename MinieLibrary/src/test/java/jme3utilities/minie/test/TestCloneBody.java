@@ -58,7 +58,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading on PhysicsBody and all its subclasses.
+ * Test cloning/saving/loading/rebuilding on PhysicsBody and its subclasses.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -271,6 +271,15 @@ public class TestCloneBody {
 
         PhysicsBody xmlCopy = MinieTest.saveAndLoadXml(assetManager, body);
         verifyParameters(xmlCopy, 0.3f);
+
+        if (body instanceof PhysicsRigidBody) {
+            PhysicsRigidBody rBody = (PhysicsRigidBody) body;
+
+            // Test rebuild while not added to a physics space.
+            rBody.rebuildRigidBody();
+            setRigidInertia(rBody, 0.3f);
+            verifyParameters(rBody, 0.3f);
+        }
 
         ignoreBuddy.clearIgnoreList();
     }
