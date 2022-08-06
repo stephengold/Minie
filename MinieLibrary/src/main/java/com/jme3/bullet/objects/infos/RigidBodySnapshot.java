@@ -129,7 +129,7 @@ public class RigidBodySnapshot {
      */
     final protected float spinningFriction;
     /**
-     * anisotopic friction modes (bitmask)
+     * anisotropic friction modes (bitmask)
      */
     final protected int anisotopicFrictionModes;
     /**

@@ -74,8 +74,8 @@ public class PreComposer extends AbstractControl {
     // constructors
 
     /**
-     * Instantiate an enabled PreCompser to help the specified
-     * DynamicAnimControl hide its Armature mods from SceneComposer.
+     * Instantiate an enabled PreComposer to help the specified
+     * DynamicAnimControl hide its Armature modifications from SceneComposer.
      *
      * @param dac the DynamicAnimControl to be helped (not null)
      */
