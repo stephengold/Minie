@@ -68,10 +68,10 @@ final public class MinieTest {
      */
     public static void assertEquals(float x, float y, float z, float w,
             Quaternion actual, float tolerance) {
-        Assert.assertEquals(x, actual.getX(), tolerance);
-        Assert.assertEquals(y, actual.getY(), tolerance);
-        Assert.assertEquals(z, actual.getZ(), tolerance);
-        Assert.assertEquals(w, actual.getW(), tolerance);
+        Assert.assertEquals("x component", x, actual.getX(), tolerance);
+        Assert.assertEquals("y component", y, actual.getY(), tolerance);
+        Assert.assertEquals("z component", z, actual.getZ(), tolerance);
+        Assert.assertEquals("w component", w, actual.getW(), tolerance);
     }
 
     /**
@@ -85,9 +85,9 @@ final public class MinieTest {
      */
     public static void assertEquals(float x, float y, float z, Vector3f actual,
             float tolerance) {
-        Assert.assertEquals(x, actual.x, tolerance);
-        Assert.assertEquals(y, actual.y, tolerance);
-        Assert.assertEquals(z, actual.z, tolerance);
+        Assert.assertEquals("x component", x, actual.x, tolerance);
+        Assert.assertEquals("y component", y, actual.y, tolerance);
+        Assert.assertEquals("z component", z, actual.z, tolerance);
     }
 
     /**
