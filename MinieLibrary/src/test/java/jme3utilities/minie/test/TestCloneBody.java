@@ -28,6 +28,8 @@ package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.bullet.PhysicsSoftSpace;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.AfMode;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -82,6 +84,10 @@ public class TestCloneBody {
      * body added to ignore lists
      */
     private PhysicsRigidBody ignoreBuddy;
+    /**
+     * container for bodies
+     */
+    private PhysicsSoftSpace space;
     // *************************************************************************
     // new methods exposed
 
@@ -94,6 +100,11 @@ public class TestCloneBody {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         shape = new SphereCollisionShape(1f);
         this.ignoreBuddy = new PhysicsRigidBody(shape);
+
+        Vector3f worldMin = new Vector3f(-999f, -999f, -999f); // value ignored
+        Vector3f worldMax = new Vector3f(+999f, +999f, +999f); // value ignored
+        this.space = new PhysicsSoftSpace(
+                worldMin, worldMax, PhysicsSpace.BroadphaseType.DBVT);
 
         for (int iteration = 0; iteration < 9; ++iteration) {
             clonePrb();
@@ -279,6 +290,22 @@ public class TestCloneBody {
             rBody.rebuildRigidBody();
             setRigidInertia(rBody, 0.3f);
             verifyParameters(rBody, 0.3f);
+
+            // Add to the physics space.
+            space.addCollisionObject(body);
+            setParameters(body, 0f);
+            verifyParameters(body, 0f);
+
+            // Test save-and-load while added to a physics space.
+            PhysicsBody copy2 = BinaryExporter.saveAndLoad(assetManager, body);
+            verifyParameters(copy2, 0f);
+
+            // Test rebuild while added to a physics space.
+            rBody.rebuildRigidBody();
+            setRigidInertia(rBody, 0f);
+            verifyParameters(rBody, 0f);
+
+            space.removeCollisionObject(body);
         }
 
         ignoreBuddy.clearIgnoreList();
