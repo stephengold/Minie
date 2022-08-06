@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, and MinieExamples
 
-## Version 5.1.0 released on TBD
+## Version 5.1.0 released on 6 August 2022
 
 + Bugfix:  `PhysicsRigidBody.setInverseInertiaLocal()` and
   `PhysicsRigidBody.updateMassProps()` don't update the world inertia tensor
