@@ -130,6 +130,16 @@ public class TestCloneBody {
         assert bodyClone.isDynamic();
         assert bodyClone.getMass() == 1f;
         cloneTest(body, bodyClone);
+
+        // kinematic with mass=2
+        PhysicsRigidBody body2 = new PhysicsRigidBody(shape, 2f);
+        body2.setKinematic(true);
+        setParameters(body2, 0f);
+        verifyParameters(body2, 0f);
+        PhysicsRigidBody body2Clone = Heart.deepCopy(body2);
+        assert body2Clone.isKinematic();
+        assert body2Clone.getMass() == 2f;
+        cloneTest(body2, body2Clone);
     }
 
     /**
@@ -173,6 +183,14 @@ public class TestCloneBody {
      * Clone rigid-body controls.
      */
     private void cloneRbc() {
+        // static
+        RigidBodyControl rbc0 = new RigidBodyControl(shape, 0f);
+        setParameters(rbc0, 0f);
+        verifyParameters(rbc0, 0f);
+        RigidBodyControl rbc0Clone = Heart.deepCopy(rbc0);
+        assert rbc0Clone.isStatic();
+        cloneTest(rbc0, rbc0Clone);
+
         // dynamic with mass=1
         RigidBodyControl rbc = new RigidBodyControl(shape, 1f);
         setParameters(rbc, 0f);
@@ -181,6 +199,16 @@ public class TestCloneBody {
         assert rbcClone.isDynamic();
         assert rbcClone.getMass() == 1f;
         cloneTest(rbc, rbcClone);
+
+        // kinematic with mass=4
+        RigidBodyControl rbc4 = new RigidBodyControl(shape, 4f);
+        rbc4.setKinematic(true);
+        setParameters(rbc4, 0f);
+        verifyParameters(rbc4, 0f);
+        RigidBodyControl rbc4Clone = Heart.deepCopy(rbc4);
+        assert rbc4Clone.isKinematic();
+        assert rbc4Clone.getMass() == 4f;
+        cloneTest(rbc4, rbc4Clone);
     }
 
     /**
