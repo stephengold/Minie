@@ -75,9 +75,9 @@ abstract public class NativePhysicsObject
     // constructors
 
     /**
-     * A no-arg constructor to avoid javadoc warnings from JDK 18. TODO protect
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
      */
-    public NativePhysicsObject() {
+    protected NativePhysicsObject() {
         // do nothing
     }
     // *************************************************************************
