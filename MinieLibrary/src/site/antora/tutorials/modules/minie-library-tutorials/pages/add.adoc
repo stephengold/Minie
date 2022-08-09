@@ -132,7 +132,7 @@ see xref:ROOT:depends.adoc[the Library version dependencies page].
 Download the {Project} library and its dependencies
 from GitHub and/or Maven Central:
 
-* https://github.com/stephengold/Minie/releases/tag/5.1.0
+* https://github.com/stephengold/Minie/releases/latest
 * https://github.com/stephengold/Heart/releases/tag/8.1.0
 * https://github.com/Simsilica/SimMath/releases/tag/sim-math-v1.5.0
 * https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-core/3.5.2-stable/
