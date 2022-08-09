@@ -67,7 +67,7 @@ final public class ShapeUtils {
      * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
      * @param parameters (not null, unaffected)
-     * @return
+     * @return a new compound shape
      */
     static CompoundCollisionShape createVhacdShape(
             Spatial modelRoot, VHACDParameters parameters) {
