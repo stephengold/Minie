@@ -3265,6 +3265,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Execute btAssert(0).</div>
 </dd>
+<dt><a href="com/jme3/bullet/FillMode.html" class="type-name-link" title="enum class in com.jme3.bullet">FillMode</a> - Enum Class in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
+<dd>
+<div class="block">Enumerate algorithms to generate a solid object from voxels (native name:
+ FillMode).</div>
+</dd>
 <dt><a href="jme3utilities/minie/FilterAll.html" class="type-name-link" title="class in jme3utilities.minie">FilterAll</a> - Class in <a href="jme3utilities/minie/package-summary.html">jme3utilities.minie</a></dt>
 <dd>
 <div class="block">A simple DebugAppStateFilter that returns true for most physics objects (or
@@ -3363,6 +3368,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/animation/DynamicAnimControl.html#fixToWorld(com.jme3.bullet.animation.PhysicsLink,boolean)" class="member-name-link">fixToWorld(PhysicsLink, boolean)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DynamicAnimControl.html" title="class in com.jme3.bullet.animation">DynamicAnimControl</a></dt>
 <dd>
 <div class="block">Add an IK joint that will fix the specified link in its current position.</div>
+</dd>
+<dt><a href="com/jme3/bullet/FillMode.html#FloodFill" class="member-name-link">FloodFill</a> - Enum constant in enum class com.jme3.bullet.<a href="com/jme3/bullet/FillMode.html" title="enum class in com.jme3.bullet">FillMode</a></dt>
+<dd>
+<div class="block">use a flood fill to distinguish inside from outside (native name:
+ FLOOD_FILL)</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PcoType.html#fluid" class="member-name-link">fluid</a> - Static variable in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PcoType.html" title="class in com.jme3.bullet.collision">PcoType</a></dt>
 <dd>
@@ -8129,7 +8139,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSoftSpace.html#%3Cinit%3E(com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">PhysicsSoftSpace(PhysicsSpace.BroadphaseType)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></dt>
 <dd>
-<div class="block">Instantiate a PhysicsSoftSpace with sequential-impulse solvers.</div>
+<div class="block">Instantiate a PhysicsSoftSpace with a sequential-impulse solver.</div>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSoftSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">PhysicsSoftSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></dt>
 <dd>
@@ -8426,6 +8436,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/animation/RangeOfMotion.html#%3Cinit%3E(com.jme3.math.Vector3f)" class="member-name-link">RangeOfMotion(Vector3f)</a> - Constructor for class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/RangeOfMotion.html" title="class in com.jme3.bullet.animation">RangeOfMotion</a></dt>
 <dd>
 <div class="block">Instantiate a preset with no motion allowed.</div>
+</dd>
+<dt><a href="com/jme3/bullet/FillMode.html#RaycastFill" class="member-name-link">RaycastFill</a> - Enum constant in enum class com.jme3.bullet.<a href="com/jme3/bullet/FillMode.html" title="enum class in com.jme3.bullet">FillMode</a></dt>
+<dd>
+<div class="block">use raycasting to distinguish inside from outside (native name:
+ RAYCAST_FILL)</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">rayTest(Vector3f, Vector3f)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
@@ -11820,6 +11835,10 @@ loadScripts(document, 'script');</script>
  which is the default if no flags are set (native value:
  kF_UseSubSimplexConvexCastRaytest)</div>
 </dd>
+<dt><a href="com/jme3/bullet/FillMode.html#SurfaceOnly" class="member-name-link">SurfaceOnly</a> - Enum constant in enum class com.jme3.bullet.<a href="com/jme3/bullet/FillMode.html" title="enum class in com.jme3.bullet">FillMode</a></dt>
+<dd>
+<div class="block">create a hollow skin (native name: SURFACE_ONLY)</div>
+</dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)" class="member-name-link">sweepTest(ConvexShape, Transform, Transform)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
 <div class="block">For compatibility with the jme3-bullet library.</div>
@@ -12233,6 +12252,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
+<dt><a href="com/jme3/bullet/FillMode.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class com.jme3.bullet.<a href="com/jme3/bullet/FillMode.html" title="enum class in com.jme3.bullet">FillMode</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/JointEnd.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/JointEnd.html" title="enum class in com.jme3.bullet.joints">JointEnd</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -12298,6 +12321,11 @@ the order they are declared.</div>
 the order they are declared.</div>
 </dd>
 <dt><a href="com/jme3/bullet/BulletAppState.ThreadingType.html#values()" class="member-name-link">values()</a> - Static method in enum class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.ThreadingType.html" title="enum class in com.jme3.bullet">BulletAppState.ThreadingType</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="com/jme3/bullet/FillMode.html#values()" class="member-name-link">values()</a> - Static method in enum class com.jme3.bullet.<a href="com/jme3/bullet/FillMode.html" title="enum class in com.jme3.bullet">FillMode</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>

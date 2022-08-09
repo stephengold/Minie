@@ -518,10 +518,13 @@ during each rendered frame.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_gc_and_threading"><a class="anchor" href="#_gc_and_threading"></a>GC and threading</h2>
+<h2 id="_direct_buffers_gc_and_threading"><a class="anchor" href="#_direct_buffers_gc_and_threading"></a>Direct buffers, GC, and threading</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Native objects created by Minie are carefully tracked using
+<p>Direct buffers used in Minie should have native byte order.</p>
+</div>
+<div class="paragraph">
+<p>All other native objects created by Minie are carefully tracked using
 weak references.</p>
 </div>
 <div class="paragraph">

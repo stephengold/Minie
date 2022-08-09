@@ -206,9 +206,11 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="constructor-summary" id="constructor-summary">
 <h2>Constructor Summary</h2>
 <div class="caption"><span>Constructors</span></div>
-<div class="summary-table two-column-summary">
-<div class="table-header col-first">Constructor</div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier</div>
+<div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>protected </code></div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">PhysicsCollisionObject</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
@@ -1013,8 +1015,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>PhysicsCollisionObject</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PhysicsCollisionObject</span>()</div>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18. TODO protect</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">PhysicsCollisionObject</span>()</div>
+<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
 </section>
 </li>
 </ul>
@@ -1931,7 +1933,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="block">Alter the ignore list.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>idList</code> - the collision-object IDs to ignore (not null, may be empty)</dd>
+<dd><code>idList</code> - the collision-object IDs to ignore (not null, may be empty,
+ unaffected)</dd>
 </dl>
 </section>
 </li>
