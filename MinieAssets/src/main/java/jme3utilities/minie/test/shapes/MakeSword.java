@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,6 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -155,16 +154,8 @@ public class MakeSword {
         });
         VHACDParameters parms = new VHACDParameters();
         parms.setMaxConcavity(0.02);
-        //parms.setMaxConcavity(0.025);
-        long startTime = System.nanoTime();
         CompoundCollisionShape shape
-                = CollisionShapeFactory.createVhacdShape(cgmRoot, parms, null);
-        long elapsedNsec = System.nanoTime() - startTime;
-        if (shape.countChildren() == 0) {
-            throw new RuntimeException("V-HACD failed!");
-        }
-        System.out.printf("MakeSword number of hulls = %d (%.3f sec)%n",
-                shape.countChildren(), elapsedNsec * 1e-9f);
+                = ShapeUtils.createVhacdShape(cgmRoot, parms);
         /*
          * Write the shape to the asset file.
          */

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -139,17 +139,8 @@ public class MakeHorseshoe {
                 }
             });
             VHACDParameters parms = new VHACDParameters();
-            //parms.setMaxConcavity(0.015);
             parms.setVoxelResolution(600_000);
-            long startTime = System.nanoTime();
-            shape = CollisionShapeFactory.createVhacdShape(cgmRoot, parms,
-                    null);
-            long elapsedNsec = System.nanoTime() - startTime;
-            if (shape.countChildren() == 0) {
-                throw new RuntimeException("V-HACD failed!");
-            }
-            System.out.printf("MakeHorseshoe number of hulls = %d (%.3f sec)%n",
-                    shape.countChildren(), elapsedNsec * 1e-9f);
+            shape = ShapeUtils.createVhacdShape(cgmRoot, parms);
         }
         /*
          * Write the shape to the asset file.
