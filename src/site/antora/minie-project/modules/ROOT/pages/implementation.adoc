@@ -136,9 +136,11 @@ during each rendered frame.
 
 Debug visualization can be enabled or disabled simply by setting a parameter.
 
-== GC and threading
+== Direct buffers, GC, and threading
 
-Native objects created by {Project} are carefully tracked using
+Direct buffers used in {Project} should have native byte order.
+
+All other native objects created by {Project} are carefully tracked using
 weak references.
 
 Successful initialization of a native library causes {Project}
