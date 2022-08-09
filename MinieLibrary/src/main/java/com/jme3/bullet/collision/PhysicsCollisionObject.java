@@ -1180,7 +1180,8 @@ abstract public class PhysicsCollisionObject
     /**
      * Alter the ignore list.
      *
-     * @param idList the collision-object IDs to ignore (not null, may be empty)
+     * @param idList the collision-object IDs to ignore (not null, may be empty,
+     * unaffected)
      */
     public void setIgnoreList(long[] idList) {
         Validate.nonNull(idList, "ID list");
