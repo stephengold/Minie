@@ -360,7 +360,7 @@ application that demonstrates explicitly loading the native library.</p>
 <div class="paragraph">
 <p>Both examples used the simplest <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>
 constructor, which is fine for most applications.
-However there are actually different 7 ways
+However there are actually different 8 ways
 to directly instantiate a physics space:</p>
 </div>
 <div class="listingblock">
@@ -372,7 +372,8 @@ PhysicsSpace space4 = new PhysicsSpace(broadphase);
 PhysicsSpace space5 = new PhysicsSoftSpace(worldMin, worldMax, broadphase);
 PhysicsSpace space6
         = new MultiBodySpace(worldMin, worldMax, broadphase, solverType);
-PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);</code></pre>
+PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);
+PhysicsSpace space8 = new PhysicsSoftSpace(broadphase);</code></pre>
 </div>
 </div>
 <div class="paragraph">
