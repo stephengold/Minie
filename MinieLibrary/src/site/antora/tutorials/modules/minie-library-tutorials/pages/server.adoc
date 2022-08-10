@@ -32,7 +32,7 @@ https://stephengold.github.io/Libbulletjme[Libbulletjme] instead of Minie.
 
 Both examples used the simplest {url-api}/PhysicsSpace.html[`PhysicsSpace`]
 constructor, which is fine for most applications.
-However there are actually different 7 ways
+However there are actually different 8 ways
 to directly instantiate a physics space:
 
 [source,java]
@@ -45,6 +45,7 @@ PhysicsSpace space5 = new PhysicsSoftSpace(worldMin, worldMax, broadphase);
 PhysicsSpace space6
         = new MultiBodySpace(worldMin, worldMax, broadphase, solverType);
 PhysicsSpace space7 = new MultiBodySpace(worldMin, worldMax, broadphase);
+PhysicsSpace space8 = new PhysicsSoftSpace(broadphase);
 ----
 
 The first 4 constructors can be used
