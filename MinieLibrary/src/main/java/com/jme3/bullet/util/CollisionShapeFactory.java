@@ -62,6 +62,9 @@ import jme3utilities.math.MyVector3f;
 import vhacd.VHACD;
 import vhacd.VHACDHull;
 import vhacd.VHACDParameters;
+import vhacd4.Vhacd4;
+import vhacd4.Vhacd4Hull;
+import vhacd4.Vhacd4Parameters;
 
 /**
  * Utility methods for generating collision shapes from models.
@@ -299,6 +302,60 @@ final public class CollisionShapeFactory {
             result = addResult;
         }
         for (VHACDHull vhacdHull : vhacdHulls) {
+            HullCollisionShape hullShape = new HullCollisionShape(vhacdHull);
+            result.addChildShape(hullShape);
+        }
+
+        return result;
+    }
+
+    /**
+     * Create a shape for a dynamic object using V-HACD version 4.
+     *
+     * @param modelRoot the model on which to base the shape (not null,
+     * unaffected)
+     * @param parameters (not null, unaffected)
+     * @param addResult the compound shape to append to (modified if not null)
+     * @return a compound shape (either addResult or a new shape, not null)
+     */
+    public static CompoundCollisionShape createVhacdShape(Spatial modelRoot,
+            Vhacd4Parameters parameters, CompoundCollisionShape addResult) {
+        Validate.nonNull(modelRoot, "model root");
+        Validate.nonNull(parameters, "parameters");
+
+        Mesh mergedMesh = makeMergedMesh(modelRoot);
+
+        FloatBuffer positionBuffer
+                = mergedMesh.getFloatBuffer(VertexBuffer.Type.Position);
+        int numFloats = positionBuffer.limit();
+        float[] positionArray = new float[numFloats];
+        for (int offset = 0; offset < numFloats; ++offset) {
+            positionArray[offset] = positionBuffer.get(offset);
+        }
+
+        IndexBuffer indexBuffer = mergedMesh.getIndicesAsList();
+        int numIndices = indexBuffer.size();
+        int[] indexArray = new int[numIndices];
+        for (int offset = 0; offset < numIndices; ++offset) {
+            indexArray[offset] = indexBuffer.get(offset);
+        }
+        /*
+         * Use the V-HACD algorithm to generate a list of hulls.
+         */
+        List<Vhacd4Hull> vhacdHulls
+                = Vhacd4.compute(positionArray, indexArray, parameters);
+        /*
+         * Convert each V-HACD hull to a HullCollisionShape
+         * and add that to the result.
+         */
+        CompoundCollisionShape result;
+        if (addResult == null) {
+            int numHulls = vhacdHulls.size();
+            result = new CompoundCollisionShape(numHulls);
+        } else {
+            result = addResult;
+        }
+        for (Vhacd4Hull vhacdHull : vhacdHulls) {
             HullCollisionShape hullShape = new HullCollisionShape(vhacdHull);
             result.addChildShape(hullShape);
         }
