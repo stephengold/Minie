@@ -57,7 +57,7 @@ public class SoftBodyMaterial
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(PhysicsSoftBody.class.getName());
+            = Logger.getLogger(SoftBodyMaterial.class.getName());
     /**
      * field names for serialization
      */
