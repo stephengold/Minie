@@ -35,6 +35,8 @@ import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
 import vhacd.VHACD;
 import vhacd.VHACDParameters;
+import vhacd4.Vhacd4;
+import vhacd4.Vhacd4Parameters;
 
 /**
  * Utility methods to generate collision shapes.
@@ -73,6 +75,28 @@ final class ShapeUtils {
     static CompoundCollisionShape createVhacdShape(
             Spatial modelRoot, VHACDParameters parameters, String prefix) {
         VHACD.addProgressListener(new ProgressListener(prefix));
+
+        long startTime = System.nanoTime();
+        CompoundCollisionShape result = CollisionShapeFactory.createVhacdShape(
+                modelRoot, parameters, null);
+        long elapsedNsec = System.nanoTime() - startTime;
+
+        printSummary(result, elapsedNsec);
+
+        return result;
+    }
+
+    /**
+     * Create a collision shape using V-HACD v4 and print statistics.
+     *
+     * @param modelRoot the model on which to base the shape (not null,
+     * unaffected)
+     * @param parameters (not null, unaffected)
+     * @return a new compound shape
+     */
+    static CompoundCollisionShape createVhacdShape(
+            Spatial modelRoot, Vhacd4Parameters parameters, String prefix) {
+        Vhacd4.addProgressListener(new ProgressListener(prefix));
 
         long startTime = System.nanoTime();
         CompoundCollisionShape result = CollisionShapeFactory.createVhacdShape(
