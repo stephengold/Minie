@@ -83,21 +83,21 @@ public class VHACDParameters
      * @throws IOException from DataInputStream
      */
     public void fromInputStream(InputStream is) throws IOException {
-        DataInputStream dis = new DataInputStream(is);
+        try (DataInputStream dis = new DataInputStream(is)) {
+            setMaxConcavity(dis.readDouble());
+            setAlpha(dis.readDouble());
+            setBeta(dis.readDouble());
+            setMinVolumePerHull(dis.readDouble());
 
-        setMaxConcavity(dis.readDouble());
-        setAlpha(dis.readDouble());
-        setBeta(dis.readDouble());
-        setMinVolumePerHull(dis.readDouble());
-
-        setVoxelResolution(dis.readInt());
-        setMaxVerticesPerHull(dis.readInt());
-        setPlaneDownSampling(dis.readInt());
-        setConvexHullDownSampling(dis.readInt());
-        setPCA(dis.readInt() != 0);
-        setACDMode(ACDMode.values()[dis.readInt()]);
-        setConvexHullApproximation(dis.readInt());
-        setOclAcceleration(dis.readInt());
+            setVoxelResolution(dis.readInt());
+            setMaxVerticesPerHull(dis.readInt());
+            setPlaneDownSampling(dis.readInt());
+            setConvexHullDownSampling(dis.readInt());
+            setPCA(dis.readInt() != 0);
+            setACDMode(ACDMode.values()[dis.readInt()]);
+            setConvexHullApproximation(dis.readInt());
+            setOclAcceleration(dis.readInt());
+        }
     }
 
     /**
@@ -378,21 +378,21 @@ public class VHACDParameters
      * @throws IOException from DataOutputStream
      */
     public void toOutputStream(OutputStream os) throws IOException {
-        DataOutputStream dos = new DataOutputStream(os);
+        try (DataOutputStream dos = new DataOutputStream(os)) {
+            dos.writeDouble(getMaxConcavity());
+            dos.writeDouble(getAlpha());
+            dos.writeDouble(getBeta());
+            dos.writeDouble(getMinVolumePerHull());
 
-        dos.writeDouble(getMaxConcavity());
-        dos.writeDouble(getAlpha());
-        dos.writeDouble(getBeta());
-        dos.writeDouble(getMinVolumePerHull());
-
-        dos.writeInt(getVoxelResolution());
-        dos.writeInt(getMaxVerticesPerHull());
-        dos.writeInt(getPlaneDownSampling());
-        dos.writeInt(getConvexHullDownSampling());
-        dos.writeInt(getPCA() ? 1 : 0);
-        dos.writeInt(getACDMode().ordinal());
-        dos.writeInt(getConvexHullApproximation());
-        dos.writeInt(getOclAcceleration());
+            dos.writeInt(getVoxelResolution());
+            dos.writeInt(getMaxVerticesPerHull());
+            dos.writeInt(getPlaneDownSampling());
+            dos.writeInt(getConvexHullDownSampling());
+            dos.writeInt(getPCA() ? 1 : 0);
+            dos.writeInt(getACDMode().ordinal());
+            dos.writeInt(getConvexHullApproximation());
+            dos.writeInt(getOclAcceleration());
+        }
     }
     // *************************************************************************
     // NativePhysicsObject methods
