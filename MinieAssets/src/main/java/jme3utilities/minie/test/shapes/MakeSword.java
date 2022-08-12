@@ -45,7 +45,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
-import vhacd.VHACDParameters;
+import vhacd4.Vhacd4Parameters;
 
 /**
  * A console application to generate the collision-shape asset "sword.j3o".
@@ -136,8 +136,8 @@ public class MakeSword {
         /*
          * Generate a CollisionShape to approximate the Mesh.
          */
-        VHACDParameters parameters = new VHACDParameters();
-        parameters.setMaxConcavity(0.02);
+        Vhacd4Parameters parameters = new Vhacd4Parameters();
+        parameters.setMaxHulls(8);
         CompoundCollisionShape shape
                 = ShapeUtils.createVhacdShape(cgmRoot, parameters, "MakeSword");
         /*
