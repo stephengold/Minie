@@ -148,28 +148,28 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fromInputStream(java.io.InputStream)" class="member-name-link">fromInputStream</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;is)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read selected parameters from an InputStream.</div>
+<div class="block">Read selected parameters from the specified InputStream.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ACDMode.html" title="enum class in vhacd">ACDMode</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getACDMode()" class="member-name-link">getACDMode</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the decomposition mode (native field: m_mode).</div>
+<div class="block">Return the decomposition mode (native field: m_mode).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAlpha()" class="member-name-link">getAlpha</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the bias toward clipping along symmetry planes.</div>
+<div class="block">Return the bias toward clipping along symmetry planes.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBeta()" class="member-name-link">getBeta</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the bias toward clipping along revolution axes (native field:
+<div class="block">Return the bias toward clipping along revolution axes (native field:
  m_beta).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getConvexHullDownSampling()" class="member-name-link">getConvexHullDownSampling</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the precision of the convex-hull generation process (native field:
+<div class="block">Return the precision of the convex-hull generation process (native field:
  m_convexhullDownsampling).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
@@ -180,18 +180,18 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxConcavity()" class="member-name-link">getMaxConcavity</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the maximum concavity (native field: m_concavity).</div>
+<div class="block">Return the maximum concavity (native field: m_concavity).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxVerticesPerHull()" class="member-name-link">getMaxVerticesPerHull</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the maximum number of vertices per hull (native field:
+<div class="block">Return the maximum number of vertices per convex hull (native field:
  m_maxNumVerticesPerCH).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMinVolumePerHull()" class="member-name-link">getMinVolumePerHull</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the minimum volume for added vertices (native field:
+<div class="block">Return the minimum volume for added vertices (native field:
  m_minVolumePerCH).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
@@ -202,18 +202,18 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlaneDownSampling()" class="member-name-link">getPlaneDownSampling</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the granularity of the search (native field: m_planeDownsampling).</div>
+<div class="block">Return the granularity of the search (native field: m_planeDownsampling).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVoxelResolution()" class="member-name-link">getVoxelResolution</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the maximum number of voxels generated during the voxelization stage
- (native field: m_resolution).</div>
+<div class="block">Return the maximum number of voxels generated during the voxelization
+ stage (native field: m_resolution).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Generate the hash code for this object.</div>
+<div class="block">Generate the hash code for this instance.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setACDMode(vhacd.ACDMode)" class="member-name-link">setACDMode</a><wbr>(<a href="ACDMode.html" title="enum class in vhacd">ACDMode</a>&nbsp;mode)</code></div>
@@ -249,13 +249,13 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxVerticesPerHull(int)" class="member-name-link">setMaxVerticesPerHull</a><wbr>(int&nbsp;v)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set maximum number of vertices per convex-hull (native field:
+<div class="block">Alter the maximum number of vertices per convex hull (native field:
  m_maxNumVerticesPerCH).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMinVolumePerHull(double)" class="member-name-link">setMinVolumePerHull</a><wbr>(double&nbsp;v)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set minimum volume to add vertices to convex-hulls (native field:
+<div class="block">Set the minimum volume to add vertices to convex hulls (native field:
  m_minVolumePerCH).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -273,13 +273,13 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoxelResolution(int)" class="member-name-link">setVoxelResolution</a><wbr>(int&nbsp;v)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set maximum number of voxels generated during the voxelization stage
- (native field: m_resolution).</div>
+<div class="block">Alter the maximum number of voxels generated during the voxelization
+ stage (native field: m_resolution).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toOutputStream(java.io.OutputStream)" class="member-name-link">toOutputStream</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;os)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Write selected parameters to an OutputStream.</div>
+<div class="block">Write selected parameters to the specified OutputStream.</div>
 </div>
 </div>
 </div>
@@ -336,10 +336,10 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <h3>fromInputStream</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">fromInputStream</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;is)</span>
                      throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">Read selected parameters from an InputStream.</div>
+<div class="block">Read selected parameters from the specified InputStream.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>is</code> - (not null)</dd>
+<dd><code>is</code> - the stream to read (not null)</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - from DataInputStream</dd>
 </dl>
@@ -349,7 +349,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getACDMode()">
 <h3>getACDMode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ACDMode.html" title="enum class in vhacd">ACDMode</a></span>&nbsp;<span class="element-name">getACDMode</span>()</div>
-<div class="block">Read the decomposition mode (native field: m_mode).</div>
+<div class="block">Return the decomposition mode (native field: m_mode).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>an enum value (not null)</dd>
@@ -360,7 +360,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getAlpha()">
 <h3>getAlpha</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getAlpha</span>()</div>
-<div class="block">Read the bias toward clipping along symmetry planes. (native field:
+<div class="block">Return the bias toward clipping along symmetry planes. (native field:
  m_alpha).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -372,7 +372,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getBeta()">
 <h3>getBeta</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getBeta</span>()</div>
-<div class="block">Read the bias toward clipping along revolution axes (native field:
+<div class="block">Return the bias toward clipping along revolution axes (native field:
  m_beta).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -384,7 +384,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getConvexHullDownSampling()">
 <h3>getConvexHullDownSampling</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getConvexHullDownSampling</span>()</div>
-<div class="block">Read the precision of the convex-hull generation process (native field:
+<div class="block">Return the precision of the convex-hull generation process (native field:
  m_convexhullDownsampling).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -407,7 +407,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getMaxConcavity()">
 <h3>getMaxConcavity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getMaxConcavity</span>()</div>
-<div class="block">Read the maximum concavity (native field: m_concavity).</div>
+<div class="block">Return the maximum concavity (native field: m_concavity).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>concavity (&ge;0, &le;1)</dd>
@@ -418,7 +418,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getMaxVerticesPerHull()">
 <h3>getMaxVerticesPerHull</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMaxVerticesPerHull</span>()</div>
-<div class="block">Read the maximum number of vertices per hull (native field:
+<div class="block">Return the maximum number of vertices per convex hull (native field:
  m_maxNumVerticesPerCH).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -430,7 +430,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getMinVolumePerHull()">
 <h3>getMinVolumePerHull</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getMinVolumePerHull</span>()</div>
-<div class="block">Read the minimum volume for added vertices (native field:
+<div class="block">Return the minimum volume for added vertices (native field:
  m_minVolumePerCH).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -453,7 +453,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getPlaneDownSampling()">
 <h3>getPlaneDownSampling</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getPlaneDownSampling</span>()</div>
-<div class="block">Read the granularity of the search (native field: m_planeDownsampling).</div>
+<div class="block">Return the granularity of the search (native field: m_planeDownsampling).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>granularity (&ge;1, &le;16)</dd>
@@ -464,8 +464,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="getVoxelResolution()">
 <h3>getVoxelResolution</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getVoxelResolution</span>()</div>
-<div class="block">Read the maximum number of voxels generated during the voxelization stage
- (native field: m_resolution).</div>
+<div class="block">Return the maximum number of voxels generated during the voxelization
+ stage (native field: m_resolution).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>number (&ge;10000, &le;64000000)</dd>
@@ -535,7 +535,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="block">Set maximum concavity (native field: m_concavity).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = 0.0025, min = 0.0, max = 1.0</dd>
+<dd><code>v</code> - default = 0.0025, min = 0.0, max = 1.0
+ <p>
+ Note: the native default is 0.001.</dd>
 </dl>
 </section>
 </li>
@@ -543,11 +545,13 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="setMaxVerticesPerHull(int)">
 <h3>setMaxVerticesPerHull</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxVerticesPerHull</span><wbr><span class="parameters">(int&nbsp;v)</span></div>
-<div class="block">Set maximum number of vertices per convex-hull (native field:
+<div class="block">Alter the maximum number of vertices per convex hull (native field:
  m_maxNumVerticesPerCH).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = 32, min = 4, max = 1024)</dd>
+<dd><code>v</code> - default = 32, min = 4, max = 1024)
+ <p>
+ Note: the native default is 64.</dd>
 </dl>
 </section>
 </li>
@@ -555,7 +559,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="setMinVolumePerHull(double)">
 <h3>setMinVolumePerHull</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMinVolumePerHull</span><wbr><span class="parameters">(double&nbsp;v)</span></div>
-<div class="block">Set minimum volume to add vertices to convex-hulls (native field:
+<div class="block">Set the minimum volume to add vertices to convex hulls (native field:
  m_minVolumePerCH).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -571,7 +575,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
  decomposition (native field: m_pca).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = False</dd>
+<dd><code>v</code> - default = false</dd>
 </dl>
 </section>
 </li>
@@ -591,8 +595,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="setVoxelResolution(int)">
 <h3>setVoxelResolution</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVoxelResolution</span><wbr><span class="parameters">(int&nbsp;v)</span></div>
-<div class="block">Set maximum number of voxels generated during the voxelization stage
- (native field: m_resolution).</div>
+<div class="block">Alter the maximum number of voxels generated during the voxelization
+ stage (native field: m_resolution).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>v</code> - default = 100_000, min = 10_000, max = 64_000_000</dd>
@@ -604,10 +608,10 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <h3>toOutputStream</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">toOutputStream</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;os)</span>
                     throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">Write selected parameters to an OutputStream.</div>
+<div class="block">Write selected parameters to the specified OutputStream.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>os</code> - (not null)</dd>
+<dd><code>os</code> - the stream to write (not null)</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - from DataOutputStream</dd>
 </dl>
@@ -645,12 +649,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
-<div class="block">Generate the hash code for this object.</div>
+<div class="block">Generate the hash code for this instance.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../com/jme3/bullet/NativePhysicsObject.html#hashCode()">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="../com/jme3/bullet/NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a></code></dd>
 <dt>Returns:</dt>
-<dd>value for use in hashing</dd>
+<dd>a 32-bit value for use in hashing</dd>
 </dl>
 </section>
 </li>

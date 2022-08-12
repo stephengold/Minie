@@ -748,7 +748,9 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 <section class="detail" id="setBlendListener(com.jme3.bullet.animation.CompletionListener)">
 <h3>setBlendListener</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBlendListener</span><wbr><span class="parameters">(<a href="CompletionListener.html" title="interface in com.jme3.bullet.animation">CompletionListener</a>&lt;<a href="DynamicAnimControl.html" title="class in com.jme3.bullet.animation">DynamicAnimControl</a>&gt;&nbsp;listener)</span></div>
-<div class="block">Replace the current blend listener.</div>
+<div class="block">Replace the current blend listener. Note that the listener is
+ automatically removed after each invocation, so typically this method is
+ re-invoked before each blend.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>listener</code> - the desired listener, or null for none</dd>
