@@ -44,9 +44,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
-import vhacd.VHACD;
 import vhacd.VHACDParameters;
-import vhacd.VHACDProgressListener;
 
 /**
  * A console application to generate the collision-shape asset "teapot.j3o".
@@ -139,23 +137,9 @@ public class MakeTeapot {
         /*
          * Generate a CollisionShape to approximate the Mesh.
          */
-        VHACD.addProgressListener(new VHACDProgressListener() {
-            private double lastOP = -1.0;
-
-            @Override
-            public void update(double overallPercent, double stagePercent,
-                    double operationPercent, String stageName,
-                    String operationName) {
-                if (overallPercent != lastOP) {
-                    System.out.printf("MakeTeapot %.0f%% complete%n",
-                            overallPercent);
-                    lastOP = overallPercent;
-                }
-            }
-        });
         VHACDParameters parms = new VHACDParameters();
         CompoundCollisionShape shape
-                = ShapeUtils.createVhacdShape(cgmRoot, parms);
+                = ShapeUtils.createVhacdShape(cgmRoot, parms, "MakeTeapot");
         /*
          * Write the shape to the asset file.
          */

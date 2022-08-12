@@ -33,6 +33,7 @@ import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
+import vhacd.VHACD;
 import vhacd.VHACDParameters;
 
 /**
@@ -70,7 +71,9 @@ final public class ShapeUtils {
      * @return a new compound shape
      */
     static CompoundCollisionShape createVhacdShape(
-            Spatial modelRoot, VHACDParameters parameters) {
+            Spatial modelRoot, VHACDParameters parameters, String prefix) {
+        VHACD.addProgressListener(new ProgressListener(prefix));
+
         long startTime = System.nanoTime();
         CompoundCollisionShape result = CollisionShapeFactory.createVhacdShape(
                 modelRoot, parameters, null);

@@ -39,9 +39,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyString;
-import vhacd.VHACD;
 import vhacd.VHACDParameters;
-import vhacd.VHACDProgressListener;
 
 /**
  * A console application to generate the collision-shape asset "ankh.j3o".
@@ -123,23 +121,9 @@ public class MakeAnkh {
             shape = (CompoundCollisionShape)
                     CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
         } else {
-            VHACD.addProgressListener(new VHACDProgressListener() {
-                private double lastOP = -1.0;
-
-                @Override
-                public void update(double overallPercent, double stagePercent,
-                        double operationPercent, String stageName,
-                        String operationName) {
-                    if (overallPercent != lastOP) {
-                        System.out.printf("MakeAnkh %.0f%% complete%n",
-                                overallPercent);
-                        lastOP = overallPercent;
-                    }
-                }
-            });
             VHACDParameters parms = new VHACDParameters();
             parms.setVoxelResolution(30_000);
-            shape = ShapeUtils.createVhacdShape(cgmRoot, parms);
+            shape = ShapeUtils.createVhacdShape(cgmRoot, parms, "MakeAnkh");
         }
         /*
          * Write the shape to the asset file.
