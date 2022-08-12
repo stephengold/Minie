@@ -122,10 +122,10 @@ public class MakeHorseshoe {
             shape = (CompoundCollisionShape)
                     CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
         } else {
-            VHACDParameters parms = new VHACDParameters();
-            parms.setVoxelResolution(600_000);
+            VHACDParameters parameters = new VHACDParameters();
+            parameters.setVoxelResolution(600_000);
             shape = ShapeUtils.createVhacdShape(
-                    cgmRoot, parms, "MakeHorseshoe");
+                    cgmRoot, parameters, "MakeHorseshoe");
         }
         /*
          * Write the shape to the asset file.

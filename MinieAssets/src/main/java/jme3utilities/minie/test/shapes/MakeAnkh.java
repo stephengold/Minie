@@ -121,9 +121,10 @@ public class MakeAnkh {
             shape = (CompoundCollisionShape)
                     CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
         } else {
-            VHACDParameters parms = new VHACDParameters();
-            parms.setVoxelResolution(30_000);
-            shape = ShapeUtils.createVhacdShape(cgmRoot, parms, "MakeAnkh");
+            VHACDParameters parameters = new VHACDParameters();
+            parameters.setVoxelResolution(30_000);
+            shape = ShapeUtils.createVhacdShape(
+                    cgmRoot, parameters, "MakeAnkh");
         }
         /*
          * Write the shape to the asset file.

@@ -137,9 +137,9 @@ public class MakeTeapot {
         /*
          * Generate a CollisionShape to approximate the Mesh.
          */
-        VHACDParameters parms = new VHACDParameters();
-        CompoundCollisionShape shape
-                = ShapeUtils.createVhacdShape(cgmRoot, parms, "MakeTeapot");
+        VHACDParameters parameters = new VHACDParameters();
+        CompoundCollisionShape shape = ShapeUtils.createVhacdShape(
+                cgmRoot, parameters, "MakeTeapot");
         /*
          * Write the shape to the asset file.
          */

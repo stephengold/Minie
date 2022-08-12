@@ -122,9 +122,10 @@ public class MakeBanana {
             shape = (CompoundCollisionShape)
                     CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
         } else {
-            VHACDParameters parms = new VHACDParameters();
-            parms.setVoxelResolution(300_000);
-            shape = ShapeUtils.createVhacdShape(cgmRoot, parms, "MakeBanana");
+            VHACDParameters parameters = new VHACDParameters();
+            parameters.setVoxelResolution(300_000);
+            shape = ShapeUtils.createVhacdShape(
+                    cgmRoot, parameters, "MakeBanana");
         }
         /*
          * Write the shape to the asset file.

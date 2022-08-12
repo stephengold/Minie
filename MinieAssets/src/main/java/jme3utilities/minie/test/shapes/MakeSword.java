@@ -136,10 +136,10 @@ public class MakeSword {
         /*
          * Generate a CollisionShape to approximate the Mesh.
          */
-        VHACDParameters parms = new VHACDParameters();
-        parms.setMaxConcavity(0.02);
+        VHACDParameters parameters = new VHACDParameters();
+        parameters.setMaxConcavity(0.02);
         CompoundCollisionShape shape
-                = ShapeUtils.createVhacdShape(cgmRoot, parms, "MakeSword");
+                = ShapeUtils.createVhacdShape(cgmRoot, parameters, "MakeSword");
         /*
          * Write the shape to the asset file.
          */

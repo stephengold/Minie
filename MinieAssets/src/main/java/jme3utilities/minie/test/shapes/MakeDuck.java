@@ -135,11 +135,11 @@ public class MakeDuck {
         /*
          * Generate a CollisionShape to approximate the Mesh.
          */
-        VHACDParameters parms = new VHACDParameters();
-        parms.setMaxVerticesPerHull(99);
-        parms.setVoxelResolution(900_000);
+        VHACDParameters parameters = new VHACDParameters();
+        parameters.setMaxVerticesPerHull(99);
+        parameters.setVoxelResolution(900_000);
         CompoundCollisionShape shape
-                = ShapeUtils.createVhacdShape(cgmRoot, parms, "MakeDuck");
+                = ShapeUtils.createVhacdShape(cgmRoot, parameters, "MakeDuck");
         /*
          * Write the shape to the asset file.
          */

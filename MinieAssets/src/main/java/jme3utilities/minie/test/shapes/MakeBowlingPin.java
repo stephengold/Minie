@@ -122,10 +122,10 @@ public class MakeBowlingPin {
             shape = (CompoundCollisionShape)
                     CollisionShapeFactory.createDynamicMeshShape(cgmRoot);
         } else {
-            VHACDParameters parms = new VHACDParameters();
-            parms.setVoxelResolution(1_300_000);
+            VHACDParameters parameters = new VHACDParameters();
+            parameters.setVoxelResolution(1_300_000);
             shape = ShapeUtils.createVhacdShape(
-                    cgmRoot, parms, "MakeBowlingPin");
+                    cgmRoot, parameters, "MakeBowlingPin");
         }
         /*
          * Write the shape to the asset file.
