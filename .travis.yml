@@ -1,6 +1,7 @@
 ---
 # configure deployment and continuous integration at travis-ci.com
 
+dist: bionic
 language: java
 
 jobs:
