@@ -64,7 +64,7 @@ public class SoftBodyWorldInfo
      * message logger for this class
      */
     final public static Logger logger
-            = Logger.getLogger(PhysicsSoftBody.class.getName());
+            = Logger.getLogger(SoftBodyWorldInfo.class.getName());
     /**
      * field names for serialization
      */
