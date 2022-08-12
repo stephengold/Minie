@@ -74,6 +74,7 @@ final class ShapeUtils {
      */
     static CompoundCollisionShape createVhacdShape(
             Spatial modelRoot, VHACDParameters parameters, String prefix) {
+        System.out.println(parameters);
         VHACD.addProgressListener(new ProgressListener(prefix));
 
         long startTime = System.nanoTime();
@@ -96,6 +97,7 @@ final class ShapeUtils {
      */
     static CompoundCollisionShape createVhacdShape(
             Spatial modelRoot, Vhacd4Parameters parameters, String prefix) {
+        System.out.println(parameters);
         Vhacd4.addProgressListener(new ProgressListener(prefix));
 
         long startTime = System.nanoTime();
