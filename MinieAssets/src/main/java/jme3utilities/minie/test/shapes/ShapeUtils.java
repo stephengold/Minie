@@ -62,7 +62,7 @@ final public class ShapeUtils {
     // new methods exposed
 
     /**
-     * Create a collision shape using VHACD and print statistics.
+     * Create a collision shape using classic V-HACD and print statistics.
      *
      * @param modelRoot the model on which to base the shape (not null,
      * unaffected)

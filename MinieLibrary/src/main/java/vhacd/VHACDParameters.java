@@ -77,9 +77,9 @@ public class VHACDParameters
     // new methods exposed
 
     /**
-     * Read selected parameters from an InputStream.
+     * Read selected parameters from the specified InputStream.
      *
-     * @param is (not null)
+     * @param is the stream to read (not null)
      * @throws IOException from DataInputStream
      */
     public void fromInputStream(InputStream is) throws IOException {
@@ -101,7 +101,7 @@ public class VHACDParameters
     }
 
     /**
-     * Read the decomposition mode (native field: m_mode).
+     * Return the decomposition mode (native field: m_mode).
      *
      * @return an enum value (not null)
      */
@@ -114,7 +114,7 @@ public class VHACDParameters
     }
 
     /**
-     * Read the bias toward clipping along symmetry planes. (native field:
+     * Return the bias toward clipping along symmetry planes. (native field:
      * m_alpha).
      *
      * @return alpha (&ge;0, &le;1)
@@ -127,7 +127,7 @@ public class VHACDParameters
     }
 
     /**
-     * Read the bias toward clipping along revolution axes (native field:
+     * Return the bias toward clipping along revolution axes (native field:
      * m_beta).
      *
      * @return beta (&ge;0, &le;1)
@@ -140,7 +140,7 @@ public class VHACDParameters
     }
 
     /**
-     * Read the precision of the convex-hull generation process (native field:
+     * Return the precision of the convex-hull generation process (native field:
      * m_convexhullDownsampling).
      *
      * @return precision (&ge;1, &le;16)
@@ -162,7 +162,7 @@ public class VHACDParameters
     }
 
     /**
-     * Read the maximum concavity (native field: m_concavity).
+     * Return the maximum concavity (native field: m_concavity).
      *
      * @return concavity (&ge;0, &le;1)
      */
@@ -174,7 +174,7 @@ public class VHACDParameters
     }
 
     /**
-     * Read the maximum number of vertices per hull (native field:
+     * Return the maximum number of vertices per convex hull (native field:
      * m_maxNumVerticesPerCH).
      *
      * @return the limit (&ge;4, &le;1024)
@@ -187,7 +187,7 @@ public class VHACDParameters
     }
 
     /**
-     * Read the minimum volume for added vertices (native field:
+     * Return the minimum volume for added vertices (native field:
      * m_minVolumePerCH).
      *
      * @return the volume (&ge;0, &le;0.01)
@@ -212,7 +212,7 @@ public class VHACDParameters
     }
 
     /**
-     * Read the granularity of the search (native field: m_planeDownsampling).
+     * Return the granularity of the search (native field: m_planeDownsampling).
      *
      * @return granularity (&ge;1, &le;16)
      */
@@ -224,8 +224,8 @@ public class VHACDParameters
     }
 
     /**
-     * Read the maximum number of voxels generated during the voxelization stage
-     * (native field: m_resolution).
+     * Return the maximum number of voxels generated during the voxelization
+     * stage (native field: m_resolution).
      *
      * @return number (&ge;10000, &le;64000000)
      */
@@ -296,6 +296,8 @@ public class VHACDParameters
      * Set maximum concavity (native field: m_concavity).
      *
      * @param v default = 0.0025, min = 0.0, max = 1.0
+     * <p>
+     * Note: the native default is 0.001.
      */
     public void setMaxConcavity(double v) {
         Validate.fraction(v, "depth");
@@ -305,10 +307,12 @@ public class VHACDParameters
     }
 
     /**
-     * Set maximum number of vertices per convex-hull (native field:
+     * Alter the maximum number of vertices per convex hull (native field:
      * m_maxNumVerticesPerCH).
      *
      * @param v default = 32, min = 4, max = 1024)
+     * <p>
+     * Note: the native default is 64.
      */
     public void setMaxVerticesPerHull(int v) {
         Validate.inRange(v, "max vertices", 4, 1024);
@@ -318,7 +322,7 @@ public class VHACDParameters
     }
 
     /**
-     * Set minimum volume to add vertices to convex-hulls (native field:
+     * Set the minimum volume to add vertices to convex hulls (native field:
      * m_minVolumePerCH).
      *
      * @param v default = 0.0001, min = 0.0, max = 0.01
@@ -334,7 +338,7 @@ public class VHACDParameters
      * Enable/disable normalizing the mesh before applying the convex
      * decomposition (native field: m_pca).
      *
-     * @param v default = False
+     * @param v default = false
      */
     public void setPCA(boolean v) {
         long objectId = nativeId();
@@ -355,8 +359,8 @@ public class VHACDParameters
     }
 
     /**
-     * Set maximum number of voxels generated during the voxelization stage
-     * (native field: m_resolution).
+     * Alter the maximum number of voxels generated during the voxelization
+     * stage (native field: m_resolution).
      *
      * @param v default = 100_000, min = 10_000, max = 64_000_000
      */
@@ -368,9 +372,9 @@ public class VHACDParameters
     }
 
     /**
-     * Write selected parameters to an OutputStream.
+     * Write selected parameters to the specified OutputStream.
      *
-     * @param os (not null)
+     * @param os the stream to write (not null)
      * @throws IOException from DataOutputStream
      */
     public void toOutputStream(OutputStream os) throws IOException {
@@ -463,9 +467,9 @@ public class VHACDParameters
     }
 
     /**
-     * Generate the hash code for this object.
+     * Generate the hash code for this instance.
      *
-     * @return value for use in hashing
+     * @return a 32-bit value for use in hashing
      */
     @Override
     public int hashCode() {

@@ -737,7 +737,9 @@ public class DynamicAnimControl
     }
 
     /**
-     * Replace the current blend listener.
+     * Replace the current blend listener. Note that the listener is
+     * automatically removed after each invocation, so typically this method is
+     * re-invoked before each blend.
      *
      * @param listener the desired listener, or null for none
      */

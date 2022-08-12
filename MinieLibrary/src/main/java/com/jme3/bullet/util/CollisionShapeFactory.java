@@ -253,7 +253,7 @@ final public class CollisionShapeFactory {
     }
 
     /**
-     * Create a shape for a dynamic object using the V-HACD library.
+     * Create a shape for a dynamic object using classic V-HACD.
      *
      * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
