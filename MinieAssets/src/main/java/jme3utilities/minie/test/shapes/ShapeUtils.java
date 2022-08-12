@@ -79,6 +79,21 @@ final public class ShapeUtils {
                 modelRoot, parameters, null);
         long elapsedNsec = System.nanoTime() - startTime;
 
+        printSummary(result, elapsedNsec);
+
+        return result;
+    }
+
+    /**
+     * Print a summary of a compound hull shape to System.out and also check for
+     * V-HACD failure.
+     *
+     * @param result the generated collision shape (not null, unaffected)
+     * @param elapsedNsec the time spent generating the shape (in nanoseconds,
+     * &ge;0)
+     */
+    private static void printSummary(
+            CompoundCollisionShape result, long elapsedNsec) {
         int numChildren = result.countChildren();
         if (numChildren == 0) {
             throw new RuntimeException("V-HACD failed!");
@@ -93,7 +108,5 @@ final public class ShapeUtils {
         }
         System.out.printf("  number of hulls = %d (%.3f sec, %d vertices)%n",
                 numChildren, elapsedNsec * 1e-9f, numVertices);
-
-        return result;
     }
 }
