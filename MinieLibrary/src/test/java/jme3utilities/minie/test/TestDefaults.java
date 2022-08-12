@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.bullet.CollisionSpace;
 import com.jme3.bullet.DeformableSpace;
+import com.jme3.bullet.FillMode;
 import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.MultiBodyLink;
 import com.jme3.bullet.MultiBodySpace;
@@ -108,6 +109,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import vhacd.ACDMode;
 import vhacd.VHACDParameters;
+import vhacd4.Vhacd4Parameters;
 
 /**
  * Verify the defaults for physics objects.
@@ -330,18 +332,31 @@ public class TestDefaults {
         testMultiBody();
         testJoints();
 
-        VHACDParameters parms = new VHACDParameters();
-        Assert.assertEquals(ACDMode.VOXEL, parms.getACDMode());
-        Assert.assertEquals(0.05, parms.getAlpha(), 0.0);
-        Assert.assertEquals(0.05, parms.getBeta(), 0.0);
-        Assert.assertEquals(4, parms.getConvexHullDownSampling());
-        Assert.assertFalse(parms.getDebugEnabled());
-        Assert.assertEquals(0.0025, parms.getMaxConcavity(), 0.0);
-        Assert.assertEquals(32, parms.getMaxVerticesPerHull());
-        Assert.assertEquals(0.0001, parms.getMinVolumePerHull(), 0.0);
-        Assert.assertFalse(parms.getPCA());
-        Assert.assertEquals(4, parms.getPlaneDownSampling());
-        Assert.assertEquals(100_000, parms.getVoxelResolution());
+        Vhacd4Parameters p4 = new Vhacd4Parameters();
+        Assert.assertTrue(p4.isAsync());
+        Assert.assertFalse(p4.getDebugEnabled());
+        Assert.assertEquals(FillMode.FloodFill, p4.getFillMode());
+        Assert.assertFalse(p4.isFindBestPlane());
+        Assert.assertEquals(64, p4.getMaxHulls());
+        Assert.assertEquals(14, p4.getMaxRecursion());
+        Assert.assertEquals(32, p4.getMaxVerticesPerHull());
+        Assert.assertEquals(2, p4.getMinEdgeLength());
+        Assert.assertTrue(p4.isShrinkWrap());
+        Assert.assertEquals(1.0, p4.getVolumePercentError(), 0.0);
+        Assert.assertEquals(100_000, p4.getVoxelResolution());
+
+        VHACDParameters parameters = new VHACDParameters();
+        Assert.assertFalse(parameters.getDebugEnabled());
+        Assert.assertEquals(ACDMode.VOXEL, parameters.getACDMode());
+        Assert.assertEquals(0.05, parameters.getAlpha(), 0.0);
+        Assert.assertEquals(0.05, parameters.getBeta(), 0.0);
+        Assert.assertEquals(4, parameters.getConvexHullDownSampling());
+        Assert.assertEquals(0.0025, parameters.getMaxConcavity(), 0.0);
+        Assert.assertEquals(32, parameters.getMaxVerticesPerHull());
+        Assert.assertEquals(0.0001, parameters.getMinVolumePerHull(), 0.0);
+        Assert.assertFalse(parameters.getPCA());
+        Assert.assertEquals(4, parameters.getPlaneDownSampling());
+        Assert.assertEquals(100_000, parameters.getVoxelResolution());
     }
     // *************************************************************************
     // private methods
