@@ -41,7 +41,7 @@ import vhacd.VHACDParameters;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-final public class ShapeUtils {
+final class ShapeUtils {
     // *************************************************************************
     // constants and loggers
 
