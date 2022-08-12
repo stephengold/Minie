@@ -247,7 +247,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="block">Set maximum concavity (native field: m_concavity).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxVerticesPerHull(int)" class="member-name-link">setMaxVerticesPerHull</a><wbr>(int&nbsp;v)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxVerticesPerHull(int)" class="member-name-link">setMaxVerticesPerHull</a><wbr>(int&nbsp;limit)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the maximum number of vertices per convex hull (native field:
  m_maxNumVerticesPerCH).</div>
@@ -271,7 +271,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
  field: m_planeDownsampling).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoxelResolution(int)" class="member-name-link">setVoxelResolution</a><wbr>(int&nbsp;v)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoxelResolution(int)" class="member-name-link">setVoxelResolution</a><wbr>(int&nbsp;maxVoxels)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the maximum number of voxels generated during the voxelization
  stage (native field: m_resolution).</div>
@@ -544,12 +544,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="setMaxVerticesPerHull(int)">
 <h3>setMaxVerticesPerHull</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxVerticesPerHull</span><wbr><span class="parameters">(int&nbsp;v)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxVerticesPerHull</span><wbr><span class="parameters">(int&nbsp;limit)</span></div>
 <div class="block">Alter the maximum number of vertices per convex hull (native field:
  m_maxNumVerticesPerCH).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = 32, min = 4, max = 1024)
+<dd><code>limit</code> - default = 32, min = 4, max = 1024
  <p>
  Note: the native default is 64.</dd>
 </dl>
@@ -594,12 +594,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="setVoxelResolution(int)">
 <h3>setVoxelResolution</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVoxelResolution</span><wbr><span class="parameters">(int&nbsp;v)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVoxelResolution</span><wbr><span class="parameters">(int&nbsp;maxVoxels)</span></div>
 <div class="block">Alter the maximum number of voxels generated during the voxelization
  stage (native field: m_resolution).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = 100_000, min = 10_000, max = 64_000_000</dd>
+<dd><code>maxVoxels</code> - default = 100_000, min = 10_000, max = 64_000_000</dd>
 </dl>
 </section>
 </li>
