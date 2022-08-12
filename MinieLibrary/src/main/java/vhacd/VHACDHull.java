@@ -31,12 +31,21 @@ package vhacd;
 
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
+import java.util.logging.Logger;
 import jme3utilities.math.MyVector3f;
 
 /**
  * A 3-D convex hull based on a V-HACD ConvexHull. Immutable.
  */
 public class VHACDHull {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(VHACDHull.class.getName());
     // *************************************************************************
     // fields
 
