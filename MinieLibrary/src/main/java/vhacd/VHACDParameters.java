@@ -490,6 +490,27 @@ public class VHACDParameters
 
         return hash;
     }
+
+    /**
+     * Represent this instance as a String.
+     *
+     * @return a descriptive string of text (not null, not empty)
+     */
+    @Override
+    public String toString() {
+        String result = String.format("VHACDParameters[%n"
+                + " %s  alpha=%s  beta=%s  debug=%s  hullDS=%s%n"
+                + " maxConcavity=%s  maxVertices=%s  minVolume=%s%n"
+                + " resolution=%s  PCA=%s  planeDS=%s%n"
+                + "]",
+                getACDMode(), getAlpha(), getBeta(), getDebugEnabled(),
+                getConvexHullDownSampling(), getMaxConcavity(),
+                getMaxVerticesPerHull(), getMinVolumePerHull(),
+                getVoxelResolution(), getPCA(), getPlaneDownSampling()
+        );
+
+        return result;
+    }
     // *************************************************************************
     // Java private methods
 
