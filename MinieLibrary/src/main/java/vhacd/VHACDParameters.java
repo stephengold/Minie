@@ -289,7 +289,7 @@ public class VHACDParameters
      * @param d true &rarr; enable, false &rarr; disable (default=false)
      */
     public void setDebugEnabled(boolean d) {
-        debug = d;
+        this.debug = d;
     }
 
     /**

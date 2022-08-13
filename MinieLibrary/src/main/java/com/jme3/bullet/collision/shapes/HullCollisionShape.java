@@ -112,7 +112,7 @@ public class HullCollisionShape extends ConvexShape {
         Validate.nonEmpty(locations, "locations");
 
         int numLocations = locations.size();
-        points = new float[numAxes * numLocations];
+        this.points = new float[numAxes * numLocations];
         int j = 0;
         for (Vector3f location : locations) {
             points[j + PhysicsSpace.AXIS_X] = location.x;
@@ -163,7 +163,7 @@ public class HullCollisionShape extends ConvexShape {
     public HullCollisionShape(VHACDHull vhacdHull) {
         Validate.nonNull(vhacdHull, "V-HACD hull");
 
-        points = vhacdHull.clonePositions();
+        this.points = vhacdHull.clonePositions();
         createShape();
     }
 
@@ -181,7 +181,7 @@ public class HullCollisionShape extends ConvexShape {
         Validate.positive(numFloats, "limit");
         Validate.require(numFloats % numAxes == 0, "limit a multiple of 3");
 
-        points = new float[numFloats];
+        this.points = new float[numFloats];
         for (int i = 0; i < numFloats; ++i) {
             points[i] = flippedBuffer.get(i);
         }
@@ -199,7 +199,7 @@ public class HullCollisionShape extends ConvexShape {
      */
     public HullCollisionShape(Mesh... meshes) {
         Validate.nonEmpty(meshes, "meshes");
-        points = getPoints(meshes);
+        this.points = getPoints(meshes);
         Validate.require(points.length > 0, "at least one vertex");
 
         createShape();
@@ -229,7 +229,7 @@ public class HullCollisionShape extends ConvexShape {
          * Transform corner locations to shape coordinates.
          */
         int numFloats = numAxes * cornerLocations.size();
-        points = new float[numFloats];
+        this.points = new float[numFloats];
         int floatIndex = 0;
         Vector3f tempVector = new Vector3f();
         for (Vector3f location : cornerLocations) {
@@ -379,8 +379,8 @@ public class HullCollisionShape extends ConvexShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        directBuffer = null; // directBuffer not cloned
-        points = cloner.clone(points);
+        this.directBuffer = null; // directBuffer not cloned
+        this.points = cloner.clone(points);
         createShape();
     }
 
@@ -443,9 +443,9 @@ public class HullCollisionShape extends ConvexShape {
         // for backwards compatibility
         Mesh mesh = (Mesh) capsule.readSavable(tagHullMesh, null);
         if (mesh != null) {
-            points = getPoints(mesh);
+            this.points = getPoints(mesh);
         } else {
-            points = capsule.readFloatArray(tagPoints, new float[0]);
+            this.points = capsule.readFloatArray(tagPoints, new float[0]);
         }
         createShape();
     }
@@ -488,7 +488,7 @@ public class HullCollisionShape extends ConvexShape {
         assert (numFloats % numAxes == 0) : numFloats;
         int numVertices = numFloats / numAxes;
 
-        directBuffer = BufferUtils.createFloatBuffer(numFloats);
+        this.directBuffer = BufferUtils.createFloatBuffer(numFloats);
         for (float f : points) {
             if (!Float.isFinite(f)) {
                 throw new IllegalArgumentException("illegal coordinate: " + f);
