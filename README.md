@@ -242,7 +242,7 @@ preferably early in the development process.
  + [Debugging physics issues](https://stephengold.github.io/Minie/minie/minie-library-tutorials/debug.html)
  + [An introduction to New6Dof](https://stephengold.github.io/Minie/minie/minie-library-tutorials/new6dof.html)
  + [An introduction to DynamicAnimControl](https://stephengold.github.io/Minie/minie/minie-library-tutorials/dac.html)
- + [Collision detection](https://stephengold.github.io/Minie/minie/minie-library-tutorials/detect.html)
+ + [Collision detection](https://stephengold.github.io/Minie/minie/minie-library-tutorials/collision.html)
  + [An introduction to soft-body physics](https://stephengold.github.io/Minie/minie/minie-library-tutorials/softbody.html)
 
 [Jump to table of contents](#toc)
