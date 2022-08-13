@@ -600,11 +600,11 @@ public class VHACDParameters
 
     native private static void setConcavity(long objectId, double depth);
 
-    native private static void setConvexhullApproximation(long objectId,
-            int value);
+    native private static void setConvexhullApproximation(
+            long objectId, int value);
 
-    native private static void setConvexhullDownsampling(long objectId,
-            int precision);
+    native private static void setConvexhullDownsampling(
+            long objectId, int precision);
 
     native private static void setMaxNumVerticesPerCH(long objectId, int limit);
 
@@ -616,8 +616,8 @@ public class VHACDParameters
 
     native private static void setPca(long objectId, boolean enable);
 
-    native private static void setPlaneDownsampling(long objectId,
-            int granularity);
+    native private static void setPlaneDownsampling(
+            long objectId, int granularity);
 
     native private static void setResolution(long objectId, int maxVoxels);
 }
