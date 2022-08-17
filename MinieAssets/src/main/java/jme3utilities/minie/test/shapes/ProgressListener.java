@@ -60,7 +60,7 @@ class ProgressListener implements VHACDProgressListener {
     /**
      * A private constructor to inhibit instantiation of this class.
      */
-    public ProgressListener(String prefix) {
+    ProgressListener(String prefix) {
         this.prefix = prefix;
     }
     // *************************************************************************
