@@ -146,11 +146,11 @@ class LoadScreen extends GuiScreenController {
         if (nextButton == null) {
             throw new RuntimeException("missing GUI control: nextButton");
         }
-        nextElement = nextButton.getElement();
+        this.nextElement = nextButton.getElement();
 
         DacWizard wizard = DacWizard.getApplication();
         wizard.clearScene();
-        viewedSpatial = null;
+        this.viewedSpatial = null;
     }
 
     /**
@@ -176,7 +176,7 @@ class LoadScreen extends GuiScreenController {
         if (nextSpatial != viewedSpatial) {
             DacWizard wizard = DacWizard.getApplication();
             wizard.clearScene();
-            viewedSpatial = nextSpatial;
+            this.viewedSpatial = nextSpatial;
             if (nextSpatial != null) {
                 Spatial cgModel = Heart.deepCopy(nextSpatial);
                 Transform initTransform = model.copyInitTransform(null);

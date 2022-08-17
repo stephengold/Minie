@@ -597,16 +597,16 @@ class Model {
         AssetManager assetManager = Locators.getAssetManager();
         assetManager.clearCache();
         try {
-            rootSpatial = assetManager.loadModel(assetPath);
-            loadException = null;
+            this.rootSpatial = assetManager.loadModel(assetPath);
+            this.loadException = null;
         } catch (RuntimeException exception) {
-            rootSpatial = null;
-            loadException = exception;
+            this.rootSpatial = null;
+            this.loadException = exception;
         }
         Locators.restore();
 
         if (rootSpatial != null) {
-            ragdoll = removeDac();
+            this.ragdoll = removeDac();
             recalculateInitTransform();
             recalculateInfluence();
 
@@ -857,7 +857,7 @@ class Model {
             /*
              * Enumerate mesh-vertex coordinates and assign them to managers.
              */
-            coordsMap = RagUtils.coordsMap(targets, managerMap);
+            this.coordsMap = RagUtils.coordsMap(targets, managerMap);
         }
     }
 
@@ -879,9 +879,9 @@ class Model {
      * Start a thread to estimate the range of motion for each linked bone.
      */
     void startRomTask() {
-        romCallable = new RomCallable(this);
+        this.romCallable = new RomCallable(this);
         assert romTask == null;
-        romTask = new FutureTask<>(romCallable);
+        this.romTask = new FutureTask<>(romCallable);
         Thread romThread = new Thread(romTask);
         romThread.start();
     }
@@ -890,15 +890,15 @@ class Model {
      * Toggle the visibility of PhysicsJoint axes in TestScreen.
      */
     void toggleShowingAxes() {
-        isShowingAxes = !isShowingAxes;
+        this.isShowingAxes = !isShowingAxes;
     }
 
     /**
      * Unload the loaded C-G model, if any.
      */
     void unload() {
-        rootSpatial = null;
-        ragdoll = null;
+        this.rootSpatial = null;
+        this.ragdoll = null;
     }
 
     /**
@@ -1025,17 +1025,17 @@ class Model {
         if (skeleton == null) {
             Armature armature = findArmature();
             if (armature != null) {
-                anyInfluenceBones = InfluenceUtil.addAllInfluencers(
+                this.anyInfluenceBones = InfluenceUtil.addAllInfluencers(
                         rootSpatial, armature);
                 armature.applyBindPose();
             }
         } else {
-            anyInfluenceBones = InfluenceUtil.addAllInfluencers(rootSpatial,
-                    skeleton);
+            this.anyInfluenceBones = InfluenceUtil.addAllInfluencers(
+                    rootSpatial, skeleton);
         }
 
         int numBones = countBones();
-        directInfluenceBones = new BitSet(numBones);
+        this.directInfluenceBones = new BitSet(numBones);
         InfluenceUtil.addDirectInfluencers(rootSpatial, directInfluenceBones);
     }
 
