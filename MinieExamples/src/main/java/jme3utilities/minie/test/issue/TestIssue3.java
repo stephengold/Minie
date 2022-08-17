@@ -56,7 +56,7 @@ import jme3utilities.minie.PhysicsDumper;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue3 extends SimpleApplication
+final public class TestIssue3 extends SimpleApplication
         implements ActionListener, PhysicsTickListener {
 
     private int tickCount = 0;

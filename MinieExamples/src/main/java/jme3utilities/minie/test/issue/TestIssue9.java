@@ -51,7 +51,7 @@ import jme3utilities.Heart;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue9 extends SimpleApplication {
+final public class TestIssue9 extends SimpleApplication {
     // *************************************************************************
     // fields
 

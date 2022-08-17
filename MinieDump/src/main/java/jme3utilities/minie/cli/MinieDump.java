@@ -46,7 +46,7 @@ import jme3utilities.minie.PhysicsDumper;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MinieDump {
+final public class MinieDump {
     // *************************************************************************
     // fields
 

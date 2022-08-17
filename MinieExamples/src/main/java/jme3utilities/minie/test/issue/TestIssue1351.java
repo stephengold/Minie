@@ -39,8 +39,7 @@ import com.jme3.bullet.objects.PhysicsGhostObject;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue1351 extends SimpleApplication {
-
+final public class TestIssue1351 extends SimpleApplication {
     /**
      * Main entry point for the TestIssue1351 application.
      *

@@ -41,7 +41,7 @@ import com.jme3.scene.shape.Box;
  *
  * Based on "App.java" provided by Koteinik.
  */
-public class TestIssue19 extends SimpleApplication {
+final public class TestIssue19 extends SimpleApplication {
     // *************************************************************************
     // new methods exposed
 

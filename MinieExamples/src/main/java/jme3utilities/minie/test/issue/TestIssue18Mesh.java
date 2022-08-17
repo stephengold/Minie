@@ -51,7 +51,7 @@ import com.jme3.scene.shape.Quad;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue18Mesh
+final public class TestIssue18Mesh
         extends SimpleApplication
         implements PhysicsTickListener {
     // *************************************************************************

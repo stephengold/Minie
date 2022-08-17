@@ -52,7 +52,7 @@ import jme3utilities.mesh.PointMesh;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue13 extends SimpleApplication {
+final public class TestIssue13 extends SimpleApplication {
 
     final private Random random = new Random();
     // *************************************************************************

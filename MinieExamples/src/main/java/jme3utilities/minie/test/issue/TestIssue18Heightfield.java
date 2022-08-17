@@ -48,7 +48,7 @@ import com.jme3.scene.Node;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestIssue18Heightfield
+final public class TestIssue18Heightfield
         extends SimpleApplication
         implements PhysicsTickListener {
     // *************************************************************************

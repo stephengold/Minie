@@ -42,7 +42,7 @@ import jme3utilities.MyString;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MultiSphereDemo {
+final public class MultiSphereDemo {
     // *************************************************************************
     // constants and loggers
 
