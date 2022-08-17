@@ -102,8 +102,8 @@ public class JointElasticity extends PhysicsDemo {
     /**
      * signal names for the CameraOrbitAppState
      */
-    final public static String signalOrbitLeft = "cameraOrbitLeft";
-    final public static String signalOrbitRight = "cameraOrbitRight";
+    final private static String signalOrbitLeft = "cameraOrbitLeft";
+    final private static String signalOrbitRight = "cameraOrbitRight";
     // *************************************************************************
     // fields
 
