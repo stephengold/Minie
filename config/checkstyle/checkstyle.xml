@@ -13,13 +13,6 @@
         <property name="fileNamePattern" value="jme3test"/>
     </module>
 
-    <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
-    <module name="SuppressionFilter">
-        <property name="file" value="${org.checkstyle.google.suppressionfilter.config}"
-                  default="checkstyle-suppressions.xml"/>
-        <property name="optional" value="true"/>
-    </module>
-
     <!-- Checks for whitespace                            -->
     <!-- See http://checkstyle.org/config_whitespace.html -->
     <module name="FileTabCharacter">
@@ -334,26 +327,6 @@
         </module>
         <module name="CommentsIndentation">
             <property name="tokens" value="BLOCK_COMMENT_BEGIN"/>
-        </module>
-
-        <!-- https://checkstyle.org/config_filters.html#SuppressionXpathFilter -->
-        <module name="SuppressionXpathFilter">
-            <property name="file" value="${org.checkstyle.google.suppressionxpathfilter.config}"
-                      default="checkstyle-xpath-suppressions.xml"/>
-            <property name="optional" value="true"/>
-        </module>
-        <module name="SuppressWarningsHolder"/>
-        <module name="SuppressionCommentFilter">
-            <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)"/>
-            <property name="onCommentFormat" value="CHECKSTYLE.ON\: ([\w\|]+)"/>
-            <property name="checkFormat" value="$1"/>
-        </module>
-        <module name="SuppressWithNearbyCommentFilter">
-            <property name="commentFormat" value="CHECKSTYLE.SUPPRESS\: ([\w\|]+)"/>
-            <!-- $1 refers to the first match group in the regex defined in commentFormat -->
-            <property name="checkFormat" value="$1"/>
-            <!-- The check is suppressed in the next line of code after the comment -->
-            <property name="influenceFormat" value="1"/>
         </module>
     </module>
 </module>
