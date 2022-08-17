@@ -58,7 +58,7 @@ import jme3utilities.math.MyVector3f;
  *
  * @author dokthar
  */
-public class NativeSoftBodyUtil {
+public class NativeSoftBodyUtil { // TODO finalize the class
     // *************************************************************************
     // constants and loggers
 

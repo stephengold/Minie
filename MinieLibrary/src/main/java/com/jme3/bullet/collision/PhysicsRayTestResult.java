@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  *
  * @author Empire-Phoenix, normenhansen
  */
-public class PhysicsRayTestResult {
+public class PhysicsRayTestResult { // TODO finalize the class
     // *************************************************************************
     // constants and loggers
 
