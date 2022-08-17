@@ -57,6 +57,15 @@ final public class MultiSphereDemo {
     final private static String applicationName
             = MultiSphereDemo.class.getSimpleName();
     // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MultiSphereDemo() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

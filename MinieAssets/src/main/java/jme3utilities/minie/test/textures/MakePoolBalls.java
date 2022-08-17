@@ -105,6 +105,15 @@ final public class MakePoolBalls {
     final private static String assetDirPath
             = "../MinieExamples/src/main/resources";
     // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakePoolBalls() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

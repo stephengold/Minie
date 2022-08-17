@@ -42,6 +42,12 @@ import com.jme3.system.NativeLibraryLoader;
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloConsole {
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private HelloConsole() {
+        // do nothing
+    }
     // *************************************************************************
     // new methods exposed
 
