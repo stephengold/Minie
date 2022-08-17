@@ -58,7 +58,9 @@ class ProgressListener implements VHACDProgressListener {
     // constructors
 
     /**
-     * A private constructor to inhibit instantiation of this class.
+     * Instantiate a listener for the specified prefix.
+     *
+     * @param prefix the prefix for each line of output
      */
     ProgressListener(String prefix) {
         this.prefix = prefix;

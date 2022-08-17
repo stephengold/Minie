@@ -822,6 +822,11 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         motionState.setVehicle(this);
     }
 
+    /**
+     * Invoked during a rebuild after the native object is created.
+     * <p>
+     * For use by subclasses.
+     */
     @Override
     protected void postRebuild() {
         super.postRebuild();

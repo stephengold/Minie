@@ -88,19 +88,53 @@ abstract public class PhysicsDemo extends AcorusDemo {
     final public static Logger loggerP
             = Logger.getLogger(PhysicsDemo.class.getName());
     /**
-     * action strings that onAction() recognizes
+     * action string to dump the GUI scene graph
      */
     final public static String asDumpGui = "dump gui";
+    /**
+     * action string to dump the physics space
+     */
     final public static String asDumpSpace = "dump space";
+    /**
+     * action string to dump the main scene graph
+     */
     final public static String asDumpScene = "dump scene";
+    /**
+     * action string to dump the render manager (all viewports)
+     */
     final public static String asDumpScenes = "dump scenes";
+    /**
+     * action string to dump the main viewport
+     */
     final public static String asDumpViewport = "dump viewport";
+    /**
+     * action string to toggle debug visualization of collision-object bounding
+     * boxes
+     */
     final public static String asToggleAabbs = "toggle aabbs";
+    /**
+     * action string to toggle debug visualization of CCD swept spheres
+     */
     final public static String asToggleCcdSpheres = "toggle ccdSpheres";
+    /**
+     * action string to toggle debug visualization
+     */
     final public static String asToggleDebug = "toggle debug";
+    /**
+     * action string to toggle debug visualization of gravity vectors
+     */
     final public static String asToggleGArrows = "toggle gArrows";
+    /**
+     * action string to toggle debug visualization of collision-object axes
+     */
     final public static String asTogglePcoAxes = "toggle pcoAxes";
+    /**
+     * action string to toggle debug visualization of velocity vectors
+     */
     final public static String asToggleVArrows = "toggle vArrows";
+    /**
+     * action string to toggle debug visualization of angular-velocity vectors
+     */
     final public static String asToggleWArrows = "toggle wArrows";
     // *************************************************************************
     // fields

@@ -69,7 +69,7 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Locators;
 
 /**
- * State information (MVC model) in the DacWizard application.
+ * The state information (MVC model) in the DacWizard application.
  *
  * @author Stephen Gold sgold@sonic.net
  */
