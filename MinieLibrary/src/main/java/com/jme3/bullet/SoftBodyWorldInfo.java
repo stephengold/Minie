@@ -31,7 +31,6 @@
  */
 package com.jme3.bullet;
 
-import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
