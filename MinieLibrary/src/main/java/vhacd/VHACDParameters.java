@@ -249,61 +249,61 @@ public class VHACDParameters
     /**
      * Set bias toward clipping along symmetry planes (native field: m_alpha).
      *
-     * @param v default = 0.05, min = 0.0, max = 1.0,
+     * @param alpha default = 0.05, min = 0.0, max = 1.0,
      */
-    public void setAlpha(double v) {
-        Validate.fraction(v, "alpha");
+    public void setAlpha(double alpha) {
+        Validate.fraction(alpha, "alpha");
 
         long objectId = nativeId();
-        setAlpha(objectId, v);
+        setAlpha(objectId, alpha);
     }
 
     /**
      * Set bias toward clipping along revolution axes (native field: m_beta).
      *
-     * @param v default = 0.05, min = 0.0, max = 1.0
+     * @param beta default = 0.05, min = 0.0, max = 1.0
      */
-    public void setBeta(double v) {
-        Validate.fraction(v, "beta");
+    public void setBeta(double beta) {
+        Validate.fraction(beta, "beta");
 
         long objectId = nativeId();
-        setBeta(objectId, v);
+        setBeta(objectId, beta);
     }
 
     /**
      * Set precision of the convex-hull generation process during the clipping
      * plane selection stage (native field: m_convexhullDownsampling).
      *
-     * @param v default = 4, min = 1, max = 16
+     * @param precision default = 4, min = 1, max = 16
      */
-    public void setConvexHullDownSampling(int v) {
-        Validate.inRange(v, "precision", 1, 16);
+    public void setConvexHullDownSampling(int precision) {
+        Validate.inRange(precision, "precision", 1, 16);
 
         long objectId = nativeId();
-        setConvexhullDownsampling(objectId, v);
+        setConvexhullDownsampling(objectId, precision);
     }
 
     /**
      * Alter whether debug output is enabled.
      *
-     * @param d true &rarr; enable, false &rarr; disable (default=false)
+     * @param setting true &rarr; enable, false &rarr; disable (default=false)
      */
-    public void setDebugEnabled(boolean d) {
-        this.debug = d;
+    public void setDebugEnabled(boolean setting) {
+        this.debug = setting;
     }
 
     /**
      * Set maximum concavity (native field: m_concavity).
      *
-     * @param v default = 0.0025, min = 0.0, max = 1.0
+     * @param concavity default = 0.0025, min = 0.0, max = 1.0
      * <p>
      * Note: the native default is 0.001.
      */
-    public void setMaxConcavity(double v) {
-        Validate.fraction(v, "depth");
+    public void setMaxConcavity(double concavity) {
+        Validate.fraction(concavity, "concavity");
 
         long objectId = nativeId();
-        setConcavity(objectId, v);
+        setConcavity(objectId, concavity);
     }
 
     /**
