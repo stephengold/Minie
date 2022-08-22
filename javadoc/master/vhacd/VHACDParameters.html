@@ -221,28 +221,28 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="block">Set approximate convex decomposition mode (native field: m_mode).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAlpha(double)" class="member-name-link">setAlpha</a><wbr>(double&nbsp;v)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAlpha(double)" class="member-name-link">setAlpha</a><wbr>(double&nbsp;alpha)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set bias toward clipping along symmetry planes (native field: m_alpha).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBeta(double)" class="member-name-link">setBeta</a><wbr>(double&nbsp;v)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBeta(double)" class="member-name-link">setBeta</a><wbr>(double&nbsp;beta)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set bias toward clipping along revolution axes (native field: m_beta).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConvexHullDownSampling(int)" class="member-name-link">setConvexHullDownSampling</a><wbr>(int&nbsp;v)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConvexHullDownSampling(int)" class="member-name-link">setConvexHullDownSampling</a><wbr>(int&nbsp;precision)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set precision of the convex-hull generation process during the clipping
  plane selection stage (native field: m_convexhullDownsampling).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDebugEnabled(boolean)" class="member-name-link">setDebugEnabled</a><wbr>(boolean&nbsp;d)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDebugEnabled(boolean)" class="member-name-link">setDebugEnabled</a><wbr>(boolean&nbsp;setting)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter whether debug output is enabled.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxConcavity(double)" class="member-name-link">setMaxConcavity</a><wbr>(double&nbsp;v)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxConcavity(double)" class="member-name-link">setMaxConcavity</a><wbr>(double&nbsp;concavity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set maximum concavity (native field: m_concavity).</div>
 </div>
@@ -491,56 +491,56 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="setAlpha(double)">
 <h3>setAlpha</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAlpha</span><wbr><span class="parameters">(double&nbsp;v)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAlpha</span><wbr><span class="parameters">(double&nbsp;alpha)</span></div>
 <div class="block">Set bias toward clipping along symmetry planes (native field: m_alpha).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = 0.05, min = 0.0, max = 1.0,</dd>
+<dd><code>alpha</code> - default = 0.05, min = 0.0, max = 1.0,</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setBeta(double)">
 <h3>setBeta</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBeta</span><wbr><span class="parameters">(double&nbsp;v)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBeta</span><wbr><span class="parameters">(double&nbsp;beta)</span></div>
 <div class="block">Set bias toward clipping along revolution axes (native field: m_beta).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = 0.05, min = 0.0, max = 1.0</dd>
+<dd><code>beta</code> - default = 0.05, min = 0.0, max = 1.0</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setConvexHullDownSampling(int)">
 <h3>setConvexHullDownSampling</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setConvexHullDownSampling</span><wbr><span class="parameters">(int&nbsp;v)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setConvexHullDownSampling</span><wbr><span class="parameters">(int&nbsp;precision)</span></div>
 <div class="block">Set precision of the convex-hull generation process during the clipping
  plane selection stage (native field: m_convexhullDownsampling).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = 4, min = 1, max = 16</dd>
+<dd><code>precision</code> - default = 4, min = 1, max = 16</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setDebugEnabled(boolean)">
 <h3>setDebugEnabled</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDebugEnabled</span><wbr><span class="parameters">(boolean&nbsp;d)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDebugEnabled</span><wbr><span class="parameters">(boolean&nbsp;setting)</span></div>
 <div class="block">Alter whether debug output is enabled.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>d</code> - true &rarr; enable, false &rarr; disable (default=false)</dd>
+<dd><code>setting</code> - true &rarr; enable, false &rarr; disable (default=false)</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setMaxConcavity(double)">
 <h3>setMaxConcavity</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxConcavity</span><wbr><span class="parameters">(double&nbsp;v)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxConcavity</span><wbr><span class="parameters">(double&nbsp;concavity)</span></div>
 <div class="block">Set maximum concavity (native field: m_concavity).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>v</code> - default = 0.0025, min = 0.0, max = 1.0
+<dd><code>concavity</code> - default = 0.0025, min = 0.0, max = 1.0
  <p>
  Note: the native default is 0.001.</dd>
 </dl>
