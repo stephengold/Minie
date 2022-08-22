@@ -711,10 +711,10 @@ class Model {
             System.out.print(exception);
             return;
         }
-        romCallable.cleanup();
-        romTask = null;
+        this.romCallable.cleanup();
+        this.romTask = null;
 
-        ragdoll = new DynamicAnimControl();
+        this.ragdoll = new DynamicAnimControl();
         float massParameter = 1f;
         LinkConfig linkConfig = new LinkConfig(massParameter,
                 MassHeuristic.Density, ShapeHeuristic.VertexHull,
@@ -765,7 +765,7 @@ class Model {
      */
     void selectLink(String boneName) {
         assert boneName != null;
-        selectedLink = boneName;
+        this.selectedLink = boneName;
     }
 
     /**
@@ -790,9 +790,9 @@ class Model {
         assert path != null;
         assert path.contains("/");
 
-        filePathComponents = path.split("/");
-        numComponentsInRoot = 1;
-        loadException = null;
+        this.filePathComponents = path.split("/");
+        this.numComponentsInRoot = 1;
+        this.loadException = null;
         unload();
         /*
          * Use heuristics to guess how many components there are
