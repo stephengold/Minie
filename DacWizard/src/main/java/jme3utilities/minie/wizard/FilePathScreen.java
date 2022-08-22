@@ -31,7 +31,6 @@ import com.jme3.app.state.AppStateManager;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.elements.Element;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -93,7 +92,7 @@ class FilePathScreen extends GuiScreenController {
         String workPath = System.getProperty("user.dir");
         File work = new File(workPath);
         if (work.isDirectory()) {
-            String absolutePath = fixPath(workPath);
+            String absolutePath = Heart.fixPath(workPath);
             fileMap.put(absolutePath, work);
         }
         /*
@@ -102,7 +101,7 @@ class FilePathScreen extends GuiScreenController {
         String homePath = System.getProperty("user.home");
         File home = new File(homePath);
         if (home.isDirectory()) {
-            String absolutePath = fixPath(homePath);
+            String absolutePath = Heart.fixPath(homePath);
             fileMap.put(absolutePath, home);
         }
         /*
@@ -115,7 +114,7 @@ class FilePathScreen extends GuiScreenController {
             File file = new File(filePath);
             File parent = file.getParentFile();
             String parentPath = parent.getPath();
-            String absolutePath = fixPath(parentPath);
+            String absolutePath = Heart.fixPath(parentPath);
             fileMap.put(absolutePath, parent);
         }
         /*
@@ -152,7 +151,7 @@ class FilePathScreen extends GuiScreenController {
     void setPathPrefix(String pathPrefix) {
         assert pathPrefix != null;
 
-        String absPathPrefix = fixPath(pathPrefix);
+        String absPathPrefix = Heart.fixPath(pathPrefix);
         File file = new File(absPathPrefix);
 
         boolean isDirectory = file.isDirectory();
@@ -170,7 +169,7 @@ class FilePathScreen extends GuiScreenController {
             } else { // an incomplete path
                 File parent = file.getParentFile();
                 String parentPath = parent.getPath();
-                parentPath = fixPath(parentPath);
+                parentPath = Heart.fixPath(parentPath);
 
                 String name = file.getName();
                 fileMap = directoryMap(parentPath, name);
@@ -325,26 +324,5 @@ class FilePathScreen extends GuiScreenController {
         }
 
         return fileMap;
-    }
-
-    /**
-     * Canonicalize a file path and convert backslashes to slashes.
-     *
-     * @param inputPath the file path to fix (not null, not empty)
-     * @return the fixed file path (not null, not empty)
-     */
-    private static String fixPath(String inputPath) {
-        assert inputPath != null;
-        assert !inputPath.isEmpty();
-
-        File file = new File(inputPath);
-        String result;
-        try {
-            result = file.getCanonicalPath();
-        } catch (IOException exception) {
-            result = file.getAbsolutePath();
-        }
-        result = result.replaceAll("\\\\", "/");
-        return result;
     }
 }
