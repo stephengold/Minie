@@ -287,6 +287,34 @@ class TestScreen extends GuiScreenController {
     }
 
     /**
+     * Update the collision-margin button.
+     */
+    private void updateMarginButton() {
+        float margin = CollisionShape.getDefaultMargin();
+        String marginButton = Float.toString(margin);
+        setButtonText("margin", marginButton);
+    }
+
+    /**
+     * Update the "Go limp" button.
+     */
+    private void updateRagdollButton() {
+        DacWizard wizard = DacWizard.getApplication();
+        DynamicAnimControl dac = wizard.findDac();
+
+        String ragdollButton = "";
+        if (dac != null && dac.isReady()) {
+            TorsoLink torso = dac.getTorsoLink();
+            if (torso.isKinematic()) {
+                ragdollButton = "Go limp";
+            } else {
+                ragdollButton = "Reset model";
+            }
+        }
+        setButtonText("ragdoll", ragdollButton);
+    }
+
+    /**
      * Update the linkNameStatus and the custom materials of the DAC's bodies.
      */
     private void updateSelectedLink() {
@@ -322,34 +350,6 @@ class TestScreen extends GuiScreenController {
             }
         }
         setStatusText("linkNameStatus", linkName);
-    }
-
-    /**
-     * Update the collision-margin button.
-     */
-    private void updateMarginButton() {
-        float margin = CollisionShape.getDefaultMargin();
-        String marginButton = Float.toString(margin);
-        setButtonText("margin", marginButton);
-    }
-
-    /**
-     * Update the "Go limp" button.
-     */
-    private void updateRagdollButton() {
-        DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findDac();
-
-        String ragdollButton = "";
-        if (dac != null && dac.isReady()) {
-            TorsoLink torso = dac.getTorsoLink();
-            if (torso.isKinematic()) {
-                ragdollButton = "Go limp";
-            } else {
-                ragdollButton = "Reset model";
-            }
-        }
-        setButtonText("ragdoll", ragdollButton);
     }
 
     /**
