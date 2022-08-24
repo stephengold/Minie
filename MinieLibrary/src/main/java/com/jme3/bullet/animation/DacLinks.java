@@ -837,16 +837,14 @@ public class DacLinks
                 armatureJoint.applyBindPose(); // TODO adjust the scale?
             }
             armature.update();
-            /*
-             * Save the bind transform of each armature joint.
-             */
+
+            // Save the bind transform of each armature joint.
             this.bindTransforms = new Transform[numArmatureJoints];
             for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
                 Joint armatureJoint = armature.getJoint(jointI);
                 bindTransforms[jointI]
                         = armatureJoint.getLocalTransform().clone();
             }
-
             /*
              * If there's an AnimComposer, insert a PreComposer to hide
              * our Armature modifications.
@@ -1485,9 +1483,8 @@ public class DacLinks
         assert jointName != null;
         assert skinningControl != null;
         assert managerMap != null;
-        /*
-         * Collect the location of every mesh vertex in the attached model.
-         */
+
+        // Collect the location of every mesh vertex in the attached model.
         Spatial attachModel = getAttachmentModel(jointName);
         attachModel = Heart.deepCopy(attachModel);
         VectorSet vertexLocations
