@@ -40,7 +40,7 @@ import jme3utilities.MyString;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakeGreenTile {
+final public class MakeGreenTile {
     // *************************************************************************
     // constants and loggers
 
@@ -58,6 +58,15 @@ public class MakeGreenTile {
      */
     final private static String assetDirPath
             = "../MinieExamples/src/main/resources";
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeGreenTile() {
+        // do nothing
+    }
     // *************************************************************************
     // new methods exposed
 

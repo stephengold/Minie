@@ -47,7 +47,7 @@ import jme3utilities.math.VectorSet;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakeBarrel {
+final public class MakeBarrel {
     // *************************************************************************
     // constants and loggers
 
@@ -61,6 +61,15 @@ public class MakeBarrel {
      */
     final private static String assetDirPath
             = "../MinieExamples/src/main/resources";
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeBarrel() {
+        // do nothing
+    }
     // *************************************************************************
     // new methods exposed
 

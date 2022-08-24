@@ -40,7 +40,7 @@ import jme3utilities.MyString;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakePlaid {
+final public class MakePlaid {
     // *************************************************************************
     // constants and loggers
 
@@ -58,6 +58,15 @@ public class MakePlaid {
      */
     final private static String assetDirPath
             = "../MinieExamples/src/main/resources";
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakePlaid() {
+        // do nothing
+    }
     // *************************************************************************
     // new methods exposed
 
