@@ -247,6 +247,29 @@ public class Vhacd4Parameters
     }
 
     /**
+     * Advance the fill mode to the next value.
+     */
+    public void nextFillMode() {
+        FillMode mode = getFillMode();
+        switch (mode) {
+            case FloodFill:
+                setFillMode(FillMode.RaycastFill);
+                break;
+
+            case RaycastFill:
+                setFillMode(FillMode.SurfaceOnly);
+                break;
+
+            case SurfaceOnly:
+                setFillMode(FillMode.FloodFill);
+                break;
+
+            default:
+                throw new IllegalStateException("mode = " + mode);
+        }
+    }
+
+    /**
      * Alter whether V-HACD should run on a new thread (native field:
      * m_asyncACD).
      *
