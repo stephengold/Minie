@@ -241,9 +241,9 @@ public class HeightfieldCollisionShape extends CollisionShape {
         Validate.nonNegative(scale, "scale");
         Validate.axisIndex(upAxis, "up axis");
 
-        heightStickLength = stickLength;
-        heightStickWidth = stickWidth;
-        heightfieldData = heightmap.clone();
+        this.heightStickLength = stickLength;
+        this.heightStickWidth = stickWidth;
+        this.heightfieldData = heightmap.clone();
         this.scale.set(scale);
         this.upAxis = upAxis;
         this.flipQuadEdges = flipQuadEdges;
@@ -316,19 +316,19 @@ public class HeightfieldCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        heightStickWidth = capsule.readInt(tagHeightStickWidth, 0);
-        heightStickLength = capsule.readInt(tagHeightStickLength, 0);
-        heightScale = capsule.readFloat(tagHeightScale, 0f);
-        minHeight = capsule.readFloat(tagMinHeight, 0f);
-        maxHeight = capsule.readFloat(tagMaxHeight, 0f);
-        upAxis = capsule.readInt(tagUpAxis, PhysicsSpace.AXIS_Y);
-        heightfieldData = capsule.readFloatArray(tagHeightfieldData,
-                new float[0]);
-        flipQuadEdges = capsule.readBoolean(tagFlipQuadEdges, true);
-        flipTriangleWinding = capsule.readBoolean(tagFlipTriangleWinding,
-                false);
-        useDiamond = capsule.readBoolean(tagUseDiamond, false);
-        useZigzag = capsule.readBoolean(tagUseZigzag, false);
+        this.heightStickWidth = capsule.readInt(tagHeightStickWidth, 0);
+        this.heightStickLength = capsule.readInt(tagHeightStickLength, 0);
+        this.heightScale = capsule.readFloat(tagHeightScale, 0f);
+        this.minHeight = capsule.readFloat(tagMinHeight, 0f);
+        this.maxHeight = capsule.readFloat(tagMaxHeight, 0f);
+        this.upAxis = capsule.readInt(tagUpAxis, PhysicsSpace.AXIS_Y);
+        this.heightfieldData
+                = capsule.readFloatArray(tagHeightfieldData, new float[0]);
+        this.flipQuadEdges = capsule.readBoolean(tagFlipQuadEdges, true);
+        this.flipTriangleWinding
+                = capsule.readBoolean(tagFlipTriangleWinding, false);
+        this.useDiamond = capsule.readBoolean(tagUseDiamond, false);
+        this.useZigzag = capsule.readBoolean(tagUseZigzag, false);
 
         createShape();
     }
@@ -392,8 +392,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
         } else {
             max = -min;
         }
-        minHeight = min;
-        maxHeight = max;
+        this.minHeight = min;
+        this.maxHeight = max;
     }
 
     /**
@@ -408,11 +408,11 @@ public class HeightfieldCollisionShape extends CollisionShape {
             Vector3f worldScale) {
         scale.set(worldScale);
 
-        heightfieldData = heightmap.clone();
-        heightStickWidth = (int) FastMath.sqrt(heightfieldData.length);
+        this.heightfieldData = heightmap.clone();
+        this.heightStickWidth = (int) FastMath.sqrt(heightfieldData.length);
         assert heightStickWidth > 1 : heightStickWidth;
 
-        heightStickLength = heightStickWidth;
+        this.heightStickLength = heightStickWidth;
 
         calculateMinAndMax();
         createShape();
@@ -422,7 +422,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * Instantiate the configured btHeightfieldTerrainShape.
      */
     private void createShape() {
-        directBuffer = BufferUtils.createFloatBuffer(heightfieldData.length);
+        this.directBuffer
+                = BufferUtils.createFloatBuffer(heightfieldData.length);
         for (float height : heightfieldData) {
             if (!Float.isFinite(height)) {
                 throw new IllegalArgumentException("illegal height: " + height);
