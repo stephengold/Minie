@@ -222,16 +222,16 @@ public class JointElasticity extends PhysicsDemo {
         dim.bind(asDumpScenes, KeyInput.KEY_P);
         dim.bind(asDumpSpace, KeyInput.KEY_O);
 
-        dim.bind("next field", KeyInput.KEY_NUMPAD2);
-        dim.bind("next value", KeyInput.KEY_EQUALS, KeyInput.KEY_NUMPAD6);
+        dim.bind(asNextField, KeyInput.KEY_NUMPAD2);
+        dim.bind(asNextValue, KeyInput.KEY_EQUALS, KeyInput.KEY_NUMPAD6);
 
         dim.bindSignal(CameraInput.FLYCAM_LOWER, KeyInput.KEY_DOWN);
         dim.bindSignal(CameraInput.FLYCAM_RISE, KeyInput.KEY_UP);
         dim.bindSignal(signalOrbitLeft, KeyInput.KEY_LEFT);
         dim.bindSignal(signalOrbitRight, KeyInput.KEY_RIGHT);
 
-        dim.bind("previous field", KeyInput.KEY_NUMPAD8);
-        dim.bind("previous value", KeyInput.KEY_MINUS, KeyInput.KEY_NUMPAD4);
+        dim.bind(asPreviousField, KeyInput.KEY_NUMPAD8);
+        dim.bind(asPreviousValue, KeyInput.KEY_MINUS, KeyInput.KEY_NUMPAD4);
 
         dim.bind("restart", KeyInput.KEY_NUMPAD5, KeyInput.KEY_SPACE,
                 KeyInput.KEY_RETURN);
