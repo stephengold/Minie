@@ -358,7 +358,7 @@ final public class RagUtils {
     public static List<Mesh> listDacMeshes(Spatial subtree,
             List<Mesh> storeResult) {
         List<Mesh> result = (storeResult == null)
-                ? new ArrayList<>(10) : storeResult;
+                ? new ArrayList<Mesh>(10) : storeResult;
 
         if (subtree != null) {
             Boolean ignore = subtree.getUserData(UserData.JME_PHYSICSIGNORE);
