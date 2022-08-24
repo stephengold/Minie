@@ -398,6 +398,11 @@ public class HeightfieldCollisionShape extends CollisionShape {
 
     /**
      * Instantiate a square btHeightfieldTerrainShape.
+     *
+     * @param heightmap (not null, length&ge;4, length a perfect square,
+     * unaffected)
+     * @param worldScale the desired scale factor for each local axis (not null,
+     * no negative component, unaffected)
      */
     private void createCollisionHeightfield(float[] heightmap,
             Vector3f worldScale) {

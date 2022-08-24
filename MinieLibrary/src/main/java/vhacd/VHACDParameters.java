@@ -39,8 +39,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A set of tuning parameters for convex decomposition, based on V-HACD's
- * IVHACD::Parameters.
+ * A set of tuning parameters for convex decomposition, based on classic
+ * V-HACD's IVHACD::Parameters.
  */
 public class VHACDParameters
         extends NativePhysicsObject

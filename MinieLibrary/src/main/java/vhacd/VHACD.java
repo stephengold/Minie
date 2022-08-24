@@ -136,6 +136,8 @@ final public class VHACD {
      * Add a hull to the result.
      * <p>
      * This method is invoked by native code.
+     *
+     * @param hullId the native ID of the ConvexHull to add (not zero)
      */
     private static void addHull(long hullId) {
         VHACDHull hull = new VHACDHull(hullId);

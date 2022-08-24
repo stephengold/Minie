@@ -66,7 +66,7 @@ class ProgressListener implements VHACDProgressListener {
         this.prefix = prefix;
     }
     // *************************************************************************
-    // new methods exposed
+    // VHACDProgressListener methods
 
     /**
      * Callback invoked (by native code) for progress updates.

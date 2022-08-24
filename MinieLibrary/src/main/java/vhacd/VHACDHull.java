@@ -50,7 +50,7 @@ public class VHACDHull {
     // fields
 
     /**
-     * vertex locations (not empty, length a multiple of 3)
+     * vertex locations (length a multiple of 3)
      */
     final private float[] positions;
     // *************************************************************************
@@ -59,7 +59,7 @@ public class VHACDHull {
     /**
      * Instantiate a hull based on the identified ConvexHull.
      *
-     * @param hullId the native ID of a ConvexHull (not zero)
+     * @param hullId the native ID of a classic V-HACD ConvexHull (not zero)
      */
     VHACDHull(long hullId) {
         assert hullId != 0L;
