@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019-2022, Stephen Gold
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the copyright holder nor the names of its contributors
+ may be used to endorse or promote products derived from this software without
+ specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!--
+Nifty XML to lay out the GUI for the "test" screen of VhacdTuner.
+-->
+<nifty xmlns="http://nifty-gui.lessvoid.com/nifty-gui">
+    <screen id="test" controller="jme3utilities.minie.tuner.TestScreen">
+        <layer childLayout="vertical">
+            <panel childLayout="horizontal" backgroundColor="#aaaf" height="25px">
+                <panel/>
+                <control name="label" text="Step 3:  Test parameters"
+                         color="#000f"/>
+                <panel/>
+            </panel>
+            <panel childLayout="horizontal" backgroundColor="#0000" height="*">
+                <panel/>
+                <panel childLayout="vertical" backgroundColor="#aaaf" width="230px">
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="versionLeftButton" width="*">
+                            <interact onRelease="perform(toggle version left)"/>
+                        </control>
+                        <control name="label" text="  V-HACD version  " color="#000f"/>
+                        <control name="button" id="versionRightButton" width="*">
+                            <interact onRelease="perform(toggle version right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="resolutionLeftButton" width="*">
+                            <interact onRelease="perform(set resolution left)"/>
+                        </control>
+                        <control name="label" text="  resolution  " color="#000f"/>
+                        <control name="button" id="resolutionRightButton" width="*">
+                            <interact onRelease="perform(set resolution right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="maxHullsLeftButton" width="*">
+                            <interact onRelease="perform(set maxHulls left)"/>
+                        </control>
+                        <control name="label" text="  max convex hulls  " color="#000f"/>
+                        <control name="button" id="maxHullsRightButton" width="*">
+                            <interact onRelease="perform(set maxHulls right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="maxVerticesPHLeftButton" width="*">
+                            <interact onRelease="perform(set maxVerticesPH left)"/>
+                        </control>
+                        <control name="label" text="  max vertices per hull  " color="#000f"/>
+                        <control name="button" id="maxVerticesPHRightButton" width="*">
+                            <interact onRelease="perform(set maxVerticesPH right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="maxConcavityLeftButton" width="*">
+                            <interact onRelease="perform(set maxConcavity left)"/>
+                        </control>
+                        <control name="label" text="  max concavity  " color="#000f"/>
+                        <control name="button" id="maxConcavityRightButton" width="*">
+                            <interact onRelease="perform(set maxConcavity right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="findBestPlaneLeftButton" width="*">
+                            <interact onRelease="perform(toggle findBestPlane left)"/>
+                        </control>
+                        <control name="label" text="  find best plane?  " color="#000f"/>
+                        <control name="button" id="findBestPlaneRightButton" width="*">
+                            <interact onRelease="perform(toggle findBestPlane right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="maxRecursionLeftButton" width="*">
+                            <interact onRelease="perform(set maxRecursion left)"/>
+                        </control>
+                        <control name="label" text="  max recursion  " color="#000f"/>
+                        <control name="button" id="maxRecursionRightButton" width="*">
+                            <interact onRelease="perform(set maxRecursion right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="minEdgeLengthLeftButton" width="*">
+                            <interact onRelease="perform(set minEdgeLength left)"/>
+                        </control>
+                        <control name="label" text="  min edge length  " color="#000f"/>
+                        <control name="button" id="minEdgeLengthRightButton" width="*">
+                            <interact onRelease="perform(set minEdgeLength right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="volumeErrorLeftButton" width="*">
+                            <interact onRelease="perform(set volumePercentError left)"/>
+                        </control>
+                        <control name="label" text="  volume error  " color="#000f"/>
+                        <control name="button" id="volumeErrorRightButton" width="*">
+                            <interact onRelease="perform(set volumePercentError right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="acdModeLeftButton" width="*">
+                            <interact onRelease="perform(toggle acdMode left)"/>
+                        </control>
+                        <control name="label" text="  ACD mode  " color="#000f"/>
+                        <control name="button" id="acdModeRightButton" width="*">
+                            <interact onRelease="perform(toggle acdMode right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="alphaLeftButton" width="*">
+                            <interact onRelease="perform(set alpha left)"/>
+                        </control>
+                        <control name="label" text="  alpha  " color="#000f"/>
+                        <control name="button" id="alphaRightButton" width="*">
+                            <interact onRelease="perform(set alpha right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="betaLeftButton" width="*">
+                            <interact onRelease="perform(set beta left)"/>
+                        </control>
+                        <control name="label" text="  beta  " color="#000f"/>
+                        <control name="button" id="betaRightButton" width="*">
+                            <interact onRelease="perform(set beta right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="hullDSLeftButton" width="*">
+                            <interact onRelease="perform(set hullDS left)"/>
+                        </control>
+                        <control name="label" text="  hull downsampling  " color="#000f"/>
+                        <control name="button" id="hullDSRightButton" width="*">
+                            <interact onRelease="perform(set hullDS right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="planeDSLeftButton" width="*">
+                            <interact onRelease="perform(set planeDS left)"/>
+                        </control>
+                        <control name="label" text="  plane downsampling  " color="#000f"/>
+                        <control name="button" id="planeDSRightButton" width="*">
+                            <interact onRelease="perform(set planeDS right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="pcaLeftButton" width="*">
+                            <interact onRelease="perform(toggle pca left)"/>
+                        </control>
+                        <control name="label" text="  principal axes?  " color="#000f"/>
+                        <control name="button" id="pcaRightButton" width="*">
+                            <interact onRelease="perform(toggle pca right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="minVolumePHLeftButton" width="*">
+                            <interact onRelease="perform(set minVolumePH left)"/>
+                        </control>
+                        <control name="label" text="  min volume per hull  " color="#000f"/>
+                        <control name="button" id="minVolumePHRightButton" width="*">
+                            <interact onRelease="perform(set minVolumePH right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="fillModeLeftButton" width="*">
+                            <interact onRelease="perform(next fillMode left)"/>
+                        </control>
+                        <control name="label" text="  fill mode  " color="#000f"/>
+                        <control name="button" id="fillModeRightButton" width="*">
+                            <interact onRelease="perform(next fillMode right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="shrinkLeftButton" width="*">
+                            <interact onRelease="perform(toggle shrink left)"/>
+                        </control>
+                        <control name="label" text="  shrinkwrap?  " color="#000f"/>
+                        <control name="button" id="shrinkRightButton" width="*">
+                            <interact onRelease="perform(toggle shrink right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+
+                    <panel/>
+
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="preferLeftButton" width="*">
+                            <interact onRelease="perform(prefer left)"/>
+                        </control>
+                        <panel/>
+                        <control name="button" id="preferRightButton" width="*">
+                            <interact onRelease="perform(prefer right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+
+                    <panel/>
+
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="label" id="hullsLeft"
+                                 backgroundColor="#ffff"
+                                 color="#000f"
+                                 textHAlign="center"
+                                 width="*"/>
+                        <control name="label" text="  number of hulls  "
+                                 color="#000f"/>
+                        <control name="label" id="hullsRight"
+                                 backgroundColor="#ffff"
+                                 color="#000f"
+                                 textHAlign="center"
+                                 width="*"/>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="label" id="verticesLeft"
+                                 backgroundColor="#ffff"
+                                 color="#000f"
+                                 width="*"/>
+                        <control name="label" text="  number of vertices  "
+                                 color="#000f"/>
+                        <control name="label" id="verticesRight"
+                                 backgroundColor="#ffff"
+                                 color="#000f"
+                                 textHAlign="center"
+                                 width="*"/>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="label" id="secondsLeft"
+                                 backgroundColor="#ffff"
+                                 color="#000f"
+                                 textHAlign="center"
+                                 width="*"/>
+                        <control name="label" text="  seconds  " color="#000f"/>
+                        <control name="label" id="secondsRight"
+                                 backgroundColor="#ffff"
+                                 color="#000f"
+                                 textHAlign="center"
+                                 width="*"/>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="label" id="rankLeft"
+                                 backgroundColor="#ffff"
+                                 color="#000f"
+                                 textHAlign="center"
+                                 width="*"/>
+                        <control name="label" text="  rank  " color="#000f"/>
+                        <control name="label" id="rankRight"
+                                 backgroundColor="#ffff"
+                                 color="#000f"
+                                 textHAlign="center"
+                                 width="*"/>
+                        <control name="label" text="  "/>
+                    </panel>
+
+                    <panel/>
+
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="axesButton" width="70px">
+                            <interact onRelease="perform(toggle axes)"/>
+                        </control>
+                        <panel/>
+                        <control name="button" id="debugButton" width="75px">
+                            <interact onRelease="perform(toggle physicsDebug)"/>
+                        </control>
+                        <panel/>
+                        <control name="button" id="meshButton" width="75px">
+                            <interact onRelease="perform(toggle mesh)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" id="feedback"
+                                 color="#800f"
+                                 width="*"/>
+                    </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" label="&lt; Back"
+                                 id="id5ToAvoidNiftyWarning"
+                                 width="60px">
+                            <interact onRelease="perform(previous screen)"/>
+                        </control>
+                        <panel/>
+                        <control name="button" id="nextButton"
+                                 label="Next >"
+                                 width="60px">
+                            <interact onRelease="perform(next screen)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
+                </panel>
+                <panel/>
+            </panel>
+        </layer>
+    </screen>
+</nifty>
