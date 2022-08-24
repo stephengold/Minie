@@ -54,5 +54,5 @@ public enum FillMode {
      * use raycasting to distinguish inside from outside (native name:
      * RAYCAST_FILL)
      */
-    RaycastFill;
+    RaycastFill
 }
