@@ -529,8 +529,8 @@ public class Vhacd4Parameters
     @Override
     public String toString() {
         String result = String.format("Vhacd4Parameters[%n"
-                + " async=%s  debug=%s  %s  findBest=%s%n"
-                + " maxHulls=%s  maxRecursion=%s  maxVPH=%s  minEdge=%s%n"
+                + " async=%s  debug=%s  %s  findBest=%s%n "
+                + "maxHulls=%s  maxRecursion=%s  maxVerticesPH=%s  minEdge=%s%n"
                 + " resolution=%s  shrink=%s  volumeErr=%s%%%n"
                 + "]",
                 isAsync(), getDebugEnabled(), getFillMode(), isFindBestPlane(),

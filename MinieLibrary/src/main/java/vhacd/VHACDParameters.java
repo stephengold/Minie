@@ -525,7 +525,7 @@ public class VHACDParameters
     public String toString() {
         String result = String.format("VHACDParameters[%n"
                 + " %s  alpha=%s  beta=%s  debug=%s  hullDS=%s%n"
-                + " maxConcavity=%s  maxVertices=%s  minVolume=%s%n"
+                + " maxConcavity=%s  maxVerticesPH=%s  minVolumePH=%s%n"
                 + " resolution=%s  PCA=%s  planeDS=%s%n"
                 + "]",
                 getACDMode(), getAlpha(), getBeta(), getDebugEnabled(),
