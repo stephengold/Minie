@@ -30,6 +30,8 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.binary.BinaryExporter;
@@ -185,6 +187,9 @@ class SaveMode extends InputMode {
      */
     private void saveJ3o() {
         Model model = VhacdTuner.getModel();
+        DecompositionTest best = model.findRankedTest(0);
+        CollisionShape bestShape = best.getShape();
+        RigidBodyControl rbc = new RigidBodyControl(bestShape);
 
         String originalPath = model.filePath();
         File originalFile = new File(originalPath);
@@ -203,7 +208,7 @@ class SaveMode extends InputMode {
 
         Spatial modelRoot = model.getRootSpatial();
         modelRoot = Heart.deepCopy(modelRoot);
-        // TODO add RigidBodyControl
+        modelRoot.addControl(rbc);
 
         JmeExporter exporter = BinaryExporter.getInstance();
         File outputFile = new File(outputFilePath);
