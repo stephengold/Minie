@@ -47,6 +47,7 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -204,7 +205,7 @@ class SaveMode extends InputMode {
 
         String hhmmss = hhmmss();
         String outputFileName = String.format("%s-%s.j3o", modelName, hhmmss);
-        String outputFilePath = VhacdTuner.filePath(outputFileName);
+        String outputFilePath = ActionApplication.filePath(outputFileName);
 
         Spatial modelRoot = model.getRootSpatial();
         modelRoot = Heart.deepCopy(modelRoot);
@@ -242,7 +243,7 @@ class SaveMode extends InputMode {
         SaveScreen screen = VhacdTuner.findAppState(SaveScreen.class);
         assert screen.isEnabled();
 
-        String path = VhacdTuner.filePath(fileName);
+        String path = ActionApplication.filePath(fileName);
         File file = new File(path);
         try (PrintStream stream = new PrintStream(file)) {
             best.write(stream);

@@ -71,6 +71,7 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.nifty.dialog.AllowNull;
 import jme3utilities.nifty.dialog.FloatDialog;
+import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -351,7 +352,7 @@ class TestMode extends InputMode {
         }
         String hhmmss = hhmmss();
         String outputFileName = String.format("%s-%s.j3o", modelName, hhmmss);
-        String outputFilePath = DacWizard.filePath(outputFileName);
+        String outputFilePath = ActionApplication.filePath(outputFileName);
 
         Spatial modelRoot = model.getRootSpatial();
         modelRoot = Heart.deepCopy(modelRoot);
@@ -390,7 +391,7 @@ class TestMode extends InputMode {
         DynamicAnimControl dac = wizard.findDac();
         TestScreen screen = DacWizard.findAppState(TestScreen.class);
 
-        String path = DacWizard.filePath(fileName);
+        String path = ActionApplication.filePath(fileName);
         File file = new File(path);
         try (PrintStream stream = new PrintStream(file)) {
             write(dac, stream);
