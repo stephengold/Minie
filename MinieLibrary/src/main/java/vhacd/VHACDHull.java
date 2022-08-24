@@ -65,7 +65,6 @@ public class VHACDHull {
         assert hullId != 0L;
 
         int numFloats = getNumFloats(hullId);
-        assert numFloats > 0 : numFloats;
         assert numFloats % MyVector3f.numAxes == 0 : numFloats;
 
         FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(numFloats);
@@ -85,7 +84,6 @@ public class VHACDHull {
      */
     public float[] clonePositions() {
         int numFloats = positions.length;
-        assert numFloats > 0 : numFloats;
         assert numFloats % MyVector3f.numAxes == 0 : numFloats;
 
         float[] result = new float[numFloats];
