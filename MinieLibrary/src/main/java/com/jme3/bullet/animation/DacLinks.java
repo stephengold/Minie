@@ -1061,6 +1061,11 @@ public class DacLinks
         }
         attachmentLinks.clear();
 
+        if (preComposer != null) {
+            Spatial controlledSpatial = getSpatial();
+            controlledSpatial.removeControl(preComposer);
+            this.preComposer = null;
+        }
         armature = null;
         if (skeleton != null) {
             MySkeleton.setUserControl(skeleton, false);
