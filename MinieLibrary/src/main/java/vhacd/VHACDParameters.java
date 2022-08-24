@@ -35,6 +35,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -369,6 +371,29 @@ public class VHACDParameters
 
         long objectId = nativeId();
         setResolution(objectId, maxVoxels);
+    }
+
+    /**
+     * Represent this instance as a Map, in order to make comparisons easier.
+     *
+     * @return a map of property names to values
+     */
+    public Map<String, Object> toMap() {
+        Map<String, Object> result = new TreeMap<>();
+
+        result.put("ACDMode", getACDMode());
+        result.put("alpha", getAlpha());
+        result.put("beta", getBeta());
+        result.put("debug", debug);
+        result.put("hullDS", getConvexHullDownSampling());
+        result.put("maxConcavity", getMaxConcavity());
+        result.put("maxVerticesPH", getMaxVerticesPerHull());
+        result.put("minVolumePH", getMinVolumePerHull());
+        result.put("resolution", getVoxelResolution());
+        result.put("PCA", getPCA());
+        result.put("planeDS", getPlaneDownSampling());
+
+        return result;
     }
 
     /**

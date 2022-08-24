@@ -36,6 +36,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -382,6 +384,29 @@ public class Vhacd4Parameters
 
         long objectId = nativeId();
         setResolution(objectId, maxVoxels);
+    }
+
+    /**
+     * Represent this instance as a Map, in order to make comparisons easier.
+     *
+     * @return a map of property names to values
+     */
+    public Map<String, Object> toMap() {
+        Map<String, Object> result = new TreeMap<>();
+
+        result.put("async", isAsync());
+        result.put("debug", debug);
+        result.put("fillMode", getFillMode());
+        result.put("findBest", isFindBestPlane());
+        result.put("maxHulls", getMaxHulls());
+        result.put("maxRecursion", getMaxRecursion());
+        result.put("maxVerticesPH", getMaxVerticesPerHull());
+        result.put("minEdge", getMinEdgeLength());
+        result.put("resolution", getVoxelResolution());
+        result.put("shrink", isShrinkWrap());
+        result.put("volumeErr", getVolumePercentError());
+
+        return result;
     }
 
     /**
