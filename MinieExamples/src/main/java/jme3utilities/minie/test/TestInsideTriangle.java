@@ -205,7 +205,7 @@ public class TestInsideTriangle extends AcorusDemo {
         Vector3f v0 = new Vector3f(1f, 1f, 1f);
         Vector3f v1 = new Vector3f(-1f, 1f, -1f);
         Vector3f v2 = new Vector3f(1f, -1f, -1f);
-        Set<Vector3f> list = new HashSet<Vector3f>(3);
+        Set<Vector3f> list = new HashSet<>(3);
         list.add(v0);
         list.add(v1);
         list.add(v2);
