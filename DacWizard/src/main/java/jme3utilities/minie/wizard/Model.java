@@ -80,7 +80,7 @@ class Model {
     /**
      * desired height of the C-G model (for visualization, in world units)
      */
-    final public static float cgmHeight = 10f;
+    final static float cgmHeight = 10f;
     /**
      * message logger for this class
      */
