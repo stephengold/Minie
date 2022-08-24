@@ -33,7 +33,6 @@ import de.lessvoid.nifty.controls.RadioButton;
 import de.lessvoid.nifty.controls.RadioButtonStateChangedEvent;
 import de.lessvoid.nifty.screen.Screen;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 import jme3utilities.InitialState;
 import jme3utilities.MyString;
@@ -157,10 +156,10 @@ public class SaveScreen extends GuiScreenController {
             builder.setLength(0);
             DecompositionTest test = model.findRankedTest(rank);
             Map<String, Object> parameters = test.toMap();
-            Set<String> keys = parameters.keySet();
-            for (String key : keys) {
+            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
                 Object bestValue = bestParameters.get(key);
-                Object value = parameters.get(key);
                 if (value != null && !value.equals(bestValue)) {
                     builder.append(" ").append(key).append("=").append(value);
                 }
