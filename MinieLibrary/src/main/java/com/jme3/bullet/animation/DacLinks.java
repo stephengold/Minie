@@ -725,9 +725,9 @@ public class DacLinks
         super.cloneFields(cloner, original);
         DacLinks originalDac = (DacLinks) original;
 
-        boneLinkList = cloner.clone(boneLinkList);
+        this.boneLinkList = cloner.clone(boneLinkList);
 
-        attachmentLinks = new HashMap<>(8);
+        this.attachmentLinks = new HashMap<>(8);
         for (Map.Entry<String, AttachmentLink> entry
                 : originalDac.attachmentLinks.entrySet()) {
             String boneName = entry.getKey();
@@ -736,7 +736,7 @@ public class DacLinks
             attachmentLinks.put(boneName, copyLink);
         }
 
-        boneLinks = new HashMap<>(32);
+        this.boneLinks = new HashMap<>(32);
         for (Map.Entry<String, BoneLink> entry
                 : originalDac.boneLinks.entrySet()) {
             String boneName = entry.getKey();
@@ -745,10 +745,10 @@ public class DacLinks
             boneLinks.put(boneName, copyLink);
         }
 
-        armature = cloner.clone(armature);
-        skeleton = cloner.clone(skeleton);
-        transformer = cloner.clone(transformer);
-        torsoLink = cloner.clone(torsoLink);
+        this.armature = cloner.clone(armature);
+        this.skeleton = cloner.clone(skeleton);
+        this.transformer = cloner.clone(transformer);
+        this.torsoLink = cloner.clone(torsoLink);
     }
 
     /**
@@ -784,7 +784,7 @@ public class DacLinks
             skeletonControl.setHardwareSkinningPreferred(false);
 
             // Analyze the model's Skeleton.
-            skeleton = skeletonControl.getSkeleton();
+            this.skeleton = skeletonControl.getSkeleton();
             validateSkeleton();
             tempManagerMap = managerMap(skeleton);
             int numBones = skeleton.getBoneCount();
@@ -809,7 +809,7 @@ public class DacLinks
             skeleton.updateWorldVectors();
 
             // Save the bind transform of each skeleton bone.
-            bindTransforms = new Transform[numBones];
+            this.bindTransforms = new Transform[numBones];
             for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
                 Bone bone = skeleton.getBone(jointIndex);
                 bindTransforms[jointIndex]
@@ -840,7 +840,7 @@ public class DacLinks
             /*
              * Save the bind transform of each armature joint.
              */
-            bindTransforms = new Transform[numArmatureJoints];
+            this.bindTransforms = new Transform[numArmatureJoints];
             for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
                 Joint armatureJoint = armature.getJoint(jointI);
                 bindTransforms[jointI]
@@ -868,9 +868,9 @@ public class DacLinks
         List<Mesh> targetList = RagUtils.listDacMeshes(spatial, null);
         Mesh[] targets = new Mesh[targetList.size()];
         targetList.toArray(targets);
-        transformer = MySpatial.findAnimatedGeometry(spatial);
+        this.transformer = MySpatial.findAnimatedGeometry(spatial);
         if (transformer == null) {
-            transformer = spatial;
+            this.transformer = spatial;
         }
 
         // Enumerate mesh-vertex coordinates and assign them to managers.
@@ -894,7 +894,7 @@ public class DacLinks
          * with its parent in the link hierarchy.
          * Also initialize the boneLinkList.
          */
-        boneLinkList = new ArrayList<>(numLinkedBones);
+        this.boneLinkList = new ArrayList<>(numLinkedBones);
         addJoints(torsoLink);
         assert boneLinkList.size() == numLinkedBones : boneLinkList.size();
 
@@ -978,7 +978,7 @@ public class DacLinks
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        boneLinkList = capsule.readSavableArrayList(tagBoneLinkList, null);
+        this.boneLinkList = capsule.readSavableArrayList(tagBoneLinkList, null);
         if (boneLinkList != null) {
             for (BoneLink link : boneLinkList) {
                 String name = link.boneName();
@@ -994,10 +994,10 @@ public class DacLinks
             attachmentLinks.put(name, link);
         }
 
-        armature = (Armature) capsule.readSavable(tagArmature, null);
-        skeleton = (Skeleton) capsule.readSavable(tagSkeleton, null);
-        transformer = (Spatial) capsule.readSavable(tagTransformer, null);
-        torsoLink = (TorsoLink) capsule.readSavable(tagTorsoLink, null);
+        this.armature = (Armature) capsule.readSavable(tagArmature, null);
+        this.skeleton = (Skeleton) capsule.readSavable(tagSkeleton, null);
+        this.transformer = (Spatial) capsule.readSavable(tagTransformer, null);
+        this.torsoLink = (TorsoLink) capsule.readSavable(tagTorsoLink, null);
     }
 
     /**
@@ -1031,7 +1031,7 @@ public class DacLinks
                 space.removeJoint(joint);
             }
         }
-        isReady = false;
+        this.isReady = false;
     }
 
     /**
@@ -1066,16 +1066,16 @@ public class DacLinks
             controlledSpatial.removeControl(preComposer);
             this.preComposer = null;
         }
-        armature = null;
+        this.armature = null;
         if (skeleton != null) {
             MySkeleton.setUserControl(skeleton, false);
-            skeleton = null;
+            this.skeleton = null;
         }
 
         boneLinks.clear();
-        boneLinkList = null;
-        torsoLink = null;
-        transformer = null;
+        this.boneLinkList = null;
+        this.torsoLink = null;
+        this.transformer = null;
     }
 
     /**
@@ -1334,7 +1334,7 @@ public class DacLinks
             link.postTick();
         }
 
-        isReady = true;
+        this.isReady = true;
     }
 
     /**
