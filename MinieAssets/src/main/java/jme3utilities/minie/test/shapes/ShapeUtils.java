@@ -80,9 +80,9 @@ final class ShapeUtils {
         long startTime = System.nanoTime();
         CompoundCollisionShape result = CollisionShapeFactory.createVhacdShape(
                 modelRoot, parameters, null);
-        long elapsedNsec = System.nanoTime() - startTime;
+        long elapsedNanoseconds = System.nanoTime() - startTime;
 
-        printSummary(result, elapsedNsec);
+        printSummary(result, elapsedNanoseconds);
 
         return result;
     }
@@ -103,9 +103,9 @@ final class ShapeUtils {
         long startTime = System.nanoTime();
         CompoundCollisionShape result = CollisionShapeFactory.createVhacdShape(
                 modelRoot, parameters, null);
-        long elapsedNsec = System.nanoTime() - startTime;
+        long elapsedNanoseconds = System.nanoTime() - startTime;
 
-        printSummary(result, elapsedNsec);
+        printSummary(result, elapsedNanoseconds);
 
         return result;
     }
@@ -115,11 +115,11 @@ final class ShapeUtils {
      * V-HACD failure.
      *
      * @param result the generated collision shape (not null, unaffected)
-     * @param elapsedNsec the time spent generating the shape (in nanoseconds,
+     * @param nanoseconds the time spent generating the shape (in nanoseconds,
      * &ge;0)
      */
     private static void printSummary(
-            CompoundCollisionShape result, long elapsedNsec) {
+            CompoundCollisionShape result, long nanoseconds) {
         int numChildren = result.countChildren();
         if (numChildren == 0) {
             throw new RuntimeException("V-HACD failed!");
@@ -133,6 +133,6 @@ final class ShapeUtils {
             numVertices += hull.countHullVertices();
         }
         System.out.printf("  number of hulls = %d (%.3f sec, %d vertices)%n",
-                numChildren, elapsedNsec * 1e-9f, numVertices);
+                numChildren, nanoseconds * 1e-9f, numVertices);
     }
 }

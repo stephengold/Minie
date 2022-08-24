@@ -589,9 +589,9 @@ final class DecompositionTest implements Runnable {
                     modelRoot, v4, null);
         }
 
-        long elapsedNsec = System.nanoTime() - startTime;
-        assert elapsedNsec >= 0L : elapsedNsec;
-        float elapsedSeconds = elapsedNsec * 1e-9f;
+        long elapsedNanoseconds = System.nanoTime() - startTime;
+        assert elapsedNanoseconds >= 0L : elapsedNanoseconds;
+        float elapsedSeconds = elapsedNanoseconds * 1e-9f;
         assert elapsedSeconds >= 0f : elapsedSeconds;
 
         assert collisionShape != null;
