@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -134,7 +134,7 @@ public class PoolHalfCushions extends Mesh {
      * @param z0 the first Z coordinate
      * @param z1 the 2nd Z coordinate
      */
-    private void putQuadPair(FloatBuffer buffer, float x0, float x1,
+    private static void putQuadPair(FloatBuffer buffer, float x0, float x1,
             float y0, float y1, float z0, float z1) {
 //        System.out.printf("x0=%f x1=%f z0=%f z1=%f\n", x0, x1, z0, z1);
 

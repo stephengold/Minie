@@ -161,7 +161,7 @@ public class HelloLocalPhysics extends SimpleApplication {
     /**
      * Add lighting to the specified scene.
      */
-    private void addLighting(Spatial scene) {
+    private static void addLighting(Spatial scene) {
         ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         scene.addLight(ambient);

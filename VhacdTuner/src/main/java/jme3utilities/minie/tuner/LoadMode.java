@@ -181,9 +181,7 @@ class LoadMode extends InputMode {
      * Advance to the TestScreen if possible.
      */
     private void nextScreen() {
-        LoadScreen screen = VhacdTuner.findAppState(LoadScreen.class);
-        assert screen.isEnabled();
-        String feedback = screen.feedback();
+        String feedback = LoadScreen.feedback();
         if (feedback.isEmpty()) {
             setEnabled(false);
             InputMode test = InputMode.findMode("test");

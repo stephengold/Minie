@@ -433,7 +433,7 @@ public class Pachinko
     /**
      * Add lighting and shadows to the specified scene.
      */
-    private void addLighting(Spatial rootSpatial) {
+    private static void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);

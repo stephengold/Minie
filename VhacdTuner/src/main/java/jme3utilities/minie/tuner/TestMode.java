@@ -453,7 +453,7 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setAlpha(DecompositionTest test, String actionPrefix) {
+    private static void setAlpha(DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -478,7 +478,7 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setBeta(DecompositionTest test, String actionPrefix) {
+    private static void setBeta(DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -503,7 +503,7 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setHullDS(DecompositionTest test, String actionPrefix) {
+    private static void setHullDS(DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -528,7 +528,8 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setMaxConcavity(DecompositionTest test, String actionPrefix) {
+    private static void setMaxConcavity(
+            DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -553,7 +554,8 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setMaxHulls(DecompositionTest test, String actionPrefix) {
+    private static void setMaxHulls(
+            DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -578,7 +580,8 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setMaxRecursion(DecompositionTest test, String actionPrefix) {
+    private static void setMaxRecursion(
+            DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -603,7 +606,8 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setMaxVerticesPH(DecompositionTest test, String actionPrefix) {
+    private static void setMaxVerticesPH(
+            DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -628,7 +632,8 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setMinEdgeLength(DecompositionTest test, String actionPrefix) {
+    private static void setMinEdgeLength(
+            DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -653,7 +658,8 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setMinVolumePH(DecompositionTest test, String actionPrefix) {
+    private static void setMinVolumePH(
+            DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -678,7 +684,8 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setPlaneDS(DecompositionTest test, String actionPrefix) {
+    private static void setPlaneDS(
+            DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -703,7 +710,8 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setResolution(DecompositionTest test, String actionPrefix) {
+    private static void setResolution(
+            DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
             return;
@@ -728,7 +736,7 @@ class TestMode extends InputMode {
      * @param test the test to use as the base (not null, unaffected)
      * @param actionPrefix the action prefix for the dialog box
      */
-    private void setVolumePercentError(
+    private static void setVolumePercentError(
             DecompositionTest test, String actionPrefix) {
         Model model = VhacdTuner.getModel();
         if (model.isRanking()) {
@@ -754,7 +762,7 @@ class TestMode extends InputMode {
      * @param actionString textual description of the action (not null)
      * @return true if the action is handled, otherwise false
      */
-    private boolean testForPrefixes(String actionString) {
+    private static boolean testForPrefixes(String actionString) {
         Model model = VhacdTuner.getModel();
         DecompositionTest leftTest = model.getLeftTest();
         DecompositionTest rightTest = model.getRightTest();

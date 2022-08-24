@@ -188,8 +188,7 @@ class LinksMode extends InputMode {
      * Advance to the TestScreen if possible.
      */
     private void nextScreen() {
-        LinksScreen screen = DacWizard.findAppState(LinksScreen.class);
-        String feedback = screen.feedback();
+        String feedback = LinksScreen.feedback();
         if (feedback.isEmpty()) {
             setEnabled(false);
             InputMode test = InputMode.findMode("test");

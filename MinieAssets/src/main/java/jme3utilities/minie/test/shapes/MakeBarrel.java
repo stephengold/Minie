@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -100,7 +100,7 @@ public class MakeBarrel {
     /**
      * Generate a collision shape for a barrel or cask.
      */
-    private void makeBarrel() {
+    private static void makeBarrel() {
         AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(GlbLoader.class, "glb");
         assetManager.registerLoader(J3MLoader.class, "j3md");

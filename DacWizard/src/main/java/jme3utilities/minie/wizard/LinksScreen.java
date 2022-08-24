@@ -102,7 +102,7 @@ public class LinksScreen extends GuiScreenController {
      *
      * @return "" if ready to proceed, otherwise an explanatory message
      */
-    String feedback() {
+    static String feedback() {
         return "";
     }
 

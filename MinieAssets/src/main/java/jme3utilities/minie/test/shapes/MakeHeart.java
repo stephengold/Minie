@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -174,7 +174,7 @@ public class MakeHeart {
      * @param z the Z coordinate of the point to test
      * @return error
      */
-    private double plug(double x, double y, double z) {
+    private static double plug(double x, double y, double z) {
         double x2 = x * x;
         double y2 = y * y;
         double z2 = z * z;
@@ -344,7 +344,7 @@ public class MakeHeart {
      * @param yy Y coordinate of the sample
      * @param zz Z coordinate of the sample
      */
-    private void writeSample(double xx, double yy, double zz) {
+    private static void writeSample(double xx, double yy, double zz) {
         float x = (float) xx;
         float y = (float) yy;
         float z = (float) zz;

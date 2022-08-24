@@ -518,8 +518,9 @@ public class TubeTreeMesh extends Mesh {
      * @param v2 the 2nd vertex vector to transform (not null, modified)
      * @param v3 the 3rd vertex vector to transform (not null, modified)
      */
-    private void putTransformedTriangle(FloatBuffer buffer, Vector3f offset,
-            Quaternion rotation, Vector3f v1, Vector3f v2, Vector3f v3) {
+    private static void putTransformedTriangle(FloatBuffer buffer,
+            Vector3f offset, Quaternion rotation, Vector3f v1, Vector3f v2,
+            Vector3f v3) {
         rotation.mult(v1, v1);
         v1.addLocal(offset);
         buffer.put(v1.x).put(v1.y).put(v1.z);

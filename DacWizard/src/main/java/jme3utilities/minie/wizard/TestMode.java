@@ -569,8 +569,8 @@ class TestMode extends InputMode {
      * @param configIndex the index into unique link configurations (&gt;0)
      * @param stream the output stream (not null)
      */
-    private void writeConfig(LinkConfig config, int configIndex,
-            PrintStream stream) {
+    private static void writeConfig(
+            LinkConfig config, int configIndex, PrintStream stream) {
         assert config != null;
         assert configIndex > 0 : configIndex;
 

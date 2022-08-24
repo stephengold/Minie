@@ -83,7 +83,7 @@ class LoadScreen extends GuiScreenController {
      *
      * @return "" if ready to proceed, otherwise an explanatory message
      */
-    String feedback() {
+    static String feedback() {
         Model model = VhacdTuner.getModel();
         Spatial nextSpatial = model.getRootSpatial();
         String loadException = model.loadExceptionString();

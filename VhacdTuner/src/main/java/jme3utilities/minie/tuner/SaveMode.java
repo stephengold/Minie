@@ -185,7 +185,7 @@ class SaveMode extends InputMode {
     /**
      * Write the best decomposition to a file, along with the C-G model.
      */
-    private void saveJ3o() {
+    private static void saveJ3o() {
         Model model = VhacdTuner.getModel();
         DecompositionTest best = model.findRankedTest(0);
         CollisionShape bestShape = best.getShape();
@@ -232,7 +232,7 @@ class SaveMode extends InputMode {
     /**
      * Write the best parameters to a file.
      */
-    private void saveJava() {
+    private static void saveJava() {
         Model model = VhacdTuner.getModel();
         DecompositionTest best = model.findRankedTest(0);
 

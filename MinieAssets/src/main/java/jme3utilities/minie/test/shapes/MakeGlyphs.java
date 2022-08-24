@@ -137,7 +137,7 @@ public class MakeGlyphs {
      * @return a new font instance
      */
     @SuppressWarnings("unchecked")
-    private TrueTypeFont loadProFont() {
+    private static TrueTypeFont loadProFont() {
         DesktopAssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLocator(null, ClasspathLocator.class);
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");

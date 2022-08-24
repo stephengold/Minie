@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -97,7 +97,7 @@ public class MakePlaid {
     /**
      * Generate an image map for a simple red-and-white plaid.
      */
-    private void makePlaid() {
+    private static void makePlaid() {
         /*
          * Create a blank, color buffered image for the texture map.
          */
