@@ -58,7 +58,7 @@ class FilePathMode extends InputMode {
     /**
      * action-string prefix to alter the file-system path prefix
      */
-    final static String setPathPrefix = "set pathPrefix ";
+    final private static String setPathPrefix = "set pathPrefix ";
     // *************************************************************************
     // constructors
 
