@@ -1,0 +1,45 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+plugins {
+    id 'application'
+}
+
+mainClassName = 'jme3utilities.minie.tuner.VhacdTuner'
+if (!hasProperty('mainClass')) {
+    ext.mainClass = mainClassName
+}
+jar.manifest.attributes('Main-Class': mainClassName)
+
+tasks.withType(JavaExec) { // Java runtime options:
+    args '--openGL3'
+}
+
+dependencies {
+    runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
+    implementation heartCoordinates
+    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.30' + jmeTarget
+    implementation wesCoordinates
+    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
+    runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jme3Version
+
+    // select one version of LWJGL:
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
+
+    // VhacdTuner doesn't use jme3-jogg
+    //  -- it is included solely to avoid warnings from AssetConfig.
+    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
+
+    //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
+    implementation project(':MinieLibrary') // for latest sourcecode
+}
+startScripts.dependsOn(':MinieLibrary:assemble')
+distTar.dependsOn(':MinieLibrary:assemble')
+distZip.dependsOn(':MinieLibrary:assemble')
+
+tasks.register('runForceDialog', JavaExec) {
+    args '--forceDialog'
+    mainClass = mainClassName
+}
