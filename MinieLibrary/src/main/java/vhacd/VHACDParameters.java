@@ -325,13 +325,13 @@ public class VHACDParameters
      * Set the minimum volume to add vertices to convex hulls (native field:
      * m_minVolumePerCH).
      *
-     * @param v default = 0.0001, min = 0.0, max = 0.01
+     * @param volume default = 0.0001, min = 0.0, max = 0.01
      */
-    public void setMinVolumePerHull(double v) {
-        Validate.inRange(v, "min volume", 0.0, 0.01);
+    public void setMinVolumePerHull(double volume) {
+        Validate.inRange(volume, "min volume", 0.0, 0.01);
 
         long objectId = nativeId();
-        setMinVolumePerCH(objectId, v);
+        setMinVolumePerCH(objectId, volume);
     }
 
     /**
