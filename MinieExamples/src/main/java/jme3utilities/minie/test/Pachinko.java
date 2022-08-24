@@ -402,10 +402,8 @@ public class Pachinko
 
     /**
      * Add a dynamic ball to the PhysicsSpace.
-     *
-     * @return a new instance
      */
-    private PhysicsRigidBody addBall() {
+    private void addBall() {
         float mass = 1f;
         PhysicsRigidBody result = new PhysicsRigidBody(ballShape, mass);
         Material material = findMaterial("ball");
@@ -426,8 +424,6 @@ public class Pachinko
         // Apply a random horizontal impulse.
         float xImpulse = (1f - 2f * generator.nextFloat());
         result.applyCentralImpulse(new Vector3f(xImpulse, 0f, 0f));
-
-        return result;
     }
 
     /**
