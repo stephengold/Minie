@@ -439,7 +439,7 @@ class Model {
      *
      * @param better a test preferred over {@code worse} (not null, unaffected)
      * @param worse a test to be ranked lower than {@code better} (not null,
-     * uanffected)
+     * unaffected)
      */
     void prefer(DecompositionTest better, DecompositionTest worse) {
         assert isRanking();
