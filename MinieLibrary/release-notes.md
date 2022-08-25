@@ -1,4 +1,17 @@
-# Release log for the Minie library, DacWizard, and MinieExamples
+# Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
+
+## Version 6.0.0 released on TBD
+
++ Protected the no-arg constructors of 6 abstract classes. (API changes)
++ Bugfix:  issue #30 (`NullPointerException` after removing
+  `DynamicAnimControl` from a `Spatial`)
++ Bugfix:  I/O resources not safely closed in `VHACDParameters`.
++ Added V-HACD version 4 including the `Vhacd4`, `Vhacd4Parameters, `FillMode`,
+  and `Vhacd4Hull` classes plus a new `HullCollisionShape` constructor and a
+  new `CollisionShapeFactory` method.
++ Added the VhacdTuner sub-project.
++ Added the `toMap()` method to the `VHACDParameters` class.
++ Updated the native libraries to v16.1.0 of Libbulletjme.
 
 ## Version 5.1.0 released on 6 August 2022
 
