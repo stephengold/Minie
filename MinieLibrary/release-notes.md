@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 6.0.0 released on TBD
+## Version 6.0.0 released on 25 August 2022
 
 + Protected the no-arg constructors of 6 abstract classes. (API changes)
 + Bugfix:  issue #30 (`NullPointerException` after removing
