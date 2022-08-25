@@ -55,7 +55,6 @@ import jme3utilities.MyCamera;
 import jme3utilities.MySpatial;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
-import vhacd.ACDMode;
 
 /**
  * The screen controller for the "test" screen of VhacdTuner.
@@ -454,22 +453,6 @@ class TestScreen extends GuiScreenController {
         setButtonText("prefer" + side, prefer);
 
         Map<String, Object> map = test.toMap();
-
-        String acdMode = "";
-        if (map.containsKey("ACDMode")) {
-            ACDMode mode = (ACDMode) map.get("ACDMode");
-            switch (mode) {
-                case TETRAHEDRON:
-                    acdMode = "Tetra";
-                    break;
-                case VOXEL:
-                    acdMode = "Voxel";
-                    break;
-                default:
-                    throw new IllegalStateException("mode = " + mode);
-            }
-        }
-        setButtonText("acdMode" + side, acdMode);
 
         String alpha = "";
         if (map.containsKey("alpha")) {

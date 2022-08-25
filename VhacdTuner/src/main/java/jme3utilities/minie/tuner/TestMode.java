@@ -143,8 +143,6 @@ class TestMode extends InputMode {
             = "toggle findBestPlane left";
     final private static String asToggleFindBestPlaneRight
             = "toggle findBestPlane right";
-    final private static String asToggleAcdModeLeft = "toggle acdMode left";
-    final private static String asToggleAcdModeRight = "toggle acdMode right";
     final private static String asTogglePcaLeft = "toggle pca left";
     final private static String asTogglePcaRight = "toggle pca right";
     final private static String asToggleShrinkLeft = "toggle shrink left";
@@ -361,14 +359,6 @@ class TestMode extends InputMode {
                 case asSetVolumePercentErrorRight:
                     setVolumePercentError(
                             rightTest, apSetVolumePercentErrorRight);
-                    break;
-
-                case asToggleAcdModeLeft:
-                    model.toggleAcdModeLeft();
-                    break;
-
-                case asToggleAcdModeRight:
-                    model.toggleAcdModeRight();
                     break;
 
                 case asToggleFindBestPlaneLeft:

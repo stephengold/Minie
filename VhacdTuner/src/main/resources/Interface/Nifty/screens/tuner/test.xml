@@ -142,17 +142,6 @@ Nifty XML to lay out the GUI for the "test" screen of VhacdTuner.
                     </panel>
                     <panel childLayout="horizontal" height="25px">
                         <control name="label" text="  "/>
-                        <control name="button" id="acdModeLeftButton" width="*">
-                            <interact onRelease="perform(toggle acdMode left)"/>
-                        </control>
-                        <control name="label" text="  ACD mode  " color="#000f"/>
-                        <control name="button" id="acdModeRightButton" width="*">
-                            <interact onRelease="perform(toggle acdMode right)"/>
-                        </control>
-                        <control name="label" text="  "/>
-                    </panel>
-                    <panel childLayout="horizontal" height="25px">
-                        <control name="label" text="  "/>
                         <control name="button" id="alphaLeftButton" width="*">
                             <interact onRelease="perform(set alpha left)"/>
                         </control>
