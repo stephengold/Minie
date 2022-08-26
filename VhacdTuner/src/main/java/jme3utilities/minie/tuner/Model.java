@@ -624,6 +624,32 @@ class Model {
     }
 
     /**
+     * Toggle the async flag of the left-side test.
+     */
+    void toggleAsyncLeft() {
+        if (isRanking()) {
+            return;
+        }
+        Vhacd4Parameters copy = leftTest.copyV4();
+        boolean oldSetting = copy.isAsync();
+        copy.setAsync(!oldSetting);
+        this.leftTest = getTest(copy);
+    }
+
+    /**
+     * Toggle the async flag of the right-side test.
+     */
+    void toggleAsyncRight() {
+        if (isRanking()) {
+            return;
+        }
+        Vhacd4Parameters copy = rightTest.copyV4();
+        boolean oldSetting = copy.isAsync();
+        copy.setAsync(!oldSetting);
+        this.rightTest = getTest(copy);
+    }
+
+    /**
      * Toggle the visibility of world axes in LoadScreen and TestScreen.
      */
     void toggleAxes() {

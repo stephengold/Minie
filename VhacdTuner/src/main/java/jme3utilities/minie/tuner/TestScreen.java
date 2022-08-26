@@ -460,6 +460,13 @@ class TestScreen extends GuiScreenController {
         }
         setButtonText("alpha" + side, alpha);
 
+        String async = "";
+        if (map.containsKey("async")) {
+            boolean setting = (Boolean) map.get("async");
+            async = setting ? "yes" : "no";
+        }
+        setButtonText("async" + side, async);
+
         String beta = "";
         if (map.containsKey("beta")) {
             beta = map.get("beta").toString();

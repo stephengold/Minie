@@ -228,6 +228,17 @@ Nifty XML to lay out the GUI for the "test" screen of VhacdTuner.
                         </control>
                         <control name="label" text="  "/>
                     </panel>
+                    <panel childLayout="horizontal" height="25px">
+                        <control name="label" text="  "/>
+                        <control name="button" id="asyncLeftButton" width="*">
+                            <interact onRelease="perform(toggle async left)"/>
+                        </control>
+                        <control name="label" text="  async?  " color="#000f"/>
+                        <control name="button" id="asyncRightButton" width="*">
+                            <interact onRelease="perform(toggle async right)"/>
+                        </control>
+                        <control name="label" text="  "/>
+                    </panel>
 
                     <panel/>
 
