@@ -272,6 +272,9 @@ preferably early in the development process.
 
 YouTube videos about Minie:
 
+  + August 2022 walkthru of the VhacdTuner application
+    [watch](https://www.youtube.com/watch?v=iEWJtPujmM8)
+    [source code](https://github.com/stephengold/Minie/blob/e1b7781fd06d8060ab96928379509a732fd9398f/VhacdTuner/src/main/java/jme3utilities/minie/tuner/VhacdTuner.java)
   + June 2019 teaser #2 (rubber duck)
     [watch](https://www.youtube.com/watch?v=GKc-_SqcpZo) (0:16)
     [source code](https://github.com/stephengold/Minie/blob/d0326f636dbed76c809cb8ec654bfaf94786e988/MinieExamples/src/main/java/jme3utilities/minie/test/TestSoftBodyControl.java)
