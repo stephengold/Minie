@@ -68,6 +68,9 @@ import jme3utilities.ui.ShowDialog;
  * A GuiApplication to configure V-HACD for a C-G model. The application's main
  * entry point is in this class. The default scene graph and the physics spaces
  * are also managed here.
+ * <p>
+ * Seen in the August 2022 walkthru video:
+ * https://www.youtube.com/watch?v=iEWJtPujmM8
  *
  * @author Stephen Gold sgold@sonic.net
  */
