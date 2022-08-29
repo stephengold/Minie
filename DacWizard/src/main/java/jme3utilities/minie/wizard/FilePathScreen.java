@@ -268,6 +268,10 @@ class FilePathScreen extends GuiScreenController {
                     result.add(name, "Textures/icons/folder.png");
                 } else if (name.endsWith(".j3o")) {
                     result.add(name, "Textures/icons/jme.png");
+                } else if (name.endsWith(".glb")) {
+                    result.add(name, "Textures/icons/jme.png");
+                } else if (name.endsWith(".gltf")) {
+                    result.add(name, "Textures/icons/jme.png");
                 }
             } else { // prefix
                 result.add(name, "Textures/icons/ellipsis.png");
