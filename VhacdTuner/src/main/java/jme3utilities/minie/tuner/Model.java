@@ -539,7 +539,7 @@ class Model {
             this.leftTest = getTest(parameters);
         } else {
             Vhacd4Parameters parameters = test.copyV4();
-            this.leftTest = Model.this.getTest(parameters);
+            this.leftTest = getTest(parameters);
         }
     }
 
@@ -554,7 +554,7 @@ class Model {
             this.rightTest = getTest(parameters);
         } else {
             Vhacd4Parameters parameters = test.copyV4();
-            this.rightTest = Model.this.getTest(parameters);
+            this.rightTest = getTest(parameters);
         }
     }
 
