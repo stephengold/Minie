@@ -247,7 +247,9 @@ Nifty XML to lay out the GUI for the "test" screen of VhacdTuner.
                         <control name="button" id="preferLeftButton" width="*">
                             <interact onRelease="perform(prefer left)"/>
                         </control>
-                        <panel/>
+                        <control name="button" id="stopRankingButton" width="80px">
+                            <interact onRelease="perform(stop ranking)"/>
+                        </control>
                         <control name="button" id="preferRightButton" width="*">
                             <interact onRelease="perform(prefer right)"/>
                         </control>

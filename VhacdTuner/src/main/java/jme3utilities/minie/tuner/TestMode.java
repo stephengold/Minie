@@ -139,6 +139,7 @@ class TestMode extends InputMode {
             = "set volumePercentError left";
     final private static String asSetVolumePercentErrorRight
             = "set volumePercentError right";
+    final private static String asStopRanking = "stop ranking";
     final private static String asToggleAsyncLeft = "toggle async left";
     final private static String asToggleAsyncRight = "toggle async right";
     final private static String asToggleFindBestPlaneLeft
@@ -363,6 +364,10 @@ class TestMode extends InputMode {
                             rightTest, apSetVolumePercentErrorRight);
                     break;
 
+                case asStopRanking:
+                    model.stopRanking();
+                    break;
+                    
                 case asToggleAsyncLeft:
                     model.toggleAsyncLeft();
                     break;

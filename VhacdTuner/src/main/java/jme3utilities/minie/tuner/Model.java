@@ -580,6 +580,15 @@ class Model {
     }
 
     /**
+     * Abort the current ranking sequence, if any.
+     */
+    void stopRanking() {
+        this.maxRank = -1;
+        this.minRank = -1;
+        this.testBeingRanked = null;
+    }
+
+    /**
      * Toggle the ACD mode of the left-side test.
      */
     void toggleAcdModeLeft() {

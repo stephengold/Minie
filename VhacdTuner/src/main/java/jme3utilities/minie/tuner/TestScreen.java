@@ -310,6 +310,10 @@ class TestScreen extends GuiScreenController {
         updatePhysics(rightTest, rightSpace);
         updateSideButtons("Right", rightTest, leftTest);
         updateSideLabels("Right", rightTest);
+
+        // Update the "stop ranking" button.
+        String stop = model.isRanking() ? "Stop ranking" : "";
+        setButtonText("stopRanking", stop);
     }
     // *************************************************************************
     // private methods
@@ -376,6 +380,7 @@ class TestScreen extends GuiScreenController {
      */
     private void updateFeedback() {
         Model model = VhacdTuner.getModel();
+        boolean isRanking = model.isRanking();
         DecompositionTest leftTest = model.getLeftTest();
         boolean leftRun = leftTest.hasBeenRun();
         DecompositionTest rightTest = model.getRightTest();
@@ -384,9 +389,9 @@ class TestScreen extends GuiScreenController {
         String feedback = "";
         if (model.countRankedTests() == 0) {
             feedback = "You haven't run any tests yet.";
-        } else if (leftRun && !model.isRanked(leftTest)) {
+        } else if (isRanking && leftRun && !model.isRanked(leftTest)) {
             feedback = "You haven't ranked the left test yet.";
-        } else if (rightRun && !model.isRanked(rightTest)) {
+        } else if (isRanking && rightRun && !model.isRanked(rightTest)) {
             feedback = "You haven't ranked the right test yet.";
         }
 
