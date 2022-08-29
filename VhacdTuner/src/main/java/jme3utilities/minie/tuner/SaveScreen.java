@@ -79,6 +79,9 @@ public class SaveScreen extends GuiScreenController {
         if (!isIgnoreGuiChanges() && hasStarted()) {
             String buttonName = MyString.removeSuffix(buttonId, "RadioButton");
             String digits = MyString.remainder(buttonName, "left");
+            if (digits.equals("Other")) {
+                return;
+            }
             int rank = Integer.parseInt(digits) - 1;
 
             Model model = VhacdTuner.getModel();
@@ -105,6 +108,9 @@ public class SaveScreen extends GuiScreenController {
         if (!isIgnoreGuiChanges() && hasStarted()) {
             String buttonName = MyString.removeSuffix(buttonId, "RadioButton");
             String digits = MyString.remainder(buttonName, "right");
+            if (digits.equals("Other")) {
+                return;
+            }
             int rank = Integer.parseInt(digits) - 1;
 
             Model model = VhacdTuner.getModel();
@@ -185,8 +191,10 @@ public class SaveScreen extends GuiScreenController {
      * unaffected)
      */
     private void updateGroup(String sideName, DecompositionTest sideTest) {
+        setIgnoreGuiChanges(true);
         Model model = VhacdTuner.getModel();
         Screen screen = getScreen();
+        boolean found = false;
 
         for (int rank = 0; rank < 13; ++rank) {
             int cardinal = rank + 1;
@@ -201,8 +209,17 @@ public class SaveScreen extends GuiScreenController {
                 radioButton.enable();
                 if (test == sideTest) {
                     radioButton.select();
+                    found = true;
                 }
             }
         }
+
+        String id = sideName + "OtherRadioButton";
+        RadioButton radioButton
+                = screen.findNiftyControl(id, RadioButton.class);
+        if (!found) {
+            radioButton.select();
+        }
+        setIgnoreGuiChanges(false);
     }
 }

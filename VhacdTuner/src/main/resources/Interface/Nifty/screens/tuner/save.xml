@@ -276,6 +276,18 @@ Nifty XML to lay out the GUI for the "save" screen of VhacdTuner.
                          group="right"/>
                 <control name="label" text="  "/>
             </panel>
+            <panel height="10px"/>
+            <panel childLayout="horizontal" height="25px">
+                <control name="label" text=" unranked tests" color="#000f"/>
+                <control name="label" width="*"/>
+                <control name="label" text="Left:" color="#000f"/>/>
+                <control name="radioButton" id="leftOtherRadioButton"
+                         group="left"/>
+                <control name="label" text="    Right:" color="#000f"/>/>
+                <control name="radioButton" id="rightOtherRadioButton"
+                         group="right"/>
+                <control name="label" text="  "/>
+            </panel>
 
             <panel/>
             <panel childLayout="horizontal" height="28px">
