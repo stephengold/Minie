@@ -767,6 +767,7 @@ public class DacLinks
                     numDacs - 1);
         }
 
+        boolean saveHwSkinning;
         SkinningControl skinningControl
                 = spatial.getControl(SkinningControl.class);
         String[] tempManagerMap;
@@ -781,6 +782,7 @@ public class DacLinks
                         + "and not on some other Spatial.");
             }
             sortControls(skeletonControl);
+            saveHwSkinning = skeletonControl.isHardwareSkinningPreferred();
             skeletonControl.setHardwareSkinningPreferred(false);
 
             // Analyze the model's Skeleton.
@@ -818,6 +820,7 @@ public class DacLinks
 
         } else { // spatial has a SkinningControl
             sortControls(skinningControl);
+            saveHwSkinning = skinningControl.isHardwareSkinningPreferred();
             skinningControl.setHardwareSkinningPreferred(false);
 
             // Analyze the model's Armature.
@@ -907,6 +910,8 @@ public class DacLinks
         }
 
         if (skinningControl == null) {
+            skeletonControl.setHardwareSkinningPreferred(saveHwSkinning);
+
             // Restore the skeleton's pose.
             int numBones = skeleton.getBoneCount();
             for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
@@ -916,6 +921,8 @@ public class DacLinks
             skeleton.updateWorldVectors();
 
         } else {
+            skinningControl.setHardwareSkinningPreferred(saveHwSkinning);
+
             // Restore the armature's pose.
             int numArmatureJoints = armature.getJointCount();
             for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
