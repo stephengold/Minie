@@ -118,7 +118,7 @@ class Model {
      */
     private FutureTask<RangeOfMotion[]> romTask;
     /**
-     * number of components in the file-system path to the asset root
+     * number of components in the filesystem path to the asset root
      */
     private int numComponentsInRoot;
     /**
@@ -130,7 +130,7 @@ class Model {
      */
     private RomCallable romCallable;
     /**
-     * root spatial of the C-G model
+     * root spatial of the loaded C-G model
      */
     private Spatial rootSpatial;
     /**
@@ -138,7 +138,7 @@ class Model {
      */
     private String selectedLink;
     /**
-     * components of the file-system path to the C-G model (not null)
+     * components of the filesystem path to the C-G model (not null)
      */
     private String[] filePathComponents = new String[0];
     /**
@@ -172,8 +172,8 @@ class Model {
     }
 
     /**
-     * Determine the file-system path to the asset root. The file-system path
-     * must be set.
+     * Determine the filesystem path to the asset root. The filesystem path must
+     * be set.
      *
      * @return the path (not null, not empty)
      */
@@ -576,9 +576,10 @@ class Model {
     }
 
     /**
-     * Attempt to load a C-G model. The file-system path must have been
+     * Attempt to load a C-G model. The filesystem path must have been
      * previously set. If successful, rootSpatial and linkedBones are
-     * initialized. Otherwise, rootSpatial==null and loadException is set.
+     * initialized. Otherwise, {@code rootSpatial==null} and loadException is
+     * set.
      */
     void load() {
         int numComponents = filePathComponents.length;
@@ -639,7 +640,7 @@ class Model {
     }
 
     /**
-     * Shift one component of the file-system path from the asset root to the
+     * Shift one component of the filesystem path from the asset root to the
      * asset path.
      */
     void morePath() {
@@ -648,7 +649,7 @@ class Model {
     }
 
     /**
-     * Shift one component of the file-system path from the asset path to the
+     * Shift one component of the filesystem path from the asset path to the
      * asset root.
      */
     void moreRoot() {
@@ -782,9 +783,9 @@ class Model {
     }
 
     /**
-     * Alter the model's file-system path.
+     * Alter the model's filesystem path.
      *
-     * @param path the desired file-system path (not null, contains a "/")
+     * @param path the desired filesystem path (not null, contains a "/")
      */
     void setFilePath(String path) {
         assert path != null;

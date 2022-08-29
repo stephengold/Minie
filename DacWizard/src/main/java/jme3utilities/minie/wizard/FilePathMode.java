@@ -56,7 +56,7 @@ class FilePathMode extends InputMode {
      */
     final private static String assetPath = "Textures/cursors/default.cur";
     /**
-     * action-string prefix to alter the file-system path prefix
+     * action-string prefix to alter the filesystem path prefix
      */
     final private static String setPathPrefix = "set pathPrefix ";
     // *************************************************************************

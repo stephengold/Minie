@@ -129,8 +129,8 @@ class Model {
     // new methods exposed
 
     /**
-     * Determine the asset path to the J3O/GglTF resource. The filesystem path
-     * must be set.
+     * Determine the asset path to the J3O/glTF asset. The filesystem path must
+     * be set.
      *
      * @return the path (not null, not empty)
      */

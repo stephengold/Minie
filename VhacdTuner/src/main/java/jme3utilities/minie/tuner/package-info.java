@@ -25,6 +25,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * A GUI application to configure V-HACD for a Mesh.
+ * A GUI application to configure V-HACD for a C-G model.
  */
 package jme3utilities.minie.tuner;

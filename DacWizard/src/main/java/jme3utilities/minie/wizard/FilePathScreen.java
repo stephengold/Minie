@@ -281,7 +281,7 @@ class FilePathScreen extends GuiScreenController {
      * Build a map of files, in the specified directory, whose names have the
      * specified prefix.
      *
-     * @param dirPath the file-system path to the directory (not null)
+     * @param dirPath the filesystem path to the directory (not null)
      * @param namePrefix required name prefix (not null)
      */
     private static Map<String, File> directoryMap(
