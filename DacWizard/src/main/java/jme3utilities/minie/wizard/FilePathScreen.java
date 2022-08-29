@@ -86,18 +86,16 @@ class FilePathScreen extends GuiScreenController {
      */
     void browse() {
         Map<String, File> fileMap = Heart.driveMap();
-        /*
-         * Add the current working directory to the file map.
-         */
+
+        // Add the current working directory to the file map.
         String workPath = System.getProperty("user.dir");
         File work = new File(workPath);
         if (work.isDirectory()) {
             String absolutePath = Heart.fixPath(workPath);
             fileMap.put(absolutePath, work);
         }
-        /*
-         * Add the user's home directory to the file map.
-         */
+
+        // Add the user's home directory to the file map.
         String homePath = System.getProperty("user.home");
         File home = new File(homePath);
         if (home.isDirectory()) {
@@ -105,7 +103,7 @@ class FilePathScreen extends GuiScreenController {
             fileMap.put(absolutePath, home);
         }
         /*
-         * If a file-system path is selected, add its parent directory
+         * If a filesystem path is selected, add its parent directory
          * to the file map.
          */
         Model model = DacWizard.getModel();
@@ -117,9 +115,8 @@ class FilePathScreen extends GuiScreenController {
             String absolutePath = Heart.fixPath(parentPath);
             fileMap.put(absolutePath, parent);
         }
-        /*
-         * Build and show a popup menu.
-         */
+
+        // Build and show a popup menu.
         String actionPrefix = "set pathPrefix ";
         PopupMenuBuilder builder = buildFileMenu(fileMap);
         showPopupMenu(actionPrefix, builder);
@@ -178,9 +175,8 @@ class FilePathScreen extends GuiScreenController {
             if (!actionPrefix.endsWith("/")) {
                 actionPrefix += "/";
             }
-            /*
-             * Build and show a popup menu.
-             */
+
+            // Build and show a popup menu.
             PopupMenuBuilder builder = buildFileMenu(fileMap);
             showPopupMenu(actionPrefix, builder);
         }
@@ -251,21 +247,18 @@ class FilePathScreen extends GuiScreenController {
      */
     private PopupMenuBuilder buildFileMenu(Map<String, File> fileMap) {
         assert fileMap != null;
-        /*
-         * Generate a list of file names (and prefixes) to display in the menu.
-         */
+
+        // Generate a list of file names (and prefixes) to display in the menu.
         Set<String> nameSet = fileMap.keySet();
         assert !nameSet.contains(".");
         List<String> nameList = new ArrayList<>(nameSet);
-        /*
-         * Reduce the list as necessary to fit on the screen.
-         */
+
+        // Reduce the list as necessary to fit on the screen.
         int height = cam.getHeight();
         int maxMenuItems = height / 26;
         MyString.reduce(nameList, maxMenuItems);
-        /*
-         * Sort the list and build the menu.
-         */
+
+        // Sort the list and build the menu.
         Collections.sort(nameList);
         PopupMenuBuilder result = new PopupMenuBuilder();
         for (String name : nameList) {
@@ -313,9 +306,8 @@ class FilePathScreen extends GuiScreenController {
                 }
             }
         }
-        /*
-         * Add ".." if a parent directory exists.
-         */
+
+        // Add ".." if a parent directory exists.
         File parent = directory.getParentFile();
         if (parent != null) {
             if ("..".startsWith(namePrefix)) {

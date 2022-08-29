@@ -161,8 +161,8 @@ class Model {
             throw new RuntimeException("File-system path not set.");
         }
         assert numComponentsInRoot < numComponents : numComponents;
-        String[] resultComponents = Arrays.copyOfRange(filePathComponents,
-                numComponentsInRoot, numComponents);
+        String[] resultComponents = Arrays.copyOfRange(
+                filePathComponents, numComponentsInRoot, numComponents);
         String result = String.join("/", resultComponents);
         result = "/" + result;
 
@@ -183,8 +183,8 @@ class Model {
             throw new RuntimeException("File-system path not set.");
         }
         assert numComponentsInRoot < numComponents : numComponents;
-        String[] resultComponents = Arrays.copyOfRange(filePathComponents, 0,
-                numComponentsInRoot);
+        String[] resultComponents = Arrays.copyOfRange(
+                filePathComponents, 0, numComponentsInRoot);
         String result = String.join("/", resultComponents);
         result += "/";
 
@@ -796,7 +796,7 @@ class Model {
         unload();
         /*
          * Use heuristics to guess how many components there are
-         * in the file-system path to the asset root.
+         * in the filesystem path to the asset root.
          */
         int numComponents = filePathComponents.length;
         assert numComponents > 0 : numComponents;

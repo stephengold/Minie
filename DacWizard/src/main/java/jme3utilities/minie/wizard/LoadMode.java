@@ -102,11 +102,9 @@ class LoadMode extends InputMode {
      * @param application (not null)
      */
     @Override
-    public void initialize(AppStateManager stateManager,
-            Application application) {
-        /*
-         * Set the mouse cursor for this mode.
-         */
+    public void initialize(
+            AppStateManager stateManager, Application application) {
+        // Configure the mouse cursor for this mode.
         AssetManager manager = application.getAssetManager();
         JmeCursor cursor = (JmeCursor) manager.loadAsset(assetPath);
         setCursor(cursor);

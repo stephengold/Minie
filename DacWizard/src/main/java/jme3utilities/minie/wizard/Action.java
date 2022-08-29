@@ -85,6 +85,7 @@ final class Action {
      * A private constructor to inhibit instantiation of this class.
      */
     private Action() {
+        // do nothing
     }
     // *************************************************************************
     // new methods exposed
