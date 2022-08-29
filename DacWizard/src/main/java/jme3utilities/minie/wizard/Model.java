@@ -158,7 +158,7 @@ class Model {
     String assetPath() {
         int numComponents = filePathComponents.length;
         if (numComponents == 0) {
-            throw new RuntimeException("File-system path not set.");
+            throw new RuntimeException("Filesystem path not set.");
         }
         assert numComponentsInRoot < numComponents : numComponents;
         String[] resultComponents = Arrays.copyOfRange(
@@ -180,7 +180,7 @@ class Model {
     String assetRoot() {
         int numComponents = filePathComponents.length;
         if (numComponents == 0) {
-            throw new RuntimeException("File-system path not set.");
+            throw new RuntimeException("Filesystem path not set.");
         }
         assert numComponentsInRoot < numComponents : numComponents;
         String[] resultComponents = Arrays.copyOfRange(
@@ -584,7 +584,7 @@ class Model {
     void load() {
         int numComponents = filePathComponents.length;
         if (numComponents == 0) {
-            throw new RuntimeException("File-system path not set.");
+            throw new RuntimeException("Filesystem path not set.");
         }
 
         unload();
