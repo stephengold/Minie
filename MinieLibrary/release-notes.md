@@ -1,5 +1,14 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 6.0.1 released on TBD
+
++ Bugfix:  `DacLinks` never re-enables hardware skinning (performance issue)
++ VhacdTuner GUI tweaks:
+  + Removed the "ACDMode" buttons.
+  + Added buttons to toggle the "async" setting.
+  + Added a button to quit ranking the newest test result.
++ Added glTF loading capability to DacWizard.
+
 ## Version 6.0.0 released on 25 August 2022
 
 + Protected the no-arg constructors of 6 abstract classes. (API changes)
