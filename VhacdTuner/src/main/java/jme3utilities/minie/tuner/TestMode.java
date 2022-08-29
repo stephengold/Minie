@@ -367,7 +367,7 @@ class TestMode extends InputMode {
                 case asStopRanking:
                     model.stopRanking();
                     break;
-                    
+
                 case asToggleAsyncLeft:
                     model.toggleAsyncLeft();
                     break;
