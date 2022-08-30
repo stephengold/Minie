@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 6.0.1 released on TBD
+## Version 6.0.1 released on 29 August 2022
 
 + Bugfix:  `DacLinks` never re-enables hardware skinning (performance issue)
 + VhacdTuner GUI tweaks:

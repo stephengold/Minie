@@ -92,7 +92,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation 'com.github.stephengold:Minie:6.0.0'
+    implementation 'com.github.stephengold:Minie:6.0.1'
 }
 ----
 
@@ -115,7 +115,7 @@ Add to the project's "pom.xml" file:
 <dependency>
   <groupId>com.github.stephengold</groupId>
   <artifactId>Minie</artifactId>
-  <version>6.0.0</version>
+  <version>6.0.1</version>
 </dependency>
 ----
 
@@ -151,15 +151,15 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 . Add the Heart class JAR:
 .. Click on the btn:[Add JAR/Folder] button.
 .. Navigate to the download directory.
-.. Select the "Minie-6.0.0.jar" file.
+.. Select the "Minie-6.0.1.jar" file.
 .. Click on the btn:[Open] button.
 . (optional) Add JARs for javadoc and sources:
 .. Click on the btn:[Edit] button.
 .. Click on the btn:[Browse...] button to the right of "Javadoc:"
-.. Select the "Minie-6.0.0-javadoc.jar" file.
+.. Select the "Minie-6.0.1-javadoc.jar" file.
 .. Click on the btn:[Open] button.
 .. Click on the btn:[Browse...] button to the right of "Sources:"
-.. Select the "Minie-6.0.0-sources.jar" file.
+.. Select the "Minie-6.0.1-sources.jar" file.
 .. Click on the btn:[Open] button button again.
 .. Click on the btn:[OK] button to close the "Edit Jar Reference" dialog.
 . Add the other JVM libraries in a similar manner.
