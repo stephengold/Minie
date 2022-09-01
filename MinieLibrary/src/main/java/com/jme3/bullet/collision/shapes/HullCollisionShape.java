@@ -142,32 +142,6 @@ public class HullCollisionShape extends ConvexShape {
     }
 
     /**
-     * Instantiate a shape based on a Vhacd4Hull. For best performance and
-     * stability, the convex hull should have no more than 100 vertices.
-     *
-     * @param vhacd4Hull (not null, unaffected)
-     */
-    public HullCollisionShape(Vhacd4Hull vhacd4Hull) {
-        Validate.nonNull(vhacd4Hull, "V-HACD hull");
-
-        this.points = vhacd4Hull.clonePositions();
-        createShape();
-    }
-
-    /**
-     * Instantiate a shape based on a VHACDHull. For best performance and
-     * stability, the convex hull should have no more than 100 vertices.
-     *
-     * @param vhacdHull (not null, unaffected)
-     */
-    public HullCollisionShape(VHACDHull vhacdHull) {
-        Validate.nonNull(vhacdHull, "V-HACD hull");
-
-        this.points = vhacdHull.clonePositions();
-        createShape();
-    }
-
-    /**
      * Instantiate a shape based on a flipped buffer containing coordinates. For
      * best performance and stability, the convex hull should have no more than
      * 100 vertices.
@@ -240,6 +214,32 @@ public class HullCollisionShape extends ConvexShape {
             floatIndex += numAxes;
         }
 
+        createShape();
+    }
+
+    /**
+     * Instantiate a shape based on a Vhacd4Hull. For best performance and
+     * stability, the convex hull should have no more than 100 vertices.
+     *
+     * @param vhacd4Hull (not null, unaffected)
+     */
+    public HullCollisionShape(Vhacd4Hull vhacd4Hull) {
+        Validate.nonNull(vhacd4Hull, "V-HACD hull");
+
+        this.points = vhacd4Hull.clonePositions();
+        createShape();
+    }
+
+    /**
+     * Instantiate a shape based on a VHACDHull. For best performance and
+     * stability, the convex hull should have no more than 100 vertices.
+     *
+     * @param vhacdHull (not null, unaffected)
+     */
+    public HullCollisionShape(VHACDHull vhacdHull) {
+        Validate.nonNull(vhacdHull, "V-HACD hull");
+
+        this.points = vhacdHull.clonePositions();
         createShape();
     }
     // *************************************************************************
