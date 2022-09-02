@@ -241,9 +241,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Estimate the scaled volume of the hull, based on its debug mesh.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#split(com.jme3.math.Plane)" class="member-name-link">split</a><wbr>(com.jme3.math.Plane&nbsp;splittingPlane)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Attempt to divide this shape into 2 child shapes.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this shape to the specified exporter, for example when saving
  to a J3O file.</div>
 </div>
@@ -461,6 +466,21 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the volume (in physics-space units cubed, &ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="split(com.jme3.math.Plane)">
+<h3>split</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="element-name">split</span><wbr><span class="parameters">(com.jme3.math.Plane&nbsp;splittingPlane)</span></div>
+<div class="block">Attempt to divide this shape into 2 child shapes.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>splittingPlane</code> - the splitting plane (in descaled shape coordinates)</dd>
+<dt>Returns:</dt>
+<dd>either this shape (indicating no effect) or else a new compound
+ composed of 2 hulls, with the plane's minus-side as the first child and
+ its plus-side as the 2nd child</dd>
 </dl>
 </section>
 </li>
