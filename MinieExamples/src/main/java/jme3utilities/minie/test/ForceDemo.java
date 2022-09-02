@@ -122,7 +122,7 @@ public class ForceDemo
     @Override
     public void acorusInit() {
         // Add the status text to the GUI.
-        statusText = new BitmapText(guiFont);
+        this.statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
         super.acorusInit();
@@ -302,7 +302,7 @@ public class ForceDemo
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         float axisLength = maxArrowLength();
         bulletAppState.setDebugAxisLength(axisLength);
         bulletAppState.setDebugEnabled(true);

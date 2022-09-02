@@ -339,7 +339,7 @@ public class WatchDemo extends PhysicsDemo {
 
         if (!dacReadyInitDone && dac.isReady()) {
             initWhenReady();
-            dacReadyInitDone = true;
+            this.dacReadyInitDone = true;
         }
     }
     // *************************************************************************
@@ -377,8 +377,8 @@ public class WatchDemo extends PhysicsDemo {
         geometry.move(gridBottomLeft);
         float gridX = gridBottomLeft.x;
         float topY = gridBottomLeft.y + gridSpacing * numRows;
-        gridTopLeft = new Vector3f(gridX, topY, gridBottomLeft.z);
-        gridTopRight = new Vector3f(gridX, topY, gridBottomRight.z);
+        this.gridTopLeft = new Vector3f(gridX, topY, gridBottomLeft.z);
+        this.gridTopRight = new Vector3f(gridX, topY, gridBottomRight.z);
     }
 
     /**
@@ -497,7 +497,7 @@ public class WatchDemo extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();

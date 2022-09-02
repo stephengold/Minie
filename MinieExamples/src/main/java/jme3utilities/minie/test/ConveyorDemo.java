@@ -556,7 +556,7 @@ public class ConveyorDemo
      */
     private void configurePhysics() {
         // Set up Bullet physics and create a physics space.
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         final PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 

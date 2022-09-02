@@ -254,7 +254,7 @@ public class DropTest
      */
     @Override
     public void acorusInit() {
-        status = new DropTestStatus();
+        this.status = new DropTestStatus();
         boolean success = stateManager.attach(status);
         assert success;
 
@@ -831,7 +831,7 @@ public class DropTest
     private void configurePhysics() {
         DebugShapeFactory.setIndexBuffers(200);
 
-        bulletAppState = new SoftPhysicsAppState();
+        this.bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         bulletAppState.setDebugShadowMode(

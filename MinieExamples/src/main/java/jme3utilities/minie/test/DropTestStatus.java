@@ -199,7 +199,7 @@ public class DropTestStatus extends SimpleAppState {
         int selectedField = selectedLine - firstField;
         int sum = selectedField + amount;
         selectedField = MyMath.modulo(sum, numFields);
-        selectedLine = selectedField + firstField;
+        this.selectedLine = selectedField + firstField;
     }
 
     /**
@@ -339,7 +339,7 @@ public class DropTestStatus extends SimpleAppState {
      * Toggle child coloring disabled/enabled.
      */
     void toggleChildColor() {
-        isChildColoring = !isChildColoring;
+        this.isChildColoring = !isChildColoring;
         appInstance.setDebugMaterialsAll();
     }
 
@@ -347,7 +347,7 @@ public class DropTestStatus extends SimpleAppState {
      * Toggle wireframe disabled/enabled.
      */
     void toggleWireframe() {
-        isWireframe = !isWireframe;
+        this.isWireframe = !isWireframe;
         appInstance.setDebugMaterialsAll();
         appInstance.setDebugShadowMode();
     }
@@ -379,7 +379,7 @@ public class DropTestStatus extends SimpleAppState {
     public void initialize(AppStateManager sm, Application app) {
         super.initialize(sm, app);
 
-        appInstance = (DropTest) app;
+        this.appInstance = (DropTest) app;
         BitmapFont guiFont
                 = assetManager.loadFont("Interface/Fonts/Default.fnt");
         /*

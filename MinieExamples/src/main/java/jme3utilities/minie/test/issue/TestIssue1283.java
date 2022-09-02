@@ -217,12 +217,12 @@ public class TestIssue1283 extends SimpleApplication {
      * Configure materials during startup.
      */
     private void configureMaterials() {
-        wallMaterial = new Material(assetManager,
+        this.wallMaterial = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         wallMaterial.setColor("Color", ColorRGBA.White.clone());
         wallMaterial.getAdditionalRenderState().setWireframe(true);
 
-        projectileMaterial = new Material(assetManager,
+        this.projectileMaterial = new Material(assetManager,
                 "Common/MatDefs/Light/Lighting.j3md");
         projectileMaterial.setBoolean("UseMaterialColors", true);
         projectileMaterial.setColor("Ambient", ColorRGBA.Red.clone());
@@ -236,7 +236,7 @@ public class TestIssue1283 extends SimpleApplication {
     private void configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        this.physicsSpace = bulletAppState.getPhysicsSpace();
         Vector3f gravityVector = new Vector3f(0f, -30f, 0f);
         physicsSpace.setGravity(gravityVector);
     }

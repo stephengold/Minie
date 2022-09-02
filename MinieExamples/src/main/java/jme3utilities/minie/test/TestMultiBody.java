@@ -146,7 +146,7 @@ public class TestMultiBody extends PhysicsDemo {
         viewPort.setBackgroundColor(skyColor);
 
         addLighting(rootNode, false);
-        speed = pausedSpeed;
+        this.speed = pausedSpeed;
 
         float halfExtent = 4f;
         float topY = -1f;
@@ -372,7 +372,7 @@ public class TestMultiBody extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState = new MultiBodyAppState();
+        this.bulletAppState = new MultiBodyAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSolverType(SolverType.Lemke);
         float axisLength = maxArrowLength();

@@ -174,7 +174,7 @@ public class JointDemo extends PhysicsDemo {
         meshesNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         // Add the status text to the GUI.
-        statusText = new BitmapText(guiFont);
+        this.statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
     }
@@ -440,7 +440,7 @@ public class JointDemo extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
     }
 

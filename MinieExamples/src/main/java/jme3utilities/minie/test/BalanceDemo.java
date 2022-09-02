@@ -538,7 +538,7 @@ public class BalanceDemo extends PhysicsDemo {
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();

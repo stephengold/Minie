@@ -468,7 +468,7 @@ public class Pachinko
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);

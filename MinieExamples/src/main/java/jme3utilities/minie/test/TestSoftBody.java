@@ -833,7 +833,7 @@ public class TestSoftBody
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
-        bulletAppState = new SoftPhysicsAppState();
+        this.bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugFilter(hiddenObjects);
         bulletAppState.setDebugInitListener(this);

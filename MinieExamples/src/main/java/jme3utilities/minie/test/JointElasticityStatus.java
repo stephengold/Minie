@@ -151,7 +151,7 @@ final public class JointElasticityStatus extends SimpleAppState {
         int selectedField = selectedLine - firstField;
         int sum = selectedField + amount;
         selectedField = MyMath.modulo(sum, numFields);
-        selectedLine = selectedField + firstField;
+        this.selectedLine = selectedField + firstField;
     }
 
     /**
@@ -245,7 +245,7 @@ final public class JointElasticityStatus extends SimpleAppState {
     public void initialize(AppStateManager sm, Application app) {
         super.initialize(sm, app);
 
-        appInstance = (JointElasticity) app;
+        this.appInstance = (JointElasticity) app;
         BitmapFont guiFont
                 = assetManager.loadFont("Interface/Fonts/Default.fnt");
         /*

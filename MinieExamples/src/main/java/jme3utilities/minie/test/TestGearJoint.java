@@ -152,7 +152,7 @@ public class TestGearJoint
         stateManager.getState(StatsAppState.class).toggleStats();
 
         // Add the status text to the GUI.
-        statusText = new BitmapText(guiFont);
+        this.statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
 
@@ -329,7 +329,7 @@ public class TestGearJoint
      */
     private void configurePhysics() {
         // Set up Bullet physics and create a physics space.
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         float axisLength = maxArrowLength();
         bulletAppState.setDebugAxisLength(axisLength);
         bulletAppState.setDebugEnabled(true);

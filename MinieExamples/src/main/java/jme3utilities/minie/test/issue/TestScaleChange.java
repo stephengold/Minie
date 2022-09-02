@@ -91,7 +91,7 @@ public class TestScaleChange extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        this.physicsSpace = bulletAppState.getPhysicsSpace();
 
         box = new BoxCollisionShape(1f);
         box.setScale(new Vector3f(scale, scale, scale));

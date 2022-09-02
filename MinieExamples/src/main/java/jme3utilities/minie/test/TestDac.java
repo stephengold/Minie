@@ -784,7 +784,7 @@ public class TestDac extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
@@ -802,7 +802,7 @@ public class TestDac extends PhysicsDemo {
         boolean disableForRagdoll = true;
         dac.fixToWorld(torsoLink, disableForRagdoll);
 
-        animPose = Pose.newInstance(sc);
+        this.animPose = Pose.newInstance(sc);
         matchAnimPose();
     }
 
@@ -811,7 +811,7 @@ public class TestDac extends PhysicsDemo {
      * joints at bind pose.
      */
     private void goDynamicBindPose() {
-        animPose = null;
+        this.animPose = null;
 
         TorsoLink torsoLink = dac.getTorsoLink();
         torsoLink.setDynamic(Vector3f.ZERO);
@@ -851,13 +851,14 @@ public class TestDac extends PhysicsDemo {
      * Load the BaseMesh model.
      */
     private void loadBaseMesh() {
-        cgModel = (Node) assetManager.loadModel("Models/BaseMesh/BaseMesh.j3o");
-        dac = new BaseMeshControl();
-        animationName = "run_01";
-        leftClavicleName = "spine2_L.001";
-        leftUlnaName = "spine2_L.002";
-        rightClavicleName = "spine2_R.001";
-        upperBodyName = "spine2";
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/BaseMesh/BaseMesh.j3o");
+        this.dac = new BaseMeshControl();
+        this.animationName = "run_01";
+        this.leftClavicleName = "spine2_L.001";
+        this.leftUlnaName = "spine2_L.002";
+        this.rightClavicleName = "spine2_R.001";
+        this.upperBodyName = "spine2";
         /*
          * Normalize all quaternions in the animation to resolve some issues
          * with the BaseMesh model.
@@ -872,105 +873,109 @@ public class TestDac extends PhysicsDemo {
      * Load the Elephant model.
      */
     private void loadElephant() {
-        cgModel = (Node) assetManager.loadModel("Models/Elephant/Elephant.j3o");
-        cgModel.rotate(0f, 1.6f, 0f);
-        dac = new ElephantControl();
-        animationName = "legUp";
-        leftClavicleName = "Oberschenkel_F_L";
-        leftUlnaName = "Knee_F_L";
-        rightClavicleName = "Oberschenkel_F_R";
-        upperBodyName = "joint5";
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Elephant/Elephant.j3o");
+        this.cgModel.rotate(0f, 1.6f, 0f);
+        this.dac = new ElephantControl();
+        this.animationName = "legUp";
+        this.leftClavicleName = "Oberschenkel_F_L";
+        this.leftUlnaName = "Knee_F_L";
+        this.rightClavicleName = "Oberschenkel_F_R";
+        this.upperBodyName = "joint5";
     }
 
     /**
      * Load the Jaime model.
      */
     private void loadJaime() {
-        cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
+        this.cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        dac = new JaimeControl();
-        animationName = "Punches";
-        leftClavicleName = "shoulder.L";
-        leftUlnaName = "forearm.L";
-        rightClavicleName = "shoulder.R";
-        upperBodyName = "ribs";
+        this.dac = new JaimeControl();
+        this.animationName = "Punches";
+        this.leftClavicleName = "shoulder.L";
+        this.leftUlnaName = "forearm.L";
+        this.rightClavicleName = "shoulder.R";
+        this.upperBodyName = "ribs";
     }
 
     /**
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
-        dac = new MhGameControl();
-        animationName = "expr-lib-pose";
-        leftClavicleName = "upperarm_l";
-        leftUlnaName = "lowerarm_l";
-        rightClavicleName = "upperarm_r";
-        upperBodyName = "spine_01";
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
+        this.dac = new MhGameControl();
+        this.animationName = "expr-lib-pose";
+        this.leftClavicleName = "upperarm_l";
+        this.leftUlnaName = "lowerarm_l";
+        this.rightClavicleName = "upperarm_r";
+        this.upperBodyName = "spine_01";
     }
 
     /**
      * Load the Ninja model.
      */
     private void loadNinja() {
-        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
-        cgModel.rotate(0f, 3f, 0f);
-        dac = new NinjaControl();
-        animationName = "Walk";
-        leftClavicleName = "Joint14";
-        leftUlnaName = "Joint16";
-        rightClavicleName = "Joint9";
-        upperBodyName = "Joint4";
+        this.cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
+        this.cgModel.rotate(0f, 3f, 0f);
+        this.dac = new NinjaControl();
+        this.animationName = "Walk";
+        this.leftClavicleName = "Joint14";
+        this.leftUlnaName = "Joint16";
+        this.rightClavicleName = "Joint9";
+        this.upperBodyName = "Joint4";
     }
 
     /**
      * Load the Oto model.
      */
     private void loadOto() {
-        cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
-        dac = new OtoControl();
-        animationName = "Walk";
-        leftClavicleName = "uparm.left";
-        leftUlnaName = "arm.left";
-        rightClavicleName = "uparm.right";
-        upperBodyName = "spinehigh";
+        this.cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
+        this.dac = new OtoControl();
+        this.animationName = "Walk";
+        this.leftClavicleName = "uparm.left";
+        this.leftUlnaName = "arm.left";
+        this.rightClavicleName = "uparm.right";
+        this.upperBodyName = "spinehigh";
     }
 
     /**
      * Load the Puppet model.
      */
     private void loadPuppet() {
-        cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
         AnimMigrationUtils.migrate(cgModel);
-        dac = new PuppetControl();
-        animationName = "walk";
-        leftClavicleName = "upper_arm.1.L";
-        leftUlnaName = "forearm.1.L";
-        rightClavicleName = "upper_arm.1.R";
-        upperBodyName = "spine";
+        this.dac = new PuppetControl();
+        this.animationName = "walk";
+        this.leftClavicleName = "upper_arm.1.L";
+        this.leftUlnaName = "forearm.1.L";
+        this.rightClavicleName = "upper_arm.1.R";
+        this.upperBodyName = "spine";
     }
 
     /**
      * Load the Sinbad model without attachments.
      */
     private void loadSinbad() {
-        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
-        dac = new SinbadControl();
-        animationName = "Dance";
-        leftClavicleName = "Clavicle.L";
-        leftUlnaName = "Ulna.L";
-        rightClavicleName = "Clavicle.R";
-        upperBodyName = "Waist";
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        this.dac = new SinbadControl();
+        this.animationName = "Dance";
+        this.leftClavicleName = "Clavicle.L";
+        this.leftUlnaName = "Ulna.L";
+        this.rightClavicleName = "Clavicle.R";
+        this.upperBodyName = "Waist";
     }
 
     /**
      * Load the Sinbad model with an attached sword.
      */
     private void loadSinbadWith1Sword() {
-        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        this.cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list = MySpatial.listSpatials(sword);
         for (Spatial spatial : list) {
@@ -980,21 +985,22 @@ public class TestDac extends PhysicsDemo {
         LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
                 CenterHeuristic.AABB);
-        dac = new SinbadControl();
+        this.dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
-        animationName = "IdleTop";
-        leftClavicleName = "Clavicle.L";
-        leftUlnaName = "Ulna.L";
-        rightClavicleName = "Clavicle.R";
-        upperBodyName = "Waist";
+        this.animationName = "IdleTop";
+        this.leftClavicleName = "Clavicle.L";
+        this.leftUlnaName = "Ulna.L";
+        this.rightClavicleName = "Clavicle.R";
+        this.upperBodyName = "Waist";
     }
 
     /**
      * Load the Sinbad model with 2 attached swords.
      */
     private void loadSinbadWithSwords() {
-        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list = MySpatial.listSpatials(sword);
         for (Spatial spatial : list) {
@@ -1004,15 +1010,15 @@ public class TestDac extends PhysicsDemo {
         LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
                 CenterHeuristic.AABB);
-        dac = new SinbadControl();
+        this.dac = new SinbadControl();
         dac.attach("Handle.L", swordConfig, sword);
         dac.attach("Handle.R", swordConfig, sword);
 
-        animationName = "RunTop";
-        leftClavicleName = "Clavicle.L";
-        leftUlnaName = "Ulna.L";
-        rightClavicleName = "Clavicle.R";
-        upperBodyName = "Waist";
+        this.animationName = "RunTop";
+        this.leftClavicleName = "Clavicle.L";
+        this.leftUlnaName = "Ulna.L";
+        this.rightClavicleName = "Clavicle.R";
+        this.upperBodyName = "Waist";
     }
 
     /**

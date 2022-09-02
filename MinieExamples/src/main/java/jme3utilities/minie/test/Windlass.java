@@ -217,7 +217,7 @@ public class Windlass
         viewPort.setBackgroundColor(skyColor);
 
         // Add the status text to the GUI.
-        statusText = new BitmapText(guiFont);
+        this.statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
 
@@ -245,7 +245,7 @@ public class Windlass
 
         // The segment shape is a Z-axis capsule.
         assert segmentLength > 2f * cableRadius; // alternate segments collide!
-        segmentShape = new CapsuleCollisionShape(
+        this.segmentShape = new CapsuleCollisionShape(
                 cableRadius, segmentLength, PhysicsSpace.AXIS_Z);
         localPivot.set(0f, 0f, segmentLength / 2f);
         /*
@@ -424,7 +424,7 @@ public class Windlass
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         // Turn the barrel based on user-input signals.
         float turnRate = 4f; // radians per second
-        barrelXRotation += (signalCcw - signalCw) * turnRate * timeStep;
+        this.barrelXRotation += (signalCcw - signalCw) * turnRate * timeStep;
         barrelOrientation.fromAngles(barrelXRotation, 0f, 0f);
         barrel.setPhysicsRotation(barrelOrientation);
     }
@@ -471,7 +471,7 @@ public class Windlass
         barrelShape.addChildShape(handleShape, -handleX, -handleY, 0f);
 
         float barrelMass = 100f;
-        barrel = new PhysicsRigidBody(barrelShape, barrelMass);
+        this.barrel = new PhysicsRigidBody(barrelShape, barrelMass);
         barrel.setKinematic(true);
         barrel.setAnisotropicFriction(new Vector3f(900f, 10f, 10f),
                 AfMode.basic);
@@ -635,7 +635,7 @@ public class Windlass
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
 
         // Visualize only the rigid bodies, not the joints.

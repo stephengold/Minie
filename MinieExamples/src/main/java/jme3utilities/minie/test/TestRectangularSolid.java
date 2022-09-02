@@ -153,7 +153,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         /*
          * Add the status text to the GUI.
          */
-        statusText = new BitmapText(guiFont);
+        this.statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
         super.acorusInit();
 
@@ -161,7 +161,7 @@ public class TestRectangularSolid extends PhysicsDemo {
                 sampleColor, samplePointSize);
         registerMaterial("samplePoint", material);
 
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSpeed(0f);
         stateManager.attach(bulletAppState);

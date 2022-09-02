@@ -173,7 +173,7 @@ public class JointElasticity extends PhysicsDemo {
      */
     @Override
     public void acorusInit() {
-        status = new JointElasticityStatus();
+        this.status = new JointElasticityStatus();
         boolean success = stateManager.attach(status);
         assert success;
 
@@ -307,7 +307,7 @@ public class JointElasticity extends PhysicsDemo {
         SphereCollisionShape shape = new SphereCollisionShape(radius);
 
         float mass = status.massRatio() * doorMass;
-        ballBody = new PhysicsRigidBody(shape, mass);
+        this.ballBody = new PhysicsRigidBody(shape, mass);
         ballBody.setLinearVelocity(new Vector3f(2f, 0f, -10f));
         ballBody.setPhysicsLocation(new Vector3f(0.8f, 0f, 2f));
         addCollisionObject(ballBody);
@@ -321,7 +321,7 @@ public class JointElasticity extends PhysicsDemo {
         float halfHeight = 4f;
         BoxCollisionShape shape = new BoxCollisionShape(doorHalfWidth,
                 halfHeight, halfThickness);
-        doorBody = new PhysicsRigidBody(shape, doorMass);
+        this.doorBody = new PhysicsRigidBody(shape, doorMass);
         addCollisionObject(doorBody);
 
         // Disable sleep (deactivation).
@@ -352,7 +352,7 @@ public class JointElasticity extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
 

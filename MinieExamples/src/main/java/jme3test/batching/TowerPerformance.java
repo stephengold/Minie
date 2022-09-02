@@ -152,11 +152,11 @@ public class TowerPerformance
             System.out.println("Warning: using a Debug native library.");
         }
 
-        bulletAppState = new BulletAppState();
+        this.bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         getPhysicsSpace().addTickListener(this);
 
-        bullet = new Sphere(32, 32, bulletRadius, true, false);
+        this.bullet = new Sphere(32, 32, bulletRadius, true, false);
         bullet.setTextureMode(Sphere.TextureMode.Projected);
         bulletCollisionShape = new SphereCollisionShape(bulletRadius);
 
@@ -250,7 +250,7 @@ public class TowerPerformance
         double tempX;
         double tempY = 0.0;
         double tempZ;
-        angleDegrees = 0f;
+        this.angleDegrees = 0f;
         for (int i = 0; i < brickLayers; i++) {
             // Increment rows
             if (i != 0) {
@@ -259,7 +259,7 @@ public class TowerPerformance
                 tempY = brickHeight;
             }
             // Alternate brick seams
-            angleDegrees = 360f / bricksPerLayer * i / 2f;
+            this.angleDegrees = 360f / bricksPerLayer * i / 2f;
             for (int j = 0; j < bricksPerLayer; j++) {
                 tempZ = Math.cos(Math.toRadians(angleDegrees)) * radius;
                 tempX = Math.sin(Math.toRadians(angleDegrees)) * radius;

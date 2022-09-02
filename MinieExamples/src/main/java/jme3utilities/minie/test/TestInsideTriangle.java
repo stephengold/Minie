@@ -197,7 +197,7 @@ public class TestInsideTriangle extends AcorusDemo {
      * Perform a new trial.
      */
     private void trial() {
-        trialNode = new Node("trialNode");
+        this.trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
         /*
          * Generate a triangle.

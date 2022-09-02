@@ -81,7 +81,7 @@ final public class TestIssue3 extends SimpleApplication
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        this.physicsSpace = bulletAppState.getPhysicsSpace();
 
         assert NativeLibrary.isDebug() : "This test requires a Debug library.";
 

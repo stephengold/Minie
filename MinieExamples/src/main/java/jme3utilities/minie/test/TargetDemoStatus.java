@@ -231,7 +231,7 @@ public class TargetDemoStatus extends SimpleAppState {
         int selectedField = selectedLine - firstField;
         int sum = selectedField + amount;
         selectedField = MyMath.modulo(sum, numFields);
-        selectedLine = selectedField + firstField;
+        this.selectedLine = selectedField + firstField;
     }
 
     /**
@@ -413,7 +413,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * Toggle child coloring disabled/enabled.
      */
     void toggleChildColor() {
-        isChildColoring = !isChildColoring;
+        this.isChildColoring = !isChildColoring;
         appInstance.setDebugMaterialsAll();
     }
 
@@ -421,7 +421,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * Toggle wireframe disabled/enabled.
      */
     void toggleWireframe() {
-        isWireframe = !isWireframe;
+        this.isWireframe = !isWireframe;
         appInstance.setDebugMaterialsAll();
         appInstance.setDebugShadowMode();
     }
@@ -453,7 +453,7 @@ public class TargetDemoStatus extends SimpleAppState {
     public void initialize(AppStateManager sm, Application app) {
         super.initialize(sm, app);
 
-        appInstance = (TargetDemo) app;
+        this.appInstance = (TargetDemo) app;
         BitmapFont guiFont
                 = assetManager.loadFont("Interface/Fonts/Default.fnt");
         /*
@@ -554,7 +554,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceDamping(int amount) {
-        damping = PhysicsDemo.advanceFloat(dampingValues, damping, amount);
+        this.damping = PhysicsDemo.advanceFloat(dampingValues, damping, amount);
         appInstance.setDampingAll(damping);
     }
 
@@ -564,7 +564,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceFriction(int amount) {
-        friction = PhysicsDemo.advanceFloat(frictionValues, friction, amount);
+        this.friction
+                = PhysicsDemo.advanceFloat(frictionValues, friction, amount);
         appInstance.setFrictionAll(friction);
     }
 
@@ -574,7 +575,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceGravity(int amount) {
-        gravity = PhysicsDemo.advanceFloat(gravityValues, gravity, amount);
+        this.gravity = PhysicsDemo.advanceFloat(gravityValues, gravity, amount);
         appInstance.setGravityAll(gravity);
     }
 
@@ -584,7 +585,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceMissileInitialSpeed(int amount) {
-        missileInitialSpeed = PhysicsDemo.advanceFloat(
+        this.missileInitialSpeed = PhysicsDemo.advanceFloat(
                 missileInitialSpeedValues, missileInitialSpeed, amount);
     }
 
@@ -594,8 +595,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceMissileMass(int amount) {
-        missileMass = PhysicsDemo.advanceFloat(missileMassValues, missileMass,
-                amount);
+        this.missileMass = PhysicsDemo.advanceFloat(
+                missileMassValues, missileMass, amount);
     }
 
     /**
@@ -604,8 +605,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceMissileRadius(int amount) {
-        missileRadius = PhysicsDemo.advanceFloat(missileRadiusValues,
-                missileRadius, amount);
+        this.missileRadius = PhysicsDemo.advanceFloat(
+                missileRadiusValues, missileRadius, amount);
     }
 
     /**
@@ -614,8 +615,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advancePlatform(int amount) {
-        platformName = PhysicsDemo.advanceString(platformNames, platformName,
-                amount);
+        this.platformName = PhysicsDemo.advanceString(
+                platformNames, platformName, amount);
         appInstance.restartScenario();
     }
 
@@ -625,8 +626,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        restitution = PhysicsDemo.advanceFloat(restitutionValues, restitution,
-                amount);
+        this.restitution = PhysicsDemo.advanceFloat(
+                restitutionValues, restitution, amount);
         appInstance.setRestitutionAll(restitution);
     }
 
@@ -636,8 +637,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceScenario(int amount) {
-        scenarioName = PhysicsDemo.advanceString(scenarioNames, scenarioName,
-                amount);
+        this.scenarioName = PhysicsDemo.advanceString(
+                scenarioNames, scenarioName, amount);
     }
 
     /**
