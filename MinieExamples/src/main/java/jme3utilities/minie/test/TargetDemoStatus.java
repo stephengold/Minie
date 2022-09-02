@@ -492,57 +492,57 @@ public class TargetDemoStatus extends SimpleAppState {
 
         int index = 1 + Arrays.binarySearch(dampingValues, damping);
         int count = dampingValues.length;
-        String message = String.format("Damping #%d of %d:  %.2f", index,
-                count, damping);
+        String message = String.format(
+                "Damping #%d of %d:  %.2f", index, count, damping);
         updateStatusLine(dampingStatusLine, message);
 
         index = 1 + Arrays.binarySearch(frictionValues, friction);
         count = frictionValues.length;
-        message = String.format("Friction #%d of %d:  %.1f", index,
-                count, friction);
+        message = String.format(
+                "Friction #%d of %d:  %.1f", index, count, friction);
         updateStatusLine(frictionStatusLine, message);
 
         index = 1 + Arrays.binarySearch(gravityValues, gravity);
         count = gravityValues.length;
-        message = String.format("Gravity #%d of %d:  %.1f", index,
-                count, gravity);
+        message = String.format(
+                "Gravity #%d of %d:  %.1f", index, count, gravity);
         updateStatusLine(gravityStatusLine, message);
 
         index = 1 + Arrays.binarySearch(scenarioNames, scenarioName);
         count = scenarioNames.length;
-        message = String.format("Scenario #%d of %d:  %s", index, count,
-                scenarioName);
+        message = String.format(
+                "Scenario #%d of %d:  %s", index, count, scenarioName);
         updateStatusLine(scenarioStatusLine, message);
 
         index = 1 + Arrays.binarySearch(platformNames, platformName);
         count = platformNames.length;
-        message = String.format("Platform #%d of %d:  %s", index, count,
-                platformName);
+        message = String.format(
+                "Platform #%d of %d:  %s", index, count, platformName);
         updateStatusLine(platformStatusLine, message);
 
         index = 1 + Arrays.binarySearch(restitutionValues, restitution);
         count = restitutionValues.length;
-        message = String.format("Restitution #%d of %d:  %.2f", index,
-                count, restitution);
+        message = String.format(
+                "Restitution #%d of %d:  %.2f", index, count, restitution);
         updateStatusLine(restitutionStatusLine, message);
 
         index = 1 + Arrays.binarySearch(missileInitialSpeedValues,
                 missileInitialSpeed);
         count = missileInitialSpeedValues.length;
-        message = String.format("Missile speed #%d of %d:  %.0f", index,
-                count, missileInitialSpeed);
+        message = String.format("Missile speed #%d of %d:  %.0f", index, count,
+                missileInitialSpeed);
         updateStatusLine(missileInitialSpeedStatusLine, message);
 
         index = 1 + Arrays.binarySearch(missileMassValues, missileMass);
         count = missileMassValues.length;
-        message = String.format("Missile mass #%d of %d:  %.2f", index,
-                count, missileMass);
+        message = String.format(
+                "Missile mass #%d of %d:  %.2f", index, count, missileMass);
         updateStatusLine(missileMassStatusLine, message);
 
         index = 1 + Arrays.binarySearch(missileRadiusValues, missileRadius);
         count = missileRadiusValues.length;
-        message = String.format("Missile radius #%d of %d:  %.2f", index,
-                count, missileRadius);
+        message = String.format(
+                "Missile radius #%d of %d:  %.2f", index, count, missileRadius);
         updateStatusLine(missileRadiusStatusLine, message);
     }
     // *************************************************************************

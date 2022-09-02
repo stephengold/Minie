@@ -398,8 +398,8 @@ public class TrackDemo extends PhysicsDemo {
         int mapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, mapSize,
-                        numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, mapSize, numSplits);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
@@ -601,7 +601,8 @@ public class TrackDemo extends PhysicsDemo {
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        this.cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
         this.dac = new MhGameControl();

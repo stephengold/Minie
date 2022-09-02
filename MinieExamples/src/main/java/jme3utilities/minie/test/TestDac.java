@@ -659,8 +659,8 @@ public class TestDac extends PhysicsDemo {
         int mapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, mapSize,
-                        numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, mapSize, numSplits);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);
@@ -888,7 +888,8 @@ public class TestDac extends PhysicsDemo {
      * Load the Jaime model.
      */
     private void loadJaime() {
-        this.cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
@@ -975,7 +976,8 @@ public class TestDac extends PhysicsDemo {
      * Load the Sinbad model with an attached sword.
      */
     private void loadSinbadWith1Sword() {
-        this.cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
         List<Spatial> list = MySpatial.listSpatials(sword);
         for (Spatial spatial : list) {

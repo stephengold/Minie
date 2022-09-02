@@ -437,8 +437,8 @@ public class BalanceDemo extends PhysicsDemo {
         int mapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager, mapSize,
-                        numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, mapSize, numSplits);
         dlsr.setLight(sun);
         dlsr.setShadowIntensity(0.5f);
         viewPort.addProcessor(dlsr);

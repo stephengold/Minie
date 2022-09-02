@@ -446,6 +446,7 @@ public class VHACDParameters
             clone.setPCA(getPCA());
             clone.setPlaneDownSampling(getPlaneDownSampling());
             clone.setVoxelResolution(getVoxelResolution());
+
             return clone;
 
         } catch (CloneNotSupportedException exception) {

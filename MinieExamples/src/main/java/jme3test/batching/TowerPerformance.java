@@ -263,7 +263,8 @@ public class TowerPerformance
             for (int j = 0; j < bricksPerLayer; j++) {
                 tempZ = Math.cos(Math.toRadians(angleDegrees)) * radius;
                 tempX = Math.sin(Math.toRadians(angleDegrees)) * radius;
-                Vector3f vt = new Vector3f((float) tempX, (float) tempY, (float) tempZ);
+                Vector3f vt = new Vector3f(
+                        (float) tempX, (float) tempY, (float) tempZ);
                 // Add crenelation
                 if (i == brickLayers - 1) {
                     if (j % 2 == 0) {
