@@ -213,9 +213,8 @@ public class TrackDemo extends PhysicsDemo {
         //addModel("Sinbad");
         //addModel("MhGame");
         addModel("SinbadWith1Sword");
-        /*
-         * Add a target rigid body, to be moved by dragging RMB.
-         */
+
+        // Add a target rigid body, to be moved by dragging RMB.
         CollisionShape shape = new SphereCollisionShape(0.02f);
         this.targetBody = new PhysicsRigidBody(shape);
         targetBody.setKinematic(true);

@@ -323,9 +323,7 @@ public class DropTest
      */
     @Override
     public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
-        /*
-         * Position help nodes below the status.
-         */
+        // Position help nodes below the status.
         float margin = 10f; // in pixels
         float leftX = margin;
         float topY = viewPortHeight - 160f - margin;
@@ -342,17 +340,15 @@ public class DropTest
     @Override
     public void generateMaterials() {
         super.generateMaterials();
-        /*
-         * shiny, lit material for the selected drop
-         */
+
+        // shiny, lit material for the selected drop
         ColorRGBA lightGray = new ColorRGBA(0.6f, 0.6f, 0.6f, 1f);
         Material selected
                 = MyAsset.createShinyMaterial(assetManager, lightGray);
         selected.setFloat("Shininess", 15f);
         registerMaterial("selected", selected);
-        /*
-         * shiny, lit materials for dynamic bodies in drops
-         */
+
+        // shiny, lit materials for dynamic bodies in drops
         ColorRGBA[] dropColors = new ColorRGBA[numDropColors];
         dropColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
         dropColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald
@@ -378,34 +374,29 @@ public class DropTest
     public void generateShapes() {
         super.generateShapes();
         CollisionShape shape;
-        /*
-         * "ankh" using manual decomposition
-         */
+
+        // "ankh" using manual decomposition
         String ankhPath = "CollisionShapes/ankh.j3o";
         shape = (CollisionShape) assetManager.loadAsset(ankhPath);
         registerShape("ankh", shape);
-        /*
-         * "banana" using manual decomposition
-         */
+
+        // "banana" using manual decomposition
         String bananaPath = "CollisionShapes/banana.j3o";
         shape = (CollisionShape) assetManager.loadAsset(bananaPath);
         registerShape("banana", shape);
-        /*
-         * "barrel"
-         */
+
+        // "barrel"
         String barrelPath = "CollisionShapes/barrel.j3o";
         shape = (CollisionShape) assetManager.loadAsset(barrelPath);
         shape.setScale(3f);
         registerShape("barrel", shape);
-        /*
-         * "bowlingPin" using manual decomposition
-         */
+
+        // "bowlingPin" using manual decomposition
         String bowlingPinPath = "CollisionShapes/bowlingPin.j3o";
         shape = (CollisionShape) assetManager.loadAsset(bowlingPinPath);
         registerShape("bowlingPin", shape);
-        /*
-         * "candyDish"
-         */
+
+        // "candyDish"
         String candyDishPath = "Models/CandyDish/CandyDish.j3o";
         Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
         Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
@@ -413,43 +404,37 @@ public class DropTest
         shape = new MeshCollisionShape(candyDishMesh);
         shape.setScale(5f);
         registerShape("candyDish", shape);
-        /*
-         * "duck" using V-HACD
-         */
+
+        // "duck" using V-HACD
         String duckPath = "CollisionShapes/duck.j3o";
         shape = (CollisionShape) assetManager.loadAsset(duckPath);
         shape.setScale(2f);
         registerShape("duck", shape);
-        /*
-         * "heart"
-         */
+
+        // "heart"
         String heartPath = "CollisionShapes/heart.j3o";
         shape = (CollisionShape) assetManager.loadAsset(heartPath);
         shape.setScale(1.2f);
         registerShape("heart", shape);
-        /*
-         * "horseshoe" using manual decomposition
-         */
+
+        // "horseshoe" using manual decomposition
         String horseshoePath = "CollisionShapes/horseshoe.j3o";
         shape = (CollisionShape) assetManager.loadAsset(horseshoePath);
         registerShape("horseshoe", shape);
-        /*
-         * "sword" using V-HACD
-         */
+
+        // "sword" using V-HACD
         String swordPath = "CollisionShapes/sword.j3o";
         shape = (CollisionShape) assetManager.loadAsset(swordPath);
         shape.setScale(5f);
         registerShape("sword", shape);
-        /*
-         * "teapot" using V-HACD
-         */
+
+        // "teapot" using V-HACD
         String teapotPath = "CollisionShapes/teapot.j3o";
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
         shape.setScale(3f);
         registerShape("teapot", shape);
-        /*
-         * letter shapes
-         */
+
+        // letter shapes
         for (char character = 'A'; character <= 'Z'; ++character) {
             char[] array = {character};
             String glyphString = new String(array);
@@ -458,9 +443,8 @@ public class DropTest
             shape = (CollisionShape) assetManager.loadAsset(assetPath);
             registerShape(glyphString, shape);
         }
-        /*
-         * digit shapes
-         */
+
+        // digit shapes
         for (char character = '0'; character <= '9'; ++character) {
             char[] array = {character};
             String glyphString = new String(array);
@@ -622,7 +606,7 @@ public class DropTest
      *
      * @param pco the object that was added (not null)
      */
-    @Override
+    @Override // TODO re-order methods
     public void postAdd(PhysicsCollisionObject pco) {
         Object appData = pco.getApplicationData();
         if (appData == null) {

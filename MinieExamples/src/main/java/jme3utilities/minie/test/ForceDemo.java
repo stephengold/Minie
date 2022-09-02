@@ -136,9 +136,8 @@ public class ForceDemo
 
         float length = 0.8f;
         attachWorldAxes(length);
-        /*
-         * Add a spinning cube.
-         */
+
+        // Add a spinning cube.
         BoxCollisionShape shape = new BoxCollisionShape(1f);
         float mass = 1f;
         cube = new PhysicsRigidBody(shape, mass);

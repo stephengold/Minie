@@ -361,9 +361,8 @@ public class DropTestStatus extends SimpleAppState {
     @Override
     public void cleanup() {
         super.cleanup();
-        /*
-         * Remove the status lines from the guiNode.
-         */
+
+        // Remove the status lines from the guiNode.
         for (int i = 0; i < numStatusLines; ++i) {
             statusLines[i].removeFromParent();
         }
@@ -382,9 +381,8 @@ public class DropTestStatus extends SimpleAppState {
         this.appInstance = (DropTest) app;
         BitmapFont guiFont
                 = assetManager.loadFont("Interface/Fonts/Default.fnt");
-        /*
-         * Add the status lines to the guiNode.
-         */
+
+        // Add status lines to the guiNode.
         for (int lineIndex = 0; lineIndex < numStatusLines; ++lineIndex) {
             statusLines[lineIndex] = new BitmapText(guiFont);
             float y = cam.getHeight() - 20f * lineIndex;

@@ -258,9 +258,7 @@ public class TargetDemo
      */
     @Override
     public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
-        /*
-         * Position help nodes below the status.
-         */
+        // Position help nodes below the status.
         float margin = 10f; // in pixels
         float leftX = margin;
         float topY = viewPortHeight - 220f - margin;
@@ -432,9 +430,8 @@ public class TargetDemo
                 default:
             }
         }
-        /*
-         * The action is not handled: forward it to the superclass.
-         */
+
+        // The action is not handled: forward it to the superclass.
         super.onAction(actionString, ongoing, tpf);
     }
 
@@ -444,7 +441,7 @@ public class TargetDemo
      * @param pco the object that was added (not null)
      */
     @Override
-    public void postAdd(PhysicsCollisionObject pco) {
+    public void postAdd(PhysicsCollisionObject pco) { // TODO re-order methods
         if (pco instanceof PhysicsRigidBody) {
             PhysicsRigidBody rigidBody = (PhysicsRigidBody) pco;
 

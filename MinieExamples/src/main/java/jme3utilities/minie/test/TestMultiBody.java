@@ -339,9 +339,7 @@ public class TestMultiBody extends PhysicsDemo {
      * Clean up after a test.
      */
     private void cleanupAfterTest() {
-        /*
-         * Remove any scenery. Debug meshes are under a different root node.
-         */
+        // Remove any scenery. Debug meshes are under a different root node.
         rootNode.detachAllChildren();
 
         stateManager.detach(bulletAppState);

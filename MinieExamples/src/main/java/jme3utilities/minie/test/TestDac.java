@@ -1040,16 +1040,14 @@ public class TestDac extends PhysicsDemo {
         animPose.setToClip(clip, time);
 
         Vector3f acceleration = Vector3f.ZERO;
-        /*
-         * Ensure that all attachment links are dynamic.
-         */
+
+        // Ensure that all attachment links are dynamic.
         for (AttachmentLink link : dac.listLinks(AttachmentLink.class)) {
             link.setDynamic(acceleration);
         }
         Transform tmpTransform = new Transform();
-        /*
-         * Apply the animation pose to the torso's managed bones.
-         */
+
+        // Apply the animation pose to the torso's managed bones.
         TorsoLink torsoLink = dac.getTorsoLink();
         int numManagedBones = torsoLink.countManaged();
         for (int mbIndex = 1; mbIndex < numManagedBones; ++mbIndex) {
@@ -1057,9 +1055,8 @@ public class TestDac extends PhysicsDemo {
             animPose.localTransform(boneIndex, tmpTransform);
             torsoLink.setLocalTransform(mbIndex, tmpTransform);
         }
-        /*
-         * Apply the animation pose to all bone links and their managed bones.
-         */
+
+        // Apply the animation pose to all bone links and their managed bones.
         for (BoneLink boneLink : dac.listLinks(BoneLink.class)) {
             int boneIndex = boneLink.boneIndex(0); // the linked bone
             Quaternion userRotation = tmpTransform.getRotation();

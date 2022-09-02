@@ -442,10 +442,9 @@ public class SeJointDemo extends PhysicsDemo {
                 throw new IllegalStateException("testName = " + testName);
         }
         seedShape.setScale(seedScale);
-        /*
-         * Randomize which group the new seed is in.
-         */
-        ShapeGenerator random = getGenerator();
+
+        // Randomize which group the new seed is in.
+        Generator random = getGenerator();
         int groupIndex = random.nextInt(0, numGroups - 1);
         Material material = materials[groupIndex];
         Vector3f pivotInWorld = pivotLocations[groupIndex];

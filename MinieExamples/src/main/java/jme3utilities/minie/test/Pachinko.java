@@ -202,10 +202,9 @@ public class Pachinko
 
         ColorRGBA skyColor = new ColorRGBA(0f, 0.1f, 0f, 1f);
         viewPort.setBackgroundColor(skyColor);
-        /*
-         * Add the status text to the GUI.
-         */
-        statusText = new BitmapText(guiFont);
+
+        // Add the status text to the GUI.
+        this.statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
 

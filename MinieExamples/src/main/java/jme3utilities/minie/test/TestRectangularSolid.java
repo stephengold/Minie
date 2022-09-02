@@ -300,9 +300,8 @@ public class TestRectangularSolid extends PhysicsDemo {
         statusText.setText(message);
         ShapeGenerator random = getGenerator();
         random.setSeed(trialSeed);
-        /*
-         * Generate a new transform.
-         */
+
+        // Generate a new transform.
         Transform transform = new Transform();
         Quaternion rotation = random.nextQuaternion();
         transform.setRotation(rotation);
@@ -324,9 +323,8 @@ public class TestRectangularSolid extends PhysicsDemo {
             transform.transformVector(sampleLocation, sampleLocation);
             sampleLocations.add(sampleLocation);
         }
-        /*
-         * Visualize the sample points.
-         */
+
+        // Visualize the sample points.
         for (Vector3f location : sampleLocations) {
             PointMesh pointMesh = new PointMesh();
             pointMesh.setLocation(location);
@@ -335,14 +333,12 @@ public class TestRectangularSolid extends PhysicsDemo {
             sampleGeometry.setMaterial(material);
             trialNode.attachChild(sampleGeometry);
         }
-        /*
-         * Generate a rectangular solid that contains all the samples.
-         */
+
+        // Generate a rectangular solid that contains all the samples.
         RectangularSolid solid = new RectangularSolid(sampleLocations);
         logger.log(Level.INFO, solid.toString());
-        /*
-         * Generate a collision shape.
-         */
+
+        // Generate a collision shape.
         CollisionShape collisionShape;
         switch (shapeName) {
             case "capsule":

@@ -223,9 +223,8 @@ public class TestInsideTriangle extends AcorusDemo {
                 radius = d;
             }
         }
-        /*
-         * Visualize sample points in the vicinity of the triangle.
-         */
+
+        // Visualize sample points in the vicinity of the triangle.
         Vector3f sampleLocation = new Vector3f();
         for (int numSamples = 0; numSamples < samplesPerTrial;) {
             generator.nextVector3f(sampleLocation);

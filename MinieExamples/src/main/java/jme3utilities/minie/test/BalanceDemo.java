@@ -375,9 +375,8 @@ public class BalanceDemo extends PhysicsDemo {
                 return;
             }
         }
-        /*
-         * The action is not handled: forward it to the superclass.
-         */
+
+        // The action is not handled: forward it to the superclass.
         super.onAction(actionString, ongoing, tpf);
     }
 
