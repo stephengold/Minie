@@ -227,7 +227,7 @@ final public class JointElasticityStatus extends SimpleAppState {
     @Override
     public void cleanup() {
         super.cleanup();
- 
+
         // Remove the status lines from the guiNode.
         for (int i = 0; i < numStatusLines; ++i) {
             statusLines[i].removeFromParent();
