@@ -38,6 +38,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.FastMath;
+import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
@@ -49,9 +50,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.VectorSet;
+import jme3utilities.math.VectorSetUsingBuffer;
 import vhacd.VHACDHull;
 import vhacd4.Vhacd4Hull;
 
@@ -363,6 +367,113 @@ public class HullCollisionShape extends ConvexShape {
         float volume = DebugShapeFactory.volumeConvex(this, meshResolution);
         assert volume >= 0f : volume;
         return volume;
+    }
+
+    /**
+     * Attempt to divide this shape into 2 child shapes.
+     *
+     * @param splittingPlane the splitting plane (in descaled shape coordinates)
+     * @return either this shape (indicating no effect) or else a new compound
+     * composed of 2 hulls, with the plane's minus-side as the first child and
+     * its plus-side as the 2nd child
+     */
+    public CollisionShape split(Plane splittingPlane) {
+        Validate.nonNull(splittingPlane, "splitting plane");
+
+        int numVertices = countHullVertices();
+        int numFloats = numAxes * numVertices;
+        FloatBuffer originalHull = BufferUtils.createFloatBuffer(numFloats);
+        long shapeId = nativeId();
+        getHullVerticesF(shapeId, originalHull);
+        /*
+         * Organize the hull vertices into 2 sets based on
+         * which side of the splitting plane they are on.
+         */
+        VectorSet minusSet = new VectorSetUsingBuffer(numVertices, true);
+        VectorSet plusSet = new VectorSetUsingBuffer(numVertices, true);
+        Vector3f tmp = new Vector3f();
+        for (int iVector = 0; iVector < numVertices; ++iVector) {
+            int startPosition = numAxes * iVector;
+            MyBuffer.get(originalHull, startPosition, tmp);
+            float pseudoDistance = splittingPlane.pseudoDistance(tmp);
+            if (pseudoDistance <= 0f) {
+                minusSet.add(tmp);
+            }
+            if (pseudoDistance >= 0f) {
+                plusSet.add(tmp);
+            }
+            // Note: vertices that lie in the plane will appear in both sets.
+        }
+
+        int numMinus = minusSet.numVectors();
+        int numPlus = plusSet.numVectors();
+        if (numMinus == 0 || numPlus == 0) {
+            // Degenerate case:  all vertices lie to one side of the plane.
+            return this;
+        }
+
+        // Copy all minus-side vertices to a new set.
+        FloatBuffer minusBuffer = minusSet.toBuffer();
+        VectorSet newMinusSet = new VectorSetUsingBuffer(numVertices, true);
+        for (int jNegative = 0; jNegative < numMinus; ++jNegative) {
+            MyBuffer.get(minusBuffer, numAxes * jNegative, tmp);
+            newMinusSet.add(tmp);
+        }
+        /*
+         * Copy all plus-side vertices to a new set.
+         * Also: interpolate each of the original plus-side vertices
+         * with each of the original minus-side vertices
+         * and add the intepolated locations to both of the new sets.
+         */
+        FloatBuffer plusBuffer = plusSet.toBuffer();
+        VectorSet newPlusSet = new VectorSetUsingBuffer(numVertices, true);
+        Vector3f tmp2 = new Vector3f();
+        for (int iPlus = 0; iPlus < numPlus; ++iPlus) {
+            MyBuffer.get(plusBuffer, numAxes * iPlus, tmp);
+            newPlusSet.add(tmp);
+            float pd = splittingPlane.pseudoDistance(tmp);
+
+            for (int jMinus = 0; jMinus < numMinus; ++jMinus) {
+                MyBuffer.get(minusBuffer, numAxes * jMinus, tmp2);
+                float md = splittingPlane.pseudoDistance(tmp2);
+                float denominator = pd - md;
+                if (denominator != 0f) {
+                    float t = -md / denominator;
+                    MyVector3f.lerp(t, tmp2, tmp, tmp2);
+                    newMinusSet.add(tmp2);
+                    newPlusSet.add(tmp2);
+                }
+            }
+        }
+        /*
+         * Translate minus-side vertices so their AABB is centered at (0,0,0)
+         * and use them to form a new hull shape.
+         */
+        Vector3f max = tmp; // alias
+        Vector3f min = tmp2; // alias
+        Vector3f offset = tmp; // alias
+        newMinusSet.maxMin(max, min);
+        Vector3f minusCenter = MyVector3f.midpoint(max, min, null);
+        offset.set(minusCenter).negateLocal();
+        FloatBuffer flippedBuffer = newMinusSet.toBuffer();
+        MyBuffer.translate(flippedBuffer, 0, flippedBuffer.limit(), offset);
+        HullCollisionShape minusShape = new HullCollisionShape(flippedBuffer);
+        /*
+         * Translate plus-side vertices so their AABB is centered at (0,0,0)
+         * and use them to form a new hull shape.
+         */
+        newPlusSet.maxMin(max, min);
+        Vector3f plusCenter = MyVector3f.midpoint(max, min, null);
+        offset.set(plusCenter).negateLocal();
+        flippedBuffer = newPlusSet.toBuffer();
+        MyBuffer.translate(flippedBuffer, 0, flippedBuffer.limit(), offset);
+        HullCollisionShape plusShape = new HullCollisionShape(flippedBuffer);
+
+        CompoundCollisionShape result = new CompoundCollisionShape(2);
+        result.addChildShape(minusShape, minusCenter);
+        result.addChildShape(plusShape, plusCenter);
+
+        return result;
     }
     // *************************************************************************
     // CollisionShape methods
