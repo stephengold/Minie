@@ -50,8 +50,10 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * An element of a CompoundCollisionShape, consisting of a (non-compound) child
- * shape, offset and rotated with respect to its parent.
+ * An element of a {@code CompoundCollisionShape}, consisting of a
+ * (non-compound) child shape, offset and rotated with respect to its parent.
+ * <p>
+ * Despite its name, it is not a subtype of {@code CollisionShape}!
  *
  * @author normenhansen
  */
