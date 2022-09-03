@@ -437,12 +437,24 @@ public class TargetDemo
     }
 
     /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void onViewPortResize(int newWidth, int newHeight) {
+        status.resize(newWidth, newHeight);
+        super.onViewPortResize(newWidth, newHeight);
+    }
+
+    /**
      * Callback invoked after adding a collision object to the PhysicsSpace.
      *
      * @param pco the object that was added (not null)
      */
     @Override
-    public void postAdd(PhysicsCollisionObject pco) { // TODO re-order methods
+    public void postAdd(PhysicsCollisionObject pco) {
         if (pco instanceof PhysicsRigidBody) {
             PhysicsRigidBody rigidBody = (PhysicsRigidBody) pco;
 
@@ -462,18 +474,6 @@ public class TargetDemo
 
         setDebugMaterial(pco);
         pco.setDebugMeshResolution(DebugShapeFactory.highResolution);
-    }
-
-    /**
-     * Update the GUI layout and proposed settings after a resize.
-     *
-     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
-     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
-     */
-    @Override
-    public void onViewPortResize(int newWidth, int newHeight) {
-        status.resize(newWidth, newHeight);
-        super.onViewPortResize(newWidth, newHeight);
     }
     // *************************************************************************
     // DebugInitListener methods

@@ -603,11 +603,23 @@ public class DropTest
     }
 
     /**
+     * Update the GUI layout and proposed settings after a resize.
+     *
+     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
+     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
+     */
+    @Override
+    public void onViewPortResize(int newWidth, int newHeight) {
+        status.resize(newWidth, newHeight);
+        super.onViewPortResize(newWidth, newHeight);
+    }
+
+    /**
      * Callback invoked after adding a collision object to the PhysicsSpace.
      *
      * @param pco the object that was added (not null)
      */
-    @Override // TODO re-order methods
+    @Override
     public void postAdd(PhysicsCollisionObject pco) {
         Object appData = pco.getApplicationData();
         if (appData == null) {
@@ -646,18 +658,6 @@ public class DropTest
         pco.setRestitution(restitution);
 
         setDebugMaterial(pco);
-    }
-
-    /**
-     * Update the GUI layout and proposed settings after a resize.
-     *
-     * @param newWidth the new width of the framebuffer (in pixels, &gt;0)
-     * @param newHeight the new height of the framebuffer (in pixels, &gt;0)
-     */
-    @Override
-    public void onViewPortResize(int newWidth, int newHeight) {
-        status.resize(newWidth, newHeight);
-        super.onViewPortResize(newWidth, newHeight);
     }
 
     /**
