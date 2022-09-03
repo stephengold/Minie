@@ -246,7 +246,7 @@ public class TestDac extends PhysicsDemo {
     @Override
     public void acorusInit() {
         // Add the status text to the GUI.
-        statusText = new BitmapText(guiFont);
+        this.statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
         super.acorusInit();
@@ -417,7 +417,7 @@ public class TestDac extends PhysicsDemo {
                     dac.amputateSubtree(leftUlna, 2f);
                     return;
                 case "blend all to kinematic":
-                    animPose = null;
+                    this.animPose = null;
                     dac.blendToKinematicMode(2f, null);
                     return;
                 case "drop attachments":
@@ -425,7 +425,7 @@ public class TestDac extends PhysicsDemo {
                     return;
 
                 case "freeze all":
-                    animPose = null;
+                    this.animPose = null;
                     dac.freezeSubtree(dac.getTorsoLink(), false);
                     return;
                 case "freeze upper body":
@@ -449,14 +449,14 @@ public class TestDac extends PhysicsDemo {
                     return;
                 case "go floating":
                     if (dac.isReady()) {
-                        animPose = null;
+                        this.animPose = null;
                         dac.setDynamicSubtree(dac.getTorsoLink(), Vector3f.ZERO,
                                 false);
                     }
                     return;
                 case "go frozen":
                     if (dac.isReady()) {
-                        animPose = null;
+                        this.animPose = null;
                         Vector3f gravity = dac.gravity(null);
                         dac.setDynamicSubtree(dac.getTorsoLink(), gravity,
                                 true);
@@ -464,7 +464,7 @@ public class TestDac extends PhysicsDemo {
                     return;
                 case "go limp":
                     if (dac.isReady()) {
-                        animPose = null;
+                        this.animPose = null;
                         dac.setRagdollMode();
                     }
                     return;
@@ -710,8 +710,8 @@ public class TestDac extends PhysicsDemo {
                 throw new IllegalArgumentException(modelName);
         }
 
-        testName = modelName;
-        animPose = null;
+        this.testName = modelName;
+        this.animPose = null;
 
         List<Spatial> list = MySpatial.listSpatials(cgModel);
         for (Spatial spatial : list) {
@@ -722,7 +722,7 @@ public class TestDac extends PhysicsDemo {
         rootNode.attachChild(cgModel);
         setCgmHeight(cgModel, 10f);
         centerCgm(cgModel);
-        resetTransform = cgModel.getLocalTransform().clone();
+        this.resetTransform = cgModel.getLocalTransform().clone();
 
         sc = (SkinningControl) RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
@@ -735,31 +735,31 @@ public class TestDac extends PhysicsDemo {
         leftClavicle = dac.findBoneLink(leftClavicleName);
         if (dac instanceof Biped) {
             BoneLink leftFoot = ((Biped) dac).getLeftFoot();
-            leftFemur = leftFoot;
+            this.leftFemur = leftFoot;
             while (leftFemur.getParent() instanceof BoneLink) {
-                leftFemur = (BoneLink) leftFemur.getParent();
+                this.leftFemur = (BoneLink) leftFemur.getParent();
             }
 
             BoneLink rightFoot = ((Biped) dac).getRightFoot();
-            rightFemur = rightFoot;
+            this.rightFemur = rightFoot;
             while (rightFemur.getParent() instanceof BoneLink) {
-                rightFemur = (BoneLink) rightFemur.getParent();
+                this.rightFemur = (BoneLink) rightFemur.getParent();
             }
 
         } else if (dac instanceof ElephantControl) {
-            leftFemur = dac.findBoneLink("Oberschenkel_B_L");
-            rightFemur = dac.findBoneLink("Oberschenkel_B_R");
+            this.leftFemur = dac.findBoneLink("Oberschenkel_B_L");
+            this.rightFemur = dac.findBoneLink("Oberschenkel_B_R");
         }
 
-        leftUlna = dac.findBoneLink(leftUlnaName);
-        rightClavicle = dac.findBoneLink(rightClavicleName);
-        upperBody = dac.findBoneLink(upperBodyName);
+        this.leftUlna = dac.findBoneLink(leftUlnaName);
+        this.rightClavicle = dac.findBoneLink(rightClavicleName);
+        this.upperBody = dac.findBoneLink(upperBodyName);
 
         AnimComposer composer
                 = controlledSpatial.getControl(AnimComposer.class);
         composer.setCurrentAction(animationName);
 
-        sv = new SkeletonVisualizer(assetManager, sc);
+        this.sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);

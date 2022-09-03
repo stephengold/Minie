@@ -202,7 +202,7 @@ public class SeJointDemo extends PhysicsDemo {
     @Override
     public void acorusInit() {
         // Add the status text to the GUI.
-        statusText = new BitmapText(guiFont);
+        this.statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
         super.acorusInit();
@@ -221,8 +221,8 @@ public class SeJointDemo extends PhysicsDemo {
         attachWorldAxes(length);
 
         int numRefineSteps = 1;
-        seedMesh = new Icosphere(numRefineSteps, seedRadius);
-        seedShape = new MultiSphere(seedRadius);
+        this.seedMesh = new Icosphere(numRefineSteps, seedRadius);
+        this.seedShape = new MultiSphere(seedRadius);
 
         meshesNode.setCullHint(Spatial.CullHint.Never); // with meshes visible
         rootNode.attachChild(meshesNode);
@@ -313,11 +313,11 @@ public class SeJointDemo extends PhysicsDemo {
 
                 case "test 6dof":
                     cleanupAfterTest();
-                    testName = "6dof";
+                    this.testName = "6dof";
                     return;
                 case "test 6dofSpring":
                     cleanupAfterTest();
-                    testName = "6dofSpring";
+                    this.testName = "6dofSpring";
                     return;
                 case "test cone":
                     cleanupAfterTest();
@@ -325,19 +325,19 @@ public class SeJointDemo extends PhysicsDemo {
                     return;
                 case "test hinge":
                     cleanupAfterTest();
-                    testName = "hinge";
+                    this.testName = "hinge";
                     return;
                 case "test new6dof":
                     cleanupAfterTest();
-                    testName = "new6dof";
+                    this.testName = "new6dof";
                     return;
                 case "test p2p":
                     cleanupAfterTest();
-                    testName = "p2p";
+                    this.testName = "p2p";
                     return;
                 case "test slider":
                     cleanupAfterTest();
-                    testName = "slider";
+                    this.testName = "slider";
                     return;
 
                 case "toggle view":

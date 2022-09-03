@@ -172,7 +172,7 @@ public class TestGearJoint
         CollisionShape driveshaftShape = new CylinderCollisionShape(
                 radius, height, PhysicsSpace.AXIS_Y);
         float driveshaftMass = 1f;
-        driveshaft = new PhysicsRigidBody(driveshaftShape, driveshaftMass);
+        this.driveshaft = new PhysicsRigidBody(driveshaftShape, driveshaftMass);
         driveshaft.setPhysicsLocation(new Vector3f(-1f, 0.2f, 0f));
         driveshaft.setEnableSleep(false);
         addCollisionObject(driveshaft);

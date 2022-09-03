@@ -275,10 +275,10 @@ public class TestRectangularSolid extends PhysicsDemo {
         if (trialNode != null) {
             PhysicsSpace space = bulletAppState.getPhysicsSpace();
             space.removeCollisionObject(rigidBody);
-            rigidBody = null;
+            this.rigidBody = null;
 
             trialNode.removeFromParent();
-            trialNode = null;
+            this.trialNode = null;
         }
         trial(shapeName);
     }
@@ -291,7 +291,7 @@ public class TestRectangularSolid extends PhysicsDemo {
      * spheres, "rounded"&rarr;MultiSphere with 4 spheres
      */
     private void trial(String shapeName) {
-        trialNode = new Node("trialNode");
+        this.trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
 
         String message = "trialSeed = " + trialSeed;
@@ -355,7 +355,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         }
 
         // Add a dynamic rigid body with that shape.
-        rigidBody = new PhysicsRigidBody(collisionShape);
+        this.rigidBody = new PhysicsRigidBody(collisionShape);
         rigidBody.setDebugMeshResolution(DebugShapeFactory.highResolution);
         PhysicsSpace space = bulletAppState.getPhysicsSpace();
         space.addCollisionObject(rigidBody);

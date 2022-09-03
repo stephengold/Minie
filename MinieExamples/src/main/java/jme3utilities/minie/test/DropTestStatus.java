@@ -456,7 +456,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceDamping(int amount) {
-        damping = PhysicsDemo.advanceFloat(dampingValues, damping, amount);
+        this.damping = PhysicsDemo.advanceFloat(dampingValues, damping, amount);
         appInstance.setDampingAll(damping);
     }
 
@@ -466,7 +466,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceDrop(int amount) {
-        nextDropType
+        this.nextDropType
                 = PhysicsDemo.advanceString(dropNames, nextDropType, amount);
     }
 
@@ -476,7 +476,8 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceFriction(int amount) {
-        friction = PhysicsDemo.advanceFloat(frictionValues, friction, amount);
+        this.friction
+                = PhysicsDemo.advanceFloat(frictionValues, friction, amount);
         appInstance.setFrictionAll(friction);
     }
 
@@ -486,7 +487,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceGravity(int amount) {
-        gravity = PhysicsDemo.advanceFloat(gravityValues, gravity, amount);
+        this.gravity = PhysicsDemo.advanceFloat(gravityValues, gravity, amount);
         appInstance.setGravityAll(gravity);
     }
 
@@ -496,8 +497,8 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advancePlatform(int amount) {
-        platformName = PhysicsDemo.advanceString(platformNames, platformName,
-                amount);
+        this.platformName = PhysicsDemo.advanceString(
+                platformNames, platformName, amount);
         appInstance.restartScenario();
     }
 
@@ -507,8 +508,8 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        restitution = PhysicsDemo.advanceFloat(restitutionValues, restitution,
-                amount);
+        this.restitution = PhysicsDemo.advanceFloat(
+                restitutionValues, restitution, amount);
         appInstance.setRestitutionAll(restitution);
     }
 
