@@ -55,9 +55,9 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.PointMesh;
 import jme3utilities.minie.test.common.PhysicsDemo;
-import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
@@ -297,7 +297,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         String message = "trialSeed = " + trialSeed;
         System.out.println(message);
         statusText.setText(message);
-        ShapeGenerator random = getGenerator();
+        Generator random = getGenerator();
         random.setSeed(trialSeed);
 
         // Generate a new transform.

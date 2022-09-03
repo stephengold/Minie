@@ -403,8 +403,7 @@ public class Pachinko
      * Add a dynamic ball to the PhysicsSpace.
      */
     private void addBall() {
-        float mass = 1f;
-        PhysicsRigidBody result = new PhysicsRigidBody(ballShape, mass);
+        PhysicsRigidBody result = new PhysicsRigidBody(ballShape);
         Material material = findMaterial("ball");
         result.setDebugMaterial(material);
         result.setDebugMeshNormals(MeshNormals.Sphere);

@@ -139,8 +139,7 @@ public class ForceDemo
 
         // Add a spinning cube.
         BoxCollisionShape shape = new BoxCollisionShape(1f);
-        float mass = 1f;
-        cube = new PhysicsRigidBody(shape, mass);
+        this.cube = new PhysicsRigidBody(shape);
         cube.setEnableSleep(false);
         Quaternion initialOrientation
                 = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
