@@ -272,6 +272,9 @@ preferably early in the development process.
 
 YouTube videos about Minie:
 
+  + September 2022 teaser (splitting rigid bodies in real time)
+    [watch](https://www.youtube.com/watch?v=9IsCSgoKJeE) (0:53)
+    [source code](https://github.com/stephengold/Minie/blob/fd0a61d2d24f354e0a9418cfc904c5985b69cfd8/MinieExamples/src/main/java/jme3utilities/minie/test/SplitDemo.java)
   + August 2022 walkthru of the VhacdTuner application
     [watch](https://www.youtube.com/watch?v=iEWJtPujmM8) (7:45)
     [source code](https://github.com/stephengold/Minie/blob/e1b7781fd06d8060ab96928379509a732fd9398f/VhacdTuner/src/main/java/jme3utilities/minie/tuner/VhacdTuner.java)
