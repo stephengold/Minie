@@ -224,29 +224,6 @@ public class DropTest
         String platformName = status.platformType();
         addPlatform(platformName, platformSurfaceY);
     }
-
-    /**
-     * Update the debug materials of all collision objects.
-     */
-    void setDebugMaterialsAll() {
-        PhysicsSpace physicsSpace = getPhysicsSpace();
-        for (PhysicsCollisionObject pco : physicsSpace.getPcoList()) {
-            setDebugMaterial(pco);
-        }
-    }
-
-    /**
-     * Update the ShadowMode of the debug scene.
-     */
-    void setDebugShadowMode() {
-        RenderQueue.ShadowMode mode;
-        if (status.isWireframe()) {
-            mode = RenderQueue.ShadowMode.Off;
-        } else {
-            mode = RenderQueue.ShadowMode.CastAndReceive;
-        }
-        bulletAppState.setDebugShadowMode(mode);
-    }
     // *************************************************************************
     // PhysicsDemo methods
 
@@ -584,9 +561,12 @@ public class DropTest
 
                 case "toggle childColor":
                     status.toggleChildColor();
+                    setDebugMaterialsAll();
                     return;
                 case "toggle wireframe":
                     status.toggleWireframe();
+                    setDebugMaterialsAll();
+                    setDebugShadowMode();
                     return;
 
                 case "value+7":
@@ -932,5 +912,28 @@ public class DropTest
         }
 
         pco.setDebugMaterial(debugMaterial);
+    }
+
+    /**
+     * Update the debug materials of all collision objects.
+     */
+    private void setDebugMaterialsAll() {
+        PhysicsSpace physicsSpace = getPhysicsSpace();
+        for (PhysicsCollisionObject pco : physicsSpace.getPcoList()) {
+            setDebugMaterial(pco);
+        }
+    }
+
+    /**
+     * Update the ShadowMode of the debug scene.
+     */
+    private void setDebugShadowMode() {
+        RenderQueue.ShadowMode mode;
+        if (status.isWireframe()) {
+            mode = RenderQueue.ShadowMode.Off;
+        } else {
+            mode = RenderQueue.ShadowMode.CastAndReceive;
+        }
+        bulletAppState.setDebugShadowMode(mode);
     }
 }

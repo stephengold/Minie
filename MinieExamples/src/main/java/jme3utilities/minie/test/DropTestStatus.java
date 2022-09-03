@@ -340,7 +340,6 @@ public class DropTestStatus extends SimpleAppState {
      */
     void toggleChildColor() {
         this.isChildColoring = !isChildColoring;
-        appInstance.setDebugMaterialsAll();
     }
 
     /**
@@ -348,8 +347,6 @@ public class DropTestStatus extends SimpleAppState {
      */
     void toggleWireframe() {
         this.isWireframe = !isWireframe;
-        appInstance.setDebugMaterialsAll();
-        appInstance.setDebugShadowMode();
     }
     // *************************************************************************
     // ActionAppState methods
