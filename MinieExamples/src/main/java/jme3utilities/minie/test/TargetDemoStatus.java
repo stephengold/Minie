@@ -456,7 +456,7 @@ public class TargetDemoStatus extends SimpleAppState {
         BitmapFont guiFont
                 = assetManager.loadFont("Interface/Fonts/Default.fnt");
 
-        // Add the status lines to the guiNode.
+        // Add status lines to the guiNode.
         for (int lineIndex = 0; lineIndex < numStatusLines; ++lineIndex) {
             statusLines[lineIndex] = new BitmapText(guiFont);
             float y = cam.getHeight() - 20f * lineIndex;

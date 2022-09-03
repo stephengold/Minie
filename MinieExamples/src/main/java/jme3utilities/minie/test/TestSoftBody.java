@@ -286,9 +286,7 @@ public class TestSoftBody
      */
     @Override
     public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
-        /*
-         * Position help nodes just below the status lines.
-         */
+        // Position help nodes just below the status lines.
         float margin = 10f; // in pixels
         float width = viewPortWidth - 2f * margin;
         float height = viewPortHeight - (2f * margin + numStatusLines * 20f);

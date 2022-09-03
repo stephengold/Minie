@@ -307,9 +307,7 @@ public class RopeDemo extends PhysicsDemo {
      */
     @Override
     public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
-        /*
-         * Position help nodes on the right side of the viewport.
-         */
+        // Position help nodes on the right side of the viewport.
         float margin = 10f; // in pixels
         float height = viewPortHeight - (2f * margin);
         float width = 260f; // in pixels
@@ -670,9 +668,7 @@ public class RopeDemo extends PhysicsDemo {
      * @param spatial (not null)
      */
     private void addRopeSpatial(Armature armature, Spatial spatial) {
-        /*
-         * Set a random elevation and Y-axis rotation.
-         */
+        // Set a random elevation and Y-axis rotation.
         ShapeGenerator random = getGenerator();
         float elevation = random.nextFloat(12f, 24f);
         float rotationAngle = random.nextFloat(0f, FastMath.TWO_PI);

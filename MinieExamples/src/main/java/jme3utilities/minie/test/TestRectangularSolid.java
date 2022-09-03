@@ -150,9 +150,8 @@ public class TestRectangularSolid extends PhysicsDemo {
     @Override
     public void acorusInit() {
         configureCamera();
-        /*
-         * Add the status text to the GUI.
-         */
+
+        // Add the status text to the GUI.
         this.statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
         super.acorusInit();
@@ -354,9 +353,8 @@ public class TestRectangularSolid extends PhysicsDemo {
                 message = "shapeName = " + MyString.quote(shapeName);
                 throw new IllegalArgumentException(message);
         }
-        /*
-         * Add a rigid body with that shape.
-         */
+
+        // Add a dynamic rigid body with that shape.
         rigidBody = new PhysicsRigidBody(collisionShape);
         rigidBody.setDebugMeshResolution(DebugShapeFactory.highResolution);
         PhysicsSpace space = bulletAppState.getPhysicsSpace();

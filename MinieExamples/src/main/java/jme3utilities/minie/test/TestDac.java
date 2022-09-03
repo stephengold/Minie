@@ -245,9 +245,7 @@ public class TestDac extends PhysicsDemo {
      */
     @Override
     public void acorusInit() {
-        /*
-         * Add the status text to the GUI.
-         */
+        // Add the status text to the GUI.
         statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
@@ -302,9 +300,7 @@ public class TestDac extends PhysicsDemo {
      */
     @Override
     public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
-        /*
-         * Position help nodes below the status.
-         */
+        // Position help nodes below the status.
         float margin = 10f; // in pixels
         float leftX = margin;
         float topY = viewPortHeight - 20f - margin;

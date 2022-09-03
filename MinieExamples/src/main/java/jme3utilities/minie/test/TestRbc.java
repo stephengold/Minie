@@ -288,9 +288,7 @@ public class TestRbc
      */
     @Override
     public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
-        /*
-         * Position help nodes below the status.
-         */
+        // Position help nodes below the status.
         float margin = 10f; // in pixels
         float leftX = margin;
         float topY = viewPortHeight - 40f - margin;

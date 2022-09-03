@@ -201,9 +201,7 @@ public class SeJointDemo extends PhysicsDemo {
      */
     @Override
     public void acorusInit() {
-        /*
-         * Add the status text to the GUI.
-         */
+        // Add the status text to the GUI.
         statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 

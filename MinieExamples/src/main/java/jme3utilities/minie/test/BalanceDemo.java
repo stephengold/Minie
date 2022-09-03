@@ -264,9 +264,7 @@ public class BalanceDemo extends PhysicsDemo {
      */
     @Override
     public Rectangle detailedHelpBounds(int viewPortWidth, int viewPortHeight) {
-        /*
-         * Position help nodes along the top edge of the viewport.
-         */
+        // Position help nodes along the top edge of the viewport.
         float margin = 10f; // in pixels
         float width = viewPortWidth - 2f * margin;
         float height = viewPortHeight - 2f * margin;
