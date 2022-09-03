@@ -1259,8 +1259,8 @@ abstract public class PhysicsCollisionObject
      * @param objectId the identifier of the btCollisionObject (not zero)
      * @param collisionShapeId the identifier of the btCollisionShape (not zero)
      */
-    native protected static void attachCollisionShape(long objectId,
-            long collisionShapeId);
+    native protected static void attachCollisionShape(
+            long objectId, long collisionShapeId);
 
     /**
      * Clone an ignore list.
@@ -1372,8 +1372,8 @@ abstract public class PhysicsCollisionObject
      * @param objectId the ID of the btCollisionObject (not zero)
      * @param desiredState the desired state
      */
-    native protected static void setActivationState(long objectId,
-            int desiredState);
+    native protected static void setActivationState(
+            long objectId, int desiredState);
 
     /**
      * Alter the collision flags of this object (native field:
@@ -1384,8 +1384,8 @@ abstract public class PhysicsCollisionObject
      * @param objectId the ID of the btCollisionObject (not zero)
      * @param desiredFlags the desired collision flags, ORed together
      */
-    native protected static void setCollisionFlags(long objectId,
-            int desiredFlags);
+    native protected static void setCollisionFlags(
+            long objectId, int desiredFlags);
 
     /**
      * Alter the ignore list for collisions.
@@ -1405,8 +1405,8 @@ abstract public class PhysicsCollisionObject
      * @param orientation the desired orientation for this object (rotation
      * matrix in physics-space coordinates, not null, unaffected)
      */
-    protected void setLocationAndBasis(Vector3f centerLocation,
-            Matrix3f orientation) {
+    protected void setLocationAndBasis(
+            Vector3f centerLocation, Matrix3f orientation) {
         Validate.finite(centerLocation, "center location");
         Validate.nonNull(orientation, "orientation");
 
@@ -1589,8 +1589,8 @@ abstract public class PhysicsCollisionObject
 
     native private static int getActivationState(long objectId);
 
-    native private static void getAnisotropicFriction(long objectId,
-            Vector3f storeResult);
+    native private static void getAnisotropicFriction(
+            long objectId, Vector3f storeResult);
 
     native private static void getBasis(long objectId, Matrix3f storeResult);
 
@@ -1620,14 +1620,14 @@ abstract public class PhysicsCollisionObject
 
     native private static int getNumObjectsWithoutCollision(long objectId);
 
-    native private static long getObjectWithoutCollision(long objectId,
-            int listIndex);
+    native private static long getObjectWithoutCollision(
+            long objectId, int listIndex);
 
-    native private static void getOrientation(long objectId,
-            Quaternion storeResult);
+    native private static void getOrientation(
+            long objectId, Quaternion storeResult);
 
-    native private static void getOrientationDp(long objectId,
-            Quatd storeResult);
+    native private static void getOrientationDp(
+            long objectId, Quatd storeResult);
 
     native private static int getProxyFilterGroup(long objectId);
 
@@ -1641,8 +1641,8 @@ abstract public class PhysicsCollisionObject
 
     native private static float getSpinningFriction(long objectId);
 
-    native private static boolean hasAnisotropicFriction(long objectId,
-            int mode);
+    native private static boolean hasAnisotropicFriction(
+            long objectId, int mode);
 
     native private static boolean hasBroadphaseProxy(long objectId);
 
@@ -1652,39 +1652,39 @@ abstract public class PhysicsCollisionObject
 
     native private static boolean isInWorld(long objectId);
 
-    native private static void setAnisotropicFriction(long objectId,
-            Vector3f components, int mode);
+    native private static void setAnisotropicFriction(
+            long objectId, Vector3f components, int mode);
 
-    native private static void setCcdMotionThreshold(long objectId,
-            float threshold);
+    native private static void setCcdMotionThreshold(
+            long objectId, float threshold);
 
-    native private static void setCcdSweptSphereRadius(long objectId,
-            float radius);
+    native private static void setCcdSweptSphereRadius(
+            long objectId, float radius);
 
-    native private static void setCollideWithGroups(long objectId,
-            int collisionGroups);
+    native private static void setCollideWithGroups(
+            long objectId, int collisionGroups);
 
-    native private static void setCollisionGroup(long objectId,
-            int collisionGroup);
+    native private static void setCollisionGroup(
+            long objectId, int collisionGroup);
 
-    native private static void setContactProcessingThreshold(long objectId,
-            float thresholdDistance);
+    native private static void setContactProcessingThreshold(
+            long objectId, float thresholdDistance);
 
-    native private static void setContactStiffnessAndDamping(long objectId,
-            float stiffness, float damping);
+    native private static void setContactStiffnessAndDamping(
+            long objectId, float stiffness, float damping);
 
     native private static void setDeactivationTime(long objectId, float time);
 
     native private static void setFriction(long objectId, float friction);
 
-    native private static void setLocationAndBasis(long objectId,
-            Vector3f location, Matrix3f basis);
+    native private static void setLocationAndBasis(
+            long objectId, Vector3f location, Matrix3f basis);
 
     native private static void setRestitution(long objectId, float restitution);
 
-    native private static void setRollingFriction(long objectId,
-            float friction);
+    native private static void setRollingFriction(
+            long objectId, float friction);
 
-    native private static void setSpinningFriction(long objectId,
-            float friction);
+    native private static void setSpinningFriction(
+            long objectId, float friction);
 }
