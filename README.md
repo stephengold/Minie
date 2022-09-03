@@ -269,6 +269,7 @@ preferably early in the development process.
 + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
 + [The physics section of the jMonkeyEngine Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
 + [Alan Chou's game-physics tutorial](http://allenchou.net/game-physics-series/)
++ [V-HACD v4 slideshow](https://docs.google.com/presentation/d/1OZ4mtZYrGEC8qffqb8F7Le2xzufiqvaPpRbLHKKgTIM)
 
 YouTube videos about Minie:
 
