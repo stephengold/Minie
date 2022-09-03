@@ -111,7 +111,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Instantiate a responsive vehicle with the specified CollisionShape and
      * mass=1.
      *
-     * @param shape the desired shape (not null, alias created)
+     * @param shape the desired shape of the chassis (not null, alias created)
      */
     public PhysicsVehicle(CollisionShape shape) {
         super(shape);
@@ -121,8 +121,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * Instantiate a responsive vehicle with the specified CollisionShape and
      * mass.
      *
-     * @param shape the desired shape (not null, alias created)
-     * @param mass the desired mass for the chassis (&gt;0)
+     * @param shape the desired shape of the chassis (not null, alias created)
+     * @param mass the desired mass of the chassis (&gt;0, default=1)
      */
     public PhysicsVehicle(CollisionShape shape, float mass) {
         super(shape, mass);

@@ -156,7 +156,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      *
      * @param shape the desired shape (not null, alias created)
      * @param mass if 0, a static body is created; otherwise a dynamic body is
-     * created (&ge;0)
+     * created (&ge;0, default=1)
      */
     public PhysicsRigidBody(CollisionShape shape, float mass) {
         Validate.nonNull(shape, "shape");
