@@ -64,6 +64,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 import jme3utilities.MeshNormals;
@@ -72,6 +73,7 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.ClothGrid;
 import jme3utilities.mesh.Icosphere;
 import jme3utilities.minie.test.common.PhysicsDemo;
@@ -262,7 +264,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             if (body instanceof PhysicsRigidBody) {
                 float impulse = body.getMass() * deltaV;
                 Vector3f impulseVector = new Vector3f(0f, impulse, 0f);
-                ShapeGenerator random = appInstance.getGenerator();
+                Generator random = appInstance.getGenerator();
                 Vector3f offset = random.nextVector3f().multLocal(0.2f);
                 ((PhysicsRigidBody) body).applyImpulse(impulseVector, offset);
             } else {
@@ -813,7 +815,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * Pseudo-randomly select the shape of a decimal digit.
      */
     private CollisionShape randomDigit() {
-        ShapeGenerator random = appInstance.getGenerator();
+        Random random = appInstance.getGenerator();
         char glyphChar = (char) ('0' + random.nextInt(10));
         String glyphString = Character.toString(glyphChar);
         CollisionShape result = appInstance.findShape(glyphString);
@@ -826,7 +828,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * Pseudo-randomly select the shape of an uppercase letter.
      */
     private CollisionShape randomLetter() {
-        ShapeGenerator random = appInstance.getGenerator();
+        Random random = appInstance.getGenerator();
         char glyphChar = (char) ('A' + random.nextInt(26));
         String glyphString = Character.toString(glyphChar);
         CollisionShape result = appInstance.findShape(glyphString);
@@ -843,7 +845,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * principal axes
      */
     private CollisionShape randomMallet(boolean correctAxes) {
-        ShapeGenerator random = appInstance.getGenerator();
+        Generator random = appInstance.getGenerator();
         float handleR = 0.5f;
         float headR = handleR + random.nextFloat();
         float headHalfLength = headR + random.nextFloat();

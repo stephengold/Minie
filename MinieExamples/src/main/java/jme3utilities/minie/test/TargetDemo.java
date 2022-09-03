@@ -67,6 +67,7 @@ import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -75,8 +76,8 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.test.common.PhysicsDemo;
-import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 
@@ -635,7 +636,7 @@ public class TargetDemo
             float deltaV = FastMath.sqrt(30f * gravity);
             float impulse = selectedBody.getMass() * deltaV;
             Vector3f impulseVector = new Vector3f(0f, impulse, 0f);
-            ShapeGenerator random = getGenerator();
+            Generator random = getGenerator();
             Vector3f offset = random.nextVector3f().multLocal(0.2f);
             PhysicsRigidBody rigidBody = selectedBody;
             rigidBody.applyImpulse(impulseVector, offset);
@@ -1060,7 +1061,7 @@ public class TargetDemo
         assert body != null;
         assert !body.isInWorld();
 
-        ShapeGenerator random = getGenerator();
+        Random random = getGenerator();
         String materialName = "target" + random.nextInt(numTargetColors);
         Material debugMaterial = findMaterial(materialName);
         body.setApplicationData(debugMaterial);

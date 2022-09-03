@@ -72,6 +72,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
@@ -80,10 +81,10 @@ import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
+import jme3utilities.math.noise.Generator;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.mesh.ClothHexagon;
-import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
@@ -610,7 +611,7 @@ public class DropTest
     public void postAdd(PhysicsCollisionObject pco) {
         Object appData = pco.getApplicationData();
         if (appData == null) {
-            ShapeGenerator random = getGenerator();
+            Random random = getGenerator();
             String materialName = "drop" + random.nextInt(numDropColors);
             Material debugMaterial = findMaterial(materialName);
             assert debugMaterial != null : materialName;
@@ -704,7 +705,7 @@ public class DropTest
             return false; // too many drops
         }
 
-        ShapeGenerator random = getGenerator();
+        Generator random = getGenerator();
         Vector3f startLocation = random.nextVector3f(); //TODO garbage
         startLocation.multLocal(2.5f, 5f, 2.5f);
         startLocation.y += 20f;

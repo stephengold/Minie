@@ -63,6 +63,7 @@ import com.jme3.shadow.PointLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -503,8 +504,8 @@ public class PoolDemo extends PhysicsDemo {
         rbc.setFriction(0.03f);
         rbc.setPhysicsLocation(location);
 
-        Generator generator = getGenerator();
-        Quaternion rotation = generator.nextQuaternion(null);
+        Generator random = getGenerator();
+        Quaternion rotation = random.nextQuaternion(null);
         rbc.setPhysicsRotation(rotation);
 
         PhysicsSpace space = getPhysicsSpace();
@@ -522,10 +523,10 @@ public class PoolDemo extends PhysicsDemo {
         final float z0 = -60f;
         final int numRows = 5;
 
-        Generator generator = getGenerator();
+        Random random = getGenerator();
         Permutation permutation;
         while (true) {
-            long seed = generator.nextLong();
+            long seed = random.nextLong();
             permutation = new Permutation(numberedBalls, seed);
 
             boolean eightBallInCenter = (1 + permutation.permute(4) == 8);
