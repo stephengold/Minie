@@ -673,7 +673,7 @@ public class TargetDemoStatus extends SimpleAppState {
         int numActiveBodies = appInstance.countActive();
         int numCachedMeshes = DebugShapeFactory.countCachedMeshes();
         boolean isPaused = appInstance.isPaused();
-        message = String.format("numActive=%d  numCached=%d%s",
+        message = String.format("activeBodies=%d  cachedMeshes=%d%s",
                 numActiveBodies, numCachedMeshes, isPaused ? "  PAUSED" : "");
         statusLines[1].setText(message);
     }
