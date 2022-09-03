@@ -410,38 +410,38 @@ public class DropTestStatus extends SimpleAppState {
 
         int index = 1 + Arrays.binarySearch(dampingValues, damping);
         int count = dampingValues.length;
-        String message = String.format("Damping #%d of %d:  %.2f", index,
-                count, damping);
+        String message = String.format(
+                "Damping #%d of %d:  %.2f", index, count, damping);
         updateStatusLine(dampingStatusLine, message);
 
         index = 1 + Arrays.binarySearch(frictionValues, friction);
         count = frictionValues.length;
-        message = String.format("Friction #%d of %d:  %.1f", index,
-                count, friction);
+        message = String.format(
+                "Friction #%d of %d:  %.1f", index, count, friction);
         updateStatusLine(frictionStatusLine, message);
 
         index = 1 + Arrays.binarySearch(gravityValues, gravity);
         count = gravityValues.length;
-        message = String.format("Gravity #%d of %d:  %.1f", index,
-                count, gravity);
+        message = String.format(
+                "Gravity #%d of %d:  %.1f", index, count, gravity);
         updateStatusLine(gravityStatusLine, message);
 
         index = 1 + Arrays.binarySearch(dropNames, nextDropType);
         count = dropNames.length;
-        message = String.format("Drop #%d of %d:  %s", index, count,
-                nextDropType);
+        message = String.format(
+                "Drop #%d of %d:  %s", index, count, nextDropType);
         updateStatusLine(dropStatusLine, message);
 
         index = 1 + Arrays.binarySearch(platformNames, platformName);
         count = platformNames.length;
-        message = String.format("Platform #%d of %d:  %s", index, count,
-                platformName);
+        message = String.format(
+                "Platform #%d of %d:  %s", index, count, platformName);
         updateStatusLine(platformStatusLine, message);
 
         index = 1 + Arrays.binarySearch(restitutionValues, restitution);
         count = restitutionValues.length;
-        message = String.format("Restitution #%d of %d:  %.2f", index,
-                count, restitution);
+        message = String.format(
+                "Restitution #%d of %d:  %.2f", index, count, restitution);
         updateStatusLine(restitutionStatusLine, message);
     }
     // *************************************************************************

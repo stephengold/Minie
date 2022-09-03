@@ -354,8 +354,8 @@ public class TestGearJoint
                 530, 480, // min width, height
                 2_048, 1_080 // max width, height
         );
-        proposedSettings = new DisplaySettings(application, applicationName,
-                sizeLimits) {
+        proposedSettings = new DisplaySettings(
+                application, applicationName, sizeLimits) {
             @Override
             protected void applyOverrides(AppSettings settings) {
                 setShowDialog(showDialog);

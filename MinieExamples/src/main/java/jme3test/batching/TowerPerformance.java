@@ -203,7 +203,8 @@ public class TowerPerformance
         reBoxg.addControl(new RigidBodyControl(1.5f));
         reBoxg.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         reBoxg.getControl(RigidBodyControl.class).setFriction(1.6f);
-        reBoxg.getControl(RigidBodyControl.class).setLinearSleepingThreshold(0f);
+        reBoxg.getControl(RigidBodyControl.class)
+                .setLinearSleepingThreshold(0f);
 
         batchNode.attachChild(reBoxg);
         getPhysicsSpace().add(reBoxg);
@@ -228,7 +229,8 @@ public class TowerPerformance
     private void initMaterial() {
         this.mat = new Material(
                 assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        TextureKey key = new TextureKey("Textures/Terrain/BrickWall/BrickWall.jpg");
+        TextureKey key
+                = new TextureKey("Textures/Terrain/BrickWall/BrickWall.jpg");
         key.setGenerateMips(true);
         Texture tex = assetManager.loadTexture(key);
         mat.setTexture("ColorMap", tex);

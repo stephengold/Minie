@@ -524,8 +524,8 @@ public class TargetDemoStatus extends SimpleAppState {
                 "Restitution #%d of %d:  %.2f", index, count, restitution);
         updateStatusLine(restitutionStatusLine, message);
 
-        index = 1 + Arrays.binarySearch(missileInitialSpeedValues,
-                missileInitialSpeed);
+        index = 1 + Arrays.binarySearch(
+                missileInitialSpeedValues, missileInitialSpeed);
         count = missileInitialSpeedValues.length;
         message = String.format("Missile speed #%d of %d:  %.0f", index, count,
                 missileInitialSpeed);
