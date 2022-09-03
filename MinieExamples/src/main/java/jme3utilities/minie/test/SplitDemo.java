@@ -198,16 +198,6 @@ public class SplitDemo
     }
 
     /**
-     * Update the debug materials of all collision objects.
-     */
-    void setDebugMaterialsAll() {
-        PhysicsSpace physicsSpace = getPhysicsSpace();
-        for (PhysicsCollisionObject pco : physicsSpace.getPcoList()) {
-            setDebugMaterial(pco);
-        }
-    }
-
-    /**
      * Return the inclination angle of the splitting plane.
      *
      * @return the angle between the plane normal and the default camera's "up"
@@ -579,6 +569,16 @@ public class SplitDemo
         }
 
         pco.setDebugMaterial(debugMaterial);
+    }
+
+    /**
+     * Update the debug materials of all collision objects.
+     */
+    private void setDebugMaterialsAll() {
+        PhysicsSpace physicsSpace = getPhysicsSpace();
+        for (PhysicsCollisionObject pco : physicsSpace.getPcoList()) {
+            setDebugMaterial(pco);
+        }
     }
 
     /**
