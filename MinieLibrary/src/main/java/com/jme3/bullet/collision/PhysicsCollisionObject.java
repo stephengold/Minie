@@ -339,11 +339,11 @@ abstract public class PhysicsCollisionObject
         setSpinningFriction(old.getSpinningFriction());
 
         if (old.hasAnisotropicFriction(AfMode.basic)) {
-            setAnisotropicFriction(old.getAnisotropicFriction(null),
-                    AfMode.basic);
+            setAnisotropicFriction(
+                    old.getAnisotropicFriction(null), AfMode.basic);
         } else if (old.hasAnisotropicFriction(AfMode.rolling)) {
-            setAnisotropicFriction(old.getAnisotropicFriction(null),
-                    AfMode.rolling);
+            setAnisotropicFriction(
+                    old.getAnisotropicFriction(null), AfMode.rolling);
         }
     }
 
@@ -1107,8 +1107,8 @@ abstract public class PhysicsCollisionObject
      * one bit set, default=COLLISION_GROUP_01)
      */
     public void setCollisionGroup(int collisionGroup) {
-        Validate.require(Integer.bitCount(collisionGroup) == 1,
-                "exactly one bit set");
+        Validate.require(
+                Integer.bitCount(collisionGroup) == 1, "exactly one bit set");
 
         this.collisionGroup = collisionGroup;
         long objectId = nativeId();
@@ -1344,8 +1344,8 @@ abstract public class PhysicsCollisionObject
      * @param objectId the identifier of the btCollisionObject (not zero)
      * @param collisionShapeId the identifier of the btCollisionShape (not zero)
      */
-    native protected static void attachCollisionShape(
-            long objectId, long collisionShapeId);
+    native protected static void
+            attachCollisionShape(long objectId, long collisionShapeId);
 
     /**
      * Clone an ignore list.
@@ -1460,8 +1460,8 @@ abstract public class PhysicsCollisionObject
      * @param objectId the ID of the btCollisionObject (not zero)
      * @param desiredState the desired state
      */
-    native protected static void setActivationState(
-            long objectId, int desiredState);
+    native protected static void
+            setActivationState(long objectId, int desiredState);
 
     /**
      * Alter the collision flags of this object (native field:
@@ -1472,8 +1472,8 @@ abstract public class PhysicsCollisionObject
      * @param objectId the ID of the btCollisionObject (not zero)
      * @param desiredFlags the desired collision flags, ORed together
      */
-    native protected static void setCollisionFlags(
-            long objectId, int desiredFlags);
+    native protected static void
+            setCollisionFlags(long objectId, int desiredFlags);
 
     /**
      * Alter the ignore list for collisions.
@@ -1493,8 +1493,8 @@ abstract public class PhysicsCollisionObject
      * @param orientation the desired orientation for this object (rotation
      * matrix in physics-space coordinates, not null, unaffected)
      */
-    protected void setLocationAndBasis(
-            Vector3f centerLocation, Matrix3f orientation) {
+    protected void
+            setLocationAndBasis(Vector3f centerLocation, Matrix3f orientation) {
         Validate.finite(centerLocation, "center location");
         Validate.nonNull(orientation, "orientation");
 
@@ -1564,8 +1564,8 @@ abstract public class PhysicsCollisionObject
                 = capsule.readInt(tagCollisionGroup, COLLISION_GROUP_01);
         this.collideWithGroups
                 = capsule.readInt(tagCollisionGroupsMask, COLLISION_GROUP_01);
-        this.debugMeshNormals = capsule.readEnum(tagDebugMeshNormals,
-                MeshNormals.class, MeshNormals.None);
+        this.debugMeshNormals = capsule.readEnum(
+                tagDebugMeshNormals, MeshNormals.class, MeshNormals.None);
         this.debugMeshResolution = capsule.readInt(tagDebugMeshResolution, 0);
         this.debugMaterial
                 = (Material) capsule.readSavable(tagDebugMaterial, null);
@@ -1590,10 +1590,10 @@ abstract public class PhysicsCollisionObject
         OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(collisionGroup, tagCollisionGroup, COLLISION_GROUP_01);
-        capsule.write(collideWithGroups, tagCollisionGroupsMask,
-                COLLISION_GROUP_01);
-        capsule.write(debugMeshNormals, tagDebugMeshNormals,
-                MeshNormals.None);
+        capsule.write(
+                collideWithGroups, tagCollisionGroupsMask, COLLISION_GROUP_01);
+        capsule.write(
+                debugMeshNormals, tagDebugMeshNormals, MeshNormals.None);
         capsule.write(debugMeshResolution, tagDebugMeshResolution, 0);
         capsule.write(debugMaterial, tagDebugMaterial, null);
         capsule.write(collisionShape, tagCollisionShape, null);
@@ -1677,8 +1677,8 @@ abstract public class PhysicsCollisionObject
 
     native private static int getActivationState(long objectId);
 
-    native private static void getAnisotropicFriction(
-            long objectId, Vector3f storeResult);
+    native private static void
+            getAnisotropicFriction(long objectId, Vector3f storeResult);
 
     native private static void getBasis(long objectId, Matrix3f storeResult);
 
@@ -1708,14 +1708,14 @@ abstract public class PhysicsCollisionObject
 
     native private static int getNumObjectsWithoutCollision(long objectId);
 
-    native private static long getObjectWithoutCollision(
-            long objectId, int listIndex);
+    native private static long
+            getObjectWithoutCollision(long objectId, int listIndex);
 
-    native private static void getOrientation(
-            long objectId, Quaternion storeResult);
+    native private static void
+            getOrientation(long objectId, Quaternion storeResult);
 
-    native private static void getOrientationDp(
-            long objectId, Quatd storeResult);
+    native private static void
+            getOrientationDp(long objectId, Quatd storeResult);
 
     native private static int getProxyFilterGroup(long objectId);
 
@@ -1729,8 +1729,8 @@ abstract public class PhysicsCollisionObject
 
     native private static float getSpinningFriction(long objectId);
 
-    native private static boolean hasAnisotropicFriction(
-            long objectId, int mode);
+    native private static boolean
+            hasAnisotropicFriction(long objectId, int mode);
 
     native private static boolean hasBroadphaseProxy(long objectId);
 
@@ -1740,20 +1740,20 @@ abstract public class PhysicsCollisionObject
 
     native private static boolean isInWorld(long objectId);
 
-    native private static void setAnisotropicFriction(
-            long objectId, Vector3f components, int mode);
+    native private static void
+            setAnisotropicFriction(long objectId, Vector3f components, int mode);
 
-    native private static void setCcdMotionThreshold(
-            long objectId, float threshold);
+    native private static void
+            setCcdMotionThreshold(long objectId, float threshold);
 
-    native private static void setCcdSweptSphereRadius(
-            long objectId, float radius);
+    native private static void
+            setCcdSweptSphereRadius(long objectId, float radius);
 
-    native private static void setCollideWithGroups(
-            long objectId, int collisionGroups);
+    native private static void
+            setCollideWithGroups(long objectId, int collisionGroups);
 
-    native private static void setCollisionGroup(
-            long objectId, int collisionGroup);
+    native private static void
+            setCollisionGroup(long objectId, int collisionGroup);
 
     native private static void setContactProcessingThreshold(
             long objectId, float thresholdDistance);
@@ -1770,9 +1770,9 @@ abstract public class PhysicsCollisionObject
 
     native private static void setRestitution(long objectId, float restitution);
 
-    native private static void setRollingFriction(
-            long objectId, float friction);
+    native private static void
+            setRollingFriction(long objectId, float friction);
 
-    native private static void setSpinningFriction(
-            long objectId, float friction);
+    native private static void
+            setSpinningFriction(long objectId, float friction);
 }
