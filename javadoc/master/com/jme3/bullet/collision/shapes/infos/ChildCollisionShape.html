@@ -121,10 +121,16 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="block">No-argument constructor needed by SavableClassUtil.</div>
 </div>
 <div class="col-first odd-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Matrix3f,com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">ChildCollisionShape</a><wbr>(com.jme3.math.Vector3f&nbsp;offset,
- com.jme3.math.Matrix3f&nbsp;rotation,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">ChildCollisionShape</a><wbr>(com.jme3.math.Vector3f&nbsp;offset,
  <a href="../CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape)</code></div>
 <div class="col-last odd-row-color">
+<div class="block">Instantiate a child shape without any rotation.</div>
+</div>
+<div class="col-first even-row-color"><code>&nbsp;</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Matrix3f,com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">ChildCollisionShape</a><wbr>(com.jme3.math.Vector3f&nbsp;offset,
+ com.jme3.math.Matrix3f&nbsp;rotation,
+ <a href="../CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Instantiate a child shape for use in a compound shape.</div>
 </div>
 </div>
@@ -248,6 +254,21 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dd><code>offset</code> - the desired translation in the parent's coordinate system
  (not null, unaffected)</dd>
 <dd><code>rotation</code> - the desired rotation in the parent's coordinate system
+ (not null, unaffected)</dd>
+<dd><code>shape</code> - the base shape (not null, not a compound shape, alias
+ created)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f,com.jme3.bullet.collision.shapes.CollisionShape)">
+<h3>ChildCollisionShape</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ChildCollisionShape</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;offset,
+ <a href="../CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape)</span></div>
+<div class="block">Instantiate a child shape without any rotation.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>offset</code> - the desired translation in the parent's coordinate system
  (not null, unaffected)</dd>
 <dd><code>shape</code> - the base shape (not null, not a compound shape, alias
  created)</dd>
