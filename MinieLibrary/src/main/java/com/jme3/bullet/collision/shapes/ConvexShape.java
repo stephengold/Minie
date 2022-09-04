@@ -31,6 +31,8 @@
  */
 package com.jme3.bullet.collision.shapes;
 
+import com.jme3.bullet.util.DebugShapeFactory;
+import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 
 /**
@@ -58,6 +60,27 @@ abstract public class ConvexShape extends CollisionShape {
      */
     protected ConvexShape() {
         // do nothing
+    }
+    // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Approximate this shape using a {@code HullCollisionShape}. Meant to be
+     * overridden.
+     *
+     * @return a new shape
+     */
+    public HullCollisionShape toHullShape() {
+        // Generate low-res debug vertices.
+        FloatBuffer buffer = DebugShapeFactory.debugVertices(
+                this, DebugShapeFactory.lowResolution);
+
+        // Flip the buffer.
+        buffer.rewind();
+        buffer.limit(buffer.capacity());
+
+        HullCollisionShape result = new HullCollisionShape(buffer);
+        return result;
     }
     // *************************************************************************
     // CollisionShape methods
