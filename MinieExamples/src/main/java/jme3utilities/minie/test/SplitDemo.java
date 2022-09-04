@@ -661,19 +661,15 @@ public class SplitDemo
         Vector3f shapeNormal = shapeTriangle.getNormal(); // alias
         Plane shapePlane = new Plane(shapeNormal, s3);
 
-        CollisionShape splitShape;
+        ChildCollisionShape[] children;
         CollisionShape oldShape = oldBody.getCollisionShape();
         if (oldShape instanceof HullCollisionShape) {
             HullCollisionShape hullShape = (HullCollisionShape) oldShape;
-            splitShape = hullShape.split(shapePlane);
-            if (splitShape == oldShape) {
-                // The split plane doesn't intersect this body.
+            children = hullShape.split(shapePlane);
+            if (children == null) {
+                // The split plane doesn't intersect the body.
                 return;
             }
-
-            CompoundCollisionShape compound
-                    = (CompoundCollisionShape) splitShape;
-            ChildCollisionShape[] children = compound.listChildren();
             splitBody(oldBody, worldTriangle, shapeToWorld, shapeNormal,
                     children);
 
