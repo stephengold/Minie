@@ -448,6 +448,20 @@ public class SimplexCollisionShape extends ConvexShape {
     }
 
     /**
+     * Approximate this shape using a {@code HullCollisionShape}.
+     *
+     * @return a new shape
+     */
+    @Override
+    public HullCollisionShape toHullShape() {
+        assert MyVector3f.isScaleIdentity(scale) : scale;
+        HullCollisionShape result = new HullCollisionShape(locations);
+        result.setMargin(margin);
+
+        return result;
+    }
+
+    /**
      * Serialize this shape to the specified exporter, for example when saving
      * to a J3O file.
      *
