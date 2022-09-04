@@ -701,6 +701,7 @@ public class SplitDemo
             Transform shapeToWorld, Vector3f shapeNormal,
             ChildCollisionShape[] children) {
         assert children.length == 2 : children.length;
+        Vector3f v = oldBody.getLinearVelocity(null);
 
         CollisionShape[] shapes = new CollisionShape[2];
         float[] volumes = new float[2];
@@ -722,13 +723,13 @@ public class SplitDemo
             shapeToWorld.transformVector(location, location);
             locations[i] = location;
 
-            velocities[i] = new Vector3f(); // Values are set below!
+            velocities[i] = new Vector3f(v); // Values are modified below.
         }
 
-        Vector3f v = oldBody.getLinearVelocity(null);
         Vector3f worldNormal = worldTriangle.getNormal(); // alias
-        MyVector3f.accumulateScaled(velocities[0], worldNormal, -0.04f);
-        MyVector3f.accumulateScaled(velocities[1], worldNormal, +0.04f);
+        float deltaV = 0.04f;
+        MyVector3f.accumulateScaled(velocities[0], worldNormal, -deltaV);
+        MyVector3f.accumulateScaled(velocities[1], worldNormal, +deltaV);
 
         float totalVolume = volumes[0] + volumes[1];
         assert totalVolume > 0f : totalVolume;
