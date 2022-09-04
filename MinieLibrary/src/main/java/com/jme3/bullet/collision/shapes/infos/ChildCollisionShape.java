@@ -118,6 +118,26 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
         this.rotation = rotation.clone();
         this.shape = shape;
     }
+
+    /**
+     * Instantiate a child shape without any rotation.
+     *
+     * @param offset the desired translation in the parent's coordinate system
+     * (not null, unaffected)
+     * @param shape the base shape (not null, not a compound shape, alias
+     * created)
+     */
+    public ChildCollisionShape(Vector3f offset, CollisionShape shape) {
+        Validate.nonNull(shape, "shape");
+        if (shape instanceof CompoundCollisionShape) {
+            throw new IllegalArgumentException(
+                    "CompoundCollisionShapes cannot be child shapes!");
+        }
+
+        this.offset = offset.clone();
+        this.rotation = new Matrix3f();
+        this.shape = shape;
+    }
     // *************************************************************************
     // new methods exposed
 
