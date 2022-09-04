@@ -35,6 +35,7 @@ import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.debug.BulletDebugAppState;
@@ -663,6 +664,12 @@ public class SplitDemo
 
         ChildCollisionShape[] children;
         CollisionShape oldShape = oldBody.getCollisionShape();
+        if (oldShape instanceof ConvexShape
+                && !(oldShape instanceof HullCollisionShape)) {
+            ConvexShape convexShape = (ConvexShape) oldShape;
+            oldShape = convexShape.toHullShape();
+        }
+
         if (oldShape instanceof HullCollisionShape) {
             HullCollisionShape hullShape = (HullCollisionShape) oldShape;
             children = hullShape.split(shapePlane);
