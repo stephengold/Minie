@@ -674,60 +674,80 @@ public class SplitDemo
             CompoundCollisionShape compound
                     = (CompoundCollisionShape) splitShape;
             ChildCollisionShape[] children = compound.listChildren();
-            assert children.length == 2 : children.length;
-
-            CollisionShape[] shapes = new CollisionShape[2];
-            float[] volumes = new float[2];
-            Vector3f[] locations = new Vector3f[2];
-            Vector3f[] velocities = new Vector3f[2];
-            for (int i = 0; i < 2; ++i) {
-                ChildCollisionShape child = children[i];
-                shapes[i] = child.getShape();
-
-                HullCollisionShape hull = (HullCollisionShape) shapes[i];
-                volumes[i] = hull.scaledVolume();
-
-                Vector3f location = child.copyOffset(null);
-                if (i == 0) {
-                    MyVector3f.accumulateScaled(location, shapeNormal, -0.04f);
-                } else {
-                    MyVector3f.accumulateScaled(location, shapeNormal, +0.04f);
-                }
-                shapeToWorld.transformVector(location, location);
-                locations[i] = location;
-
-                velocities[i] = new Vector3f(); // Values are set below!
-            }
-
-            Vector3f v = oldBody.getLinearVelocity(null);
-            Vector3f worldNormal = worldTriangle.getNormal(); // alias
-            MyVector3f.accumulateScaled(velocities[0], worldNormal, -0.04f);
-            MyVector3f.accumulateScaled(velocities[1], worldNormal, +0.04f);
-
-            float totalVolume = volumes[0] + volumes[1];
-            assert totalVolume > 0f : totalVolume;
-            float totalMass = oldBody.getMass();
-
-            Vector3f w = oldBody.getAngularVelocity(null);
-
-            PhysicsSpace space = getPhysicsSpace();
-            space.removeCollisionObject(oldBody);
-
-            for (int i = 0; i < 2; ++i) {
-                float mass = totalMass * volumes[i] / totalVolume;
-                PhysicsRigidBody body = new PhysicsRigidBody(shapes[i], mass);
-                body.setPhysicsLocation(locations[i]);
-                body.setLinearVelocity(velocities[i]);
-                body.setPhysicsRotation(shapeToWorld.getRotation());
-                body.setAngularVelocity(w);
-                body.setDebugMeshNormals(MeshNormals.Facet);
-                addCollisionObject(body);
-            }
+            splitBody(oldBody, worldTriangle, shapeToWorld, shapeNormal,
+                    children);
 
         } else {
             String className = oldShape.getClass().getSimpleName();
             System.out.println("Shape not split:  class=" + className);
             System.out.flush();
+        }
+    }
+
+    /**
+     * Split the specified rigid body using the plane of the specified triangle.
+     *
+     * @param oldBody (not null, added to the PhysicsSpace)
+     * @param worldTriangle a triangle that defines the splitting plane (in
+     * world coordinates, not null, unaffected)
+     * @param shapeToWorld the body's shape-to-world coordinate transform (not
+     * null, unaffected)
+     * @param shapeNormal the normal of the splitting plane (in shape
+     * coordinates, not null, unaffected)
+     * @param children information about the resulting shapes (not null,
+     * length=2)
+     */
+    private void splitBody(PhysicsRigidBody oldBody, Triangle worldTriangle,
+            Transform shapeToWorld, Vector3f shapeNormal,
+            ChildCollisionShape[] children) {
+        assert children.length == 2 : children.length;
+
+        CollisionShape[] shapes = new CollisionShape[2];
+        float[] volumes = new float[2];
+        Vector3f[] locations = new Vector3f[2];
+        Vector3f[] velocities = new Vector3f[2];
+        for (int i = 0; i < 2; ++i) {
+            ChildCollisionShape child = children[i];
+            shapes[i] = child.getShape();
+
+            HullCollisionShape hull = (HullCollisionShape) shapes[i];
+            volumes[i] = hull.scaledVolume();
+
+            Vector3f location = child.copyOffset(null);
+            if (i == 0) {
+                MyVector3f.accumulateScaled(location, shapeNormal, -0.04f);
+            } else {
+                MyVector3f.accumulateScaled(location, shapeNormal, +0.04f);
+            }
+            shapeToWorld.transformVector(location, location);
+            locations[i] = location;
+
+            velocities[i] = new Vector3f(); // Values are set below!
+        }
+
+        Vector3f v = oldBody.getLinearVelocity(null);
+        Vector3f worldNormal = worldTriangle.getNormal(); // alias
+        MyVector3f.accumulateScaled(velocities[0], worldNormal, -0.04f);
+        MyVector3f.accumulateScaled(velocities[1], worldNormal, +0.04f);
+
+        float totalVolume = volumes[0] + volumes[1];
+        assert totalVolume > 0f : totalVolume;
+        float totalMass = oldBody.getMass();
+
+        Vector3f w = oldBody.getAngularVelocity(null);
+
+        PhysicsSpace space = getPhysicsSpace();
+        space.removeCollisionObject(oldBody);
+
+        for (int i = 0; i < 2; ++i) {
+            float mass = totalMass * volumes[i] / totalVolume;
+            PhysicsRigidBody body = new PhysicsRigidBody(shapes[i], mass);
+            body.setPhysicsLocation(locations[i]);
+            body.setLinearVelocity(velocities[i]);
+            body.setPhysicsRotation(shapeToWorld.getRotation());
+            body.setAngularVelocity(w);
+            body.setDebugMeshNormals(MeshNormals.Facet);
+            addCollisionObject(body);
         }
     }
 }
