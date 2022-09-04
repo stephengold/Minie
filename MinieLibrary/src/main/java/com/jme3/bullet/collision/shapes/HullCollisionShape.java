@@ -223,6 +223,29 @@ public class HullCollisionShape extends ConvexShape {
     }
 
     /**
+     * Instantiate a shape based on an array of locations. For best performance
+     * and stability, the convex hull should have no more than 100 vertices.
+     *
+     * @param locations an array of location vectors (in shape coordinates, not
+     * null, not empty, unaffected)
+     */
+    public HullCollisionShape(Vector3f... locations) {
+        Validate.nonEmpty(locations, "points");
+
+        int numFloats = numAxes * locations.length;
+        this.points = new float[numFloats];
+        int floatIndex = 0;
+        for (Vector3f location : locations) {
+            points[floatIndex + PhysicsSpace.AXIS_X] = location.x;
+            points[floatIndex + PhysicsSpace.AXIS_Y] = location.y;
+            points[floatIndex + PhysicsSpace.AXIS_Z] = location.z;
+            floatIndex += numAxes;
+        }
+
+        createShape();
+    }
+
+    /**
      * Instantiate a shape based on a Vhacd4Hull. For best performance and
      * stability, the convex hull should have no more than 100 vertices.
      *
