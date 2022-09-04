@@ -1740,8 +1740,8 @@ abstract public class PhysicsCollisionObject
 
     native private static boolean isInWorld(long objectId);
 
-    native private static void
-            setAnisotropicFriction(long objectId, Vector3f components, int mode);
+    native private static void setAnisotropicFriction(long objectId,
+            Vector3f components, int mode);
 
     native private static void
             setCcdMotionThreshold(long objectId, float threshold);

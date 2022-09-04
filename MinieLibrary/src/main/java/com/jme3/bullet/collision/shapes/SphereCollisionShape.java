@@ -94,8 +94,8 @@ public class SphereCollisionShape extends ConvexShape {
      * @param endPosition the position at which the sample locations end
      * (&ge;startPosition, &le;capacity)
      */
-    public SphereCollisionShape(FloatBuffer buffer, int startPosition,
-            int endPosition) {
+    public SphereCollisionShape(
+            FloatBuffer buffer, int startPosition, int endPosition) {
         Validate.nonNull(buffer, "buffer");
         Validate.inRange(startPosition, "start position", 0, endPosition);
         Validate.inRange(endPosition, "end position", startPosition,
