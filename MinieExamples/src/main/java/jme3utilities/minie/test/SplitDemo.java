@@ -261,7 +261,7 @@ public class SplitDemo
         // Position help nodes below the status.
         float margin = 10f; // in pixels
         float leftX = margin;
-        float topY = viewPortHeight - 70f - margin;
+        float topY = viewPortHeight - 88f - margin;
         float width = viewPortWidth - leftX - margin;
         float height = topY - margin;
         Rectangle result = new Rectangle(leftX, topY, width, height);

@@ -28,6 +28,7 @@ package jme3utilities.minie.test;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
@@ -50,9 +51,17 @@ public class SplitDemoStatus extends SimpleAppState {
     // constants and loggers
 
     /**
+     * list of collision margins, in ascending order
+     */
+    final private static float[] marginValues = {0.008f, 0.04f, 0.2f, 1f};
+    /**
+     * index of the status line for the collision margin
+     */
+    final private static int marginStatusLine = 3;
+    /**
      * number of lines of text in the overlay
      */
-    final private static int numStatusLines = 3;
+    final private static int numStatusLines = 4;
     /**
      * index of the status line for the type of the next shape
      */
@@ -80,12 +89,11 @@ public class SplitDemoStatus extends SimpleAppState {
      */
     final private BitmapText[] statusLines = new BitmapText[numStatusLines];
     /**
-     * flag to enable child coloring for unselected PCOs with compound shapes
+     * flag to enable child coloring for PCOs with compound shapes
      */
     private boolean isChildColoring = false;
     /**
-     * flag to force wireframe materials for all unselected PCOs (overrides
-     * child coloring)
+     * flag to force wireframe materials for all PCOs (overrides child coloring)
      */
     private boolean isWireframe = false;
     /**
@@ -134,6 +142,9 @@ public class SplitDemoStatus extends SimpleAppState {
      */
     void advanceValue(int amount) {
         switch (selectedLine) {
+            case marginStatusLine:
+                advanceMargin(amount);
+                break;
             case shapeStatusLine:
                 advanceShape(amount);
                 break;
@@ -238,6 +249,7 @@ public class SplitDemoStatus extends SimpleAppState {
             guiNode.attachChild(statusLines[lineIndex]);
         }
 
+        assert MyArray.isSorted(marginValues);
         assert MyArray.isSorted(shapeNames);
     }
 
@@ -253,14 +265,32 @@ public class SplitDemoStatus extends SimpleAppState {
 
         updateStatusText();
 
-        int index = 1 + Arrays.binarySearch(shapeNames, nextShapeType);
-        int count = shapeNames.length;
+        float margin = CollisionShape.getDefaultMargin();
+        int index = 1 + Arrays.binarySearch(marginValues, margin);
+        int count = marginValues.length;
         String message = String.format(
+                "Margin #%d of %d:  %.3f", index, count, margin);
+        updateStatusLine(marginStatusLine, message);
+
+        index = 1 + Arrays.binarySearch(shapeNames, nextShapeType);
+        count = shapeNames.length;
+        message = String.format(
                 "Shape #%d of %d:  %s", index, count, nextShapeType);
         updateStatusLine(shapeStatusLine, message);
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Advance the collision-margin selection by the specified amount.
+     *
+     * @param amount the number of values to advance (may be negative)
+     */
+    private void advanceMargin(int amount) {
+        float margin = CollisionShape.getDefaultMargin();
+        margin = PhysicsDemo.advanceFloat(marginValues, margin, amount);
+        CollisionShape.setDefaultMargin(margin);
+    }
 
     /**
      * Advance the next-shape selection by the specified amount.
