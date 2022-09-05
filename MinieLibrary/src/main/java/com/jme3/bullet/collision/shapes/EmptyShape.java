@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 jMonkeyEngine
+ * Copyright (c) 2018-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ public class EmptyShape extends CollisionShape {
      * @return 0
      */
     public float unscaledVolume() {
-        return 0;
+        return 0f;
     }
     // *************************************************************************
     // CollisionShape methods
@@ -118,7 +118,7 @@ public class EmptyShape extends CollisionShape {
      */
     @Override
     public float maxRadius() {
-        return 0;
+        return 0f;
     }
 
     /**
