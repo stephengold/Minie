@@ -45,6 +45,7 @@ import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
+import jme3utilities.math.RectangularSolid;
 
 /**
  * An axis-aligned, rectangular-solid CollisionShape based on Bullet's
@@ -244,6 +245,29 @@ public class BoxCollisionShape extends ConvexShape {
                 new Vector3f(1f, 1f, 1f));
         halfExtents.set(he);
         createShape();
+    }
+
+    /**
+     * Approximate this shape using a {@code HullCollisionShape}.
+     *
+     * @return a new shape
+     */
+    @Override
+    public HullCollisionShape toHullShape() {
+        Vector3f halfExts = scale.mult(halfExtents); // in PSU
+        float minHalfExtent = MyMath.min(halfExts.x, halfExts.y, halfExts.z);
+        float defaultMargin = getDefaultMargin();
+        float hullMargin = Math.min(minHalfExtent, defaultMargin);
+        if (hullMargin <= 1e-9f) {
+            hullMargin = 1e-9f;
+        }
+
+        halfExts.subtractLocal(hullMargin, hullMargin, hullMargin);
+        RectangularSolid shrunkenSolid = new RectangularSolid(halfExts);
+        HullCollisionShape result = new HullCollisionShape(shrunkenSolid);
+        result.setMargin(hullMargin);
+
+        return result;
     }
 
     /**
