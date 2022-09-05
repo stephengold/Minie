@@ -1691,9 +1691,9 @@ public class DacLinks
         assert otherSgc != null;
 
         Spatial spatial = getSpatial();
-        int dacIndex = MySpatial.findIndex(spatial, this);
+        int dacIndex = MyControl.findIndex(this, spatial);
         assert dacIndex != -1;
-        int otherIndex = MySpatial.findIndex(spatial, otherSgc);
+        int otherIndex = MyControl.findIndex(otherSgc, spatial);
         assert otherIndex != -1;
         assert dacIndex != otherIndex;
 
@@ -1706,9 +1706,9 @@ public class DacLinks
             spatial.removeControl(otherSgc);
             spatial.addControl(otherSgc);
 
-            dacIndex = MySpatial.findIndex(spatial, this);
+            dacIndex = MyControl.findIndex(this, spatial);
             assert dacIndex != -1;
-            otherIndex = MySpatial.findIndex(spatial, otherSgc);
+            otherIndex = MyControl.findIndex(otherSgc, spatial);
             assert otherIndex != -1;
             assert dacIndex < otherIndex;
         }
