@@ -342,7 +342,6 @@ public class SplitDemo
                 KeyInput.KEY_NUMPAD0);
 
         dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
-        dim.bind(asToggleCcdSpheres, KeyInput.KEY_L);
         dim.bind("toggle childColor", KeyInput.KEY_COMMA);
         dim.bind(asToggleHelp, KeyInput.KEY_H);
         dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
