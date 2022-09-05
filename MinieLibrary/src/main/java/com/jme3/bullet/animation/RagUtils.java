@@ -116,8 +116,8 @@ final public class RagUtils {
      * null, unaffected)
      * @return a new map from bone/torso names to sets of vertex coordinates
      */
-    public static Map<String, VectorSet> coordsMap(Mesh[] meshes,
-            String[] managerMap) {
+    public static Map<String, VectorSet>
+            coordsMap(Mesh[] meshes, String[] managerMap) {
         Validate.nonNull(managerMap, "manager map");
 
         float[] wArray = new float[4];
@@ -127,8 +127,8 @@ final public class RagUtils {
         for (Mesh mesh : meshes) {
             int numVertices = mesh.getVertexCount();
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
-                String managerName = findManager(mesh, vertexI, iArray, wArray,
-                        managerMap);
+                String managerName = findManager(
+                        mesh, vertexI, iArray, wArray, managerMap);
                 VectorSet set = coordsMap.get(managerName);
                 if (set == null) {
                     set = new VectorSetUsingBuffer(1, false);
@@ -303,8 +303,8 @@ final public class RagUtils {
                 if (visit) {
                     start.addToIgnoreList(neighbor);
                     visited.put(neighbor, newRemainingHops);
-                    ignoreCollisions(start, neighbor, newRemainingHops,
-                            visited);
+                    ignoreCollisions(
+                            start, neighbor, newRemainingHops, visited);
                 }
             }
         }
@@ -355,8 +355,8 @@ final public class RagUtils {
      * @param storeResult storage for results (added to if not null)
      * @return an expanded List (either storeResult or a new List)
      */
-    public static List<Mesh> listDacMeshes(Spatial subtree,
-            List<Mesh> storeResult) {
+    public static List<Mesh>
+            listDacMeshes(Spatial subtree, List<Mesh> storeResult) {
         List<Mesh> result = (storeResult == null)
                 ? new ArrayList<Mesh>(10) : storeResult;
 
@@ -421,8 +421,8 @@ final public class RagUtils {
      * @param scaleFactors to apply to local coordinates (not null, unaffected)
      * @return a new RectangularSolid
      */
-    static RectangularSolid makeRectangularSolid(VectorSet vectorSet,
-            Vector3f scaleFactors) {
+    static RectangularSolid
+            makeRectangularSolid(VectorSet vectorSet, Vector3f scaleFactors) {
         int numVectors = vectorSet.numVectors();
         assert numVectors > 1 : numVectors;
 
@@ -529,8 +529,8 @@ final public class RagUtils {
      * @return a new array or null
      * @throws IOException from capsule
      */
-    public static Transform[] readTransformArray(InputCapsule capsule,
-            String fieldName) throws IOException {
+    public static Transform[] readTransformArray(
+            InputCapsule capsule, String fieldName) throws IOException {
         Validate.nonNull(capsule, "capsule");
         Validate.nonNull(fieldName, "field name");
 
@@ -631,19 +631,18 @@ final public class RagUtils {
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             Bone bone = skeleton.getBone(boneIndex);
             if (bone == null) {
-                String msg = String.format("Bone %d in skeleton is null!",
-                        boneIndex);
+                String msg = String.format(
+                        "Bone %d in skeleton is null!", boneIndex);
                 throw new IllegalArgumentException(msg);
             }
             String boneName = bone.getName();
             if (boneName == null) {
-                String msg = String.format("Bone %d in skeleton has null name!",
-                        boneIndex);
+                String msg = String.format(
+                        "Bone %d in skeleton has null name!", boneIndex);
                 throw new IllegalArgumentException(msg);
             } else if (boneName.equals(DynamicAnimControl.torsoName)) {
                 String msg = String.format(
-                        "Bone %d in skeleton has a reserved name!",
-                        boneIndex);
+                        "Bone %d in skeleton has a reserved name!", boneIndex);
                 throw new IllegalArgumentException(msg);
             } else if (nameSet.contains(boneName)) {
                 String msg = "Duplicate bone name in skeleton: "
@@ -790,8 +789,8 @@ final public class RagUtils {
      * null, unaffected)
      * @return a new map from link names to total weight
      */
-    private static Map<String, Float> weightMap(int[] biArray,
-            float[] bwArray, String[] managerMap) {
+    private static Map<String, Float>
+            weightMap(int[] biArray, float[] bwArray, String[] managerMap) {
         assert biArray.length == 4;
         assert bwArray.length == 4;
 
