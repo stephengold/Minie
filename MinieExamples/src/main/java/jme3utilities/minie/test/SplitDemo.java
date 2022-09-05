@@ -619,6 +619,11 @@ public class SplitDemo
                 addRigidBody(shape, MeshNormals.Smooth);
                 break;
 
+            case "sphere":
+                shape = random.nextShape(shapeName);
+                addRigidBody(shape, MeshNormals.Sphere);
+                break;
+
             default:
                 String message = "shapeName = " + MyString.quote(shapeName);
                 throw new RuntimeException(message);

@@ -77,7 +77,7 @@ public class SplitDemoStatus extends SimpleAppState {
     final private static String[] shapeNames = {
         "box", "capsule", "cone", "cylinder", "dome", "football", "frame",
         "halfPipe", "hull", "iBeam", "lidlessBox", "multiSphere", "platonic",
-        "prism", "pyramid", "snowman", "star", "tetrahedron", "torus",
+        "prism", "pyramid", "snowman", "sphere", "star", "tetrahedron", "torus",
         "triangularFrame", "trident", "washer"
     };
     // *************************************************************************
