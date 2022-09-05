@@ -120,19 +120,9 @@ public class SphereCollisionShape extends ConvexShape {
     // new methods exposed
 
     /**
-     * Determine the collision margin for this shape.
+     * Return the radius of the sphere.
      *
-     * @return the margin distance (in physics-space units, &ge;0)
-     */
-    @Override
-    public float getMargin() {
-        return 0f;
-    }
-
-    /**
-     * Read the radius of the sphere.
-     *
-     * @return the unscaled radius (&ge;0)
+     * @return the unscaled radius (in shape units, &ge;0)
      */
     public float getRadius() {
         assert radius >= 0f : radius;
@@ -181,6 +171,16 @@ public class SphereCollisionShape extends ConvexShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         createShape();
+    }
+
+    /**
+     * Return the collision margin for this shape.
+     *
+     * @return the margin distance (in physics-space units, &ge;0)
+     */
+    @Override
+    public float getMargin() {
+        return 0f;
     }
 
     /**
