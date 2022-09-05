@@ -183,12 +183,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMargin()" class="member-name-link">getMargin</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Determine the collision margin for this shape.</div>
+<div class="block">Return the collision margin for this shape.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRadius()" class="member-name-link">getRadius</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the radius of the sphere.</div>
+<div class="block">Return the radius of the sphere.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SphereCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">SphereCollisionShape</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -314,26 +314,13 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getMargin()">
-<h3>getMargin</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getMargin</span>()</div>
-<div class="block">Determine the collision margin for this shape.</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="CollisionShape.html#getMargin()">getMargin</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
-<dt>Returns:</dt>
-<dd>the margin distance (in physics-space units, &ge;0)</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getRadius()">
 <h3>getRadius</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getRadius</span>()</div>
-<div class="block">Read the radius of the sphere.</div>
+<div class="block">Return the radius of the sphere.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the unscaled radius (&ge;0)</dd>
+<dd>the unscaled radius (in shape units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -382,6 +369,19 @@ loadScripts(document, 'script');</script>
 <dd><code>cloner</code> - the Cloner that's cloning this shape (not null)</dd>
 <dd><code>original</code> - the instance from which this shape was shallow-cloned
  (not null, unaffected)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getMargin()">
+<h3>getMargin</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getMargin</span>()</div>
+<div class="block">Return the collision margin for this shape.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="CollisionShape.html#getMargin()">getMargin</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
+<dt>Returns:</dt>
+<dd>the margin distance (in physics-space units, &ge;0)</dd>
 </dl>
 </section>
 </li>
