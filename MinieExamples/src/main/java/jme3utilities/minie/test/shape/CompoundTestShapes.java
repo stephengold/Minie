@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.mesh.Octasphere;
 import jme3utilities.minie.MyShape;
@@ -869,7 +870,7 @@ final public class CompoundTestShapes {
         Vector3f p1 = new Vector3f(0f, size, 0f);
         Vector3f p2 = new Vector3f(-size, baseY, size);
         Vector3f p3 = new Vector3f(-size, baseY, -size);
-        Vector3f p4 = new Vector3f(size * FastMath.sqrt(2f), baseY, 0f);
+        Vector3f p4 = new Vector3f(size * MyMath.root2, baseY, 0f);
         CollisionShape child = new SimplexCollisionShape(p1, p2, p3, p4);
         result.addChildShape(child);
 

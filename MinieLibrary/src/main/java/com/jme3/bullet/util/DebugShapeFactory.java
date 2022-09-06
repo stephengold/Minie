@@ -39,7 +39,6 @@ import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.debug.MeshCustomizer;
-import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
 import com.jme3.math.Transform;
@@ -60,6 +59,7 @@ import jme3utilities.MeshNormals;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -76,10 +76,6 @@ final public class DebugShapeFactory {
      * units)
      */
     final private static float planeDebugMeshSideLength = 1_500f;
-    /**
-     * square root of 2 TODO use MyMath
-     */
-    final private static float root2 = FastMath.sqrt(2f);
     /**
      * specify high-res debug meshes for convex shapes (up to 256 vertices)
      */
@@ -682,7 +678,7 @@ final public class DebugShapeFactory {
          * Transform mesh positions to the surface of the CollisionShape.
          */
         Transform transform = planeTransform(shape);
-        float scale = meshSideLength() / root2;
+        float scale = meshSideLength() / MyMath.root2;
         transform.setScale(scale);
         MyBuffer.transform(posBuffer, 0, numFloats, transform);
         /*
