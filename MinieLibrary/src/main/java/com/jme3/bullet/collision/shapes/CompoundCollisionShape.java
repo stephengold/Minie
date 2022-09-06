@@ -169,8 +169,8 @@ public class CompoundCollisionShape extends CollisionShape {
      * @param rotation the local orientation of the child shape (not null,
      * unaffected)
      */
-    public void addChildShape(CollisionShape childShape, Vector3f offset,
-            Matrix3f rotation) {
+    public void addChildShape(
+            CollisionShape childShape, Vector3f offset, Matrix3f rotation) {
         if (childShape instanceof CompoundCollisionShape) {
             throw new IllegalArgumentException(
                     "A CompoundCollisionShape cannot have"
@@ -349,8 +349,8 @@ public class CompoundCollisionShape extends CollisionShape {
      * @param childShape the child's CollisionShape (not null, unaffected)
      * @param transform the desired Transform (not null, unaffected)
      */
-    public void setChildTransform(CollisionShape childShape,
-            Transform transform) {
+    public void
+            setChildTransform(CollisionShape childShape, Transform transform) {
         long childId = childShape.nativeId();
         long parentId = nativeId();
         Vector3f offset = transform.getTranslation();
@@ -581,19 +581,19 @@ public class CompoundCollisionShape extends CollisionShape {
 
     native private static int countChildren(long shapeId);
 
-    native private static long createShape2(boolean dynamicAabbTree,
-            int initialChildCapacity);
+    native private static long
+            createShape2(boolean dynamicAabbTree, int initialChildCapacity);
 
     native private static void recalcAabb(long shapeId);
 
-    native private static void removeChildShape(long compoundId,
-            long childShapeId);
+    native private static void
+            removeChildShape(long compoundId, long childShapeId);
 
     native private static void rotate(long compoundId, Matrix3f rotationMatrix);
 
     native private static void setChildTransform(long compoundId,
             long childShapeId, Vector3f offset, Matrix3f rotation);
 
-    native private static void translate(long compoundId,
-            Vector3f offsetVector);
+    native private static void
+            translate(long compoundId, Vector3f offsetVector);
 }

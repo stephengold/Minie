@@ -238,16 +238,16 @@ public class DynamicAnimControl
      * spatial when the blend completes (unaffected) or null for no change to
      * the transform
      */
-    public void blendToKinematicMode(float blendInterval,
-            Transform endModelTransform) {
+    public void blendToKinematicMode(
+            float blendInterval, Transform endModelTransform) {
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
-        getTorsoLink().blendToKinematicMode(KinematicSubmode.Animated,
-                blendInterval, endModelTransform);
+        getTorsoLink().blendToKinematicMode(
+                KinematicSubmode.Animated, blendInterval, endModelTransform);
         for (BoneLink boneLink : getBoneLinks()) {
-            boneLink.blendToKinematicMode(KinematicSubmode.Animated,
-                    blendInterval);
+            boneLink.blendToKinematicMode(
+                    KinematicSubmode.Animated, blendInterval);
         }
         for (AttachmentLink link : listAttachmentLinks()) {
             if (!link.isReleased()) {
@@ -621,8 +621,8 @@ public class DynamicAnimControl
      * @return a new joint, with the link body at the A end, which will be
      * disabled by ragdoll mode (not null)
      */
-    public IKJoint moveToWorld(PhysicsLink link, Vector3f pivotInLinkBody,
-            Vector3f goalInWorld) {
+    public IKJoint moveToWorld(
+            PhysicsLink link, Vector3f pivotInLinkBody, Vector3f goalInWorld) {
         Validate.finite(pivotInLinkBody, "pivot in link body");
         Validate.finite(goalInWorld, "goal location");
 
@@ -743,8 +743,8 @@ public class DynamicAnimControl
      *
      * @param listener the desired listener, or null for none
      */
-    public void setBlendListener(
-            CompletionListener<DynamicAnimControl> listener) {
+    public void
+            setBlendListener(CompletionListener<DynamicAnimControl> listener) {
         this.blendListener = listener;
     }
 
@@ -759,8 +759,8 @@ public class DynamicAnimControl
      * @param desiredResponse true for the usual rigid-body response, false for
      * ghost-like response
      */
-    public void setContactResponseSubtree(PhysicsLink rootLink,
-            boolean desiredResponse) {
+    public void setContactResponseSubtree(
+            PhysicsLink rootLink, boolean desiredResponse) {
         Validate.nonNull(rootLink, "root link");
         Validate.require(rootLink.getControl() == this,
                 "link belongs to this control");

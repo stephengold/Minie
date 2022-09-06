@@ -405,7 +405,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
      * no negative component, unaffected)
      */
     private void
-         createCollisionHeightfield(float[] heightmap, Vector3f worldScale) {
+            createCollisionHeightfield(float[] heightmap, Vector3f worldScale) {
         scale.set(worldScale);
 
         this.heightfieldData = heightmap.clone();

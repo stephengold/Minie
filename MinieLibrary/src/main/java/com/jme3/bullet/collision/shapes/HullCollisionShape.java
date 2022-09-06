@@ -673,10 +673,10 @@ public class HullCollisionShape extends ConvexShape {
     native private static int countHullVertices(long shapeId);
 
     native private static long
-         createShapeF(FloatBuffer vertices, int numVertices);
+            createShapeF(FloatBuffer vertices, int numVertices);
 
     native private static void
-         getHullVerticesF(long shapeId, FloatBuffer vertices);
+            getHullVerticesF(long shapeId, FloatBuffer vertices);
 
     native private static void recalcAabb(long shapeId);
 }

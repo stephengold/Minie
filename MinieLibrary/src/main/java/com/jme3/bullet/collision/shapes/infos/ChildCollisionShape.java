@@ -106,8 +106,8 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
      * @param shape the base shape (not null, not a compound shape, alias
      * created)
      */
-    public ChildCollisionShape(Vector3f offset, Matrix3f rotation,
-            CollisionShape shape) {
+    public ChildCollisionShape(
+            Vector3f offset, Matrix3f rotation, CollisionShape shape) {
         Validate.nonNull(shape, "shape");
         if (shape instanceof CompoundCollisionShape) {
             throw new IllegalArgumentException(

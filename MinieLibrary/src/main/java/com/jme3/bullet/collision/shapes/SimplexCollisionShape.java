@@ -526,7 +526,7 @@ public class SimplexCollisionShape extends ConvexShape {
     native private static long createShape(Vector3f vector1, Vector3f vector2);
 
     native private static long
-         createShape(Vector3f vector1, Vector3f vector2, Vector3f vector3);
+            createShape(Vector3f vector1, Vector3f vector2, Vector3f vector3);
 
     native private static long createShape(Vector3f vector1, Vector3f vector2,
             Vector3f vector3, Vector3f vector4);
