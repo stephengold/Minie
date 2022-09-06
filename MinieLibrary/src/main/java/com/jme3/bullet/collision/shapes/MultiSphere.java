@@ -336,16 +336,45 @@ public class MultiSphere extends ConvexShape {
 
         createShape();
     }
+
+    /**
+     * Instantiate a multi-sphere shape with the specified centers and radii.
+     *
+     * @param centers the array of center locations (in shape coordinates, not
+     * null, not empty)
+     * @param radii the array of radii (in shape units, not null, not empty,
+     * each &ge;0)
+     */
+    public MultiSphere(Vector3f[] centers, float[] radii) {
+        Validate.nonEmpty(centers, "centers");
+        Validate.nonEmpty(radii, "radii");
+
+        int numSpheres = radii.length;
+        Validate.require(
+                centers.length == numSpheres, "arrays of equal length");
+
+        this.centers = new Vector3f[numSpheres];
+        this.radii = new float[numSpheres];
+        for (int i = 0; i < numSpheres; ++i) {
+            this.centers[i] = centers[i].clone();
+
+            float radius = radii[i];
+            assert radius >= 0f : radius;
+            this.radii[i] = radius;
+        }
+
+        createShape();
+    }
     // *************************************************************************
     // new methods exposed
 
     /**
-     * Copy the offset of the center of the indexed sphere.
+     * Copy the location of the center of the indexed sphere.
      *
      * @param sphereIndex which sphere to read (&ge;0)
      * @param storeResult storage for the result (modified if not null)
-     * @return the center offset (either storeResult or a new instance, not
-     * null)
+     * @return the center location (in shape coordinates, either
+     * {@code storeResult} or a new instance, not null)
      */
     public Vector3f copyCenter(int sphereIndex, Vector3f storeResult) {
         Validate.inRange(sphereIndex, "sphere index", 0, radii.length - 1);
