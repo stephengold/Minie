@@ -177,7 +177,7 @@ public class CapsuleCollisionShape extends ConvexShape {
         return result;
     }
     // *************************************************************************
-    // CollisionShape methods
+    // ConvexShape methods
 
     /**
      * Test whether the specified scale factors can be applied to this shape.

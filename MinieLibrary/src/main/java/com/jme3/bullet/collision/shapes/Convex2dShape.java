@@ -118,7 +118,7 @@ public class Convex2dShape extends ConvexShape {
         return base;
     }
     // *************************************************************************
-    // CollisionShape methods
+    // ConvexShape methods
 
     /**
      * Test whether the specified scale factors can be applied to this shape.

@@ -157,7 +157,7 @@ public class Box2dShape extends ConvexShape {
         return result;
     }
     // *************************************************************************
-    // CollisionShape methods
+    // ConvexShape methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this

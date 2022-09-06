@@ -674,16 +674,14 @@ final public class DebugShapeFactory {
         }
         assert posBuffer.position() == numFloats;
         posBuffer.flip();
-        /*
-         * Transform mesh positions to the surface of the CollisionShape.
-         */
+
+        // Transform mesh positions to the surface of the CollisionShape.
         Transform transform = planeTransform(shape);
         float scale = meshSideLength() / MyMath.root2;
         transform.setScale(scale);
         MyBuffer.transform(posBuffer, 0, numFloats, transform);
-        /*
-         * Generate an index buffer for a 2-sided square.
-         */
+
+        // Generate an index buffer for a 2-sided square.
         ByteBuffer indexBuffer = BufferUtils.createByteBuffer(new byte[]{
             2, 1, 0,
             3, 2, 0,
@@ -694,9 +692,8 @@ final public class DebugShapeFactory {
         Mesh result = new Mesh();
         result.setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
         result.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, indexBuffer);
-        /*
-         * Add a normal buffer, if requested.
-         */
+
+        // Add a normal buffer, if requested.
         if (normals != MeshNormals.None) {
             Plane plane = shape.getPlane();
             Vector3f v1 = plane.getNormal();

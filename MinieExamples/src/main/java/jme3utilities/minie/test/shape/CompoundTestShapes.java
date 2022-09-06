@@ -863,9 +863,8 @@ final public class CompoundTestShapes {
         float baseY = -1.5f;
         Vector3f depress = new Vector3f(0f, baseY, 0f);
         result.translate(depress);
-        /*
-         * Place a tetrahedral deflector in the center.
-         */
+
+        // Place a tetrahedral deflector in the center.
         float size = 3f;
         Vector3f p1 = new Vector3f(0f, size, 0f);
         Vector3f p2 = new Vector3f(-size, baseY, size);

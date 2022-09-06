@@ -192,9 +192,8 @@ public class HullCollisionShape extends ConvexShape {
     public HullCollisionShape(RectangularSolid rectangularSolid) {
         Vector3f maxima = rectangularSolid.maxima(null);
         Vector3f minima = rectangularSolid.minima(null);
-        /*
-         * Enumerate the local coordinates of the 8 corners of the box.
-         */
+
+        // Enumerate the local coordinates of the 8 corners of the box.
         Collection<Vector3f> cornerLocations = new ArrayList<>(8);
         cornerLocations.add(new Vector3f(maxima.x, maxima.y, maxima.z));
         cornerLocations.add(new Vector3f(maxima.x, maxima.y, minima.z));
@@ -204,9 +203,8 @@ public class HullCollisionShape extends ConvexShape {
         cornerLocations.add(new Vector3f(minima.x, maxima.y, minima.z));
         cornerLocations.add(new Vector3f(minima.x, minima.y, maxima.z));
         cornerLocations.add(new Vector3f(minima.x, minima.y, minima.z));
-        /*
-         * Transform corner locations to shape coordinates.
-         */
+
+        // Transform corner locations to shape coordinates.
         int numFloats = numAxes * cornerLocations.size();
         this.points = new float[numFloats];
         int floatIndex = 0;
@@ -448,7 +446,7 @@ public class HullCollisionShape extends ConvexShape {
          * Copy all plus-side vertices to a new set.
          * Also: interpolate each of the original plus-side vertices
          * with each of the original minus-side vertices
-         * and add the intepolated locations to both of the new sets.
+         * and add the interpolated locations to both of the new sets.
          */
         FloatBuffer plusBuffer = plusSet.toBuffer();
         VectorSet newPlusSet = new VectorSetUsingBuffer(numVertices, true);
@@ -501,7 +499,7 @@ public class HullCollisionShape extends ConvexShape {
         return result;
     }
     // *************************************************************************
-    // CollisionShape methods
+    // ConvexShape methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this

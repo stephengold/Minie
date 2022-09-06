@@ -220,9 +220,8 @@ public class MultiSphere extends ConvexShape {
     public MultiSphere(RectangularSolid rectangularSolid) {
         Vector3f halfExtents = rectangularSolid.halfExtents(null);
         float radius = MyMath.min(halfExtents.x, halfExtents.y, halfExtents.z);
-        /*
-         * Enumerate the local coordinates of the centers of the 4 spheres.
-         */
+
+        // Enumerate the local coordinates of the centers of the 4 spheres.
         Vector3f max = rectangularSolid.maxima(null);
         max.subtractLocal(radius, radius, radius);
         Vector3f min = rectangularSolid.minima(null);
@@ -278,9 +277,8 @@ public class MultiSphere extends ConvexShape {
         float longest
                 = MyMath.max(halfExtents.x, halfExtents.y, halfExtents.z);
         assert longest >= radius;
-        /*
-         * Calculate the local coordinates of the centers of both spheres.
-         */
+
+        // Calculate the local coordinates of the centers of both spheres.
         Vector3f max = rectangularSolid.maxima(null);
         Vector3f min = rectangularSolid.minima(null);
         Vector3f mid = MyVector3f.midpoint(max, min, null);
@@ -429,7 +427,7 @@ public class MultiSphere extends ConvexShape {
         return volume;
     }
     // *************************************************************************
-    // CollisionShape methods
+    // ConvexShape methods
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
