@@ -42,6 +42,7 @@ import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -502,6 +503,46 @@ public class MultiSphere extends ConvexShape {
     protected void recalculateAabb() {
         long shapeId = nativeId();
         recalcAabb(shapeId);
+    }
+
+    /**
+     * Approximate this shape using a HullCollisionShape.
+     *
+     * @return a new shape
+     */
+    @Override
+    public HullCollisionShape toHullShape() {
+        float medianScale = MyMath.mid(scale.x, scale.y, scale.z);
+        assert medianScale > 0f : medianScale;
+        float minRadius = MyMath.min(radii);
+        float defaultMargin = getDefaultMargin();
+        float hullMargin = Math.min(defaultMargin, minRadius * medianScale);
+        /*
+         * Construct a copy of this shape with its radii reduced
+         * to compensate for the hull's collision margin.
+         */
+        int numSpheres = radii.length;
+        float[] reducedRadii = new float[numSpheres];
+        for (int i = 0; i < numSpheres; ++i) {
+            float rr = radii[i] - hullMargin / medianScale;
+            if (rr < 1e-6f) {
+                rr = 1e-6f;
+            }
+            reducedRadii[i] = rr;
+        }
+        MultiSphere reducedShape = new MultiSphere(centers, reducedRadii);
+        reducedShape.setScale(scale);
+        FloatBuffer buffer = DebugShapeFactory.debugVertices(
+                reducedShape, DebugShapeFactory.lowResolution);
+
+        // Flip the buffer.
+        buffer.rewind();
+        buffer.limit(buffer.capacity());
+
+        HullCollisionShape result = new HullCollisionShape(buffer);
+        result.setMargin(hullMargin);
+
+        return result;
     }
 
     /**
