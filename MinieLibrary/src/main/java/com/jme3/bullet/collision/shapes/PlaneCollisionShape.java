@@ -112,7 +112,7 @@ public class PlaneCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        plane = cloner.clone(plane);
+        this.plane = cloner.clone(plane);
         createShape();
     }
 
@@ -153,7 +153,8 @@ public class PlaneCollisionShape extends CollisionShape {
         super.read(importer);
 
         InputCapsule capsule = importer.getCapsule(this);
-        plane = (Plane) capsule.readSavable(tagCollisionPlane, new Plane());
+        this.plane
+                = (Plane) capsule.readSavable(tagCollisionPlane, new Plane());
         createShape();
     }
 

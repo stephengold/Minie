@@ -107,7 +107,7 @@ public class MeshCollisionShape extends CollisionShape {
     public MeshCollisionShape(
             boolean useCompression, Collection<IndexedMesh> meshes) {
         Validate.nonEmpty(meshes, "meshes");
-        nativeMesh = new CompoundMesh();
+        this.nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : meshes) {
             nativeMesh.add(submesh);
         }
@@ -128,7 +128,7 @@ public class MeshCollisionShape extends CollisionShape {
     public MeshCollisionShape(boolean useCompression,
             IndexedMesh... submeshes) {
         Validate.nonEmpty(submeshes, "submeshes");
-        nativeMesh = new CompoundMesh();
+        this.nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
@@ -150,15 +150,15 @@ public class MeshCollisionShape extends CollisionShape {
     public MeshCollisionShape(byte[] bvhBytes, IndexedMesh... submeshes) {
         Validate.nonNull(bvhBytes, "BVH data");
         Validate.nonEmpty(submeshes, "submeshes");
-        nativeMesh = new CompoundMesh();
+        this.nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
         Validate.require(nativeMesh.countTriangles() > 0,
                 "at least one triangle");
 
-        useCompression = true;
-        bvh = new BoundingValueHierarchy(bvhBytes);
+        this.useCompression = true;
+        this.bvh = new BoundingValueHierarchy(bvhBytes);
         createShape();
     }
 
@@ -171,11 +171,11 @@ public class MeshCollisionShape extends CollisionShape {
      */
     public MeshCollisionShape(Mesh... jmeMeshes) {
         Validate.nonEmpty(jmeMeshes, "JME meshes");
-        nativeMesh = new CompoundMesh(jmeMeshes);
+        this.nativeMesh = new CompoundMesh(jmeMeshes);
         Validate.require(nativeMesh.countTriangles() > 0,
                 "at least one triangle");
 
-        useCompression = true;
+        this.useCompression = true;
         createShape();
     }
 
@@ -188,7 +188,7 @@ public class MeshCollisionShape extends CollisionShape {
      */
     public MeshCollisionShape(Mesh mesh, boolean useCompression) {
         Validate.nonNull(mesh, "mesh");
-        nativeMesh = new CompoundMesh(mesh);
+        this.nativeMesh = new CompoundMesh(mesh);
         Validate.require(nativeMesh.countTriangles() > 0,
                 "at least one triangle");
 
@@ -243,8 +243,8 @@ public class MeshCollisionShape extends CollisionShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        nativeMesh = cloner.clone(nativeMesh);
-        bvh = cloner.clone(bvh);
+        this.nativeMesh = cloner.clone(nativeMesh);
+        this.bvh = cloner.clone(bvh);
         createShape();
     }
 
@@ -278,13 +278,15 @@ public class MeshCollisionShape extends CollisionShape {
         Platform writePlatform
                 = capsule.readEnum(tagNativePlatform, Platform.class, null);
         if (writePlatform == null || writePlatform != JmeSystem.getPlatform()) {
-            bvh = null; // will re-generate the BVH for the new platform
+            this.bvh = null; // will re-generate the BVH for the new platform
         } else {
-            bvh = (BoundingValueHierarchy) capsule.readSavable(tagBvh, null);
+            this.bvh = (BoundingValueHierarchy) capsule.readSavable(
+                    tagBvh, null);
         }
 
-        nativeMesh = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
-        useCompression = capsule.readBoolean(tagUseCompression, true);
+        this.nativeMesh
+                = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
+        this.useCompression = capsule.readBoolean(tagUseCompression, true);
 
         createShape();
     }

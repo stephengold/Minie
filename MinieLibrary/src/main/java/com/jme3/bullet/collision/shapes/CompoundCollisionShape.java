@@ -95,7 +95,7 @@ public class CompoundCollisionShape extends CollisionShape {
      * dynamic AABB, and no children).
      */
     public CompoundCollisionShape() {
-        children = new ArrayList<>(defaultCapacity);
+        this.children = new ArrayList<>(defaultCapacity);
         createEmpty(defaultCapacity);
     }
 
@@ -109,7 +109,7 @@ public class CompoundCollisionShape extends CollisionShape {
     public CompoundCollisionShape(int initialCapacity) {
         Validate.positive(initialCapacity, "initial capacity");
 
-        children = new ArrayList<>(initialCapacity);
+        this.children = new ArrayList<>(initialCapacity);
         createEmpty(initialCapacity);
     }
     // *************************************************************************
@@ -426,7 +426,7 @@ public class CompoundCollisionShape extends CollisionShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        children = cloner.clone(children);
+        this.children = cloner.clone(children);
         createEmpty(children.size());
         loadChildren();
     }
@@ -485,7 +485,7 @@ public class CompoundCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        children = capsule.readSavableArrayList(tagChildren, null);
+        this.children = capsule.readSavableArrayList(tagChildren, null);
         loadChildren();
 
         setContactFilterEnabled(enableContactFilter);

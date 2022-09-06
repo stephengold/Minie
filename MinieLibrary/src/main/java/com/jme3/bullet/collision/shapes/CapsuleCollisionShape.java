@@ -257,9 +257,9 @@ public class CapsuleCollisionShape extends ConvexShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        radius = capsule.readFloat(tagRadius, 0.5f);
-        height = capsule.readFloat(tagHeight, 1f);
-        axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
+        this.radius = capsule.readFloat(tagRadius, 0.5f);
+        this.height = capsule.readFloat(tagHeight, 1f);
+        this.axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
     }
 
@@ -348,7 +348,7 @@ public class CapsuleCollisionShape extends ConvexShape {
 
         setContactFilterEnabled(enableContactFilter);
         setScale(scale);
-        margin = 0f;
+        this.margin = 0f;
     }
     // *************************************************************************
     // native private methods

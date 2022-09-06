@@ -145,7 +145,7 @@ public class Convex2dShape extends ConvexShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        base = cloner.clone(base);
+        this.base = cloner.clone(base);
         createShape();
     }
 
@@ -176,7 +176,7 @@ public class Convex2dShape extends ConvexShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        base = (ConvexShape) capsule.readSavable(tagBase, null);
+        this.base = (ConvexShape) capsule.readSavable(tagBase, null);
         createShape();
     }
 

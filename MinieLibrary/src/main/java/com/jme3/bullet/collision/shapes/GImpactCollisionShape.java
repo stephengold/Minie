@@ -83,7 +83,7 @@ public class GImpactCollisionShape extends CollisionShape {
      * @param submeshes the mesh(es) on which to base the shape (not null)
      */
     public GImpactCollisionShape(IndexedMesh... submeshes) {
-        nativeMesh = new CompoundMesh();
+        this.nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
@@ -97,7 +97,7 @@ public class GImpactCollisionShape extends CollisionShape {
      * unaffected)
      */
     public GImpactCollisionShape(Mesh... jmeMeshes) {
-        nativeMesh = new CompoundMesh(jmeMeshes);
+        this.nativeMesh = new CompoundMesh(jmeMeshes);
         createShape();
     }
     // *************************************************************************
@@ -128,7 +128,7 @@ public class GImpactCollisionShape extends CollisionShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        nativeMesh = cloner.clone(nativeMesh);
+        this.nativeMesh = cloner.clone(nativeMesh);
         createShape();
     }
 
@@ -158,7 +158,8 @@ public class GImpactCollisionShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        nativeMesh = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
+        this.nativeMesh
+                = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
         createShape();
     }
 

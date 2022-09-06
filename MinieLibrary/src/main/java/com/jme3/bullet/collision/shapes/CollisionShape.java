@@ -508,7 +508,7 @@ abstract public class CollisionShape
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        scale = cloner.clone(scale);
+        this.scale = cloner.clone(scale);
         unassignNativeObject();
         // subclass must create the btCollisionShape and invoke setNativeId()
     }
@@ -541,11 +541,11 @@ abstract public class CollisionShape
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        enableContactFilter
+        this.enableContactFilter
                 = capsule.readBoolean(tagEnableContactFilter, false);
         Savable s = capsule.readSavable(tagScale, new Vector3f(1f, 1f, 1f));
         scale.set((Vector3f) s);
-        margin = capsule.readFloat(tagMargin, 0.04f);
+        this.margin = capsule.readFloat(tagMargin, 0.04f);
         // subclass must create the btCollisionShape and
         // apply contact-filter enable, margin, and scale
     }

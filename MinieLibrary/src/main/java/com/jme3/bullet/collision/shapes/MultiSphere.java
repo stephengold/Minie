@@ -101,7 +101,7 @@ public class MultiSphere extends ConvexShape {
     public MultiSphere(float radius) {
         Validate.nonNegative(radius, "radius");
 
-        centers = new Vector3f[1];
+        this.centers = new Vector3f[1];
         centers[0] = new Vector3f(0f, 0f, 0f);
 
         radii = new float[1];
@@ -123,8 +123,7 @@ public class MultiSphere extends ConvexShape {
         Validate.nonNegative(height, "height");
 
         float halfHeight = height / 2f;
-
-        centers = new Vector3f[2];
+        this.centers = new Vector3f[2];
         centers[0] = new Vector3f(0f, halfHeight, 0f);
         centers[1] = new Vector3f(0f, -halfHeight, 0f);
 
@@ -151,7 +150,7 @@ public class MultiSphere extends ConvexShape {
 
         float halfHeight = height / 2f;
 
-        centers = new Vector3f[2];
+        this.centers = new Vector3f[2];
         switch (axisIndex) {
             case PhysicsSpace.AXIS_X:
                 centers[0] = new Vector3f(halfHeight, 0f, 0f);
@@ -183,10 +182,10 @@ public class MultiSphere extends ConvexShape {
      * @param boundingSphere (not null, unaffected)
      */
     public MultiSphere(BoundingSphere boundingSphere) {
-        centers = new Vector3f[1];
+        this.centers = new Vector3f[1];
         centers[0] = boundingSphere.getCenter().clone();
 
-        radii = new float[1];
+        this.radii = new float[1];
         radii[0] = boundingSphere.getRadius();
 
         createShape();
@@ -329,10 +328,10 @@ public class MultiSphere extends ConvexShape {
         Validate.finite(center, "center");
         Validate.nonNegative(radius, "radius");
 
-        centers = new Vector3f[1];
+        this.centers = new Vector3f[1];
         centers[0] = center.clone();
 
-        radii = new float[1];
+        this.radii = new float[1];
         radii[0] = radius;
 
         createShape();
@@ -453,8 +452,8 @@ public class MultiSphere extends ConvexShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        radii = cloner.clone(radii);
-        centers = cloner.clone(centers);
+        this.radii = cloner.clone(radii);
+        this.centers = cloner.clone(centers);
         createShape();
     }
 
@@ -488,11 +487,11 @@ public class MultiSphere extends ConvexShape {
         Savable[] savCenters
                 = capsule.readSavableArray(tagCenters, new Vector3f[0]);
         int numSpheres = savCenters.length;
-        centers = new Vector3f[numSpheres];
+        this.centers = new Vector3f[numSpheres];
         for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
             centers[sphereIndex] = (Vector3f) savCenters[sphereIndex];
         }
-        radii = capsule.readFloatArray(tagRadii, new float[0]);
+        this.radii = capsule.readFloatArray(tagRadii, new float[0]);
         createShape();
     }
 

@@ -100,7 +100,7 @@ public class CylinderCollisionShape extends ConvexShape {
         Validate.nonNegative(height, "height");
         Validate.axisIndex(axisIndex, "axis index");
 
-        axis = axisIndex;
+        this.axis = axisIndex;
         halfExtents.set(radius, radius, radius);
         halfExtents.set(axisIndex, height / 2f);
         createShape();
@@ -127,7 +127,7 @@ public class CylinderCollisionShape extends ConvexShape {
                 buffer.capacity());
         Validate.axisIndex(axisIndex, "axis index");
 
-        axis = axisIndex;
+        this.axis = axisIndex;
         MyBuffer.maxAbs(buffer, startPosition, endPosition, halfExtents);
         float halfHeight = halfExtents.get(axisIndex);
 
@@ -148,7 +148,7 @@ public class CylinderCollisionShape extends ConvexShape {
         Validate.nonNegative(halfExtents, "half extents");
 
         this.halfExtents.set(halfExtents);
-        axis = PhysicsSpace.AXIS_Z;
+        this.axis = PhysicsSpace.AXIS_Z;
         createShape();
     }
 
@@ -261,7 +261,7 @@ public class CylinderCollisionShape extends ConvexShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        halfExtents = cloner.clone(halfExtents);
+        this.halfExtents = cloner.clone(halfExtents);
         createShape();
     }
 
@@ -330,7 +330,7 @@ public class CylinderCollisionShape extends ConvexShape {
         Vector3f he = (Vector3f) capsule.readSavable(tagHalfExtents,
                 new Vector3f(0.5f, 0.5f, 0.5f));
         halfExtents.set(he);
-        axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
+        this.axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
     }
 

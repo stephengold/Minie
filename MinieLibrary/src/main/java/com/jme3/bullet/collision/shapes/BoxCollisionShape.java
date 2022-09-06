@@ -195,7 +195,7 @@ public class BoxCollisionShape extends ConvexShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        halfExtents = cloner.clone(halfExtents);
+        this.halfExtents = cloner.clone(halfExtents);
         createShape();
     }
 

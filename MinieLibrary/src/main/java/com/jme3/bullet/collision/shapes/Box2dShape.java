@@ -91,8 +91,8 @@ public class Box2dShape extends ConvexShape {
     public Box2dShape(float halfExtent) {
         Validate.nonNegative(halfExtent, "half extent");
 
-        halfExtentX = halfExtent;
-        halfExtentY = halfExtent;
+        this.halfExtentX = halfExtent;
+        this.halfExtentY = halfExtent;
         createShape();
     }
 
@@ -108,8 +108,8 @@ public class Box2dShape extends ConvexShape {
         Validate.nonNegative(xHalfExtent, "half extent on X");
         Validate.nonNegative(yHalfExtent, "half extent on Y");
 
-        halfExtentX = xHalfExtent;
-        halfExtentY = yHalfExtent;
+        this.halfExtentX = xHalfExtent;
+        this.halfExtentY = yHalfExtent;
         createShape();
     }
 
@@ -122,8 +122,8 @@ public class Box2dShape extends ConvexShape {
     public Box2dShape(Vector2f halfExtents) {
         Validate.nonNegative(halfExtents, "half extents");
 
-        halfExtentX = halfExtents.x;
-        halfExtentY = halfExtents.y;
+        this.halfExtentX = halfExtents.x;
+        this.halfExtentY = halfExtents.y;
         createShape();
     }
 
@@ -136,8 +136,8 @@ public class Box2dShape extends ConvexShape {
     public Box2dShape(Vector3f halfExtents) {
         Validate.nonNegative(halfExtents, "half extents");
 
-        halfExtentX = halfExtents.x;
-        halfExtentY = halfExtents.y;
+        this.halfExtentX = halfExtents.x;
+        this.halfExtentY = halfExtents.y;
         createShape();
     }
     // *************************************************************************
@@ -215,8 +215,8 @@ public class Box2dShape extends ConvexShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        halfExtentX = capsule.readFloat(tagX, 1f);
-        halfExtentY = capsule.readFloat(tagY, 1f);
+        this.halfExtentX = capsule.readFloat(tagX, 1f);
+        this.halfExtentY = capsule.readFloat(tagY, 1f);
         createShape();
     }
 

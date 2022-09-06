@@ -243,9 +243,9 @@ public class ConeCollisionShape extends ConvexShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        radius = capsule.readFloat(tagRadius, 0.5f);
-        height = capsule.readFloat(tagHeight, 0.5f);
-        axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
+        this.radius = capsule.readFloat(tagRadius, 0.5f);
+        this.height = capsule.readFloat(tagHeight, 0.5f);
+        this.axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
     }
 

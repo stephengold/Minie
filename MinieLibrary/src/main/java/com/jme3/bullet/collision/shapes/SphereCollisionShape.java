@@ -101,7 +101,7 @@ public class SphereCollisionShape extends ConvexShape {
         Validate.inRange(endPosition, "end position", startPosition,
                 buffer.capacity());
 
-        radius = MyBuffer.maxLength(buffer, startPosition, endPosition);
+        this.radius = MyBuffer.maxLength(buffer, startPosition, endPosition);
         createShape();
     }
 
@@ -220,7 +220,7 @@ public class SphereCollisionShape extends ConvexShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        radius = capsule.readFloat(tagRadius, 0.5f);
+        this.radius = capsule.readFloat(tagRadius, 0.5f);
         createShape();
     }
 
@@ -299,7 +299,7 @@ public class SphereCollisionShape extends ConvexShape {
 
         setContactFilterEnabled(enableContactFilter);
         setScale(scale);
-        margin = 0f;
+        this.margin = 0f;
     }
     // *************************************************************************
     // native private methods
