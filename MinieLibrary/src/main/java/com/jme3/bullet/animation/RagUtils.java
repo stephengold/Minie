@@ -54,10 +54,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.UserData;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.control.AbstractControl;
-import com.jme3.scene.control.Control;
-import com.jme3.util.SafeArrayList;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -307,43 +304,6 @@ final public class RagUtils {
                             start, neighbor, newRemainingHops, visited);
                 }
             }
-        }
-    }
-
-    /**
-     * Add the specified Control at the specified position in the
-     * {@code controls} list of the specified Spatial. TODO use MyControl
-     *
-     * @param spatial the Spatial to add to (not null, modified)
-     * @param index the index at which to add the Control (&ge;0)
-     * @param control the Control to add (not null)
-     */
-    @SuppressWarnings("unchecked")
-    static void insertAt(Spatial spatial, int index, Control control) {
-        int numSgcs = spatial.getNumControls();
-        Validate.inRange(index, "index", 0, numSgcs);
-        Validate.nonNull(control, "control");
-
-        Field controlsField;
-        try {
-            controlsField = Spatial.class.getDeclaredField("controls");
-        } catch (NoSuchFieldException exception) {
-            throw new RuntimeException(exception);
-        }
-        controlsField.setAccessible(true);
-        SafeArrayList<Control> controlsList;
-        try {
-            controlsList = (SafeArrayList<Control>) controlsField.get(spatial);
-        } catch (IllegalAccessException exception) {
-            throw new RuntimeException(exception);
-        }
-
-        spatial.addControl(control); // performs all the necessary bookkeeping
-
-        if (index != numSgcs) { // re-arrange the list directly
-            boolean success = controlsList.remove(control);
-            assert success;
-            controlsList.add(index, control);
         }
     }
 
