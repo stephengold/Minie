@@ -160,27 +160,33 @@ loadScripts(document, 'script');</script>
  BoundingSphere.</div>
 </div>
 <div class="col-first odd-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,float)" class="member-name-link">MultiSphere</a><wbr>(com.jme3.math.Vector3f&nbsp;center,
- float&nbsp;radius)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f%5B%5D,float%5B%5D)" class="member-name-link">MultiSphere</a><wbr>(com.jme3.math.Vector3f[]&nbsp;centers,
+ float[]&nbsp;radii)</code></div>
 <div class="col-last odd-row-color">
+<div class="block">Instantiate a multi-sphere shape with the specified centers and radii.</div>
+</div>
+<div class="col-first even-row-color"><code>&nbsp;</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,float)" class="member-name-link">MultiSphere</a><wbr>(com.jme3.math.Vector3f&nbsp;center,
+ float&nbsp;radius)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Instantiate an eccentric sphere shape with the specified center and
  radius.</div>
 </div>
-<div class="col-first even-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.List,java.util.List)" class="member-name-link">MultiSphere</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;com.jme3.math.Vector3f&gt;&nbsp;centers,
+<div class="col-first odd-row-color"><code>&nbsp;</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.util.List,java.util.List)" class="member-name-link">MultiSphere</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;com.jme3.math.Vector3f&gt;&nbsp;centers,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Float.html" title="class or interface in java.lang" class="external-link">Float</a>&gt;&nbsp;radii)</code></div>
-<div class="col-last even-row-color">
+<div class="col-last odd-row-color">
 <div class="block">Instantiate a multi-sphere shape with the specified centers and radii.</div>
 </div>
-<div class="col-first odd-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(jme3utilities.math.RectangularSolid)" class="member-name-link">MultiSphere</a><wbr>(jme3utilities.math.RectangularSolid&nbsp;rectangularSolid)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>&nbsp;</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(jme3utilities.math.RectangularSolid)" class="member-name-link">MultiSphere</a><wbr>(jme3utilities.math.RectangularSolid&nbsp;rectangularSolid)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Instantiate a 4-sphere shape to fill the specified RectangularSolid.</div>
 </div>
-<div class="col-first even-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(jme3utilities.math.RectangularSolid,float)" class="member-name-link">MultiSphere</a><wbr>(jme3utilities.math.RectangularSolid&nbsp;rectangularSolid,
+<div class="col-first odd-row-color"><code>&nbsp;</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(jme3utilities.math.RectangularSolid,float)" class="member-name-link">MultiSphere</a><wbr>(jme3utilities.math.RectangularSolid&nbsp;rectangularSolid,
  float&nbsp;fraction)</code></div>
-<div class="col-last even-row-color">
+<div class="col-last odd-row-color">
 <div class="block">Instantiate a 2-sphere shape to approximate the specified
  RectangularSolid.</div>
 </div>
@@ -210,7 +216,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyCenter(int,com.jme3.math.Vector3f)" class="member-name-link">copyCenter</a><wbr>(int&nbsp;sphereIndex,
  com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the offset of the center of the indexed sphere.</div>
+<div class="block">Copy the location of the center of the indexed sphere.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countSpheres()" class="member-name-link">countSpheres</a>()</code></div>
@@ -407,6 +413,21 @@ loadScripts(document, 'script');</script>
 </dl>
 </section>
 </li>
+<li>
+<section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f[],float[])">
+<h3>MultiSphere</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MultiSphere</span><wbr><span class="parameters">(com.jme3.math.Vector3f[]&nbsp;centers,
+ float[]&nbsp;radii)</span></div>
+<div class="block">Instantiate a multi-sphere shape with the specified centers and radii.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>centers</code> - the array of center locations (in shape coordinates, not
+ null, not empty)</dd>
+<dd><code>radii</code> - the array of radii (in shape units, not null, not empty,
+ each &ge;0)</dd>
+</dl>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -420,14 +441,14 @@ loadScripts(document, 'script');</script>
 <h3>copyCenter</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">copyCenter</span><wbr><span class="parameters">(int&nbsp;sphereIndex,
  com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Copy the offset of the center of the indexed sphere.</div>
+<div class="block">Copy the location of the center of the indexed sphere.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>sphereIndex</code> - which sphere to read (&ge;0)</dd>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>the center offset (either storeResult or a new instance, not
- null)</dd>
+<dd>the center location (in shape coordinates, either
+ <code>storeResult</code> or a new instance, not null)</dd>
 </dl>
 </section>
 </li>
