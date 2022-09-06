@@ -103,9 +103,7 @@ public class MultiSphere extends ConvexShape {
 
         this.centers = new Vector3f[1];
         centers[0] = new Vector3f(0f, 0f, 0f);
-
-        radii = new float[1];
-        radii[0] = radius;
+        this.radii = new float[]{radius};
 
         createShape();
     }
@@ -127,9 +125,7 @@ public class MultiSphere extends ConvexShape {
         centers[0] = new Vector3f(0f, halfHeight, 0f);
         centers[1] = new Vector3f(0f, -halfHeight, 0f);
 
-        radii = new float[2];
-        radii[0] = radius;
-        radii[1] = radius;
+        this.radii = new float[]{radius, radius};
 
         createShape();
     }
@@ -168,9 +164,7 @@ public class MultiSphere extends ConvexShape {
                 throw new IllegalArgumentException("axisIndex = " + axisIndex);
         }
 
-        radii = new float[2];
-        radii[0] = radius;
-        radii[1] = radius;
+        this.radii = new float[]{radius, radius};
 
         createShape();
     }
@@ -254,15 +248,13 @@ public class MultiSphere extends ConvexShape {
             centerLocations.add(new Vector3f(min.x, max.y, z));
             centerLocations.add(new Vector3f(min.x, min.y, z));
         }
-        /*
-         * Transform centers to shape coordinates.
-         */
-        centers = new Vector3f[4];
-        radii = new float[4];
+
+        // Transform centers to shape coordinates.
+        this.centers = new Vector3f[4];
+        this.radii = new float[]{radius, radius, radius, radius};
         for (int sphereI = 0; sphereI < 4; ++sphereI) {
             Vector3f localCenter = centerLocations.get(sphereI);
             centers[sphereI] = rectangularSolid.localToWorld(localCenter, null);
-            radii[sphereI] = radius;
         }
 
         createShape();
@@ -304,15 +296,13 @@ public class MultiSphere extends ConvexShape {
             centerLocations.add(new Vector3f(min.x + radius, mid.y, mid.z));
             centerLocations.add(new Vector3f(max.x - radius, mid.y, mid.z));
         }
-        /*
-         * Transform centers to shape coordinates.
-         */
-        centers = new Vector3f[2];
-        radii = new float[2];
+
+        // Transform centers to shape coordinates.
+        this.centers = new Vector3f[2];
+        this.radii = new float[]{radius, radius};
         for (int sphereI = 0; sphereI < 2; ++sphereI) {
             Vector3f localCenter = centerLocations.get(sphereI);
             centers[sphereI] = rectangularSolid.localToWorld(localCenter, null);
-            radii[sphereI] = radius;
         }
 
         createShape();
