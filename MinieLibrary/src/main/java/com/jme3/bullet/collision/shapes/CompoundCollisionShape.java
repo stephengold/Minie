@@ -565,9 +565,13 @@ public class CompoundCollisionShape extends CollisionShape {
     private void loadChildren() {
         long parentId = nativeId();
 
+        Matrix3f tmpMatrix = new Matrix3f();
+        Vector3f tmpOffset = new Vector3f();
         for (ChildCollisionShape child : children) {
-            addChildShape(parentId, child.getShape().nativeId(),
-                    child.copyOffset(null), child.copyRotationMatrix(null));
+            long baseShapeId = child.getShape().nativeId();
+            child.copyOffset(tmpOffset);
+            child.copyRotationMatrix(tmpMatrix);
+            addChildShape(parentId, baseShapeId, tmpOffset, tmpMatrix);
         }
     }
     // *************************************************************************
