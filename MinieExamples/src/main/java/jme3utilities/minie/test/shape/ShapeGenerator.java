@@ -109,28 +109,31 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
-     * Generate a Y-axis cone shape.
+     * Generate a cone shape.
      *
      * @return a new shape (not null)
      */
     public ConeCollisionShape nextCone() {
         float baseRadius = nextFloat(0.5f, 1.5f);
         float height = nextFloat(0.5f, 2.5f);
-        ConeCollisionShape result = new ConeCollisionShape(baseRadius, height);
+        int axisIndex = nextInt(3);
+        ConeCollisionShape result
+                = new ConeCollisionShape(baseRadius, height, axisIndex);
 
         return result;
     }
 
     /**
-     * Generate a Z-axis cylinder shape.
+     * Generate a cylinder shape.
      *
      * @return a new shape (not null)
      */
     public CylinderCollisionShape nextCylinder() {
         float baseRadius = nextFloat(0.5f, 1.5f);
-        float halfHeight = nextFloat(0.5f, 2f);
-        Vector3f halfExtents = new Vector3f(baseRadius, baseRadius, halfHeight);
-        CylinderCollisionShape result = new CylinderCollisionShape(halfExtents);
+        float height = nextFloat(1f, 4f);
+        int axisIndex = nextInt(3);
+        CylinderCollisionShape result
+                = new CylinderCollisionShape(baseRadius, height, axisIndex);
 
         return result;
     }
