@@ -52,7 +52,6 @@ import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Triangle;
@@ -653,15 +652,10 @@ public class SplitDemo
      * world coordinates, not null, unaffected)
      */
     private void splitBody(PhysicsRigidBody oldBody, Triangle worldTriangle) {
-        // Transform the triangle to the descaled shape coordinate system.
+        // Transform the triangle to the shape coordinate system.
         Transform shapeToWorld = oldBody.getTransform(null);
-        Vector3f w1 = worldTriangle.get1(); // alias
-        Vector3f s1 = shapeToWorld.transformInverseVector(w1, null);
-        Vector3f w2 = worldTriangle.get2(); // alias
-        Vector3f s2 = shapeToWorld.transformInverseVector(w2, null);
-        Vector3f w3 = worldTriangle.get3(); // alias
-        Vector3f s3 = shapeToWorld.transformInverseVector(w3, null);
-        Triangle shapeTriangle = new Triangle(s1, s2, s3);
+        Triangle shapeTriangle
+                = MyMath.transformInverse(shapeToWorld, worldTriangle, null);
 
         CollisionShape oldShape = oldBody.getCollisionShape();
         if (oldShape instanceof ConvexShape
