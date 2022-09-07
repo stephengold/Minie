@@ -101,8 +101,9 @@ public class ShapeGenerator extends Generator {
     public CapsuleCollisionShape nextCapsule() {
         float radius = nextFloat(0.2f, 1.2f);
         float height = nextFloat(0.5f, 1.5f);
+        int axis = nextInt(3);
         CapsuleCollisionShape result
-                = new CapsuleCollisionShape(radius, height);
+                = new CapsuleCollisionShape(radius, height, axis);
 
         return result;
     }
