@@ -87,9 +87,17 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CapsuleCollisionShape</span>
 <span class="extends-implements">extends <a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></span></div>
-<div class="block">A capsule CollisionShape based on Bullet's btCapsuleShapeX, btCapsuleShape,
- or btCapsuleShapeZ. These shapes have no margin and can only be scaled
- uniformly.</div>
+<div class="block">A capsule collision shape based on Bullet's <code>btCapsuleShapeX</code>,
+ <code>btCapsuleShape</code>, or <code>btCapsuleShapeZ</code>. These shapes have no
+ margin and can only be scaled uniformly.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="MultiSphere.html" title="class in com.jme3.bullet.collision.shapes"><code>MultiSphere</code></a></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -176,22 +184,22 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAxis()" class="member-name-link">getAxis</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the main (height) axis of the capsule.</div>
+<div class="block">Return the main (height) axis of the capsule.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the height of the cylindrical portion.</div>
+<div class="block">Return the height of the cylindrical portion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMargin()" class="member-name-link">getMargin</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Determine the collision margin for this shape.</div>
+<div class="block">Return the collision margin for this shape.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRadius()" class="member-name-link">getRadius</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the radius of the capsule.</div>
+<div class="block">Return the radius of the capsule.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CapsuleCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CapsuleCollisionShape</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -217,12 +225,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toHullShape()" class="member-name-link">toHullShape</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Approximate this shape using a <code>HullCollisionShape</code>.</div>
+<div class="block">Approximate this shape with a HullCollisionShape.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unscaledVolume()" class="member-name-link">unscaledVolume</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Calculate the unscaled volume of the capsule.</div>
+<div class="block">Return the unscaled volume of the capsule.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -286,9 +294,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a Y-axis capsule shape with the specified radius and height.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
-<dd><code>height</code> - the desired unscaled height of the cylindrical portion
- (&ge;0)</dd>
+<dd><code>radius</code> - the desired radius (in shape units, &ge;0)</dd>
+<dd><code>height</code> - the desired height of the cylindrical portion (in shape
+ units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -301,9 +309,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a capsule shape around the specified main (height) axis.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
-<dd><code>height</code> - the desired unscaled height of the cylindrical portion
- (&ge;0)</dd>
+<dd><code>radius</code> - the desired radius (in shape units, &ge;0)</dd>
+<dd><code>height</code> - the desired height of the cylindrical portion (in shape
+ units, &ge;0)</dd>
 <dd><code>axisIndex</code> - which local axis to use for the height: 0&rarr;X,
  1&rarr;Y, 2&rarr;Z</dd>
 </dl>
@@ -321,7 +329,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getAxis()">
 <h3>getAxis</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getAxis</span>()</div>
-<div class="block">Read the main (height) axis of the capsule.</div>
+<div class="block">Return the main (height) axis of the capsule.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z</dd>
@@ -332,10 +340,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getHeight()">
 <h3>getHeight</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getHeight</span>()</div>
-<div class="block">Read the height of the cylindrical portion.</div>
+<div class="block">Return the height of the cylindrical portion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the unscaled height (&ge;0)</dd>
+<dd>the unscaled height (in shape units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -343,10 +351,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getRadius()">
 <h3>getRadius</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getRadius</span>()</div>
-<div class="block">Read the radius of the capsule.</div>
+<div class="block">Return the radius of the capsule.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the unscaled radius (&ge;0)</dd>
+<dd>the unscaled radius (in shape units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -354,10 +362,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="unscaledVolume()">
 <h3>unscaledVolume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">unscaledVolume</span>()</div>
-<div class="block">Calculate the unscaled volume of the capsule.</div>
+<div class="block">Return the unscaled volume of the capsule.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the volume (&ge;0)</dd>
+<dd>the volume (in shape units cubed, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -402,7 +410,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getMargin()">
 <h3>getMargin</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getMargin</span>()</div>
-<div class="block">Determine the collision margin for this shape.</div>
+<div class="block">Return the collision margin for this shape.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#getMargin()">getMargin</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
@@ -476,7 +484,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toHullShape()">
 <h3>toHullShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></span>&nbsp;<span class="element-name">toHullShape</span>()</div>
-<div class="block">Approximate this shape using a <code>HullCollisionShape</code>.</div>
+<div class="block">Approximate this shape with a HullCollisionShape.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="ConvexShape.html#toHullShape()">toHullShape</a></code>&nbsp;in class&nbsp;<code><a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></code></dd>

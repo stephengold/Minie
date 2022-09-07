@@ -87,8 +87,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CylinderCollisionShape</span>
 <span class="extends-implements">extends <a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></span></div>
-<div class="block">A cylindrical CollisionShape based on Bullet's btCylinderShapeX,
- btCylinderShape, or btCylinderShapeZ.</div>
+<div class="block">A cylindrical collision shape based on Bullet's <code>btCylinderShapeX</code>,
+ <code>btCylinderShape</code>, or <code>btCylinderShapeZ</code>.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -189,7 +189,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAxis()" class="member-name-link">getAxis</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the main (height) axis of the cylinder.</div>
+<div class="block">Return the main (height) axis of the cylinder.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHalfExtents(com.jme3.math.Vector3f)" class="member-name-link">getHalfExtents</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -199,7 +199,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Determine the height of the cylinder.</div>
+<div class="block">Return the height of the cylinder.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CylinderCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CylinderCollisionShape</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -225,7 +225,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unscaledVolume()" class="member-name-link">unscaledVolume</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Calculate the unscaled volume of the cylinder.</div>
+<div class="block">Return the unscaled volume of the cylinder.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -293,7 +293,7 @@ loadScripts(document, 'script');</script>
 <dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
 <dd><code>height</code> - the desired unscaled height (&ge;0)</dd>
 <dd><code>axisIndex</code> - which local axis to use for the height: 0&rarr;X,
- 1&rarr;Y, 2&rarr;Z</dd>
+ 1&rarr;Y, 2&rarr;Z (default=2)</dd>
 </dl>
 </section>
 </li>
@@ -358,7 +358,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getAxis()">
 <h3>getAxis</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getAxis</span>()</div>
-<div class="block">Read the main (height) axis of the cylinder.</div>
+<div class="block">Return the main (height) axis of the cylinder.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z</dd>
@@ -383,7 +383,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getHeight()">
 <h3>getHeight</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getHeight</span>()</div>
-<div class="block">Determine the height of the cylinder.</div>
+<div class="block">Return the height of the cylinder.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the unscaled height (&ge;0)</dd>
@@ -394,7 +394,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="unscaledVolume()">
 <h3>unscaledVolume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">unscaledVolume</span>()</div>
-<div class="block">Calculate the unscaled volume of the cylinder.</div>
+<div class="block">Return the unscaled volume of the cylinder.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the volume (&ge;0)</dd>

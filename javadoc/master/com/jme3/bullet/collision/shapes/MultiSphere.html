@@ -87,8 +87,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MultiSphere</span>
 <span class="extends-implements">extends <a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></span></div>
-<div class="block">A convex CollisionShape based on Bullet's btMultiSphereShape. Unlike a
- CapsuleCollisionShape or a SphereCollisionShape, these shapes have margins
+<div class="block">A convex collision shape based on Bullet's <code>btMultiSphereShape</code>. Unlike
+ a CapsuleCollisionShape or a SphereCollisionShape, these shapes have margins
  and can be scaled non-uniformly.</div>
 </section>
 <section class="summary">
@@ -226,7 +226,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRadius(int)" class="member-name-link">getRadius</a><wbr>(int&nbsp;sphereIndex)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the radius of the indexed sphere.</div>
+<div class="block">Return the radius of the indexed sphere.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="MultiSphere.html" title="class in com.jme3.bullet.collision.shapes">MultiSphere</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -252,7 +252,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toHullShape()" class="member-name-link">toHullShape</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Approximate this shape using a HullCollisionShape.</div>
+<div class="block">Approximate this shape with a HullCollisionShape.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -315,7 +315,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a centered sphere shape with the specified radius.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
+<dd><code>radius</code> - the desired radius (in shape units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -328,9 +328,9 @@ loadScripts(document, 'script');</script>
  height.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
-<dd><code>height</code> - the desired unscaled height of the cylindrical portion
- (&ge;0)</dd>
+<dd><code>radius</code> - the desired radius (in shape units, &ge;0)</dd>
+<dd><code>height</code> - the desired height of the cylindrical portion (in shape
+ units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -344,9 +344,9 @@ loadScripts(document, 'script');</script>
  and axis.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
-<dd><code>height</code> - the desired unscaled height of the cylindrical portion
- (&ge;0)</dd>
+<dd><code>radius</code> - the desired radius (in shape units, &ge;0)</dd>
+<dd><code>height</code> - the desired height of the cylindrical portion (in shape
+ units, &ge;0)</dd>
 <dd><code>axisIndex</code> - which local axis to use for the height: 0&rarr;X,
  1&rarr;Y, 2&rarr;Z</dd>
 </dl>
@@ -372,8 +372,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a multi-sphere shape with the specified centers and radii.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>centers</code> - the list of center offsets (not null, not empty)</dd>
-<dd><code>radii</code> - the list of radii (not null, not empty, each &ge;0)</dd>
+<dd><code>centers</code> - the list of center locations (in shape coordinates, not
+ null, not empty)</dd>
+<dd><code>radii</code> - the list of radii (in shape units, not null, not empty, each
+ &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -413,8 +415,9 @@ loadScripts(document, 'script');</script>
  radius.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>center</code> - the offset of the center (not null, unaffected)</dd>
-<dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
+<dd><code>center</code> - the location of the center (in shape coordinates, not null,
+ unaffected)</dd>
+<dd><code>radius</code> - the desired radius (in shape units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -472,7 +475,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getRadius(int)">
 <h3>getRadius</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getRadius</span><wbr><span class="parameters">(int&nbsp;sphereIndex)</span></div>
-<div class="block">Read the radius of the indexed sphere.</div>
+<div class="block">Return the radius of the indexed sphere.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>sphereIndex</code> - which sphere to read (&ge;0)</dd>
@@ -561,7 +564,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toHullShape()">
 <h3>toHullShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></span>&nbsp;<span class="element-name">toHullShape</span>()</div>
-<div class="block">Approximate this shape using a HullCollisionShape.</div>
+<div class="block">Approximate this shape with a HullCollisionShape.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="ConvexShape.html#toHullShape()">toHullShape</a></code>&nbsp;in class&nbsp;<code><a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></code></dd>

@@ -87,8 +87,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SphereCollisionShape</span>
 <span class="extends-implements">extends <a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></span></div>
-<div class="block">A spherical CollisionShape based on Bullet's btSphereShape. These shapes have
- no margin and can only be scaled uniformly.</div>
+<div class="block">A spherical collision shape based on Bullet's btSphereShape. These shapes
+ have no margin and can only be scaled uniformly.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -214,12 +214,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toHullShape()" class="member-name-link">toHullShape</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Approximate this shape using a <code>HullCollisionShape</code>.</div>
+<div class="block">Approximate this shape with a HullCollisionShape.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unscaledVolume()" class="member-name-link">unscaledVolume</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Calculate the unscaled volume of the sphere.</div>
+<div class="block">Return the unscaled volume of the sphere.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -301,7 +301,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a sphere shape with the specified radius.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
+<dd><code>radius</code> - the desired unscaled radius (in shape units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -328,10 +328,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="unscaledVolume()">
 <h3>unscaledVolume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">unscaledVolume</span>()</div>
-<div class="block">Calculate the unscaled volume of the sphere.</div>
+<div class="block">Return the unscaled volume of the sphere.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the volume (&ge;0)</dd>
+<dd>the volume (in shape units cubed, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -450,7 +450,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toHullShape()">
 <h3>toHullShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></span>&nbsp;<span class="element-name">toHullShape</span>()</div>
-<div class="block">Approximate this shape using a <code>HullCollisionShape</code>.</div>
+<div class="block">Approximate this shape with a HullCollisionShape.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="ConvexShape.html#toHullShape()">toHullShape</a></code>&nbsp;in class&nbsp;<code><a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></code></dd>

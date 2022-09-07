@@ -87,8 +87,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BoxCollisionShape</span>
 <span class="extends-implements">extends <a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></span></div>
-<div class="block">An axis-aligned, rectangular-solid CollisionShape based on Bullet's
- btBoxShape. For a rectangle, use Box2dShape.</div>
+<div class="block">An axis-aligned, rectangular-solid collision shape based on Bullet's
+ <code>btBoxShape</code>. For a rectangle, use Box2dShape.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -203,12 +203,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toHullShape()" class="member-name-link">toHullShape</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Approximate this shape using a <code>HullCollisionShape</code>.</div>
+<div class="block">Approximate this shape with a HullCollisionShape.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unscaledVolume()" class="member-name-link">unscaledVolume</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Calculate the unscaled volume of the box.</div>
+<div class="block">Return the unscaled volume of the box.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -271,8 +271,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a cube-shaped box with the specified half extent.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>halfExtent</code> - the desired unscaled half extent on each local axis
- (not negative)</dd>
+<dd><code>halfExtent</code> - the desired half extent on each local axis (in shape
+ units, not negative)</dd>
 </dl>
 </section>
 </li>
@@ -285,12 +285,12 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a box shape with the specified half extents.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>xHalfExtent</code> - the desired unscaled half extent on the local X axis
- (not negative)</dd>
-<dd><code>yHalfExtent</code> - the desired unscaled half extent on the local Y axis
- (not negative)</dd>
-<dd><code>zHalfExtent</code> - the desired unscaled half extent on the local Z axis
- (not negative)</dd>
+<dd><code>xHalfExtent</code> - the desired half extent on the local X axis (in shape
+ units, not negative)</dd>
+<dd><code>yHalfExtent</code> - the desired half extent on the local Y axis (in shape
+ units, not negative)</dd>
+<dd><code>zHalfExtent</code> - the desired half extent on the local Z axis (in shape
+ units, not negative)</dd>
 </dl>
 </section>
 </li>
@@ -320,7 +320,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a box shape with the specified half extents.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>halfExtents</code> - the desired unscaled half extents (not null, no
+<dd><code>halfExtents</code> - the desired half extents (in shape units, not null, no
  negative component, unaffected)</dd>
 </dl>
 </section>
@@ -351,10 +351,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="unscaledVolume()">
 <h3>unscaledVolume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">unscaledVolume</span>()</div>
-<div class="block">Calculate the unscaled volume of the box.</div>
+<div class="block">Return the unscaled volume of the box.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the volume (&ge;0)</dd>
+<dd>the volume (in shape units cubed, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -402,7 +402,7 @@ loadScripts(document, 'script');</script>
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#maxRadius()">maxRadius</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
 <dt>Returns:</dt>
-<dd>a distance (in physics-space units, &ge;0)</dd>
+<dd>the distance (in physics-space units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -429,7 +429,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toHullShape()">
 <h3>toHullShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></span>&nbsp;<span class="element-name">toHullShape</span>()</div>
-<div class="block">Approximate this shape using a <code>HullCollisionShape</code>.</div>
+<div class="block">Approximate this shape with a HullCollisionShape.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="ConvexShape.html#toHullShape()">toHullShape</a></code>&nbsp;in class&nbsp;<code><a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></code></dd>

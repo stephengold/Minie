@@ -87,8 +87,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ConeCollisionShape</span>
 <span class="extends-implements">extends <a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></span></div>
-<div class="block">A conical CollisionShape based on Bullet's btConeShapeX, btConeShape, or
- btConeShapeZ.</div>
+<div class="block">A conical collision shape based on Bullet's <code>btConeShapeX</code>,
+ <code>btConeShape</code>, or <code>btConeShapeZ</code>.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -175,17 +175,17 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAxis()" class="member-name-link">getAxis</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Determine the main (height) axis of the cone.</div>
+<div class="block">Return the main (height) axis of the cone.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the height of the cone.</div>
+<div class="block">Return the height of the cone.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRadius()" class="member-name-link">getRadius</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the radius of the cone's base.</div>
+<div class="block">Return the radius of the cone's base.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ConeCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">ConeCollisionShape</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -206,7 +206,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unscaledVolume()" class="member-name-link">unscaledVolume</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Calculate the unscaled volume of the cone.</div>
+<div class="block">Return the unscaled volume of the cone.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -303,7 +303,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getAxis()">
 <h3>getAxis</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getAxis</span>()</div>
-<div class="block">Determine the main (height) axis of the cone.</div>
+<div class="block">Return the main (height) axis of the cone.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z</dd>
@@ -314,7 +314,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getHeight()">
 <h3>getHeight</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getHeight</span>()</div>
-<div class="block">Read the height of the cone.</div>
+<div class="block">Return the height of the cone.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the unscaled height (&ge;0)</dd>
@@ -325,7 +325,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getRadius()">
 <h3>getRadius</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getRadius</span>()</div>
-<div class="block">Read the radius of the cone's base.</div>
+<div class="block">Return the radius of the cone's base.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the unscaled radius (&ge;0)</dd>
@@ -349,7 +349,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="unscaledVolume()">
 <h3>unscaledVolume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">unscaledVolume</span>()</div>
-<div class="block">Calculate the unscaled volume of the cone.</div>
+<div class="block">Return the unscaled volume of the cone.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the volume (&ge;0)</dd>
