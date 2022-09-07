@@ -240,9 +240,9 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        offset = cloner.clone(offset);
-        rotation = cloner.clone(rotation);
-        shape = cloner.clone(shape);
+        this.offset = cloner.clone(offset);
+        this.rotation = cloner.clone(rotation);
+        this.shape = cloner.clone(shape);
     }
 
     /**
@@ -273,10 +273,12 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        offset = (Vector3f) capsule.readSavable(tagOffset, new Vector3f());
-        rotation = (Matrix3f) capsule.readSavable(tagRotation, new Matrix3f());
-        shape = (CollisionShape) capsule.readSavable(tagShape,
-                new BoxCollisionShape(1f));
+        this.offset
+                = (Vector3f) capsule.readSavable(tagOffset, new Vector3f());
+        this.rotation
+                = (Matrix3f) capsule.readSavable(tagRotation, new Matrix3f());
+        this.shape = (CollisionShape) capsule
+                .readSavable(tagShape, new BoxCollisionShape(1f));
     }
 
     /**
