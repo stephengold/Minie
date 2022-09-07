@@ -322,6 +322,8 @@ public class SplitDemo
         dim.bind(asDumpSpace, KeyInput.KEY_O);
         dim.bind(asDumpViewport, KeyInput.KEY_P);
 
+        dim.bind("make splittable", KeyInput.KEY_TAB);
+
         dim.bind("next field", KeyInput.KEY_NUMPAD2);
         dim.bind("next value", KeyInput.KEY_EQUALS, KeyInput.KEY_NUMPAD6);
 
@@ -359,6 +361,10 @@ public class SplitDemo
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (ongoing) {
             switch (actionString) {
+                case "make splittable":
+                    makeSplittableAll();
+                    return;
+
                 case "next field":
                     status.advanceSelectedField(+1);
                     return;
@@ -545,6 +551,30 @@ public class SplitDemo
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.setGravity(Vector3f.ZERO);
+    }
+
+    /**
+     * Ensure that all rigid bodies in the PhysicsSpace have splittable shapes.
+     */
+    private void makeSplittableAll() {
+        PhysicsSpace space = getPhysicsSpace();
+        Collection<PhysicsCollisionObject> allPcos = space.getPcoList();
+        for (PhysicsCollisionObject pco : allPcos) {
+            PhysicsRigidBody body = (PhysicsRigidBody) pco;
+            makeSplittable(body);
+        }
+    }
+
+    /**
+     * Ensure that the specified rigid body has a splittable shape.
+     *
+     * @param body (not null)
+     */
+    private void makeSplittable(PhysicsRigidBody body) {
+        CollisionShape oldShape = body.getCollisionShape();
+        CollisionShape splittableShape = oldShape.toSplittableShape();
+        assert splittableShape.canSplit();
+        body.setCollisionShape(splittableShape);
     }
 
     /**
