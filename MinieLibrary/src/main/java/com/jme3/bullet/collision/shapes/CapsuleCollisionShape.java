@@ -289,7 +289,7 @@ public class CapsuleCollisionShape extends ConvexShape {
         if (effectiveRadius > defaultMargin) {
             // Use 42 vertices with the default margin.
             CapsuleCollisionShape shrunkenCapsule = new CapsuleCollisionShape(
-                    effectiveRadius - defaultMargin, height);
+                    effectiveRadius - defaultMargin, height, axis);
             FloatBuffer buffer = DebugShapeFactory.debugVertices(
                     shrunkenCapsule, DebugShapeFactory.lowResolution);
 
