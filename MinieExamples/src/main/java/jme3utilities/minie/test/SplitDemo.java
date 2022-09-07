@@ -35,7 +35,6 @@ import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
-import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.debug.BulletDebugAppState;
@@ -657,15 +656,12 @@ public class SplitDemo
         Triangle shapeTriangle
                 = MyMath.transformInverse(shapeToWorld, worldTriangle, null);
 
-        CollisionShape oldShape = oldBody.getCollisionShape();
-        if (oldShape instanceof ConvexShape
-                && !(oldShape instanceof HullCollisionShape)) {
-            ConvexShape convexShape = (ConvexShape) oldShape;
-            oldShape = convexShape.toHullShape();
-        }
+        CollisionShape originalShape = oldBody.getCollisionShape();
+        CollisionShape splittableShape = originalShape.toSplittableShape();
+        assert splittableShape.canSplit();
 
-        if (oldShape instanceof HullCollisionShape) {
-            HullCollisionShape hullShape = (HullCollisionShape) oldShape;
+        if (splittableShape instanceof HullCollisionShape) {
+            HullCollisionShape hullShape = (HullCollisionShape) splittableShape;
             ChildCollisionShape[] children = hullShape.split(shapeTriangle);
             if (children[0] == null || children[1] == null) {
                 // The split plane didn't intersect the hull.
@@ -676,7 +672,7 @@ public class SplitDemo
                     children);
 
         } else {
-            String className = oldShape.getClass().getSimpleName();
+            String className = splittableShape.getClass().getSimpleName();
             System.out.println("Shape not split:  class=" + className);
             System.out.flush();
         }

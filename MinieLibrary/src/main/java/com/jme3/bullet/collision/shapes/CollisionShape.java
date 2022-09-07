@@ -216,6 +216,16 @@ abstract public class CollisionShape
     }
 
     /**
+     * Test whether this shape can be split by an arbitrary plane. Meant to be
+     * overridden.
+     *
+     * @return true if splittable, false otherwise
+     */
+    public boolean canSplit() {
+        return false;
+    }
+
+    /**
      * Return the default margin for new shapes that are neither capsules nor
      * spheres.
      *
@@ -363,6 +373,19 @@ abstract public class CollisionShape
         boolean result = isPolyhedral(shapeId);
 
         return result;
+    }
+
+    /**
+     * Approximate this shape with a splittable shape. Meant to be overridden.
+     *
+     * @return a new splittable shape
+     */
+    public CollisionShape toSplittableShape() {
+        if (canSplit()) {
+            return this;
+        } else {
+            throw new IllegalArgumentException("this = " + this);
+        }
     }
 
     /**

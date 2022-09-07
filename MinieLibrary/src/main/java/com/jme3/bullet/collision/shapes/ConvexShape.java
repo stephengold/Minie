@@ -111,4 +111,21 @@ abstract public class ConvexShape extends CollisionShape {
         assert super.isConvex();
         return true;
     }
+
+    /**
+     * Approximate this shape with a splittable shape.
+     *
+     * @return a new splittable shape
+     */
+    @Override
+    public CollisionShape toSplittableShape() {
+        CollisionShape result;
+        if (canSplit()) {
+            result = this;
+        } else {
+            result = toHullShape();
+        }
+
+        return result;
+    }
 }
