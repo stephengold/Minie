@@ -32,6 +32,7 @@
 package com.jme3.bullet.collision.shapes;
 
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -43,6 +44,7 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
@@ -332,6 +334,38 @@ public class CylinderCollisionShape extends ConvexShape {
         halfExtents.set(he);
         this.axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
+    }
+
+    /**
+     * Approximate this shape with a HullCollisionShape.
+     *
+     * @return a new shape
+     */
+    @Override
+    public HullCollisionShape toHullShape() {
+        Vector3f hes = halfExtents.mult(scale);
+        float minHalfExtent = MyMath.min(hes.x, hes.y, hes.z); // in PSU
+        float defaultMargin = getDefaultMargin();
+        float hullMargin = Math.min(defaultMargin, minHalfExtent);
+        /*
+         * Construct a copy of this shape with its half extents reduced
+         * to compensate for the hull's collision margin.
+         */
+        hes.subtractLocal(hullMargin, hullMargin, hullMargin);
+        MyVector3f.accumulateMaxima(hes, new Vector3f(1e-6f, 1e-6f, 1e-6f));
+        CylinderCollisionShape reducedShape
+                = new CylinderCollisionShape(hes, axis);
+        FloatBuffer buffer = DebugShapeFactory.debugVertices(
+                reducedShape, DebugShapeFactory.lowResolution);
+
+        // Flip the buffer.
+        buffer.rewind();
+        buffer.limit(buffer.capacity());
+
+        HullCollisionShape result = new HullCollisionShape(buffer);
+        result.setMargin(hullMargin);
+
+        return result;
     }
 
     /**
