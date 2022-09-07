@@ -1266,8 +1266,8 @@ public class PhysicsDumper extends Dumper {
         ChildCollisionShape[] children = parent.listChildren();
         for (ChildCollisionShape child : children) {
             addLine(indent);
-            CollisionShape shape = child.getShape();
-            String desc = describer.describe(shape);
+            CollisionShape baseShape = child.getShape();
+            String desc = describer.describe(baseShape);
             stream.print(desc);
 
             Vector3f offset = child.copyOffset(null);
@@ -1286,11 +1286,11 @@ public class PhysicsDumper extends Dumper {
                 stream.print(']');
             }
 
-            Vector3f scale = shape.getScale(null);
+            Vector3f scale = baseShape.getScale(null);
             desc = describer.describeScale(scale);
             addDescription(desc);
 
-            long objectId = shape.nativeId();
+            long objectId = baseShape.nativeId();
             addNativeId(objectId);
         }
     }

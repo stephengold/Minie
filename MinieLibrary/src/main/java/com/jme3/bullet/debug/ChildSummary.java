@@ -100,12 +100,12 @@ class ChildSummary {
             this.isValid = false;
 
         } else {
-            CollisionShape shape = child.getShape();
-            this.margin = shape.getMargin();
-            this.shapeId = shape.nativeId();
+            CollisionShape baseShape = child.getShape();
+            this.margin = baseShape.getMargin();
+            this.shapeId = baseShape.nativeId();
             child.copyRotation(rotation);
             child.copyOffset(offset);
-            shape.getScale(scale);
+            baseShape.getScale(scale);
             this.isValid = true;
         }
     }

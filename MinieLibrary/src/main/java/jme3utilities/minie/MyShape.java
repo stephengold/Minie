@@ -234,8 +234,8 @@ final public class MyShape {
         int numChildren = children.length;
         float[] result = new float[numChildren];
         for (int i = 0; i < numChildren; ++i) {
-            CollisionShape childShape = children[i].getShape();
-            result[i] = volume(childShape);
+            CollisionShape baseShape = children[i].getShape();
+            result[i] = volume(baseShape);
         }
 
         return result;
@@ -558,8 +558,8 @@ final public class MyShape {
             CompoundCollisionShape compound = (CompoundCollisionShape) shape;
             volume = 0f;
             for (ChildCollisionShape child : compound.listChildren()) {
-                float childVolume = volume(child.getShape());
-                volume += childVolume;
+                float baseVolume = volume(child.getShape());
+                volume += baseVolume;
             }
 
         } else if (shape instanceof ConeCollisionShape) {
