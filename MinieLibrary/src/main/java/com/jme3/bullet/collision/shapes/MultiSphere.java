@@ -523,8 +523,8 @@ public class MultiSphere extends ConvexShape {
         }
         MultiSphere reducedShape = new MultiSphere(centers, reducedRadii);
         reducedShape.setScale(scale);
-        FloatBuffer buffer = DebugShapeFactory.debugVertices(
-                reducedShape, DebugShapeFactory.lowResolution);
+        FloatBuffer buffer = DebugShapeFactory
+                .debugVertices(reducedShape, DebugShapeFactory.lowResolution);
 
         // Flip the buffer.
         buffer.rewind();

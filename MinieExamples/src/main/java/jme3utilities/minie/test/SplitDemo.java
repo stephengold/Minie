@@ -193,6 +193,7 @@ public class SplitDemo
         PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.destroy();
         assert physicsSpace.isEmpty();
+
         setUpShape();
     }
 
