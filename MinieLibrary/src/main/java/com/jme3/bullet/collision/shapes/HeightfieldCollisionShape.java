@@ -48,8 +48,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A CollisionShape for terrain defined by a matrix of height values, based on
- * Bullet's btHeightfieldTerrainShape. Should be more efficient than an
+ * A collision shape for terrain defined by a matrix of height values, based on
+ * Bullet's {@code btHeightfieldTerrainShape}. Should be more efficient than an
  * equivalent MeshCollisionShape. Not for use in dynamic bodies. Collisions
  * between HeightfieldCollisionShape, MeshCollisionShape, and
  * PlaneCollisionShape objects are never detected.

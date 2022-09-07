@@ -50,8 +50,8 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
 /**
- * A simple point, line-segment, triangle, or tetrahedron CollisionShape based
- * on Bullet's btBU_Simplex1to4. These shapes cannot be scaled.
+ * A simple point, line-segment, triangle, or tetrahedron collision shape based
+ * on Bullet's {@code btBU_Simplex1to4}. These shapes cannot be scaled.
  *
  * @author normenhansen
  */
@@ -448,7 +448,7 @@ public class SimplexCollisionShape extends ConvexShape {
     }
 
     /**
-     * Approximate this shape using a {@code HullCollisionShape}.
+     * Approximate this shape with a HullCollisionShape.
      *
      * @return a new shape
      */

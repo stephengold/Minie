@@ -49,8 +49,8 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
 /**
- * A cylindrical CollisionShape based on Bullet's btCylinderShapeX,
- * btCylinderShape, or btCylinderShapeZ.
+ * A cylindrical collision shape based on Bullet's {@code btCylinderShapeX},
+ * {@code btCylinderShape}, or {@code btCylinderShapeZ}.
  *
  * @author normenhansen
  */
@@ -95,7 +95,7 @@ public class CylinderCollisionShape extends ConvexShape {
      * @param radius the desired unscaled radius (&ge;0)
      * @param height the desired unscaled height (&ge;0)
      * @param axisIndex which local axis to use for the height: 0&rarr;X,
-     * 1&rarr;Y, 2&rarr;Z
+     * 1&rarr;Y, 2&rarr;Z (default=2)
      */
     public CylinderCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");
@@ -174,7 +174,7 @@ public class CylinderCollisionShape extends ConvexShape {
     // new methods exposed
 
     /**
-     * Read the main (height) axis of the cylinder.
+     * Return the main (height) axis of the cylinder.
      *
      * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      */
@@ -202,7 +202,7 @@ public class CylinderCollisionShape extends ConvexShape {
     }
 
     /**
-     * Determine the height of the cylinder.
+     * Return the height of the cylinder.
      *
      * @return the unscaled height (&ge;0)
      */
@@ -214,7 +214,7 @@ public class CylinderCollisionShape extends ConvexShape {
     }
 
     /**
-     * Calculate the unscaled volume of the cylinder.
+     * Return the unscaled volume of the cylinder.
      *
      * @return the volume (&ge;0)
      */

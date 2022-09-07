@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 
 /**
  * The abstract base class for convex collision shapes based on Bullet's
- * btConvexShape.
+ * {@code btConvexShape}.
  * <p>
  * Subclasses include BoxCollisionShape and CapsuleCollisionShape.
  *
@@ -48,7 +48,7 @@ abstract public class ConvexShape extends CollisionShape {
     // constants and loggers
 
     /**
-     * message logger for this class
+     * message logger for this class TODO rename
      */
     final public static Logger logger
             = Logger.getLogger(ConvexShape.class.getName());
@@ -65,8 +65,7 @@ abstract public class ConvexShape extends CollisionShape {
     // new methods exposed
 
     /**
-     * Approximate this shape using a {@code HullCollisionShape}. Meant to be
-     * overridden.
+     * Approximate this shape with a HullCollisionShape. Meant to be overridden.
      *
      * @return a new shape
      */

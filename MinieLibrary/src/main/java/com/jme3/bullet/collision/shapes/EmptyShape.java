@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * An empty CollisionShape based on Bullet's btEmptyShape.
+ * An empty collision shape based on Bullet's btEmptyShape.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -71,7 +71,7 @@ public class EmptyShape extends CollisionShape {
     // new methods exposed
 
     /**
-     * Determine the unscaled volume of the shape.
+     * Return the unscaled volume of the shape.
      *
      * @return 0
      */

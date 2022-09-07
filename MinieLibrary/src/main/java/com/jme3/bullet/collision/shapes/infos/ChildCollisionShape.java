@@ -50,10 +50,10 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * An element of a {@code CompoundCollisionShape}, consisting of a
- * (non-compound) child shape, offset and rotated with respect to its parent.
+ * An element in a CompoundCollisionShape, consisting of a (non-compound) base
+ * shape, offset and rotated with respect to its parent.
  * <p>
- * Despite its name, it is not a subtype of {@code CollisionShape}!
+ * Despite its name, it is not a subtype of CollisionShape!
  *
  * @author normenhansen
  */
@@ -97,7 +97,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate a child shape for use in a compound shape.
+     * Instantiate a child for use in a compound shape.
      *
      * @param offset the desired translation in the parent's coordinate system
      * (not null, unaffected)
@@ -120,7 +120,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     }
 
     /**
-     * Instantiate a child shape without any rotation.
+     * Instantiate a child without any rotation.
      *
      * @param offset the desired translation in the parent's coordinate system
      * (not null, unaffected)
@@ -263,7 +263,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     // Savable methods
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize this child from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
@@ -280,7 +280,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     }
 
     /**
-     * Serialize this shape to the specified exporter, for example when saving
+     * Serialize this child to the specified exporter, for example when saving
      * to a J3O file.
      *
      * @param exporter (not null)

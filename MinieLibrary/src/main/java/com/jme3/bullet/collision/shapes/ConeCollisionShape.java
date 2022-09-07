@@ -46,8 +46,8 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
 /**
- * A conical CollisionShape based on Bullet's btConeShapeX, btConeShape, or
- * btConeShapeZ.
+ * A conical collision shape based on Bullet's {@code btConeShapeX},
+ * {@code btConeShape}, or {@code btConeShapeZ}.
  *
  * @author normenhansen
  */
@@ -128,7 +128,7 @@ public class ConeCollisionShape extends ConvexShape {
     // new methods exposed
 
     /**
-     * Determine the main (height) axis of the cone.
+     * Return the main (height) axis of the cone.
      *
      * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      */
@@ -140,7 +140,7 @@ public class ConeCollisionShape extends ConvexShape {
     }
 
     /**
-     * Read the height of the cone.
+     * Return the height of the cone.
      *
      * @return the unscaled height (&ge;0)
      */
@@ -150,7 +150,7 @@ public class ConeCollisionShape extends ConvexShape {
     }
 
     /**
-     * Read the radius of the cone's base.
+     * Return the radius of the cone's base.
      *
      * @return the unscaled radius (&ge;0)
      */
@@ -173,7 +173,7 @@ public class ConeCollisionShape extends ConvexShape {
     }
 
     /**
-     * Calculate the unscaled volume of the cone.
+     * Return the unscaled volume of the cone.
      *
      * @return the volume (&ge;0)
      */
@@ -269,7 +269,7 @@ public class ConeCollisionShape extends ConvexShape {
     // Java private methods
 
     /**
-     * Instantiate the configured btCollisionShape.
+     * Instantiate the configured shape.
      */
     private void createShape() {
         assert axis == PhysicsSpace.AXIS_X

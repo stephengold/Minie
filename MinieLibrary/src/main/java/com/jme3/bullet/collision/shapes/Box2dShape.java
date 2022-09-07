@@ -44,7 +44,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 
 /**
- * An axis-aligned, rectangular CollisionShape based on Bullet's btBox2dShape.
+ * An axis-aligned, rectangular collision shape based on Bullet's
+ * {@code btBox2dShape}.
  *
  * @author Stephen Gold sgold@sonic.net
  */

@@ -48,11 +48,12 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
 /**
- * A capsule CollisionShape based on Bullet's btCapsuleShapeX, btCapsuleShape,
- * or btCapsuleShapeZ. These shapes have no margin and can only be scaled
- * uniformly.
+ * A capsule collision shape based on Bullet's {@code btCapsuleShapeX},
+ * {@code btCapsuleShape}, or {@code btCapsuleShapeZ}. These shapes have no
+ * margin and can only be scaled uniformly.
  *
  * @author normenhansen
+ * @see MultiSphere
  */
 public class CapsuleCollisionShape extends ConvexShape {
     // *************************************************************************
@@ -73,11 +74,12 @@ public class CapsuleCollisionShape extends ConvexShape {
     // fields
 
     /**
-     * copy of the unscaled height of the cylindrical portion (&ge;0)
+     * copy of the unscaled height of the cylindrical portion (in shape units,
+     * &ge;0)
      */
     private float height;
     /**
-     * copy of the unscaled radius (&ge;0)
+     * copy of the unscaled radius (in shape units, &ge;0)
      */
     private float radius;
     /**
@@ -97,9 +99,9 @@ public class CapsuleCollisionShape extends ConvexShape {
     /**
      * Instantiate a Y-axis capsule shape with the specified radius and height.
      *
-     * @param radius the desired unscaled radius (&ge;0)
-     * @param height the desired unscaled height of the cylindrical portion
-     * (&ge;0)
+     * @param radius the desired radius (in shape units, &ge;0)
+     * @param height the desired height of the cylindrical portion (in shape
+     * units, &ge;0)
      */
     public CapsuleCollisionShape(float radius, float height) {
         Validate.nonNegative(radius, "radius");
@@ -114,9 +116,9 @@ public class CapsuleCollisionShape extends ConvexShape {
     /**
      * Instantiate a capsule shape around the specified main (height) axis.
      *
-     * @param radius the desired unscaled radius (&ge;0)
-     * @param height the desired unscaled height of the cylindrical portion
-     * (&ge;0)
+     * @param radius the desired radius (in shape units, &ge;0)
+     * @param height the desired height of the cylindrical portion (in shape
+     * units, &ge;0)
      * @param axisIndex which local axis to use for the height: 0&rarr;X,
      * 1&rarr;Y, 2&rarr;Z
      */
@@ -134,7 +136,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     // new methods exposed
 
     /**
-     * Read the main (height) axis of the capsule.
+     * Return the main (height) axis of the capsule.
      *
      * @return the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      */
@@ -146,9 +148,9 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Read the height of the cylindrical portion.
+     * Return the height of the cylindrical portion.
      *
-     * @return the unscaled height (&ge;0)
+     * @return the unscaled height (in shape units, &ge;0)
      */
     public float getHeight() {
         assert height >= 0f : height;
@@ -156,9 +158,9 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Read the radius of the capsule.
+     * Return the radius of the capsule.
      *
-     * @return the unscaled radius (&ge;0)
+     * @return the unscaled radius (in shape units, &ge;0)
      */
     public float getRadius() {
         assert radius >= 0f : radius;
@@ -166,9 +168,9 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Calculate the unscaled volume of the capsule.
+     * Return the unscaled volume of the capsule.
      *
-     * @return the volume (&ge;0)
+     * @return the volume (in shape units cubed, &ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.capsuleVolume(radius, height);
@@ -210,7 +212,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Determine the collision margin for this shape.
+     * Return the collision margin for this shape.
      *
      * @return the margin distance (in physics-space units, &ge;0)
      */
@@ -276,7 +278,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Approximate this shape using a {@code HullCollisionShape}.
+     * Approximate this shape with a HullCollisionShape.
      *
      * @return a new shape
      */
@@ -334,7 +336,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     // Java private methods
 
     /**
-     * Instantiate the configured btCollisionShape.
+     * Instantiate the configured shape.
      */
     private void createShape() {
         assert axis == PhysicsSpace.AXIS_X

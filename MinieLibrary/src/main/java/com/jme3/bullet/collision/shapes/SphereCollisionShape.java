@@ -48,8 +48,8 @@ import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
 /**
- * A spherical CollisionShape based on Bullet's btSphereShape. These shapes have
- * no margin and can only be scaled uniformly.
+ * A spherical collision shape based on Bullet's btSphereShape. These shapes
+ * have no margin and can only be scaled uniformly.
  *
  * @author normenhansen
  * @see MultiSphere
@@ -71,7 +71,7 @@ public class SphereCollisionShape extends ConvexShape {
     // fields
 
     /**
-     * copy of the unscaled radius (&ge;0)
+     * copy of the unscaled radius (in shape units, &ge;0)
      */
     private float radius;
     // *************************************************************************
@@ -108,7 +108,7 @@ public class SphereCollisionShape extends ConvexShape {
     /**
      * Instantiate a sphere shape with the specified radius.
      *
-     * @param radius the desired unscaled radius (&ge;0)
+     * @param radius the desired unscaled radius (in shape units, &ge;0)
      */
     public SphereCollisionShape(float radius) {
         Validate.nonNegative(radius, "radius");
@@ -130,9 +130,9 @@ public class SphereCollisionShape extends ConvexShape {
     }
 
     /**
-     * Calculate the unscaled volume of the sphere.
+     * Return the unscaled volume of the sphere.
      *
-     * @return the volume (&ge;0)
+     * @return the volume (in shape units cubed, &ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.sphereVolume(radius);
@@ -237,7 +237,7 @@ public class SphereCollisionShape extends ConvexShape {
     }
 
     /**
-     * Approximate this shape using a {@code HullCollisionShape}.
+     * Approximate this shape with a HullCollisionShape.
      *
      * @return a new shape
      */
