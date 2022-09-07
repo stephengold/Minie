@@ -663,10 +663,6 @@ public class SplitDemo
         Vector3f s3 = shapeToWorld.transformInverseVector(w3, null);
         Triangle shapeTriangle = new Triangle(s1, s2, s3);
 
-        Vector3f shapeNormal = shapeTriangle.getNormal(); // alias
-        Plane shapePlane = new Plane(shapeNormal, s3);
-
-        ChildCollisionShape[] children;
         CollisionShape oldShape = oldBody.getCollisionShape();
         if (oldShape instanceof ConvexShape
                 && !(oldShape instanceof HullCollisionShape)) {
@@ -676,11 +672,12 @@ public class SplitDemo
 
         if (oldShape instanceof HullCollisionShape) {
             HullCollisionShape hullShape = (HullCollisionShape) oldShape;
-            children = hullShape.split(shapePlane);
-            if (children == null) {
-                // The split plane doesn't intersect the body.
+            ChildCollisionShape[] children = hullShape.split(shapeTriangle);
+            if (children[0] == null || children[1] == null) {
+                // The split plane didn't intersect the hull.
                 return;
             }
+            Vector3f shapeNormal = shapeTriangle.getNormal(); // alias
             splitBody(oldBody, worldTriangle, shapeToWorld, shapeNormal,
                     children);
 
