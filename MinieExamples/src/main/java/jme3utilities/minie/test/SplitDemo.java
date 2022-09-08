@@ -35,6 +35,7 @@ import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.debug.BulletDebugAppState;
@@ -74,6 +75,7 @@ import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
+import jme3utilities.minie.MyShape;
 import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -691,7 +693,10 @@ public class SplitDemo
         CollisionShape splittableShape = originalShape.toSplittableShape();
         assert splittableShape.canSplit();
 
-        if (splittableShape instanceof HullCollisionShape) {
+        if (splittableShape instanceof EmptyShape) {
+            return; // Splitting has no effect.
+
+        } else if (splittableShape instanceof HullCollisionShape) {
             HullCollisionShape hullShape = (HullCollisionShape) splittableShape;
             ChildCollisionShape[] children = hullShape.split(shapeTriangle);
             if (children[0] == null || children[1] == null) {
@@ -716,10 +721,37 @@ public class SplitDemo
             splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal,
                     shapes, volumes, locations);
 
-        } else {
-            String className = splittableShape.getClass().getSimpleName();
-            System.out.println("Shape not split:  class=" + className);
-            System.out.flush();
+        } else if (splittableShape instanceof CompoundCollisionShape) {
+            CompoundCollisionShape compound
+                    = (CompoundCollisionShape) splittableShape;
+            CompoundCollisionShape[] newCps = compound.split(shapeTriangle);
+            assert newCps.length == 2 : newCps.length;
+            if (newCps[0] == null || newCps[1] == null) {
+                // The split plane didn't intersect the compound shape.
+                return;
+            }
+
+            float[] volumes = new float[2];
+            Vector3f[] locations = new Vector3f[2];
+            for (int i = 0; i < 2; ++i) {
+                CompoundCollisionShape newCompound = newCps[i];
+                volumes[i] = MyShape.volume(newCompound);
+                /*
+                 * Translate each compound so its AABB is centered at (0,0,0)
+                 * in its shape coordinates.
+                 */
+                locations[i] = newCompound.aabbCenter(null);
+                Vector3f offset = locations[i].negate();
+                newCps[i].translate(offset);
+            }
+
+            Vector3f shapeNormal = shapeTriangle.getNormal(); // alias
+            Vector3f worldNormal = worldTriangle.getNormal(); // alias
+            splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal,
+                    newCps, volumes, locations);
+
+        } else { // TODO handle simplex n<=2, heightfield/mesh/gimpact
+            logger.log(Level.WARNING, "Shape not split:  {0}", originalShape);
         }
     }
 
