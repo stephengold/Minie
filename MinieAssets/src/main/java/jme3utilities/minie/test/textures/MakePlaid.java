@@ -86,19 +86,14 @@ final public class MakePlaid {
         //logger.setLevel(Level.INFO);
         //Logger.getLogger(Heart.class.getName()).setLevel(Level.INFO);
         /*
-         * Instantiate the application.
-         */
-        MakePlaid application = new MakePlaid();
-        /*
          * Log the working directory.
          */
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate color image map.
-         */
-        application.makePlaid();
+
+        // Generate color image map.
+        makePlaid();
     }
     // *************************************************************************
     // private methods

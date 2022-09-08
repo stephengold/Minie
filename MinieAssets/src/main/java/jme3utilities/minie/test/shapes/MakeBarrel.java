@@ -88,20 +88,14 @@ final public class MakeBarrel {
          * Set the logging level for this class.
          */
         //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeBarrel application = new MakeBarrel();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
-        application.makeBarrel();
+
+        // Generate the collision shape.
+        makeBarrel();
     }
     // *************************************************************************
     // private methods

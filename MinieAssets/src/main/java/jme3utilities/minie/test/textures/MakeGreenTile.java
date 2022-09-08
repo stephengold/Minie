@@ -85,20 +85,14 @@ final public class MakeGreenTile {
          */
         //logger.setLevel(Level.INFO);
         //Logger.getLogger(Heart.class.getName()).setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeGreenTile application = new MakeGreenTile();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate color image map.
-         */
-        application.makeGreenTile();
+
+        // Generate color image map.
+        makeGreenTile();
     }
     // *************************************************************************
     // private methods
