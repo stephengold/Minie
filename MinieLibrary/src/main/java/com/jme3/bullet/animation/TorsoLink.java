@@ -153,7 +153,7 @@ public class TorsoLink extends PhysicsLink {
             Transform meshToModel, Vector3f localOffset) {
         super(control, mainRootBone, collisionShape, linkConfig, localOffset);
         this.meshToModel = meshToModel.clone();
-        managedBones = control.listManagedBones(DynamicAnimControl.torsoName);
+        managedBones = control.listManagedBones(DacConfiguration.torsoName);
 
         int numManaged = countManaged();
         startBoneTransforms = new Transform[numManaged];
@@ -182,8 +182,8 @@ public class TorsoLink extends PhysicsLink {
             Transform meshToModel, Vector3f localOffset) {
         super(control, mainRootJoint, collisionShape, linkConfig, localOffset);
         this.meshToModel = meshToModel.clone();
-        managedArmatureJoints = control.listManagedArmatureJoints(
-                DynamicAnimControl.torsoName);
+        this.managedArmatureJoints
+                = control.listManagedArmatureJoints(DacConfiguration.torsoName);
 
         int numManagedJoints = managedArmatureJoints.length;
         startBoneTransforms = new Transform[numManagedJoints];

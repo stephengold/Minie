@@ -34,7 +34,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DacConfiguration;
-import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.KinematicSubmode;
 import com.jme3.bullet.animation.LinkConfig;
@@ -321,7 +320,7 @@ class TestMode extends InputMode {
                     model.selectLink(boneName);
                 } else {
                     assert link instanceof TorsoLink;
-                    model.selectLink(DacLinks.torsoName);
+                    model.selectLink(DacConfiguration.torsoName);
                 }
             }
         }

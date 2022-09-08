@@ -562,7 +562,7 @@ final public class RagUtils {
                 String message = String.format(
                         "Joint %d in armature has null name!", jointIndex);
                 throw new IllegalArgumentException(message);
-            } else if (jointName.equals(DynamicAnimControl.torsoName)) {
+            } else if (jointName.equals(DacConfiguration.torsoName)) {
                 String message = String.format(
                         "Joint %d in armature has a reserved name!",
                         jointIndex);
@@ -600,7 +600,7 @@ final public class RagUtils {
                 String msg = String.format(
                         "Bone %d in skeleton has null name!", boneIndex);
                 throw new IllegalArgumentException(msg);
-            } else if (boneName.equals(DynamicAnimControl.torsoName)) {
+            } else if (boneName.equals(DacConfiguration.torsoName)) {
                 String msg = String.format(
                         "Bone %d in skeleton has a reserved name!", boneIndex);
                 throw new IllegalArgumentException(msg);

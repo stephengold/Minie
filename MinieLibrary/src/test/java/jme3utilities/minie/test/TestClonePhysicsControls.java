@@ -32,6 +32,7 @@ import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.animation.CenterHeuristic;
+import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.LinkConfig;
 import com.jme3.bullet.animation.MassHeuristic;
@@ -127,7 +128,7 @@ public class TestClonePhysicsControls {
         LinkConfig hull = new LinkConfig(0.005f, MassHeuristic.Mass,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.XZY);
-        dac.setConfig(DynamicAnimControl.torsoName, hull);
+        dac.setConfig(DacConfiguration.torsoName, hull);
         dac.link("spine", hull, new RangeOfMotion(1f));
         dac.link("ribs", hull, new RangeOfMotion(0.6f, 0.4f, 0.4f));
         dac.link("head", hull,

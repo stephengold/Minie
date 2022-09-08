@@ -32,7 +32,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DacConfiguration;
-import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.TorsoLink;
@@ -42,6 +41,7 @@ import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
 import com.jme3.bullet.joints.New6Dof;
 import com.jme3.bullet.joints.SixDofJoint;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -211,8 +211,8 @@ class TestScreen extends GuiScreenController {
         if (groundPlane == null) {
             Plane xzPlane = new Plane(Vector3f.UNIT_Y, 0f);
             PlaneCollisionShape shape = new PlaneCollisionShape(xzPlane);
-            groundPlane = new PhysicsRigidBody(shape,
-                    PhysicsRigidBody.massForStatic);
+            this.groundPlane
+                    = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
             BulletAppState bulletAppState
                     = DacWizard.findAppState(BulletAppState.class);
@@ -269,7 +269,7 @@ class TestScreen extends GuiScreenController {
 
         if (!showingAxes
                 || viewedSpatial == null
-                || btName.equals(DacLinks.torsoName)) {
+                || btName.equals(DacConfiguration.torsoName)) {
             axesVisualizer.setEnabled(false);
 
         } else {

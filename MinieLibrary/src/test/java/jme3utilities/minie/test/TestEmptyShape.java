@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.infos.IndexedMesh;
+import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
@@ -90,19 +91,18 @@ public class TestEmptyShape {
          */
         CollisionShape shape = new EmptyShape(true);
         PhysicsRigidBody rigidBody
-                = new PhysicsRigidBody(shape, PhysicsRigidBody.massForStatic);
+                = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         shape = new CompoundCollisionShape();
-        rigidBody = new PhysicsRigidBody(shape, PhysicsRigidBody.massForStatic);
+        rigidBody = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         shape = new GImpactCollisionShape(indexedMeshArray);
-        rigidBody = new PhysicsRigidBody(shape, PhysicsRigidBody.massForStatic);
+        rigidBody = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         shape = new GImpactCollisionShape(jmeMeshArray);
-        rigidBody = new PhysicsRigidBody(shape, PhysicsRigidBody.massForStatic);
-        /*
-         * Attempt to create empty shapes in various illegal ways.
-         */
+        rigidBody = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
+
+        // Attempt to create empty shapes in various illegal ways.
         try {
             shape = new HeightfieldCollisionShape(floatArray);
             Assert.fail("Expected an IllegalArgumentException");
