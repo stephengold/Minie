@@ -454,7 +454,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      *
      * @param oldLink the link to copy from (not null, unaffected)
      */
-    void postRebuild(PhysicsLink oldLink) {
+    void postRebuildLink(PhysicsLink oldLink) {
         assert oldLink != null;
         assert oldLink.getBone() == bone;
 

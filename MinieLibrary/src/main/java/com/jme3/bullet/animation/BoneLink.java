@@ -358,7 +358,7 @@ public class BoneLink extends PhysicsLink {
         int numManaged = countManaged();
         assert oldLink.countManaged() == numManaged;
 
-        super.postRebuild(oldLink);
+        super.postRebuildLink(oldLink);
         if (oldLink.isKinematic()) {
             submode = oldLink.submode;
         } else {
