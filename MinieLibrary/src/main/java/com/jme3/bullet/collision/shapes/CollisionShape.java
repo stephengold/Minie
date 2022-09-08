@@ -124,6 +124,22 @@ abstract public class CollisionShape
     // new methods exposed
 
     /**
+     * Return the center of the shape's axis-aligned bounding box in local
+     * coordinates.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a location in the local coordinate system (either
+     * {@code storeResult} or a new vector)
+     */
+    public Vector3f aabbCenter(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        BoundingBox aabb = boundingBox(translateIdentity, rotateIdentity, null);
+        aabb.getCenter(result);
+
+        return result;
+    }
+
+    /**
      * Calculate a quick upper bound for the scaled volume of a shape, based on
      * its axis-aligned bounding box. Collision margin is included.
      *
