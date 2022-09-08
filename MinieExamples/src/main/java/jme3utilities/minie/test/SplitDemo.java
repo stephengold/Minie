@@ -698,9 +698,23 @@ public class SplitDemo
                 // The split plane didn't intersect the hull.
                 return;
             }
+
+            CollisionShape[] shapes = new CollisionShape[2];
+            float[] volumes = new float[2];
+            Vector3f[] locations = new Vector3f[2];
+            for (int i = 0; i < 2; ++i) {
+                ChildCollisionShape child = children[i];
+                shapes[i] = child.getShape();
+                HullCollisionShape hull = (HullCollisionShape) shapes[i];
+                volumes[i] = hull.scaledVolume();
+
+                locations[i] = child.copyOffset(null);
+            }
+
             Vector3f shapeNormal = shapeTriangle.getNormal(); // alias
-            splitBody(oldBody, worldTriangle, shapeToWorld, shapeNormal,
-                    children);
+            Vector3f worldNormal = worldTriangle.getNormal(); // alias
+            splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal,
+                    shapes, volumes, locations);
 
         } else {
             String className = splittableShape.getClass().getSimpleName();
@@ -710,7 +724,7 @@ public class SplitDemo
     }
 
     /**
-     * Split the specified rigid body using the plane of the specified triangle.
+     * Split the specified rigid body into 2 using the specified shapes.
      *
      * @param oldBody (not null, added to the PhysicsSpace)
      * @param worldTriangle a triangle that defines the splitting plane (in
@@ -719,39 +733,34 @@ public class SplitDemo
      * null, unaffected)
      * @param shapeNormal the normal of the splitting plane (in shape
      * coordinates, not null, unaffected)
-     * @param children information about the resulting shapes (not null,
-     * length=2)
+     * @param shapes the shapes to apply (length=2, both not null)
+     * @param volumes the estimated volumes of the shapes (length=2, both &gt;0)
+     * @param locations the center locations (in physics-space coordinates,
+     * length=2, both not null)
      */
-    private void splitBody(PhysicsRigidBody oldBody, Triangle worldTriangle,
+    private void splitBody(PhysicsRigidBody oldBody, Vector3f worldNormal,
             Transform shapeToWorld, Vector3f shapeNormal,
-            ChildCollisionShape[] children) {
-        assert children.length == 2 : children.length;
-        Vector3f v = oldBody.getLinearVelocity(null);
+            CollisionShape[] shapes, float[] volumes, Vector3f[] locations) {
+        assert shapes.length == 2 : shapes.length;
+        assert volumes.length == 2 : volumes.length;
+        assert locations.length == 2 : locations.length;
 
-        CollisionShape[] shapes = new CollisionShape[2];
-        float[] volumes = new float[2];
-        Vector3f[] locations = new Vector3f[2];
-        Vector3f[] velocities = new Vector3f[2];
+        // Tweak the locations to create some separation.
         for (int i = 0; i < 2; ++i) {
-            ChildCollisionShape child = children[i];
-            shapes[i] = child.getShape();
-
-            HullCollisionShape hull = (HullCollisionShape) shapes[i];
-            volumes[i] = hull.scaledVolume();
-
-            Vector3f location = child.copyOffset(null);
+            Vector3f location = locations[i];
             if (i == 0) {
                 MyVector3f.accumulateScaled(location, shapeNormal, -0.04f);
             } else {
                 MyVector3f.accumulateScaled(location, shapeNormal, +0.04f);
             }
             shapeToWorld.transformVector(location, location);
-            locations[i] = location;
-
-            velocities[i] = new Vector3f(v); // Values are modified below.
         }
 
-        Vector3f worldNormal = worldTriangle.getNormal(); // alias
+        Vector3f[] velocities = new Vector3f[2];
+        velocities[0] = oldBody.getLinearVelocity(null);
+        velocities[1] = velocities[0].clone();
+
+        // Tweak the linear velocities to enhance the separation.
         float deltaV = 0.04f;
         MyVector3f.accumulateScaled(velocities[0], worldNormal, -deltaV);
         MyVector3f.accumulateScaled(velocities[1], worldNormal, +deltaV);
