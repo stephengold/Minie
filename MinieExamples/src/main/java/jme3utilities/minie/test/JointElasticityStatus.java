@@ -270,8 +270,6 @@ final public class JointElasticityStatus extends SimpleAppState {
     public void update(float tpf) {
         super.update(tpf);
 
-        PhysicsSpace space = appInstance.getPhysicsSpace();
-
         int index = 1 + Arrays.binarySearch(erpValues, jointErp);
         String message = String.format("Joint ERP (#%d of %d):   %.2f",
                 index, erpValues.length, jointErp);
