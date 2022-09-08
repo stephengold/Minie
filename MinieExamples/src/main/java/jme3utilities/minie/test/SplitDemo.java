@@ -694,7 +694,7 @@ public class SplitDemo
         assert splittableShape.canSplit();
 
         if (splittableShape instanceof EmptyShape) {
-            return; // Splitting has no effect.
+            // Splitting has no effect.
 
         } else if (splittableShape instanceof HullCollisionShape) {
             HullCollisionShape hullShape = (HullCollisionShape) splittableShape;
