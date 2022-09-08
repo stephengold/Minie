@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 import jme3utilities.SimpleAppState;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
-import jme3utilities.minie.test.common.PhysicsDemo;
+import jme3utilities.ui.AcorusDemo;
 
 /**
  * AppState to display the status of the DropTest application in an overlay. The
@@ -453,7 +453,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceDamping(int amount) {
-        this.damping = PhysicsDemo.advanceFloat(dampingValues, damping, amount);
+        this.damping = AcorusDemo.advanceFloat(dampingValues, damping, amount);
         appInstance.setDampingAll(damping);
     }
 
@@ -464,7 +464,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     private void advanceDrop(int amount) {
         this.nextDropType
-                = PhysicsDemo.advanceString(dropNames, nextDropType, amount);
+                = AcorusDemo.advanceString(dropNames, nextDropType, amount);
     }
 
     /**
@@ -474,7 +474,7 @@ public class DropTestStatus extends SimpleAppState {
      */
     private void advanceFriction(int amount) {
         this.friction
-                = PhysicsDemo.advanceFloat(frictionValues, friction, amount);
+                = AcorusDemo.advanceFloat(frictionValues, friction, amount);
         appInstance.setFrictionAll(friction);
     }
 
@@ -484,7 +484,7 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceGravity(int amount) {
-        this.gravity = PhysicsDemo.advanceFloat(gravityValues, gravity, amount);
+        this.gravity = AcorusDemo.advanceFloat(gravityValues, gravity, amount);
         appInstance.setGravityAll(gravity);
     }
 
@@ -494,8 +494,8 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advancePlatform(int amount) {
-        this.platformName = PhysicsDemo.advanceString(
-                platformNames, platformName, amount);
+        this.platformName
+                = AcorusDemo.advanceString(platformNames, platformName, amount);
         appInstance.restartScenario();
     }
 
@@ -505,8 +505,8 @@ public class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        this.restitution = PhysicsDemo.advanceFloat(
-                restitutionValues, restitution, amount);
+        this.restitution = AcorusDemo
+                .advanceFloat(restitutionValues, restitution, amount);
         appInstance.setRestitutionAll(restitution);
     }
 

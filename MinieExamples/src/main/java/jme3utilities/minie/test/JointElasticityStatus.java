@@ -37,7 +37,6 @@ import java.util.logging.Logger;
 import jme3utilities.SimpleAppState;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
-import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.ui.AcorusDemo;
 
 /**
@@ -314,7 +313,7 @@ final public class JointElasticityStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceJointErp(int amount) {
-        jointErp = PhysicsDemo.advanceFloat(erpValues, jointErp, amount);
+        jointErp = AcorusDemo.advanceFloat(erpValues, jointErp, amount);
         PhysicsSpace physicsSpace = appInstance.getPhysicsSpace();
         physicsSpace.getSolverInfo().setJointErp(jointErp);
     }
@@ -325,7 +324,8 @@ final public class JointElasticityStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRatio(int amount) {
-        massRatio = PhysicsDemo.advanceFloat(ratioValues, massRatio, amount);
+        this.massRatio = AcorusDemo
+                .advanceFloat(ratioValues, massRatio, amount);
         appInstance.setMassRatio(massRatio);
     }
 
@@ -335,7 +335,8 @@ final public class JointElasticityStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceTimestep(int amount) {
-        timestep = PhysicsDemo.advanceFloat(timestepValues, timestep, amount);
+        this.timestep = AcorusDemo
+                .advanceFloat(timestepValues, timestep, amount);
         PhysicsSpace physicsSpace = appInstance.getPhysicsSpace();
         physicsSpace.setAccuracy(timestep);
     }

@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 import jme3utilities.SimpleAppState;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
-import jme3utilities.minie.test.common.PhysicsDemo;
+import jme3utilities.ui.AcorusDemo;
 
 /**
  * AppState to display the status of the TargetDemo application in an overlay.
@@ -552,7 +552,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceDamping(int amount) {
-        this.damping = PhysicsDemo.advanceFloat(dampingValues, damping, amount);
+        this.damping = AcorusDemo.advanceFloat(dampingValues, damping, amount);
         appInstance.setDampingAll(damping);
     }
 
@@ -563,7 +563,7 @@ public class TargetDemoStatus extends SimpleAppState {
      */
     private void advanceFriction(int amount) {
         this.friction
-                = PhysicsDemo.advanceFloat(frictionValues, friction, amount);
+                = AcorusDemo.advanceFloat(frictionValues, friction, amount);
         appInstance.setFrictionAll(friction);
     }
 
@@ -573,7 +573,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceGravity(int amount) {
-        this.gravity = PhysicsDemo.advanceFloat(gravityValues, gravity, amount);
+        this.gravity = AcorusDemo.advanceFloat(gravityValues, gravity, amount);
         appInstance.setGravityAll(gravity);
     }
 
@@ -583,7 +583,7 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceMissileInitialSpeed(int amount) {
-        this.missileInitialSpeed = PhysicsDemo.advanceFloat(
+        this.missileInitialSpeed = AcorusDemo.advanceFloat(
                 missileInitialSpeedValues, missileInitialSpeed, amount);
     }
 
@@ -593,8 +593,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceMissileMass(int amount) {
-        this.missileMass = PhysicsDemo.advanceFloat(
-                missileMassValues, missileMass, amount);
+        this.missileMass = AcorusDemo
+                .advanceFloat(missileMassValues, missileMass, amount);
     }
 
     /**
@@ -603,8 +603,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceMissileRadius(int amount) {
-        this.missileRadius = PhysicsDemo.advanceFloat(
-                missileRadiusValues, missileRadius, amount);
+        this.missileRadius = AcorusDemo
+                .advanceFloat(missileRadiusValues, missileRadius, amount);
     }
 
     /**
@@ -613,8 +613,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advancePlatform(int amount) {
-        this.platformName = PhysicsDemo.advanceString(
-                platformNames, platformName, amount);
+        this.platformName
+                = AcorusDemo.advanceString(platformNames, platformName, amount);
         appInstance.restartScenario();
     }
 
@@ -624,8 +624,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        this.restitution = PhysicsDemo.advanceFloat(
-                restitutionValues, restitution, amount);
+        this.restitution = AcorusDemo
+                .advanceFloat(restitutionValues, restitution, amount);
         appInstance.setRestitutionAll(restitution);
     }
 
@@ -635,8 +635,8 @@ public class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceScenario(int amount) {
-        this.scenarioName = PhysicsDemo.advanceString(
-                scenarioNames, scenarioName, amount);
+        this.scenarioName
+                = AcorusDemo.advanceString(scenarioNames, scenarioName, amount);
     }
 
     /**

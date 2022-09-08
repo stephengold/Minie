@@ -872,7 +872,7 @@ public class BulletAppState
         }
         if (threadingType == ThreadingType.PARALLEL) {
             PhysicsSpace pSpace = debugConfig.getSpace();
-            PhysicsSpace.setLocalThreadPhysicsSpace(pSpace);
+            CollisionSpace.setLocalThreadPhysicsSpace(pSpace);
         }
     }
 

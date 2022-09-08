@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 import jme3utilities.SimpleAppState;
 import jme3utilities.math.MyArray;
 import jme3utilities.math.MyMath;
-import jme3utilities.minie.test.common.PhysicsDemo;
+import jme3utilities.ui.AcorusDemo;
 
 /**
  * AppState to display the status of the SplitDemo application in an overlay.
@@ -288,7 +288,7 @@ public class SplitDemoStatus extends SimpleAppState {
      */
     private void advanceMargin(int amount) {
         float margin = CollisionShape.getDefaultMargin();
-        margin = PhysicsDemo.advanceFloat(marginValues, margin, amount);
+        margin = AcorusDemo.advanceFloat(marginValues, margin, amount);
         CollisionShape.setDefaultMargin(margin);
     }
 
@@ -299,7 +299,7 @@ public class SplitDemoStatus extends SimpleAppState {
      */
     private void advanceShape(int amount) {
         this.nextShapeType
-                = PhysicsDemo.advanceString(shapeNames, nextShapeType, amount);
+                = AcorusDemo.advanceString(shapeNames, nextShapeType, amount);
     }
 
     /**
