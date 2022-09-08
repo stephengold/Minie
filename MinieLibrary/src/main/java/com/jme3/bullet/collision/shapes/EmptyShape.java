@@ -82,6 +82,16 @@ public class EmptyShape extends CollisionShape {
     // CollisionShape methods
 
     /**
+     * Test whether this shape can be split by an arbitrary plane.
+     *
+     * @return true if splittable, false otherwise
+     */
+    @Override
+    public boolean canSplit() {
+        return true;
+    }
+
+    /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
      * shallow-cloned shape into a deep-cloned one, using the specified Cloner
      * and original to resolve copied fields.
