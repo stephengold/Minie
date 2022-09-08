@@ -230,7 +230,7 @@ public class ImportCgms extends SimpleApplication {
         AssetInfo info = assetManager.locateAsset(key);
         InputStream stream = info.openStream();
 
-        BufferedImage image = null;
+        BufferedImage image;
         try {
             image = ImageIO.read(stream);
         } catch (IOException exception) {
