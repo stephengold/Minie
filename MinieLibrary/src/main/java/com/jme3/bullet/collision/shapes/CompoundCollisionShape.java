@@ -40,6 +40,7 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Transform;
+import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -367,6 +368,46 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
+     * Divide this shape into 2 compound shapes. Each of this shape's children
+     * must be based on a splittable shape.
+     *
+     * @param parentTriangle a triangle that defines the splitting plane (in the
+     * parent's shape coordinates, not null, unaffected)
+     * @return a pair of shapes, not centered, the first element on the plane's
+     * minus side and the 2nd element on its plus side; either element may be
+     * null, indicating an empty shape
+     */
+    public CompoundCollisionShape[] split(Triangle parentTriangle) {
+        Validate.nonNull(parentTriangle, "parent triangle");
+        /*
+         * Organize the children into (up to) 2 new compound shapes, based on
+         * which side(s) of the splitting plane they are on.
+         */
+        int numChildren = children.size();
+        CompoundCollisionShape[] result = new CompoundCollisionShape[2];
+        Matrix3f newRotation = new Matrix3f();
+        Vector3f newOffset = new Vector3f();
+        for (ChildCollisionShape oldChild : children) {
+            ChildCollisionShape[] mp = oldChild.split(parentTriangle);
+            for (int sideI = 0; sideI < 2; ++sideI) {
+                ChildCollisionShape newChild = mp[sideI];
+                if (newChild != null) {
+                    if (result[sideI] == null) {
+                        result[sideI] = new CompoundCollisionShape(numChildren);
+                    }
+                    CollisionShape baseShape = newChild.getShape();
+                    newChild.copyOffset(newOffset);
+                    newChild.copyRotationMatrix(newRotation);
+                    result[sideI]
+                            .addChildShape(baseShape, newOffset, newRotation);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Apply the specified translation (in the parent's coordinate system) to
      * each child.
      *
@@ -407,6 +448,25 @@ public class CompoundCollisionShape extends CollisionShape {
                     result = false;
                     break;
                 }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Test whether this shape can be split by an arbitrary plane.
+     *
+     * @return true if splittable, false otherwise
+     */
+    @Override
+    public boolean canSplit() {
+        boolean result = true;
+        for (ChildCollisionShape child : children) {
+            CollisionShape baseShape = child.getShape();
+            if (!baseShape.canSplit()) {
+                result = false;
+                break;
             }
         }
 
@@ -523,6 +583,34 @@ public class CompoundCollisionShape extends CollisionShape {
             CollisionShape baseShape = child.getShape();
             baseShape.updateScale();
         }
+    }
+
+    /**
+     * Approximate this shape with a splittable shape.
+     *
+     * @return a splittable shape (either this shape or a new one)
+     */
+    @Override
+    public CollisionShape toSplittableShape() {
+        CompoundCollisionShape result;
+        if (canSplit()) {
+            result = this;
+
+        } else {
+            int numChildren = children.size();
+            result = new CompoundCollisionShape(numChildren);
+            Matrix3f tmpRotation = new Matrix3f();
+            Vector3f tmpOffset = new Vector3f();
+            for (ChildCollisionShape child : children) {
+                CollisionShape baseShape = child.getShape();
+                CollisionShape splittableShape = baseShape.toSplittableShape();
+                child.copyOffset(tmpOffset);
+                child.copyRotationMatrix(tmpRotation);
+                result.addChildShape(splittableShape, tmpOffset, tmpRotation);
+            }
+        }
+
+        return result;
     }
 
     /**
