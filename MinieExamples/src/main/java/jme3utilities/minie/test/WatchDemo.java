@@ -218,7 +218,7 @@ public class WatchDemo extends PhysicsDemo {
 
         // Add a target rigid body, to be moved by dragging RMB.
         CollisionShape shape = new SphereCollisionShape(0.1f);
-        targetBody = new PhysicsRigidBody(shape);
+        this.targetBody = new PhysicsRigidBody(shape);
         targetBody.setKinematic(true);
         addCollisionObject(targetBody);
 
@@ -415,7 +415,7 @@ public class WatchDemo extends PhysicsDemo {
             dac.getSpatial().removeControl(dac);
             rootNode.detachChild(cgModel);
             rootNode.removeControl(sv);
-            dacReadyInitDone = false;
+            this.dacReadyInitDone = false;
         }
 
         switch (modelName) {
@@ -468,7 +468,7 @@ public class WatchDemo extends PhysicsDemo {
         PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
-        sv = new SkeletonVisualizer(assetManager, sc);
+        this.sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);

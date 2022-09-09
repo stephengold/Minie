@@ -500,10 +500,10 @@ public class BalanceDemo extends PhysicsDemo {
         PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
-        torso = dac.getTorsoLink();
-        composer = controlledSpatial.getControl(AnimComposer.class);
+        this.torso = dac.getTorsoLink();
+        this.composer = controlledSpatial.getControl(AnimComposer.class);
 
-        sv = new SkeletonVisualizer(assetManager, sc);
+        this.sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);

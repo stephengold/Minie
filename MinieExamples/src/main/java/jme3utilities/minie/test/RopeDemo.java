@@ -703,7 +703,7 @@ public class RopeDemo extends PhysicsDemo {
      * Add the skeleton visualizer the scene.
      */
     private void addSkeleton() {
-        sv = new SkeletonVisualizer(assetManager, null);
+        this.sv = new SkeletonVisualizer(assetManager, null);
         rootNode.addControl(sv);
         sv.setLineColor(ColorRGBA.Red);
         sv.setHeadColor(0, ColorRGBA.Green);

@@ -635,7 +635,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @see com.jme3.bullet.RayTestFlag
      */
     public void setRayTestFlags(int flags) {
-        rayTestFlags = flags;
+        this.rayTestFlags = flags;
     }
 
     /**

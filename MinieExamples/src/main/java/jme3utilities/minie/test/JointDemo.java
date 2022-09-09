@@ -398,26 +398,26 @@ public class JointDemo extends PhysicsDemo {
         Geometry lfGeom = new Geometry("lf leg", legMesh);
         Vector3f lfLegInWorld = new Vector3f(-0.8f, 0.6f, 0.5f);
         Vector3f lfPivotInChassis = new Vector3f(-0.8f, 0f, 0.4f);
-        lfMotor = addLeg(lfGeom, lfLegInWorld, lfPivotInChassis, chassisInWorld,
-                chassisRbc);
+        this.lfMotor = addLeg(lfGeom, lfLegInWorld, lfPivotInChassis,
+                chassisInWorld, chassisRbc);
 
         Geometry rfGeom = new Geometry("rf leg", legMesh);
         Vector3f rfLegInWorld = new Vector3f(-0.8f, 0.6f, -0.5f);
         Vector3f rfPivotInChassis = new Vector3f(-0.8f, 0f, -0.4f);
-        rfMotor = addLeg(rfGeom, rfLegInWorld, rfPivotInChassis, chassisInWorld,
-                chassisRbc);
+        this.rfMotor = addLeg(rfGeom, rfLegInWorld, rfPivotInChassis,
+                chassisInWorld, chassisRbc);
 
         Geometry lrGeom = new Geometry("lr leg", legMesh);
         Vector3f lrLegInWorld = new Vector3f(0.8f, 0.6f, 0.5f);
         Vector3f lrPivotInChassis = new Vector3f(0.8f, 0f, 0.4f);
-        lrMotor = addLeg(lrGeom, lrLegInWorld, lrPivotInChassis, chassisInWorld,
-                chassisRbc);
+        this.lrMotor = addLeg(lrGeom, lrLegInWorld, lrPivotInChassis,
+                chassisInWorld, chassisRbc);
 
         Geometry rrGeom = new Geometry("rr leg", legMesh);
         Vector3f rrLegInWorld = new Vector3f(0.8f, 0.6f, -0.5f);
         Vector3f rrPivotInChassis = new Vector3f(0.8f, 0f, -0.4f);
-        rrMotor = addLeg(rrGeom, rrLegInWorld, rrPivotInChassis, chassisInWorld,
-                chassisRbc);
+        this.rrMotor = addLeg(rrGeom, rrLegInWorld, rrPivotInChassis,
+                chassisInWorld, chassisRbc);
     }
 
     /**

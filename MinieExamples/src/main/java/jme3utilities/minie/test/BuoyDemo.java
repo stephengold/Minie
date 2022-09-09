@@ -461,7 +461,7 @@ public class BuoyDemo extends PhysicsDemo {
                 = controlledSpatial.getControl(AnimComposer.class);
         composer.setCurrentAction(animationName);
 
-        sv = new SkeletonVisualizer(assetManager, sc);
+        this.sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);

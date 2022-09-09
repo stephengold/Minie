@@ -224,10 +224,12 @@ public class BalanceController extends IKController {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        locationGainFactor = capsule.readFloat("locationGainFactor", 0.02f);
-        velocityGainFactor = capsule.readFloat("velocityGainFactor", 0.02f);
-        centerOfSupport = (Vector3f) capsule.readSavable("centerOfSupport",
-                new Vector3f());
+        this.locationGainFactor
+                = capsule.readFloat("locationGainFactor", 0.02f);
+        this.velocityGainFactor
+                = capsule.readFloat("velocityGainFactor", 0.02f);
+        this.centerOfSupport = (Vector3f) capsule.readSavable(
+                "centerOfSupport", new Vector3f());
     }
 
     /**

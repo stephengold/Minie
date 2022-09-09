@@ -178,8 +178,8 @@ public class BuoyController extends IKController {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        densityOfMedium = capsule.readFloat("densityOfMedium", 1f);
-        surfaceY = capsule.readFloat("surfaceY", 0f);
+        this.densityOfMedium = capsule.readFloat("densityOfMedium", 1f);
+        this.surfaceY = capsule.readFloat("surfaceY", 0f);
     }
 
     /**

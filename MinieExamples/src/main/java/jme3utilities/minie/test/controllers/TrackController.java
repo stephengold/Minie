@@ -262,15 +262,16 @@ public class TrackController extends IKController {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        deltaGainFactor = capsule.readFloat("deltaGainFactor", 0.1f);
-        errorGainFactor = capsule.readFloat("errorGainFactor", 0.1f);
-        targetBody = (PhysicsRigidBody) capsule.readSavable("targetBody", null);
-        directionInLinkBody = (Vector3f) capsule.readSavable(
+        this.deltaGainFactor = capsule.readFloat("deltaGainFactor", 0.1f);
+        this.errorGainFactor = capsule.readFloat("errorGainFactor", 0.1f);
+        this.targetBody
+                = (PhysicsRigidBody) capsule.readSavable("targetBody", null);
+        this.directionInLinkBody = (Vector3f) capsule.readSavable(
                 "directionInLinkBody", new Vector3f(1f, 0f, 0f));
-        pivotInLinkBody = (Vector3f) capsule.readSavable("directionInLinkBody",
-                new Vector3f());
-        previousError = (Vector3f) capsule.readSavable("previousError",
-                new Vector3f());
+        this.pivotInLinkBody = (Vector3f) capsule
+                .readSavable("directionInLinkBody", new Vector3f());
+        this.previousError = (Vector3f) capsule
+                .readSavable("previousError", new Vector3f());
     }
 
     /**
