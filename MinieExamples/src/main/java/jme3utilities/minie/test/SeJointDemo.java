@@ -383,7 +383,7 @@ public class SeJointDemo extends PhysicsDemo {
     // private methods
 
     /**
-     * Add lighting to the scene.
+     * Add lighting to the main scene.
      */
     private void addLighting() {
         ColorRGBA ambientColor = new ColorRGBA(2f, 2f, 2f, 1f);

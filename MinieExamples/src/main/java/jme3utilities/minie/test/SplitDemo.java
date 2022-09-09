@@ -486,6 +486,8 @@ public class SplitDemo
 
     /**
      * Add lighting to the specified scene.
+     *
+     * @param rootSpatial which scene (not null)
      */
     private void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);

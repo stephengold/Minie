@@ -884,6 +884,8 @@ public class TestRbc
 
     /**
      * Add lighting to the specified scene.
+     *
+     * @param rootSpatial which scene (not null)
      */
     private void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);

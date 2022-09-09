@@ -478,7 +478,9 @@ public class ConveyorDemo
     }
 
     /**
-     * Add lighting and shadows to the specified scene.
+     * Add lighting to the specified scene.
+     *
+     * @param rootSpatial which scene (not null)
      */
     private void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);

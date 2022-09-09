@@ -351,7 +351,7 @@ public class BuoyDemo extends PhysicsDemo {
     // private methods
 
     /**
-     * Add lighting and reflections to the scene.
+     * Add lighting and reflections to the main scene.
      */
     private void addLighting() {
         ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);

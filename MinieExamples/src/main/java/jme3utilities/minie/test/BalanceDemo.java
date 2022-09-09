@@ -418,7 +418,7 @@ public class BalanceDemo extends PhysicsDemo {
     // private methods
 
     /**
-     * Add lighting and shadows to the scene.
+     * Add lighting and shadows to the main scene.
      */
     private void addLighting() {
         ColorRGBA ambientColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);

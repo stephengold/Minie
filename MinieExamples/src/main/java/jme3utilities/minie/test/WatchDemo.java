@@ -382,7 +382,7 @@ public class WatchDemo extends PhysicsDemo {
     }
 
     /**
-     * Add lighting and shadows to the scene.
+     * Add lighting and shadows to the main scene.
      */
     private void addLighting() {
         ColorRGBA ambientColor = new ColorRGBA(0.4f, 0.4f, 0.4f, 1f);

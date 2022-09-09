@@ -369,6 +369,8 @@ public class PoolDemo extends PhysicsDemo {
 
     /**
      * Add lighting and shadows to the specified scene.
+     *
+     * @param rootSpatial which scene (not null)
      */
     private void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
