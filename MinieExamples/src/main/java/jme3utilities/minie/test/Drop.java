@@ -207,8 +207,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             int numFloats;
             if (body instanceof PhysicsRigidBody) {
                 CollisionShape shape = body.getCollisionShape();
-                vertices[bodyIndex] = DebugShapeFactory.debugVertices(shape,
-                        DebugShapeFactory.lowResolution);
+                vertices[bodyIndex] = DebugShapeFactory.debugVertices(
+                        shape, DebugShapeFactory.lowResolution);
                 numFloats = vertices[bodyIndex].capacity();
 
                 // Transform scaled shape coordinates to physics-space.
@@ -477,8 +477,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         float pieceLength = totalLength / 2f;
         float pieceMass = totalMass / 2f;
 
-        CylinderCollisionShape pieceShape = new CylinderCollisionShape(radius,
-                pieceLength, PhysicsSpace.AXIS_Y);
+        CylinderCollisionShape pieceShape = new CylinderCollisionShape(
+                radius, pieceLength, PhysicsSpace.AXIS_Y);
 
         Transform tmpPosition = new Transform();
         tmpPosition.getTranslation().y = pieceLength / 2;
@@ -496,8 +496,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
         Matrix3f rotInA = Matrix3f.IDENTITY;
         Matrix3f rotInB = Matrix3f.IDENTITY;
-        New6Dof fixed = new New6Dof(a, b, pivotInA, pivotInB, rotInA, rotInB,
-                RotationOrder.YZX);
+        New6Dof fixed = new New6Dof(
+                a, b, pivotInA, pivotInB, rotInA, rotInB, RotationOrder.YZX);
         allJoints.add(fixed);
 
         fixed.setBreakingImpulseThreshold(4f);
@@ -556,8 +556,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     private void createDiptych(float height, float thickness, float boxWidth) {
         float boxHalfWidth = boxWidth / 2f;
         float halfThickness = thickness / 2f;
-        CollisionShape boxShape = new BoxCollisionShape(boxHalfWidth,
-                height / 2f, halfThickness);
+        CollisionShape boxShape = new BoxCollisionShape(
+                        boxHalfWidth, height / 2f, halfThickness);
 
         float boxMass = totalMass / 2f;
 
@@ -579,8 +579,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
         Matrix3f rotInA = Matrix3f.IDENTITY;
         Matrix3f rotInB = Matrix3f.IDENTITY;
-        New6Dof hinge = new New6Dof(a, b, pivotInA, pivotInB, rotInA, rotInB,
-                RotationOrder.YZX);
+        New6Dof hinge = new New6Dof(
+                a, b, pivotInA, pivotInB, rotInA, rotInB, RotationOrder.YZX);
         allJoints.add(hinge);
 
         RotationMotor xMotor = hinge.getRotationMotor(PhysicsSpace.AXIS_X);
@@ -606,8 +606,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     private void createFlail(float aLength, float bLength, float radius) {
         float linearDensity = totalMass / (aLength + bLength);
 
-        CollisionShape aShape = new CapsuleCollisionShape(radius, aLength,
-                PhysicsSpace.AXIS_Y);
+        CollisionShape aShape = new CapsuleCollisionShape(
+                radius, aLength, PhysicsSpace.AXIS_Y);
         float aMass = aLength * linearDensity;
 
         Vector3f pivotInA = new Vector3f(0f, 3f * radius + aLength / 2f, 0f);
@@ -618,8 +618,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         PhysicsRigidBody a = createRigidBody(
                 aShape, aMass, MeshNormals.Smooth, aPosition);
 
-        CollisionShape bShape = new CapsuleCollisionShape(radius, bLength,
-                PhysicsSpace.AXIS_Y);
+        CollisionShape bShape = new CapsuleCollisionShape(
+                radius, bLength, PhysicsSpace.AXIS_Y);
         float bMass = bLength * linearDensity;
 
         Vector3f pivotInB = new Vector3f(0f, -3f * radius - bLength / 2f, 0f);
@@ -632,8 +632,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
         Matrix3f rotInA = Matrix3f.IDENTITY;
         Matrix3f rotInB = Matrix3f.IDENTITY;
-        New6Dof pivot = new New6Dof(a, b, pivotInA, pivotInB, rotInA, rotInB,
-                RotationOrder.XYZ);
+        New6Dof pivot = new New6Dof(
+                a, b, pivotInA, pivotInB, rotInA, rotInB, RotationOrder.XYZ);
         allJoints.add(pivot);
     }
 
@@ -692,8 +692,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * @param scale the uniform scale factor to apply (&gt;0)
      * @param control a configured DynamicAnimControl to use (not null)
      */
-    private void createRagdoll(String assetPath, float scale,
-            DynamicAnimControl control) {
+    private void createRagdoll(
+                 String assetPath, float scale, DynamicAnimControl control) {
         assert scale > 0f : scale;
 
         AssetManager assetManager = appInstance.getAssetManager();

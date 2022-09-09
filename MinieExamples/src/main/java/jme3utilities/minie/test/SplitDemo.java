@@ -510,8 +510,8 @@ public class SplitDemo
      * @param debugMeshNormals how to generate normals for debug visualization
      * (not null)
      */
-    private void addRigidBody(
-            CollisionShape shape, MeshNormals debugMeshNormals) {
+    private void
+            addRigidBody(CollisionShape shape, MeshNormals debugMeshNormals) {
         PhysicsRigidBody body = new PhysicsRigidBody(shape);
         body.setDebugMeshNormals(debugMeshNormals);
 
@@ -720,8 +720,8 @@ public class SplitDemo
 
             Vector3f shapeNormal = shapeTriangle.getNormal(); // alias
             Vector3f worldNormal = worldTriangle.getNormal(); // alias
-            splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal,
-                    shapes, volumes, locations);
+            splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal, shapes,
+                    volumes, locations);
 
         } else if (splittableShape instanceof CompoundCollisionShape) {
             CompoundCollisionShape compound
@@ -749,8 +749,8 @@ public class SplitDemo
 
             Vector3f shapeNormal = shapeTriangle.getNormal(); // alias
             Vector3f worldNormal = worldTriangle.getNormal(); // alias
-            splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal,
-                    newCps, volumes, locations);
+            splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal, newCps,
+                    volumes, locations);
 
         } else { // TODO handle simplex n<=2, heightfield/mesh/gimpact
             logger.log(Level.WARNING, "Shape not split:  {0}", originalShape);

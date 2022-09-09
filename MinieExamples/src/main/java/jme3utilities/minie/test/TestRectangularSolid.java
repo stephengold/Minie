@@ -156,8 +156,8 @@ public class TestRectangularSolid extends PhysicsDemo {
         guiNode.attachChild(statusText);
         super.acorusInit();
 
-        Material material = MyAsset.createWireframeMaterial(assetManager,
-                sampleColor, samplePointSize);
+        Material material = MyAsset.createWireframeMaterial(
+                assetManager, sampleColor, samplePointSize);
         registerMaterial("samplePoint", material);
 
         this.bulletAppState = new BulletAppState();

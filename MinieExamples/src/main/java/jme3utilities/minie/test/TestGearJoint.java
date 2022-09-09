@@ -190,8 +190,8 @@ public class TestGearJoint
          * Join them with a GearJoint.
          * The driveshaft makes 3 revolutions for each revolution of the wheel.
          */
-        GearJoint gear = new GearJoint(driveshaft, wheel,
-                Vector3f.UNIT_Y, Vector3f.UNIT_X, 3f);
+        GearJoint gear = new GearJoint(
+                driveshaft, wheel, Vector3f.UNIT_Y, Vector3f.UNIT_X, 3f);
         addJoint(gear);
     }
 
@@ -344,8 +344,8 @@ public class TestGearJoint
      * @param showDialog when to show the JME settings dialog (not null)
      * @param title for the title bar of the app's window
      */
-    private static void mainStartup(final ShowDialog showDialog,
-            final String title) {
+    private static void mainStartup(
+            final ShowDialog showDialog, final String title) {
         TestGearJoint application = new TestGearJoint();
 
         RectSizeLimits sizeLimits = new RectSizeLimits(

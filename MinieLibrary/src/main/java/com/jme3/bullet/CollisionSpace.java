@@ -231,8 +231,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * @return the number of times the listener was invoked, or would have been
      * if it weren't null (&ge;0)
      */
-    public int contactTest(PhysicsCollisionObject pco,
-            PhysicsCollisionListener listener) {
+    public int contactTest(
+                PhysicsCollisionObject pco, PhysicsCollisionListener listener) {
         Validate.nonNull(pco, "collision object");
 
         long spaceId = nativeId();

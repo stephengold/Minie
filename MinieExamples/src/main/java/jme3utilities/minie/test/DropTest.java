@@ -415,8 +415,8 @@ public class DropTest
         for (char character = 'A'; character <= 'Z'; ++character) {
             char[] array = {character};
             String glyphString = new String(array);
-            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
-                    glyphString);
+            String assetPath = String.format(
+                            "CollisionShapes/glyphs/%s.j3o", glyphString);
             shape = (CollisionShape) assetManager.loadAsset(assetPath);
             registerShape(glyphString, shape);
         }
@@ -425,8 +425,8 @@ public class DropTest
         for (char character = '0'; character <= '9'; ++character) {
             char[] array = {character};
             String glyphString = new String(array);
-            String assetPath = String.format("CollisionShapes/glyphs/%s.j3o",
-                    glyphString);
+            String assetPath = String.format(
+                    "CollisionShapes/glyphs/%s.j3o", glyphString);
             shape = (CollisionShape) assetManager.loadAsset(assetPath);
             registerShape(glyphString, shape);
         }

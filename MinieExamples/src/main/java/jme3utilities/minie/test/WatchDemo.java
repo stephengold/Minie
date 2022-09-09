@@ -208,8 +208,8 @@ public class WatchDemo extends PhysicsDemo {
         attachCubePlatform(halfExtent, topY);
 
         int indicatorSize = 16; // in pixels
-        targetPoint = new PointVisualizer(assetManager, indicatorSize,
-                ColorRGBA.Red, "ring");
+        this.targetPoint = new PointVisualizer(
+                assetManager, indicatorSize, ColorRGBA.Red, "ring");
         rootNode.attachChild(targetPoint);
 
         //addModel("Sinbad");

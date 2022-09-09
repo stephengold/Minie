@@ -124,8 +124,8 @@ public class TestInsideTriangle extends AcorusDemo {
         attachWorldAxes(2f);
 
         float samplePointSize = 1f;
-        Material sampleMaterial = MyAsset.createWireframeMaterial(assetManager,
-                ColorRGBA.White, samplePointSize);
+        Material sampleMaterial = MyAsset.createWireframeMaterial(
+                assetManager, ColorRGBA.White, samplePointSize);
         registerMaterial("sample", sampleMaterial);
 
         float trianglePointSize = 5f;

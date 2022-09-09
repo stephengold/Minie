@@ -205,8 +205,8 @@ public class ConveyorDemo
         }
 
         // enable lateral friction for the current contact point:
-        ManifoldPoints.setFlags(contactPointId,
-                ContactPointFlag.LATERAL_FRICTION);
+        ManifoldPoints
+                .setFlags(contactPointId, ContactPointFlag.LATERAL_FRICTION);
 
         PhysicsCollisionObject beltPco = aIsAConveyorBelt ? pcoA : pcoB;
         int beltIndex = (Integer) beltPco.getApplicationData();
@@ -405,9 +405,9 @@ public class ConveyorDemo
      * @param appData the desired application data, or null for none
      * @return the new body
      */
-    private PhysicsRigidBody addBoxBody(Vector3f halfExtents,
-            Vector3f centerLocation, float mass, String materialName,
-            Integer appData) {
+    private PhysicsRigidBody addBoxBody(
+            Vector3f halfExtents, Vector3f centerLocation, float mass,
+            String materialName, Integer appData) {
         CollisionShape shape = new BoxCollisionShape(halfExtents);
         PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
         addCollisionObject(result);
@@ -527,8 +527,8 @@ public class ConveyorDemo
      * @param material the prototype material (not null, unaffected)
      * @param color the desired color (not null, unaffected)
      */
-    private void cloneAndRegisterMaterial(String name, Material material,
-            ColorRGBA color) {
+    private void cloneAndRegisterMaterial(
+            String name, Material material, ColorRGBA color) {
         Material clone = material.clone();
         clone.setColor("Ambient", color.clone());
         clone.setColor("Diffuse", color.clone());

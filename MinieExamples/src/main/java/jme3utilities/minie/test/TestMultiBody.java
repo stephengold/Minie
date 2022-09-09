@@ -306,8 +306,8 @@ public class TestMultiBody extends PhysicsDemo {
         Vector3f inertia = new Vector3f(1f, 1f, 1f);
         boolean fixedBase = false;
         boolean canSleep = false;
-        MultiBody multiBody = new MultiBody(numLinks, linkMass, inertia,
-                fixedBase, canSleep);
+        MultiBody multiBody = new MultiBody(
+                        numLinks, linkMass, inertia, fixedBase, canSleep);
 
         CollisionShape baseShape = new SphereCollisionShape(0.3f);
         multiBody.addBaseCollider(baseShape);

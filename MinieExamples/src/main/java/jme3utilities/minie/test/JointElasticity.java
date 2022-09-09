@@ -318,8 +318,8 @@ public class JointElasticity extends PhysicsDemo {
      */
     private void addDoor() {
         float halfHeight = 4f;
-        BoxCollisionShape shape = new BoxCollisionShape(doorHalfWidth,
-                halfHeight, halfThickness);
+        BoxCollisionShape shape = new BoxCollisionShape(
+                        doorHalfWidth, halfHeight, halfThickness);
         this.doorBody = new PhysicsRigidBody(shape, doorMass);
         addCollisionObject(doorBody);
 
@@ -342,8 +342,8 @@ public class JointElasticity extends PhysicsDemo {
         cam.setLocation(new Vector3f(0f, 8.8f, 6.2f));
         cam.setRotation(new Quaternion(0f, 0.9f, -0.43589f, 0f));
 
-        AppState orbitState = new CameraOrbitAppState(cam,
-                signalOrbitRight, signalOrbitLeft);
+        AppState orbitState = new CameraOrbitAppState(
+                        cam, signalOrbitRight, signalOrbitLeft);
         stateManager.attach(orbitState);
     }
 

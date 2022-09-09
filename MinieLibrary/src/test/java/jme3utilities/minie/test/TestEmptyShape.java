@@ -111,8 +111,8 @@ public class TestEmptyShape {
         }
 
         try {
-            shape = new HeightfieldCollisionShape(floatArray,
-                    Vector3f.UNIT_XYZ);
+            shape = new HeightfieldCollisionShape(
+                    floatArray, Vector3f.UNIT_XYZ);
             Assert.fail("Expected an IllegalArgumentException");
         } catch (IllegalArgumentException exception) {
             // do nothing

@@ -685,8 +685,8 @@ public class TargetDemo
      * @param height the total height (Y axis, in physics-space units, &gt;0)
      * @param length the total length (X axis, in physics-space units, &gt;0)
      */
-    private void registerBrickShape(String shapeName, float height,
-            float length, float depth) {
+    private void registerBrickShape(
+            String shapeName, float height, float length, float depth) {
         unregisterShape(shapeName);
 
         float halfHeight = height / 2f;
@@ -706,8 +706,8 @@ public class TargetDemo
      */
     private void registerCanShape(float radius, float height) {
         unregisterShape("can");
-        CollisionShape shape = new CylinderCollisionShape(radius, height,
-                PhysicsSpace.AXIS_Y);
+        CollisionShape shape = new CylinderCollisionShape(
+                radius, height, PhysicsSpace.AXIS_Y);
         registerShape("can", shape);
     }
 
@@ -808,8 +808,8 @@ public class TargetDemo
      * @param location the desired world location (not null, unaffected)
      * @param orientation the desired world orientation (not null, unaffected)
      */
-    private void setUpBrick(String shapeName, Vector3f location,
-            Quaternion orientation) {
+    private void setUpBrick(
+            String shapeName, Vector3f location, Quaternion orientation) {
         CollisionShape shape = findShape(shapeName);
 
         float mass = 3f;
@@ -824,8 +824,8 @@ public class TargetDemo
     /**
      * Set up a round tower of bricks.
      */
-    private void setUpBrickTower(int numRings, int numBricksPerRing,
-            float thickness) {
+    private void setUpBrickTower(
+            int numRings, int numBricksPerRing, float thickness) {
         float innerDiameter = 32f - 2f * thickness;
         float innerCircumference = FastMath.PI * innerDiameter;
         float insideSpacing = innerCircumference / numBricksPerRing;

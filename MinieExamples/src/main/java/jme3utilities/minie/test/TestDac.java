@@ -450,16 +450,16 @@ public class TestDac extends PhysicsDemo {
                 case "go floating":
                     if (dac.isReady()) {
                         this.animPose = null;
-                        dac.setDynamicSubtree(dac.getTorsoLink(), Vector3f.ZERO,
-                                false);
+                        dac.setDynamicSubtree(
+                                dac.getTorsoLink(), Vector3f.ZERO, false);
                     }
                     return;
                 case "go frozen":
                     if (dac.isReady()) {
                         this.animPose = null;
                         Vector3f gravity = dac.gravity(null);
-                        dac.setDynamicSubtree(dac.getTorsoLink(), gravity,
-                                true);
+                        dac.setDynamicSubtree(
+                                dac.getTorsoLink(), gravity, true);
                     }
                     return;
                 case "go limp":
@@ -495,8 +495,8 @@ public class TestDac extends PhysicsDemo {
 
                 case "raise leftFoot":
                     if (dac.isReady()) {
-                        dac.setDynamicSubtree(leftFemur,
-                                new Vector3f(0f, 100f, 0f), false);
+                        dac.setDynamicSubtree(
+                                leftFemur, new Vector3f(0f, 100f, 0f), false);
                     }
                     return;
                 case "raise leftHand":
@@ -507,8 +507,8 @@ public class TestDac extends PhysicsDemo {
                     return;
                 case "raise rightFoot":
                     if (dac.isReady()) {
-                        dac.setDynamicSubtree(rightFemur,
-                                new Vector3f(0f, 100f, 0f), false);
+                        dac.setDynamicSubtree(
+                                rightFemur, new Vector3f(0f, 100f, 0f), false);
                     }
                     return;
                 case "raise rightHand":

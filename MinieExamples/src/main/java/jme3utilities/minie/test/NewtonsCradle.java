@@ -458,8 +458,8 @@ public class NewtonsCradle
             totalEnergy += potentialEnergy;
         }
 
-        String message = String.format("KE+PE=%f%s", totalEnergy,
-                isPaused() ? "  PAUSED" : "");
+        String message = String.format(
+                "KE+PE=%f%s", totalEnergy, isPaused() ? "  PAUSED" : "");
         statusText.setText(message);
     }
 }

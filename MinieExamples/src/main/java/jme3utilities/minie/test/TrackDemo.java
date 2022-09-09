@@ -732,10 +732,10 @@ public class TrackDemo extends PhysicsDemo {
         Ray ray = MyCamera.mouseRay(cam, inputManager);
 
         Vector3f location = new Vector3f();
-        boolean isTopLeft = ray.intersectWhere(gridTopLeft,
-                gridTopRight, gridBottomLeft, location);
-        boolean isBottomRight = ray.intersectWhere(gridBottomRight,
-                gridTopRight, gridBottomLeft, location);
+        boolean isTopLeft = ray.intersectWhere(
+                gridTopLeft, gridTopRight, gridBottomLeft, location);
+        boolean isBottomRight = ray.intersectWhere(
+                gridBottomRight, gridTopRight, gridBottomLeft, location);
         if (isTopLeft || isBottomRight) {
             if (leftWatch != null) {
                 leftWatch.setEnabled(true);

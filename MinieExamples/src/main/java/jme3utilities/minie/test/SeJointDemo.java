@@ -490,8 +490,8 @@ public class SeJointDemo extends PhysicsDemo {
                 angle = (groupIndex - 1) * FastMath.HALF_PI;
                 rotInWorld.fromAngleAxis(angle, Vector3f.UNIT_Z);
                 referenceFrame = JointEnd.B;
-                SixDofSpringJoint springJoint = new SixDofSpringJoint(rbc,
-                        pivotInSeed, pivotInWorld, rotInSeed, rotInWorld,
+                SixDofSpringJoint springJoint = new SixDofSpringJoint(
+                        rbc, pivotInSeed, pivotInWorld, rotInSeed, rotInWorld,
                         referenceFrame);
                 springJoint.setAngularLowerLimit(new Vector3f(0f, -1f, -1f));
                 springJoint.setAngularUpperLimit(new Vector3f(0f, 1f, 1f));
@@ -523,8 +523,8 @@ public class SeJointDemo extends PhysicsDemo {
                 rotInSeed.loadIdentity();
                 angle = (groupIndex - 1) * FastMath.HALF_PI;
                 rotInWorld.fromAngleAxis(angle, Vector3f.UNIT_Z);
-                New6Dof nJoint = new New6Dof(rbc,
-                        pivotInSeed, pivotInWorld, rotInSeed, rotInWorld,
+                New6Dof nJoint = new New6Dof(
+                        rbc, pivotInSeed, pivotInWorld, rotInSeed, rotInWorld,
                         RotationOrder.XYZ);
                 RotationMotor x = nJoint.getRotationMotor(PhysicsSpace.AXIS_X);
                 x.set(MotorParam.LowerLimit, 0f);

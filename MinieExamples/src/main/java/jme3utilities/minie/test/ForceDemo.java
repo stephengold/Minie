@@ -251,12 +251,12 @@ public class ForceDemo
             cube.applyCentralImpulse(new Vector3f(0f, -0.1f, 0f));
         }
         if (signals.test("for+Y@+X")) {
-            cube.applyForce(new Vector3f(0f, 1f, 0f),
-                    new Vector3f(1f, 0f, 0f));
+            cube.applyForce(
+                    new Vector3f(0f, 1f, 0f), new Vector3f(1f, 0f, 0f));
         }
         if (signals.test("imp+Y@+X")) {
-            cube.applyImpulse(new Vector3f(0f, 0.1f, 0f),
-                    new Vector3f(1f, 0f, 0f));
+            cube.applyImpulse(
+                    new Vector3f(0f, 0.1f, 0f), new Vector3f(1f, 0f, 0f));
         }
         if (signals.test("torq+Y")) {
             cube.applyTorque(new Vector3f(0f, 1f, 0f));

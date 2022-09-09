@@ -156,14 +156,14 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * link configuration for leaf joints (shrunken hull shape)
      */
-    final private static LinkConfig leafConfig = new LinkConfig(linkMass,
-            MassHeuristic.Mass, ShapeHeuristic.VertexHull,
+    final private static LinkConfig leafConfig = new LinkConfig(
+            linkMass, MassHeuristic.Mass, ShapeHeuristic.VertexHull,
             new Vector3f(0.84f, 0.84f, 0.84f), CenterHeuristic.Mean);
     /**
      * link configuration for non-leaf joints (stretched capsule shape)
      */
-    final private static LinkConfig ropeConfig = new LinkConfig(linkMass,
-            MassHeuristic.Mass, ShapeHeuristic.TwoSphere,
+    final private static LinkConfig ropeConfig = new LinkConfig(
+            linkMass, MassHeuristic.Mass, ShapeHeuristic.TwoSphere,
             new Vector3f(1f, 1f, 2.5f), CenterHeuristic.Mean);
     /**
      * message logger for this class
@@ -546,8 +546,8 @@ public class RopeDemo extends PhysicsDemo {
         };
         Armature armature = makeArmature(stepCounts, stepOffsets);
 
-        TubeTreeMesh ropeMesh = new TubeTreeMesh(armature, ropeRadius,
-                0f, loopsPerSegment, samplesPerLoop);
+        TubeTreeMesh ropeMesh = new TubeTreeMesh(
+                armature, ropeRadius, 0f, loopsPerSegment, samplesPerLoop);
 
         String geometryName = geometryNamer.unique("rope cross");
         Geometry geometry = new Geometry(geometryName, ropeMesh);
@@ -951,16 +951,16 @@ public class RopeDemo extends PhysicsDemo {
      * @param showDialog when to show the JME settings dialog (not null)
      * @param title for the title bar of the app's window
      */
-    private static void mainStartup(final ShowDialog showDialog,
-            final String title) {
+    private static void
+            mainStartup(final ShowDialog showDialog, final String title) {
         RopeDemo application = new RopeDemo();
 
         RectSizeLimits sizeLimits = new RectSizeLimits(
                 530, 480, // min width, height
                 2_048, 1_080 // max width, height
         );
-        proposedSettings = new DisplaySettings(application, applicationName,
-                sizeLimits) {
+        proposedSettings = new DisplaySettings(
+                application, applicationName, sizeLimits) {
             @Override
             protected void applyOverrides(AppSettings settings) {
                 setShowDialog(showDialog);

@@ -519,8 +519,8 @@ public class TestSoftBody
     private void addCylinder(float topY) {
         float radius = 1f;
         float height = 0.4f;
-        CollisionShape shape = new CylinderCollisionShape(radius, height,
-                PhysicsSpace.AXIS_Y);
+        CollisionShape shape = new CylinderCollisionShape(
+                radius, height, PhysicsSpace.AXIS_Y);
         PhysicsRigidBody cylinderBody
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
@@ -568,8 +568,8 @@ public class TestSoftBody
     private void addPoleAndFlag() {
         float radius = 0.06f;
         float height = 4f;
-        CollisionShape shape = new CylinderCollisionShape(radius, height,
-                PhysicsSpace.AXIS_Y);
+        CollisionShape shape = new CylinderCollisionShape(
+                radius, height, PhysicsSpace.AXIS_Y);
         PhysicsRigidBody polePrb
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
@@ -620,14 +620,14 @@ public class TestSoftBody
         boolean allowCollisions = true;
         int nodeIndex = 0; // upper left corner of flag
         Vector3f initialLocation = flagPsb.nodeLocation(nodeIndex, null);
-        Anchor anchor0 = new Anchor(flagPsb, nodeIndex, polePrb,
-                initialLocation, allowCollisions);
+        Anchor anchor0 = new Anchor(
+                flagPsb, nodeIndex, polePrb, initialLocation, allowCollisions);
         physicsSpace.addJoint(anchor0);
 
         nodeIndex = xLines - 1; // lower left corner of flag
         flagPsb.nodeLocation(nodeIndex, initialLocation);
-        Anchor anchor1 = new Anchor(flagPsb, nodeIndex, polePrb,
-                initialLocation, allowCollisions);
+        Anchor anchor1 = new Anchor(
+                flagPsb, nodeIndex, polePrb, initialLocation, allowCollisions);
         physicsSpace.addJoint(anchor1);
     }
 
@@ -704,8 +704,8 @@ public class TestSoftBody
         boolean allowCollisions = true;
         for (int anchorIndex = 0; anchorIndex < numAnchors; ++anchorIndex) {
             Vector3f location = anchorLocs[anchorIndex];
-            Anchor anchor = new Anchor(skirtPsb, anchorIndex, rigid, location,
-                    allowCollisions);
+            Anchor anchor = new Anchor(
+                    skirtPsb, anchorIndex, rigid, location, allowCollisions);
             physicsSpace.addJoint(anchor);
         }
     }
@@ -933,8 +933,8 @@ public class TestSoftBody
      * go dynamic, put it into ragdoll mode.
      */
     private void goLimp() {
-        List<DynamicAnimControl> dacs = MySpatial.listControls(rootNode,
-                DynamicAnimControl.class, null);
+        List<DynamicAnimControl> dacs = MySpatial
+                .listControls(rootNode, DynamicAnimControl.class, null);
         if (dacs.size() == 1) {
             DynamicAnimControl dac = dacs.get(0);
             if (dac.isReady()) {

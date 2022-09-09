@@ -229,12 +229,12 @@ public class BalanceDemo extends PhysicsDemo {
         stateManager.getState(StatsAppState.class).toggleStats();
 
         int indicatorSize = 16; // in pixels
-        this.comPoint = new PointVisualizer(assetManager, indicatorSize,
-                ColorRGBA.Cyan, "ring");
+        this.comPoint = new PointVisualizer(
+                assetManager, indicatorSize, ColorRGBA.Cyan, "ring");
         rootNode.attachChild(comPoint);
 
-        this.supportPoint = new PointVisualizer(assetManager, indicatorSize,
-                ColorRGBA.Yellow, "square");
+        this.supportPoint = new PointVisualizer(
+                assetManager, indicatorSize, ColorRGBA.Yellow, "square");
         rootNode.attachChild(supportPoint);
 
         float halfExtent = 50f;
