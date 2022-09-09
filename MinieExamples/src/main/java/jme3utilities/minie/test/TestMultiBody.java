@@ -109,9 +109,8 @@ public class TestMultiBody extends PhysicsDemo {
 
         // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Enable direct-memory tracking.
-         */
+
+        // Enable direct-memory tracking.
         BufferUtils.setTrackDirectMemoryEnabled(true);
 
         boolean loadDefaults = true;

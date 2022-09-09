@@ -370,13 +370,11 @@ public class BuoyDemo extends PhysicsDemo {
         Plane surface = new Plane(Vector3f.UNIT_Y, surfaceElevation);
         processor.setPlane(surface);
         processor.setReflectionScene(reflectiblesNode);
-        /*
-         * Clip everything below the surface.
-         */
+
+        // Clip everything below the surface.
         processor.setReflectionClippingOffset(-0.1f);
-        /*
-         * Configure water and wave parameters.
-         */
+
+        // Configure water and wave parameters.
         float waveHeight = 0.2f;
         processor.setDistortionScale(waveHeight);
         float waterTransparency = 0.4f;
@@ -449,9 +447,8 @@ public class BuoyDemo extends PhysicsDemo {
         dac.setGravity(new Vector3f(0f, -50f, 0f));
         PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
-        /*
-         * Add buoyancy to each BoneLink.
-         */
+
+        // Add buoyancy to each BoneLink.
         List<PhysicsLink> links = dac.listLinks(PhysicsLink.class);
         float density = 1.5f;
         for (PhysicsLink link : links) {

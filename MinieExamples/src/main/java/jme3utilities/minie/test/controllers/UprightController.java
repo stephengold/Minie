@@ -174,14 +174,12 @@ public class UprightController extends IKController {
 
         PhysicsLink link = getLink();
         assert !link.isKinematic();
-        /*
-         * Convert the body's "up" direction to physics-space coordinates.
-         */
+
+        // Convert the body's "up" direction to physics-space coordinates.
         Transform localToWorld = link.physicsTransform(null);
         Vector3f actual = localToWorld.getRotation().mult(directionInLinkBody);
-        /*
-         * error = actual X desired
-         */
+
+        // error = actual X desired
         Vector3f error = actual.cross(unitY);
         /*
          * Return early if the error angle is 0.
@@ -202,14 +200,12 @@ public class UprightController extends IKController {
         Vector3f errorAxis = error.divide(absSinErrorAngle);
         float errorMagnitude = (error.y >= 0f) ? absSinErrorAngle : 1f;
         errorAxis.mult(errorMagnitude, error);
-        /*
-         * Calculate delta: the change in the error vector.
-         */
+
+        // Calculate delta: the change in the error vector.
         Vector3f delta = error.subtract(previousError, null);
         previousError.set(error);
-        /*
-         * Calculate a torque impulse.
-         */
+
+        // Calculate a torque impulse.
         Vector3f sum = new Vector3f(0f, 0f, 0f);
         // delta term
         MyVector3f.accumulateScaled(sum, delta, deltaGainFactor);
@@ -220,9 +216,8 @@ public class UprightController extends IKController {
         rigidBody.getInverseInertiaWorld(tmpInertia);
         tmpInertia.invertLocal();
         tmpInertia.mult(sum, sum);
-        /*
-         * Apply the torque impulse to the controlled link's rigid body.
-         */
+
+        // Apply the torque impulse to the controlled link's rigid body.
         rigidBody.applyTorqueImpulse(sum);
     }
 

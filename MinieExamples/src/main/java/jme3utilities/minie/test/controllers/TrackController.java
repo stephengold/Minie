@@ -192,23 +192,20 @@ public class TrackController extends IKController {
 
         Transform localToWorld = link.physicsTransform(null);
         localToWorld.setScale(1f);
-        /*
-         * Calculate the actual direction in physics-space coordinates.
-         */
+
+        // Calculate the actual direction in physics-space coordinates.
         Vector3f actual
                 = localToWorld.getRotation().mult(directionInLinkBody, null);
         assert actual.isUnitVector();
-        /*
-         * Calculate the desired direction in physics-space coordinates.
-         */
+
+        // Calculate the desired direction in physics-space coordinates.
         Vector3f desired = targetBody.getPhysicsLocation(null);
         Vector3f pivotInWorld
                 = localToWorld.transformVector(pivotInLinkBody, null);
         desired.subtractLocal(pivotInWorld);
         MyVector3f.normalizeLocal(desired);
-        /*
-         * error = actual X desired
-         */
+
+        // error = actual X desired
         Vector3f error = actual.cross(desired);
         /*
          * Return early if the error angle is 0.
@@ -231,29 +228,25 @@ public class TrackController extends IKController {
         Vector3f errorAxis = error.divide(absSinErrorAngle);
         float errorMagnitude = (cosErrorAngle >= 0.0) ? absSinErrorAngle : 1f;
         errorAxis.mult(errorMagnitude, error);
-        /*
-         * Calculate delta: the change in the error vector.
-         */
+
+        // Calculate delta: the change in the error vector.
         Vector3f delta = error.subtract(previousError, null);
         previousError.set(error);
-        /*
-         * Calculate a torque impulse.
-         */
+
+        // Calculate a torque impulse.
         Vector3f sum = new Vector3f(0f, 0f, 0f);
         // delta term
         MyVector3f.accumulateScaled(sum, delta, deltaGainFactor);
         // proportional term
         MyVector3f.accumulateScaled(sum, error, errorGainFactor);
-        /*
-         * Scale by the link body's rotational inertia.
-         */
+
+        // Scale by the link body's rotational inertia.
         PhysicsRigidBody rigidBody = link.getRigidBody();
         rigidBody.getInverseInertiaWorld(tmpInertia);
         tmpInertia.invertLocal();
         tmpInertia.mult(sum, sum);
-        /*
-         * Apply the torque impulse to the controlled link's rigid body.
-         */
+
+        // Apply the torque impulse to the controlled link's rigid body.
         rigidBody.applyTorqueImpulse(sum);
     }
 

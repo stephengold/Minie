@@ -511,9 +511,7 @@ public class TrackDemo extends PhysicsDemo {
      * mode.
      */
     private void initWhenReady() {
-        /*
-         * Touch the tip vertex to the target.
-         */
+        // Touch the tip vertex to the target.
         Vector3f pivot = new Vector3f();
         PhysicsLink tipLink = dac.findManagerForVertex(tipSpec, null, pivot);
         dac.setMass(tipLink, 100f);
@@ -522,9 +520,8 @@ public class TrackDemo extends PhysicsDemo {
                 = dac.moveToBody(tipLink, pivot, targetBody, Vector3f.ZERO);
         tipJoint = ikJoint.getPhysicsJoint();
         tipJoint.setEnabled(false);
-        /*
-         * The face and neck track the target.
-         */
+
+        // The face and neck track the target.
         Face face = (Face) dac;
         Vector3f faceDirection = face.faceDirection(null);
         String noseSpec = face.faceCenterSpec();
@@ -535,14 +532,12 @@ public class TrackDemo extends PhysicsDemo {
         watch.setDeltaGainFactor(1.2f);
         watch.setEnabled(false);
         watch.setErrorGainFactor(0.3f);
-        /*
-         * If the model's eyes are animated, each eye also tracks the target.
-         */
+
+        // If the model's eyes are animated, each eye also tracks the target.
         if (dac instanceof Binocular) {
             Binocular binocular = (Binocular) dac;
-            /*
-             * left eye
-             */
+
+            // left eye
             String spec = binocular.leftPupilSpec();
             PhysicsLink link = dac.findManagerForVertex(spec, null, pivot);
             link.setDynamic(Vector3f.ZERO);
@@ -553,9 +548,8 @@ public class TrackDemo extends PhysicsDemo {
             leftWatch.setDeltaGainFactor(4f);
             leftWatch.setEnabled(false);
             leftWatch.setErrorGainFactor(1f);
-            /*
-             * right eye
-             */
+
+            // right eye
             spec = binocular.rightPupilSpec();
             link = dac.findManagerForVertex(spec, null, pivot);
             link.setDynamic(Vector3f.ZERO);

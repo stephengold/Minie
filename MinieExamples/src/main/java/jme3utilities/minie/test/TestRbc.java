@@ -305,9 +305,8 @@ public class TestRbc
     @Override
     public void generateMaterials() {
         super.generateMaterials();
-        /*
-         * Change the platform material to double-sided.
-         */
+
+        // Change the platform material to double-sided.
         Material platformMaterial = findMaterial("platform");
         RenderState ars = platformMaterial.getAdditionalRenderState();
         ars.setFaceCullMode(RenderState.FaceCullMode.Off);
@@ -501,9 +500,8 @@ public class TestRbc
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
-        /*
-         * Set mouse-cursor shape based on a raytest result.
-         */
+
+        // Set mouse-cursor shape based on a raytest result.
         Vector2f screenXY = inputManager.getCursorPosition();
         Vector3f nearLocation
                 = cam.getWorldCoordinates(screenXY, MyCamera.nearZ);
@@ -535,9 +533,8 @@ public class TestRbc
         Spatial userB = event.getNodeB();
         if (userA == testSpatial && userB == missileSpatial
                 || userA == missileSpatial && userB == testSpatial) {
-            /*
-             * Put the missile's RBC into kinematic mode, so it will stick.
-             */
+
+            // Put the missile's RBC into kinematic mode, so it will stick.
             RigidBodyControl rigidBodyControl
                     = missileSpatial.getControl(RigidBodyControl.class);
             rigidBodyControl.setKinematic(true);
@@ -1148,9 +1145,8 @@ public class TestRbc
         hitPoint.setEnabled(false);
         this.partIndex = -1;
         this.triangleIndex = -1;
-        /*
-         * Remove any added spatials from the scene.
-         */
+
+        // Remove any added spatials from the scene.
         meshesNode.detachAllChildren();
         this.missileSpatial = null;
         this.testSpatial = null;

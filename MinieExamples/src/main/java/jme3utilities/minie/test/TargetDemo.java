@@ -158,9 +158,8 @@ public class TargetDemo
 
         // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Enable direct-memory tracking.
-         */
+
+        // Enable direct-memory tracking.
         BufferUtils.setTrackDirectMemoryEnabled(true);
 
         boolean loadDefaults = true;
@@ -287,9 +286,8 @@ public class TargetDemo
                 = MyAsset.createShinyMaterial(assetManager, lightGray);
         selected.setFloat("Shininess", 15f);
         registerMaterial("selected", selected);
-        /*
-         * shiny, lit materials for targets
-         */
+
+        // shiny, lit materials for targets
         ColorRGBA[] targetColors = new ColorRGBA[numTargetColors];
         targetColors[0] = new ColorRGBA(0.2f, 0f, 0f, 1f); // ruby
         targetColors[1] = new ColorRGBA(0f, 0.07f, 0f, 1f); // emerald

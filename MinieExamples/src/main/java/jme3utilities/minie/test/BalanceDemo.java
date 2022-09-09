@@ -551,25 +551,22 @@ public class BalanceDemo extends PhysicsDemo {
         Biped biped = (Biped) dac;
         BoneLink leftFoot = biped.getLeftFoot();
         BoneLink rightFoot = biped.getRightFoot();
-        /*
-         * Pin the left foot to the ground.
-         */
+
+        // Pin the left foot to the ground.
         dac.setDynamicChain(leftFoot, 9, Vector3f.ZERO, false);
         Vector3f[] leftSole = leftFoot.footprint();
         for (Vector3f location : leftSole) {
             dac.pinToWorld(leftFoot, location);
         }
-        /*
-         * Pin the right foot to the ground.
-         */
+
+        // Pin the right foot to the ground.
         dac.setDynamicChain(rightFoot, 9, Vector3f.ZERO, false);
         Vector3f[] rightSole = rightFoot.footprint();
         for (Vector3f location : rightSole) {
             dac.pinToWorld(rightFoot, location);
         }
-        /*
-         * Apply a BalanceController to the torso.
-         */
+
+        // Apply a BalanceController to the torso.
         Vector3f acc = new Vector3f(0f, vaBias + vaSign * vaMagnitude, 0f);
         torso.setDynamic(acc);
         leftSupportLocation = MyArray.mean(leftSole, null);
@@ -578,17 +575,15 @@ public class BalanceDemo extends PhysicsDemo {
                 leftSupportLocation, rightSupportLocation, null);
         balance = new BalanceController(torso, supportLocation);
         torso.addIKController(balance);
-        /*
-         * Apply an UprightController to the torso.
-         */
+
+        // Apply an UprightController to the torso.
         UprightController upright
                 = new UprightController(torso, torsoUpDirection);
         torso.addIKController(upright);
         upright.setDeltaGainFactor(uprightGain);
         upright.setErrorGainFactor(uprightGain);
-        /*
-         * Start playing a canned animation.
-         */
+
+        // Start playing a canned animation.
         composer.setCurrentAction(animationName);
     }
 

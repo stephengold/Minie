@@ -210,9 +210,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 vertices[bodyIndex] = DebugShapeFactory.debugVertices(shape,
                         DebugShapeFactory.lowResolution);
                 numFloats = vertices[bodyIndex].capacity();
-                /*
-                 * Transform scaled shape coordinates to physics-space.
-                 */
+
+                // Transform scaled shape coordinates to physics-space.
                 Quaternion orientation = body.getPhysicsRotation(null);
                 MyBuffer.rotate(vertices[bodyIndex], 0, numFloats, orientation);
                 Vector3f location = body.getPhysicsLocation(null);
@@ -302,9 +301,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * Callback invoked once per frame.
      */
     void update() {
-        /*
-         * As soon as the DAC is ready, put all physics links into dynamic mode.
-         */
+        // As soon as the DAC is ready, put all physics links into dynamic mode.
         if (hasDac() && dac.isReady()) {
             TorsoLink torso = dac.getTorsoLink();
             if (torso.isKinematic()) {

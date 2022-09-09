@@ -189,14 +189,12 @@ public class BalanceController extends IKController {
         Vector3f comLocation = new Vector3f();
         Vector3f comVelocity = new Vector3f();
         float ragdollMass = dac.centerOfMass(comLocation, comVelocity);
-        /*
-         * error = setpoint - actual
-         */
+
+        // error = setpoint - actual
         Vector3f locationError = centerOfSupport.subtract(comLocation);
         Vector3f velocityError = comVelocity.negate(); // velocity setpoint = 0
-        /*
-         * Calculate an impulse.
-         */
+
+        // Calculate an impulse.
         Vector3f sum = new Vector3f(0f, 0f, 0f);
         if (locationError.y < 0f) { // center of mass is ABOVE center of support
             // location term
@@ -208,9 +206,8 @@ public class BalanceController extends IKController {
             float velocityGain = velocityGainFactor * ragdollMass;
             MyVector3f.accumulateScaled(sum, velocityError, velocityGain);
         }
-        /*
-         * Apply the impulse to the center of the controlled link's rigid body.
-         */
+
+        // Apply the impulse to the center of the controlled link's rigid body.
         PhysicsRigidBody rigidBody = link.getRigidBody();
         rigidBody.applyCentralImpulse(sum);
     }

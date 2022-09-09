@@ -208,9 +208,8 @@ public class PoolDemo extends PhysicsDemo {
     @Override
     public void generateMaterials() {
         super.generateMaterials();
-        /*
-         * Change the platform material to double-sided.
-         */
+
+        // Change the platform material to double-sided.
         Material platformMaterial = findMaterial("platform");
         RenderState ars = platformMaterial.getAdditionalRenderState();
         ars.setFaceCullMode(RenderState.FaceCullMode.Off);

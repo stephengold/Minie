@@ -148,9 +148,8 @@ public class BuoyController extends IKController {
         if (surfaceY < bottomY) {
             return;
         }
-        /*
-         * The bounding box is at least partly submerged.
-         */
+
+        // The bounding box is at least partly submerged.
         float topY = boundingBox.getMax(null).y;
         assert topY > bottomY : topY;
         float height = topY - bottomY;
@@ -162,9 +161,8 @@ public class BuoyController extends IKController {
         Vector3f acceleration = gravity.mult(-densityRatio * fractionSubmerged);
         float mass = rigidBody.getMass();
         Vector3f impulse = acceleration.mult(mass * timeStep);
-        /*
-         * Apply the (upward) impulse to the rigid body.
-         */
+
+        // Apply the (upward) impulse to the rigid body.
         rigidBody.applyCentralImpulse(impulse);
     }
 

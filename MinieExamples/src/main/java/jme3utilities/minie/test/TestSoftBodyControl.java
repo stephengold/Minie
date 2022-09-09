@@ -342,19 +342,15 @@ public class TestSoftBodyControl
      * Clean up after a test.
      */
     private void cleanupAfterTest() {
-        /*
-         * Remove any scenery. Debug meshes are under a different root node.
-         */
+        // Remove any scenery. Debug meshes are under a different root node.
         rootNode.detachAllChildren();
-        /*
-         * Remove physics objects, which also removes their debug meshes.
-         */
+
+        // Remove physics objects, which also removes their debug meshes.
         PhysicsSpace physicsSpace = getPhysicsSpace();
         physicsSpace.destroy();
         assert physicsSpace.isEmpty();
-        /*
-         * Clear the hidden-object list.
-         */
+
+        // Clear the hidden-object list.
         hiddenObjects.clearExceptions();
     }
 

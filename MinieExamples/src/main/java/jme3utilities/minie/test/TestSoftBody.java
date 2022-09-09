@@ -218,9 +218,8 @@ public class TestSoftBody
 
         // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Enable direct-memory tracking.
-         */
+
+        // Enable direct-memory tracking.
         BufferUtils.setTrackDirectMemoryEnabled(true);
 
         boolean loadDefaults = true;
@@ -616,9 +615,8 @@ public class TestSoftBody
         flagPsb.setPhysicsLocation(new Vector3f(1f, 1.5f, 0f));
 
         physicsSpace.addCollisionObject(flagPsb);
-        /*
-         * Add 2 anchors that join the flag to the pole.
-         */
+
+        // Add 2 anchors that join the flag to the pole.
         boolean allowCollisions = true;
         int nodeIndex = 0; // upper left corner of flag
         Vector3f initialLocation = flagPsb.nodeLocation(nodeIndex, null);
@@ -637,23 +635,19 @@ public class TestSoftBody
      * Add a Puppet model.
      */
     private DynamicAnimControl addPuppet() {
-        /*
-         * Load the model in "T" pose.
-         */
+        // Load the model in "T" pose.
         Spatial cgModel = assetManager.loadModel("Models/Puppet/Puppet.j3o");
         AnimMigrationUtils.migrate(cgModel);
         rootNode.attachChild(cgModel);
         SkinningControl sc = (SkinningControl) RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
-        /*
-         * Configure and add her physics control.
-         */
+
+        // Configure and add her physics control.
         DynamicAnimControl dac = new PuppetControl();
         controlledSpatial.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
-        /*
-         * Don't visualize her rigid bodies.
-         */
+
+        // Don't visualize her rigid bodies.
         PhysicsRigidBody[] rigids = dac.listRigidBodies();
         for (PhysicsRigidBody rigid : rigids) {
             hiddenObjects.addException(rigid);
@@ -677,9 +671,8 @@ public class TestSoftBody
         }
         Mesh mesh
                 = createSkirtMesh(puppetDac, numDivisions, length, anchorLocs);
-        /*
-         * Create and configure the soft body.
-         */
+
+        // Create and configure the soft body.
         PhysicsSoftBody skirtPsb = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(mesh, skirtPsb);
         skirtPsb.setMargin(0.1f);
@@ -705,9 +698,8 @@ public class TestSoftBody
 
         physicsSpace.addCollisionObject(skirtPsb);
         skirtPsb.setGravity(new Vector3f(0f, -10f, 0f));
-        /*
-         * Add anchors that join Puppet to her skirt.
-         */
+
+        // Add anchors that join Puppet to her skirt.
         PhysicsRigidBody rigid = link.getRigidBody();
         boolean allowCollisions = true;
         for (int anchorIndex = 0; anchorIndex < numAnchors; ++anchorIndex) {
@@ -790,18 +782,14 @@ public class TestSoftBody
      * Clean up after a test.
      */
     private void cleanupAfterTest() {
-        /*
-         * Remove any scenery. Debug meshes are under a different root node.
-         */
+        // Remove any scenery. Debug meshes are under a different root node.
         rootNode.detachAllChildren();
-        /*
-         * Remove physics objects, which also removes their debug meshes.
-         */
+
+        // Remove physics objects, which also removes their debug meshes.
         physicsSpace.destroy();
         assert physicsSpace.isEmpty();
-        /*
-         * Clear the hidden-object list.
-         */
+
+        // Clear the hidden-object list.
         hiddenObjects.clearExceptions();
     }
 
@@ -910,9 +898,8 @@ public class TestSoftBody
                 MyVector3f.lerp(t, local[prevZi], local[zIndex], local[zi]);
             }
         }
-        /*
-         * Generate the mesh topology.
-         */
+
+        // Generate the mesh topology.
         float averageSpacing = circumference / (numXLines - 1);
         int numZLines = Math.round(0.3f * skirtLength / averageSpacing);
         ClothGrid mesh = new ClothGrid(numXLines, numZLines, averageSpacing);

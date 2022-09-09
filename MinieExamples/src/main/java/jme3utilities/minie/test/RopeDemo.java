@@ -536,9 +536,7 @@ public class RopeDemo extends PhysicsDemo {
      * Add a rope cross to the scene.
      */
     private void addRopeCross() {
-        /*
-         * Generate a cross-shaped Armature.
-         */
+        // Generate a cross-shaped Armature.
         int[] stepCounts = {5, 5, 5, 5};
         Vector3f[] stepOffsets = {
             new Vector3f(stepLength, 0f, 0f),
@@ -555,9 +553,8 @@ public class RopeDemo extends PhysicsDemo {
         Geometry geometry = new Geometry(geometryName, ropeMesh);
 
         addRopeSpatial(armature, geometry);
-        /*
-         * Curl all branches clockwise to introduce some slack.
-         */
+
+        // Curl all branches clockwise to introduce some slack.
         curlBranch(armature, 0, Vector3f.UNIT_Y, 0.2f);
         curlBranch(armature, 1, Vector3f.UNIT_Y, 0.2f);
         curlBranch(armature, 2, Vector3f.UNIT_Y, 0.2f);
@@ -571,9 +568,7 @@ public class RopeDemo extends PhysicsDemo {
      * to leave it Y-shaped until dynamic mode is set
      */
     private void addRopeNoose(boolean kinematicSplice) {
-        /*
-         * Generate a Y-shaped Armature. Branch0 forms the stem of the Y.
-         */
+        // Generate a Y-shaped Armature. Branch0 forms the stem of the Y.
         int[] stepCounts = {6, 6, 6};
         float dx = stepLength * MyMath.rootHalf;
         Vector3f[] stepOffsets = {
@@ -591,9 +586,7 @@ public class RopeDemo extends PhysicsDemo {
         addRopeSpatial(armature, geometry);
 
         if (kinematicSplice) {
-            /*
-             * Curl branch1 and branch2 toward one another, 90 degrees each.
-             */
+            // Curl branch1 and branch2 toward one another, 90 degrees each.
             curlBranch(armature, 1, Vector3f.UNIT_Y, FastMath.HALF_PI);
             curlBranch(armature, 2, Vector3f.UNIT_Y, -FastMath.HALF_PI);
         }
@@ -606,9 +599,7 @@ public class RopeDemo extends PhysicsDemo {
      * to leave it linear until dynamic mode is set
      */
     private void addRopeRing(boolean kinematicSplice) {
-        /*
-         * Generate a double-ended straight-line Armature.
-         */
+        // Generate a double-ended straight-line Armature.
         int[] stepCounts = {8, 8};
         Vector3f[] stepOffsets = {
             new Vector3f(stepLength, 0f, 0f),
@@ -625,9 +616,7 @@ public class RopeDemo extends PhysicsDemo {
         addRopeSpatial(armature, geometry);
 
         if (kinematicSplice) {
-            /*
-             * Curl branch0 and branch1 toward one another, 180 degrees each.
-             */
+            // Curl branch0 and branch1 toward one another, 180 degrees each.
             curlBranch(armature, 0, Vector3f.UNIT_Y, FastMath.PI);
             curlBranch(armature, 1, Vector3f.UNIT_Y, -FastMath.PI);
         }
@@ -637,9 +626,7 @@ public class RopeDemo extends PhysicsDemo {
      * Add a plain rope to the scene. The rope begins in the X-Z plane.
      */
     private void addRopeSlackline() {
-        /*
-         * Generate a double-ended straight-line Armature.
-         */
+        // Generate a double-ended straight-line Armature.
         int[] stepCounts = {8, 8};
         Vector3f[] stepOffsets = {
             new Vector3f(0f, 0f, stepLength),
@@ -654,9 +641,8 @@ public class RopeDemo extends PhysicsDemo {
         Geometry geometry = new Geometry(geometryName, ropeMesh);
 
         addRopeSpatial(armature, geometry);
-        /*
-         * Curl both branches clockwise to introduce some slack.
-         */
+
+        // Curl both branches clockwise to introduce some slack.
         curlBranch(armature, 0, Vector3f.UNIT_Y, 0.2f);
         curlBranch(armature, 1, Vector3f.UNIT_Y, 0.2f);
     }
@@ -843,19 +829,16 @@ public class RopeDemo extends PhysicsDemo {
     private void curlBranch(Armature armature, int branchIndex, Vector3f axis,
             float totalAngle) {
         assert !MyVector3f.isZero(axis);
-        /*
-         * Count the steps in this branch.
-         */
+
+        // Count the steps in this branch.
         int numSteps = countSteps(armature, branchIndex);
         assert numSteps > 1 : numSteps;
-        /*
-         * Calculate local rotation.
-         */
+
+        // Calculate local rotation.
         float turnAngle = totalAngle / (numSteps - 1);
         Quaternion turn = new Quaternion().fromAngleAxis(turnAngle, axis);
-        /*
-         * Apply the rotation to each Joint.
-         */
+
+        // Apply the rotation to each Joint.
         for (int stepIndex = 0; stepIndex < numSteps; ++stepIndex) {
             String jointName = jointName(branchIndex, stepIndex);
             Joint joint = armature.getJoint(jointName);

@@ -822,9 +822,8 @@ public class TestDac extends PhysicsDemo {
      */
     private void load() {
         ModelKey key = new ModelKey(saveAssetPath);
-        /*
-         * Remove any copy from the asset manager's cache.
-         */
+
+        // Remove any copy from the asset manager's cache.
         assetManager.deleteFromCache(key);
 
         Spatial loadedScene;
@@ -1025,9 +1024,8 @@ public class TestDac extends PhysicsDemo {
      */
     private void matchAnimPose() {
         assert animPose != null;
-        /*
-         * Update the animation pose.
-         */
+
+        // Update the animation pose.
         Spatial controlledSpatial = sc.getSpatial();
         AnimComposer composer
                 = controlledSpatial.getControl(AnimComposer.class);

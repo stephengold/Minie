@@ -446,9 +446,8 @@ public class SeJointDemo extends PhysicsDemo {
         int groupIndex = random.nextInt(0, numGroups - 1);
         Material material = materials[groupIndex];
         Vector3f pivotInWorld = pivotLocations[groupIndex];
-        /*
-         * Randomize the new seed's initial location and velocity.
-         */
+
+        // Randomize the new seed's initial location and velocity.
         Vector3f velocity = random.nextVector3f();
         Vector3f location = random.nextVector3f();
         location.multLocal(20f, 40f, 20f);
@@ -621,9 +620,8 @@ public class SeJointDemo extends PhysicsDemo {
             materials[i] = MyAsset.createShinyMaterial(assetManager, color);
             materials[i].setFloat("Shininess", 15f);
         }
-        /*
-         * The 4 pivot locations are arranged in a square in the X-Y plane.
-         */
+
+        // The 4 pivot locations are arranged in a square in the X-Y plane.
         pivotLocations[0] = new Vector3f(0f, 60f, 0f);
         pivotLocations[1] = new Vector3f(-60f, 0f, 0f);
         pivotLocations[2] = new Vector3f(0f, -60f, 0f);

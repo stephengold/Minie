@@ -150,9 +150,8 @@ public class TestPin extends AcorusDemo {
 
         int numVertices = xLines * zLines;
         Vector3f[] positionArray = new Vector3f[numVertices];
-        /*
-         * Write the vertex locations:
-         */
+
+        // Write the vertex locations:
         int vectorIndex = 0;
         for (int xIndex = 0; xIndex < zLines; ++xIndex) {
             float x = (2 * xIndex - zLines + 1) * lineSpacing / 2f;
@@ -167,9 +166,8 @@ public class TestPin extends AcorusDemo {
         int numTriangles = 2 * (xLines - 1) * (zLines - 1);
         int numIndices = MyMesh.vpt * numTriangles;
         int[] indexArray = new int[numIndices];
-        /*
-         * Write vertex indices for triangles:
-         */
+
+        // Write vertex indices for triangles:
         int intIndex = 0;
         for (int zIndex = 0; zIndex < xLines - 1; ++zIndex) {
             for (int xIndex = 0; xIndex < zLines - 1; ++xIndex) {

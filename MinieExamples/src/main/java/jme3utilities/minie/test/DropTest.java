@@ -185,9 +185,8 @@ public class DropTest
 
         // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Enable direct-memory tracking.
-         */
+
+        // Enable direct-memory tracking.
         BufferUtils.setTrackDirectMemoryEnabled(true);
 
         boolean loadDefaults = true;
@@ -752,9 +751,8 @@ public class DropTest
         PhysicsSoftBody softBody = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(mesh, softBody);
         softBody.applyTranslation(new Vector3f(0f, y, 0f));
-        /*
-         * Pin every node on the perimeter.
-         */
+
+        // Pin every node on the perimeter.
         int numNodes = mesh.getVertexCount();
         int numInteriorNodes = 1 + 3 * numRings * (numRings - 1);
         for (int nodeI = numInteriorNodes; nodeI < numNodes; ++nodeI) {

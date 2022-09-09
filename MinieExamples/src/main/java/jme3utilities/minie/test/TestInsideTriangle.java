@@ -199,9 +199,8 @@ public class TestInsideTriangle extends AcorusDemo {
     private void trial() {
         this.trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
-        /*
-         * Generate a triangle.
-         */
+
+        // Generate a triangle.
         Vector3f v0 = new Vector3f(1f, 1f, 1f);
         Vector3f v1 = new Vector3f(-1f, 1f, -1f);
         Vector3f v2 = new Vector3f(1f, -1f, -1f);

@@ -154,9 +154,8 @@ public class ConveyorDemo
 
         // Mute the chatty loggers in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Enable direct-memory tracking.
-         */
+
+        // Enable direct-memory tracking.
         BufferUtils.setTrackDirectMemoryEnabled(true);
 
         boolean loadDefaults = true;
@@ -285,13 +284,11 @@ public class ConveyorDemo
         Material shinyMaterial
                 = MyAsset.createShinyMaterial(assetManager, ColorRGBA.White);
         shinyMaterial.setFloat("Shininess", 100f);
-        /*
-         * materials for dropped boxes
-         */
+
+        // materials for dropped boxes
         cloneAndRegisterMaterial("box", shinyMaterial, ColorRGBA.Orange);
-        /*
-         * materials for the conveyor belts and walls of each section
-         */
+
+        // materials for the conveyor belts and walls of each section
         ColorRGBA[] colorArray = {
             new ColorRGBA(0.82f, 0.65f, 0.04f, 1f),
             new ColorRGBA(0.73f, 0.17f, 0.18f, 1f),
