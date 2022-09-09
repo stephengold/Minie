@@ -684,6 +684,7 @@ public class TargetDemo
      * @param shapeName (Z axis, not null)
      * @param height the total height (Y axis, in physics-space units, &gt;0)
      * @param length the total length (X axis, in physics-space units, &gt;0)
+     * @param depth the total depth (Z axis, in physics-space units, &gt;0)
      */
     private void registerBrickShape(
             String shapeName, float height, float length, float depth) {
