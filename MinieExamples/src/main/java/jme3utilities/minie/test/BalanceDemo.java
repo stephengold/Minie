@@ -229,11 +229,11 @@ public class BalanceDemo extends PhysicsDemo {
         stateManager.getState(StatsAppState.class).toggleStats();
 
         int indicatorSize = 16; // in pixels
-        comPoint = new PointVisualizer(assetManager, indicatorSize,
+        this.comPoint = new PointVisualizer(assetManager, indicatorSize,
                 ColorRGBA.Cyan, "ring");
         rootNode.attachChild(comPoint);
 
-        supportPoint = new PointVisualizer(assetManager, indicatorSize,
+        this.supportPoint = new PointVisualizer(assetManager, indicatorSize,
                 ColorRGBA.Yellow, "square");
         rootNode.attachChild(supportPoint);
 
@@ -393,7 +393,7 @@ public class BalanceDemo extends PhysicsDemo {
         if (dac.isReady()) {
             if (!dacReadyInitDone) {
                 initWhenReady();
-                dacReadyInitDone = true;
+                this.dacReadyInitDone = true;
             }
 
             Vector3f comLocation = new Vector3f();
@@ -596,101 +596,106 @@ public class BalanceDemo extends PhysicsDemo {
      * Load the Jaime model.
      */
     private void loadJaime() {
-        cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
         cgModel.rotate(0f, -1.6f, 0f);
 
-        dac = new JaimeControl();
-        animationName = "Punches";
-        uprightGain = 10f;
-        vaBias = 5f;
-        vaMagnitude = 100f;
-        torsoUpDirection = Vector3f.UNIT_Z;
+        this.dac = new JaimeControl();
+        this.animationName = "Punches";
+        this.uprightGain = 10f;
+        this.vaBias = 5f;
+        this.vaMagnitude = 100f;
+        this.torsoUpDirection = Vector3f.UNIT_Z;
     }
 
     /**
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
         cgModel.rotate(0f, 0f, 1.6f);
 
-        dac = new MhGameControl();
-        animationName = "expr-lib-pose";
-        uprightGain = 25f;
-        vaBias = 0f;
-        vaMagnitude = 40f;
-        torsoUpDirection = Vector3f.UNIT_X;
+        this.dac = new MhGameControl();
+        this.animationName = "expr-lib-pose";
+        this.uprightGain = 25f;
+        this.vaBias = 0f;
+        this.vaMagnitude = 40f;
+        this.torsoUpDirection = Vector3f.UNIT_X;
     }
 
     /**
      * Load the Ninja model.
      */
     private void loadNinja() {
-        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
+        this.cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
         cgModel.rotate(0f, 1.6f, 0f);
 
-        dac = new NinjaControl();
-        animationName = "Walk";
-        uprightGain = 100f;
-        vaBias = -8f;
-        vaMagnitude = 12f;
-        torsoUpDirection = Vector3f.UNIT_Y;
+        this.dac = new NinjaControl();
+        this.animationName = "Walk";
+        this.uprightGain = 100f;
+        this.vaBias = -8f;
+        this.vaMagnitude = 12f;
+        this.torsoUpDirection = Vector3f.UNIT_Y;
     }
 
     /**
      * Load the Oto model.
      */
     private void loadOto() {
-        cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
+        this.cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        dac = new OtoControl();
-        animationName = "pull";
-        uprightGain = 8f;
-        vaBias = 0f;
-        vaMagnitude = 100f;
-        torsoUpDirection = Vector3f.UNIT_Y;
+        this.dac = new OtoControl();
+        this.animationName = "pull";
+        this.uprightGain = 8f;
+        this.vaBias = 0f;
+        this.vaMagnitude = 100f;
+        this.torsoUpDirection = Vector3f.UNIT_Y;
     }
 
     /**
      * Load the Puppet model.
      */
     private void loadPuppet() {
-        cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
         AnimMigrationUtils.migrate(cgModel);
         cgModel.rotate(0f, -1.6f, 0f);
 
-        dac = new PuppetControl();
-        animationName = "wave";
-        uprightGain = 10f;
-        vaBias = 0f;
-        vaMagnitude = 20f;
-        torsoUpDirection = new Vector3f(0f, 0f, -1f);
+        this.dac = new PuppetControl();
+        this.animationName = "wave";
+        this.uprightGain = 10f;
+        this.vaBias = 0f;
+        this.vaMagnitude = 20f;
+        this.torsoUpDirection = new Vector3f(0f, 0f, -1f);
     }
 
     /**
      * Load the Sinbad model without attachments.
      */
     private void loadSinbad() {
-        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        dac = new SinbadControl();
-        animationName = "Dance";
-        uprightGain = 40f;
-        vaBias = 0f;
-        vaMagnitude = 80f;
-        torsoUpDirection = Vector3f.UNIT_Y;
+        this.dac = new SinbadControl();
+        this.animationName = "Dance";
+        this.uprightGain = 40f;
+        this.vaBias = 0f;
+        this.vaMagnitude = 80f;
+        this.torsoUpDirection = Vector3f.UNIT_Y;
     }
 
     /**
      * Load the Sinbad model with an attached sword.
      */
     private void loadSinbadWith1Sword() {
-        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        this.cgModel
+                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
@@ -702,13 +707,13 @@ public class BalanceDemo extends PhysicsDemo {
         LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
                 CenterHeuristic.AABB);
-        dac = new SinbadControl();
+        this.dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
-        animationName = "RunTop";
-        uprightGain = 40f;
-        vaBias = 0f;
-        vaMagnitude = 80f;
+        this.animationName = "RunTop";
+        this.uprightGain = 40f;
+        this.vaBias = 0f;
+        this.vaMagnitude = 80f;
         torsoUpDirection = Vector3f.UNIT_Y;
     }
 

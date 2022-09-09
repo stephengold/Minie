@@ -416,7 +416,7 @@ public class TrackDemo extends PhysicsDemo {
             rootNode.removeControl(sv);
             dacReadyInitDone = false;
         }
-        chainLength = 6; // constant?
+        this.chainLength = 6; // constant?
 
         switch (modelName) {
             case "BaseMesh":
@@ -468,7 +468,7 @@ public class TrackDemo extends PhysicsDemo {
         PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
-        sv = new SkeletonVisualizer(assetManager, sc);
+        this.sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);
@@ -612,7 +612,7 @@ public class TrackDemo extends PhysicsDemo {
      * Load the Ninja model.
      */
     private void loadNinja() {
-        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
+        this.cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
         cgModel.rotate(0f, 1.6f, 0f);
 
         this.dac = new NinjaControl();

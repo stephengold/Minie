@@ -364,7 +364,7 @@ public class BuoyDemo extends PhysicsDemo {
         rootNode.addLight(sun);
         sun.setName("sun");
 
-        processor = new SimpleWaterProcessor(assetManager);
+        this.processor = new SimpleWaterProcessor(assetManager);
         viewPort.addProcessor(processor);
         processor.setLightPosition(direction.mult(1000f));
         Plane surface = new Plane(Vector3f.UNIT_Y, surfaceElevation);
