@@ -613,7 +613,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
      * @param frontWheel true&rarr;front wheel, false&rarr;non-front wheel
      */
     public void setFrontWheel(boolean frontWheel) {
-        isFront = frontWheel;
+        this.isFront = frontWheel;
         applyInfo();
     }
 
@@ -800,15 +800,15 @@ public class VehicleWheel implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        location = cloner.clone(location);
-        suspensionDirection = cloner.clone(suspensionDirection);
-        axisDirection = cloner.clone(axisDirection);
-        tuning = cloner.clone(tuning);
-        wheelWorldLocation = cloner.clone(wheelWorldLocation);
-        wheelWorldRotation = cloner.clone(wheelWorldRotation);
-        subtree = cloner.clone(subtree);
-        tmpMatrix = cloner.clone(tmpMatrix);
-        tmpInverseWheelRotation = cloner.clone(tmpInverseWheelRotation);
+        this.location = cloner.clone(location);
+        this.suspensionDirection = cloner.clone(suspensionDirection);
+        this.axisDirection = cloner.clone(axisDirection);
+        this.tuning = cloner.clone(tuning);
+        this.wheelWorldLocation = cloner.clone(wheelWorldLocation);
+        this.wheelWorldRotation = cloner.clone(wheelWorldRotation);
+        this.subtree = cloner.clone(subtree);
+        this.tmpMatrix = cloner.clone(tmpMatrix);
+        this.tmpInverseWheelRotation = cloner.clone(tmpInverseWheelRotation);
 
         VehicleWheel originalWheel = (VehicleWheel) original;
         setRotationAngle(originalWheel.getRotationAngle());
@@ -843,19 +843,19 @@ public class VehicleWheel implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        subtree = (Spatial) capsule.readSavable(tagWheelSpatial, null);
-        isFront = capsule.readBoolean(tagFrontWheel, false);
-        location = (Vector3f) capsule.readSavable(tagWheelLocation,
-                new Vector3f());
-        suspensionDirection = (Vector3f) capsule.readSavable(tagWheelDirection,
-                new Vector3f());
-        axisDirection = (Vector3f) capsule.readSavable(tagWheelAxle,
-                new Vector3f());
-        tuning = (VehicleTuning) capsule.readSavable(tagTuning,
-                new VehicleTuning());
-        rollInfluence = capsule.readFloat(tagRollInfluence, 1f);
-        radius = capsule.readFloat(tagWheelRadius, 0.5f);
-        restLength = capsule.readFloat(tagRestLength, 1f);
+        this.subtree = (Spatial) capsule.readSavable(tagWheelSpatial, null);
+        this.isFront = capsule.readBoolean(tagFrontWheel, false);
+        this.location = (Vector3f) capsule
+                .readSavable(tagWheelLocation, new Vector3f());
+        this.suspensionDirection = (Vector3f) capsule
+                .readSavable(tagWheelDirection, new Vector3f());
+        this.axisDirection = (Vector3f) capsule
+                .readSavable(tagWheelAxle, new Vector3f());
+        this.tuning = (VehicleTuning) capsule
+                .readSavable(tagTuning, new VehicleTuning());
+        this.rollInfluence = capsule.readFloat(tagRollInfluence, 1f);
+        this.radius = capsule.readFloat(tagWheelRadius, 0.5f);
+        this.restLength = capsule.readFloat(tagRestLength, 1f);
 
         float angle = capsule.readFloat(tagRotationAngle, 0f);
         setRotationAngle(angle);
