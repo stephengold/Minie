@@ -29,6 +29,8 @@ The following demos are found in
   demonstrates simulation of ropes using `DynamicAnimControl`
 * {url-examples}/SeJointDemo.java[`SeJointDemo`]
   demonstrates various kinds of single-ended physics joints
+* {url-examples}/SplitDemo.java[`SplitDemo`]
+  demonstrates dynamic splitting of rigid bodies
 * {url-examples}/TargetDemo.java[`TargetDemo`]
   demonstrates shooting balls at various targets
 * {url-examples}/TestDac.java[`TestDac`]
