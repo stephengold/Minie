@@ -91,7 +91,7 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a>
 implements <a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></span></div>
 <div class="block">A CollisionSpace to simulate dynamic physics, with its own
- btDiscreteDynamicsWorld.</div>
+ <code>btDiscreteDynamicsWorld</code>.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -1509,7 +1509,8 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <dt>Specified by:</dt>
 <dd><code><a href="collision/ContactListener.html#onContactEnded(long)">onContactEnded</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>manifoldId</code> - the native ID of the btPersistentManifold (not 0)</dd>
+<dd><code>manifoldId</code> - the native ID of the <code>btPersistentManifold</code> (not
+ zero)</dd>
 </dl>
 </section>
 </li>
@@ -1528,7 +1529,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <dt>Parameters:</dt>
 <dd><code>pcoA</code> - the first involved object (not null)</dd>
 <dd><code>pcoB</code> - the 2nd involved object (not null)</dd>
-<dd><code>pointId</code> - the native ID of the btManifoldPoint (not 0)</dd>
+<dd><code>pointId</code> - the native ID of the <code>btManifoldPoint</code> (not zero)</dd>
 </dl>
 </section>
 </li>
@@ -1542,7 +1543,8 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <dt>Specified by:</dt>
 <dd><code><a href="collision/ContactListener.html#onContactStarted(long)">onContactStarted</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>manifoldId</code> - the native ID of the btPersistentManifold (not 0)</dd>
+<dd><code>manifoldId</code> - the native ID of the <code>btPersistentManifold</code> (not
+ zero)</dd>
 </dl>
 </section>
 </li>
