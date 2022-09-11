@@ -337,7 +337,7 @@ public class MultiSphere extends ConvexShape {
      * @param radii the array of radii (in shape units, not null, not empty,
      * each &ge;0)
      */
-    public MultiSphere(Vector3f[] centers, float[] radii) {
+    public MultiSphere(Vector3f[] centers, float... radii) {
         Validate.nonEmpty(centers, "centers");
         Validate.nonEmpty(radii, "radii");
 
