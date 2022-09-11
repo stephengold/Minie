@@ -428,16 +428,16 @@ public class HullCollisionShape extends ConvexShape {
          */
         VectorSet minusSet = new VectorSetUsingBuffer(numVertices, true);
         VectorSet plusSet = new VectorSetUsingBuffer(numVertices, true);
-        Vector3f tmp = new Vector3f();
-        for (int iVector = 0; iVector < numVertices; ++iVector) {
-            int startPosition = numAxes * iVector;
-            MyBuffer.get(originalHull, startPosition, tmp);
-            float pseudoDistance = splittingPlane.pseudoDistance(tmp);
+        Vector3f tmpVertex = new Vector3f();
+        for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
+            int startPosition = numAxes * vertexI;
+            MyBuffer.get(originalHull, startPosition, tmpVertex);
+            float pseudoDistance = splittingPlane.pseudoDistance(tmpVertex);
             if (pseudoDistance <= 0f) {
-                minusSet.add(tmp);
+                minusSet.add(tmpVertex);
             }
             if (pseudoDistance >= 0f) {
-                plusSet.add(tmp);
+                plusSet.add(tmpVertex);
             }
             // Note: vertices that lie in the plane will appear in both sets.
         }
@@ -461,8 +461,8 @@ public class HullCollisionShape extends ConvexShape {
         FloatBuffer minusBuffer = minusSet.toBuffer();
         VectorSet newMinusSet = new VectorSetUsingBuffer(numVertices, true);
         for (int jNegative = 0; jNegative < numMinus; ++jNegative) {
-            MyBuffer.get(minusBuffer, numAxes * jNegative, tmp);
-            newMinusSet.add(tmp);
+            MyBuffer.get(minusBuffer, numAxes * jNegative, tmpVertex);
+            newMinusSet.add(tmpVertex);
         }
         /*
          * Copy all plus-side vertices to a new set.
@@ -473,18 +473,18 @@ public class HullCollisionShape extends ConvexShape {
         FloatBuffer plusBuffer = plusSet.toBuffer();
         VectorSet newPlusSet = new VectorSetUsingBuffer(numVertices, true);
         Vector3f tmp2 = new Vector3f();
-        for (int iPlus = 0; iPlus < numPlus; ++iPlus) {
-            MyBuffer.get(plusBuffer, numAxes * iPlus, tmp);
-            newPlusSet.add(tmp);
-            float pd = splittingPlane.pseudoDistance(tmp);
+        for (int plusI = 0; plusI < numPlus; ++plusI) {
+            MyBuffer.get(plusBuffer, numAxes * plusI, tmpVertex);
+            newPlusSet.add(tmpVertex);
+            float pd = splittingPlane.pseudoDistance(tmpVertex);
 
-            for (int jMinus = 0; jMinus < numMinus; ++jMinus) {
-                MyBuffer.get(minusBuffer, numAxes * jMinus, tmp2);
+            for (int minusI = 0; minusI < numMinus; ++minusI) {
+                MyBuffer.get(minusBuffer, numAxes * minusI, tmp2);
                 float md = splittingPlane.pseudoDistance(tmp2);
                 float denominator = pd - md;
                 if (denominator != 0f) {
                     float t = -md / denominator;
-                    MyVector3f.lerp(t, tmp2, tmp, tmp2);
+                    MyVector3f.lerp(t, tmp2, tmpVertex, tmp2);
                     newMinusSet.add(tmp2);
                     newPlusSet.add(tmp2);
                 }
@@ -494,9 +494,9 @@ public class HullCollisionShape extends ConvexShape {
          * Translate minus-side vertices so their AABB is centered at (0,0,0)
          * and use them to form a new hull shape.
          */
-        Vector3f max = tmp; // alias
+        Vector3f max = tmpVertex; // alias
         Vector3f min = tmp2; // alias
-        Vector3f offset = tmp; // alias
+        Vector3f offset = tmpVertex; // alias
         newMinusSet.maxMin(max, min);
         Vector3f minusCenter = MyVector3f.midpoint(max, min, null);
         offset.set(minusCenter).negateLocal();

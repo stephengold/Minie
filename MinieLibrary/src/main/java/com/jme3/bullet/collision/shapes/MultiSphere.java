@@ -514,12 +514,12 @@ public class MultiSphere extends ConvexShape {
          */
         int numSpheres = radii.length;
         float[] reducedRadii = new float[numSpheres];
-        for (int i = 0; i < numSpheres; ++i) {
-            float rr = radii[i] - hullMargin / medianScale;
+        for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
+            float rr = radii[sphereIndex] - hullMargin / medianScale;
             if (rr < 1e-6f) {
                 rr = 1e-6f;
             }
-            reducedRadii[i] = rr;
+            reducedRadii[sphereIndex] = rr;
         }
         MultiSphere reducedShape = new MultiSphere(centers, reducedRadii);
         reducedShape.setScale(scale);
