@@ -1462,8 +1462,8 @@ public class PhysicsSpace
 
     native private static void addAction(long spaceId, long actionId);
 
-    native private static void addCharacterObject(
-            long spaceId, long characterId);
+    native private static void
+            addCharacterObject(long spaceId, long characterId);
 
     native private static void addConstraintC(
             long spaceId, long constraintId, boolean disableCollisions);
@@ -1478,8 +1478,8 @@ public class PhysicsSpace
 
     native private static void getGravity(long spaceId, Vector3f storeVector);
 
-    native private static long getManifoldByIndex(
-            long spaceId, int manifoldIndex);
+    native private static long
+            getManifoldByIndex(long spaceId, int manifoldIndex);
 
     native private static int getNumConstraints(long spaceId);
 
@@ -1489,11 +1489,11 @@ public class PhysicsSpace
 
     native private static void removeAction(long spaceId, long actionId);
 
-    native private static void removeCharacterObject(
-            long spaceId, long characterId);
+    native private static void
+            removeCharacterObject(long spaceId, long characterId);
 
-    native private static void removeConstraint(
-            long spaceId, long constraintId);
+    native private static void
+            removeConstraint(long spaceId, long constraintId);
 
     native private static void removeRigidBody(long spaceId, long rigidBodyId);
 
@@ -1501,8 +1501,8 @@ public class PhysicsSpace
 
     native private static void setSolverType(long spaceId, int solverType);
 
-    native private static void setSpeculativeContactRestitution(
-            long spaceId, boolean apply);
+    native private static void
+            setSpeculativeContactRestitution(long spaceId, boolean apply);
 
     native private static void stepSimulation(long spaceId, float timeInterval,
             int maxSubSteps, float accuracy, boolean enableContactEndedCallback,

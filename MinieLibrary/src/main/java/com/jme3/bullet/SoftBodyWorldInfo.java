@@ -353,8 +353,8 @@ public class SoftBodyWorldInfo
 
     native private static float getWaterDensity(long infoId);
 
-    native private static void getWaterNormal(long infoId,
-            Vector3f storeVector);
+    native private static void
+            getWaterNormal(long infoId, Vector3f storeVector);
 
     native private static float getWaterOffset(long infoId);
 
@@ -362,16 +362,16 @@ public class SoftBodyWorldInfo
 
     native private static void setGravity(long infoId, Vector3f gravityVector);
 
-    native private static void setMaxDisplacement(long infoId,
-            float displacement);
+    native private static void
+            setMaxDisplacement(long infoId, float displacement);
 
-    native private static void setSoftBodyWorldInfo(long targetId,
-            long sourceId);
+    native private static void
+            setSoftBodyWorldInfo(long targetId, long sourceId);
 
     native private static void setWaterDensity(long infoId, float density);
 
-    native private static void setWaterNormal(long infoId,
-            Vector3f normalVector);
+    native private static void
+            setWaterNormal(long infoId, Vector3f normalVector);
 
     native private static void setWaterOffset(long infoId, float offset);
 }

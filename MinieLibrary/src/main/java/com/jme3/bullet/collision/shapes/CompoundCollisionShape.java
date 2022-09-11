@@ -668,8 +668,8 @@ public class CompoundCollisionShape extends CollisionShape {
     native private static void addChildShape(long compoundId, long childShapeId,
             Vector3f offset, Matrix3f rotation);
 
-    native private static void calculatePrincipalAxisTransform(long shapeId,
-            FloatBuffer massBuffer, Transform storeTransform,
+    native private static void calculatePrincipalAxisTransform(
+            long shapeId, FloatBuffer massBuffer, Transform storeTransform,
             Vector3f storeInertia);
 
     native private static int countChildren(long shapeId);

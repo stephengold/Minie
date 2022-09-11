@@ -96,6 +96,6 @@ public class VHACDHull {
 
     native private static int getNumFloats(long hullId);
 
-    native private static void getPositions(long hullId,
-            FloatBuffer storeBuffer);
+    native private static void
+            getPositions(long hullId, FloatBuffer storeBuffer);
 }

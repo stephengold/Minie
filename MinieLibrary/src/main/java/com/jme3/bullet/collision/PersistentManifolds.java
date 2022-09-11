@@ -97,7 +97,7 @@ final public class PersistentManifolds {
      * @return the native ID of the btManifoldPoint (not 0)
      */
     native public static long
-         getPointId(long persistentManifoldId, int pointIndex);
+            getPointId(long persistentManifoldId, int pointIndex);
 
     /**
      * Enumerate the native IDs of all points in the specified manifold.

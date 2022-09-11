@@ -267,7 +267,7 @@ final public class ManifoldPoints {
      * @param storeVector storage for the result (not null, modified)
      */
     native public static void
-         getNormalWorldOnB(long manifoldPointId, Vector3f storeVector);
+            getNormalWorldOnB(long manifoldPointId, Vector3f storeVector);
 
     /**
      * Return the part index from the shape of object A at the specified point

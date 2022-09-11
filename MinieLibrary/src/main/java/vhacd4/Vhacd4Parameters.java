@@ -621,6 +621,6 @@ public class Vhacd4Parameters
 
     native private static void setShrinkWrap(long objectId, boolean setting);
 
-    native private static void setVolumePercentError(
-            long objectId, double percentage);
+    native private static void
+            setVolumePercentError(long objectId, double percentage);
 }
