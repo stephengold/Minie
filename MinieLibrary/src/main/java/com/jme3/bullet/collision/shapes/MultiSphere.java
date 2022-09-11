@@ -323,8 +323,7 @@ public class MultiSphere extends ConvexShape {
         this.centers = new Vector3f[1];
         centers[0] = center.clone();
 
-        this.radii = new float[1];
-        radii[0] = radius;
+        this.radii = new float[]{radius};
 
         createShape();
     }
