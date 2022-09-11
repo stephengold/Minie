@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@ import jme3utilities.Validate;
 
 /**
  * A Bounding-Value Hierarchy (BVH) generated for a MeshCollisionShape, based on
- * Bullet's btOptimizedBvh.
+ * Bullet's {@code btOptimizedBvh}.
  *
  * @author Stephen Gold sgold@sonic.net
  */

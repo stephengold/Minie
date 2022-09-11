@@ -1365,7 +1365,7 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
-     * Create a new, empty btSoftBody for this PhysicsSoftBody, using the
+     * Create an empty {@code btSoftBody} for this PhysicsSoftBody, using the
      * pre-existing worldInfo. The pre-existing btSoftBody (if any) will be
      * destroyed.
      */

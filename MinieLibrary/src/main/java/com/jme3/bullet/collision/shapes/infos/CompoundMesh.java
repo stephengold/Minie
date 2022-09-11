@@ -49,7 +49,7 @@ import jme3utilities.Validate;
 
 /**
  * A scalable mesh that combines multiple indexed meshes. Based on Bullet's
- * btTriangleIndexVertexArray.
+ * {@code btTriangleIndexVertexArray}.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -283,7 +283,7 @@ public class CompoundMesh
     }
 
     /**
-     * Create a new empty btTriangleIndexVertexArray.
+     * Create an empty {@code btTriangleIndexVertexArray}.
      */
     private void createEmpty() {
         long compoundMeshId = createEmptyTiva();

@@ -55,7 +55,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A Bullet-JME collision space with its own btCollisionWorld.
+ * A Bullet-JME collision space with its own {@code btCollisionWorld}.
  *
  * @author normenhansen
  */

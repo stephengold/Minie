@@ -52,8 +52,8 @@ import jme3utilities.Validate;
  * Bullet's {@code btBvhTriangleMeshShape}. Not for use in dynamic bodies.
  * Collisions between HeightfieldCollisionShape, MeshCollisionShape, and
  * PlaneCollisionShape objects are never detected.
- *
- * TODO add a shape based on btScaledBvhTriangleMeshShape
+ * <p>
+ * TODO add a shape based on {@code btScaledBvhTriangleMeshShape}
  *
  * @author normenhansen
  */

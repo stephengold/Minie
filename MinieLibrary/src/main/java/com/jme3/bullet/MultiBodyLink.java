@@ -49,7 +49,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * A single link in a MultiBody, based on Bullet's btMultibodyLink.
+ * A single link in a MultiBody, based on Bullet's {@code btMultibodyLink}.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -77,7 +77,7 @@ public class MultiBodyLink
 
     /**
      * index of this link in its MultiBody, which is also the index of the
-     * btMultiBodyLink in its btMultiBody (&ge;0)
+     * {@code btMultiBodyLink} in its {@code btMultiBody} (&ge;0)
      */
     private int linkIndex;
     /**
@@ -85,7 +85,7 @@ public class MultiBodyLink
      */
     private int numDofs;
     /**
-     * copy of the ID of the btMultiBody
+     * copy of the ID of the {@code btMultiBody}
      */
     private long multiBodyId;
     /**

@@ -239,7 +239,7 @@ public class Box2dShape extends ConvexShape {
     // Java private methods
 
     /**
-     * Instantiate the configured btBox2dShape.
+     * Instantiate the configured {@code btBox2dShape}.
      */
     private void createShape() {
         assert halfExtentX >= 0f : halfExtentX;

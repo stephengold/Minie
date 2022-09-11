@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 
 /**
  * A MultiBodySpace that supports deformables, with its own
- * btDeformableMultiBodyDynamicsWorld.
+ * {@code btDeformableMultiBodyDynamicsWorld}.
  *
  * @author Stephen Gold sgold@sonic.net
  *

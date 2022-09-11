@@ -51,7 +51,7 @@ import jme3utilities.Validate;
 
 /**
  * A rigid body for simplified vehicle simulation based on Bullet's
- * btRaycastVehicle.
+ * {@code btRaycastVehicle}.
  * <p>
  * The wheels of a PhysicsVehicle aren't collision objects, so the vehicle's
  * ignore list doesn't affect them.

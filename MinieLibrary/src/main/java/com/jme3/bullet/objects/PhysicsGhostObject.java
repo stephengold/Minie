@@ -50,13 +50,13 @@ import java.util.logging.Logger;
 
 /**
  * A collision object for intangibles, based on Bullet's
- * btPairCachingGhostObject. This is useful for creating a character controller,
- * collision sensors/triggers, explosions etc.
+ * {@code btPairCachingGhostObject}. This is useful for creating a character
+ * controller, collision sensors/triggers, explosions etc.
  * <p>
  * Overlap detection skips the narrow-phase collision-detection algorithm and
  * relies entirely on the broad-phase algorithm, which is AABB plus a margin of
  * about 0.06 world units. Precise collision detection is still available via
- * PhysicsSpace.addCollisionListener().
+ * {@code PhysicsSpace.addCollisionListener()}.
  * <p>
  * <i>From Bullet manual:</i><br>
  * btGhostObject is a special btCollisionObject, useful for fast localized

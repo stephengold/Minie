@@ -44,7 +44,7 @@ import jme3utilities.Validate;
 
 /**
  * A PhysicsSpace that supports multibodies, with its own
- * btMultiBodyDynamicsWorld.
+ * {@code btMultiBodyDynamicsWorld}.
  *
  * @author Stephen Gold sgold@sonic.net
  */

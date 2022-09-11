@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2021 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,8 +60,8 @@ import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 
 /**
- * An indexed triangle mesh based on Bullet's btIndexedMesh. Immutable except
- * for {@link #read(com.jme3.export.JmeImporter)}.
+ * An indexed triangle mesh based on Bullet's {@code btIndexedMesh}. Immutable
+ * except for {@link #read(com.jme3.export.JmeImporter)}.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -405,8 +405,8 @@ public class IndexedMesh
     // Java private methods
 
     /**
-     * Configure and create a new btIndexedMesh from the specified JME mesh and
-     * Transform.
+     * Configure and create a new {@code btIndexedMesh} from the specified JME
+     * mesh and Transform.
      *
      * @param jmeMesh the input JME mesh (not null, unaffected,
      * mode=Triangles/TriangleFan/TriangleStrip)
@@ -456,7 +456,7 @@ public class IndexedMesh
     }
 
     /**
-     * Create a new btIndexedMesh using the current configuration.
+     * Create a {@code btIndexedMesh} using the current configuration.
      */
     private void createMesh() {
         assert vertexStride == 12 : vertexStride;

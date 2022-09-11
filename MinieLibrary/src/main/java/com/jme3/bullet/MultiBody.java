@@ -51,8 +51,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * An articulated rigid body based on Bullet's btMultiBody. Uses Featherstone's
- * algorithm.
+ * An articulated rigid body based on Bullet's {@code btMultiBody}. Uses
+ * Featherstone's algorithm.
  *
  * @author Stephen Gold sgold@sonic.net
  */

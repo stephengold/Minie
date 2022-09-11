@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * An empty collision shape based on Bullet's btEmptyShape.
+ * An empty collision shape based on Bullet's {@code btEmptyShape.}
  *
  * @author Stephen Gold sgold@sonic.net
  */

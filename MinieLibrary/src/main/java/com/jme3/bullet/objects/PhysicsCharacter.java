@@ -52,7 +52,7 @@ import jme3utilities.Validate;
 
 /**
  * A collision object for simplified character simulation, based on Bullet's
- * btKinematicCharacterController.
+ * {@code btKinematicCharacterController}.
  *
  * @author normenhansen
  */

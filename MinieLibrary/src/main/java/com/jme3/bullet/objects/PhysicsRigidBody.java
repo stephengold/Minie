@@ -58,7 +58,8 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyVector3f;
 
 /**
- * A collision object to simulate a rigid body, based on Bullet's btRigidBody.
+ * A collision object to simulate a rigid body, based on Bullet's
+ * {@code btRigidBody}.
  *
  * @author normenhansen
  */

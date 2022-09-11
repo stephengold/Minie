@@ -48,7 +48,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * Information about one wheel of a vehicle, based on Bullet's btWheelInfo.
+ * Information about one wheel of a vehicle, based on Bullet's
+ * {@code btWheelInfo}.
  *
  * @author normenhansen
  */

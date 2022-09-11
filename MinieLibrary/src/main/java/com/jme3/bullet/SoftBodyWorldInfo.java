@@ -45,7 +45,7 @@ import jme3utilities.Validate;
 
 /**
  * Physics-simulation parameters that can be customized for each
- * PhysicsSoftBody, based on Bullet's btSoftBodyWorldInfo.
+ * PhysicsSoftBody, based on Bullet's {@code btSoftBodyWorldInfo}.
  * <p>
  * NOTE: When a PhysicsSoftBody is added to a PhysicsSoftSpace, it acquires the
  * SoftBodyWorldInfo of that space. To customize a body, assign it a new info

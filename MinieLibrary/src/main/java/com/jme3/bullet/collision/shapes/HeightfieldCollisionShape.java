@@ -397,7 +397,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a square btHeightfieldTerrainShape.
+     * Instantiate a square {@code btHeightfieldTerrainShape}.
      *
      * @param heightmap (not null, length&ge;4, length a perfect square,
      * unaffected)
@@ -419,7 +419,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate the configured btHeightfieldTerrainShape.
+     * Instantiate the configured {@code btHeightfieldTerrainShape}.
      */
     private void createShape() {
         this.directBuffer

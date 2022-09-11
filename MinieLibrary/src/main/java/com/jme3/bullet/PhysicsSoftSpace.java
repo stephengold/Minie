@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 
 /**
  * A PhysicsSpace that supports soft bodies, with its own
- * btSoftRigidDynamicsWorld.
+ * {@code btSoftRigidDynamicsWorld}.
  *
  * @author dokthar
  */
