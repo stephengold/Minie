@@ -56,6 +56,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.DistinctVectorValues;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 
@@ -213,6 +214,49 @@ public class IndexedMesh
         indices = IndexBuffer.wrapIndexBuffer(buffer);
         int indexBytes = indices.getFormat().getComponentSize();
         indexStride = vpt * indexBytes;
+
+        createMesh();
+    }
+
+    /**
+     * Instantiate an IndexedMesh based on the specified vertex positions. An
+     * index will be assigned to each distinct position.
+     *
+     * @param buffer the vertex positions of a non-indexed triangle mesh (not
+     * null, flipped, limit a multiple of 9, unaffected)
+     */
+    public IndexedMesh(FloatBuffer buffer) {
+        Validate.nonNull(buffer, "buffer");
+        int numFloats = buffer.limit();
+        Validate.require(numFloats % 9 == 0, "limit a multiple of 9");
+
+        // Assign an index to each distinct vertex position.
+        DistinctVectorValues dvv
+                = new DistinctVectorValues(buffer, 0, numFloats);
+
+        this.numVertices = dvv.countDistinct();
+        this.vertexPositions
+                = BufferUtils.createFloatBuffer(numAxes * numVertices);
+        this.vertexStride = numAxes * floatBytes;
+
+        int numIndices = numFloats / numAxes;
+        this.numTriangles = numIndices / vpt;
+        this.indices = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        int indexBytes = indices.getFormat().getComponentSize();
+        this.indexStride = vpt * indexBytes;
+
+        Vector3f tmpVector = new Vector3f();
+        for (int oldVi = 0; oldVi < numIndices; ++oldVi) {
+            int newVi = dvv.findVvid(oldVi);
+            assert newVi >= 0 : newVi;
+            indices.put(oldVi, newVi);
+
+            int readPosition = numAxes * oldVi;
+            MyBuffer.get(buffer, readPosition, tmpVector);
+            int writePosition = numAxes * newVi;
+            MyBuffer.put(vertexPositions, writePosition, tmpVector);
+            // Some vertex positions may be written multiple times!
+        }
 
         createMesh();
     }
