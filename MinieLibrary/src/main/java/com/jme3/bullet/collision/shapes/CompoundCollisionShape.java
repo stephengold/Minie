@@ -563,6 +563,28 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
+     * Estimate the volume of this shape, including scale and margin.
+     *
+     * @return the volume (in physics-space units cubed, &ge;0)
+     */
+    @Override
+    public float scaledVolume() {
+        /*
+         * Scale factors get applied during calculation of child volumes.
+         * Any overlaps among the children are ignored,
+         * which exaggerates of the estimated volume.
+         */
+        float result = 0f;
+        for (ChildCollisionShape child : children) {
+            CollisionShape base = child.getShape();
+            float childVolume = base.scaledVolume();
+            result += childVolume;
+        }
+
+        return result;
+    }
+
+    /**
      * Alter the scale of this shape and its children. CAUTION: Not all shapes
      * can be scaled arbitrarily.
      * <p>

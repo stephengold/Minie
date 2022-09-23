@@ -113,6 +113,20 @@ abstract public class ConvexShape extends CollisionShape {
     }
 
     /**
+     * Estimate the volume of this shape, including scale and margin.
+     *
+     * @return the volume (in physics-space units cubed, &ge;0)
+     */
+    @Override
+    public float scaledVolume() {
+        int meshResolution = DebugShapeFactory.lowResolution;
+        float result = DebugShapeFactory.volumeConvex(this, meshResolution);
+
+        assert result >= 0f : result;
+        return result;
+    }
+
+    /**
      * Approximate this shape with a splittable shape.
      *
      * @return a new splittable shape

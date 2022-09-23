@@ -404,6 +404,16 @@ abstract public class CollisionShape
     }
 
     /**
+     * Estimate the volume of this shape, including scale and margin. Meant to
+     * be overridden.
+     *
+     * @return the volume (in physics-space units cubed, &ge;0)
+     */
+    public float scaledVolume() {
+        throw new UnsupportedOperationException("Not implemented for: " + this);
+    }
+
+    /**
      * Enable/disable contact filtering for this shape.
      *
      * @param setting the desired setting (default=true)

@@ -249,6 +249,17 @@ public class BoxCollisionShape extends ConvexShape {
     }
 
     /**
+     * Estimate the volume of this shape, including scale and margin.
+     *
+     * @return the volume (in physics-space units cubed, &ge;0)
+     */
+    @Override
+    public float scaledVolume() {
+        float result = unscaledVolume() * scale.x * scale.y * scale.z;
+        return result;
+    }
+
+    /**
      * Approximate this shape with a HullCollisionShape.
      *
      * @return a new shape
