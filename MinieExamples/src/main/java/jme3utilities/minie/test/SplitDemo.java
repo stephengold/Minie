@@ -734,6 +734,7 @@ public class SplitDemo
                 // The split plane didn't intersect the compound shape.
                 return;
             }
+            // TODO deal with disconnected fragments
 
             float[] volumes = new float[2];
             Vector3f[] locations = new Vector3f[2];
