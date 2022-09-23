@@ -36,7 +36,9 @@ import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
+import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
+import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.debug.BulletDebugAppState;
 import com.jme3.bullet.debug.DebugInitListener;
@@ -752,7 +754,43 @@ public class SplitDemo
             splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal, newCps,
                     volumes, locations);
 
-        } else { // TODO handle simplex n<=2, heightfield/mesh/gimpact
+        } else if (splittableShape instanceof GImpactCollisionShape) {
+            GImpactCollisionShape gi = (GImpactCollisionShape) splittableShape;
+            ChildCollisionShape[] newGIs = gi.split(shapeTriangle);
+            assert newGIs.length == 2 : newGIs.length;
+            if (newGIs[0] == null || newGIs[1] == null) {
+                // The split plane didn't intersect the GImpact shape.
+                return;
+            }
+
+            CollisionShape[] shapes = new CollisionShape[2];
+            float[] volumes = new float[2];
+            Vector3f[] locations = new Vector3f[2];
+            for (int i = 0; i < 2; ++i) {
+                ChildCollisionShape child = newGIs[i];
+                volumes[i] = 1f; // TODO area
+                shapes[i] = child.getShape();
+                locations[i] = child.copyOffset(null);
+            }
+
+            Vector3f shapeNormal = shapeTriangle.getNormal(); // alias
+            Vector3f worldNormal = worldTriangle.getNormal(); // alias
+            splitBody(oldBody, worldNormal, shapeToWorld, shapeNormal, shapes,
+                    volumes, locations);
+
+        } else if (splittableShape instanceof MeshCollisionShape) {
+            MeshCollisionShape mesh = (MeshCollisionShape) splittableShape;
+            MeshCollisionShape[] newMs = mesh.split(shapeTriangle);
+            assert newMs.length == 2 : newMs.length;
+            if (newMs[0] == null || newMs[1] == null) {
+                // The split plane didn't intersect the mesh shape.
+                return;
+            }
+
+            Vector3f worldNormal = worldTriangle.getNormal(); // alias
+            splitStaticBody(oldBody, worldNormal, shapeToWorld, newMs);
+
+        } else { // TODO handle simplex n<=2
             logger.log(Level.WARNING, "Shape not split:  {0}", originalShape);
         }
     }
@@ -816,6 +854,31 @@ public class SplitDemo
             body.setPhysicsRotation(shapeToWorld.getRotation());
             body.setAngularVelocity(w);
             body.setDebugMeshNormals(MeshNormals.Facet);
+            addCollisionObject(body);
+        }
+    }
+
+    private void splitStaticBody(PhysicsRigidBody oldBody, Vector3f worldNormal,
+            Transform shapeToWorld, CollisionShape[] shapes) {
+        assert oldBody.getMass() == PhysicsBody.massForStatic;
+        assert shapes.length == 2 : shapes.length;
+
+        Vector3f location = new Vector3f();
+        PhysicsSpace space = getPhysicsSpace();
+        space.removeCollisionObject(oldBody);
+
+        for (int i = 0; i < 2; ++i) {
+            float mass = PhysicsBody.massForStatic;
+            PhysicsRigidBody body = new PhysicsRigidBody(shapes[i], mass);
+
+            location.set(shapeToWorld.getTranslation());
+            if (i == 0) {
+                MyVector3f.accumulateScaled(location, worldNormal, -0.04f);
+            } else {
+                MyVector3f.accumulateScaled(location, worldNormal, +0.04f);
+            }
+            body.setPhysicsLocation(location);
+            body.setPhysicsRotation(shapeToWorld.getRotation());
             addCollisionObject(body);
         }
     }
