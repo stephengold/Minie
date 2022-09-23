@@ -119,6 +119,21 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
+     * Instantiate a shape based on the specified CompoundMesh.
+     *
+     * @param useCompression true to use quantized AABB compression
+     * @param mesh the mesh on which to base the shape (not null, must contain
+     * at least one triangle, unaffected)
+     */
+    public MeshCollisionShape(boolean useCompression, CompoundMesh mesh) {
+        Validate.require(mesh.countTriangles() > 0, "at least one triangle");
+
+        this.nativeMesh = new CompoundMesh(mesh);
+        this.useCompression = useCompression;
+        createShape();
+    }
+
+    /**
      * Instantiate a shape from the specified native mesh(es).
      *
      * @param useCompression true to use quantized AABB compression
