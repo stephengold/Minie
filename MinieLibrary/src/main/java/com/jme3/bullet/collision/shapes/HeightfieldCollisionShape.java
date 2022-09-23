@@ -32,6 +32,8 @@
 package com.jme3.bullet.collision.shapes;
 
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.shapes.infos.IndexedMesh;
+import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -331,6 +333,22 @@ public class HeightfieldCollisionShape extends CollisionShape {
         this.useZigzag = capsule.readBoolean(tagUseZigzag, false);
 
         createShape();
+    }
+
+    /**
+     * Approximate this shape with a splittable shape.
+     *
+     * @return a new splittable shape
+     */
+    @Override
+    public CollisionShape toSplittableShape() {
+        // Generate debug triangles.
+        FloatBuffer buffer = DebugShapeFactory
+                .getDebugTriangles(this, DebugShapeFactory.lowResolution);
+        IndexedMesh nativeMesh = new IndexedMesh(buffer);
+        MeshCollisionShape result = new MeshCollisionShape(true, nativeMesh);
+
+        return result;
     }
 
     /**
