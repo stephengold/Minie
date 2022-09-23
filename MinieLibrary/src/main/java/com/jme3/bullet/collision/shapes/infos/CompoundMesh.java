@@ -38,17 +38,21 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Plane;
+import com.jme3.math.Transform;
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
 import jme3utilities.Validate;
+import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -92,6 +96,41 @@ public class CompoundMesh
      */
     public CompoundMesh() {
         createEmpty();
+    }
+
+    /**
+     * Copy an existing mesh.
+     *
+     * @param original the mesh to copy (not null, unaffected)
+     */
+    public CompoundMesh(CompoundMesh original) {
+        createEmpty();
+        for (IndexedMesh submesh : original.submeshes) {
+            add(submesh);
+        }
+        setScale(original.scale);
+    }
+
+    /**
+     * Instantiate a mesh by applying an offset to an existing mesh.
+     *
+     * @param base the mesh to use as a base (not null, unaffected)
+     * @param offset the offset to add to the scaled vertex positions (not null,
+     * unaffected)
+     */
+    public CompoundMesh(CompoundMesh base, Vector3f offset) {
+        createEmpty();
+
+        Transform transform = new Transform();
+        transform.getScale().set(scale);
+        transform.setTranslation(offset);
+        for (IndexedMesh oldSubmesh : base.submeshes) {
+            FloatBuffer positions = oldSubmesh.copyVertexPositions();
+            MyBuffer.transform(positions, 0, positions.capacity(), transform);
+            IntBuffer indices = oldSubmesh.copyIndices();
+            IndexedMesh newSubmesh = new IndexedMesh(positions, indices);
+            add(newSubmesh);
+        }
     }
 
     /**
