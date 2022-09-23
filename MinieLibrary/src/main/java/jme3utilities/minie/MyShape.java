@@ -33,14 +33,12 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
-import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.math.Vector3f;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
@@ -540,61 +538,8 @@ final public class MyShape {
      * @return the volume (in physics-space units cubed, &ge;0)
      */
     public static float volume(CollisionShape shape) {
-        Vector3f scale = shape.getScale(null);
-        float volume = scale.x * scale.y * scale.z;
-
-        if (shape instanceof BoxCollisionShape) {
-            volume *= ((BoxCollisionShape) shape).unscaledVolume();
-
-        } else if (shape instanceof CapsuleCollisionShape) {
-            volume *= ((CapsuleCollisionShape) shape).unscaledVolume();
-
-        } else if (shape instanceof CompoundCollisionShape) {
-            /*
-             * Scale factors get applied during calculation of child volumes.
-             * Any overlaps among the children are ignored,
-             * which exaggerates of the estimated volume.
-             */
-            CompoundCollisionShape compound = (CompoundCollisionShape) shape;
-            volume = 0f;
-            for (ChildCollisionShape child : compound.listChildren()) {
-                float baseVolume = volume(child.getShape());
-                volume += baseVolume;
-            }
-
-        } else if (shape instanceof ConeCollisionShape) {
-            ConeCollisionShape cone = (ConeCollisionShape) shape;
-            volume *= cone.unscaledVolume();
-
-        } else if (shape instanceof CylinderCollisionShape) {
-            CylinderCollisionShape cylinder = (CylinderCollisionShape) shape;
-            volume *= cylinder.unscaledVolume();
-
-        } else if (shape instanceof EmptyShape) {
-            volume = 0f;
-
-        } else if (shape instanceof HullCollisionShape) {
-            HullCollisionShape hull = (HullCollisionShape) shape;
-            volume = hull.scaledVolume();
-
-        } else if (shape instanceof MultiSphere) {
-            MultiSphere multiSphere = (MultiSphere) shape;
-            volume = multiSphere.scaledVolume();
-
-        } else if (shape instanceof SimplexCollisionShape) {
-            SimplexCollisionShape simplex = (SimplexCollisionShape) shape;
-            volume *= simplex.unscaledVolume();
-
-        } else if (shape instanceof SphereCollisionShape) {
-            SphereCollisionShape sphere = (SphereCollisionShape) shape;
-            volume *= sphere.unscaledVolume();
-
-        } else {
-            logger.log(Level.SEVERE, "shape={0}", shape.getClass());
-            throw new IllegalArgumentException("Shape must be closed!");
-        }
-
-        assert volume >= 0f : volume;
-        return volume;
+        float result = shape.scaledVolume();
+        assert result >= 0f : result;
+        return result;
     }
 }
