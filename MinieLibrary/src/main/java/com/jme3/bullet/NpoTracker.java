@@ -85,9 +85,8 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
      */
     void freeTrackedObject() {
         int invocationCount = 0;
-        /*
-         * Remove this tracker from the map BEFORE freeing the native object.
-         */
+
+        // Remove this tracker from the map BEFORE freeing the native object.
         NativePhysicsObject.removeTracker(id);
         Method[] methods = FreeingMethods.listMethods(referentClass);
         // Avoid re-boxing in case more than one method is invoked.

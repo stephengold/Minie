@@ -301,7 +301,7 @@ public class CapsuleCollisionShape extends ConvexShape {
 
             result = new HullCollisionShape(buffer);
 
-        } else { // Use a 2 vertices with a reduced margin.
+        } else { // Use 2 vertices with a reduced margin.
             Vector3f v1 = new Vector3f();
             v1.set(axis, height / 2f);
             Vector3f v2 = v1.negate();

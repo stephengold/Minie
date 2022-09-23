@@ -877,9 +877,7 @@ public class New6Dof extends Constraint {
             b.setPhysicsRotation(saveRotation);
 
         } else {
-            /*
-             * Create a double-ended constraint.
-             */
+            // Create a double-ended constraint.
             long aId = a.nativeId();
             constraintId = createDoubleEnded(aId, bId, pivotA, rotA, pivotB,
                     rotB, rotOrder);
