@@ -233,8 +233,6 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     public int contactTest(
             PhysicsCollisionObject pco, PhysicsCollisionListener listener) {
-        Validate.nonNull(pco, "collision object");
-
         long spaceId = nativeId();
         long pcoId = pco.nativeId();
         int result = contactTest(spaceId, pcoId, listener);
@@ -407,9 +405,6 @@ public class CollisionSpace extends NativePhysicsObject {
      * @return true if registered, otherwise false
      */
     public boolean hasClosest(CollisionShape shape0, CollisionShape shape1) {
-        Validate.nonNull(shape0, "shape 0");
-        Validate.nonNull(shape1, "shape 1");
-
         long spaceId = nativeId();
         int shape0Type = shape0.getShapeType();
         int shape1Type = shape1.getShapeType();
@@ -427,9 +422,6 @@ public class CollisionSpace extends NativePhysicsObject {
      * @return true if registered, otherwise false
      */
     public boolean hasContact(CollisionShape shape0, CollisionShape shape1) {
-        Validate.nonNull(shape0, "shape 0");
-        Validate.nonNull(shape1, "shape 1");
-
         long spaceId = nativeId();
         int shape0Type = shape0.getShapeType();
         int shape1Type = shape1.getShapeType();
