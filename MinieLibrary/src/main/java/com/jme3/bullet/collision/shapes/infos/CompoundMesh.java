@@ -168,6 +168,31 @@ public class CompoundMesh
     }
 
     /**
+     * Find the maximum and minimum coordinates for each local axis among the
+     * scaled vertices in this mesh.
+     *
+     * @param storeMaxima storage for the maxima (not null, modified)
+     * @param storeMinima storage for the minima (not null, modified)
+     */
+    public void maxMin(Vector3f storeMaxima, Vector3f storeMinima) {
+        storeMaxima.set(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY,
+                Float.NEGATIVE_INFINITY);
+        storeMinima.set(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY,
+                Float.POSITIVE_INFINITY);
+
+        Vector3f max = new Vector3f();
+        Vector3f min = new Vector3f();
+        for (IndexedMesh submesh : submeshes) {
+            submesh.maxMin(max, min);
+            MyVector3f.accumulateMinima(storeMinima, min);
+            MyVector3f.accumulateMaxima(storeMaxima, max);
+        }
+
+        storeMaxima.multLocal(scale);
+        storeMinima.multLocal(scale);
+    }
+
+    /**
      * Alter the scale factors.
      *
      * @param scale the desired scale factor for each local axis (not null, no
