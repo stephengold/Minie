@@ -40,6 +40,7 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.math.Transform;
+import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
@@ -277,6 +278,26 @@ public class IndexedMesh
         }
 
         return result;
+    }
+
+    /**
+     * Copy the vertex positions of the specified triangle.
+     *
+     * @param triangleIndex the index of the source triangle (&ge;0)
+     * @param destination storage for the result (not null, modified)
+     */
+    public void copyTriangle(int triangleIndex, Triangle destination) {
+        Validate.inRange(triangleIndex, "triangle index", 0, numTriangles - 1);
+        Validate.nonNull(destination, "destination");
+
+        int startPosition = triangleIndex * vpt; // within the indices buffer
+        Vector3f tmpVector = new Vector3f();
+        for (int vertexI = 0; vertexI < vpt; ++vertexI) {
+            int indexPosition = startPosition + vertexI;
+            int vertexIndex = indices.get(indexPosition);
+            MyBuffer.get(vertexPositions, vertexIndex * numAxes, tmpVector);
+            destination.set(vertexI, tmpVector);
+        }
     }
 
     /**
