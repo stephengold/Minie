@@ -121,6 +121,15 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-last even-row-color">
 <div class="block">Instantiate an empty mesh.</div>
 </div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.bullet.collision.shapes.infos.CompoundMesh)" class="member-name-link">CompoundMesh</a><wbr>(<a href="CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a>&nbsp;original)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Copy an existing mesh.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.bullet.collision.shapes.infos.CompoundMesh,com.jme3.math.Vector3f)" class="member-name-link">CompoundMesh</a><wbr>(<a href="CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a>&nbsp;base,
+ com.jme3.math.Vector3f&nbsp;offset)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Instantiate a mesh by applying an offset to an existing mesh.</div>
+</div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.scene.Mesh...)" class="member-name-link">CompoundMesh</a><wbr>(com.jme3.scene.Mesh...&nbsp;jmeMeshes)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Instantiate a mesh based on the specified JME mesh(es).</div>
@@ -173,15 +182,27 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="block">Create a shallow clone for the JME cloner.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">maxMin</a><wbr>(com.jme3.math.Vector3f&nbsp;storeMaxima,
+ com.jme3.math.Vector3f&nbsp;storeMinima)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Find the maximum and minimum coordinates for each local axis among the
+ scaled vertices in this mesh.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-serialize this mesh from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setScale(com.jme3.math.Vector3f)" class="member-name-link">setScale</a><wbr>(com.jme3.math.Vector3f&nbsp;scale)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setScale(com.jme3.math.Vector3f)" class="member-name-link">setScale</a><wbr>(com.jme3.math.Vector3f&nbsp;scale)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the scale factors.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a>[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#split(com.jme3.math.Triangle)" class="member-name-link">split</a><wbr>(com.jme3.math.Triangle&nbsp;scaledTriangle)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Attempt to divide this mesh into 2 meshes.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -229,6 +250,31 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>CompoundMesh</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CompoundMesh</span>()</div>
 <div class="block">Instantiate an empty mesh.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(com.jme3.bullet.collision.shapes.infos.CompoundMesh)">
+<h3>CompoundMesh</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CompoundMesh</span><wbr><span class="parameters">(<a href="CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a>&nbsp;original)</span></div>
+<div class="block">Copy an existing mesh.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>original</code> - the mesh to copy (not null, unaffected)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(com.jme3.bullet.collision.shapes.infos.CompoundMesh,com.jme3.math.Vector3f)">
+<h3>CompoundMesh</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CompoundMesh</span><wbr><span class="parameters">(<a href="CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a>&nbsp;base,
+ com.jme3.math.Vector3f&nbsp;offset)</span></div>
+<div class="block">Instantiate a mesh by applying an offset to an existing mesh.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>base</code> - the mesh to use as a base (not null, unaffected)</dd>
+<dd><code>offset</code> - the offset to add to the scaled vertex positions (not null,
+ unaffected)</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -299,6 +345,20 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 </section>
 </li>
 <li>
+<section class="detail" id="maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">
+<h3>maxMin</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">maxMin</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeMaxima,
+ com.jme3.math.Vector3f&nbsp;storeMinima)</span></div>
+<div class="block">Find the maximum and minimum coordinates for each local axis among the
+ scaled vertices in this mesh.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeMaxima</code> - storage for the maxima (not null, modified)</dd>
+<dd><code>storeMinima</code> - storage for the minima (not null, modified)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="setScale(com.jme3.math.Vector3f)">
 <h3>setScale</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setScale</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;scale)</span></div>
@@ -307,6 +367,22 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dt>Parameters:</dt>
 <dd><code>scale</code> - the desired scale factor for each local axis (not null, no
  negative component, unaffected, default=(1,1,1))</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="split(com.jme3.math.Triangle)">
+<h3>split</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a>[]</span>&nbsp;<span class="element-name">split</span><wbr><span class="parameters">(com.jme3.math.Triangle&nbsp;scaledTriangle)</span></div>
+<div class="block">Attempt to divide this mesh into 2 meshes.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>scaledTriangle</code> - to define the splitting plane (in scaled
+ coordinates, not null, unaffected)</dd>
+<dt>Returns:</dt>
+<dd>a pair of meshes, the first mesh generated by the plane's minus
+ side and the 2nd mesh generated by its plus side; either mesh may be
+ null, indicating an empty mesh</dd>
 </dl>
 </section>
 </li>

@@ -1882,7 +1882,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Used internally.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#colorChildren()" class="member-name-link">colorChildren()</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#colorChildren()" class="member-name-link">colorChildren()</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
 <dd>
 <div class="block">Color each child of the debug node for a CompoundCollisionShape.</div>
 </dd>
@@ -1971,6 +1971,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#%3Cinit%3E()" class="member-name-link">CompoundMesh()</a> - Constructor for class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
 <dd>
 <div class="block">Instantiate an empty mesh.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#%3Cinit%3E(com.jme3.bullet.collision.shapes.infos.CompoundMesh)" class="member-name-link">CompoundMesh(CompoundMesh)</a> - Constructor for class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
+<dd>
+<div class="block">Copy an existing mesh.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#%3Cinit%3E(com.jme3.bullet.collision.shapes.infos.CompoundMesh,com.jme3.math.Vector3f)" class="member-name-link">CompoundMesh(CompoundMesh, Vector3f)</a> - Constructor for class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
+<dd>
+<div class="block">Instantiate a mesh by applying an offset to an existing mesh.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#%3Cinit%3E(com.jme3.scene.Mesh...)" class="member-name-link">CompoundMesh(Mesh...)</a> - Constructor for class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
 <dd>
@@ -2290,6 +2298,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/ChildCollisionShape.html#copyTransform(com.jme3.math.Transform)" class="member-name-link">copyTransform(Transform)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/ChildCollisionShape.html" title="class in com.jme3.bullet.collision.shapes.infos">ChildCollisionShape</a></dt>
 <dd>
 <div class="block">Copy the Transform relative to the parent's coordinate system.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#copyTriangle(int,com.jme3.math.Triangle)" class="member-name-link">copyTriangle(int, Triangle)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Copy the vertex positions of the specified triangle.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#copyVelocities(java.nio.FloatBuffer)" class="member-name-link">copyVelocities(FloatBuffer)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
@@ -2852,7 +2864,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A utility class to generate debug meshes for Bullet collision shapes.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#debugSpatial" class="member-name-link">debugSpatial</a> - Variable in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#debugSpatial" class="member-name-link">debugSpatial</a> - Variable in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
 <dd>
 <div class="block">Spatial to visualize lastShape (not null)</div>
 </dd>
@@ -5702,7 +5714,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Generate the hash code for this instance.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#hasShapeChanged(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">hasShapeChanged(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#hasShapeChanged(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">hasShapeChanged(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
 <dd>
 <div class="block">Compare the specified CollisionShape with the lastShape.</div>
 </dd>
@@ -5872,6 +5884,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Instantiate an IndexedMesh based on the specified JME mesh and coordinate
  transform.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#%3Cinit%3E(java.nio.FloatBuffer)" class="member-name-link">IndexedMesh(FloatBuffer)</a> - Constructor for class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Instantiate an IndexedMesh based on the specified vertex positions.</div>
 </dd>
 <dt><a href="com/jme3/bullet/MultiBodyLink.html#inertia(com.jme3.math.Vector3f)" class="member-name-link">inertia(Vector3f)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodyLink.html" title="class in com.jme3.bullet">MultiBodyLink</a></dt>
 <dd>
@@ -7528,6 +7544,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Estimate how far the specified (non-compound, non-plane) shape extends
  from some origin, based on its debug mesh.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">maxMin(Vector3f, Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
+<dd>
+<div class="block">Find the maximum and minimum coordinates for each local axis among the
+ scaled vertices in this mesh.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">maxMin(Vector3f, Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Find the maximum and minimum coordinates for each axis among the vertices
+ in this mesh.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/MotorParam.html#MaxMotorForce" class="member-name-link">MaxMotorForce</a> - Enum constant in enum class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/MotorParam.html" title="enum class in com.jme3.bullet.joints.motors">MotorParam</a></dt>
 <dd>
@@ -11211,7 +11237,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter the shadow mode for the (debug) root node.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#setShape(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">setShape(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#setShape(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">setShape(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
 <dd>
 <div class="block">Replace the lastShape and update related fields.</div>
 </dd>
@@ -11281,7 +11307,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter which Spatial is controlled.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#setSpatial(com.jme3.scene.Spatial)" class="member-name-link">setSpatial(Spatial)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#setSpatial(com.jme3.scene.Spatial)" class="member-name-link">setSpatial(Spatial)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
 <dd>
 <div class="block">Alter which Spatial is controlled.</div>
 </dd>
@@ -11981,6 +12007,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">spherical joint (native name: eSpherical)</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#split(com.jme3.math.Plane)" class="member-name-link">split(Plane)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Attempt to divide this mesh into 2 meshes.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CompoundCollisionShape.html#split(com.jme3.math.Triangle)" class="member-name-link">split(Triangle)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></dt>
 <dd>
 <div class="block">Divide this shape into 2 compound shapes.</div>
@@ -11992,6 +12022,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/ChildCollisionShape.html#split(com.jme3.math.Triangle)" class="member-name-link">split(Triangle)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/ChildCollisionShape.html" title="class in com.jme3.bullet.collision.shapes.infos">ChildCollisionShape</a></dt>
 <dd>
 <div class="block">Attempt to divide this child into 2 children.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#split(com.jme3.math.Triangle)" class="member-name-link">split(Triangle)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
+<dd>
+<div class="block">Attempt to divide this mesh into 2 meshes.</div>
 </dd>
 <dt><a href="com/jme3/bullet/SolverInfo.html#splitImpulseErp()" class="member-name-link">splitImpulseErp()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/SolverInfo.html" title="class in com.jme3.bullet">SolverInfo</a></dt>
 <dd>

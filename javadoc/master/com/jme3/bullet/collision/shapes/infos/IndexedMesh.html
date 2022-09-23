@@ -150,6 +150,11 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="block">Instantiate an IndexedMesh based on the specified JME mesh and coordinate
  transform.</div>
 </div>
+<div class="col-first odd-row-color"><code>&nbsp;</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.nio.FloatBuffer)" class="member-name-link">IndexedMesh</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a>&nbsp;buffer)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Instantiate an IndexedMesh based on the specified vertex positions.</div>
+</div>
 </div>
 </section>
 </li>
@@ -177,25 +182,38 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy the triangle indices.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyVertexPositions()" class="member-name-link">copyVertexPositions</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyTriangle(int,com.jme3.math.Triangle)" class="member-name-link">copyTriangle</a><wbr>(int&nbsp;triangleIndex,
+ com.jme3.math.Triangle&nbsp;destination)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy the vertex positions of the specified triangle.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyVertexPositions()" class="member-name-link">copyVertexPositions</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy the vertex positions to a new buffer.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countTriangles()" class="member-name-link">countTriangles</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countTriangles()" class="member-name-link">countTriangles</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Count how many triangles are in this mesh.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countVertices()" class="member-name-link">countVertices</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countVertices()" class="member-name-link">countVertices</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Count how many vertices are in this mesh.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create a shallow clone for the JME cloner.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">maxMin</a><wbr>(com.jme3.math.Vector3f&nbsp;storeMaxima,
+ com.jme3.math.Vector3f&nbsp;storeMinima)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Find the maximum and minimum coordinates for each axis among the vertices
+ in this mesh.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
@@ -203,9 +221,14 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="block">De-serialize this mesh from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a>[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#split(com.jme3.math.Plane)" class="member-name-link">split</a><wbr>(com.jme3.math.Plane&nbsp;splittingPlane)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Attempt to divide this mesh into 2 meshes.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this mesh to the specified exporter, for example when saving to
  a J3O file.</div>
 </div>
@@ -309,6 +332,19 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 </dl>
 </section>
 </li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.nio.FloatBuffer)">
+<h3>IndexedMesh</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IndexedMesh</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a>&nbsp;buffer)</span></div>
+<div class="block">Instantiate an IndexedMesh based on the specified vertex positions. An
+ index will be assigned to each distinct position.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>buffer</code> - the vertex positions of a non-indexed triangle mesh (not
+ null, flipped, limit a multiple of 9, unaffected)</dd>
+</dl>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -325,6 +361,19 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new, direct, unflipped buffer</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="copyTriangle(int,com.jme3.math.Triangle)">
+<h3>copyTriangle</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">copyTriangle</span><wbr><span class="parameters">(int&nbsp;triangleIndex,
+ com.jme3.math.Triangle&nbsp;destination)</span></div>
+<div class="block">Copy the vertex positions of the specified triangle.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>triangleIndex</code> - the index of the source triangle (&ge;0)</dd>
+<dd><code>destination</code> - storage for the result (not null, modified)</dd>
 </dl>
 </section>
 </li>
@@ -358,6 +407,35 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the count (&ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">
+<h3>maxMin</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">maxMin</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeMaxima,
+ com.jme3.math.Vector3f&nbsp;storeMinima)</span></div>
+<div class="block">Find the maximum and minimum coordinates for each axis among the vertices
+ in this mesh.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeMaxima</code> - storage for the maxima (not null, modified)</dd>
+<dd><code>storeMinima</code> - storage for the minima (not null, modified)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="split(com.jme3.math.Plane)">
+<h3>split</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a>[]</span>&nbsp;<span class="element-name">split</span><wbr><span class="parameters">(com.jme3.math.Plane&nbsp;splittingPlane)</span></div>
+<div class="block">Attempt to divide this mesh into 2 meshes.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>splittingPlane</code> - the splitting plane (not null, unaffected)</dd>
+<dt>Returns:</dt>
+<dd>a pair of meshes, the first mesh generated by the plane's minus
+ side and the 2nd mesh generated by its plus side; either mesh may be
+ null, indicating an empty mesh</dd>
 </dl>
 </section>
 </li>
