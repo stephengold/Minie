@@ -411,15 +411,13 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        cfm = capsule.readFloat(tagConstraintForceMixing, 1f);
-        erp = capsule.readFloat(tagErrorReductionParameter, 1f);
-        split = capsule.readFloat(tagSplit, 1f);
+        this.cfm = capsule.readFloat(tagConstraintForceMixing, 1f);
+        this.erp = capsule.readFloat(tagErrorReductionParameter, 1f);
+        this.split = capsule.readFloat(tagSplit, 1f);
 
-        clusterIndexA = capsule.readInt(tagClusterIndexA, -1);
-        clusterIndexB = capsule.readInt(tagClusterIndexB, -1);
-        /*
-         * Each subclass must create the btSoftBody::Joint.
-         */
+        this.clusterIndexA = capsule.readInt(tagClusterIndexA, -1);
+        this.clusterIndexB = capsule.readInt(tagClusterIndexB, -1);
+        // Each subclass must create the btSoftBody::Joint.
     }
 
     /**

@@ -208,15 +208,15 @@ public class IndexedMesh
         int numIndices = indexArray.length;
         Validate.require(numIndices % vpt == 0, "length a multiple of 3");
 
-        numVertices = positionArray.length;
-        vertexPositions = BufferUtils.createFloatBuffer(positionArray);
-        vertexStride = numAxes * floatBytes;
+        this.numVertices = positionArray.length;
+        this.vertexPositions = BufferUtils.createFloatBuffer(positionArray);
+        this.vertexStride = numAxes * floatBytes;
 
-        numTriangles = numIndices / vpt;
+        this.numTriangles = numIndices / vpt;
         IntBuffer buffer = BufferUtils.createIntBuffer(indexArray);
-        indices = IndexBuffer.wrapIndexBuffer(buffer);
+        this.indices = IndexBuffer.wrapIndexBuffer(buffer);
         int indexBytes = indices.getFormat().getComponentSize();
-        indexStride = vpt * indexBytes;
+        this.indexStride = vpt * indexBytes;
 
         createMesh();
     }

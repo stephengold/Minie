@@ -98,7 +98,7 @@ public class SimplexCollisionShape extends ConvexShape {
      * null, unaffected)
      */
     public SimplexCollisionShape(Vector3f location) {
-        locations = new Vector3f[1];
+        this.locations = new Vector3f[1];
         locations[0] = location.clone();
         createShape();
     }
@@ -233,7 +233,7 @@ public class SimplexCollisionShape extends ConvexShape {
         int numVertices = vertices.length;
         assert numVertices <= 4 : numVertices;
 
-        locations = new Vector3f[numVertices];
+        this.locations = new Vector3f[numVertices];
         for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
             locations[vertexIndex] = vertices[vertexIndex].clone();
         }
