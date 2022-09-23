@@ -165,8 +165,8 @@ abstract public class CollisionShape
      * @param storeResult storage for the result (modified if not null)
      * @return a bounding box (either storeResult or a new instance, not null)
      */
-    public BoundingBox boundingBox(Vector3f translation, Matrix3f rotation,
-            BoundingBox storeResult) {
+    public BoundingBox boundingBox(
+            Vector3f translation, Matrix3f rotation, BoundingBox storeResult) {
         Validate.finite(translation, "translation");
         Validate.nonNull(rotation, "rotation");
         BoundingBox result
@@ -398,8 +398,8 @@ abstract public class CollisionShape
      * infinite)
      */
     public float maxRadius() {
-        float result = DebugShapeFactory.maxDistance(this, transformIdentity,
-                DebugShapeFactory.lowResolution);
+        float result = DebugShapeFactory.maxDistance(
+                this, transformIdentity, DebugShapeFactory.lowResolution);
         return result;
     }
 
