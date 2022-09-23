@@ -324,7 +324,7 @@ public class MeshCollisionShape extends CollisionShape {
     // Java private methods
 
     /**
-     * Instantiate the configured btBvhTriangleMeshShape.
+     * Instantiate the configured {@code btBvhTriangleMeshShape}.
      */
     private void createShape() {
         int numTriangles = nativeMesh.countTriangles();

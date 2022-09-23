@@ -216,7 +216,7 @@ public class CylinderCollisionShape extends ConvexShape {
     /**
      * Return the unscaled volume of the cylinder.
      *
-     * @return the volume (&ge;0)
+     * @return the volume (in shape units cubed, &ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.cylinderVolume(halfExtents);

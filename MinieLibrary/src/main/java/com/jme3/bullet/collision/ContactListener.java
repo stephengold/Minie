@@ -44,7 +44,8 @@ public interface ContactListener {
     /**
      * Invoked immediately after a contact manifold is removed.
      *
-     * @param manifoldId the native ID of the btPersistentManifold (not 0)
+     * @param manifoldId the native ID of the {@code btPersistentManifold} (not
+     * zero)
      */
     void onContactEnded(long manifoldId);
 
@@ -54,7 +55,8 @@ public interface ContactListener {
      *
      * @param pcoA the first involved object (not null)
      * @param pcoB the 2nd involved object (not null)
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      */
     void onContactProcessed(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId);
@@ -62,7 +64,8 @@ public interface ContactListener {
     /**
      * Invoked immediately after a contact manifold is created.
      *
-     * @param manifoldId the native ID of the btPersistentManifold (not 0)
+     * @param manifoldId the native ID of the {@code btPersistentManifold} (not
+     * zero)
      */
     void onContactStarted(long manifoldId);
 }

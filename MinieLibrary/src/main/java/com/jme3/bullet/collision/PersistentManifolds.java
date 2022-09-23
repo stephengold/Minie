@@ -34,7 +34,8 @@ package com.jme3.bullet.collision;
 import java.util.logging.Logger;
 
 /**
- * Utility class to access fields of Bullet's btPersistentManifold class.
+ * Utility class to access fields of Bullet's {@code btPersistentManifold}
+ * class.
  */
 final public class PersistentManifolds {
     // *************************************************************************
@@ -60,10 +61,10 @@ final public class PersistentManifolds {
      * Return the number of points in the specified manifold (native field:
      * m_cachedPoints).
      *
-     * @param persistentManifoldId the native ID of a btPersistentManifold (not
-     * 0)
-     * @return the number of btManifoldPoints in the btPersistentManifold
-     * (&ge;0, &le;4)
+     * @param persistentManifoldId the native ID of a
+     * {@code btPersistentManifold} (not zero)
+     * @return the number of btManifoldPoints in the
+     * {@code btPersistentManifold} (&ge;0, &le;4)
      */
     native public static int countPoints(long persistentManifoldId);
 
@@ -71,9 +72,9 @@ final public class PersistentManifolds {
      * Return the native ID of the first collision object (native field:
      * m_body0).
      *
-     * @param persistentManifoldId the native ID of a btPersistentManifold (not
-     * 0)
-     * @return the native ID of the btCollisionObject (not 0)
+     * @param persistentManifoldId the native ID of a
+     * {@code btPersistentManifold} (not zero)
+     * @return the native ID of the btCollisionObject (not zero)
      * @see PhysicsCollisionObject#findInstance(long)
      */
     native public static long getBodyAId(long persistentManifoldId);
@@ -81,9 +82,9 @@ final public class PersistentManifolds {
     /**
      * Return the native ID of the 2nd collision object (native field: m_body1).
      *
-     * @param persistentManifoldId the native ID of a btPersistentManifold (not
-     * 0)
-     * @return the native ID of the btCollisionObject (not 0)
+     * @param persistentManifoldId the native ID of a
+     * {@code btPersistentManifold} (not zero)
+     * @return the native ID of the btCollisionObject (not zero)
      * @see PhysicsCollisionObject#findInstance(long)
      */
     native public static long getBodyBId(long persistentManifoldId);
@@ -91,10 +92,10 @@ final public class PersistentManifolds {
     /**
      * Return the indexed btManifoldPoint in the specified manifold.
      *
-     * @param persistentManifoldId the native ID of a btPersistentManifold (not
-     * 0)
+     * @param persistentManifoldId the native ID of a
+     * {@code btPersistentManifold} (not zero)
      * @param pointIndex the index of the point (&ge;0, &lt;4)
-     * @return the native ID of the btManifoldPoint (not 0)
+     * @return the native ID of the btManifoldPoint (not zero)
      */
     native public static long
             getPointId(long persistentManifoldId, int pointIndex);
@@ -102,8 +103,8 @@ final public class PersistentManifolds {
     /**
      * Enumerate the native IDs of all points in the specified manifold.
      *
-     * @param persistentManifoldId the native ID of a btPersistentManifold (not
-     * 0)
+     * @param persistentManifoldId the native ID of a
+     * {@code btPersistentManifold} (not zero)
      * @return a new array of btManifoldPoint IDs (not null, may be empty)
      * @see com.jme3.bullet.collision.ManifoldPoints
      */

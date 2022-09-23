@@ -443,10 +443,10 @@ public class SixDofJoint extends Constraint {
     // new protected methods
 
     /**
-     * Create a new, double-ended btGeneric6DofConstraint.
+     * Create a double-ended {@code btGeneric6DofConstraint}.
      *
-     * @param bodyIdA the ID of the body for the A end (not 0)
-     * @param bodyIdB the ID of the body for the B end (not 0)
+     * @param bodyIdA the ID of the body for the A end (not zero)
+     * @param bodyIdB the ID of the body for the B end (not zero)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param rotInA the orientation of the joint in A's local coordinates (not
@@ -464,9 +464,9 @@ public class SixDofJoint extends Constraint {
             Matrix3f rotInB, boolean useLinearReferenceFrameA);
 
     /**
-     * Create a new, single-ended btGeneric6DofConstraint.
+     * Create a single-ended {@code btGeneric6DofConstraint}.
      *
-     * @param bodyIdB the ID of the body for the B end (not 0)
+     * @param bodyIdB the ID of the body for the B end (not zero)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      * @param rotInB the orientation of the joint in B's local coordinates (not

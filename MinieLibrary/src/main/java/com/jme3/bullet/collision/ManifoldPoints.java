@@ -35,7 +35,7 @@ import com.jme3.math.Vector3f;
 import java.util.logging.Logger;
 
 /**
- * Utility class to access fields of Bullet's btManifoldPoint class.
+ * Utility class to access fields of Bullet's {@code btManifoldPoint} class.
  * <p>
  * Based on PhysicsCollisionEvent.
  */
@@ -63,7 +63,7 @@ final public class ManifoldPoints {
      * Create a manifold point (for testing) that will never be freed. For
      * internal use only.
      *
-     * @return the native ID of a new btManifoldPoint (not 0)
+     * @return the native ID of a new {@code btManifoldPoint} (not zero)
      */
     native public static long createTestPoint();
 
@@ -71,7 +71,8 @@ final public class ManifoldPoints {
      * Return the applied impulse of the specified point (native field:
      * m_appliedImpulse).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the impulse calculated during the previous timestep, or zero if
      * the WarmStart bit is cleared in the solver mode
      */
@@ -81,7 +82,8 @@ final public class ManifoldPoints {
      * Return the applied lateral impulse #1 of the specified point (native
      * field: m_appliedImpulseLateral1).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the impulse
      */
     native public static float getAppliedImpulseLateral1(long manifoldPointId);
@@ -90,7 +92,8 @@ final public class ManifoldPoints {
      * Return the applied lateral impulse #2 of the specified point (native
      * field: m_appliedImpulseLateral2).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the impulse
      */
     native public static float getAppliedImpulseLateral2(long manifoldPointId);
@@ -99,7 +102,8 @@ final public class ManifoldPoints {
      * Return the combined friction of the specified point, which is the product
      * of the collision-object frictions (native field: m_combinedFriction).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the friction product
      */
     native public static float getCombinedFriction(long manifoldPointId);
@@ -109,7 +113,8 @@ final public class ManifoldPoints {
      * product of the collision-object restitutions (native field:
      * m_combinedRestitution).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the restitution product
      */
     native public static float getCombinedRestitution(long manifoldPointId);
@@ -118,7 +123,8 @@ final public class ManifoldPoints {
      * Return the combined rolling friction of the specified point (native
      * field: m_combinedRollingFriction).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the combined friction
      */
     native public static float
@@ -128,7 +134,8 @@ final public class ManifoldPoints {
      * Return the combined spinning friction of the specified point (native
      * field: m_combinedSpinningFriction).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the combined friction
      */
     native public static float
@@ -138,7 +145,8 @@ final public class ManifoldPoints {
      * Return the contact motion #1 of the specified point (native field:
      * m_contactMotion1).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the motion
      */
     native public static float getContactMotion1(long manifoldPointId);
@@ -147,7 +155,8 @@ final public class ManifoldPoints {
      * Return the contact motion #2 of the specified point (native field:
      * m_contactMotion2).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the motion
      */
     native public static float getContactMotion2(long manifoldPointId);
@@ -156,7 +165,8 @@ final public class ManifoldPoints {
      * Return the separation distance of the specified point (native field:
      * m_distance1). This is the negative of the penetration depth.
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the distance (in physics-space units)
      */
     native public static float getDistance1(long manifoldPointId);
@@ -165,7 +175,8 @@ final public class ManifoldPoints {
      * Return the flags of the specified point (native field:
      * m_contactPointFlags).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return a bitmask
      * @see com.jme3.bullet.collision.ContactPointFlag
      */
@@ -185,7 +196,8 @@ final public class ManifoldPoints {
      * If the shape is a HeightfieldCollisionShape, the index indicates a grid
      * column.
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the index of the collision-shape triangle (&ge;0) or -1 if
      * undefined
      */
@@ -205,7 +217,8 @@ final public class ManifoldPoints {
      * If the shape is a HeightfieldCollisionShape, the index indicates a grid
      * column.
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the index of the collision-shape triangle (&ge;0) or -1 if
      * undefined
      */
@@ -215,7 +228,8 @@ final public class ManifoldPoints {
      * Determine the lateral friction direction #1 of the specified point
      * (native field: m_lateralFrictionDir1).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param storeVector storage for the result (not null, modified)
      */
     native public static void
@@ -225,7 +239,8 @@ final public class ManifoldPoints {
      * Determine the lateral friction direction #2 of the specified point
      * (native field: m_lateralFrictionDir2).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param storeVector storage for the result (not null, modified)
      */
     native public static void
@@ -234,7 +249,8 @@ final public class ManifoldPoints {
     /**
      * Return the lifetime of the specified point (native name: m_lifeTime).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the duration (in timesteps, &ge;0)
      */
     native public static int getLifeTime(long manifoldPointId);
@@ -243,7 +259,8 @@ final public class ManifoldPoints {
      * Determine the location of the specified point in the local coordinates of
      * object A (native name: m_localPointA).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param storeVector storage for the result (not null, modified)
      */
     native public static void
@@ -253,7 +270,8 @@ final public class ManifoldPoints {
      * Determine the location of the specified point in the local coordinates of
      * object B (native name: m_localPointB).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param storeVector storage for the result (not null, modified)
      */
     native public static void
@@ -263,7 +281,8 @@ final public class ManifoldPoints {
      * Determine the normal on object B of the specified point in physics-space
      * coordinates (native name: m_normalWorldOnB).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param storeVector storage for the result (not null, modified)
      */
     native public static void
@@ -281,7 +300,8 @@ final public class ManifoldPoints {
      * If the shape is a HeightfieldCollisionShape, the index identifies a grid
      * row.
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the index of the collision-shape part (&ge;0) or -1 if undefined
      */
     native public static int getPartId0(long manifoldPointId);
@@ -298,7 +318,8 @@ final public class ManifoldPoints {
      * If the shape is a HeightfieldCollisionShape, the index identifies a grid
      * row.
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @return the index of the collision-shape part (&ge;0) or -1 if undefined
      */
     native public static int getPartId1(long manifoldPointId);
@@ -307,7 +328,8 @@ final public class ManifoldPoints {
      * Determine the location of the specified point on object A in
      * physics-space coordinates (native field: m_positionWorldOnA).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param storeVector storage for the result (not null, modified)
      */
     native public static void
@@ -317,7 +339,8 @@ final public class ManifoldPoints {
      * Determine the location of the specified point on object B in
      * physics-space coordinates (native field: m_positionWorldOnB).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param storeVector storage for the result (modified if not null)
      */
     native public static void
@@ -336,7 +359,8 @@ final public class ManifoldPoints {
      * Alter the applied impulse of the specified point (native field:
      * m_appliedImpulse).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param impulse the desired impulse
      */
     native public static void
@@ -346,7 +370,8 @@ final public class ManifoldPoints {
      * Alter the applied lateral impulse #1 of the specified point (native
      * field: m_appliedImpulseLateral1).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param impulse the desired impulse
      */
     native public static void
@@ -356,7 +381,8 @@ final public class ManifoldPoints {
      * Alter the applied lateral impulse #2 of the specified point (native
      * field: m_appliedImpulseLateral2).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param impulse the desired impulse
      */
     native public static void
@@ -366,7 +392,8 @@ final public class ManifoldPoints {
      * Alter the combined friction of the specified point (native field:
      * m_combinedFriction).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param friction the desired friction
      */
     native public static void
@@ -376,7 +403,8 @@ final public class ManifoldPoints {
      * Alter the combined restitution of the specified point (native field:
      * m_combinedRestitution).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param restitution the desired restitution
      */
     native public static void
@@ -386,7 +414,8 @@ final public class ManifoldPoints {
      * Alter the combined rolling friction of the specified point (native field:
      * m_combinedRollingFriction).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param friction the desired friction
      */
     native public static void
@@ -396,7 +425,8 @@ final public class ManifoldPoints {
      * Alter the combined spinning friction of the specified point (native
      * field: m_combinedSpinningFriction).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param friction the combined friction
      */
     native public static void
@@ -415,7 +445,8 @@ final public class ManifoldPoints {
      * Alter the contact motion #1 of the specified point (native field:
      * m_contactMotion1).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param motion the desired motion
      */
     native public static void
@@ -425,7 +456,8 @@ final public class ManifoldPoints {
      * Alter the contact motion #2 of the specified point (native field:
      * m_contactMotion2).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param motion the desired motion
      */
     native public static void
@@ -435,7 +467,8 @@ final public class ManifoldPoints {
      * Alter the separation distance of the specified point (native field:
      * m_distance1). This is the negative of the penetration depth.
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param distance the desired distance (in physics-space units)
      */
     native public static void
@@ -445,7 +478,8 @@ final public class ManifoldPoints {
      * Alter the flags of the specified point (native field:
      * m_contactPointFlags).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param bitmask the desired bitmask
      * @see com.jme3.bullet.collision.ContactPointFlag
      */
@@ -455,7 +489,8 @@ final public class ManifoldPoints {
      * Alter the lateral friction direction #1 of the specified point (native
      * field: m_lateralFrictionDir1).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param direction the desired direction (in physics-space coordinates, not
      * null, unaffected)
      */
@@ -466,7 +501,8 @@ final public class ManifoldPoints {
      * Alter the lateral friction direction #2 of the specified point (native
      * field: m_lateralFrictionDir2).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param direction the desired direction (in physics-space coordinates, not
      * null, unaffected)
      */
@@ -477,7 +513,8 @@ final public class ManifoldPoints {
      * Alter the location of the specified point in the local coordinates of
      * object A (native name: m_localPointA).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param locationVector the desired location (not null, unaffected)
      */
     native public static void
@@ -487,7 +524,8 @@ final public class ManifoldPoints {
      * Alter the location of the specified point in the local coordinates of
      * object B (native name: m_localPointB).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param locationVector the desired location (not null, unaffected)
      */
     native public static void
@@ -497,7 +535,8 @@ final public class ManifoldPoints {
      * Alter the normal on object B of the specified point in physics-space
      * coordinates (native name: m_normalWorldOnB).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param normalVector the desired normal (not null, unaffected)
      */
     native public static void
@@ -507,7 +546,8 @@ final public class ManifoldPoints {
      * Alter the location of the specified point on object A in physics-space
      * coordinates (native field: m_positionWorldOnA).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param locationVector the desired location (not null, unaffected)
      */
     native public static void
@@ -517,7 +557,8 @@ final public class ManifoldPoints {
      * Alter the location of the specified point on object B in physics-space
      * coordinates (native field: m_positionWorldOnB).
      *
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
      * @param locationVector the desired location (not null, unaffected)
      */
     native public static void

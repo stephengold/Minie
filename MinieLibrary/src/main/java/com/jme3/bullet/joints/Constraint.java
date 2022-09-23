@@ -414,7 +414,8 @@ abstract public class Constraint extends PhysicsJoint {
     /**
      * Read the constraint type.
      *
-     * @param constraintId identifier of the btTypedConstraint (not 0)
+     * @param constraintId identifier of the {@code btTypedConstraint} (not
+     * zero)
      * @return a btTypedConstraintType ordinal value (&ge;3)
      */
     final native protected static int getConstraintType(long constraintId);

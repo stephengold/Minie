@@ -282,10 +282,10 @@ public class SixDofSpringJoint extends SixDofJoint {
     // SixDofJoint methods
 
     /**
-     * Create a new, double-ended btGeneric6DofSpringConstraint.
+     * Create a double-ended {@code btGeneric6DofSpringConstraint}.
      *
-     * @param bodyIdA the ID of the body for the A end (not 0)
-     * @param bodyIdB the ID of the body for the B end (not 0)
+     * @param bodyIdA the ID of the body for the A end (not zero)
+     * @param bodyIdB the ID of the body for the B end (not zero)
      * @param pivotInA the pivot location in A's scaled local coordinates (not
      * null, unaffected)
      * @param rotInA the orientation of the joint in A's local coordinates (not
@@ -304,9 +304,9 @@ public class SixDofSpringJoint extends SixDofJoint {
             Matrix3f rotInB, boolean useLinearReferenceFrameA);
 
     /**
-     * Create a new, single-ended btGeneric6DofSpringConstraint.
+     * Create a single-ended {@code btGeneric6DofSpringConstraint}.
      *
-     * @param bodyIdB the ID of the body for the B end (not 0)
+     * @param bodyIdB the ID of the body for the B end (not zero)
      * @param pivotInB the pivot location in B's scaled local coordinates (not
      * null, unaffected)
      * @param rotInB the orientation of the joint in B's local coordinates (not

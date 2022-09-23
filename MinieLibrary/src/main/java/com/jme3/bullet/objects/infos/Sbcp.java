@@ -57,22 +57,22 @@ public enum Sbcp {
      */
     ClusterKineticSplit,
     /**
-     * cluster-versus-rigidbody hardness coefficient (&ge;0, &le;1, default=0.1,
+     * cluster-versus-rigidBody hardness coefficient (&ge;0, &le;1, default=0.1,
      * native field: kSRHR_CL)
      */
     ClusterRigidHardness,
     /**
-     * cluster-versus-rigidbody impulse-split coefficient (&ge;0, &le;1,
+     * cluster-versus-rigidBody impulse-split coefficient (&ge;0, &le;1,
      * default=0.5, native field: kSR_SPLT_CL)
      */
     ClusterRigidSplit,
     /**
-     * cluster-versus-softbody hardness coefficient (&ge;0, &le;1, default=0.5,
+     * cluster-versus-softBody hardness coefficient (&ge;0, &le;1, default=0.5,
      * native field: kSSHR_CL)
      */
     ClusterSoftHardness,
     /**
-     * cluster-versus-softbody impulse-split coefficient (&ge;0, &le;1,
+     * cluster-versus-softBody impulse-split coefficient (&ge;0, &le;1,
      * default=0.5, native field: kSS_SPLT_CL).
      */
     ClusterSoftSplit,

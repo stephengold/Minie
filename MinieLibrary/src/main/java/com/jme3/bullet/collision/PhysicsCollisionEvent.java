@@ -71,7 +71,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      *
      * @param pcoA the first involved object (not null, alias created)
      * @param pcoB the 2nd involved object (not null, alias created)
-     * @param manifoldPointId the native ID of the btManifoldPoint (not 0)
+     * @param manifoldPointId the native ID of the btManifoldPoint (not zero)
      */
     public PhysicsCollisionEvent(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {

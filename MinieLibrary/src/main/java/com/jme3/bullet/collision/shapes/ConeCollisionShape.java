@@ -175,7 +175,7 @@ public class ConeCollisionShape extends ConvexShape {
     /**
      * Return the unscaled volume of the cone.
      *
-     * @return the volume (&ge;0)
+     * @return the volume (in shape units cubed, &ge;0)
      */
     public float unscaledVolume() {
         float result = MyVolume.coneVolume(radius, height);

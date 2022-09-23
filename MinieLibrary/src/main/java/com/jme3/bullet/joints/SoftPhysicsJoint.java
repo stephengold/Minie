@@ -366,9 +366,9 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
     // new protected methods
 
     /**
-     * Finalize the btTypedConstraint.
+     * Finalize the {@code btTypedConstraint}.
      *
-     * @param jointId identifier of the btSoftBody::Joint (not 0)
+     * @param jointId identifier of the {@code btSoftBody::Joint} (not zero)
      */
     native protected static void finalizeNative(long jointId);
     // *************************************************************************
