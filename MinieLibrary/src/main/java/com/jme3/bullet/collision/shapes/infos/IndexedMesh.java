@@ -368,6 +368,22 @@ public class IndexedMesh
     }
 
     /**
+     * Find the maximum and minimum coordinates for each axis among the vertices
+     * in this mesh.
+     *
+     * @param storeMaxima storage for the maxima (not null, modified)
+     * @param storeMinima storage for the minima (not null, modified)
+     */
+    public void maxMin(Vector3f storeMaxima, Vector3f storeMinima) {
+        Validate.nonNull(storeMaxima, "store maxima");
+        Validate.nonNull(storeMinima, "store minima");
+
+        int numFloats = numVertices * numAxes;
+        MyBuffer.maxMin(
+                vertexPositions, 0, numFloats, storeMaxima, storeMinima);
+    }
+
+    /**
      * Attempt to divide this mesh into 2 meshes.
      *
      * @param splittingPlane the splitting plane (not null, unaffected)
