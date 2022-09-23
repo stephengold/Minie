@@ -153,13 +153,13 @@ public class RigidBodySnapshot {
      */
     final private Vec3d location;
     /**
-     * anisotropic friction components
-     */
-    final private Vector3f anisotropicFrictionComponents;
-    /**
      * angular factors
      */
     final private Vector3f angularFactor;
+    /**
+     * anisotropic friction components
+     */
+    final private Vector3f anisotropicFrictionComponents;
     /**
      * linear factors
      */
