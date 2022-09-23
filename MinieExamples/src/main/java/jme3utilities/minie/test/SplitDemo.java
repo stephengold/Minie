@@ -77,7 +77,6 @@ import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
-import jme3utilities.minie.MyShape;
 import jme3utilities.minie.test.common.PhysicsDemo;
 import jme3utilities.minie.test.shape.ShapeGenerator;
 import jme3utilities.ui.CameraOrbitAppState;
@@ -740,7 +739,7 @@ public class SplitDemo
             Vector3f[] locations = new Vector3f[2];
             for (int i = 0; i < 2; ++i) {
                 CompoundCollisionShape newCompound = newCps[i];
-                volumes[i] = MyShape.volume(newCompound);
+                volumes[i] = newCompound.scaledVolume();
                 /*
                  * Translate each compound so its AABB is centered at (0,0,0)
                  * in its shape coordinates.
