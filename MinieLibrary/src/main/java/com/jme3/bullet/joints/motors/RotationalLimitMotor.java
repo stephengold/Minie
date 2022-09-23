@@ -413,35 +413,35 @@ public class RotationalLimitMotor extends NativePhysicsObject {
 
     native private static boolean isEnableMotor(long motorId);
 
-    native private static void setAccumulatedImpulse(
-            long motorId, float vector);
+    native private static void
+            setAccumulatedImpulse(long motorId, float vector);
 
     native private static void setBounce(long motorId, float bounce);
 
     native private static void setDamping(long motorId, float damping);
 
-    native private static void setEnableMotor(
-            long motorId, boolean enableMotor);
+    native private static void
+            setEnableMotor(long motorId, boolean enableMotor);
 
     native private static void setERP(long motorId, float erp);
 
     native private static void setHiLimit(long motorId, float hiLimit);
 
-    native private static void setLimitSoftness(long motorId,
-            float limitSoftness);
+    native private static void
+            setLimitSoftness(long motorId, float limitSoftness);
 
     native private static void setLoLimit(long motorId, float loLimit);
 
-    native private static void setMaxLimitForce(
-            long motorId, float maxLimitForce);
+    native private static void
+            setMaxLimitForce(long motorId, float maxLimitForce);
 
-    native private static void setMaxMotorForce(
-            long motorId, float maxMotorForce);
+    native private static void
+            setMaxMotorForce(long motorId, float maxMotorForce);
 
     native private static void setNormalCFM(long motorId, float normalCFM);
 
     native private static void setStopCFM(long motorId, float stopCFM);
 
-    native private static void setTargetVelocity(
-            long motorId, float targetVelocity);
+    native private static void
+            setTargetVelocity(long motorId, float targetVelocity);
 }

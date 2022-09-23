@@ -258,6 +258,7 @@ public class RigidBodySnapshot {
         body.setRestitution(restitution);
         body.setRollingFriction(rollingFriction);
         body.setSpinningFriction(spinningFriction);
+
         body.setAnisotropicFriction(
                 anisotropicFrictionComponents, anisotropicFrictionModes);
         body.setIgnoreList(ignoreList);

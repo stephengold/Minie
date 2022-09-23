@@ -1483,130 +1483,130 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     native private static void applyCentralForce(long objectId, Vector3f force);
 
-    native private static void applyCentralImpulse(long objectId,
-            Vector3f impulse);
+    native private static void
+            applyCentralImpulse(long objectId, Vector3f impulse);
 
-    native private static void applyForce(long objectId, Vector3f force,
-            Vector3f localOffset);
+    native private static void
+            applyForce(long objectId, Vector3f force, Vector3f localOffset);
 
-    native private static void applyImpulse(long objectId, Vector3f impulse,
-            Vector3f localOffset);
+    native private static void
+            applyImpulse(long objectId, Vector3f impulse, Vector3f localOffset);
 
     native private static void applyTorque(long objectId, Vector3f torque);
 
-    native private static void applyTorqueImpulse(long objectId,
-            Vector3f torqueImpulse);
+    native private static void
+            applyTorqueImpulse(long objectId, Vector3f torqueImpulse);
 
     native private static void clearForces(long objectId);
 
-    native private static long createRigidBody(float mass, long motionStateId,
-            long collisionShapeId);
+    native private static long createRigidBody(
+            float mass, long motionStateId, long collisionShapeId);
 
     native private static float getAngularDamping(long objectId);
 
-    native private static void getAngularFactor(long objectId,
-            Vector3f storeResult);
+    native private static void
+            getAngularFactor(long objectId, Vector3f storeResult);
 
     native private static float getAngularSleepingThreshold(long objectId);
 
-    native private static void getAngularVelocity(long objectId,
-            Vector3f storeResult);
+    native private static void
+            getAngularVelocity(long objectId, Vector3f storeResult);
 
-    native private static void getAngularVelocityDp(long objectId,
-            Vec3d storeResult);
+    native private static void
+            getAngularVelocityDp(long objectId, Vec3d storeResult);
 
     native private static void getGravity(long objectId, Vector3f storeResult);
 
     native private static void getGravityDp(long objectId, Vec3d storeResult);
 
-    native private static void getInverseInertiaLocal(long objectId,
-            Vector3f storeResult);
+    native private static void
+            getInverseInertiaLocal(long objectId, Vector3f storeResult);
 
-    native private static void getInverseInertiaWorld(long objectId,
-            Matrix3f storeResult);
+    native private static void
+            getInverseInertiaWorld(long objectId, Matrix3f storeResult);
 
     native private static float getLinearDamping(long objectId);
 
-    native private static void getLinearFactor(long objectId,
-            Vector3f storeResult);
+    native private static void
+            getLinearFactor(long objectId, Vector3f storeResult);
 
     native private static float getLinearSleepingThreshold(long objectId);
 
-    native private static void getLinearVelocity(long objectId,
-            Vector3f storeResult);
+    native private static void
+            getLinearVelocity(long objectId, Vector3f storeResult);
 
-    native private static void getLinearVelocityDp(long objectId,
-            Vec3d storeResult);
+    native private static void
+            getLinearVelocityDp(long objectId, Vec3d storeResult);
 
     native private static float getMass(long objectId);
 
     native private static float getSquaredSpeed(long objectId);
 
-    native private static void getTotalForce(long objectId,
-            Vector3f storeResult);
+    native private static void
+            getTotalForce(long objectId, Vector3f storeResult);
 
-    native private static void getTotalTorque(long objectId,
-            Vector3f storeResult);
+    native private static void
+            getTotalTorque(long objectId, Vector3f storeResult);
 
     native private static boolean getUseSpaceGravity(long objectId);
 
-    native private static void setAngularDamping(long objectId,
-            float dampingFraction);
+    native private static void
+            setAngularDamping(long objectId, float dampingFraction);
 
     native private static void setAngularFactor(long objectId, Vector3f factor);
 
-    native private static void setAngularSleepingThreshold(long objectId,
-            float threshold);
+    native private static void
+            setAngularSleepingThreshold(long objectId, float threshold);
 
     native private static void setAngularVelocity(long objectId, Vector3f vec);
 
     native private static void setAngularVelocityDp(long objectId, Vec3d vec);
 
-    native private static void setCollisionShape(long objectId,
-            long collisionShapeId);
+    native private static void
+            setCollisionShape(long objectId, long collisionShapeId);
 
-    native private static void setDamping(long objectId, float linear,
-            float angular);
+    native private static void
+            setDamping(long objectId, float linear, float angular);
 
     native private static void setGravity(long objectId, Vector3f gravity);
 
     native private static void setGravityDp(long objectId, Vec3d gravity);
 
-    native private static void setInverseInertiaLocal(long objectId,
-            Vector3f inverseInertialLocal);
+    native private static void setInverseInertiaLocal(
+            long objectId, Vector3f inverseInertialLocal);
 
     native private static void setKinematic(long objectId, boolean kinematic);
 
     native private static void setLinearFactor(long objectId, Vector3f factor);
 
-    native private static void setLinearSleepingThreshold(long objectId,
-            float threshold);
+    native private static void
+            setLinearSleepingThreshold(long objectId, float threshold);
 
     native private static void setLinearVelocity(long objectId, Vector3f vec);
 
     native private static void setLinearVelocityDp(long objectId, Vec3d vec);
 
-    native private static void setPhysicsLocation(long objectId,
-            Vector3f location);
+    native private static void
+            setPhysicsLocation(long objectId, Vector3f location);
 
-    native private static void setPhysicsLocationDp(long objectId,
-            Vec3d location);
+    native private static void
+            setPhysicsLocationDp(long objectId, Vec3d location);
 
-    native private static void setPhysicsRotation(long objectId,
-            Matrix3f rotation);
+    native private static void
+            setPhysicsRotation(long objectId, Matrix3f rotation);
 
-    native private static void setPhysicsRotation(long objectId,
-            Quaternion rotation);
+    native private static void
+            setPhysicsRotation(long objectId, Quaternion rotation);
 
-    native private static void setPhysicsRotationDp(long objectId,
-            Quatd rotation);
+    native private static void
+            setPhysicsRotationDp(long objectId, Quatd rotation);
 
-    native private static void setSleepingThresholds(long objectId,
-            float linear, float angular);
+    native private static void
+            setSleepingThresholds(long objectId, float linear, float angular);
 
-    native private static void setUseSpaceGravity(long objectId,
-            boolean useSpaceGravity);
+    native private static void
+            setUseSpaceGravity(long objectId, boolean useSpaceGravity);
 
-    native private static void updateMassProps(long objectId,
-            long collisionShapeId, float mass);
+    native private static void
+            updateMassProps(long objectId, long collisionShapeId, float mass);
 }

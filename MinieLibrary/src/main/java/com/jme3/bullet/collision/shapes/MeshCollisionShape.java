@@ -111,8 +111,8 @@ public class MeshCollisionShape extends CollisionShape {
         for (IndexedMesh submesh : meshes) {
             nativeMesh.add(submesh);
         }
-        Validate.require(nativeMesh.countTriangles() > 0,
-                "at least one triangle");
+        Validate.require(
+                nativeMesh.countTriangles() > 0, "at least one triangle");
 
         this.useCompression = useCompression;
         createShape();
@@ -125,15 +125,15 @@ public class MeshCollisionShape extends CollisionShape {
      * @param submeshes the mesh(es) on which to base the shape (must contain at
      * least one triangle)
      */
-    public MeshCollisionShape(boolean useCompression,
-            IndexedMesh... submeshes) {
+    public MeshCollisionShape(
+            boolean useCompression, IndexedMesh... submeshes) {
         Validate.nonEmpty(submeshes, "submeshes");
         this.nativeMesh = new CompoundMesh();
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
-        Validate.require(nativeMesh.countTriangles() > 0,
-                "at least one triangle");
+        Validate.require(
+                nativeMesh.countTriangles() > 0, "at least one triangle");
 
         this.useCompression = useCompression;
         createShape();
@@ -154,8 +154,8 @@ public class MeshCollisionShape extends CollisionShape {
         for (IndexedMesh submesh : submeshes) {
             nativeMesh.add(submesh);
         }
-        Validate.require(nativeMesh.countTriangles() > 0,
-                "at least one triangle");
+        Validate.require(
+                nativeMesh.countTriangles() > 0, "at least one triangle");
 
         this.useCompression = true;
         this.bvh = new BoundingValueHierarchy(bvhBytes);

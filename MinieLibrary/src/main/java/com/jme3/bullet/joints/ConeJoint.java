@@ -410,18 +410,18 @@ public class ConeJoint extends Constraint {
             Vector3f pivotInA, Matrix3f rotInA, Vector3f pivotInB,
             Matrix3f rotInB);
 
-    native private static long createJoint1(long bodyIdA, Vector3f pivotInA,
-            Matrix3f rotInA);
+    native private static long
+            createJoint1(long bodyIdA, Vector3f pivotInA, Matrix3f rotInA);
 
-    native private static void getFrameOffsetA(long jointId,
-            Transform frameInA);
+    native private static void
+            getFrameOffsetA(long jointId, Transform frameInA);
 
-    native private static void getFrameOffsetB(long jointId,
-            Transform frameInB);
+    native private static void
+            getFrameOffsetB(long jointId, Transform frameInB);
 
-    native private static void setAngularOnly(long jointId,
-            boolean angularOnly);
+    native private static void
+            setAngularOnly(long jointId, boolean angularOnly);
 
-    native private static void setLimit(long jointId, float swingSpan1,
-            float swingSpan2, float twistSpan);
+    native private static void setLimit(
+            long jointId, float swingSpan1, float swingSpan2, float twistSpan);
 }

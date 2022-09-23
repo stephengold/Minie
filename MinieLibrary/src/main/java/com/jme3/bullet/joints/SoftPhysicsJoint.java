@@ -450,11 +450,11 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
 
     native private static float getSplit(long jointId);
 
-    native private static void setConstraintForceMixing(long jointId,
-            float cfm);
+    native private static void
+            setConstraintForceMixing(long jointId, float cfm);
 
-    native private static void setErrorReductionParameter(long jointId,
-            float erp);
+    native private static void
+            setErrorReductionParameter(long jointId, float erp);
 
     native private static void setSplit(long jointId, float split);
 }

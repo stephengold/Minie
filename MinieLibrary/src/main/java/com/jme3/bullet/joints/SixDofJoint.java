@@ -806,28 +806,28 @@ public class SixDofJoint extends Constraint {
 
     native private static void getAngles(long jointId, Vector3f storeVector);
 
-    native private static void getFrameOffsetA(long jointId,
-            Transform frameInA);
+    native private static void
+            getFrameOffsetA(long jointId, Transform frameInA);
 
-    native private static void getFrameOffsetB(long jointId,
-            Transform frameInB);
+    native private static void
+            getFrameOffsetB(long jointId, Transform frameInB);
 
-    native private static void getPivotOffset(long jointId,
-            Vector3f storeVector);
+    native private static void
+            getPivotOffset(long jointId, Vector3f storeVector);
 
     native private static long getRotationalLimitMotor(long jointId, int index);
 
     native private static long getTranslationalLimitMotor(long jointId);
 
-    native private static void setAngularLowerLimit(long jointId,
-            Vector3f limits);
+    native private static void
+            setAngularLowerLimit(long jointId, Vector3f limits);
 
-    native private static void setAngularUpperLimit(long jointId,
-            Vector3f limits);
+    native private static void
+            setAngularUpperLimit(long jointId, Vector3f limits);
 
-    native private static void setLinearLowerLimit(long jointId,
-            Vector3f limits);
+    native private static void
+            setLinearLowerLimit(long jointId, Vector3f limits);
 
-    native private static void setLinearUpperLimit(long jointId,
-            Vector3f limits);
+    native private static void
+            setLinearUpperLimit(long jointId, Vector3f limits);
 }

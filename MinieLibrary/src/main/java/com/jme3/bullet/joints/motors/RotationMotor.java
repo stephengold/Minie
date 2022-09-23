@@ -322,8 +322,8 @@ public class RotationMotor extends NativePhysicsObject {
 
     native private static void setDamping(long motorId, float damping);
 
-    native private static void setDampingLimited(long motorId,
-            boolean limitFlag);
+    native private static void
+            setDampingLimited(long motorId, boolean limitFlag);
 
     native private static void setEquilibrium(long motorId, float angle);
 
@@ -334,21 +334,21 @@ public class RotationMotor extends NativePhysicsObject {
     native private static void setMotorEnabled(long motorId,
             boolean enableFlag);
 
-    native private static void setParameter(long motorId, int parameterIndex,
-            float value);
+    native private static void
+            setParameter(long motorId, int parameterIndex, float value);
 
-    native private static void setServoEnabled(long motorId,
-            boolean enableFlag);
+    native private static void
+            setServoEnabled(long motorId, boolean enableFlag);
 
     native private static void setServoTarget(long motorId, float target);
 
-    native private static void setSpringEnabled(long motorId,
-            boolean enableFlag);
+    native private static void
+            setSpringEnabled(long motorId, boolean enableFlag);
 
     native private static void setStiffness(long motorId, float stiffness);
 
-    native private static void setStiffnessLimited(long motorId,
-            boolean limitFlag);
+    native private static void
+            setStiffnessLimited(long motorId, boolean limitFlag);
 
     native private static void setTargetVelocity(long motorId, float velocity);
 

@@ -353,6 +353,6 @@ public class PhysicsSoftSpace extends PhysicsSpace {
 
     native private static long getWorldInfo(long softSpaceId);
 
-    native private static void removeSoftBody(long softSpaceId,
-            long softBodyId);
+    native private static void
+            removeSoftBody(long softSpaceId, long softBodyId);
 }

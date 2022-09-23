@@ -1111,11 +1111,11 @@ public class SliderJoint extends Constraint {
 
     native private static float getDampingOrthoLin(long jointId);
 
-    native private static void getFrameOffsetA(long jointId,
-            Transform frameInA);
+    native private static void
+            getFrameOffsetA(long jointId, Transform frameInA);
 
-    native private static void getFrameOffsetB(long jointId,
-            Transform frameInB);
+    native private static void
+            getFrameOffsetB(long jointId, Transform frameInB);
 
     native private static float getLowerAngLimit(long jointId);
 
@@ -1193,11 +1193,11 @@ public class SliderJoint extends Constraint {
 
     native private static void setRestitutionLimLin(long jointId, float value);
 
-    native private static void setRestitutionOrthoAng(long jointId,
-            float value);
+    native private static void
+            setRestitutionOrthoAng(long jointId, float value);
 
-    native private static void setRestitutionOrthoLin(long jointId,
-            float value);
+    native private static void
+            setRestitutionOrthoLin(long jointId, float value);
 
     native private static void setSoftnessDirAng(long jointId, float value);
 
@@ -1211,11 +1211,11 @@ public class SliderJoint extends Constraint {
 
     native private static void setSoftnessOrthoLin(long jointId, float value);
 
-    native private static void setTargetAngMotorVelocity(long jointId,
-            float value);
+    native private static void
+            setTargetAngMotorVelocity(long jointId, float value);
 
-    native private static void setTargetLinMotorVelocity(long jointId,
-            float value);
+    native private static void
+            setTargetLinMotorVelocity(long jointId, float value);
 
     native private static void setUpperAngLimit(long jointId, float value);
 

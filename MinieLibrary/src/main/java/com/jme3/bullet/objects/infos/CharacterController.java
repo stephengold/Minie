@@ -645,20 +645,20 @@ public class CharacterController
 
     native private static float getAngularDamping(long controllerId);
 
-    native private static void getAngularVelocity(long controllerId,
-            Vector3f storeVector);
+    native private static void
+            getAngularVelocity(long controllerId, Vector3f storeVector);
 
     native private static float getFallSpeed(long controllerId);
 
-    native private static void getGravity(long controllerId,
-            Vector3f storeVector);
+    native private static void
+            getGravity(long controllerId, Vector3f storeVector);
 
     native private static float getJumpSpeed(long controllerId);
 
     native private static float getLinearDamping(long controllerId);
 
-    native private static void getLinearVelocity(long controllerId,
-            Vector3f storeVector);
+    native private static void
+            getLinearVelocity(long controllerId, Vector3f storeVector);
 
     native private static float getMaxPenetrationDepth(long controllerId);
 
@@ -666,11 +666,11 @@ public class CharacterController
 
     native private static float getStepHeight(long controllerId);
 
-    native private static void getUpDirection(long controllerId,
-            Vector3f storeVector);
+    native private static void
+            getUpDirection(long controllerId, Vector3f storeVector);
 
-    native private static void getWalkOffset(long controllerId,
-            Vector3f storeVector);
+    native private static void
+            getWalkOffset(long controllerId, Vector3f storeVector);
 
     native private static boolean isUsingGhostSweepTest(long controllerId);
 
@@ -680,11 +680,11 @@ public class CharacterController
 
     native private static void reset(long controllerId, long spaceId);
 
-    native private static void setAngularDamping(long controllerId,
-            float damping);
+    native private static void
+            setAngularDamping(long controllerId, float damping);
 
-    native private static void setAngularVelocity(long controllerId,
-            Vector3f angularVelocity);
+    native private static void
+            setAngularVelocity(long controllerId, Vector3f angularVelocity);
 
     native private static void setFallSpeed(long controllerId, float fallSpeed);
 
@@ -692,27 +692,27 @@ public class CharacterController
 
     native private static void setJumpSpeed(long controllerId, float jumpSpeed);
 
-    native private static void setLinearDamping(long controllerId,
-            float damping);
+    native private static void
+            setLinearDamping(long controllerId, float damping);
 
-    native private static void setLinearVelocity(long controllerId,
-            Vector3f velocity);
+    native private static void
+            setLinearVelocity(long controllerId, Vector3f velocity);
 
-    native private static void setMaxPenetrationDepth(long controllerId,
-            float depth);
+    native private static void
+            setMaxPenetrationDepth(long controllerId, float depth);
 
-    native private static void setMaxSlope(long controllerId,
-            float slopeRadians);
+    native private static void
+            setMaxSlope(long controllerId, float slopeRadians);
 
     native private static void setStepHeight(long controllerId, float height);
 
     native private static void setUp(long controllerId, Vector3f direction);
 
-    native private static void setUseGhostSweepTest(long controllerId,
-            boolean useGhostSweepTest);
+    native private static void
+            setUseGhostSweepTest(long controllerId, boolean useGhostSweepTest);
 
-    native private static void setWalkDirection(long controllerId,
-            Vector3f direction);
+    native private static void
+            setWalkDirection(long controllerId, Vector3f direction);
 
     native private static void warp(long controllerId, Vector3f location);
 }

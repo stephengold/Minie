@@ -616,8 +616,8 @@ public class New6Dof extends Constraint {
      * @param limitIfNeeded true&rarr;automatically limit stiffness to prevent
      * the spring from moving too widely
      */
-    public void setStiffness(int dofIndex, float stiffness,
-            boolean limitIfNeeded) {
+    public void
+            setStiffness(int dofIndex, float stiffness, boolean limitIfNeeded) {
         Validate.inRange(dofIndex, "DOF index", 0, 5);
 
         long constraintId = nativeId();
@@ -916,29 +916,29 @@ public class New6Dof extends Constraint {
     native private static long createSingleEnded(
             long bodyIdB, Vector3f pivotInB, Matrix3f rotInB, int rotOrder);
 
-    native private static void enableSpring(
-            long constraintId, int dofIndex, boolean enableFlag);
+    native private static void
+            enableSpring(long constraintId, int dofIndex, boolean enableFlag);
 
-    native private static void getAngles(
-            long constraintId, Vector3f storeVector);
+    native private static void
+            getAngles(long constraintId, Vector3f storeVector);
 
-    native private static void getAxis(
-            long constraintId, int axisIndex, Vector3f storeVector);
+    native private static void
+            getAxis(long constraintId, int axisIndex, Vector3f storeVector);
 
-    native private static void getCalculatedOriginA(
-            long constraintId, Vector3f storeVector);
+    native private static void
+            getCalculatedOriginA(long constraintId, Vector3f storeVector);
 
-    native private static void getCalculatedOriginB(
-            long constraintId, Vector3f storeVector);
+    native private static void
+            getCalculatedOriginB(long constraintId, Vector3f storeVector);
 
-    native private static void getFrameOffsetA(
-            long constraintId, Transform storeTransform);
+    native private static void
+            getFrameOffsetA(long constraintId, Transform storeTransform);
 
-    native private static void getFrameOffsetB(
-            long constraintId, Transform storeTransform);
+    native private static void
+            getFrameOffsetB(long constraintId, Transform storeTransform);
 
-    native private static void getPivotOffset(
-            long constraintId, Vector3f storeVector);
+    native private static void
+            getPivotOffset(long constraintId, Vector3f storeVector);
 
     native private static long getRotationalMotor(long constraintId, int index);
 
@@ -946,20 +946,20 @@ public class New6Dof extends Constraint {
 
     native private static long getTranslationalMotor(long constraintId);
 
-    native private static void setAllEquilibriumPointsToCurrent(
-            long constraintId);
+    native private static void
+            setAllEquilibriumPointsToCurrent(long constraintId);
 
     native private static void setDamping(long constraintId, int dofIndex,
             float damping, boolean limitIfNeeded);
 
-    native private static void setEquilibriumPoint(
-            long constraintId, int dofIndex, float value);
+    native private static void
+            setEquilibriumPoint(long constraintId, int dofIndex, float value);
 
-    native private static void setEquilibriumPointToCurrent(
-            long constraintId, int dofIndex);
+    native private static void
+            setEquilibriumPointToCurrent(long constraintId, int dofIndex);
 
-    native private static void setRotationOrder(
-            long constraintId, int rotOrder);
+    native private static void
+            setRotationOrder(long constraintId, int rotOrder);
 
     native private static void setStiffness(long constraintId, int dofIndex,
             float stiffness, boolean limitIfNeeded);

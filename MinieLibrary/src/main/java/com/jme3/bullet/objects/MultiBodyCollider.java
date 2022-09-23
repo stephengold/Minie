@@ -286,9 +286,9 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
 
     native private static long createCollider(long multiBodyId, int linkIndex);
 
-    native private static void setPhysicsLocation(long objectId,
-            Vector3f location);
+    native private static void
+            setPhysicsLocation(long objectId, Vector3f location);
 
-    native private static void setPhysicsRotation(long objectId,
-            Matrix3f rotation);
+    native private static void
+            setPhysicsRotation(long objectId, Matrix3f rotation);
 }

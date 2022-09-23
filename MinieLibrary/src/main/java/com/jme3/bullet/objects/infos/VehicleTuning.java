@@ -365,18 +365,18 @@ public class VehicleTuning
 
     native private static void setFrictionSlip(long tuningId, float slip);
 
-    native private static void setMaxSuspensionForce(long tuningId,
-            float maxForce);
+    native private static void
+            setMaxSuspensionForce(long tuningId, float maxForce);
 
-    native private static void setMaxSuspensionTravelCm(long tuningId,
-            float travel);
+    native private static void
+            setMaxSuspensionTravelCm(long tuningId, float travel);
 
-    native private static void setSuspensionCompression(long tuningId,
-            float damping);
+    native private static void
+            setSuspensionCompression(long tuningId, float damping);
 
-    native private static void setSuspensionDamping(long tuningId,
-            float damping);
+    native private static void
+            setSuspensionDamping(long tuningId, float damping);
 
-    native private static void setSuspensionStiffness(long tuningId,
-            float stiff);
+    native private static void
+            setSuspensionStiffness(long tuningId, float stiff);
 }

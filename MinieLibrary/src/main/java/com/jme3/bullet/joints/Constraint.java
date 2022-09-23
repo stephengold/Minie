@@ -604,8 +604,8 @@ abstract public class Constraint extends PhysicsJoint {
     // *************************************************************************
     // native private methods
 
-    native private static void enableFeedback(long constraintId,
-            boolean enable);
+    native private static void
+            enableFeedback(long constraintId, boolean enable);
 
     native private static void finalizeNative(long constraintId);
 
@@ -619,11 +619,11 @@ abstract public class Constraint extends PhysicsJoint {
 
     native private static boolean needsFeedback(long constraintId);
 
-    native private static void overrideIterations(long constraintId,
-            int numIterations);
+    native private static void
+            overrideIterations(long constraintId, int numIterations);
 
-    native private static void setBreakingImpulseThreshold(long constraintId,
-            float desiredThreshold);
+    native private static void setBreakingImpulseThreshold(
+            long constraintId, float desiredThreshold);
 
     native private static void setEnabled(long constraintId, boolean enable);
 }

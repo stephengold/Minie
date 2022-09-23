@@ -558,26 +558,26 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
 
     native private static void setAnchorsHardness(long bodyId, float hardness);
 
-    native private static void setClusterIterations(long bodyId,
-            int numIterations);
+    native private static void
+            setClusterIterations(long bodyId, int numIterations);
 
-    native private static void setClusterKineticHardness(long bodyId,
-            float hardness);
+    native private static void
+            setClusterKineticHardness(long bodyId, float hardness);
 
-    native private static void setClusterKineticImpulseSplitCoef(long bodyId,
-            float coefficient);
+    native private static void
+            setClusterKineticImpulseSplitCoef(long bodyId, float coefficient);
 
-    native private static void setClusterRigidHardness(long bodyId,
-            float hardness);
+    native private static void
+            setClusterRigidHardness(long bodyId, float hardness);
 
-    native private static void setClusterRigidImpulseSplitCoef(long bodyId,
-            float coefficient);
+    native private static void
+            setClusterRigidImpulseSplitCoef(long bodyId, float coefficient);
 
-    native private static void setClusterSoftHardness(long bodyId,
-            float hardness);
+    native private static void
+            setClusterSoftHardness(long bodyId, float hardness);
 
-    native private static void setClusterSoftImpulseSplitCoef(long bodyId,
-            float coef);
+    native private static void
+            setClusterSoftImpulseSplitCoef(long bodyId, float coef);
 
     native private static void setCollisionsFlags(long bodyId, int flags);
 
@@ -585,41 +585,41 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
 
     native private static void setDragCoef(long bodyId, float coefficient);
 
-    native private static void setDriftIterations(long bodyId,
-            int numIterations);
+    native private static void
+            setDriftIterations(long bodyId, int numIterations);
 
-    native private static void setDynamicFrictionCoef(long bodyId,
-            float coefficient);
+    native private static void
+            setDynamicFrictionCoef(long bodyId, float coefficient);
 
-    native private static void setKineticContactsHardness(long bodyId,
-            float hardness);
+    native private static void
+            setKineticContactsHardness(long bodyId, float hardness);
 
     native private static void setLiftCoef(long bodyId, float coefficient);
 
     native private static void setMaximumVolumeRatio(long bodyId, float ratio);
 
-    native private static void setPoseMatchingCoef(long bodyId,
-            float coefficient);
+    native private static void
+            setPoseMatchingCoef(long bodyId, float coefficient);
 
-    native private static void setPositionIterations(long bodyId,
-            int numIterations);
+    native private static void
+            setPositionIterations(long bodyId, int numIterations);
 
     native private static void setPressureCoef(long bodyId, float coefficient);
 
-    native private static void setRigidContactsHardness(long bodyId,
-            float hardness);
+    native private static void
+            setRigidContactsHardness(long bodyId, float hardness);
 
-    native private static void setSoftContactsHardness(long bodyId,
-            float hardness);
+    native private static void
+            setSoftContactsHardness(long bodyId, float hardness);
 
     native private static void setTimeScale(long bodyId, float scale);
 
-    native private static void setVelocitiesCorrectionFactor(long bodyId,
-            float factor);
+    native private static void
+            setVelocitiesCorrectionFactor(long bodyId, float factor);
 
-    native private static void setVelocitiesIterations(long bodyId,
-            int numIterations);
+    native private static void
+            setVelocitiesIterations(long bodyId, int numIterations);
 
-    native private static void setVolumeConservationCoef(long bodyId,
-            float coefficient);
+    native private static void
+            setVolumeConservationCoef(long bodyId, float coefficient);
 }
