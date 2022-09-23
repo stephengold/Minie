@@ -392,19 +392,6 @@ abstract public class CollisionShape
     }
 
     /**
-     * Approximate this shape with a splittable shape. Meant to be overridden.
-     *
-     * @return a new splittable shape
-     */
-    public CollisionShape toSplittableShape() {
-        if (canSplit()) {
-            return this;
-        } else {
-            throw new IllegalArgumentException("this = " + this);
-        }
-    }
-
-    /**
      * Estimate how far this shape extends from its center.
      *
      * @return a distance estimate (in physics-space units, &ge;0, may be
@@ -506,6 +493,19 @@ abstract public class CollisionShape
         setLocalScaling(shapeId, scale);
         logger.log(Level.FINE, "Scaling {0}.", this);
         this.scale.set(scale);
+    }
+
+    /**
+     * Approximate this shape with a splittable shape. Meant to be overridden.
+     *
+     * @return a new splittable shape
+     */
+    public CollisionShape toSplittableShape() {
+        if (canSplit()) {
+            return this;
+        } else {
+            throw new IllegalArgumentException("this = " + this);
+        }
     }
     // *************************************************************************
     // new protected methods
