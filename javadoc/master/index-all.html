@@ -1890,7 +1890,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Used internally.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#colorChildren()" class="member-name-link">colorChildren()</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#colorChildren()" class="member-name-link">colorChildren()</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Color each child of the debug node for a CompoundCollisionShape.</div>
 </dd>
@@ -2439,6 +2439,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Count the collision manifolds in this space.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html#countMeshTriangles()" class="member-name-link">countMeshTriangles()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">GImpactCollisionShape</a></dt>
+<dd>
+<div class="block">Count how many triangles are in the mesh.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#countMeshTriangles()" class="member-name-link">countMeshTriangles()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
 <dd>
 <div class="block">Count how many triangles are in the mesh.</div>
@@ -2872,7 +2876,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A utility class to generate debug meshes for Bullet collision shapes.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#debugSpatial" class="member-name-link">debugSpatial</a> - Variable in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#debugSpatial" class="member-name-link">debugSpatial</a> - Variable in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Spatial to visualize lastShape (not null)</div>
 </dd>
@@ -5726,7 +5730,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Generate the hash code for this instance.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#hasShapeChanged(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">hasShapeChanged(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#hasShapeChanged(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">hasShapeChanged(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Compare the specified CollisionShape with the lastShape.</div>
 </dd>
@@ -9429,13 +9433,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Estimate the volume of this shape, including scale and margin.</div>
 </dd>
-<dt><a href="com/jme3/bullet/collision/shapes/HullCollisionShape.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></dt>
-<dd>
-<div class="block">Estimate the scaled volume of the hull, based on its debug mesh.</div>
-</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/MultiSphere.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MultiSphere.html" title="class in com.jme3.bullet.collision.shapes">MultiSphere</a></dt>
 <dd>
-<div class="block">Estimate the scaled volume of this shape.</div>
+<div class="block">Estimate the volume of the shape, including scale and margin.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">SphereCollisionShape</a></dt>
 <dd>
@@ -11281,7 +11281,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter the shadow mode for the (debug) root node.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#setShape(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">setShape(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#setShape(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">setShape(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Replace the lastShape and update related fields.</div>
 </dd>
@@ -11351,7 +11351,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter which Spatial is controlled.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#setSpatial(com.jme3.scene.Spatial)" class="member-name-link">setSpatial(Spatial)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#setSpatial(com.jme3.scene.Spatial)" class="member-name-link">setSpatial(Spatial)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Alter which Spatial is controlled.</div>
 </dd>
