@@ -33,7 +33,6 @@ package com.jme3.bullet.collision.shapes;
 
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
-import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -378,18 +377,6 @@ public class HullCollisionShape extends ConvexShape {
 
         assert MyVector3f.isAllNonNegative(result) : result;
         return result;
-    }
-
-    /**
-     * Estimate the scaled volume of the hull, based on its debug mesh.
-     *
-     * @return the volume (in physics-space units cubed, &ge;0)
-     */
-    public float scaledVolume() {
-        int meshResolution = DebugShapeFactory.lowResolution;
-        float volume = DebugShapeFactory.volumeConvex(this, meshResolution);
-        assert volume >= 0f : volume;
-        return volume;
     }
 
     /**
