@@ -1067,7 +1067,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Test whether this shape can be split by an arbitrary plane.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html#canSplit()" class="member-name-link">canSplit()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">GImpactCollisionShape</a></dt>
+<dd>
+<div class="block">Test whether this shape can be split by an arbitrary plane.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/HullCollisionShape.html#canSplit()" class="member-name-link">canSplit()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></dt>
+<dd>
+<div class="block">Test whether this shape can be split by an arbitrary plane.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#canSplit()" class="member-name-link">canSplit()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
 <dd>
 <div class="block">Test whether this shape can be split by an arbitrary plane.</div>
 </dd>
@@ -1882,7 +1890,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Used internally.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#colorChildren()" class="member-name-link">colorChildren()</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#colorChildren()" class="member-name-link">colorChildren()</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Color each child of the debug node for a CompoundCollisionShape.</div>
 </dd>
@@ -2864,7 +2872,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A utility class to generate debug meshes for Bullet collision shapes.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#debugSpatial" class="member-name-link">debugSpatial</a> - Variable in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#debugSpatial" class="member-name-link">debugSpatial</a> - Variable in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Spatial to visualize lastShape (not null)</div>
 </dd>
@@ -5614,6 +5622,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">No-argument constructor needed by SavableClassUtil.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html#%3Cinit%3E(com.jme3.bullet.collision.shapes.infos.CompoundMesh,com.jme3.math.Vector3f)" class="member-name-link">GImpactCollisionShape(CompoundMesh, Vector3f)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">GImpactCollisionShape</a></dt>
+<dd>
+<div class="block">Instantiate a shape based on the specified CompoundMesh and offset.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html#%3Cinit%3E(com.jme3.bullet.collision.shapes.infos.IndexedMesh...)" class="member-name-link">GImpactCollisionShape(IndexedMesh...)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">GImpactCollisionShape</a></dt>
 <dd>
 <div class="block">Instantiate a shape based on the specified native mesh(es).</div>
@@ -5714,7 +5726,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Generate the hash code for this instance.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#hasShapeChanged(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">hasShapeChanged(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#hasShapeChanged(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">hasShapeChanged(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Compare the specified CollisionShape with the lastShape.</div>
 </dd>
@@ -7658,6 +7670,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#%3Cinit%3E()" class="member-name-link">MeshCollisionShape()</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
 <dd>
 <div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#%3Cinit%3E(boolean,com.jme3.bullet.collision.shapes.infos.CompoundMesh)" class="member-name-link">MeshCollisionShape(boolean, CompoundMesh)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
+<dd>
+<div class="block">Instantiate a shape based on the specified CompoundMesh.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#%3Cinit%3E(boolean,com.jme3.bullet.collision.shapes.infos.IndexedMesh...)" class="member-name-link">MeshCollisionShape(boolean, IndexedMesh...)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
 <dd>
@@ -11237,7 +11253,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter the shadow mode for the (debug) root node.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#setShape(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">setShape(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#setShape(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">setShape(CollisionShape)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Replace the lastShape and update related fields.</div>
 </dd>
@@ -11307,7 +11323,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter which Spatial is controlled.</div>
 </dd>
-<dt><a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html#setSpatial(com.jme3.scene.Spatial)" class="member-name-link">setSpatial(Spatial)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletRigidBodyDebugControl.html" title="class in com.jme3.bullet.debug">BulletRigidBodyDebugControl</a></dt>
+<dt><a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html#setSpatial(com.jme3.scene.Spatial)" class="member-name-link">setSpatial(Spatial)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletGhostObjectDebugControl.html" title="class in com.jme3.bullet.debug">BulletGhostObjectDebugControl</a></dt>
 <dd>
 <div class="block">Alter which Spatial is controlled.</div>
 </dd>
@@ -12015,6 +12031,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Divide this shape into 2 compound shapes.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html#split(com.jme3.math.Triangle)" class="member-name-link">split(Triangle)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">GImpactCollisionShape</a></dt>
+<dd>
+<div class="block">Attempt to divide this shape into 2 shapes.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/HullCollisionShape.html#split(com.jme3.math.Triangle)" class="member-name-link">split(Triangle)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></dt>
 <dd>
 <div class="block">Attempt to divide this shape into 2 child shapes.</div>
@@ -12026,6 +12046,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#split(com.jme3.math.Triangle)" class="member-name-link">split(Triangle)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
 <dd>
 <div class="block">Attempt to divide this mesh into 2 meshes.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#split(com.jme3.math.Triangle)" class="member-name-link">split(Triangle)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
+<dd>
+<div class="block">Attempt to divide this shape into 2 shapes.</div>
 </dd>
 <dt><a href="com/jme3/bullet/SolverInfo.html#splitImpulseErp()" class="member-name-link">splitImpulseErp()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/SolverInfo.html" title="class in com.jme3.bullet">SolverInfo</a></dt>
 <dd>
