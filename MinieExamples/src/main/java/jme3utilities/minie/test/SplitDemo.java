@@ -635,6 +635,21 @@ public class SplitDemo
 
         CollisionShape shape;
         switch (shapeName) {
+            case "table":
+            case "thumbTack":
+                shape = findShape(shapeName);
+                addRigidBody(shape, MeshNormals.Facet, randomMass);
+                break;
+
+            case "barbell":
+            case "knucklebone":
+            case "ladder":
+            case "link":
+            case "top":
+                shape = findShape(shapeName);
+                addRigidBody(shape, MeshNormals.Smooth, randomMass);
+                break;
+
             case "box":
             case "frame":
             case "halfPipe":
