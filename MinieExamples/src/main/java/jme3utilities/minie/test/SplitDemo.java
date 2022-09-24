@@ -510,10 +510,12 @@ public class SplitDemo
      * @param shape the collision shape to use (not null)
      * @param debugMeshNormals how to generate normals for debug visualization
      * (not null)
+     * @param mass the desired mass (0 or 1)
      */
-    private void
-            addRigidBody(CollisionShape shape, MeshNormals debugMeshNormals) {
-        PhysicsRigidBody body = new PhysicsRigidBody(shape);
+    private void addRigidBody(
+            CollisionShape shape,
+            MeshNormals debugMeshNormals, float mass) {
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
         body.setDebugMeshNormals(debugMeshNormals);
 
         Generator random = getGenerator();
@@ -620,6 +622,7 @@ public class SplitDemo
      */
     private void setUpShape() {
         ShapeGenerator random = getGenerator();
+        float randomMass = random.nextInt(2);
         String shapeName = status.shapeName();
         CollisionShape shape;
         switch (shapeName) {
@@ -638,7 +641,7 @@ public class SplitDemo
             case "trident":
             case "washer":
                 shape = random.nextShape(shapeName);
-                addRigidBody(shape, MeshNormals.Facet);
+                addRigidBody(shape, MeshNormals.Facet, randomMass);
                 break;
 
             case "capsule":
@@ -650,12 +653,12 @@ public class SplitDemo
             case "snowman":
             case "torus":
                 shape = random.nextShape(shapeName);
-                addRigidBody(shape, MeshNormals.Smooth);
+                addRigidBody(shape, MeshNormals.Smooth, randomMass);
                 break;
 
             case "sphere":
                 shape = random.nextShape(shapeName);
-                addRigidBody(shape, MeshNormals.Sphere);
+                addRigidBody(shape, MeshNormals.Sphere, randomMass);
                 break;
 
             default:
