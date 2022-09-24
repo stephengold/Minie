@@ -514,13 +514,14 @@ public class SplitDemo
      * (not null)
      * @param mass the desired mass (0 or 1)
      */
-    private void addRigidBody(
-            CollisionShape shape,
+    private void addRigidBody(CollisionShape shape,
             MeshNormals debugMeshNormals, float mass) {
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
         body.setDebugMeshNormals(debugMeshNormals);
 
         Generator random = getGenerator();
+        Vector3f location = random.nextVector3f(); // TODO garbage
+        body.setPhysicsLocation(location);
         Quaternion rotation = random.nextQuaternion(); // TODO garbage
         body.setPhysicsRotation(rotation);
 
@@ -631,6 +632,7 @@ public class SplitDemo
         ShapeGenerator random = getGenerator();
         float randomMass = random.nextInt(2);
         String shapeName = status.shapeName();
+
         CollisionShape shape;
         switch (shapeName) {
             case "box":
