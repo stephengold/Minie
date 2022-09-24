@@ -480,6 +480,7 @@ public class HullCollisionShape extends ConvexShape {
         FloatBuffer flippedBuffer = newMinusSet.toBuffer();
         MyBuffer.translate(flippedBuffer, 0, flippedBuffer.limit(), offset);
         HullCollisionShape minusShape = new HullCollisionShape(flippedBuffer);
+        minusShape.setScale(scale);
         result[0] = new ChildCollisionShape(minusCenter, minusShape);
         /*
          * Translate plus-side vertices so their AABB is centered at (0,0,0)
@@ -491,6 +492,7 @@ public class HullCollisionShape extends ConvexShape {
         flippedBuffer = newPlusSet.toBuffer();
         MyBuffer.translate(flippedBuffer, 0, flippedBuffer.limit(), offset);
         HullCollisionShape plusShape = new HullCollisionShape(flippedBuffer);
+        plusShape.setScale(scale);
         result[1] = new ChildCollisionShape(plusCenter, plusShape);
 
         return result;
