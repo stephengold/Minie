@@ -279,11 +279,6 @@ public class SplitDemo
     public void generateMaterials() {
         super.generateMaterials();
 
-        ColorRGBA red = new ColorRGBA(0.5f, 0f, 0f, 1f);
-        Material missile = MyAsset.createShinyMaterial(assetManager, red);
-        missile.setFloat("Shininess", 15f);
-        registerMaterial("missile", missile); // TODO used?
-
         ColorRGBA color = new ColorRGBA(0.2f, 0f, 0f, 1f);
         Material solid = MyAsset.createShinyMaterial(assetManager, color);
         solid.setFloat("Shininess", 15f);
