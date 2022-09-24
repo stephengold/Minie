@@ -285,6 +285,13 @@ public class SplitDemo
         RenderState additional = solid.getAdditionalRenderState();
         additional.setFaceCullMode(RenderState.FaceCullMode.Off);
         registerMaterial("solid", solid);
+
+        ColorRGBA gray = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        Material stat = MyAsset.createShinyMaterial(assetManager, gray);
+        stat.setFloat("Shininess", 15f);
+        additional = stat.getAdditionalRenderState();
+        additional.setFaceCullMode(RenderState.FaceCullMode.Off);
+        registerMaterial("stat", stat);
     }
 
     /**
@@ -595,7 +602,12 @@ public class SplitDemo
                 && shape instanceof CompoundCollisionShape) {
             debugMaterial = BulletDebugAppState.enableChildColoring;
 
-        } else { // use the yellow lit/shaded material
+        } else if (pco instanceof PhysicsRigidBody
+                && ((PhysicsRigidBody) pco).isStatic()) {
+            // Use the shiny gray lit/shaded material for static bodies.
+            debugMaterial = findMaterial("stat");
+
+        } else { // Use the shiny red lit/shaded material.
             debugMaterial = findMaterial("solid");
         }
 
