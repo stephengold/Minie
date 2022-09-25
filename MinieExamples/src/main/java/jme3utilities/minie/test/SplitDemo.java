@@ -754,6 +754,7 @@ public class SplitDemo
             case "table":
             case "teapot":
             case "thumbTack":
+            case "tray":
                 shape = findShape(shapeName);
                 addRigidBody(shape, MeshNormals.Facet, randomMass);
                 break;
@@ -770,6 +771,9 @@ public class SplitDemo
                 break;
 
             case "bedOfNails":
+            case "corner":
+            case "roundedRectangle":
+            case "triangle":
                 shape = findShape(shapeName);
                 addRigidBody(
                         shape, MeshNormals.Facet, PhysicsBody.massForStatic);

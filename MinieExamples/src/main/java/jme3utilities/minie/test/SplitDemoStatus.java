@@ -75,15 +75,18 @@ public class SplitDemoStatus extends SimpleAppState {
      * names of all shape types, in ascending lexicographic order
      * <p>
      * "bowlingPin" is omitted because its hull shapes are too complex for
-     * real-time splitting
+     * real-time splitting.
+     * <p>
+     * "sieve" is omitted because plane shapes are not splittable.
      */
     final private static String[] shapeNames = {
         "ankh", "banana", "barbell", "barrel", "bedOfNails", "box", "candyDish",
-        "capsule", "cone", "cylinder", "digit", "dimples", "dome", "duck",
-        "football", "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
-        "knucklebone", "ladder", "letter", "lidlessBox", "link", "multiSphere",
-        "platonic", "prism", "pyramid", "smooth", "snowman", "sphere", "star",
-        "sword", "table", "teapot", "tetrahedron", "thumbTack", "top", "torus",
+        "capsule", "cone", "corner", "cylinder", "digit", "dimples", "dome",
+        "duck", "football", "frame", "halfPipe", "heart", "horseshoe", "hull",
+        "iBeam", "knucklebone", "ladder", "letter", "lidlessBox", "link",
+        "multiSphere", "platonic", "prism", "pyramid", "roundedRectangle",
+        "smooth", "snowman", "sphere", "star", "sword", "table", "teapot",
+        "tetrahedron", "thumbTack", "top", "torus", "tray", "triangle",
         "triangularFrame", "trident", "washer"
     };
     // *************************************************************************
