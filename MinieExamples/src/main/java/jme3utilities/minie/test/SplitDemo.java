@@ -785,8 +785,10 @@ public class SplitDemo
 
         // Transform the triangle to the shape coordinate system.
         Transform shapeToWorld = oldBody.getTransform(null);
-        if (originalShape instanceof CompoundCollisionShape) {
+        if (splittableShape instanceof CompoundCollisionShape) {
             shapeToWorld.setScale(1f);
+        } else {
+            splittableShape.getScale(shapeToWorld.getScale());
         }
         Triangle shapeTriangle
                 = MyMath.transformInverse(shapeToWorld, worldTriangle, null);
