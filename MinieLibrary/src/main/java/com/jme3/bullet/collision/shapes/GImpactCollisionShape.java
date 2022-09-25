@@ -176,6 +176,7 @@ public class GImpactCollisionShape extends CollisionShape {
                 offset.set(center).negateLocal();
                 GImpactCollisionShape shape
                         = new GImpactCollisionShape(mp[i], offset);
+                shape.setScale(scale);
                 result[i] = new ChildCollisionShape(center, shape);
             }
         }
