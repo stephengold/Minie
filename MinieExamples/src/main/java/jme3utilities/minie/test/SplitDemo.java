@@ -1010,6 +1010,8 @@ public class SplitDemo
             masses[1] = PhysicsBody.massForStatic;
             w = null;
         }
+
+        MeshNormals debugMeshNormals = oldBody.debugMeshNormals();
         Quaternion orientation = oldBody.getPhysicsRotation(null);
 
         PhysicsSpace space = getPhysicsSpace();
@@ -1017,7 +1019,7 @@ public class SplitDemo
 
         for (int i = 0; i < 2; ++i) {
             PhysicsRigidBody body = new PhysicsRigidBody(shapes[i], masses[i]);
-            body.setDebugMeshNormals(MeshNormals.Facet);
+            body.setDebugMeshNormals(debugMeshNormals);
             body.setPhysicsLocation(locations[i]);
             body.setPhysicsRotation(orientation);
             if (isDynamic) {
