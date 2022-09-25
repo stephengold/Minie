@@ -73,12 +73,15 @@ public class SplitDemoStatus extends SimpleAppState {
             = Logger.getLogger(SplitDemoStatus.class.getName());
     /**
      * names of all shape types, in ascending lexicographic order
+     * <p>
+     * "bowlingPin" is omitted because its hull shapes are too complex for
+     * real-time splitting
      */
     final private static String[] shapeNames = {
         "ankh", "banana", "barbell", "barrel", "bedOfNails", "box", "candyDish",
-        "capsule", "cone", "cylinder", "dimples", "dome", "duck", "football",
-        "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
-        "knucklebone", "ladder", "lidlessBox", "link", "multiSphere",
+        "capsule", "cone", "cylinder", "digit", "dimples", "dome", "duck",
+        "football", "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
+        "knucklebone", "ladder", "letter", "lidlessBox", "link", "multiSphere",
         "platonic", "prism", "pyramid", "smooth", "snowman", "sphere", "star",
         "sword", "table", "teapot", "tetrahedron", "thumbTack", "top", "torus",
         "triangularFrame", "trident", "washer"

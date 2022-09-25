@@ -68,6 +68,7 @@ import com.jme3.scene.shape.Line;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
 import java.util.Collection;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -356,6 +357,26 @@ public class SplitDemo
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
         shape.setScale(3f);
         registerShape("teapot", shape);
+
+        // letter shapes
+        for (char character = 'A'; character <= 'Z'; ++character) {
+            char[] array = {character};
+            String glyphString = new String(array);
+            String assetPath = String.format(
+                    "CollisionShapes/glyphs/%s.j3o", glyphString);
+            shape = (CollisionShape) assetManager.loadAsset(assetPath);
+            registerShape(glyphString, shape);
+        }
+
+        // digit shapes
+        for (char character = '0'; character <= '9'; ++character) {
+            char[] array = {character};
+            String glyphString = new String(array);
+            String assetPath = String.format(
+                    "CollisionShapes/glyphs/%s.j3o", glyphString);
+            shape = (CollisionShape) assetManager.loadAsset(assetPath);
+            registerShape(glyphString, shape);
+        }
     }
 
     /**
@@ -652,6 +673,32 @@ public class SplitDemo
     }
 
     /**
+     * Pseudo-randomly select the shape of a decimal digit.
+     */
+    private CollisionShape randomDigit() {
+        Random random = getGenerator();
+        char glyphChar = (char) ('0' + random.nextInt(10));
+        String glyphString = Character.toString(glyphChar);
+        CollisionShape result = findShape(glyphString);
+        assert result != null : glyphChar;
+
+        return result;
+    }
+
+    /**
+     * Pseudo-randomly select the shape of an uppercase letter.
+     */
+    private CollisionShape randomLetter() {
+        Random random = getGenerator();
+        char glyphChar = (char) ('A' + random.nextInt(26));
+        String glyphString = Character.toString(glyphChar);
+        CollisionShape result = findShape(glyphString);
+        assert result != null : glyphChar;
+
+        return result;
+    }
+
+    /**
      * Update the debug materials of the specified collision object.
      *
      * @param pco the object to update (not null, modified)
@@ -764,6 +811,18 @@ public class SplitDemo
             case "torus":
                 shape = random.nextShape(shapeName);
                 addRigidBody(shape, MeshNormals.Smooth, randomMass);
+                break;
+
+            case "digit":
+                shape = randomDigit();
+                shape.setScale(0.5f);
+                addRigidBody(shape, MeshNormals.Facet, randomMass);
+                break;
+
+            case "letter":
+                shape = randomLetter();
+                shape.setScale(0.5f);
+                addRigidBody(shape, MeshNormals.Facet, randomMass);
                 break;
 
             case "sphere":
