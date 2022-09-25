@@ -430,7 +430,7 @@ public class SplitDemo
         dim.bindSignal("rotatePlaneCw", KeyInput.KEY_RBRACKET);
 
         dim.bind("split", KeyInput.KEY_RETURN, KeyInput.KEY_INSERT,
-                KeyInput.KEY_NUMPAD0);
+                KeyInput.KEY_NUMPAD0, KeyInput.KEY_SPACE);
 
         dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind("toggle childColor", KeyInput.KEY_COMMA);
