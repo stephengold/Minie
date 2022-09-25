@@ -49,7 +49,8 @@ import jme3utilities.math.MyVector3f;
 import vhacd.VHACDParameters;
 
 /**
- * A console application to generate the collision-shape asset "teapot.j3o".
+ * A console application to generate the collision-shape assets "teapot.j3o" and
+ * "teapotGi.j3o".
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -77,28 +78,20 @@ public class MakeTeapot {
      */
     public static void main(String[] arguments) {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
         Logger.getLogger(OBJLoader.class.getName()).setLevel(Level.SEVERE);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
+
+        // Instantiate the application.
         MakeTeapot application = new MakeTeapot();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
+
+        // Generate the collision shape.
         application.makeTeapot();
     }
     // *************************************************************************
@@ -119,9 +112,8 @@ public class MakeTeapot {
          */
         String objAssetPath = "Models/Teapot/Teapot.obj";
         Spatial geom = assetManager.loadModel(objAssetPath);
-        /*
-         * Translate and uniformly scale the model to fit inside a 2x2x2 cube.
-         */
+
+        // Translate and uniformly scale the model to fit inside a 2x2x2 cube.
         geom.setLocalTransform(Transform.IDENTITY);
         Vector3f[] minMax = MySpatial.findMinMaxCoords(geom);
         Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
@@ -136,15 +128,13 @@ public class MakeTeapot {
 
         Node cgmRoot = new Node();
         cgmRoot.attachChild(parent);
-        /*
-         * Generate a CollisionShape to approximate the Mesh.
-         */
+
+        // Using V-HACD, generate a CollisionShape to approximate the Mesh.
         VHACDParameters parameters = new VHACDParameters();
         CompoundCollisionShape shape = ShapeUtils.createVhacdShape(
                 cgmRoot, parameters, "MakeTeapot");
-        /*
-         * Write the shape to the asset file.
-         */
+
+        // Write the shape to the asset file.
         String assetPath = "CollisionShapes/teapot.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         Heart.writeJ3O(writeFilePath, shape);
