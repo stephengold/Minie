@@ -30,6 +30,7 @@ ext {
     horseshoeShape = assets + 'CollisionShapes/horseshoe.j3o'
     swordShape = assets + 'CollisionShapes/sword.j3o'
     teapotShape = assets + 'CollisionShapes/teapot.j3o'
+    teapotGiShape = assets + 'CollisionShapes/teapotGi.j3o'
 
     // generated texture files
     greenTile = assets + 'Textures/greenTile.png'
@@ -118,7 +119,7 @@ tasks.register('swordShape', JavaExec) {
 }
 tasks.register('teapotShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeTeapot'
-    outputs.files([teapotShape])
+    outputs.files([teapotShape], [teapotGiShape])
 }
 
 tasks.register('textures') {
@@ -187,7 +188,7 @@ tasks.register('cleanSwordShape', Delete) {
     delete swordShape
 }
 tasks.register('cleanTeapotShape', Delete) {
-    delete teapotShape
+    delete teapotShape, teapotGiShape
 }
 
 tasks.register('cleanTextures', Delete) {

@@ -29,6 +29,8 @@ package jme3utilities.minie.test.shapes;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.export.Savable;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -146,5 +148,11 @@ public class MakeTeapot {
         String assetPath = "CollisionShapes/teapot.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         Heart.writeJ3O(writeFilePath, shape);
+
+        // Generate a CollisionShape using GImpact and write to asset file.
+        Savable giShape = CollisionShapeFactory.createGImpactShape(cgmRoot);
+        assetPath = "CollisionShapes/teapotGi.j3o";
+        writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
+        Heart.writeJ3O(writeFilePath, giShape);
     }
 }
