@@ -856,7 +856,8 @@ public class SplitDemo
     }
 
     /**
-     * Split the specified rigid body using the plane of the specified triangle.
+     * Attempt to split the specified rigid body using the plane of the
+     * specified triangle.
      *
      * @param oldBody (not null, added to the PhysicsSpace)
      * @param worldTriangle a triangle that defines the splitting plane (in
