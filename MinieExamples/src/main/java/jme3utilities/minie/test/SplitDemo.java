@@ -61,6 +61,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Limits;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Line;
@@ -317,6 +318,15 @@ public class SplitDemo
         shape = (CollisionShape) assetManager.loadAsset(barrelPath);
         shape.setScale(3f);
         registerShape("barrel", shape);
+
+        // "candyDish"
+        String candyDishPath = "Models/CandyDish/CandyDish.j3o";
+        Node candyDishNode = (Node) assetManager.loadModel(candyDishPath);
+        Geometry candyDishGeometry = (Geometry) candyDishNode.getChild(0);
+        Mesh candyDishMesh = candyDishGeometry.getMesh();
+        shape = new MeshCollisionShape(candyDishMesh);
+        shape.setScale(0.5f);
+        registerShape("candyDish", shape);
 
         // "duck" using V-HACD
         String duckPath = "CollisionShapes/duck.j3o";
@@ -712,6 +722,12 @@ public class SplitDemo
                 addRigidBody(shape, MeshNormals.Smooth, randomMass);
                 break;
 
+            case "bedOfNails":
+                shape = findShape(shapeName);
+                addRigidBody(
+                        shape, MeshNormals.Facet, PhysicsBody.massForStatic);
+                break;
+
             case "box":
             case "frame":
             case "halfPipe":
@@ -728,6 +744,14 @@ public class SplitDemo
             case "washer":
                 shape = random.nextShape(shapeName);
                 addRigidBody(shape, MeshNormals.Facet, randomMass);
+                break;
+
+            case "candyDish":
+            case "dimples":
+            case "smooth":
+                shape = findShape(shapeName);
+                addRigidBody(
+                        shape, MeshNormals.Smooth, PhysicsBody.massForStatic);
                 break;
 
             case "capsule":
