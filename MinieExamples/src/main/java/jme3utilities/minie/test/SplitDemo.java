@@ -295,6 +295,60 @@ public class SplitDemo
     }
 
     /**
+     * Initialize the library of named collision shapes during startup.
+     */
+    @Override
+    public void generateShapes() {
+        super.generateShapes();
+        CollisionShape shape;
+
+        // "ankh" using manual decomposition
+        String ankhPath = "CollisionShapes/ankh.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(ankhPath);
+        registerShape("ankh", shape);
+
+        // "banana" using manual decomposition
+        String bananaPath = "CollisionShapes/banana.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(bananaPath);
+        registerShape("banana", shape);
+
+        // "barrel"
+        String barrelPath = "CollisionShapes/barrel.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(barrelPath);
+        shape.setScale(3f);
+        registerShape("barrel", shape);
+
+        // "duck" using V-HACD
+        String duckPath = "CollisionShapes/duck.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(duckPath);
+        shape.setScale(2f);
+        registerShape("duck", shape);
+
+        // "heart"
+        String heartPath = "CollisionShapes/heart.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(heartPath);
+        shape.setScale(1.2f);
+        registerShape("heart", shape);
+
+        // "horseshoe" using manual decomposition
+        String horseshoePath = "CollisionShapes/horseshoe.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(horseshoePath);
+        registerShape("horseshoe", shape);
+
+        // "sword" using V-HACD
+        String swordPath = "CollisionShapes/sword.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(swordPath);
+        shape.setScale(5f);
+        registerShape("sword", shape);
+
+        // "teapot" using V-HACD
+        String teapotPath = "CollisionShapes/teapot.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(teapotPath);
+        shape.setScale(3f);
+        registerShape("teapot", shape);
+    }
+
+    /**
      * Access the active BulletAppState.
      *
      * @return the pre-existing instance (not null)
@@ -635,13 +689,21 @@ public class SplitDemo
 
         CollisionShape shape;
         switch (shapeName) {
+            case "ankh":
+            case "duck":
+            case "heart":
+            case "horseshoe":
+            case "sword":
             case "table":
+            case "teapot":
             case "thumbTack":
                 shape = findShape(shapeName);
                 addRigidBody(shape, MeshNormals.Facet, randomMass);
                 break;
 
+            case "banana":
             case "barbell":
+            case "barrel":
             case "knucklebone":
             case "ladder":
             case "link":

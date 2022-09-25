@@ -75,11 +75,12 @@ public class SplitDemoStatus extends SimpleAppState {
      * names of all shape types, in ascending lexicographic order
      */
     final private static String[] shapeNames = {
-        "barbell", "box", "capsule", "cone", "cylinder", "dome", "football",
-        "frame", "halfPipe", "hull", "iBeam", "knucklebone", "ladder",
-        "lidlessBox", "link", "multiSphere", "platonic", "prism", "pyramid",
-        "snowman", "sphere", "star", "table", "tetrahedron", "thumbTack", "top",
-        "torus", "triangularFrame", "trident", "washer"
+        "ankh", "banana", "barbell", "barrel", "box", "capsule", "cone",
+        "cylinder", "dome", "duck", "football", "frame", "halfPipe", "heart",
+        "horseshoe", "hull", "iBeam", "knucklebone", "ladder", "lidlessBox",
+        "link", "multiSphere", "platonic", "prism", "pyramid", "snowman",
+        "sphere", "star", "sword", "table", "teapot", "tetrahedron",
+        "thumbTack", "top", "torus", "triangularFrame", "trident", "washer"
     };
     // *************************************************************************
     // fields
