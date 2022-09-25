@@ -86,8 +86,8 @@ public class SplitDemoStatus extends SimpleAppState {
         "iBeam", "knucklebone", "ladder", "letter", "lidlessBox", "link",
         "multiSphere", "platonic", "prism", "pyramid", "roundedRectangle",
         "smooth", "snowman", "sphere", "star", "sword", "table", "teapot",
-        "tetrahedron", "thumbTack", "top", "torus", "tray", "triangle",
-        "triangularFrame", "trident", "washer"
+        "teapotGi", "tetrahedron", "thumbTack", "top", "torus", "tray",
+        "triangle", "triangularFrame", "trident", "washer"
     };
     // *************************************************************************
     // fields

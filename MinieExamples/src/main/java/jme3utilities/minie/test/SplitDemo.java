@@ -352,11 +352,16 @@ public class SplitDemo
         shape.setScale(5f);
         registerShape("sword", shape);
 
-        // "teapot" using V-HACD
+        // "teapot" using V-HACD and GImpact
         String teapotPath = "CollisionShapes/teapot.j3o";
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
         shape.setScale(3f);
         registerShape("teapot", shape);
+
+        String teapotGiPath = "CollisionShapes/teapotGi.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(teapotGiPath);
+        shape.setScale(3f);
+        registerShape("teapotGi", shape);
 
         // letter shapes
         for (char character = 'A'; character <= 'Z'; ++character) {
@@ -765,6 +770,7 @@ public class SplitDemo
             case "knucklebone":
             case "ladder":
             case "link":
+            case "teapotGi":
             case "top":
                 shape = findShape(shapeName);
                 addRigidBody(shape, MeshNormals.Smooth, randomMass);
