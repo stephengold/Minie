@@ -34,6 +34,7 @@ package com.jme3.bullet.util;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
@@ -156,6 +157,23 @@ final public class CollisionShapeFactory {
             throw new IllegalArgumentException(
                     "The model root must either be a Node or a Geometry!");
         }
+    }
+
+    /**
+     * Create a mesh-accurate shape for an movable object, based on its model.
+     * Terrain is ignored.
+     *
+     * @param modelRoot the model on which to base the shape (not null,
+     * unaffected)
+     * @return a new GImpactCollisionShape
+     */
+    public static GImpactCollisionShape createGImpactShape(Spatial modelRoot) {
+        Validate.nonNull(modelRoot, "model root");
+
+        Mesh mergedMesh = makeMergedMesh(modelRoot);
+        GImpactCollisionShape result = new GImpactCollisionShape(mergedMesh);
+
+        return result;
     }
 
     /**
