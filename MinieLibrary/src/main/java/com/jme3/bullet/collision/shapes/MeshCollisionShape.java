@@ -267,9 +267,13 @@ public class MeshCollisionShape extends CollisionShape {
             } else if (numPlus > 0) {
                 result[1] = this;
             }
+
         } else {
             result[0] = new MeshCollisionShape(useCompression, mp[0]);
+            result[0].setScale(scale);
+
             result[1] = new MeshCollisionShape(useCompression, mp[1]);
+            result[1].setScale(scale);
         }
 
         return result;
