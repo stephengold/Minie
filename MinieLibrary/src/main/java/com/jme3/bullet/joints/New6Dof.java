@@ -879,8 +879,8 @@ public class New6Dof extends Constraint {
         } else {
             // Create a double-ended constraint.
             long aId = a.nativeId();
-            constraintId = createDoubleEnded(aId, bId, pivotA, rotA, pivotB,
-                    rotB, rotOrder);
+            constraintId = createDoubleEnded(
+                    aId, bId, pivotA, rotA, pivotB, rotB, rotOrder);
         }
 
         assert getConstraintType(constraintId) == 12;

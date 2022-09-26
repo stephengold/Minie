@@ -112,8 +112,8 @@ abstract public class Constraint extends PhysicsJoint {
      * @param pivotInBody the pivot location in the body's scaled local
      * coordinates (not null, unaffected)
      */
-    protected Constraint(PhysicsRigidBody body, JointEnd bodyEnd,
-            Vector3f pivotInBody) {
+    protected Constraint(
+            PhysicsRigidBody body, JointEnd bodyEnd, Vector3f pivotInBody) {
         Validate.nonNull(body, "body");
         Validate.nonNull(bodyEnd, "body end");
         Validate.nonNull(pivotInBody, "pivot in body");

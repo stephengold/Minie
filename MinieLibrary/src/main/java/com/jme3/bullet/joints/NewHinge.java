@@ -325,8 +325,8 @@ public class NewHinge extends New6Dof {
      * unaffected)
      * @return a new location vector (in scaled local coordinates)
      */
-    private static Vector3f pivotInBody(PhysicsRigidBody body,
-            Vector3f anchor) {
+    private static Vector3f
+            pivotInBody(PhysicsRigidBody body, Vector3f anchor) {
         Transform bodyToWorld = body.getTransform(null);
         bodyToWorld.setScale(1f);
         Vector3f result = bodyToWorld.transformInverseVector(anchor, null);
@@ -343,8 +343,8 @@ public class NewHinge extends New6Dof {
      * @param axis2 (not null, unaffected)
      * @return a new rotation matrix (in local coordinates)
      */
-    private static Matrix3f rotInBody(PhysicsRigidBody body, Vector3f axis1,
-            Vector3f axis2) {
+    private static Matrix3f
+            rotInBody(PhysicsRigidBody body, Vector3f axis1, Vector3f axis2) {
         Vector3f zAxis = axis1.normalize();
         Vector3f xAxis = axis2.normalize();
         Vector3f yAxis = zAxis.cross(xAxis);

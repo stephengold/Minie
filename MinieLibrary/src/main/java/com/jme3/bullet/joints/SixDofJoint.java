@@ -393,8 +393,8 @@ public class SixDofJoint extends Constraint {
      */
     public void setAngularLowerLimit(Vector3f limits) {
         Validate.inRange(limits.x, "limits.x", -FastMath.PI, FastMath.PI);
-        Validate.inRange(limits.y, "limits.y",
-                -FastMath.HALF_PI, FastMath.HALF_PI);
+        Validate.inRange(
+                limits.y, "limits.y", -FastMath.HALF_PI, FastMath.HALF_PI);
         Validate.inRange(limits.z, "limits.z", -FastMath.PI, FastMath.PI);
 
         angularLowerLimit.set(limits);
@@ -409,8 +409,8 @@ public class SixDofJoint extends Constraint {
      */
     public void setAngularUpperLimit(Vector3f limits) {
         Validate.inRange(limits.x, "limits.x", -FastMath.PI, FastMath.PI);
-        Validate.inRange(limits.y,
-                "limits.y", -FastMath.HALF_PI, FastMath.HALF_PI);
+        Validate.inRange(
+                limits.y, "limits.y", -FastMath.HALF_PI, FastMath.HALF_PI);
         Validate.inRange(limits.z, "limits.z", -FastMath.PI, FastMath.PI);
 
         angularUpperLimit.set(limits);
@@ -764,8 +764,8 @@ public class SixDofJoint extends Constraint {
             b.setPhysicsRotation(bToWorld.getRotation());
 
             boolean useLinearReferenceFrameB = !useLinearReferenceFrameA;
-            constraintId = createJoint1(bId, pivotB, rotB,
-                    useLinearReferenceFrameB);
+            constraintId
+                    = createJoint1(bId, pivotB, rotB, useLinearReferenceFrameB);
 
             b.setPhysicsLocation(saveLocation);
             b.setPhysicsRotation(saveRotation);

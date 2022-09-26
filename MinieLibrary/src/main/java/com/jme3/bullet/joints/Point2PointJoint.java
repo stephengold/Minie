@@ -368,8 +368,8 @@ public class Point2PointJoint extends Constraint {
     // *************************************************************************
     // native private methods
 
-    native private static long createJoint(long bodyIdA, long bodyIdB,
-            Vector3f pivotInA, Vector3f pivotInB);
+    native private static long createJoint(
+            long bodyIdA, long bodyIdB, Vector3f pivotInA, Vector3f pivotInB);
 
     native private static long createJoint1(long bodyIdA, Vector3f pivotInA);
 

@@ -213,8 +213,8 @@ public class HingeJoint extends Constraint {
      * @param targetVelocity the desired target velocity
      * @param maxMotorImpulse the desired maximum rotational force
      */
-    public void enableMotor(boolean enable, float targetVelocity,
-            float maxMotorImpulse) {
+    public void enableMotor(
+            boolean enable, float targetVelocity, float maxMotorImpulse) {
         long constraintId = nativeId();
         enableMotor(constraintId, enable, targetVelocity, maxMotorImpulse);
     }

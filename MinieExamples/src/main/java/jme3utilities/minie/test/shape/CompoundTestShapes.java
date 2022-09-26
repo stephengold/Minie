@@ -334,18 +334,18 @@ final public class CompoundTestShapes {
             float flangeWidth, float beamHeight, float thickness) {
         Validate.positive(length, "length");
         Validate.positive(thickness, "thickness");
-        Validate.inRange(flangeWidth, "flange width", thickness,
-                Float.MAX_VALUE);
-        Validate.inRange(beamHeight, "beam height", 2f * thickness,
-                Float.MAX_VALUE);
+        Validate.inRange(
+                flangeWidth, "flange width", thickness, Float.MAX_VALUE);
+        Validate.inRange(
+                beamHeight, "beam height", 2f * thickness, Float.MAX_VALUE);
 
         float halfLength = length / 2f;
         float halfThickness = thickness / 2f;
         float webHalfHeight = beamHeight / 2f - thickness;
-        CollisionShape web = new BoxCollisionShape(halfThickness, webHalfHeight,
-                halfLength);
-        CollisionShape flange = new BoxCollisionShape(flangeWidth / 2f,
-                halfThickness, halfLength);
+        CollisionShape web = new BoxCollisionShape(
+                halfThickness, webHalfHeight, halfLength);
+        CollisionShape flange = new BoxCollisionShape(
+                flangeWidth / 2f, halfThickness, halfLength);
 
         CompoundCollisionShape result = new CompoundCollisionShape(3);
         result.addChildShape(web);
@@ -440,8 +440,8 @@ final public class CompoundTestShapes {
      *
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeLidlessBox(float iHeight,
-            float iWidth, float iDepth, float wallThickness) {
+    public static CompoundCollisionShape makeLidlessBox(
+            float iHeight, float iWidth, float iDepth, float wallThickness) {
         float ihHeight = iHeight / 2f;
         float ihWidth = iWidth / 2f;
         float ihDepth = iDepth / 2f;
@@ -547,8 +547,8 @@ final public class CompoundTestShapes {
         Validate.positive(thickness, "thickness");
         Validate.positive(zLength, "length");
         Validate.inRange(arc, "arc", 0f, FastMath.TWO_PI);
-        Validate.inRange(numChildren, "number of children", 2,
-                Integer.MAX_VALUE);
+        Validate.inRange(
+                numChildren, "number of children", 2, Integer.MAX_VALUE);
 
         float halfLength = zLength / 2f;
         float outerR = innerR + thickness;
@@ -813,18 +813,18 @@ final public class CompoundTestShapes {
      * @param minorRadius (in unscaled shape units, &gt;0, &lt;majorRadius)
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeTorus(float majorRadius,
-            float minorRadius) {
-        Validate.inRange(majorRadius, "major radius", minorRadius,
-                Float.MAX_VALUE);
-        Validate.inRange(minorRadius, "minor radius", Float.MIN_VALUE,
-                majorRadius);
+    public static CompoundCollisionShape
+            makeTorus(float majorRadius, float minorRadius) {
+        Validate.inRange(
+                majorRadius, "major radius", minorRadius, Float.MAX_VALUE);
+        Validate.inRange(
+                minorRadius, "minor radius", Float.MIN_VALUE, majorRadius);
 
         int numCapsules = 20;
         float angle = FastMath.TWO_PI / numCapsules;
         float length = majorRadius * angle;
-        CollisionShape capsule = new CapsuleCollisionShape(minorRadius,
-                length, PhysicsSpace.AXIS_X);
+        CollisionShape capsule = new CapsuleCollisionShape(
+                minorRadius, length, PhysicsSpace.AXIS_X);
 
         CompoundCollisionShape result = new CompoundCollisionShape(numCapsules);
         Vector3f offset = new Vector3f();
@@ -884,8 +884,8 @@ final public class CompoundTestShapes {
      *
      * @return a new compound shape (not null)
      */
-    public static CompoundCollisionShape makeTrident(float shaftLength,
-            float shaftRadius) {
+    public static CompoundCollisionShape
+            makeTrident(float shaftLength, float shaftRadius) {
         Validate.positive(shaftLength, "shaft length");
         Validate.positive(shaftRadius, "shaft radius");
         /*

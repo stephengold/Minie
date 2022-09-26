@@ -126,8 +126,8 @@ public class ConeJoint extends Constraint {
      * @param rotInA the joint orientation in A's local coordinates (rotation
      * matrix, unaffected)
      */
-    public ConeJoint(PhysicsRigidBody rigidBodyA, Vector3f pivotInA,
-            Matrix3f rotInA) {
+    public ConeJoint(
+            PhysicsRigidBody rigidBodyA, Vector3f pivotInA, Matrix3f rotInA) {
         super(rigidBodyA, JointEnd.A, pivotInA, translateIdentity);
         rotA = rotInA.clone();
         rotB = rotA;

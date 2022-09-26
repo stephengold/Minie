@@ -235,14 +235,14 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
         long jointId;
         if (isSoftRigid()) {
             assert cib == -1 : cib;
-            jointId = createJointSoftRigid(ida, cia, idb, erp, cfm, split,
-                    location);
+            jointId = createJointSoftRigid(
+                    ida, cia, idb, erp, cfm, split, location);
         } else {
             PhysicsSoftBody b = getSoftBodyB();
             assert cib >= 0 : cib;
             assert cib < b.countClusters() : cib;
-            jointId = createJointSoftSoft(ida, cia, idb, cib, erp, cfm, split,
-                    location);
+            jointId = createJointSoftSoft(
+                    ida, cia, idb, cib, erp, cfm, split, location);
         }
         setNativeIdNotTracked(jointId);
         assert checkParameters();
