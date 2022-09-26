@@ -638,8 +638,8 @@ public class SplitDemo
         flyCam.setMoveSpeed(10f);
         flyCam.setZoomSpeed(10f);
 
-        cam.setLocation(new Vector3f(0f, 1.5f, 6.8f));
-        cam.setRotation(new Quaternion(-0.002f, 0.991408f, -0.1295f, 0.0184f));
+        cam.setLocation(new Vector3f(0f, 0f, 6.8f));
+        cam.setRotation(new Quaternion(0f, 1f, 0f, 0f));
 
         AppState orbitState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
