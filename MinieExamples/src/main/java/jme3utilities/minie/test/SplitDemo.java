@@ -125,6 +125,10 @@ public class SplitDemo
      */
     private Geometry splitterGeometry;
     /**
+     * temporary storage for a Quaternion
+     */
+    final private Quaternion tmpRotation = new Quaternion();
+    /**
      * AppState to manage the status overlay
      */
     private SplitDemoStatus status;
@@ -138,6 +142,10 @@ public class SplitDemo
      * lower left corner)
      */
     final private Vector2f screen2 = new Vector2f();
+    /**
+     * temporary storage for a vector
+     */
+    final private Vector3f tmpLocation = new Vector3f();
     /**
      * first world location used to define the splitting plane
      */
@@ -610,10 +618,10 @@ public class SplitDemo
         body.setDebugMeshNormals(debugMeshNormals);
 
         Generator random = getGenerator();
-        Vector3f location = random.nextVector3f(); // TODO garbage
-        body.setPhysicsLocation(location);
-        Quaternion rotation = random.nextQuaternion(); // TODO garbage
-        body.setPhysicsRotation(rotation);
+        random.nextVector3f(tmpLocation);
+        body.setPhysicsLocation(tmpLocation);
+        random.nextQuaternion(tmpRotation);
+        body.setPhysicsRotation(tmpRotation);
 
         addCollisionObject(body);
     }

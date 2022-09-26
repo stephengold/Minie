@@ -227,10 +227,11 @@ public class ShapeGenerator extends Generator {
         FloatBuffer buffer = BufferUtils
                 .createFloatBuffer(MyVector3f.numAxes * numVertices);
         buffer.put(0f).put(0f).put(0f);
+        Vector3f tmpLocation = new Vector3f();
         for (int vertexI = 1; vertexI < numVertices; ++vertexI) {
-            Vector3f location = nextUnitVector3f();
-            location.multLocal(1.5f);
-            buffer.put(location.x).put(location.y).put(location.z);
+            nextUnitVector3f(tmpLocation);
+            tmpLocation.multLocal(1.5f);
+            buffer.put(tmpLocation.x).put(tmpLocation.y).put(tmpLocation.z);
         }
         /*
          * Use arithmetic mean to center the vertices.
