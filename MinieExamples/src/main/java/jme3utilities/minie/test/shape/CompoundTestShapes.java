@@ -888,23 +888,20 @@ final public class CompoundTestShapes {
             makeTrident(float shaftLength, float shaftRadius) {
         Validate.positive(shaftLength, "shaft length");
         Validate.positive(shaftRadius, "shaft radius");
-        /*
-         * Create a cylinder for the shaft.
-         */
-        CollisionShape shaft = new CylinderCollisionShape(shaftRadius,
-                shaftLength, PhysicsSpace.AXIS_Y);
+
+        // Create a cylinder for the shaft.
+        CollisionShape shaft = new CylinderCollisionShape(
+                shaftRadius, shaftLength, PhysicsSpace.AXIS_Y);
         float shaftOffset = 0.2f * shaftLength;
-        /*
-         * Create a box for the crosspiece.
-         */
+
+        // Create a box for the crosspiece.
         float halfCross = 5f * shaftRadius;
         float halfThickness = 0.75f * shaftRadius;
         float margin = CollisionShape.getDefaultMargin();
         CollisionShape crosspiece = new BoxCollisionShape(halfCross + margin,
                 halfThickness + margin, halfThickness + margin);
-        /*
-         * Create pyramidal hulls for each of the 3 prongs.
-         */
+
+        // Create pyramidal hulls for each of the 3 prongs.
         float baseX = halfCross - halfThickness;
         float pointX = halfCross + 2f * halfThickness;
         float crossOffset
