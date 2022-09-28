@@ -235,8 +235,8 @@ public class DynamicAnimControl
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
      * @param endModelTransform the desired local transform for the controlled
-     * spatial when the blend completes (unaffected) or null for no change to
-     * the transform
+     * spatial when the blend completes (alias created) or null for no change to
+     * the local transform
      */
     public void blendToKinematicMode(
             float blendInterval, Transform endModelTransform) {

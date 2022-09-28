@@ -201,8 +201,8 @@ public class TorsoLink extends PhysicsLink {
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
      * @param endModelTransform the desired local transform for the controlled
-     * spatial when the blend completes or null for no change to local transform
-     * (unaffected)
+     * spatial when the blend completes (alias created) or null for no change to
+     * the local transform
      */
     public void blendToKinematicMode(KinematicSubmode submode,
             float blendInterval, Transform endModelTransform) {
