@@ -290,6 +290,74 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
+     * Enumerate disconnected groups of connected children.
+     * <p>
+     * A graph-coloring algorithm is applied to the connectivity matrix. Each
+     * node in the graph represents a child, and each color represents a group
+     * of connected children.
+     *
+     * @param space the space to use for tests, or null to create a new space
+     * @param storeMap storage for the mapping from children to groups (not
+     * null, length = number of children, modified)
+     * @return the number of groups found (&ge;0, &le;number of children)
+     */
+    public int countGroups(CollisionSpace space, int[] storeMap) {
+        Validate.nonNull(storeMap, "storage for colors");
+        int numNodes = children.size();
+        Validate.require(storeMap.length == numNodes, "the correct length");
+
+        boolean[][] connected = connectivityMatrix(space);
+
+        // Begin with all nodes colorless.
+        for (int nodeI = 0; nodeI < numNodes; ++nodeI) {
+            storeMap[nodeI] = -1; // -1 means colorless
+        }
+        int numColorlessNodes = numNodes;
+
+        int numAssignedColors = 0;
+        while (numColorlessNodes > 0) {
+            // Assign a new color to the first colorless node, if any.
+            int newColor = -1;
+            for (int nodeI = numAssignedColors; nodeI < numNodes; ++nodeI) {
+                if (storeMap[nodeI] == -1) {
+                    newColor = numAssignedColors;
+                    ++numAssignedColors;
+                    storeMap[nodeI] = newColor;
+                    --numColorlessNodes;
+                    break; // for
+                }
+            }
+            if (newColor == -1) { // Every node must be colored.
+                break; // while
+            }
+            /*
+             * Color any colorless nodes
+             * that connect to nodes having the new color.
+             */
+            boolean progress = true;
+            while (progress) {
+                progress = false;
+                for (int i = 0; i < numNodes; ++i) {
+                    if (storeMap[i] == newColor) {
+                        for (int j = 0; j < numNodes; ++j) {
+                            if (storeMap[j] == -1 && connected[i][j]) {
+                                storeMap[j] = newColor;
+                                --numColorlessNodes;
+                                progress = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Every node has been colored.
+        assert numAssignedColors >= 0 : numAssignedColors;
+        assert numAssignedColors <= children.size() : numAssignedColors;
+        return numAssignedColors;
+    }
+
+    /**
      * Find the first child with the specified shape.
      *
      * @param childShape the shape to search for (unaffected)
