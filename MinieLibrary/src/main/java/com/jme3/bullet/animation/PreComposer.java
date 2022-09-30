@@ -33,10 +33,16 @@ package com.jme3.bullet.animation;
 
 import com.jme3.anim.Armature;
 import com.jme3.anim.Joint;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.Transform;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
+import com.jme3.util.clone.Cloner;
+import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 
@@ -55,6 +61,12 @@ public class PreComposer extends AbstractControl {
      */
     final public static Logger logger
             = Logger.getLogger(PreComposer.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagDac = "dac";
+    final private static String tagHaveSaved = "haveSaved";
+    final private static String tagSavedTransforms = "savedTransforms";
     // *************************************************************************
     // fields
 
@@ -65,13 +77,19 @@ public class PreComposer extends AbstractControl {
     /**
      * DynamicAnimControl that created this helper
      */
-    final private DacLinks dac;
+    private DacLinks dac;
     /**
      * saved joint transforms, allocated lazily
      */
     private Transform[] savedTransforms;
     // *************************************************************************
     // constructors
+
+    /**
+     * No-argument constructor needed by SavableClassUtil.
+     */
+    protected PreComposer() {
+    }
 
     /**
      * Instantiate an enabled PreComposer to help the specified
@@ -114,6 +132,23 @@ public class PreComposer extends AbstractControl {
     // AbstractControl methods
 
     /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned Control into a deep-cloned one, using the specified Cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the Cloner that's cloning this Control (not null)
+     * @param original the instance from which this Control was shallow-cloned
+     * (not null, unaffected)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+
+        this.dac = cloner.clone(dac);
+        this.savedTransforms = cloner.clone(savedTransforms);
+    }
+
+    /**
      * Update this control. Invoked once per frame during the logical-state
      * update, provided the control is enabled and added to a scene. Should be
      * invoked only by a subclass or by AbstractControl.
@@ -150,5 +185,55 @@ public class PreComposer extends AbstractControl {
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {
         // do nothing
+    }
+
+    /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return a new Control (not null)
+     */
+    @Override
+    public PreComposer jmeClone() {
+        try {
+            PreComposer clone = (PreComposer) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    /**
+     * De-serialize this Control from the specified importer, for example when
+     * loading from a J3O file.
+     *
+     * @param importer (not null)
+     * @throws IOException from the importer
+     */
+    @Override
+    public void read(JmeImporter importer) throws IOException {
+        super.read(importer);
+        InputCapsule capsule = importer.getCapsule(this);
+
+        this.haveSaved = capsule.readBoolean(tagHaveSaved, false);
+        this.dac = (DacLinks) capsule.readSavable(tagDac, null);
+        this.savedTransforms = (Transform[]) capsule
+                .readSavableArray(tagSavedTransforms, null);
+    }
+
+    /**
+     * Serialize this Control to the specified exporter, for example when saving
+     * to a J3O file.
+     *
+     * @param exporter (not null)
+     * @throws IOException from the exporter
+     */
+    @Override
+    public void write(JmeExporter exporter) throws IOException {
+        super.write(exporter);
+        OutputCapsule capsule = exporter.getCapsule(this);
+
+        capsule.write(haveSaved, tagHaveSaved, false);
+        capsule.write(dac, tagDac, null);
+        capsule.write(savedTransforms, tagSavedTransforms, null);
     }
 }
