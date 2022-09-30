@@ -46,7 +46,7 @@ import jme3utilities.ui.AcorusDemo;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-final public class JointElasticityStatus extends SimpleAppState {
+final class JointElasticityStatus extends SimpleAppState {
     // *************************************************************************
     // constants and loggers
 

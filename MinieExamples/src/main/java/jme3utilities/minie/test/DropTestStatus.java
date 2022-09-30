@@ -46,7 +46,7 @@ import jme3utilities.ui.AcorusDemo;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class DropTestStatus extends SimpleAppState {
+class DropTestStatus extends SimpleAppState {
     // *************************************************************************
     // constants and loggers
 

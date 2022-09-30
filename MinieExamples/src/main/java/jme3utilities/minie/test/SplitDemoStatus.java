@@ -46,7 +46,7 @@ import jme3utilities.ui.AcorusDemo;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class SplitDemoStatus extends SimpleAppState {
+class SplitDemoStatus extends SimpleAppState {
     // *************************************************************************
     // constants and loggers
 
