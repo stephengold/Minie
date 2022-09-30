@@ -896,9 +896,9 @@ public class SplitDemo
                 = MyMath.transformInverse(shapeToWorld, worldTriangle, null);
 
         CollisionShape[] shapes;
-        float[] volumes = new float[2];
-        int[] signs = new int[2];
-        Vector3f[] locations = new Vector3f[2];
+        float[] volumes;
+        int[] signs;
+        Vector3f[] locations;
         Vector3f worldNormal = worldTriangle.getNormal(); // alias
 
         if (splittableShape instanceof HullCollisionShape) {
@@ -910,14 +910,17 @@ public class SplitDemo
             }
 
             shapes = new CollisionShape[2];
+            volumes = new float[2];
+            signs = new int[2];
+            locations = new Vector3f[2];
             for (int sideI = 0; sideI < 2; ++sideI) {
                 shapes[sideI] = children[sideI].getShape();
                 volumes[sideI] = shapes[sideI].scaledVolume();
                 signs[sideI] = 2 * sideI - 1;
 
-                locations[sideI] = children[sideI].copyOffset(null);
-                shapeToWorld.transformVector(
-                        locations[sideI], locations[sideI]);
+                Vector3f location = children[sideI].copyOffset(null);
+                shapeToWorld.transformVector(location, location);
+                locations[sideI] = location;
             }
 
         } else if (splittableShape instanceof CompoundCollisionShape) {
@@ -930,19 +933,24 @@ public class SplitDemo
             }
             // TODO deal with disconnected fragments, if any
 
+            volumes = new float[2];
+            signs = new int[2];
+            locations = new Vector3f[2];
             for (int sideI = 0; sideI < 2; ++sideI) {
-                volumes[sideI] = shapes[sideI].scaledVolume();
+                CompoundCollisionShape shape
+                        = (CompoundCollisionShape) shapes[sideI];
+                volumes[sideI] = shape.scaledVolume();
                 signs[sideI] = 2 * sideI - 1;
                 /*
                  * Translate each compound so its AABB is centered at (0,0,0)
                  * in its shape coordinates.
                  */
-                locations[sideI] = shapes[sideI].aabbCenter(null);
-                Vector3f offset = locations[sideI].negate();
-                ((CompoundCollisionShape) shapes[sideI]).translate(offset);
+                Vector3f location = shape.aabbCenter(null);
+                Vector3f offset = location.negate();
+                shape.translate(offset);
                 shapeToWorld.setScale(1f);
-                shapeToWorld.transformVector(
-                        locations[sideI], locations[sideI]);
+                shapeToWorld.transformVector(location, location);
+                locations[sideI] = location;
             }
 
         } else if (splittableShape instanceof GImpactCollisionShape) {
@@ -954,14 +962,17 @@ public class SplitDemo
             }
 
             shapes = new CollisionShape[2];
+            volumes = new float[2];
+            signs = new int[2];
+            locations = new Vector3f[2];
             for (int sideI = 0; sideI < 2; ++sideI) {
                 shapes[sideI] = children[sideI].getShape();
                 volumes[sideI] = 1f; // TODO calculate area
                 signs[sideI] = 2 * sideI - 1;
 
-                locations[sideI] = children[sideI].copyOffset(null);
-                shapeToWorld.transformVector(
-                        locations[sideI], locations[sideI]);
+                Vector3f location = children[sideI].copyOffset(null);
+                shapeToWorld.transformVector(location, location);
+                locations[sideI] = location;
             }
 
         } else if (splittableShape instanceof MeshCollisionShape) {
@@ -973,6 +984,9 @@ public class SplitDemo
                 return; // The split plane didn't intersect the mesh shape.
             }
 
+            volumes = new float[2];
+            signs = new int[2];
+            locations = new Vector3f[2];
             for (int sideI = 0; sideI < 2; ++sideI) {
                 volumes[sideI] = 0f; // unused
                 signs[sideI] = 2 * sideI - 1;
