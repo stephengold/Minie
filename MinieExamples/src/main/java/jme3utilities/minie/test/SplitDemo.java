@@ -30,6 +30,7 @@ import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.CollisionSpace;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.SoftPhysicsAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
@@ -54,6 +55,7 @@ import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Triangle;
@@ -67,7 +69,9 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Line;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -124,6 +128,10 @@ public class SplitDemo
      * visualize the splitting plane
      */
     private Geometry splitterGeometry;
+    /**
+     * temporary storage for a 3x3 matrix
+     */
+    final private Matrix3f tmpMatrix = new Matrix3f();
     /**
      * temporary storage for a Quaternion
      */
@@ -926,21 +934,56 @@ public class SplitDemo
         } else if (splittableShape instanceof CompoundCollisionShape) {
             CompoundCollisionShape compound
                     = (CompoundCollisionShape) splittableShape;
-            shapes = compound.split(shapeTriangle);
-            assert shapes.length == 2 : shapes.length;
-            if (shapes[0] == null || shapes[1] == null) {
+            CompoundCollisionShape[] compounds = compound.split(shapeTriangle);
+            assert compounds.length == 2 : compounds.length;
+            if (compounds[0] == null || compounds[1] == null) {
                 return; // The split plane didn't intersect the compound shape.
             }
-            // TODO deal with disconnected fragments, if any
-
-            volumes = new float[2];
-            signs = new int[2];
-            locations = new Vector3f[2];
+            /*
+             * Enumerate the groups of connected children
+             * on each side of the split plane.
+             */
+            List<CompoundCollisionShape> groupList = new ArrayList<>(4);
+            List<Integer> signList = new ArrayList<>(4);
+            CollisionSpace testSpace = getPhysicsSpace();
             for (int sideI = 0; sideI < 2; ++sideI) {
-                CompoundCollisionShape shape
-                        = (CompoundCollisionShape) shapes[sideI];
-                volumes[sideI] = shape.scaledVolume();
-                signs[sideI] = 2 * sideI - 1;
+                ChildCollisionShape children[]
+                        = compounds[sideI].listChildren();
+                int numChildren = children.length;
+                int[] map = new int[numChildren];
+                int numGroups = compounds[sideI].countGroups(testSpace, map);
+                int sign = 2 * sideI - 1;
+
+                for (int groupI = 0; groupI < numGroups; ++groupI) {
+                    CompoundCollisionShape newGroup
+                            = new CompoundCollisionShape(numChildren);
+                    for (int childI = 0; childI < numChildren; ++childI) {
+                        if (map[childI] == groupI) {
+                            ChildCollisionShape child = children[childI];
+                            CollisionShape baseShape = child.getShape();
+                            child.copyOffset(tmpLocation);
+                            child.copyRotationMatrix(tmpMatrix);
+                            newGroup.addChildShape(
+                                    baseShape, tmpLocation, tmpMatrix);
+                        }
+                    }
+                    groupList.add(newGroup);
+                    signList.add(sign);
+                }
+            }
+
+            int numGroups = groupList.size();
+            assert signList.size() == numGroups;
+            shapes = new CollisionShape[numGroups];
+            volumes = new float[numGroups];
+            signs = new int[numGroups];
+            locations = new Vector3f[numGroups];
+
+            for (int groupI = 0; groupI < numGroups; ++groupI) {
+                CompoundCollisionShape shape = groupList.get(groupI);
+                shapes[groupI] = shape;
+                volumes[groupI] = shape.scaledVolume();
+                signs[groupI] = signList.get(groupI);
                 /*
                  * Translate each compound so its AABB is centered at (0,0,0)
                  * in its shape coordinates.
@@ -950,7 +993,7 @@ public class SplitDemo
                 shape.translate(offset);
                 shapeToWorld.setScale(1f);
                 shapeToWorld.transformVector(location, location);
-                locations[sideI] = location;
+                locations[groupI] = location;
             }
 
         } else if (splittableShape instanceof GImpactCollisionShape) {
