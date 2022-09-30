@@ -897,6 +897,7 @@ public class SplitDemo
 
         CollisionShape[] shapes;
         float[] volumes = new float[2];
+        int[] signs = new int[2];
         Vector3f[] locations = new Vector3f[2];
         Vector3f worldNormal = worldTriangle.getNormal(); // alias
 
@@ -912,6 +913,7 @@ public class SplitDemo
             for (int i = 0; i < 2; ++i) {
                 shapes[i] = children[i].getShape();
                 volumes[i] = shapes[i].scaledVolume();
+                signs[i] = 2 * i - 1;
 
                 locations[i] = children[i].copyOffset(null);
                 shapeToWorld.transformVector(locations[i], locations[i]);
@@ -929,6 +931,7 @@ public class SplitDemo
 
             for (int i = 0; i < 2; ++i) {
                 volumes[i] = shapes[i].scaledVolume();
+                signs[i] = 2 * i - 1;
                 /*
                  * Translate each compound so its AABB is centered at (0,0,0)
                  * in its shape coordinates.
@@ -952,6 +955,7 @@ public class SplitDemo
             for (int i = 0; i < 2; ++i) {
                 shapes[i] = children[i].getShape();
                 volumes[i] = 1f; // TODO calculate area
+                signs[i] = 2 * i - 1;
 
                 locations[i] = children[i].copyOffset(null);
                 shapeToWorld.transformVector(locations[i], locations[i]);
@@ -968,6 +972,7 @@ public class SplitDemo
 
             for (int i = 0; i < 2; ++i) {
                 volumes[i] = 0f; // unused
+                signs[i] = 2 * i - 1;
                 locations[i] = oldBody.getPhysicsLocation(null);
             }
 
@@ -976,57 +981,72 @@ public class SplitDemo
             return;
         }
 
-        splitBody(oldBody, worldNormal, shapes, volumes, locations);
+        splitBody(oldBody, worldNormal, shapes, volumes, signs, locations);
     }
 
     /**
-     * Split the specified rigid body into 2 using the specified shapes.
+     * Split the specified rigid body using the specified shapes.
      *
      * @param oldBody (not null, added to the PhysicsSpace)
      * @param worldNormal the normal of the splitting plane (in world
      * coordinates, not null, unaffected)
-     * @param shapes the shapes to use (length=2, both not null)
-     * @param volumes the estimated volumes of the shapes (length=2, both &gt;0)
-     * @param locations the center locations (in physics-space coordinates,
-     * length=2, both not null)
+     * @param shapes the shapes to use (length&ge;2, all not null)
+     * @param sizes the estimated relative size of each shape (all &gt;0)
+     * @param signs -1 &rarr; shape is on the negative side of the splitting
+     * plane, +1 &rarr; on the positive side
+     * @param locations the center location of each shape (in physics-space
+     * coordinates, all not null)
      */
     private void splitBody(PhysicsRigidBody oldBody, Vector3f worldNormal,
-            CollisionShape[] shapes, float[] volumes, Vector3f[] locations) {
-        assert shapes.length == 2 : shapes.length;
-        assert volumes.length == 2 : volumes.length;
-        assert locations.length == 2 : locations.length;
+            CollisionShape[] shapes, float[] sizes, int[] signs,
+            Vector3f[] locations) {
+        int numShapes = shapes.length;
+        assert numShapes >= 2 : numShapes;
+        assert sizes.length == numShapes : sizes.length;
+        assert signs.length == numShapes : signs.length;
+        assert locations.length == numShapes : locations.length;
 
         // Tweak the locations to create some separation.
         boolean isDynamic = oldBody.isDynamic();
         float deltaX = isDynamic ? 0.04f : 0.1f;
-        MyVector3f.accumulateScaled(locations[0], worldNormal, -deltaX);
-        MyVector3f.accumulateScaled(locations[1], worldNormal, +deltaX);
+        for (int i = 0; i < numShapes; ++i) {
+            float factor = signs[i] * deltaX;
+            MyVector3f.accumulateScaled(locations[i], worldNormal, factor);
+        }
 
-        float[] masses = new float[2];
+        float[] masses = new float[numShapes];
+        Vector3f v;
         Vector3f w;
-        Vector3f[] velocities = new Vector3f[2];
+        Vector3f[] velocities = new Vector3f[numShapes];
         if (isDynamic) {
-            velocities[0] = oldBody.getLinearVelocity(null);
-            velocities[1] = velocities[0].clone();
-
             // Tweak the linear velocities to enhance the separation.
             float deltaV = 0.04f;
-            MyVector3f.accumulateScaled(velocities[0], worldNormal, -deltaV);
-            MyVector3f.accumulateScaled(velocities[1], worldNormal, +deltaV);
+            v = oldBody.getLinearVelocity(null);
+            for (int shapeI = 0; shapeI < numShapes; ++shapeI) {
+                velocities[shapeI] = v.clone();
+                float multiplier = signs[shapeI] * deltaV;
+                MyVector3f.accumulateScaled(
+                        velocities[shapeI], worldNormal, multiplier);
+            }
 
-            float totalVolume = volumes[0] + volumes[1];
-            assert totalVolume > 0f : totalVolume;
+            // Calculate the masses.
+            float totalSize = 0f;
+            for (int shapeI = 0; shapeI < numShapes; ++shapeI) {
+                totalSize += sizes[shapeI];
+            }
+            assert totalSize > 0f : totalSize;
             float totalMass = oldBody.getMass();
-            for (int i = 0; i < 2; ++i) {
-                masses[i] = totalMass * volumes[i] / totalVolume;
-                assert masses[i] > 0f : masses[i];
+            for (int shapeI = 0; shapeI < numShapes; ++shapeI) {
+                masses[shapeI] = totalMass * sizes[shapeI] / totalSize;
+                assert masses[shapeI] > 0f : masses[shapeI];
             }
 
             w = oldBody.getAngularVelocity(null);
 
         } else {
-            masses[0] = PhysicsBody.massForStatic;
-            masses[1] = PhysicsBody.massForStatic;
+            for (int shapeI = 0; shapeI < numShapes; ++shapeI) {
+                masses[shapeI] = PhysicsBody.massForStatic;
+            }
             w = null;
         }
 
@@ -1036,14 +1056,15 @@ public class SplitDemo
         PhysicsSpace space = getPhysicsSpace();
         space.removeCollisionObject(oldBody);
 
-        for (int i = 0; i < 2; ++i) {
-            PhysicsRigidBody body = new PhysicsRigidBody(shapes[i], masses[i]);
+        for (int shapeI = 0; shapeI < numShapes; ++shapeI) {
+            PhysicsRigidBody body
+                    = new PhysicsRigidBody(shapes[shapeI], masses[shapeI]);
             body.setDebugMeshNormals(debugMeshNormals);
-            body.setPhysicsLocation(locations[i]);
+            body.setPhysicsLocation(locations[shapeI]);
             body.setPhysicsRotation(orientation);
             if (isDynamic) {
                 body.setAngularVelocity(w);
-                body.setLinearVelocity(velocities[i]);
+                body.setLinearVelocity(velocities[shapeI]);
             }
             addCollisionObject(body);
         }
