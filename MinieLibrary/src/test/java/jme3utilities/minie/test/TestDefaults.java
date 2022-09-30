@@ -173,7 +173,7 @@ public class TestDefaults {
                 new Vector3f(-10000f, -10000f, -10000f),
                 new Vector3f(10000f, 10000f, 10000f),
                 PhysicsSpace.BroadphaseType.AXIS_SWEEP_3, SolverType.SI);
-        testPhysicsSpace(mbSpace);
+        testPhysicsSpace(dSpace);
 
         testShapes();
         // TODO GhostControl, CharacterControl, VehicleControl
@@ -719,7 +719,8 @@ public class TestDefaults {
         Assert.assertEquals(128, info.minBatch());
 
         String className = space.getClass().getSimpleName();
-        int expectedMode = (className.equals("MultiBodySpace")) ? 0x114 : 0x104;
+        int expectedMode = (className.equals("MultiBodySpace")
+                || className.equals("DeformableSpace")) ? 0x114 : 0x104;
         Assert.assertEquals(expectedMode, info.mode());
 
         Assert.assertEquals(10, info.numIterations());
