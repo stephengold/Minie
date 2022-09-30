@@ -910,13 +910,14 @@ public class SplitDemo
             }
 
             shapes = new CollisionShape[2];
-            for (int i = 0; i < 2; ++i) {
-                shapes[i] = children[i].getShape();
-                volumes[i] = shapes[i].scaledVolume();
-                signs[i] = 2 * i - 1;
+            for (int sideI = 0; sideI < 2; ++sideI) {
+                shapes[sideI] = children[sideI].getShape();
+                volumes[sideI] = shapes[sideI].scaledVolume();
+                signs[sideI] = 2 * sideI - 1;
 
-                locations[i] = children[i].copyOffset(null);
-                shapeToWorld.transformVector(locations[i], locations[i]);
+                locations[sideI] = children[sideI].copyOffset(null);
+                shapeToWorld.transformVector(
+                        locations[sideI], locations[sideI]);
             }
 
         } else if (splittableShape instanceof CompoundCollisionShape) {
@@ -929,18 +930,19 @@ public class SplitDemo
             }
             // TODO deal with disconnected fragments, if any
 
-            for (int i = 0; i < 2; ++i) {
-                volumes[i] = shapes[i].scaledVolume();
-                signs[i] = 2 * i - 1;
+            for (int sideI = 0; sideI < 2; ++sideI) {
+                volumes[sideI] = shapes[sideI].scaledVolume();
+                signs[sideI] = 2 * sideI - 1;
                 /*
                  * Translate each compound so its AABB is centered at (0,0,0)
                  * in its shape coordinates.
                  */
-                locations[i] = shapes[i].aabbCenter(null);
-                Vector3f offset = locations[i].negate();
-                ((CompoundCollisionShape) shapes[i]).translate(offset);
+                locations[sideI] = shapes[sideI].aabbCenter(null);
+                Vector3f offset = locations[sideI].negate();
+                ((CompoundCollisionShape) shapes[sideI]).translate(offset);
                 shapeToWorld.setScale(1f);
-                shapeToWorld.transformVector(locations[i], locations[i]);
+                shapeToWorld.transformVector(
+                        locations[sideI], locations[sideI]);
             }
 
         } else if (splittableShape instanceof GImpactCollisionShape) {
@@ -952,13 +954,14 @@ public class SplitDemo
             }
 
             shapes = new CollisionShape[2];
-            for (int i = 0; i < 2; ++i) {
-                shapes[i] = children[i].getShape();
-                volumes[i] = 1f; // TODO calculate area
-                signs[i] = 2 * i - 1;
+            for (int sideI = 0; sideI < 2; ++sideI) {
+                shapes[sideI] = children[sideI].getShape();
+                volumes[sideI] = 1f; // TODO calculate area
+                signs[sideI] = 2 * sideI - 1;
 
-                locations[i] = children[i].copyOffset(null);
-                shapeToWorld.transformVector(locations[i], locations[i]);
+                locations[sideI] = children[sideI].copyOffset(null);
+                shapeToWorld.transformVector(
+                        locations[sideI], locations[sideI]);
             }
 
         } else if (splittableShape instanceof MeshCollisionShape) {
@@ -970,10 +973,10 @@ public class SplitDemo
                 return; // The split plane didn't intersect the mesh shape.
             }
 
-            for (int i = 0; i < 2; ++i) {
-                volumes[i] = 0f; // unused
-                signs[i] = 2 * i - 1;
-                locations[i] = oldBody.getPhysicsLocation(null);
+            for (int sideI = 0; sideI < 2; ++sideI) {
+                volumes[sideI] = 0f; // unused
+                signs[sideI] = 2 * sideI - 1;
+                locations[sideI] = oldBody.getPhysicsLocation(null);
             }
 
         } else { // TODO handle simplex n<=2
@@ -1009,9 +1012,9 @@ public class SplitDemo
         // Tweak the locations to create some separation.
         boolean isDynamic = oldBody.isDynamic();
         float deltaX = isDynamic ? 0.04f : 0.1f;
-        for (int i = 0; i < numShapes; ++i) {
-            float factor = signs[i] * deltaX;
-            MyVector3f.accumulateScaled(locations[i], worldNormal, factor);
+        for (int shapeI = 0; shapeI < numShapes; ++shapeI) {
+            float factor = signs[shapeI] * deltaX;
+            MyVector3f.accumulateScaled(locations[shapeI], worldNormal, factor);
         }
 
         float[] masses = new float[numShapes];
