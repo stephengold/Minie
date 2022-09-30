@@ -239,15 +239,15 @@ public class BoneLink extends PhysicsLink {
         assert managedArmatureJoints == null;
         int numManaged;
         if (bone != null) {
-            managedBones = getControl().listManagedBones(name);
+            this.managedBones = getControl().listManagedBones(name);
             numManaged = managedBones.length;
         } else {
-            managedArmatureJoints
+            this.managedArmatureJoints
                     = getControl().listManagedArmatureJoints(name);
             numManaged = managedArmatureJoints.length;
         }
 
-        startBoneTransforms = new Transform[numManaged];
+        this.startBoneTransforms = new Transform[numManaged];
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             startBoneTransforms[managedIndex] = new Transform();
         }
@@ -472,10 +472,10 @@ public class BoneLink extends PhysicsLink {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        managedBones = cloner.clone(managedBones);
-        managedArmatureJoints = cloner.clone(managedArmatureJoints);
-        prevBoneTransforms = cloner.clone(prevBoneTransforms);
-        startBoneTransforms = cloner.clone(startBoneTransforms);
+        this.managedBones = cloner.clone(managedBones);
+        this.managedArmatureJoints = cloner.clone(managedArmatureJoints);
+        this.prevBoneTransforms = cloner.clone(prevBoneTransforms);
+        this.startBoneTransforms = cloner.clone(startBoneTransforms);
     }
 
     /**
@@ -622,9 +622,9 @@ public class BoneLink extends PhysicsLink {
         Savable[] tmp
                 = capsule.readSavableArray(tagManagedArmatureJoints, null);
         if (tmp == null) {
-            managedArmatureJoints = null;
+            this.managedArmatureJoints = null;
         } else {
-            managedArmatureJoints = new Joint[tmp.length];
+            this.managedArmatureJoints = new Joint[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
                 managedArmatureJoints[managedI] = (Joint) tmp[managedI];
             }
@@ -632,20 +632,20 @@ public class BoneLink extends PhysicsLink {
 
         tmp = capsule.readSavableArray(tagManagedBones, null);
         if (tmp == null) {
-            managedBones = null;
+            this.managedBones = null;
         } else {
-            managedBones = new Bone[tmp.length];
+            this.managedBones = new Bone[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
                 managedBones[managedI] = (Bone) tmp[managedI];
             }
         }
 
-        submode = capsule.readEnum(tagSubmode, KinematicSubmode.class,
+        this.submode = capsule.readEnum(tagSubmode, KinematicSubmode.class,
                 KinematicSubmode.Animated);
-        prevBoneTransforms = RagUtils.readTransformArray(capsule,
-                tagPrevBoneTransforms);
-        startBoneTransforms = RagUtils.readTransformArray(capsule,
-                tagStartBoneTransforms);
+        this.prevBoneTransforms
+                = RagUtils.readTransformArray(capsule, tagPrevBoneTransforms);
+        this.startBoneTransforms
+                = RagUtils.readTransformArray(capsule, tagStartBoneTransforms);
     }
 
     /**
@@ -693,7 +693,7 @@ public class BoneLink extends PhysicsLink {
              * the array of previous bone transforms, if it wasn't
              * allocated in blendToKinematicMode().
              */
-            prevBoneTransforms = new Transform[numManaged];
+            this.prevBoneTransforms = new Transform[numManaged];
             for (int managedI = 0; managedI < numManaged; ++managedI) {
                 Transform boneTransform = copyManagedTransform(managedI, null);
                 prevBoneTransforms[managedI] = boneTransform;

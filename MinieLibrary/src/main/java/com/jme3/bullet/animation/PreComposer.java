@@ -171,7 +171,7 @@ public class PreComposer extends AbstractControl {
             joint.setLocalTransform(t);
         }
 
-        haveSaved = false;
+        this.haveSaved = false;
     }
 
     /**

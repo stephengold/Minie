@@ -318,9 +318,9 @@ public class AttachmentLink extends PhysicsLink {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        attachedModel = cloner.clone(attachedModel);
-        endModelTransform = cloner.clone(endModelTransform);
-        startModelTransform = cloner.clone(startModelTransform);
+        this.attachedModel = cloner.clone(attachedModel);
+        this.endModelTransform = cloner.clone(endModelTransform);
+        this.startModelTransform = cloner.clone(startModelTransform);
     }
 
     /**
@@ -483,8 +483,8 @@ public class AttachmentLink extends PhysicsLink {
             PhysicsRigidBody oldBody = oldLink.getRigidBody();
             setRigidBody(oldBody);
         }
-        endModelTransform = Heart.deepCopy(oldLink.endModelTransform);
-        startModelTransform.set(oldLink.startModelTransform);
+        this.endModelTransform = Heart.deepCopy(oldLink.endModelTransform);
+        this.startModelTransform.set(oldLink.startModelTransform);
     }
 
     /**
@@ -499,11 +499,12 @@ public class AttachmentLink extends PhysicsLink {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        attachedModel = (Spatial) capsule.readSavable(tagAttachedModel, null);
-        endModelTransform = (Transform) capsule.readSavable(
-                tagEndModelTransform, new Transform());
-        startModelTransform = (Transform) capsule.readSavable(
-                tagStartModelTransform, new Transform());
+        this.attachedModel
+                = (Spatial) capsule.readSavable(tagAttachedModel, null);
+        this.endModelTransform = (Transform) capsule
+                .readSavable(tagEndModelTransform, new Transform());
+        this.startModelTransform = (Transform) capsule
+                .readSavable(tagStartModelTransform, new Transform());
     }
 
     /**
