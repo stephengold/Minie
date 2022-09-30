@@ -947,7 +947,7 @@ public class SplitDemo
             List<Integer> signList = new ArrayList<>(4);
             CollisionSpace testSpace = getPhysicsSpace();
             for (int sideI = 0; sideI < 2; ++sideI) {
-                ChildCollisionShape children[]
+                ChildCollisionShape[] children
                         = compounds[sideI].listChildren();
                 int numChildren = children.length;
                 int[] map = new int[numChildren];
