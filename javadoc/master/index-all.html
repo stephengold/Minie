@@ -1314,6 +1314,12 @@ loadScripts(document, 'script');</script>
  shallow-cloned link into a deep-cloned one, using the specified Cloner
  and original to resolve copied fields.</div>
 </dd>
+<dt><a href="com/jme3/bullet/animation/PreComposer.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/PreComposer.html" title="class in com.jme3.bullet.animation">PreComposer</a></dt>
+<dd>
+<div class="block">Callback from <code>Cloner</code> to convert this
+ shallow-cloned Control into a deep-cloned one, using the specified Cloner
+ and original to resolve copied fields.</div>
+</dd>
 <dt><a href="com/jme3/bullet/animation/TorsoLink.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/TorsoLink.html" title="class in com.jme3.bullet.animation">TorsoLink</a></dt>
 <dd>
 <div class="block">Callback from <code>Cloner</code> to convert this
@@ -6420,6 +6426,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create a shallow clone for the JME cloner.</div>
 </dd>
+<dt><a href="com/jme3/bullet/animation/PreComposer.html#jmeClone()" class="member-name-link">jmeClone()</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/PreComposer.html" title="class in com.jme3.bullet.animation">PreComposer</a></dt>
+<dd>
+<div class="block">Create a shallow clone for the JME cloner.</div>
+</dd>
 <dt><a href="com/jme3/bullet/animation/TorsoLink.html#jmeClone()" class="member-name-link">jmeClone()</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/TorsoLink.html" title="class in com.jme3.bullet.animation">TorsoLink</a></dt>
 <dd>
 <div class="block">Create a shallow clone for the JME cloner.</div>
@@ -8542,6 +8552,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Helper control for DynamicAnimControl, to hide armature modifications from an
  AnimComposer.</div>
 </dd>
+<dt><a href="com/jme3/bullet/animation/PreComposer.html#%3Cinit%3E()" class="member-name-link">PreComposer()</a> - Constructor for class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/PreComposer.html" title="class in com.jme3.bullet.animation">PreComposer</a></dt>
+<dd>
+<div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
 <dt><a href="com/jme3/bullet/animation/DacLinks.html#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">prePhysicsTick(PhysicsSpace, float)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a></dt>
 <dd>
 <div class="block">Callback from Bullet, invoked just before the physics is stepped.</div>
@@ -8712,6 +8726,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/animation/PhysicsLink.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/PhysicsLink.html" title="class in com.jme3.bullet.animation">PhysicsLink</a></dt>
 <dd>
 <div class="block">De-serialize this link from the specified importer, for example when
+ loading from a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/animation/PreComposer.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/PreComposer.html" title="class in com.jme3.bullet.animation">PreComposer</a></dt>
+<dd>
+<div class="block">De-serialize this Control from the specified importer, for example when
  loading from a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/animation/RangeOfMotion.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/RangeOfMotion.html" title="class in com.jme3.bullet.animation">RangeOfMotion</a></dt>
@@ -13018,6 +13037,11 @@ the order they are declared.</div>
 <dd>
 <div class="block">Serialize this link to the specified exporter, for example when saving to
  a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/animation/PreComposer.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/PreComposer.html" title="class in com.jme3.bullet.animation">PreComposer</a></dt>
+<dd>
+<div class="block">Serialize this Control to the specified exporter, for example when saving
+ to a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/animation/RangeOfMotion.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/RangeOfMotion.html" title="class in com.jme3.bullet.animation">RangeOfMotion</a></dt>
 <dd>
