@@ -208,17 +208,6 @@ public class SplitDemo
     }
 
     /**
-     * Restart the current scenario.
-     */
-    void restartScenario() {
-        PhysicsSpace physicsSpace = getPhysicsSpace();
-        physicsSpace.destroy();
-        assert physicsSpace.isEmpty();
-
-        setUpShape();
-    }
-
-    /**
      * Return the inclination angle of the splitting plane.
      *
      * @return the angle between the plane normal and the default camera's "up"
@@ -717,6 +706,17 @@ public class SplitDemo
         assert result != null : glyphChar;
 
         return result;
+    }
+
+    /**
+     * Restart the current scenario.
+     */
+    private void restartScenario() {
+        PhysicsSpace physicsSpace = getPhysicsSpace();
+        physicsSpace.destroy();
+        assert physicsSpace.isEmpty();
+
+        setUpShape();
     }
 
     /**
