@@ -31,7 +31,11 @@
  */
 package com.jme3.bullet.collision.shapes;
 
+import com.jme3.bullet.CollisionSpace;
+import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
+import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -200,6 +204,55 @@ public class CompoundCollisionShape extends CollisionShape {
         Vector3f offset = transform.getTranslation();
         Matrix3f rotation = transform.getRotation().toRotationMatrix();
         addChildShape(shape, offset, rotation);
+    }
+
+    /**
+     * Generate a connectivity matrix for the children.
+     *
+     * @param space the space to use for tests, or null to create a new space
+     * @return an N-by-N matrix where e(i,j) is true if and only if the ith
+     * child intersects with the jth child
+     */
+    public boolean[][] connectivityMatrix(CollisionSpace space) {
+        int numChildren = children.size();
+        boolean[][] result = new boolean[numChildren][numChildren];
+        Matrix3f tmpRotation = new Matrix3f();
+        Vector3f tmpOffset = new Vector3f();
+
+        // Generate a ghost object for each child.
+        PhysicsGhostObject[] ghosts = new PhysicsGhostObject[numChildren];
+        for (int childI = 0; childI < numChildren; ++childI) {
+            result[childI][childI] = true;
+
+            ChildCollisionShape child = children.get(childI);
+            CollisionShape shape = child.getShape();
+            PhysicsGhostObject ghost = new PhysicsGhostObject(shape);
+            child.copyOffset(tmpOffset);
+            ghost.setPhysicsLocation(tmpOffset);
+            child.copyRotationMatrix(tmpRotation);
+            ghost.setPhysicsRotation(tmpRotation);
+            ghosts[childI] = ghost;
+        }
+
+        CollisionSpace testSpace = (space == null)
+                ? new CollisionSpace(
+                        tmpOffset, tmpOffset, PhysicsSpace.BroadphaseType.DBVT)
+                : space;
+
+        // Test each pair of children for intersections.
+        for (int childI = 0; childI < numChildren - 1; ++childI) {
+            PhysicsCollisionObject iPco = ghosts[childI];
+
+            for (int childJ = childI + 1; childJ < numChildren; ++childJ) {
+                PhysicsCollisionObject jPco = ghosts[childJ];
+                int numIntersections = testSpace.pairTest(iPco, jPco, null);
+                boolean intersects = (numIntersections > 0);
+                result[childI][childJ] = intersects;
+                result[childJ][childI] = intersects;
+            }
+        }
+
+        return result;
     }
 
     /**
