@@ -1,5 +1,48 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 6.1.0 released on TBD
+
++ Bugfix:  `PreComposer` isn't properly cloned or serialized
++ Added library support for dynamic collision-shape splitting:
+  + Added 8 public constructors:
+    + `ChildCollisionShape(Vector3f, CollisionShape)`
+    + `CompoundMesh(CompoundMesh)`
+    + `CompoundMesh(CompoundMesh, Vector3f)`
+    + `GImpactCollisionShape(CompoundMesh, Vector3f)`
+    + `HullCollisionShape(Vector3f...)`
+    + `IndexedMesh(FloatBuffer)`
+    + `MeshCollisionShape(boolean, CompoundMesh)`
+    + `MultiSphere(Vector3f[], float...)`
+  + Added 17 other public methods:
+    + `ChildCollisionShape.split()`
+    + `CollisionShape.aabbCenter()`
+    + `CollisionShape.canSplit()`
+    + `CollisionShape.scaledVolume()`
+    + `CollisionShape.toSplittableShape()`
+    + `CompoundCollisionShape.connectivityMatrix()`
+    + `CompoundCollisionShape.countGroups()`
+    + `CompoundCollisionShape.split()`
+    + `CompoundMesh.maxMin()`
+    + `CompoundMesh.split()`
+    + `ConvexShape.toHullShape()`
+    + `GImpactCollisionShape.split()`
+    + `HullCollisionShape.split()`
+    + `IndexedMesh.copyTriangle()`
+    + `IndexedMesh.maxMin()`
+    + `IndexedMesh.split()`
+    + `MeshCollisionShape.split()`
++ Other library enhancements:
+   + Added the `createGImpactShape()` method
+     to the `CollisionShapeFactory` class.
+   + Added the `pairTest()` method to the `CollisionSpace` class.
+   + Added the `countMeshTriangles()` to the `GImpactCollisionShape` class.
++ Added the `SplitDemo` and `SweepDemo` applications.
++ Enhanced the `ShapeGenerator` class to use diverse axes when generating
+  capsule, cone, and cylinder shapes.
++ Added the "teapotGi" collision shape to the MinieAssets project.
++ Based on v8.2.0 of the Heart library.
++ Updated the native libraries to v16.3.0 of Libbulletjme.
+
 ## Version 6.0.1 released on 29 August 2022
 
 + Bugfix:  `DacLinks` never re-enables hardware skinning (performance issue)
