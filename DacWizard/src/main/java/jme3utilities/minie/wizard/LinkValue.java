@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@ class LinkValue {
      * message logger for this class
      */
     final private static Logger logger
-            = Logger.getLogger(BoneValue.class.getName());
+            = Logger.getLogger(LinkValue.class.getName());
     // *************************************************************************
     // fields
 
