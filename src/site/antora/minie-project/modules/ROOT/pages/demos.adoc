@@ -31,6 +31,8 @@ The following demos are found in
   demonstrates various kinds of single-ended physics joints
 * {url-examples}/SplitDemo.java[`SplitDemo`]
   demonstrates dynamic splitting of rigid bodies
+* {url-examples}/SweepDemo.java[`SweepDemo`]
+  demonstrates the use of `sweepTest()` to detect of sword hits
 * {url-examples}/TargetDemo.java[`TargetDemo`]
   demonstrates shooting balls at various targets
 * {url-examples}/TestDac.java[`TestDac`]
