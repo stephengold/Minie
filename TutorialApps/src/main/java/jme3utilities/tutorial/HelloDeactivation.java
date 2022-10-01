@@ -52,7 +52,6 @@ public class HelloDeactivation
 
     private static PhysicsRigidBody dynamicCube;
     private static PhysicsRigidBody supportCube;
-    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -76,7 +75,7 @@ public class HelloDeactivation
         // Set up Bullet physics and create a physics space.
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
         // To enable the callbacks, register the application as a tick listener.
         physicsSpace.addTickListener(this);
