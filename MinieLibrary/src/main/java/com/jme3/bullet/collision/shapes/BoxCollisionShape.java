@@ -266,16 +266,16 @@ public class BoxCollisionShape extends ConvexShape {
      */
     @Override
     public HullCollisionShape toHullShape() {
-        Vector3f halfExts = scale.mult(halfExtents); // in PSU
-        float minHalfExtent = MyMath.min(halfExts.x, halfExts.y, halfExts.z);
+        Vector3f hes = scale.mult(halfExtents); // in PSU
+        float minHalfExtent = MyMath.min(hes.x, hes.y, hes.z);
         float defaultMargin = getDefaultMargin();
         float hullMargin = Math.min(minHalfExtent, defaultMargin);
         if (hullMargin <= 1e-9f) {
             hullMargin = 1e-9f;
         }
 
-        halfExts.subtractLocal(hullMargin, hullMargin, hullMargin);
-        RectangularSolid shrunkenSolid = new RectangularSolid(halfExts);
+        hes.subtractLocal(hullMargin, hullMargin, hullMargin);
+        RectangularSolid shrunkenSolid = new RectangularSolid(hes);
         HullCollisionShape result = new HullCollisionShape(shrunkenSolid);
         result.setMargin(hullMargin);
 
