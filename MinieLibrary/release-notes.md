@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 6.1.0 released on TBD
+## Version 6.1.0 released on 1 October 2022
 
 + Bugfix:  `PreComposer` isn't properly cloned or serialized
 + Added library support for dynamic collision-shape splitting:
