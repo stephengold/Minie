@@ -472,9 +472,9 @@ public class SweepDemo
         bulletAppState.setDebugEnabled(true); // default = false
 
         // Add lighting to the debug scene.
-        bulletAppState.setDebugInitListener((Node physicsDebugRootNode) -> {
-            addLighting(physicsDebugRootNode);
-        });
+        bulletAppState.setDebugInitListener((Node physicsDebugRootNode)
+                -> addLighting(physicsDebugRootNode)
+        );
 
         stateManager.attach(bulletAppState);
         PhysicsSpace space = getPhysicsSpace();

@@ -537,7 +537,7 @@ public class CollisionSpace extends NativePhysicsObject {
         long spaceId = nativeId();
         rayTest_native(from, to, spaceId, results, rayTestFlags);
 
-        Collections.sort(results, hitFractionComparator);
+        results.sort(hitFractionComparator);
         return results;
     }
 

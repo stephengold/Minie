@@ -212,7 +212,7 @@ class TestMode extends InputMode {
                     break;
 
                 case Action.toggleSkeleton:
-                    app.toggleSkeletonVisualizer();
+                    DacWizard.toggleSkeletonVisualizer();
                     break;
 
                 default:

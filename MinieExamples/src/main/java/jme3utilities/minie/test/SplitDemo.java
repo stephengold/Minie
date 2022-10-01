@@ -735,8 +735,7 @@ public class SplitDemo
                 && shape instanceof CompoundCollisionShape) {
             debugMaterial = BulletDebugAppState.enableChildColoring;
 
-        } else if (pco instanceof PhysicsRigidBody
-                && ((PhysicsRigidBody) pco).isStatic()) {
+        } else if (pco instanceof PhysicsRigidBody && pco.isStatic()) {
             // Use the shiny gray lit/shaded material for static bodies.
             debugMaterial = findMaterial("stat");
 

@@ -152,8 +152,7 @@ class FilePathMode extends InputMode {
      * Advance to the LoadScreen if possible.
      */
     private void nextScreen() {
-        FilePathScreen screen = DacWizard.findAppState(FilePathScreen.class);
-        String feedback = screen.feedback();
+        String feedback = FilePathScreen.feedback();
         if (feedback.isEmpty()) {
             setEnabled(false);
             InputMode load = InputMode.findMode("load");

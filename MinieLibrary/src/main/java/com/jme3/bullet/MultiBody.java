@@ -1119,7 +1119,7 @@ public class MultiBody
         MultiBodyLink result;
         switch (jointType) {
             case Fixed:
-                assert disableCollision == true;
+                assert disableCollision;
                 parent2Pivot = original.parent2Pivot(null);
                 pivot2Link = original.pivot2Link(null);
                 result = configureFixedLink(mass, inertia, parent, orientation,

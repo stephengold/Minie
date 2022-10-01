@@ -155,8 +155,7 @@ class LoadMode extends InputMode {
                     break;
 
                 case Action.toggleSkeleton:
-                    DacWizard app = DacWizard.getApplication();
-                    app.toggleSkeletonVisualizer();
+                    DacWizard.toggleSkeletonVisualizer();
                     break;
 
                 default:

@@ -352,7 +352,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
             return;
         }
 
-        HashMap<PhysicsCollisionObject, Node> pcoMap = getPcoMap();
+        Map<PhysicsCollisionObject, Node> pcoMap = getPcoMap();
         for (Map.Entry<PhysicsCollisionObject, Node> entry
                 : pcoMap.entrySet()) {
             PhysicsCollisionObject pco = entry.getKey();

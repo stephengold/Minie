@@ -156,7 +156,8 @@ class FilePathMode extends InputMode {
     private void nextScreen() {
         FilePathScreen screen = VhacdTuner.findAppState(FilePathScreen.class);
         assert screen.isEnabled();
-        String feedback = screen.feedback();
+
+        String feedback = FilePathScreen.feedback();
         if (feedback.isEmpty()) {
             setEnabled(false);
             InputMode load = InputMode.findMode("load");

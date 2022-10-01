@@ -166,7 +166,7 @@ class BonesScreen extends GuiScreenController {
         TreeItem<BoneValue>[] boneItems = new TreeItem[numBones];
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             BoneValue value = new BoneValue(boneIndex);
-            boneItems[boneIndex] = new TreeItem<BoneValue>(value);
+            boneItems[boneIndex] = new TreeItem<>(value);
             boneItems[boneIndex].setExpanded(true);
         }
         /*

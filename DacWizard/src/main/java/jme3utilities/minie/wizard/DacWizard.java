@@ -326,7 +326,7 @@ public class DacWizard extends GuiApplication {
         axesNode = new Node("axesNode");
         rootNode.attachChild(axesNode);
         float length = 0.5f;
-        AxesVisualizer axes = new AxesVisualizer(assetManager, length);
+        Control axes = new AxesVisualizer(assetManager, length);
         axesNode.addControl(axes);
         /*
          * Add the C-G model, with its own parent Node.
@@ -502,7 +502,7 @@ public class DacWizard extends GuiApplication {
         success = stateManager.attach(displaySettingsScreen);
         assert success;
 
-        CameraOrbitAppState cameraOrbitAppState
+        AppState cameraOrbitAppState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(cameraOrbitAppState);
         /*
