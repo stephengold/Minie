@@ -491,8 +491,20 @@ must all be added to the same physics space, and</p>
 <p>Even when locked, constraints exhibit some softness.
 A strong force, torque, or impulse can drag a locked DOF out of position
 or overpower the limits of a limited DOF.
-To reduce the softness,
-increase the joint ERP using <code>physicsSpace.getSolverInfo().setJointErp()</code>.</p>
+This is because the contact-and-constraint solver
+doesn&#8217;t immediately correct all position errors in physics joints.
+During each time step, it corrects only a fraction of each error,
+by default, 20%.
+This fraction is the solver&#8217;s <em>error reduction parameter</em> (ERP).</p>
+</div>
+<div class="paragraph">
+<p>For faster corrections (with more risk of instability) increase the ERP.
+For instance, to correct 90% of joint-position errors during each time step:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">physicsSpace.getSolverInfo().setJointErp(0.9f); // default=0.2</code></pre>
+</div>
 </div>
 </div>
 </div>
