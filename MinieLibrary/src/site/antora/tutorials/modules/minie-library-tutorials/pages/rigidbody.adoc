@@ -429,10 +429,20 @@ rigidBody.setSleepingThresholds(linearThreshold, angularThreshold);
 
 NOTE: _Sleeping_ is synonym for deactivation.
 
+To disable deactivation globally,
+use `PhysicsBody.setDeactivationEnabled(false)`.
+
 To disable deactivation for a particular rigid body,
 use `physicsSpace.setEnableSleep(false)`.
 
 To test whether a body is deactivated, use `rigidBody.isActive()`.
+
+To globally change the deactivation deadline to 5 seconds:
+
+[source,java]
+----
+PhysicsBody.setDeactivationDeadline(5f); // default=2
+----
 
 Deactivated bodies won't be simulated (and won't move)
 unless/until they get reactivated.
