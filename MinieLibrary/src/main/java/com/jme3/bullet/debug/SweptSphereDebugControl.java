@@ -96,7 +96,7 @@ class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
         float radius = pco.getCcdSweptSphereRadius();
         geom.setLocalScale(radius);
 
-        center = pco.getPhysicsLocation(null);
+        this.center = pco.getPhysicsLocation(null);
         geom.setLocalTranslation(center);
 
         Material material = debugAppState.getSweptSphereMaterial();

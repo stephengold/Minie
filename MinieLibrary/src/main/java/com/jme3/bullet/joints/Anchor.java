@@ -239,7 +239,7 @@ public class Anchor extends PhysicsJoint {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        pivotInB = cloner.clone(pivotInB);
+        this.pivotInB = cloner.clone(pivotInB);
         createAnchor();
     }
 
@@ -280,11 +280,12 @@ public class Anchor extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        allowCollisions
+        this.allowCollisions
                 = capsule.readBoolean(tagAllowCollisions, true);
-        influence = capsule.readFloat(tagInfluence, 1f);
-        nodeIndexA = capsule.readInt(tagNodeIndexA, 0);
-        pivotInB = (Vector3f) capsule.readSavable(tagPivotInB, new Vector3f());
+        this.influence = capsule.readFloat(tagInfluence, 1f);
+        this.nodeIndexA = capsule.readInt(tagNodeIndexA, 0);
+        this.pivotInB
+                = (Vector3f) capsule.readSavable(tagPivotInB, new Vector3f());
 
         createAnchor();
     }

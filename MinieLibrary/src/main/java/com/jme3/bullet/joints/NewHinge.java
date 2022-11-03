@@ -264,8 +264,8 @@ public class NewHinge extends New6Dof {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        axis1 = cloner.clone(axis1);
-        axis2 = cloner.clone(axis2);
+        this.axis1 = cloner.clone(axis1);
+        this.axis2 = cloner.clone(axis2);
     }
 
     /**
@@ -295,8 +295,8 @@ public class NewHinge extends New6Dof {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        axis1 = (Vector3f) capsule.readSavable(tagAxis1, null);
-        axis2 = (Vector3f) capsule.readSavable(tagAxis2, null);
+        this.axis1 = (Vector3f) capsule.readSavable(tagAxis1, null);
+        this.axis2 = (Vector3f) capsule.readSavable(tagAxis2, null);
     }
 
     /**

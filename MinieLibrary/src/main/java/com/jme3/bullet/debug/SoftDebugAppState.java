@@ -201,7 +201,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
      */
     public void setClusterFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        clusterFilter = filter;
+        this.clusterFilter = filter;
     }
 
     /**
@@ -227,11 +227,11 @@ public class SoftDebugAppState extends BulletDebugAppState {
         assert am != null;
         super.setupMaterials(am);
 
-        anchorMaterial
+        this.anchorMaterial
                 = createWireMaterial(am, ColorRGBA.Green, "anchorMaterial", 1);
 
         String matDefPath = "MatDefs/wireframe/multicolor2.j3md";
-        clusterMaterial = new Material(am, matDefPath);
+        this.clusterMaterial = new Material(am, matDefPath);
         ColorRGBA clusterColor = new ColorRGBA(1f, 0f, 0f, 1f); // red
         clusterMaterial.setColor("Color", clusterColor); // creates an alias
         float shapeSize = 10f;
@@ -245,16 +245,16 @@ public class SoftDebugAppState extends BulletDebugAppState {
         renderState.setBlendMode(RenderState.BlendMode.Alpha);
         renderState.setDepthTest(false);
 
-        faceMaterials[0] = MyAsset.createInvisibleMaterial(am);
-        faceMaterials[1]
+        this.faceMaterials[0] = MyAsset.createInvisibleMaterial(am);
+        this.faceMaterials[1]
                 = createWireMaterial(am, ColorRGBA.Red, "debug red ss", 1);
-        faceMaterials[2]
+        this.faceMaterials[2]
                 = createWireMaterial(am, ColorRGBA.Red, "debug red ds", 2);
 
-        linkMaterial
+        this.linkMaterial
                 = createWireMaterial(am, ColorRGBA.Orange, "linkMaterial", 1);
 
-        pinMaterial = new Material(am, matDefPath);
+        this.pinMaterial = new Material(am, matDefPath);
         ColorRGBA pinColor = new ColorRGBA(1f, 0f, 0f, 1f); // red
         pinMaterial.setColor("Color", pinColor); // creates an alias
         shapeSize = 24f;
@@ -300,7 +300,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
     private void updateSoftBodies() {
         HashMap<PhysicsSoftBody, Node> oldMap = softBodies;
         // create new map
-        softBodies = new HashMap<>(oldMap.size());
+        this.softBodies = new HashMap<>(oldMap.size());
         DebugConfiguration config = getConfiguration();
         PhysicsSoftSpace pSpace = (PhysicsSoftSpace) config.getSpace();
         Collection<PhysicsSoftBody> list = pSpace.getSoftBodyList();

@@ -129,8 +129,8 @@ public class ConeJoint extends Constraint {
     public ConeJoint(
             PhysicsRigidBody rigidBodyA, Vector3f pivotInA, Matrix3f rotInA) {
         super(rigidBodyA, JointEnd.A, pivotInA, translateIdentity);
-        rotA = rotInA.clone();
-        rotB = rotA;
+        this.rotA = rotInA.clone();
+        this.rotB = rotA;
         createJoint();
     }
 
@@ -151,8 +151,8 @@ public class ConeJoint extends Constraint {
     public ConeJoint(PhysicsRigidBody rigidBodyA, PhysicsRigidBody rigidBodyB,
             Vector3f pivotInA, Vector3f pivotInB) {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
-        rotA = new Matrix3f();
-        rotB = new Matrix3f();
+        this.rotA = new Matrix3f();
+        this.rotB = new Matrix3f();
         createJoint();
     }
 
@@ -178,8 +178,8 @@ public class ConeJoint extends Constraint {
             Vector3f pivotInA, Vector3f pivotInB, Matrix3f rotInA,
             Matrix3f rotInB) {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
-        rotA = rotInA.clone();
-        rotB = rotInB.clone();
+        this.rotA = rotInA.clone();
+        this.rotB = rotInB.clone();
         createJoint();
     }
     // *************************************************************************
@@ -255,7 +255,7 @@ public class ConeJoint extends Constraint {
      */
     public void setAngularOnly(boolean value) {
         long constraintId = nativeId();
-        angularOnly = value;
+        this.angularOnly = value;
         setAngularOnly(constraintId, value);
     }
 
@@ -290,8 +290,8 @@ public class ConeJoint extends Constraint {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        rotA = cloner.clone(rotA);
-        rotB = cloner.clone(rotB);
+        this.rotA = cloner.clone(rotA);
+        this.rotB = cloner.clone(rotB);
         createJoint();
 
         ConeJoint old = (ConeJoint) original;
@@ -333,13 +333,13 @@ public class ConeJoint extends Constraint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        rotA = (Matrix3f) capsule.readSavable(tagRotA, new Matrix3f());
-        rotB = (Matrix3f) capsule.readSavable(tagRotB, new Matrix3f());
+        this.rotA = (Matrix3f) capsule.readSavable(tagRotA, new Matrix3f());
+        this.rotB = (Matrix3f) capsule.readSavable(tagRotB, new Matrix3f());
 
-        angularOnly = capsule.readBoolean(tagAngularOnly, false);
-        swingSpan1 = capsule.readFloat(tagSwingSpan1, 1e30f);
-        swingSpan2 = capsule.readFloat(tagSwingSpan2, 1e30f);
-        twistSpan = capsule.readFloat(tagTwistSpan, 1e30f);
+        this.angularOnly = capsule.readBoolean(tagAngularOnly, false);
+        this.swingSpan1 = capsule.readFloat(tagSwingSpan1, 1e30f);
+        this.swingSpan2 = capsule.readFloat(tagSwingSpan2, 1e30f);
+        this.twistSpan = capsule.readFloat(tagTwistSpan, 1e30f);
 
         createJoint();
         readConstraintProperties(capsule);

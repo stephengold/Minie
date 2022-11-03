@@ -179,9 +179,9 @@ public class SixDofJoint extends Constraint {
             JointEnd linearReferenceFrame) {
         super(rigidBodyB, JointEnd.B, pivotInB, pivotInWorld);
 
-        useLinearReferenceFrameA = (linearReferenceFrame == JointEnd.A);
-        rotA = rotInWorld.clone();
-        rotB = rotInB.clone();
+        this.useLinearReferenceFrameA = (linearReferenceFrame == JointEnd.A);
+        this.rotA = rotInWorld.clone();
+        this.rotB = rotInB.clone();
         createJoint();
     }
 
@@ -211,8 +211,8 @@ public class SixDofJoint extends Constraint {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         this.useLinearReferenceFrameA = useLinearReferenceFrameA;
-        rotA = rotInA.clone();
-        rotB = rotInB.clone();
+        this.rotA = rotInA.clone();
+        this.rotB = rotInB.clone();
         createJoint();
     }
 
@@ -237,8 +237,8 @@ public class SixDofJoint extends Constraint {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         this.useLinearReferenceFrameA = useLinearReferenceFrameA;
-        rotA = new Matrix3f();
-        rotB = new Matrix3f();
+        this.rotA = new Matrix3f();
+        this.rotB = new Matrix3f();
         createJoint();
     }
     // *************************************************************************
@@ -493,16 +493,16 @@ public class SixDofJoint extends Constraint {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        rotA = cloner.clone(rotA);
-        rotB = cloner.clone(rotB);
-        rotationalMotors = null;
-        translationalMotor = null;
+        this.rotA = cloner.clone(rotA);
+        this.rotB = cloner.clone(rotB);
+        this.rotationalMotors = null;
+        this.translationalMotor = null;
         createJoint();
 
-        angularLowerLimit = cloner.clone(angularLowerLimit);
-        angularUpperLimit = cloner.clone(angularUpperLimit);
-        linearLowerLimit = cloner.clone(linearLowerLimit);
-        linearUpperLimit = cloner.clone(linearUpperLimit);
+        this.angularLowerLimit = cloner.clone(angularLowerLimit);
+        this.angularUpperLimit = cloner.clone(angularUpperLimit);
+        this.linearLowerLimit = cloner.clone(linearLowerLimit);
+        this.linearUpperLimit = cloner.clone(linearUpperLimit);
 
         SixDofJoint old = (SixDofJoint) original;
 
@@ -585,9 +585,9 @@ public class SixDofJoint extends Constraint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        rotA = (Matrix3f) capsule.readSavable(tagRotA, null);
-        rotB = (Matrix3f) capsule.readSavable(tagRotB, null);
-        useLinearReferenceFrameA
+        this.rotA = (Matrix3f) capsule.readSavable(tagRotA, null);
+        this.rotB = (Matrix3f) capsule.readSavable(tagRotB, null);
+        this.useLinearReferenceFrameA
                 = capsule.readBoolean(tagUseLinearReferenceFrameA, false);
 
         createJoint();
@@ -791,7 +791,7 @@ public class SixDofJoint extends Constraint {
         assert translationalMotor == null;
 
         long constraintId = nativeId();
-        rotationalMotors = new RotationalLimitMotor[numAxes];
+        this.rotationalMotors = new RotationalLimitMotor[numAxes];
 
         for (int axisIndex = 0; axisIndex < numAxes; ++axisIndex) {
             long motorId = getRotationalLimitMotor(constraintId, axisIndex);
@@ -799,7 +799,7 @@ public class SixDofJoint extends Constraint {
         }
 
         long motorId = getTranslationalLimitMotor(constraintId);
-        translationalMotor = new TranslationalLimitMotor(motorId);
+        this.translationalMotor = new TranslationalLimitMotor(motorId);
     }
     // *************************************************************************
     // native private methods

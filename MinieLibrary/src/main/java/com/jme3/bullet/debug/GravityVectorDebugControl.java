@@ -96,7 +96,7 @@ class GravityVectorDebugControl extends AbstractPhysicsDebugControl {
         Arrow mesh = new Arrow(extent);
         this.geom = new Geometry("gravity of " + body, mesh);
 
-        center = body.getPhysicsLocation(null);
+        this.center = body.getPhysicsLocation(null);
         geom.setLocalTranslation(center);
 
         Material material = debugAppState.getGravityVectorMaterial();

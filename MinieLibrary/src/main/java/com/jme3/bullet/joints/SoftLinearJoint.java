@@ -160,7 +160,7 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        location = cloner.clone(location);
+        this.location = cloner.clone(location);
         createJoint();
 
         SoftLinearJoint originalJoint = (SoftLinearJoint) original;
@@ -195,7 +195,8 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        location = (Vector3f) capsule.readSavable(tagLocation, new Vector3f());
+        this.location
+                = (Vector3f) capsule.readSavable(tagLocation, new Vector3f());
         createJoint();
     }
 

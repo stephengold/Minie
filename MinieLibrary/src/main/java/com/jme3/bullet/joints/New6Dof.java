@@ -150,8 +150,8 @@ public class New6Dof extends Constraint {
             RotationOrder rotationOrder) {
         super(rigidBodyB, JointEnd.B, pivotInB, pivotInWorld);
 
-        rotA = rotInWorld.clone();
-        rotB = rotInB.clone();
+        this.rotA = rotInWorld.clone();
+        this.rotB = rotInB.clone();
         this.rotationOrder = rotationOrder;
         createConstraint();
     }
@@ -182,8 +182,8 @@ public class New6Dof extends Constraint {
             Matrix3f rotInA, Matrix3f rotInB, RotationOrder rotationOrder) {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
-        rotA = rotInA.clone();
-        rotB = rotInB.clone();
+        this.rotA = rotInA.clone();
+        this.rotB = rotInB.clone();
         this.rotationOrder = rotationOrder;
         createConstraint();
     }
@@ -639,10 +639,10 @@ public class New6Dof extends Constraint {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        rotA = cloner.clone(rotA);
-        rotB = cloner.clone(rotB);
-        rotationMotor = null;
-        translationMotor = null;
+        this.rotA = cloner.clone(rotA);
+        this.rotB = cloner.clone(rotB);
+        this.rotationMotor = null;
+        this.translationMotor = null;
         createConstraint();
 
         New6Dof old = (New6Dof) original;
@@ -714,9 +714,9 @@ public class New6Dof extends Constraint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        rotA = (Matrix3f) capsule.readSavable(tagRotA, null);
-        rotB = (Matrix3f) capsule.readSavable(tagRotB, null);
-        rotationOrder = capsule.readEnum(tagRotOrder, RotationOrder.class,
+        this.rotA = (Matrix3f) capsule.readSavable(tagRotA, null);
+        this.rotB = (Matrix3f) capsule.readSavable(tagRotB, null);
+        this.rotationOrder = capsule.readEnum(tagRotOrder, RotationOrder.class,
                 RotationOrder.XYZ);
 
         createConstraint();
@@ -894,7 +894,7 @@ public class New6Dof extends Constraint {
         assert translationMotor == null;
 
         long constraintId = nativeId();
-        rotationMotor = new RotationMotor[MyVector3f.numAxes];
+        this.rotationMotor = new RotationMotor[MyVector3f.numAxes];
 
         for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             long motorId = getRotationalMotor(constraintId, axisIndex);

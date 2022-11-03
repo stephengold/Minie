@@ -121,14 +121,14 @@ abstract public class Constraint extends PhysicsJoint {
         switch (bodyEnd) {
             case A:
                 setBodyA(body);
-                pivotA = pivotInBody.clone();
-                pivotB = null;
+                this.pivotA = pivotInBody.clone();
+                this.pivotB = null;
                 break;
 
             case B:
                 setBodyB(body);
-                pivotA = null;
-                pivotB = pivotInBody.clone();
+                this.pivotA = null;
+                this.pivotB = pivotInBody.clone();
                 break;
 
             default:
@@ -163,14 +163,14 @@ abstract public class Constraint extends PhysicsJoint {
         switch (bodyEnd) {
             case A:
                 setBodyA(body);
-                pivotA = pivotInBody.clone();
-                pivotB = pivotInWorld.clone();
+                this.pivotA = pivotInBody.clone();
+                this.pivotB = pivotInWorld.clone();
                 break;
 
             case B:
                 setBodyB(body);
-                pivotA = pivotInWorld.clone();
-                pivotB = pivotInBody.clone();
+                this.pivotA = pivotInWorld.clone();
+                this.pivotB = pivotInBody.clone();
                 break;
 
             default:
@@ -206,8 +206,8 @@ abstract public class Constraint extends PhysicsJoint {
 
         setBodyA(bodyA);
         setBodyB(bodyB);
-        pivotA = pivotInA.clone();
-        pivotB = pivotInB.clone();
+        this.pivotA = pivotInA.clone();
+        this.pivotB = pivotInB.clone();
         bodyA.addJoint(this);
         bodyB.addJoint(this);
     }
@@ -481,8 +481,8 @@ abstract public class Constraint extends PhysicsJoint {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        pivotA = cloner.clone(pivotA);
-        pivotB = cloner.clone(pivotB);
+        this.pivotA = cloner.clone(pivotA);
+        this.pivotB = cloner.clone(pivotB);
         // Each subclass must create the btTypedConstraint.
     }
 
@@ -560,8 +560,8 @@ abstract public class Constraint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        pivotA = (Vector3f) capsule.readSavable(tagPivotA, new Vector3f());
-        pivotB = (Vector3f) capsule.readSavable(tagPivotB, new Vector3f());
+        this.pivotA = (Vector3f) capsule.readSavable(tagPivotA, new Vector3f());
+        this.pivotB = (Vector3f) capsule.readSavable(tagPivotB, new Vector3f());
         /*
          * Each subclass must create the btTypedConstraint and then
          * invoke readConstraintProperties().

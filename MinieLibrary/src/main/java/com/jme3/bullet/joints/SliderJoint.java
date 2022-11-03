@@ -143,10 +143,10 @@ public class SliderJoint extends Constraint {
     public SliderJoint(PhysicsRigidBody rigidBodyB, Vector3f pivotInB,
             Vector3f pivotInWorld, JointEnd linearReferenceFrame) {
         super(rigidBodyB, JointEnd.B, pivotInB, pivotInWorld);
-        rotA = new Matrix3f();
-        rotB = new Matrix3f();
+        this.rotA = new Matrix3f();
+        this.rotB = new Matrix3f();
 
-        useLinearReferenceFrameA = (linearReferenceFrame == JointEnd.A);
+        this.useLinearReferenceFrameA = (linearReferenceFrame == JointEnd.A);
         createJoint();
     }
 
@@ -176,8 +176,8 @@ public class SliderJoint extends Constraint {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         this.useLinearReferenceFrameA = useLinearReferenceFrameA;
-        rotA = rotInA.clone();
-        rotB = rotInB.clone();
+        this.rotA = rotInA.clone();
+        this.rotB = rotInB.clone();
         createJoint();
     }
 
@@ -202,8 +202,8 @@ public class SliderJoint extends Constraint {
         super(rigidBodyA, rigidBodyB, pivotInA, pivotInB);
 
         this.useLinearReferenceFrameA = useLinearReferenceFrameA;
-        rotA = new Matrix3f();
-        rotB = new Matrix3f();
+        this.rotA = new Matrix3f();
+        this.rotB = new Matrix3f();
         createJoint();
     }
     // *************************************************************************
@@ -888,8 +888,8 @@ public class SliderJoint extends Constraint {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        rotA = cloner.clone(rotA);
-        rotB = cloner.clone(rotB);
+        this.rotA = cloner.clone(rotA);
+        this.rotB = cloner.clone(rotB);
         createJoint();
 
         SliderJoint old = (SliderJoint) original;
@@ -1007,9 +1007,9 @@ public class SliderJoint extends Constraint {
         float upperAngLimit = capsule.readFloat(tagUpperAngLimit, 0f);
         float upperLinLimit = capsule.readFloat(tagUpperLinLimit, -1f);
 
-        rotA = (Matrix3f) capsule.readSavable(tagRotA, new Matrix3f());
-        rotB = (Matrix3f) capsule.readSavable(tagRotB, new Matrix3f());
-        useLinearReferenceFrameA = capsule.readBoolean(
+        this.rotA = (Matrix3f) capsule.readSavable(tagRotA, new Matrix3f());
+        this.rotB = (Matrix3f) capsule.readSavable(tagRotB, new Matrix3f());
+        this.useLinearReferenceFrameA = capsule.readBoolean(
                 tagUseLinearReferenceFrameA, false);
 
         createJoint();

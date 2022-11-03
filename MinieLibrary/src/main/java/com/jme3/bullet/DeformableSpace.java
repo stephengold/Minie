@@ -91,7 +91,7 @@ public class DeformableSpace extends MultiBodySpace {
 
         long spaceId = super.nativeId();
         long worldInfoId = getWorldInfo(spaceId);
-        worldInfo = new SoftBodyWorldInfo(worldInfoId);
+        this.worldInfo = new SoftBodyWorldInfo(worldInfoId);
 
         // Ensure that the same gravity is applied to all bodies.
         Vector3f gravity = super.getGravity(null);

@@ -161,7 +161,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        axis = cloner.clone(axis);
+        this.axis = cloner.clone(axis);
         createJoint();
 
         SoftAngularJoint originalJoint = (SoftAngularJoint) original;
@@ -196,7 +196,7 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        axis = (Vector3f) capsule.readSavable(tagAxis, new Vector3f());
+        this.axis = (Vector3f) capsule.readSavable(tagAxis, new Vector3f());
         createJoint();
     }
 

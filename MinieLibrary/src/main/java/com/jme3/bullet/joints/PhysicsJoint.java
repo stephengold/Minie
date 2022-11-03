@@ -233,7 +233,7 @@ abstract public class PhysicsJoint
      * @param physicsSpace (may be null)
      */
     public void setPhysicsSpace(PhysicsSpace physicsSpace) {
-        space = physicsSpace;
+        this.space = physicsSpace;
     }
     // *************************************************************************
     // new protected methods
@@ -246,7 +246,7 @@ abstract public class PhysicsJoint
     final protected void setBodyA(PhysicsBody body) {
         assert body != null;
         assert bodyA == null : bodyA;
-        bodyA = body;
+        this.bodyA = body;
     }
 
     /**
@@ -257,7 +257,7 @@ abstract public class PhysicsJoint
     final protected void setBodyB(PhysicsBody body) {
         assert body != null;
         assert bodyB == null : bodyB;
-        bodyB = body;
+        this.bodyB = body;
     }
     // *************************************************************************
     // JmeCloneable methods
@@ -273,9 +273,9 @@ abstract public class PhysicsJoint
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        bodyA = cloner.clone(bodyA);
-        bodyB = cloner.clone(bodyB);
-        space = null;
+        this.bodyA = cloner.clone(bodyA);
+        this.bodyB = cloner.clone(bodyB);
+        this.space = null;
         unassignNativeObject();
         /*
          * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,
@@ -311,8 +311,8 @@ abstract public class PhysicsJoint
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        bodyA = (PhysicsBody) capsule.readSavable(tagNodeA, null);
-        bodyB = (PhysicsBody) capsule.readSavable(tagNodeB, null);
+        this.bodyA = (PhysicsBody) capsule.readSavable(tagNodeA, null);
+        this.bodyB = (PhysicsBody) capsule.readSavable(tagNodeB, null);
         /*
          * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,
          * or btSoftBody::Joint.
