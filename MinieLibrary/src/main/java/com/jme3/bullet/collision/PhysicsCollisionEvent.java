@@ -388,7 +388,8 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      * @return a new direction vector
      */
     public Vector3f getNormalWorldOnB() {
-        return getNormalWorldOnB(null);
+        Vector3f result = getNormalWorldOnB(null);
+        return result;
     }
 
     /**
@@ -455,7 +456,8 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      * @return a new location vector
      */
     public Vector3f getPositionWorldOnA() {
-        return getPositionWorldOnA(null);
+        Vector3f result = getPositionWorldOnA(null);
+        return result;
     }
 
     /**
@@ -480,7 +482,8 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
      * @return a new location vector
      */
     public Vector3f getPositionWorldOnB() {
-        return getPositionWorldOnB(null);
+        Vector3f result = getPositionWorldOnB(null);
+        return result;
     }
 
     /**

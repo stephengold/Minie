@@ -875,7 +875,9 @@ abstract public class PhysicsCollisionObject
      */
     public boolean isActive() {
         long objectId = nativeId();
-        return isActive(objectId);
+        boolean result = isActive(objectId);
+
+        return result;
     }
 
     /**

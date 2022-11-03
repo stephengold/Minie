@@ -328,7 +328,9 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     public Collection<PhysicsGhostObject> getGhostObjectList() {
         Collection<PhysicsGhostObject> result = ghostMap.values();
-        return Collections.unmodifiableCollection(result);
+        result = Collections.unmodifiableCollection(result);
+
+        return result;
     }
 
     /**
@@ -373,11 +375,14 @@ public class CollisionSpace extends NativePhysicsObject {
      * null)
      */
     public Vector3f getWorldMax(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return worldMax.clone();
+            result = worldMax.clone();
         } else {
-            return storeResult.set(worldMax);
+            result = storeResult.set(worldMax);
         }
+
+        return result;
     }
 
     /**
@@ -388,11 +393,14 @@ public class CollisionSpace extends NativePhysicsObject {
      * null)
      */
     public Vector3f getWorldMin(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return worldMin.clone();
+            result = worldMin.clone();
         } else {
-            return storeResult.set(worldMin);
+            result = storeResult.set(worldMin);
         }
+
+        return result;
     }
 
     /**
@@ -676,7 +684,9 @@ public class CollisionSpace extends NativePhysicsObject {
     public List<PhysicsSweepTestResult> sweepTest(ConvexShape shape,
             Transform start, Transform end,
             List<PhysicsSweepTestResult> results) {
-        return sweepTest(shape, start, end, results, 0f);
+        List<PhysicsSweepTestResult> result
+                = sweepTest(shape, start, end, results, 0f);
+        return result;
     }
 
     /**

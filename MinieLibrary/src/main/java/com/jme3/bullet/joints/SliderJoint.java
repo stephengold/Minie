@@ -228,7 +228,9 @@ public class SliderJoint extends Constraint {
      */
     public float getDampingDirLin() {
         long constraintId = nativeId();
-        return getDampingDirLin(constraintId);
+        float result = getDampingDirLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -239,7 +241,9 @@ public class SliderJoint extends Constraint {
      */
     public float getDampingLimAng() {
         long constraintId = nativeId();
-        return getDampingLimAng(constraintId);
+        float result = getDampingLimAng(constraintId);
+
+        return result;
     }
 
     /**
@@ -250,7 +254,9 @@ public class SliderJoint extends Constraint {
      */
     public float getDampingLimLin() {
         long constraintId = nativeId();
-        return getDampingLimLin(constraintId);
+        float result = getDampingLimLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -261,7 +267,9 @@ public class SliderJoint extends Constraint {
      */
     public float getDampingOrthoAng() {
         long constraintId = nativeId();
-        return getDampingOrthoAng(constraintId);
+        float result = getDampingOrthoAng(constraintId);
+
+        return result;
     }
 
     /**
@@ -272,7 +280,9 @@ public class SliderJoint extends Constraint {
      */
     public float getDampingOrthoLin() {
         long constraintId = nativeId();
-        return getDampingOrthoLin(constraintId);
+        float result = getDampingOrthoLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -309,7 +319,9 @@ public class SliderJoint extends Constraint {
      */
     public float getLowerAngLimit() {
         long constraintId = nativeId();
-        return getLowerAngLimit(constraintId);
+        float result = getLowerAngLimit(constraintId);
+
+        return result;
     }
 
     /**
@@ -319,7 +331,9 @@ public class SliderJoint extends Constraint {
      */
     public float getLowerLinLimit() {
         long constraintId = nativeId();
-        return getLowerLinLimit(constraintId);
+        float result = getLowerLinLimit(constraintId);
+
+        return result;
     }
 
     /**
@@ -329,7 +343,9 @@ public class SliderJoint extends Constraint {
      */
     public float getMaxAngMotorForce() {
         long constraintId = nativeId();
-        return getMaxAngMotorForce(constraintId);
+        float result = getMaxAngMotorForce(constraintId);
+
+        return result;
     }
 
     /**
@@ -339,7 +355,9 @@ public class SliderJoint extends Constraint {
      */
     public float getMaxLinMotorForce() {
         long constraintId = nativeId();
-        return getMaxLinMotorForce(constraintId);
+        float result = getMaxLinMotorForce(constraintId);
+
+        return result;
     }
 
     /**
@@ -349,7 +367,9 @@ public class SliderJoint extends Constraint {
      */
     public float getRestitutionDirAng() {
         long constraintId = nativeId();
-        return getRestitutionDirAng(constraintId);
+        float result = getRestitutionDirAng(constraintId);
+
+        return result;
     }
 
     /**
@@ -359,7 +379,9 @@ public class SliderJoint extends Constraint {
      */
     public float getRestitutionDirLin() {
         long constraintId = nativeId();
-        return getRestitutionDirLin(constraintId);
+        float result = getRestitutionDirLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -369,7 +391,9 @@ public class SliderJoint extends Constraint {
      */
     public float getRestitutionLimAng() {
         long constraintId = nativeId();
-        return getRestitutionLimAng(constraintId);
+        float result = getRestitutionLimAng(constraintId);
+
+        return result;
     }
 
     /**
@@ -379,7 +403,9 @@ public class SliderJoint extends Constraint {
      */
     public float getRestitutionLimLin() {
         long constraintId = nativeId();
-        return getRestitutionLimLin(constraintId);
+        float result = getRestitutionLimLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -389,7 +415,9 @@ public class SliderJoint extends Constraint {
      */
     public float getRestitutionOrthoAng() {
         long constraintId = nativeId();
-        return getRestitutionOrthoAng(constraintId);
+        float result = getRestitutionOrthoAng(constraintId);
+
+        return result;
     }
 
     /**
@@ -399,7 +427,9 @@ public class SliderJoint extends Constraint {
      */
     public float getRestitutionOrthoLin() {
         long constraintId = nativeId();
-        return getRestitutionOrthoLin(constraintId);
+        float result = getRestitutionOrthoLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -409,7 +439,9 @@ public class SliderJoint extends Constraint {
      */
     public float getSoftnessDirAng() {
         long constraintId = nativeId();
-        return getSoftnessDirAng(constraintId);
+        float result = getSoftnessDirAng(constraintId);
+
+        return result;
     }
 
     /**
@@ -419,7 +451,9 @@ public class SliderJoint extends Constraint {
      */
     public float getSoftnessDirLin() {
         long constraintId = nativeId();
-        return getSoftnessDirLin(constraintId);
+        float result = getSoftnessDirLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -429,7 +463,9 @@ public class SliderJoint extends Constraint {
      */
     public float getSoftnessLimAng() {
         long constraintId = nativeId();
-        return getSoftnessLimAng(constraintId);
+        float result = getSoftnessLimAng(constraintId);
+
+        return result;
     }
 
     /**
@@ -439,7 +475,9 @@ public class SliderJoint extends Constraint {
      */
     public float getSoftnessLimLin() {
         long constraintId = nativeId();
-        return getSoftnessLimLin(constraintId);
+        float result = getSoftnessLimLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -449,7 +487,9 @@ public class SliderJoint extends Constraint {
      */
     public float getSoftnessOrthoAng() {
         long constraintId = nativeId();
-        return getSoftnessOrthoAng(constraintId);
+        float result = getSoftnessOrthoAng(constraintId);
+
+        return result;
     }
 
     /**
@@ -459,7 +499,9 @@ public class SliderJoint extends Constraint {
      */
     public float getSoftnessOrthoLin() {
         long constraintId = nativeId();
-        return getSoftnessOrthoLin(constraintId);
+        float result = getSoftnessOrthoLin(constraintId);
+
+        return result;
     }
 
     /**
@@ -469,7 +511,9 @@ public class SliderJoint extends Constraint {
      */
     public float getTargetAngMotorVelocity() {
         long constraintId = nativeId();
-        return getTargetAngMotorVelocity(constraintId);
+        float result = getTargetAngMotorVelocity(constraintId);
+
+        return result;
     }
 
     /**
@@ -479,7 +523,9 @@ public class SliderJoint extends Constraint {
      */
     public float getTargetLinMotorVelocity() {
         long constraintId = nativeId();
-        return getTargetLinMotorVelocity(constraintId);
+        float result = getTargetLinMotorVelocity(constraintId);
+
+        return result;
     }
 
     /**
@@ -489,7 +535,9 @@ public class SliderJoint extends Constraint {
      */
     public float getUpperAngLimit() {
         long constraintId = nativeId();
-        return getUpperAngLimit(constraintId);
+        float result = getUpperAngLimit(constraintId);
+
+        return result;
     }
 
     /**
@@ -499,7 +547,9 @@ public class SliderJoint extends Constraint {
      */
     public float getUpperLinLimit() {
         long constraintId = nativeId();
-        return getUpperLinLimit(constraintId);
+        float result = getUpperLinLimit(constraintId);
+
+        return result;
     }
 
     /**
@@ -509,7 +559,9 @@ public class SliderJoint extends Constraint {
      */
     public boolean isPoweredAngMotor() {
         long constraintId = nativeId();
-        return isPoweredAngMotor(constraintId);
+        boolean result = isPoweredAngMotor(constraintId);
+
+        return result;
     }
 
     /**
@@ -519,7 +571,9 @@ public class SliderJoint extends Constraint {
      */
     public boolean isPoweredLinMotor() {
         long constraintId = nativeId();
-        return isPoweredLinMotor(constraintId);
+        boolean result = isPoweredLinMotor(constraintId);
+
+        return result;
     }
 
     /**

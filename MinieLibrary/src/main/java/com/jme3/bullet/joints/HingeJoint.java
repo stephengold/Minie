@@ -313,7 +313,9 @@ public class HingeJoint extends Constraint {
      */
     public float getMaxMotorImpulse() {
         long constraintId = nativeId();
-        return getMaxMotorImpulse(constraintId);
+        float result = getMaxMotorImpulse(constraintId);
+
+        return result;
     }
 
     /**
@@ -332,7 +334,9 @@ public class HingeJoint extends Constraint {
      */
     final public float getUpperLimit() {
         long constraintId = nativeId();
-        return getUpperLimit(constraintId);
+        float result = getUpperLimit(constraintId);
+
+        return result;
     }
 
     /**

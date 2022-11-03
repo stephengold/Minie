@@ -132,7 +132,9 @@ public class DeformableSpace extends MultiBodySpace {
      */
     public Collection<PhysicsSoftBody> getSoftBodyList() {
         Collection<PhysicsSoftBody> result = softBodyMap.values();
-        return Collections.unmodifiableCollection(result);
+        result = Collections.unmodifiableCollection(result);
+
+        return result;
     }
 
     /**

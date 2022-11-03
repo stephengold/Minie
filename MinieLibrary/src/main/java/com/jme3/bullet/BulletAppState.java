@@ -244,7 +244,8 @@ public class BulletAppState
      * @return length (in physics-space units, &ge;0)
      */
     public float debugAxisLength() {
-        return debugConfig.axisArrowLength();
+        float result = debugConfig.axisArrowLength();
+        return result;
     }
 
     /**
@@ -253,7 +254,8 @@ public class BulletAppState
      * @return width (in pixels, &ge;1) or 0 for solid arrows
      */
     public float debugAxisLineWidth() {
-        return debugConfig.axisLineWidth();
+        float result = debugConfig.axisLineWidth();
+        return result;
     }
 
     /**
@@ -272,7 +274,8 @@ public class BulletAppState
      * @return the pre-existing instance, or null if unknown
      */
     public Camera getDebugCamera() {
-        return debugConfig.getCamera();
+        Camera result = debugConfig.getCamera();
+        return result;
     }
 
     /**
@@ -282,7 +285,8 @@ public class BulletAppState
      * @return the pre-existing instance, or null if no simulation running
      */
     public PhysicsSpace getPhysicsSpace() {
-        return debugConfig.getSpace();
+        PhysicsSpace result = debugConfig.getSpace();
+        return result;
     }
 
     /**
@@ -321,7 +325,8 @@ public class BulletAppState
      * @return true if enabled, otherwise false
      */
     public boolean isDebugEnabled() {
-        return debugConfig.isEnabled();
+        boolean result = debugConfig.isEnabled();
+        return result;
     }
 
     /**
@@ -703,15 +708,18 @@ public class BulletAppState
      */
     protected PhysicsSpace createPhysicsSpace(Vector3f min, Vector3f max,
             BroadphaseType type) {
+        PhysicsSpace result;
         if (solverType == SolverType.SI) {
-            return new PhysicsSpace(min, max, type, numSolvers);
+            result = new PhysicsSpace(min, max, type, numSolvers);
         } else if (numSolvers == 1) {
-            return new PhysicsSpace(min, max, type, solverType);
+            result = new PhysicsSpace(min, max, type, solverType);
         } else {
             String message
                     = String.format("num=%d, type=%s", numSolvers, solverType);
             throw new IllegalArgumentException(message);
         }
+
+        return result;
     }
 
     /**
