@@ -368,6 +368,33 @@ Increasing it yields better traction (think sandpaper or dry rubber).
 For each collision, a _coefficient of friction_
 is calculated by multiplying the parameters of the colliding bodies.
 
+=== Rigid-body factors
+
+All forces, torques, and impulses acting on dynamic rigid bodies
+are multiplied by _factors_ that can be configured for each body.
+
+For instance, to prevent a body from rotating:
+
+[source,java]
+----
+body.setAngularFactor(new Vector3f(0f, 0f, 0f)); // default=(1, 1, 1)
+body.setAngularVelocity(new Vector3f(0f, 0f, 0f));
+----
+
+Rigid-body factors can also be used to simulate physics in 2 dimensions.
+For instance, one might constrain a body
+to rotate only around axes parallel to the Z axis
+and translate only in directions parallel to the X-Y plane:
+
+[source,java]
+----
+body.setAngularFactor(new Vector3f(0f, 0f, 1f)); // default=(1, 1, 1)
+body.setLinearFactor(new Vector3f(1f, 1f, 0f));  // default=(1, 1, 1)
+----
+
+NOTE: Factors are defined in terms of world (physics-space) axes,
+not the body's local axes.
+
 === Related demo apps
 
 {url-examples}/DropTest.java[The DropTest demo] and
