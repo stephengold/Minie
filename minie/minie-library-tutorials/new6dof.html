@@ -353,7 +353,8 @@ called a <em>point-to-point joint</em>.</p>
 </div>
 <div class="paragraph">
 <p>Some physics joints can connect soft bodies or portions thereof.
-A joint that can only connect rigid bodies is called a <em>constraint</em>.</p>
+In Minie, a joint that can only connect rigid bodies
+is called a <em>constraint</em>.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/New6Dof.html"><code>New6Dof</code></a> is a constraint
@@ -422,20 +423,20 @@ beyond certain points.</p>
 </div>
 <div class="paragraph">
 <p>In addition to limits, <code>New6Dof</code>
-also implements springs, motors, and servos:</p>
+also implements motors, servos, and springs:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Using a <em>spring</em>, you can cause a door to automatically return
-to a neutral position when released.</p>
-</li>
-<li>
-<p>Using a <em>motor</em>, you can open or close a door at a specific rate.</p>
+<p>Using a <em>motor</em>, you can apply forces to open or close a door.</p>
 </li>
 <li>
 <p>Using a <em>servo</em>, you can cause a door
 to move smoothly to a specific position, as if under remote control.</p>
+</li>
+<li>
+<p>Using a <em>spring</em>, you can cause a door to automatically return
+to a neutral position when released.</p>
 </li>
 </ul>
 </div>
@@ -672,7 +673,7 @@ motion drags them out of position.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_limiting_dofs"><a class="anchor" href="#_limiting_dofs"></a>Limiting DOFs</h2>
+<h2 id="_limits"><a class="anchor" href="#_limits"></a>Limits</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The degrees of freedom are indexed as follows&#8230;&#8203;</p>
@@ -742,12 +743,13 @@ confining the ball to a 6x6 horizontal square centered on the origin.</p>
 <h2 id="_motors"><a class="anchor" href="#_motors"></a>Motors</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Each DOF has a motor, which is disabled by default.</p>
+<p>Motors are used to apply forces to a constraint.
+In <code>New6Dof</code>, each DOF has its own motor, which is disabled by default.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloMotor.java">HelloMotor</a> is a simple application
 that demonstrates a double-ended <code>New6Dof</code>
-with its Y rotation motor enabled.</p>
+with its Y-rotation motor enabled.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -764,6 +766,101 @@ with its Y rotation motor enabled.</p>
 <p>Press <kbd>Space bar</kbd> to reverse the direction of the motor.</p>
 </li>
 </ol>
+</div>
+<div class="paragraph">
+<p>The force (or torque) applied by each motor is limited.
+To change this limit,
+use the <code>set()</code> method with <code>MotorParam.MaxMotorForce</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">constraint.set(MotorParam.MaxMotorForce, dofIndex, force);</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For translation DOFs, the default maximum force is zero!
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_servos"><a class="anchor" href="#_servos"></a>Servos</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It&#8217;s difficult to position a constraint using motors alone.
+Without positional feedback,
+the constraint tends to keep accelerating until some limit is hit.
+Servos implement feedback, allowing for smooth, gradual motion.
+In <code>New6Dof</code>, each DOF has its own servo, which is disabled by default.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For a servo to be effective, its corresponding motor must also be enabled.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloServo.java">HelloServo</a> is a simple application
+that demonstrates a double-ended <code>New6Dof</code> constraint
+with its Y-rotation servo enabled.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>All DOFs except Y rotation are locked at zero.</p>
+</li>
+<li>
+<p>Y rotation is limited between 0 and 1.2 radians.</p>
+</li>
+<li>
+<p>The pivot is located just to the left of the door.</p>
+</li>
+<li>
+<p>Press <kbd>1</kbd> to gradually open the door all the way.</p>
+</li>
+<li>
+<p>Press <kbd>3</kbd> to gradually rotate the door
+to the one-third open position.</p>
+</li>
+<li>
+<p>Press <kbd>4</kbd> to gradually close the door all the way.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>To adjust a servo&#8217;s rate of motion,
+use the <code>set()</code> method with <code>MotorParam.TargetVelocity</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">constraint.set(MotorParam.TargetVelocity, dofIndex, velocity);</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The default target velocity is zero!
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -817,7 +914,7 @@ with 6 degrees of freedom (DOFs).
 It can emulate hinges, sliders, and point-to-point joints.</p>
 </li>
 <li>
-<p><code>New6Dof</code> also implements limits, springs, motors, and servos.</p>
+<p><code>New6Dof</code> also implements limits, motors, servos, and springs.</p>
 </li>
 <li>
 <p>Constraint DOFs will exhibit some softness, even when locked.</p>
