@@ -1049,7 +1049,7 @@ rigidBody.setSleepingThresholds(linearThreshold, angularThreshold);</code></pre>
 </table>
 </div>
 <div class="paragraph">
-<p>To disable deactivation globally,
+<p>To disable deactivation globally (for all rigid bodies),
 use <code>PhysicsBody.setDeactivationEnabled(false)</code>.</p>
 </div>
 <div class="paragraph">
@@ -1060,7 +1060,7 @@ use <code>physicsSpace.setEnableSleep(false)</code>.</p>
 <p>To test whether a body is deactivated, use <code>rigidBody.isActive()</code>.</p>
 </div>
 <div class="paragraph">
-<p>To globally change the deactivation deadline to 5 seconds:</p>
+<p>To globally change the deactivation latency to 5 seconds:</p>
 </div>
 <div class="listingblock">
 <div class="content">
