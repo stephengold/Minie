@@ -464,7 +464,7 @@ Puzzling behavior may occur if a deactivated body is:
 The deactivated body will seem to be "stuck"
 because the events listed above do not, by themselves, reactivate it.
 
-{url-tutorial}/HelloDeactivation.java[HelloDeactivation] is a simple application 
+{url-tutorial}/HelloDeactivation.java[HelloDeactivation] is a simple application
 that demonstrates deactivation.
 Things to notice while running the app:
 
