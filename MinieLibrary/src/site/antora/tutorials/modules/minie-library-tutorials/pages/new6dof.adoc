@@ -28,7 +28,8 @@ To simulate this, you'd use a joint with 3 rotational DOFs,
 called a _point-to-point joint_.
 
 Some physics joints can connect soft bodies or portions thereof.
-A joint that can only connect rigid bodies is called a _constraint_.
+In {Project}, a joint that can only connect rigid bodies
+is called a _constraint_.
 
 {url-api}/joints/New6Dof.html[`New6Dof`] is a constraint
 that replaces the older {url-api}/joints/SixDofJoint.html[`SixDofJoint`]
@@ -73,7 +74,7 @@ also implements springs, motors, and servos:
 
 * Using a _spring_, you can cause a door to automatically return
   to a neutral position when released.
-* Using a _motor_, you can open or close a door at a specific rate.
+* Using a _motor_, you can apply forces to open or close a door.
 * Using a _servo_, you can cause a door
   to move smoothly to a specific position, as if under remote control.
 
@@ -205,7 +206,7 @@ Things to notice while running the app:
   Even though all 3 translation DOFs are locked, the paddle's
   motion drags them out of position.
 
-== Limiting DOFs
+== Limits
 
 The degrees of freedom are indexed as follows...
 
@@ -241,11 +242,12 @@ confining the ball to a 6x6 horizontal square centered on the origin.
 
 == Motors
 
-Each DOF has a motor, which is disabled by default.
+Motors are used to apply forces to a constraint.
+In `New6Dof`, each DOF has its own motor, which is disabled by default.
 
 {url-tutorial}/HelloMotor.java[HelloMotor] is a simple application
 that demonstrates a double-ended `New6Dof`
-with its Y rotation motor enabled.
+with its Y-rotation motor enabled.
 
 . All DOFs except Y rotation are locked at zero.
 . Y rotation is limited between 0 and 1.2 radians.
@@ -277,5 +279,5 @@ Things to notice while running the app:
 * `New6Dof` is a versatile constraint
   with 6 degrees of freedom (DOFs).
   It can emulate hinges, sliders, and point-to-point joints.
-* `New6Dof` also implements limits, springs, motors, and servos.
+* `New6Dof` also implements limits, motors, servos, and springs.
 * Constraint DOFs will exhibit some softness, even when locked.
