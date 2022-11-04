@@ -70,13 +70,13 @@ By imposing limits, you can prevent a door from sliding or swinging
 beyond certain points.
 
 In addition to limits, `New6Dof`
-also implements springs, motors, and servos:
+also implements motors, servos, and springs:
 
-* Using a _spring_, you can cause a door to automatically return
-  to a neutral position when released.
 * Using a _motor_, you can apply forces to open or close a door.
 * Using a _servo_, you can cause a door
   to move smoothly to a specific position, as if under remote control.
+* Using a _spring_, you can cause a door to automatically return
+  to a neutral position when released.
 
 You can also:
 
@@ -264,6 +264,38 @@ constraint.set(MotorParam.MaxMotorForce, dofIndex, force);
 ----
 
 NOTE: For translation DOFs, the default maximum force is zero!
+
+== Servos
+
+It's difficult to position a constraint using motors alone.
+Without positional feedback,
+the constraint tends to keep accelerating until some limit is hit.
+Servos implement feedback, allowing for smooth, gradual motion.
+In `New6Dof`, each DOF has its own servo, which is disabled by default.
+
+NOTE: For a servo to be effective, its corresponding motor must also be enabled.
+
+{url-tutorial}/HelloServo.java[HelloServo] is a simple application
+that demonstrates a double-ended `New6Dof` constraint
+with its Y-rotation servo enabled.
+
+. All DOFs except Y rotation are locked at zero.
+. Y rotation is limited between 0 and 1.2 radians.
+. The pivot is located just to the left of the door.
+. Press kbd:[1] to gradually open the door all the way.
+. Press kbd:[3] to gradually rotate the door
+  to the one-third open position.
+. Press kbd:[4] to gradually close the door all the way.
+
+To adjust a servo's rate of motion,
+use the `set()` method with `MotorParam.TargetVelocity`:
+
+[source,java]
+----
+constraint.set(MotorParam.TargetVelocity, dofIndex, velocity);
+----
+
+NOTE: The default target velocity is zero!
 
 == Springs
 
