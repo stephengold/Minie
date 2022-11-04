@@ -107,7 +107,7 @@ This is because the contact-and-constraint solver
 doesn't immediately correct all position errors in physics joints.
 During each time step, it corrects only a fraction of each error,
 by default, 20%.
-This fraction is the solver's _error reduction parameter_ (ERP).
+This fraction is the solver's _error-reduction parameter_ (ERP).
 
 For faster corrections (with more risk of instability) increase the ERP.
 For instance, to correct 90% of joint-position errors during each time step:
@@ -322,5 +322,6 @@ Things to notice while running the app:
 * `New6Dof` is a versatile constraint
   with 6 degrees of freedom (DOFs).
   It can emulate hinges, sliders, and point-to-point joints.
-* `New6Dof` also implements limits, motors, servos, and springs.
 * Constraint DOFs will exhibit some softness, even when locked.
+  This can be mitigated by increasing the error-reduction parameter (ERP).
+* `New6Dof` also implements limits, motors, servos, and springs.
