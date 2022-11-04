@@ -770,10 +770,7 @@ public class SixDofJoint extends Constraint {
             b.setPhysicsLocation(saveLocation);
             b.setPhysicsRotation(saveRotation);
 
-        } else {
-            /*
-             * Create a double-ended joint.
-             */
+        } else { // Create a double-ended joint.
             long aId = a.nativeId();
             constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
                     useLinearReferenceFrameA);

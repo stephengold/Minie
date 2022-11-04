@@ -123,17 +123,15 @@ public class NewHinge extends New6Dof {
                 RotationOrder.XYZ);
         this.axis1 = axis1.clone();
         this.axis2 = axis2.clone();
-        /*
-         * Configure the limits as in btHinge2Constraint.cpp .
-         */
+
+        // Configure the limits as in btHinge2Constraint.cpp .
         TranslationMotor translation = super.getTranslationMotor();
         translation.set(MotorParam.LowerLimit, new Vector3f(0f, 0f, -1f));
         translation.set(MotorParam.UpperLimit, new Vector3f(0f, 0f, 1f));
         setLowerLimit(-FastMath.PI / 4f);
         setUpperLimit(FastMath.PI / 4f);
-        /*
-         * Configure the suspension spring as in btHinge2Constraint.cpp .
-         */
+
+        // Configure the suspension spring as in btHinge2Constraint.cpp .
         super.enableSpring(PhysicsSpace.AXIS_Z, true);
         super.set(MotorParam.Damping, PhysicsSpace.AXIS_Z, 0.01f);
         float stiffness = 4f * FastMath.PI * FastMath.PI;
@@ -351,9 +349,8 @@ public class NewHinge extends New6Dof {
 
         Matrix3f frameInW = new Matrix3f();
         frameInW.fromAxes(xAxis, yAxis, zAxis);
-        /*
-         * Calculate constraint frame rotation in the body's local coordinates.
-         */
+
+        // Calculate constraint frame rotation in the body's local coordinates.
         Matrix3f rotation = body.getPhysicsRotationMatrix(null); // b2w
         rotation.invert(null); // w2b
         Matrix3f result = rotation.mult(frameInW, null);

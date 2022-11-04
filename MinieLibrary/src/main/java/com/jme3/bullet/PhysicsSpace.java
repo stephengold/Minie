@@ -373,9 +373,8 @@ public class PhysicsSpace
             return;
         }
         assert joint.getPhysicsSpace() == null;
-        /*
-         * Warn if the jointed bodies aren't already added to this space.
-         */
+
+        // Warn if the jointed bodies aren't already added to this space.
         PhysicsBody a = joint.getBodyA();
         if (a != null && !contains(a)) {
             logger.log(Level.WARNING,

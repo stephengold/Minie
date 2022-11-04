@@ -192,9 +192,8 @@ public class HingeJoint extends Constraint {
         this.axisA = axisInA.clone();
         this.axisB = axisInB.clone();
         createJoint();
-        /*
-         * Synchronize btHingeConstraint parameters with local copies.
-         */
+
+        // Synchronize btHingeConstraint parameters with local copies.
         long constraintId = super.nativeId();
         setAngularOnly(constraintId, angularOnly);
 

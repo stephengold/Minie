@@ -326,9 +326,7 @@ public class Point2PointJoint extends Constraint {
 
         long constraintId;
         if (b == null) {
-            /*
-             * Create a single-ended joint.
-             */
+            // Create a single-ended joint.
             if (pivotB == null) {
                 constraintId = createJoint1(aId, pivotA);
             } else {
@@ -355,9 +353,8 @@ public class Point2PointJoint extends Constraint {
 
         } else {
             assert pivotB != null;
-            /*
-             * Create a double-ended joint.
-             */
+
+            // Create a double-ended joint.
             long bId = b.nativeId();
             constraintId = createJoint(aId, bId, pivotA, pivotB);
         }

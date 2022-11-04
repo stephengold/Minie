@@ -390,9 +390,8 @@ public class ConeJoint extends Constraint {
         } else {
             assert pivotB != null;
             assert rotB != null;
-            /*
-             * Create a double-ended joint.
-             */
+
+            // Create a double-ended joint.
             long bId = b.nativeId();
             constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB);
         }

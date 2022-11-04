@@ -1131,10 +1131,7 @@ public class SliderJoint extends Constraint {
 
             b.setPhysicsLocation(saveLocation);
 
-        } else {
-            /*
-             * Create a double-ended joint.
-             */
+        } else { // Create a double-ended joint.
             long aId = a.nativeId();
             constraintId = createJoint(aId, bId, pivotA, rotA, pivotB, rotB,
                     useLinearReferenceFrameA);

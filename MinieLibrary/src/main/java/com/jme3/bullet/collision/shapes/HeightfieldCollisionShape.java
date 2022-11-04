@@ -387,9 +387,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
 
         float min = heightfieldData[0];
         float max = heightfieldData[0];
-        /*
-         * Find the min and max heights in the data.
-         */
+
+        // Find the min and max heights in the data.
         for (float height : heightfieldData) {
             if (height < min) {
                 min = height;
