@@ -254,6 +254,17 @@ with its Y-rotation motor enabled.
 . The pivot is located just to the left of the door.
 . Press kbd:[Space bar] to reverse the direction of the motor.
 
+The force (or torque) applied by each motor is limited.
+To change this limit,
+use the `set()` method with `MotorParam.MaxMotorForce`:
+
+[source,java]
+----
+constraint.set(MotorParam.MaxMotorForce, dofIndex, force);
+----
+
+NOTE: For translation DOFs, the default maximum force is zero!
+
 == Springs
 
 By default, a DOF that's limited or free has no preferred position.
