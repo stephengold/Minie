@@ -312,9 +312,8 @@ public class SoftDebugAppState extends BulletDebugAppState {
             }
             softBodies.put(softBody, node);
         }
-        /*
-         * Detach nodes of soft bodies that have been removed from the space.
-         */
+
+        // Detach nodes of soft bodies that have been removed from the space.
         for (Node node : oldMap.values()) {
             node.removeFromParent();
         }

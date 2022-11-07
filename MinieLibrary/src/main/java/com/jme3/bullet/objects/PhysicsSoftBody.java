@@ -1471,9 +1471,8 @@ public class PhysicsSoftBody extends PhysicsBody {
         }
         finishClusters(objectId);
         assert countClusters() == numClusters : countClusters();
-        /*
-         * Soft joints require clusters; clone them after appending clusters.
-         */
+
+        // Soft joints require clusters; clone them after appending clusters.
         cloneJoints(cloner);
     }
 

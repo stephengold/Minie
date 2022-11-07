@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -106,13 +106,11 @@ public class TestCloneCharacter {
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
         Vector3f gravity = new Vector3f(b - 0.2f, b + 0.8f, b - 0.3f);
-        /*
-         * "up" direction must oppose gravity vector
-         */
+
+        // "up" direction must oppose gravity vector
         Vector3f up = gravity.normalize().negateLocal();
-        /*
-         * walk offset must be perpendicular to "up" direction
-         */
+
+        // walk offset must be perpendicular to "up" direction
         Vector3f walkOffset
                 = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f).cross(up);
 
@@ -155,13 +153,11 @@ public class TestCloneCharacter {
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
         Vector3f gravity = new Vector3f(b - 0.2f, b + 0.8f, b - 0.3f);
-        /*
-         * "up" direction must oppose gravity vector
-         */
+
+        // "up" direction must oppose gravity vector
         Vector3f up = gravity.normalize().negateLocal();
-        /*
-         * walk offset must be perpendicular to "up" direction
-         */
+
+        // walk offset must be perpendicular to "up" direction
         Vector3f walkOffset
                 = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f).cross(up);
 

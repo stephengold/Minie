@@ -139,9 +139,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
     @Override
     protected void controlUpdate(float tpf) {
         Node node = (Node) spatial;
-        /*
-         * Ensure that the clustersGeometry mesh is correctly sized.
-         */
+
+        // Ensure that the clustersGeometry mesh is correctly sized.
         if (!isClustersGeometrySized()) {
             if (clustersGeometry != null) {
                 node.detachChild(clustersGeometry);
@@ -152,9 +151,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
                 node.attachChild(clustersGeometry);
             }
         }
-        /*
-         * Ensure that the facesGeometry mesh is correctly sized.
-         */
+
+        // Ensure that the facesGeometry mesh is correctly sized.
         if (!isFacesGeometrySized()) {
             if (facesGeometry != null) {
                 node.detachChild(facesGeometry);
@@ -165,9 +163,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
                 node.attachChild(facesGeometry);
             }
         }
-        /*
-         * Ensure that the linksGeometry mesh is correctly sized.
-         */
+
+        // Ensure that the linksGeometry mesh is correctly sized.
         if (!isLinksGeometrySized()) {
             if (linksGeometry != null) {
                 node.detachChild(linksGeometry);
@@ -178,9 +175,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
                 node.attachChild(linksGeometry);
             }
         }
-        /*
-         * Ensure that the pinsGeometry mesh is correctly sized.
-         */
+
+        // Ensure that the pinsGeometry mesh is correctly sized.
         if (!isPinsGeometrySized()) {
             if (pinsGeometry != null) {
                 node.detachChild(pinsGeometry);
@@ -191,9 +187,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
                 node.attachChild(pinsGeometry);
             }
         }
-        /*
-         * Ensure that the velocityGeometries array is correctly sized.
-         */
+
+        // Ensure that the velocityGeometries array is correctly sized.
         if (!areVelocitiesSized()) {
             if (velocityGeometries != null) {
                 for (Geometry geometry : velocityGeometries) {
@@ -469,9 +464,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
         DebugMeshInitListener listener = body.debugMeshInitListener();
         MeshNormals option = body.debugMeshNormals();
         if (listener == null) {
-            /*
-             * Allocate buffers for positions and normals.
-             */
+            // Allocate buffers for positions and normals.
             int numNodes = body.countNodes();
             int numFloats = 3 * numNodes;
             FloatBuffer pos = BufferUtils.createFloatBuffer(numFloats);
@@ -482,9 +475,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             }
 
         } else {
-            /*
-             * Calculate positions, normals, and bounds in world coords.
-             */
+            // Calculate positions, normals, and bounds in world coords.
             FloatBuffer pos = body.copyLocations(null);
             mesh.setBuffer(VertexBuffer.Type.Position, 3, pos);
             if (option != MeshNormals.None) {

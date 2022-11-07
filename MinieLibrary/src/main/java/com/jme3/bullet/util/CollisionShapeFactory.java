@@ -303,9 +303,8 @@ final public class CollisionShapeFactory {
         for (int offset = 0; offset < numIndices; ++offset) {
             indexArray[offset] = indexBuffer.get(offset);
         }
-        /*
-         * Use the V-HACD algorithm to generate a list of hulls.
-         */
+
+        // Use the V-HACD algorithm to generate a list of hulls.
         List<VHACDHull> vhacdHulls
                 = VHACD.compute(positionArray, indexArray, parameters);
         /*
@@ -357,9 +356,8 @@ final public class CollisionShapeFactory {
         for (int offset = 0; offset < numIndices; ++offset) {
             indexArray[offset] = indexBuffer.get(offset);
         }
-        /*
-         * Use the V-HACD algorithm to generate a list of hulls.
-         */
+
+        // Use the V-HACD algorithm to generate a list of hulls.
         List<Vhacd4Hull> vhacdHulls
                 = Vhacd4.compute(positionArray, indexArray, parameters);
         /*
@@ -397,9 +395,8 @@ final public class CollisionShapeFactory {
     private static void appendTriangles(Geometry geometry, Spatial modelRoot,
             FloatBuffer addPositions, IndexBuffer addIndices) {
         Mesh jmeMesh = geometry.getMesh();
-        /*
-         * Append merged-mesh indices to the IndexBuffer.
-         */
+
+        // Append merged-mesh indices to the IndexBuffer.
         int indexBase = addPositions.position() / numAxes;
         IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
         int numIndices = indexBuffer.size();
@@ -408,9 +405,8 @@ final public class CollisionShapeFactory {
             int indexInMergedMesh = indexBase + indexInGeometry;
             addIndices.put(indexInMergedMesh);
         }
-        /*
-         * Append transformed vertex locations to the FloatBuffer.
-         */
+
+        // Append transformed vertex locations to the FloatBuffer.
         Transform transform = relativeTransform(geometry, modelRoot);
         Vector3f tmpPosition = new Vector3f();
         int numVertices = jmeMesh.getVertexCount();

@@ -295,9 +295,8 @@ public class PhysicsDumper extends Dumper {
 
         long objectId = character.nativeId();
         addNativeId(objectId);
-        /*
-         * The 2nd line has the character's configuration.
-         */
+
+        // The 2nd line has the character's configuration.
         addLine(indent);
         Vector3f grav = character.getGravity(null);
         stream.printf(" grav[%s]", MyVector3f.describe(grav));
@@ -458,17 +457,14 @@ public class PhysicsDumper extends Dumper {
 
         long objectId = body.nativeId();
         addNativeId(objectId);
-        /*
-         * 2nd line: activation state and contact parameters
-         */
+
+        // 2nd line: activation state and contact parameters
         addLine(indent);
         addActivationState(body);
         addContactParameters(body);
 
         if (body.isDynamic()) {
-            /*
-             * The next 3 lines have the dynamic properties.
-             */
+            // The next 3 lines describes the dynamic properties.
             addDynamicProperties(body, indent);
         }
         /*
@@ -582,23 +578,20 @@ public class PhysicsDumper extends Dumper {
             desc = MyQuaternion.describe(orientation);
             stream.printf(" orient[%s]", desc);
         }
-        /*
-         * 3rd & 4th lines have the config.
-         */
+
+        // 3rd & 4th lines describe the config.
         SoftBodyConfig config = body.getSoftConfig();
         desc = describer.describe1(config);
         stream.printf("%n%s %s", indent, desc);
         desc = describer.describe2(config);
         stream.printf("%n%s %s", indent, desc);
-        /*
-         * 5th line has the material.
-         */
+
+        // 5th line describes the material.
         SoftBodyMaterial material = body.getSoftMaterial();
         desc = describer.describe(material);
         stream.printf("%n%s %s", indent, desc);
-        /*
-         * 6th line has the world info.
-         */
+
+        // 6th line describes the world info.
         SoftBodyWorldInfo info = body.getWorldInfo();
         desc = describer.describe(info);
         stream.printf("%n%s %s ", indent, desc);
@@ -608,14 +601,12 @@ public class PhysicsDumper extends Dumper {
         stream.print("protected");
         objectId = info.nativeId();
         addNativeId(objectId);
-        /*
-         * 7th line has the group info and number of anchors.
-         */
+
+        // 7th line describes the group info and number of anchors.
         desc = describer.describeGroups(body);
         stream.printf("%n%s%s", indent, desc);
-        /*
-         * physics joints in the soft body
-         */
+
+        // physics joints in the soft body
         int numJoints = body.countJoints();
         stream.printf(" with %d joint%s", numJoints,
                 (numJoints == 1) ? "" : "s");
@@ -625,9 +616,8 @@ public class PhysicsDumper extends Dumper {
         } else {
             stream.print(',');
         }
-        /*
-         * clusters in the soft body
-         */
+
+        // clusters in the soft body
         int numClusters = body.countClusters();
         stream.printf(" %d cluster%s", numClusters,
                 (numClusters == 1) ? "" : "s");
@@ -636,9 +626,8 @@ public class PhysicsDumper extends Dumper {
         } else {
             stream.print(',');
         }
-        /*
-         * nodes in the soft body
-         */
+
+        // nodes in the soft body
         int numNodes = body.countNodes();
         stream.printf(" %d node%s", numNodes, (numNodes == 1) ? "" : "s");
         int numPinned = body.countPinnedNodes();
@@ -715,9 +704,8 @@ public class PhysicsDumper extends Dumper {
 
         long spaceId = space.nativeId();
         addNativeId(spaceId);
-        /*
-         * 2nd line
-         */
+
+        // 2nd line
         addLine(indent);
         PhysicsSpace.BroadphaseType bphase = space.getBroadphaseType();
         stream.printf(" bphase=%s", bphase);
@@ -739,9 +727,8 @@ public class PhysicsDumper extends Dumper {
         int cgCount = space.countCollisionGroupListeners();
         int tCount = space.countTickListeners();
         stream.printf("] listeners[c=%d cg=%d t=%d]", cCount, cgCount, tCount);
-        /*
-         * 3rd line: solver type and info
-         */
+
+        // 3rd line: solver type and info
         addLine(indent);
         SolverType solverType = space.getSolverType();
         SolverInfo solverInfo = space.getSolverInfo();
@@ -762,9 +749,8 @@ public class PhysicsDumper extends Dumper {
         stream.printf(" erp=%s]", MyString.describe(erp));
         int mode = solverInfo.mode();
         stream.printf(" mode=%s]", SolverMode.describe(mode));
-        /*
-         * 4th line: use flags, raytest flags, and world extent
-         */
+
+        // 4th line: use flags, raytest flags, and world extent
         addLine(indent);
         if (space.isUsingDeterministicDispatch()) {
             stream.print(" DeterministicDispatch");
@@ -784,9 +770,8 @@ public class PhysicsDumper extends Dumper {
             String maxDesc = MyVector3f.describe(worldMax);
             stream.printf(" worldMin[%s] worldMax[%s]", minDesc, maxDesc);
         }
-        /*
-         * For soft spaces, 5th line has the world info.
-         */
+
+        // For soft spaces, 5th line has the world info.
         PhysicsDescriber describer = getDescriber();
         if (space instanceof PhysicsSoftSpace) {
             SoftBodyWorldInfo info = ((PhysicsSoftSpace) space).getWorldInfo();
@@ -1156,9 +1141,7 @@ public class PhysicsDumper extends Dumper {
      */
     private void addDynamicProperties(PhysicsRigidBody rigidBody,
             String indent) {
-        /*
-         * first line: gravity, CCD, damping, and sleep/activation
-         */
+        // first line: gravity, CCD, damping, and sleep/activation
         addLine(indent);
 
         Vector3f gravity = rigidBody.getGravity(null);
@@ -1196,9 +1179,8 @@ public class PhysicsDumper extends Dumper {
             stream.print(MyString.describe(deactivationTime));
         }
         stream.print(']');
-        /*
-         * 2nd line: linear velocity, applied force, linear factor
-         */
+
+        // 2nd line: linear velocity, applied force, linear factor
         addLine(indent);
 
         Vector3f v = rigidBody.getLinearVelocity(null);
@@ -1207,9 +1189,8 @@ public class PhysicsDumper extends Dumper {
         stream.printf(" force[%s]", MyVector3f.describe(force));
         Vector3f lFact = rigidBody.getLinearFactor(null);
         stream.printf(" lFact[%s]", MyVector3f.describe(lFact));
-        /*
-         * 3rd line: inertia, angular velocity, applied torque, angular factor
-         */
+
+        // 3rd line: inertia, angular velocity, applied torque, angular factor
         addLine(indent);
 
         stream.print(" inert[");
@@ -1608,9 +1589,8 @@ public class PhysicsDumper extends Dumper {
             stream.print("(all)");
             return;
         }
-        /*
-         * convert the IntBuffer to a BitSet
-         */
+
+        // convert the IntBuffer to a BitSet
         BitSet bitSet = new BitSet(numNodesInBody);
         for (int i = 0; i < numIndices; ++i) {
             int nodeIndex = nodeIndices.get(i);

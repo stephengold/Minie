@@ -572,9 +572,8 @@ final public class DebugShapeFactory {
         Mesh mesh = new Mesh();
         mesh.setBuffer(VertexBuffer.Type.Position, numAxes,
                 callback.getVertices());
-        /*
-         * Add a normal buffer, if requested.
-         */
+
+        // Add a normal buffer, if requested.
         switch (normals) {
             case Facet:
                 mesh.setBuffer(VertexBuffer.Type.Normal, numAxes,
@@ -594,9 +593,8 @@ final public class DebugShapeFactory {
                 String message = "normals = " + normals;
                 throw new IllegalArgumentException(message);
         }
-        /*
-         * If the mesh is not too big, generate an index buffer.
-         */
+
+        // If the mesh is not too big, generate an index buffer.
         if (mesh.getVertexCount() <= maxVerticesToIndex) {
             mesh = MyMesh.addIndices(mesh);
         }
@@ -658,9 +656,7 @@ final public class DebugShapeFactory {
      */
     private static Mesh createPlaneMesh(
             PlaneCollisionShape shape, MeshNormals normals) {
-        /*
-         * Generate mesh positions for a large 2-sided square.
-         */
+        // Generate mesh positions for a large 2-sided square.
         int numVertices = 8; // 4 vertices for each size
         int numFloats = numVertices * numAxes;
         FloatBuffer posBuffer = BufferUtils.createFloatBuffer(numFloats);

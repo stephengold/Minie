@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2021 jMonkeyEngine
+ * Copyright (c) 2009-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -564,9 +564,8 @@ public class CharacterController
         setGravity(g);
         setJumpSpeed(capsule.readFloat(tagJumpSpeed, 10f));
         setLinearDamping(capsule.readFloat(tagLinearDamping, 0f));
-        /*
-         * Walk direction affects linear velocity, so set it first!
-         */
+
+        // Walk direction affects linear velocity, so set it first!
         setWalkDirection((Vector3f) capsule.readSavable(tagWalkDirection,
                 new Vector3f()));
         setLinearVelocity((Vector3f) capsule.readSavable(tagLinearVelocity,

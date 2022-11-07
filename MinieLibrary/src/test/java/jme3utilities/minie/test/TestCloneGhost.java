@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -65,17 +65,15 @@ public class TestCloneGhost {
     public void testCloneGhost() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         CollisionShape shape = new SphereCollisionShape(1f);
-        /*
-         * PhysicsGhostObject
-         */
+
+        // PhysicsGhostObject
         PhysicsGhostObject pgo = new PhysicsGhostObject(shape);
         setParameters(pgo, 0f);
         verifyParameters(pgo, 0f);
         PhysicsGhostObject pgoClone = Heart.deepCopy(pgo);
         cloneTest(pgo, pgoClone);
-        /*
-         * GhostControl (a subclass of PhysicsGhostObject)
-         */
+
+        // GhostControl (a subclass of PhysicsGhostObject)
         GhostControl gc = new GhostControl(shape);
         setParameters(gc, 0f);
         verifyParameters(gc, 0f);

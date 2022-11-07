@@ -88,9 +88,8 @@ class DebugMeshCallback {
      */
     Vector3f[] footprint(Transform meshToWorld) {
         assert meshToWorld != null;
-        /*
-         * Copy the location list, removing all duplicates in the process.
-         */
+
+        // Copy the location list, removing all duplicates in the process.
         VectorSet distinct = new VectorSetUsingBuffer(list.size(), false);
         distinct.addAll(list);
         /*
@@ -115,9 +114,8 @@ class DebugMeshCallback {
             int position = vectorIndex * numAxes + PhysicsSpace.AXIS_Y;
             floatBuffer.put(position, minY);
         }
-        /*
-         * Fit a rotated rectangular solid to the vertex locations.
-         */
+
+        // Fit a rotated rectangular solid to the vertex locations.
         RectangularSolid solid
                 = new RectangularSolid(floatBuffer, 0, numFloats);
         Vector3f maxima = solid.maxima(null);
@@ -133,9 +131,8 @@ class DebugMeshCallback {
         cornerLocations[1] = new Vector3f(midX, minima.y, maxima.z);
         cornerLocations[2] = new Vector3f(midX, maxima.y, minima.z);
         cornerLocations[3] = new Vector3f(midX, minima.y, minima.z);
-        /*
-         * Transform corner locations into the world coordinate system.
-         */
+
+        // Transform corner locations into the world coordinate system.
         for (Vector3f location : cornerLocations) {
             solid.localToWorld(location, location);
         }

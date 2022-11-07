@@ -152,9 +152,8 @@ public class HingeJoint extends Constraint {
         this.axisB = axisInWorld.clone();
         this.useReferenceFrameA = (referenceFrame == JointEnd.A);
         createJoint();
-        /*
-         * Synchronize the btHingeConstraint parameters with the local copies.
-         */
+
+        // Synchronize the btHingeConstraint parameters with the local copies.
         long constraintId = super.nativeId();
         setAngularOnly(constraintId, angularOnly);
 
@@ -569,10 +568,7 @@ public class HingeJoint extends Constraint {
             a.setPhysicsLocation(saveLocation);
             a.setPhysicsRotation(saveRotation);
 
-        } else {
-            /*
-             * Create a double-ended joint.
-             */
+        } else { // Create a double-ended joint.
             assert !useReferenceFrameA;
             long bId = b.nativeId();
             constraintId = createJoint(aId, bId, pivotA, axisA, pivotB, axisB);

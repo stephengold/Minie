@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,9 +89,8 @@ class ChildSummaryList {
     void update(CompoundCollisionShape compound) {
         ChildCollisionShape[] children = compound.listChildren();
         int numChildren = children.length;
-        /*
-         * Enlarge the list, padding with invalid entries.
-         */
+
+        // Enlarge the list, padding with invalid entries.
         while (numChildren > list.size()) {
             list.add(new ChildSummary());
         }

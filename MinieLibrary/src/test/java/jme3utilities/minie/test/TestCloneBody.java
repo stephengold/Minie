@@ -118,18 +118,15 @@ public class TestCloneBody {
      * Clone rigid bodies.
      */
     private void clonePrb() {
-        /*
-         * static
-         */
+        // static
         PhysicsRigidBody body0 = new PhysicsRigidBody(shape, 0f);
         setParameters(body0, 0f);
         verifyParameters(body0, 0f);
         PhysicsRigidBody body0Clone = Heart.deepCopy(body0);
         assert body0Clone.isStatic();
         cloneTest(body0, body0Clone);
-        /*
-         * dynamic with mass=1
-         */
+
+        // dynamic with mass=1
         PhysicsRigidBody body = new PhysicsRigidBody(shape, 1f);
         setParameters(body, 0f);
         verifyParameters(body, 0f);
@@ -153,17 +150,14 @@ public class TestCloneBody {
      * Clone soft bodies.
      */
     private void clonePsb() {
-        /*
-         * empty
-         */
+        // empty
         PhysicsSoftBody soft = new PhysicsSoftBody();
         setParameters(soft, 0f);
         verifyParameters(soft, 0f);
         PhysicsSoftBody softClone = Heart.deepCopy(soft);
         cloneTest(soft, softClone);
-        /*
-         * non-empty
-         */
+
+        // non-empty
         PhysicsSoftBody soft2 = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft2);
         setParameters(soft2, 0f);
@@ -176,9 +170,7 @@ public class TestCloneBody {
      * Clone vehicles.
      */
     private void clonePv() {
-        /*
-         * TODO add wheel(s)
-         */
+        // TODO add wheel(s)
         PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
         setParameters(vehicle, 0f);
         verifyParameters(vehicle, 0f);
@@ -311,9 +303,7 @@ public class TestCloneBody {
      * Clone vehicle controls.
      */
     private void cloneVc() {
-        /*
-         * TODO add wheel(s)
-         */
+        // TODO add wheel(s)
         VehicleControl vc = new VehicleControl(shape, 1f);
         setParameters(vc, 0f);
         verifyParameters(vc, 0f);
@@ -371,9 +361,8 @@ public class TestCloneBody {
         body.setRestitution(b + 0.25f);
         body.setRollingFriction(b + 0.254f);
         body.setSpinningFriction(b + 0.255f);
-        /*
-         * Linear velocity affects deactivation time, so set it first!
-         */
+
+        // Linear velocity affects deactivation time, so set it first!
         body.clearForces();
         Vector3f force = new Vector3f(b + 0.231f, b + 0.232f, b + 0.233f);
         body.applyCentralForce(force.divide(lFactor));

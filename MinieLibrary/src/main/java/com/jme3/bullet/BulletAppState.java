@@ -898,16 +898,12 @@ public class BulletAppState
 
         boolean enable = debugConfig.isEnabled();
         if (enable && debugAppState == null) {
-            /*
-             * Start debug visualization.
-             */
+            // Start debug visualization.
             debugAppState = createDebugAppState();
             stateManager.attach(debugAppState);
 
         } else if (!enable && debugAppState != null) {
-            /*
-             * Stop debug visualization.
-             */
+            // Stop debug visualization.
             stateManager.detach(debugAppState);
             debugAppState = null;
         }

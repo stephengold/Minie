@@ -924,9 +924,7 @@ public class BulletDebugAppState extends BaseAppState {
      * PhysicsSpace.
      */
     private void updatePcoMap() {
-        /*
-         * Create visualization nodes for PCOs that have been added.
-         */
+        // Create visualization nodes for PCOs that have been added.
         HashMap<PhysicsCollisionObject, Node> oldMap = pcoMap;
         this.pcoMap = new HashMap<>(oldMap.size());
         PhysicsSpace space = configuration.getSpace();
@@ -942,9 +940,8 @@ public class BulletDebugAppState extends BaseAppState {
             }
             pcoMap.put(pco, node);
         }
-        /*
-         * Detach nodes of PCOs that have been removed from the space.
-         */
+
+        // Detach nodes of PCOs that have been removed from the space.
         for (Node transformedNode : oldMap.values()) {
             Node parent = transformedNode.getParent();
             parent.removeFromParent();

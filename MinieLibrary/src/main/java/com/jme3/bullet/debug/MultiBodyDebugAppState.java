@@ -112,9 +112,8 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
                 colliderMap.put(collider, node);
             }
         }
-        /*
-         * Detach nodes of colliders that have been removed from the space.
-         */
+
+        // Detach nodes of colliders that have been removed from the space.
         for (Node node : oldMap.values()) {
             node.removeFromParent();
         }
