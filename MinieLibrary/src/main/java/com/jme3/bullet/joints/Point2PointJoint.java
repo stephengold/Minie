@@ -142,7 +142,9 @@ public class Point2PointJoint extends Constraint {
      */
     public float getDamping() {
         long constraintId = nativeId();
-        return getDamping(constraintId);
+        float result = getDamping(constraintId);
+
+        return result;
     }
 
     /**
@@ -152,7 +154,9 @@ public class Point2PointJoint extends Constraint {
      */
     public float getImpulseClamp() {
         long constraintId = nativeId();
-        return getImpulseClamp(constraintId);
+        float result = getImpulseClamp(constraintId);
+
+        return result;
     }
 
     /**
@@ -162,7 +166,9 @@ public class Point2PointJoint extends Constraint {
      */
     public float getTau() {
         long constraintId = nativeId();
-        return getTau(constraintId);
+        float result = getTau(constraintId);
+
+        return result;
     }
 
     /**

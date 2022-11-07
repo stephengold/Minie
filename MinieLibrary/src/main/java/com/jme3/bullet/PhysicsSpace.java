@@ -573,7 +573,9 @@ public class PhysicsSpace
      */
     public Collection<PhysicsCharacter> getCharacterList() {
         Collection<PhysicsCharacter> result = characterMap.values();
-        return Collections.unmodifiableCollection(result);
+        result = Collections.unmodifiableCollection(result);
+
+        return result;
     }
 
     /**
@@ -600,7 +602,9 @@ public class PhysicsSpace
      */
     public Collection<PhysicsJoint> getJointList() {
         Collection<PhysicsJoint> result = jointMap.values();
-        return Collections.unmodifiableCollection(result);
+        result = Collections.unmodifiableCollection(result);
+
+        return result;
     }
 
     /**
@@ -610,7 +614,8 @@ public class PhysicsSpace
      * @return the pre-existing PhysicsSpace running on this thread
      */
     public static PhysicsSpace getPhysicsSpace() {
-        return (PhysicsSpace) getCollisionSpace();
+        CollisionSpace result = getCollisionSpace();
+        return (PhysicsSpace) result;
     }
 
     /**
@@ -622,7 +627,9 @@ public class PhysicsSpace
      */
     public Collection<PhysicsRigidBody> getRigidBodyList() {
         Collection<PhysicsRigidBody> result = rigidMap.values();
-        return Collections.unmodifiableCollection(result);
+        result = Collections.unmodifiableCollection(result);
+
+        return result;
     }
 
     /**
@@ -662,7 +669,9 @@ public class PhysicsSpace
      */
     public Collection<PhysicsVehicle> getVehicleList() {
         Collection<PhysicsVehicle> result = vehicleMap.values();
-        return Collections.unmodifiableCollection(result);
+        result = Collections.unmodifiableCollection(result);
+
+        return result;
     }
 
     /**

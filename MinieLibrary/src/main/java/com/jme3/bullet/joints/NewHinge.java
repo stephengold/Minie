@@ -194,11 +194,14 @@ public class NewHinge extends New6Dof {
      * @return a direction vector (either storeResult or a new vector, not null)
      */
     public Vector3f getAxis1(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return axis1.clone();
+            result = axis1.clone();
         } else {
-            return storeResult.set(axis1);
+            result = storeResult.set(axis1);
         }
+
+        return result;
     }
 
     /**
@@ -208,11 +211,14 @@ public class NewHinge extends New6Dof {
      * @return a direction vector (either storeResult or a new vector, not null)
      */
     public Vector3f getAxis2(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return axis2.clone();
+            result = axis2.clone();
         } else {
-            return storeResult.set(axis2);
+            result = storeResult.set(axis2);
         }
+
+        return result;
     }
 
     /**

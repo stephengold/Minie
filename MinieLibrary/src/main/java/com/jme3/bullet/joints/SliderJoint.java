@@ -217,7 +217,9 @@ public class SliderJoint extends Constraint {
      */
     public float getDampingDirAng() {
         long constraintId = nativeId();
-        return getDampingDirAng(constraintId);
+        float result = getDampingDirAng(constraintId);
+
+        return result;
     }
 
     /**

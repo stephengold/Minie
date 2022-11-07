@@ -146,7 +146,9 @@ public class MultiBodySpace extends PhysicsSpace {
      */
     public Collection<MultiBody> getMultiBodyList() {
         Collection<MultiBody> result = multiBodyMap.values();
-        return Collections.unmodifiableCollection(result);
+        result = Collections.unmodifiableCollection(result);
+
+        return result;
     }
 
     /**

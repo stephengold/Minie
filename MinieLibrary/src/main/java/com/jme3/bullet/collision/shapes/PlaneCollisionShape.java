@@ -95,7 +95,8 @@ public class PlaneCollisionShape extends CollisionShape {
      * @return a new instance (not null)
      */
     final public Plane getPlane() {
-        return plane.clone();
+        Plane result = plane.clone();
+        return result;
     }
     // *************************************************************************
     // CollisionShape methods

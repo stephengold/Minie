@@ -316,7 +316,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * @return the pre-existing CollisionSpace running on this thread
      */
     public static CollisionSpace getCollisionSpace() {
-        return physicsSpaceTL.get();
+        CollisionSpace result = physicsSpaceTL.get();
+        return result;
     }
 
     /**
