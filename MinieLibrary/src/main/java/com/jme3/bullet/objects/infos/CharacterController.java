@@ -108,7 +108,7 @@ public class CharacterController
     public CharacterController(PhysicsCharacter character) {
         Validate.nonNull(character, "collision object");
 
-        pco = character;
+        this.pco = character;
         createController();
     }
     // *************************************************************************
@@ -551,7 +551,7 @@ public class CharacterController
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        pco = (PhysicsCharacter) capsule.readSavable(tagPco, null);
+        this.pco = (PhysicsCharacter) capsule.readSavable(tagPco, null);
         createController();
 
         setAngularDamping(capsule.readFloat(tagAngularDamping, 0f));

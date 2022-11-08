@@ -236,7 +236,7 @@ public class RigidBodyControl
      * (default=false)
      */
     public void setApplyScale(boolean setting) {
-        applyScale = setting;
+        this.applyScale = setting;
     }
 
     /**
@@ -352,10 +352,10 @@ public class RigidBodyControl
                     setPhysicsRotation(getSpatialRotation());
                 }
                 space.addCollisionObject(this);
-                added = true;
+                this.added = true;
             } else if (!enabled && added) {
                 space.removeCollisionObject(this);
-                added = false;
+                this.added = false;
                 // TODO also remove all joints
             }
         }
@@ -375,7 +375,7 @@ public class RigidBodyControl
         }
         if (added) {
             space.removeCollisionObject(this);
-            added = false;
+            this.added = false;
         }
         if (newSpace != null && isEnabled()) {
             if (!hasAssignedNativeObject()) {
@@ -384,13 +384,13 @@ public class RigidBodyControl
                 throw new IllegalStateException(message);
             }
             newSpace.addCollisionObject(this);
-            added = true;
+            this.added = true;
         }
         /*
          * If this Control isn't enabled, its body will be
          * added to the new space when the Control becomes enabled.
          */
-        space = newSpace;
+        this.space = newSpace;
     }
 
     /**
@@ -470,7 +470,7 @@ public class RigidBodyControl
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        spatial = cloner.clone(spatial);
+        this.spatial = cloner.clone(spatial);
     }
 
     /**
@@ -500,13 +500,13 @@ public class RigidBodyControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = capsule.readBoolean(tagEnabled, true);
-        kinematicSpatial = capsule.readBoolean(tagKinematicSpatial, true);
-        spatial = (Spatial) capsule.readSavable(tagSpatial, null);
+        this.enabled = capsule.readBoolean(tagEnabled, true);
+        this.kinematicSpatial = capsule.readBoolean(tagKinematicSpatial, true);
+        this.spatial = (Spatial) capsule.readSavable(tagSpatial, null);
         RigidBodyMotionState ms = getMotionState();
         ms.setApplyPhysicsLocal(
                 capsule.readBoolean(tagApplyLocalPhysics, false));
-        applyScale = capsule.readBoolean(tagApplyScale, false);
+        this.applyScale = capsule.readBoolean(tagApplyScale, false);
 
         setUserObject(spatial);
     }

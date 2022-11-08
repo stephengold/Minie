@@ -307,8 +307,8 @@ public class CompoundMesh
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        submeshes = cloner.clone(submeshes);
-        scale = cloner.clone(scale);
+        this.submeshes = cloner.clone(submeshes);
+        this.scale = cloner.clone(scale);
 
         unassignNativeObject();
         createEmpty();
@@ -350,9 +350,9 @@ public class CompoundMesh
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        scale = (Vector3f) capsule.readSavable(
+        this.scale = (Vector3f) capsule.readSavable(
                 tagScale, new Vector3f(1f, 1f, 1f));
-        submeshes = capsule.readSavableArrayList(tagSubmeshes, submeshes);
+        this.submeshes = capsule.readSavableArrayList(tagSubmeshes, submeshes);
 
         setScale(scale);
 

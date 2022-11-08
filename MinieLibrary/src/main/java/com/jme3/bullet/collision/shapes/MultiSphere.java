@@ -102,7 +102,7 @@ public class MultiSphere extends ConvexShape {
         Validate.nonNegative(radius, "radius");
 
         this.centers = new Vector3f[1];
-        centers[0] = new Vector3f(0f, 0f, 0f);
+        this.centers[0] = new Vector3f(0f, 0f, 0f);
         this.radii = new float[]{radius};
 
         createShape();
@@ -122,8 +122,8 @@ public class MultiSphere extends ConvexShape {
 
         float halfHeight = height / 2f;
         this.centers = new Vector3f[2];
-        centers[0] = new Vector3f(0f, halfHeight, 0f);
-        centers[1] = new Vector3f(0f, -halfHeight, 0f);
+        this.centers[0] = new Vector3f(0f, halfHeight, 0f);
+        this.centers[1] = new Vector3f(0f, -halfHeight, 0f);
 
         this.radii = new float[]{radius, radius};
 
@@ -149,16 +149,16 @@ public class MultiSphere extends ConvexShape {
         this.centers = new Vector3f[2];
         switch (axisIndex) {
             case PhysicsSpace.AXIS_X:
-                centers[0] = new Vector3f(halfHeight, 0f, 0f);
-                centers[1] = new Vector3f(-halfHeight, 0f, 0f);
+                this.centers[0] = new Vector3f(halfHeight, 0f, 0f);
+                this.centers[1] = new Vector3f(-halfHeight, 0f, 0f);
                 break;
             case PhysicsSpace.AXIS_Y:
-                centers[0] = new Vector3f(0f, halfHeight, 0f);
-                centers[1] = new Vector3f(0f, -halfHeight, 0f);
+                this.centers[0] = new Vector3f(0f, halfHeight, 0f);
+                this.centers[1] = new Vector3f(0f, -halfHeight, 0f);
                 break;
             case PhysicsSpace.AXIS_Z:
-                centers[0] = new Vector3f(0f, 0f, halfHeight);
-                centers[1] = new Vector3f(0f, 0f, -halfHeight);
+                this.centers[0] = new Vector3f(0f, 0f, halfHeight);
+                this.centers[1] = new Vector3f(0f, 0f, -halfHeight);
                 break;
             default:
                 throw new IllegalArgumentException("axisIndex = " + axisIndex);
@@ -177,10 +177,10 @@ public class MultiSphere extends ConvexShape {
      */
     public MultiSphere(BoundingSphere boundingSphere) {
         this.centers = new Vector3f[1];
-        centers[0] = boundingSphere.getCenter().clone();
+        this.centers[0] = boundingSphere.getCenter().clone();
 
         this.radii = new float[1];
-        radii[0] = boundingSphere.getRadius();
+        this.radii[0] = boundingSphere.getRadius();
 
         createShape();
     }
@@ -255,7 +255,8 @@ public class MultiSphere extends ConvexShape {
         this.radii = new float[]{radius, radius, radius, radius};
         for (int sphereI = 0; sphereI < 4; ++sphereI) {
             Vector3f localCenter = centerLocations.get(sphereI);
-            centers[sphereI] = rectangularSolid.localToWorld(localCenter, null);
+            this.centers[sphereI]
+                    = rectangularSolid.localToWorld(localCenter, null);
         }
 
         createShape();
@@ -302,7 +303,8 @@ public class MultiSphere extends ConvexShape {
         this.radii = new float[]{radius, radius};
         for (int sphereI = 0; sphereI < 2; ++sphereI) {
             Vector3f localCenter = centerLocations.get(sphereI);
-            centers[sphereI] = rectangularSolid.localToWorld(localCenter, null);
+            this.centers[sphereI]
+                    = rectangularSolid.localToWorld(localCenter, null);
         }
 
         createShape();
@@ -321,7 +323,7 @@ public class MultiSphere extends ConvexShape {
         Validate.nonNegative(radius, "radius");
 
         this.centers = new Vector3f[1];
-        centers[0] = center.clone();
+        this.centers[0] = center.clone();
 
         this.radii = new float[]{radius};
 
@@ -452,7 +454,7 @@ public class MultiSphere extends ConvexShape {
         int numSpheres = savCenters.length;
         this.centers = new Vector3f[numSpheres];
         for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
-            centers[sphereIndex] = (Vector3f) savCenters[sphereIndex];
+            this.centers[sphereIndex] = (Vector3f) savCenters[sphereIndex];
         }
         this.radii = capsule.readFloatArray(tagRadii, new float[0]);
         createShape();

@@ -337,7 +337,7 @@ public class BetterCharacterControl
         if (!onGround) {
             return;
         }
-        jump = true;
+        this.jump = true;
     }
 
     /**
@@ -373,14 +373,14 @@ public class BetterCharacterControl
     public void setDucked(boolean enabled) {
         if (enabled) {
             setHeightPercent(duckedFactor);
-            ducked = true;
-            wantToUnDuck = false;
+            this.ducked = true;
+            this.wantToUnDuck = false;
         } else {
             if (checkCanUnDuck()) {
                 setHeightPercent(1);
-                ducked = false;
+                this.ducked = false;
             } else {
-                wantToUnDuck = true;
+                this.wantToUnDuck = true;
             }
         }
     }
@@ -392,7 +392,7 @@ public class BetterCharacterControl
      * ducking (&ge;0, &le;1)
      */
     public void setDuckedFactor(float factor) {
-        duckedFactor = factor;
+        this.duckedFactor = factor;
     }
 
     /**
@@ -490,19 +490,19 @@ public class BetterCharacterControl
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        jumpForce = cloner.clone(jumpForce);
-        localForward = cloner.clone(localForward);
-        localForwardRotation = cloner.clone(localForwardRotation);
-        localLeft = cloner.clone(localLeft);
-        localUp = cloner.clone(localUp);
-        location = cloner.clone(location);
-        rigidBody = cloner.clone(rigidBody);
-        rotatedViewDirection = cloner.clone(rotatedViewDirection);
-        rotation = cloner.clone(rotation);
-        scale = cloner.clone(scale);
-        velocity = cloner.clone(velocity);
-        viewDirection = cloner.clone(viewDirection);
-        walkDirection = cloner.clone(walkDirection);
+        this.jumpForce = cloner.clone(jumpForce);
+        this.localForward = cloner.clone(localForward);
+        this.localForwardRotation = cloner.clone(localForwardRotation);
+        this.localLeft = cloner.clone(localLeft);
+        this.localUp = cloner.clone(localUp);
+        this.location = cloner.clone(location);
+        this.rigidBody = cloner.clone(rigidBody);
+        this.rotatedViewDirection = cloner.clone(rotatedViewDirection);
+        this.rotation = cloner.clone(rotation);
+        this.scale = cloner.clone(scale);
+        this.velocity = cloner.clone(velocity);
+        this.viewDirection = cloner.clone(viewDirection);
+        this.walkDirection = cloner.clone(walkDirection);
     }
 
     /**
@@ -528,18 +528,18 @@ public class BetterCharacterControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        radius = capsule.readFloat(tagRadius, 1f);
-        height = capsule.readFloat(tagHeight, 2f);
-        mass = capsule.readFloat(tagMass, 80f);
-        jumpForce = (Vector3f) capsule.readSavable(tagJumpForce,
+        this.radius = capsule.readFloat(tagRadius, 1f);
+        this.height = capsule.readFloat(tagHeight, 2f);
+        this.mass = capsule.readFloat(tagMass, 80f);
+        this.jumpForce = (Vector3f) capsule.readSavable(tagJumpForce,
                 new Vector3f(0f, mass * 5f, 0f));
-        physicsDamping = capsule.readFloat(tagPhysicsDamping, 0.9f);
-        duckedFactor = capsule.readFloat(tagDuckedFactor, 0.6f);
-        viewDirection = (Vector3f) capsule.readSavable(tagViewDirection,
+        this.physicsDamping = capsule.readFloat(tagPhysicsDamping, 0.9f);
+        this.duckedFactor = capsule.readFloat(tagDuckedFactor, 0.6f);
+        this.viewDirection = (Vector3f) capsule.readSavable(tagViewDirection,
                 new Vector3f(0f, 0f, 1f));
-        walkDirection = (Vector3f) capsule.readSavable(tagWalkDirection,
+        this.walkDirection = (Vector3f) capsule.readSavable(tagWalkDirection,
                 new Vector3f(0f, 0f, 1f));
-        rigidBody = (PhysicsRigidBody) capsule.readSavable(tagBody, null);
+        this.rigidBody = (PhysicsRigidBody) capsule.readSavable(tagBody, null);
 
         Spatial controlled = getSpatial();
         rigidBody.setUserObject(controlled);
@@ -659,8 +659,8 @@ public class BetterCharacterControl
         checkOnGround();
         if (wantToUnDuck && checkCanUnDuck()) {
             setHeightPercent(1);
-            wantToUnDuck = false;
-            ducked = false;
+            this.wantToUnDuck = false;
+            this.ducked = false;
         }
         TempVars vars = TempVars.get();
 
@@ -698,7 +698,7 @@ public class BetterCharacterControl
             rotatedJumpForce.set(jumpForce);
             rigidBody.applyCentralImpulse(
                     localForwardRotation.multLocal(rotatedJumpForce));
-            jump = false;
+            this.jump = false;
         }
         vars.release();
     }
@@ -799,7 +799,7 @@ public class BetterCharacterControl
                 return;
             }
         }
-        onGround = false;
+        this.onGround = false;
     }
 
     /**

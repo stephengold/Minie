@@ -176,7 +176,7 @@ public class GhostControl
      * false&rarr;match world coordinates (default=false)
      */
     public void setApplyPhysicsLocal(boolean applyPhysicsLocal) {
-        applyLocal = applyPhysicsLocal;
+        this.applyLocal = applyPhysicsLocal;
     }
 
     /**
@@ -191,7 +191,7 @@ public class GhostControl
      * (default=false)
      */
     public void setApplyScale(boolean setting) {
-        applyScale = setting;
+        this.applyScale = setting;
     }
     // *************************************************************************
     // PhysicsControl methods
@@ -261,10 +261,10 @@ public class GhostControl
                     setPhysicsRotation(getSpatialRotation());
                 }
                 space.addCollisionObject(this);
-                added = true;
+                this.added = true;
             } else if (!enabled && added) {
                 space.removeCollisionObject(this);
-                added = false;
+                this.added = false;
             }
         }
     }
@@ -278,22 +278,22 @@ public class GhostControl
      */
     @Override
     public void setPhysicsSpace(PhysicsSpace newSpace) {
-        if (space == newSpace) {
+        if (this.space == newSpace) {
             return;
         }
-        if (added) {
+        if (this.added) {
             space.removeCollisionObject(this);
-            added = false;
+            this.added = false;
         }
         if (newSpace != null && isEnabled()) {
             newSpace.addCollisionObject(this);
-            added = true;
+            this.added = true;
         }
         /*
          * If this Control isn't enabled, its physics object will be
          * added to the new space when the Control becomes enabled.
          */
-        space = newSpace;
+        this.space = newSpace;
     }
 
     /**
@@ -309,7 +309,7 @@ public class GhostControl
             return;
         }
 
-        spatial = controlledSpatial;
+        this.spatial = controlledSpatial;
         setUserObject(controlledSpatial); // link from collision object
 
         if (controlledSpatial != null) {
@@ -363,7 +363,7 @@ public class GhostControl
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        spatial = cloner.clone(spatial);
+        this.spatial = cloner.clone(spatial);
     }
 
     /**
@@ -393,10 +393,10 @@ public class GhostControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = capsule.readBoolean(tagEnabled, true);
-        applyLocal = capsule.readBoolean(tagApplyLocalPhysics, false);
-        applyScale = capsule.readBoolean(tagApplyScale, false);
-        spatial = (Spatial) capsule.readSavable(tagSpatial, null);
+        this.enabled = capsule.readBoolean(tagEnabled, true);
+        this.applyLocal = capsule.readBoolean(tagApplyLocalPhysics, false);
+        this.applyScale = capsule.readBoolean(tagApplyScale, false);
+        this.spatial = (Spatial) capsule.readSavable(tagSpatial, null);
 
         setUserObject(spatial);
     }

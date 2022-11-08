@@ -531,22 +531,25 @@ public class BulletDebugAppState extends BaseAppState {
         assert am != null;
 
         Material invisible = MyAsset.createInvisibleMaterial(am);
-        blues[0] = invisible;
-        blues[1] = createWireMaterial(am, blueColor, "debug blue ss", 1);
-        blues[1].getAdditionalRenderState().setWireframe(true);
-        blues[1].setName("debug blue ss");
-        blues[2] = createWireMaterial(am, blueColor, "debug blue ds", 2);
+        this.blues[0] = invisible;
+        this.blues[1] = createWireMaterial(am, blueColor, "debug blue ss", 1);
+        this.blues[1].getAdditionalRenderState().setWireframe(true);
+        this.blues[1].setName("debug blue ss");
+        this.blues[2] = createWireMaterial(am, blueColor, "debug blue ds", 2);
 
-        childMaterials[0] = MyAsset.createUnshadedMaterial(am, whiteColor);
-        childMaterials[1] = MyAsset.createUnshadedMaterial(am, redColor);
-        childMaterials[2] = MyAsset.createUnshadedMaterial(am, greenColor);
-        childMaterials[3] = MyAsset.createUnshadedMaterial(am, blueColor);
-        childMaterials[4] = MyAsset.createUnshadedMaterial(am, yellowColor);
-        childMaterials[5] = MyAsset.createUnshadedMaterial(am, cyanColor);
-        childMaterials[6] = MyAsset.createUnshadedMaterial(am, orangeColor);
-        childMaterials[7] = MyAsset.createUnshadedMaterial(am, magentaColor);
-        childMaterials[8] = MyAsset.createUnshadedMaterial(am, pinkColor);
-        childMaterials[9] = MyAsset.createUnshadedMaterial(am, brownColor);
+        this.childMaterials[0] = MyAsset.createUnshadedMaterial(am, whiteColor);
+        this.childMaterials[1] = MyAsset.createUnshadedMaterial(am, redColor);
+        this.childMaterials[2] = MyAsset.createUnshadedMaterial(am, greenColor);
+        this.childMaterials[3] = MyAsset.createUnshadedMaterial(am, blueColor);
+        this.childMaterials[4]
+                = MyAsset.createUnshadedMaterial(am, yellowColor);
+        this.childMaterials[5] = MyAsset.createUnshadedMaterial(am, cyanColor);
+        this.childMaterials[6]
+                = MyAsset.createUnshadedMaterial(am, orangeColor);
+        this.childMaterials[7]
+                = MyAsset.createUnshadedMaterial(am, magentaColor);
+        this.childMaterials[8] = MyAsset.createUnshadedMaterial(am, pinkColor);
+        this.childMaterials[9] = MyAsset.createUnshadedMaterial(am, brownColor);
         for (int childI = 0; childI < childMaterials.length; ++childI) {
             childMaterials[childI].setName("debug child " + childI);
         }
@@ -560,21 +563,23 @@ public class BulletDebugAppState extends BaseAppState {
         float jointLineWidth = configuration.jointLineWidth();
         setJointLineWidth(jointLineWidth);
 
-        magentas[0] = invisible;
-        magentas[1] = createWireMaterial(
+        this.magentas[0] = invisible;
+        this.magentas[1] = createWireMaterial(
                 am, magentaColor, "debug magenta ss", 1);
-        magentas[2] = createWireMaterial(
+        this.magentas[2] = createWireMaterial(
                 am, magentaColor, "debug magenta ds", 2);
 
-        pink[0] = invisible;
-        pink[1] = createWireMaterial(am, pinkColor, "debug pink ss", 1);
-        pink[2] = createWireMaterial(am, pinkColor, "debug pink ds", 2);
+        this.pink[0] = invisible;
+        this.pink[1] = createWireMaterial(am, pinkColor, "debug pink ss", 1);
+        this.pink[2] = createWireMaterial(am, pinkColor, "debug pink ds", 2);
 
-        white = createWireMaterial(am, whiteColor, "debug white", 2);
+        this.white = createWireMaterial(am, whiteColor, "debug white", 2);
 
-        yellows[0] = invisible;
-        yellows[1] = createWireMaterial(am, yellowColor, "debug yellow ss", 1);
-        yellows[2] = createWireMaterial(am, yellowColor, "debug yellow ds", 2);
+        this.yellows[0] = invisible;
+        this.yellows[1]
+                = createWireMaterial(am, yellowColor, "debug yellow ss", 1);
+        this.yellows[2]
+                = createWireMaterial(am, yellowColor, "debug yellow ds", 2);
     }
 
     /**

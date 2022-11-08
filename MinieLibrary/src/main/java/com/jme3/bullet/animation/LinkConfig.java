@@ -117,12 +117,12 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
      * the vertices.
      */
     public LinkConfig() {
-        centerHeuristic = CenterHeuristic.Mean;
-        massParameter = 1f;
-        massHeuristic = MassHeuristic.Mass;
-        rotationOrder = null;
-        shapeHeuristic = ShapeHeuristic.VertexHull;
-        shapeScale = new Vector3f(1f, 1f, 1f);
+        this.centerHeuristic = CenterHeuristic.Mean;
+        this.massParameter = 1f;
+        this.massHeuristic = MassHeuristic.Mass;
+        this.rotationOrder = null;
+        this.shapeHeuristic = ShapeHeuristic.VertexHull;
+        this.shapeScale = new Vector3f(1f, 1f, 1f);
     }
 
     /**
@@ -135,12 +135,12 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     public LinkConfig(float mass) {
         Validate.positive(mass, "mass");
 
-        centerHeuristic = CenterHeuristic.Mean;
-        massParameter = mass;
-        massHeuristic = MassHeuristic.Mass;
-        rotationOrder = null;
-        shapeHeuristic = ShapeHeuristic.VertexHull;
-        shapeScale = new Vector3f(1f, 1f, 1f);
+        this.centerHeuristic = CenterHeuristic.Mean;
+        this.massParameter = mass;
+        this.massHeuristic = MassHeuristic.Mass;
+        this.rotationOrder = null;
+        this.shapeHeuristic = ShapeHeuristic.VertexHull;
+        this.shapeScale = new Vector3f(1f, 1f, 1f);
     }
 
     /**
@@ -154,12 +154,12 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         Validate.positive(mass, "mass");
         Validate.nonNull(oldConfig, "old configuration");
 
-        centerHeuristic = oldConfig.centerHeuristic();
-        massParameter = mass;
-        massHeuristic = MassHeuristic.Mass;
-        rotationOrder = null;
-        shapeHeuristic = oldConfig.shapeHeuristic();
-        shapeScale = oldConfig.shapeScale(null);
+        this.centerHeuristic = oldConfig.centerHeuristic();
+        this.massParameter = mass;
+        this.massHeuristic = MassHeuristic.Mass;
+        this.rotationOrder = null;
+        this.shapeHeuristic = oldConfig.shapeHeuristic();
+        this.shapeScale = oldConfig.shapeScale(null);
     }
 
     /**
@@ -180,12 +180,12 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         Validate.nonNegative(sScale, "shape scale");
         Validate.nonNull(centerH, "center heuristic");
 
-        centerHeuristic = centerH;
-        massParameter = massParm;
-        massHeuristic = massH;
-        rotationOrder = null;
-        shapeHeuristic = shapeH;
-        shapeScale = sScale.clone();
+        this.centerHeuristic = centerH;
+        this.massParameter = massParm;
+        this.massHeuristic = massH;
+        this.rotationOrder = null;
+        this.shapeHeuristic = shapeH;
+        this.shapeScale = sScale.clone();
     }
 
     /**
@@ -209,12 +209,12 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
         Validate.nonNegative(sScale, "shape scale");
         Validate.nonNull(centerH, "center heuristic");
 
-        centerHeuristic = centerH;
-        massParameter = massParm;
-        massHeuristic = massH;
-        rotationOrder = axisOrder;
-        shapeHeuristic = shapeH;
-        shapeScale = sScale.clone();
+        this.centerHeuristic = centerH;
+        this.massParameter = massParm;
+        this.massHeuristic = massH;
+        this.rotationOrder = axisOrder;
+        this.shapeHeuristic = shapeH;
+        this.shapeScale = sScale.clone();
     }
     // *************************************************************************
     // new methods exposed
@@ -491,16 +491,16 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        centerHeuristic = capsule.readEnum(tagCenterHeuristic,
+        this.centerHeuristic = capsule.readEnum(tagCenterHeuristic,
                 CenterHeuristic.class, CenterHeuristic.Mean);
-        massParameter = capsule.readFloat(tagMassParameter, 1f);
-        massHeuristic = capsule.readEnum(tagMassHeuristic, MassHeuristic.class,
-                MassHeuristic.Mass);
-        rotationOrder = capsule.readEnum(tagRotationOrder, RotationOrder.class,
-                null);
-        shapeHeuristic = capsule.readEnum(tagShapeHeuristic,
+        this.massParameter = capsule.readFloat(tagMassParameter, 1f);
+        this.massHeuristic = capsule.readEnum(
+                tagMassHeuristic, MassHeuristic.class, MassHeuristic.Mass);
+        this.rotationOrder
+                = capsule.readEnum(tagRotationOrder, RotationOrder.class, null);
+        this.shapeHeuristic = capsule.readEnum(tagShapeHeuristic,
                 ShapeHeuristic.class, ShapeHeuristic.VertexHull);
-        shapeScale = (Vector3f) capsule.readSavable(tagShapeScale, null);
+        this.shapeScale = (Vector3f) capsule.readSavable(tagShapeScale, null);
     }
 
     /**

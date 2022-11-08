@@ -153,12 +153,13 @@ public class TorsoLink extends PhysicsLink {
             Transform meshToModel, Vector3f localOffset) {
         super(control, mainRootBone, collisionShape, linkConfig, localOffset);
         this.meshToModel = meshToModel.clone();
-        managedBones = control.listManagedBones(DacConfiguration.torsoName);
+        this.managedBones
+                = control.listManagedBones(DacConfiguration.torsoName);
 
         int numManaged = countManaged();
-        startBoneTransforms = new Transform[numManaged];
+        this.startBoneTransforms = new Transform[numManaged];
         for (int i = 0; i < numManaged; ++i) {
-            startBoneTransforms[i] = new Transform();
+            this.startBoneTransforms[i] = new Transform();
         }
     }
 
@@ -186,9 +187,9 @@ public class TorsoLink extends PhysicsLink {
                 = control.listManagedArmatureJoints(DacConfiguration.torsoName);
 
         int numManagedJoints = managedArmatureJoints.length;
-        startBoneTransforms = new Transform[numManagedJoints];
+        this.startBoneTransforms = new Transform[numManagedJoints];
         for (int i = 0; i < numManagedJoints; ++i) {
-            startBoneTransforms[i] = new Transform();
+            this.startBoneTransforms[i] = new Transform();
         }
     }
     // *************************************************************************
@@ -311,13 +312,13 @@ public class TorsoLink extends PhysicsLink {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        managedBones = cloner.clone(managedBones);
-        managedArmatureJoints = cloner.clone(managedArmatureJoints);
-        endModelTransform = cloner.clone(endModelTransform);
-        meshToModel = cloner.clone(meshToModel);
-        prevBoneTransforms = cloner.clone(prevBoneTransforms);
-        startBoneTransforms = cloner.clone(startBoneTransforms);
-        startModelTransform = cloner.clone(startModelTransform);
+        this.managedBones = cloner.clone(managedBones);
+        this.managedArmatureJoints = cloner.clone(managedArmatureJoints);
+        this.endModelTransform = cloner.clone(endModelTransform);
+        this.meshToModel = cloner.clone(meshToModel);
+        this.prevBoneTransforms = cloner.clone(prevBoneTransforms);
+        this.startBoneTransforms = cloner.clone(startBoneTransforms);
+        this.startModelTransform = cloner.clone(startModelTransform);
     }
 
     /**
@@ -491,18 +492,18 @@ public class TorsoLink extends PhysicsLink {
 
         super.postRebuildLink(oldLink);
         if (oldLink.isKinematic()) {
-            submode = oldLink.submode;
+            this.submode = oldLink.submode;
         } else {
-            submode = KinematicSubmode.Frozen;
+            this.submode = KinematicSubmode.Frozen;
         }
 
-        endModelTransform = Heart.deepCopy(oldLink.endModelTransform);
+        this.endModelTransform = Heart.deepCopy(oldLink.endModelTransform);
         startModelTransform.set(oldLink.startModelTransform);
 
         if (prevBoneTransforms == null) {
-            prevBoneTransforms = new Transform[numManaged];
+            this.prevBoneTransforms = new Transform[numManaged];
             for (int managedI = 0; managedI < numManaged; ++managedI) {
-                prevBoneTransforms[managedI] = new Transform();
+                this.prevBoneTransforms[managedI] = new Transform();
             }
         }
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
@@ -529,35 +530,35 @@ public class TorsoLink extends PhysicsLink {
         Savable[] tmp
                 = capsule.readSavableArray(tagManagedArmatureJoints, null);
         if (tmp == null) {
-            managedArmatureJoints = null;
+            this.managedArmatureJoints = null;
         } else {
-            managedArmatureJoints = new Joint[tmp.length];
+            this.managedArmatureJoints = new Joint[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
-                managedArmatureJoints[managedI] = (Joint) tmp[managedI];
+                this.managedArmatureJoints[managedI] = (Joint) tmp[managedI];
             }
         }
 
         tmp = capsule.readSavableArray(tagManagedBones, null);
         if (tmp == null) {
-            managedBones = null;
+            this.managedBones = null;
         } else {
-            managedBones = new Bone[tmp.length];
+            this.managedBones = new Bone[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
-                managedBones[managedI] = (Bone) tmp[managedI];
+                this.managedBones[managedI] = (Bone) tmp[managedI];
             }
         }
 
-        submode = capsule.readEnum(tagSubmode, KinematicSubmode.class,
+        this.submode = capsule.readEnum(tagSubmode, KinematicSubmode.class,
                 KinematicSubmode.Animated);
-        endModelTransform = (Transform) capsule.readSavable(
+        this.endModelTransform = (Transform) capsule.readSavable(
                 tagEndModelTransform, new Transform());
-        meshToModel = (Transform) capsule.readSavable(tagMeshToModel,
+        this.meshToModel = (Transform) capsule.readSavable(tagMeshToModel,
                 new Transform());
-        startModelTransform = (Transform) capsule.readSavable(
+        this.startModelTransform = (Transform) capsule.readSavable(
                 tagStartModelTransform, new Transform());
-        prevBoneTransforms = RagUtils.readTransformArray(capsule,
+        this.prevBoneTransforms = RagUtils.readTransformArray(capsule,
                 tagPrevBoneTransforms);
-        startBoneTransforms = RagUtils.readTransformArray(capsule,
+        this.startBoneTransforms = RagUtils.readTransformArray(capsule,
                 tagStartBoneTransforms);
     }
 
@@ -609,7 +610,7 @@ public class TorsoLink extends PhysicsLink {
              * the array of previous bone transforms, if it wasn't
              * allocated in blendToKinematicMode().
              */
-            prevBoneTransforms = new Transform[numManaged];
+            this.prevBoneTransforms = new Transform[numManaged];
             for (int managedI = 0; managedI < numManaged; ++managedI) {
                 Transform boneTransform = copyManagedTransform(managedI, null);
                 prevBoneTransforms[managedI] = boneTransform;

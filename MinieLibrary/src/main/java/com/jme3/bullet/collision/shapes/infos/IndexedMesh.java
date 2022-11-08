@@ -491,11 +491,11 @@ public class IndexedMesh
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        indexStride = capsule.readInt(tagIndexStride, 12);
-        numTriangles = capsule.readInt(tagNumTriangles, 0);
-        numVertices = capsule.readInt(tagNumVertices, 0);
+        this.indexStride = capsule.readInt(tagIndexStride, 12);
+        this.numTriangles = capsule.readInt(tagNumTriangles, 0);
+        this.numVertices = capsule.readInt(tagNumVertices, 0);
 
-        vertexStride = capsule.readInt(tagVertexStride, 12);
+        this.vertexStride = capsule.readInt(tagVertexStride, 12);
         assert vertexStride == numAxes * floatBytes : vertexStride;
 
         int[] intArray = capsule.readIntArray(tagIndexInts, new int[0]);
@@ -525,7 +525,7 @@ public class IndexedMesh
 
         float[] floatArray = capsule.readFloatArray(tagVertices, new float[0]);
         assert floatArray.length == numVertices * numAxes;
-        vertexPositions = BufferUtils.createFloatBuffer(floatArray);
+        this.vertexPositions = BufferUtils.createFloatBuffer(floatArray);
 
         createMesh();
     }
@@ -575,31 +575,31 @@ public class IndexedMesh
     private void create(Mesh jmeMesh, Transform transform) {
         assert MyMesh.hasTriangles(jmeMesh);
 
-        numVertices = jmeMesh.getVertexCount();
+        this.numVertices = jmeMesh.getVertexCount();
         if (numVertices <= 0) {
-            numVertices = 0;
+            this.numVertices = 0;
         }
 
         FloatBuffer meshVs = jmeMesh.getFloatBuffer(VertexBuffer.Type.Position);
         int numFloats = numAxes * numVertices;
-        vertexPositions = BufferUtils.createFloatBuffer(numFloats);
+        this.vertexPositions = BufferUtils.createFloatBuffer(numFloats);
         for (int offset = 0; offset < numFloats; ++offset) {
             float temp = meshVs.get(offset);
             vertexPositions.put(offset, temp);
         }
-        vertexStride = numAxes * floatBytes;
+        this.vertexStride = numAxes * floatBytes;
 
         if (transform != null && !MyMath.isIdentity(transform)) {
             MyBuffer.transform(vertexPositions, 0, numFloats, transform);
         }
 
-        numTriangles = jmeMesh.getTriangleCount();
+        this.numTriangles = jmeMesh.getTriangleCount();
         if (numTriangles <= 0) {
-            numTriangles = 0;
+            this.numTriangles = 0;
         }
         int numIndices = vpt * numTriangles;
 
-        indices = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        this.indices = IndexBuffer.createIndexBuffer(numVertices, numIndices);
 
         IndexBuffer triangleIndices = jmeMesh.getIndicesAsList();
         for (int offset = 0; offset < numIndices; ++offset) {
@@ -609,7 +609,7 @@ public class IndexedMesh
             indices.put(offset, index);
         }
         int indexBytes = indices.getFormat().getComponentSize();
-        indexStride = vpt * indexBytes;
+        this.indexStride = vpt * indexBytes;
 
         createMesh();
     }

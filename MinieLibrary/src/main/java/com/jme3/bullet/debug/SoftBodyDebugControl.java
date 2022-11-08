@@ -145,7 +145,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             if (clustersGeometry != null) {
                 node.detachChild(clustersGeometry);
             }
-            clustersGeometry = createClustersGeometry();
+            this.clustersGeometry = createClustersGeometry();
             assert isClustersGeometrySized();
             if (clustersGeometry != null) {
                 node.attachChild(clustersGeometry);
@@ -157,7 +157,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             if (facesGeometry != null) {
                 node.detachChild(facesGeometry);
             }
-            facesGeometry = createFacesGeometry();
+            this.facesGeometry = createFacesGeometry();
             assert isFacesGeometrySized();
             if (facesGeometry != null) {
                 node.attachChild(facesGeometry);
@@ -169,7 +169,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             if (linksGeometry != null) {
                 node.detachChild(linksGeometry);
             }
-            linksGeometry = createLinksGeometry();
+            this.linksGeometry = createLinksGeometry();
             assert isLinksGeometrySized();
             if (linksGeometry != null) {
                 node.attachChild(linksGeometry);
@@ -181,7 +181,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             if (pinsGeometry != null) {
                 node.detachChild(pinsGeometry);
             }
-            pinsGeometry = createPinsGeometry();
+            this.pinsGeometry = createPinsGeometry();
             assert isPinsGeometrySized();
             if (pinsGeometry != null) {
                 node.attachChild(pinsGeometry);

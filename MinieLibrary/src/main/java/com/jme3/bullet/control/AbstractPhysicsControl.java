@@ -147,7 +147,7 @@ abstract public class AbstractPhysicsControl
      * false&rarr;match world coordinates (default=false)
      */
     public void setApplyPhysicsLocal(boolean applyPhysicsLocal) {
-        localPhysics = applyPhysicsLocal;
+        this.localPhysics = applyPhysicsLocal;
     }
     // *************************************************************************
     // new protected methods
@@ -279,8 +279,8 @@ abstract public class AbstractPhysicsControl
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        tmpInverseWorldRotation = cloner.clone(tmpInverseWorldRotation);
-        controlledSpatial = cloner.clone(controlledSpatial);
+        this.tmpInverseWorldRotation = cloner.clone(tmpInverseWorldRotation);
+        this.controlledSpatial = cloner.clone(controlledSpatial);
         // space not cloned
     }
 
@@ -351,9 +351,10 @@ abstract public class AbstractPhysicsControl
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        enabled = capsule.readBoolean(tagEnabled, true);
-        controlledSpatial = (Spatial) capsule.readSavable(tagSpatial, null);
-        localPhysics = capsule.readBoolean(tagApplyLocalPhysics, false);
+        this.enabled = capsule.readBoolean(tagEnabled, true);
+        this.controlledSpatial
+                = (Spatial) capsule.readSavable(tagSpatial, null);
+        this.localPhysics = capsule.readBoolean(tagApplyLocalPhysics, false);
     }
 
     /**
@@ -388,10 +389,10 @@ abstract public class AbstractPhysicsControl
                     setPhysicsRotation(getSpatialRotation());
                 }
                 addPhysics();
-                added = true;
+                this.added = true;
             } else if (!enable && added) {
                 removePhysics();
-                added = false;
+                this.added = false;
             }
         }
     }
@@ -413,10 +414,10 @@ abstract public class AbstractPhysicsControl
             removePhysics();
             added = false;
         }
-        space = newSpace;
+        this.space = newSpace;
         if (newSpace != null && isEnabled()) {
             addPhysics();
-            added = true;
+            this.added = true;
         }
         /*
          * If the Control isn't enabled, its physics objects will be
@@ -440,7 +441,7 @@ abstract public class AbstractPhysicsControl
             removeSpatialData(controlledSpatial);
         }
 
-        controlledSpatial = newSpatial;
+        this.controlledSpatial = newSpatial;
 
         if (newSpatial != null) {
             createSpatialData(controlledSpatial);

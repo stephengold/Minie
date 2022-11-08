@@ -97,7 +97,7 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
     private void updateMultiBodies() {
         HashMap<MultiBodyCollider, Node> oldMap = colliderMap;
         // create new map
-        colliderMap = new HashMap<>(oldMap.size());
+        this.colliderMap = new HashMap<>(oldMap.size());
         DebugConfiguration config = getConfiguration();
         MultiBodySpace pSpace = (MultiBodySpace) config.getSpace();
         Collection<MultiBody> list = pSpace.getMultiBodyList();
