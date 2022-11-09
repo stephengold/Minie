@@ -102,7 +102,6 @@ public class NativeSoftBodyUtilTest {
         });
 
         verifyIndexMap(jmePositions, jme2bulletIndexMap, bulletPositions);
-
         /*
          * generate bullet positions from the index mapping,
          * test should still pass

@@ -571,8 +571,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
 
         int numFloats = MyVector3f.numAxes * numPoints;
         FloatBuffer centers = BufferUtils.createFloatBuffer(numFloats);
-        result.setBuffer(VertexBuffer.Type.Position, MyVector3f.numAxes,
-                centers);
+        result.setBuffer(
+                VertexBuffer.Type.Position, MyVector3f.numAxes, centers);
 
         result.setMode(Mesh.Mode.Points);
         result.setStreamed();
