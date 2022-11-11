@@ -12,7 +12,7 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
-    runtimeOnly testdataCoordinates
+    runtimeOnly 'org.jmonkeyengine:jme3-testdata:' + jme3Version
 
     // select one version of LWJGL:
     //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
