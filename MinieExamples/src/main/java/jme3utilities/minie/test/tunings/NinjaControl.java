@@ -66,6 +66,7 @@ public class NinjaControl
                 CenterHeuristic.Mean, RotationOrder.XZY);
 
         super.setConfig(torsoName, hull);
+        super.setMainBoneName("Joint2");
 
         // chest
         super.link("Joint4", hull,

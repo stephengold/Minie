@@ -72,6 +72,7 @@ public class MhGameControl
                 CenterHeuristic.Mean, RotationOrder.XZY);
 
         super.setConfig(torsoName, hull);
+        super.setMainBoneName("pelvis");
 
         super.link("spine_03", simplified,
                 new RangeOfMotion(0.8f, 0.5f, 0.5f)); // 2,047 vertices
