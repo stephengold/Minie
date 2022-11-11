@@ -107,6 +107,9 @@ final public class RagUtils {
     /**
      * Assign each mesh vertex to a bone/torso link and add its location (mesh
      * coordinates in bind pose) to that link's list.
+     * <p>
+     * A software skin update must precede any request for vertex locations.
+     * TODO use the Wes library to avoid this limitation?
      *
      * @param meshes array of animated meshes to use (not null, unaffected)
      * @param managerMap a map from bone indices to managing link names (not
