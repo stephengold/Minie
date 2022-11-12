@@ -120,7 +120,8 @@ public class DeformableSpace extends MultiBodySpace {
      * @return the pre-existing DeformableSpace running on this thread
      */
     public static DeformableSpace getDeformableSpace() {
-        return (DeformableSpace) getCollisionSpace();
+        CollisionSpace result = getCollisionSpace();
+        return (DeformableSpace) result;
     }
 
     /**

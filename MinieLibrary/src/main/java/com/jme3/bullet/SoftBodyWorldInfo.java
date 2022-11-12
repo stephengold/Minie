@@ -249,7 +249,9 @@ public class SoftBodyWorldInfo
      */
     public float waterOffset() {
         long infoId = nativeId();
-        return getWaterOffset(infoId);
+        float result = getWaterOffset(infoId);
+
+        return result;
     }
     // *************************************************************************
     // JmeCloneable methods

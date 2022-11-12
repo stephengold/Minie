@@ -163,11 +163,13 @@ public class BoxCollisionShape extends ConvexShape {
     public Vector3f getHalfExtents(Vector3f storeResult) {
         assert MyVector3f.isAllNonNegative(halfExtents) : halfExtents;
 
+        Vector3f result;
         if (storeResult == null) {
-            return halfExtents.clone();
+            result = halfExtents.clone();
         } else {
-            return storeResult.set(halfExtents);
+            result = storeResult.set(halfExtents);
         }
+        return result;
     }
 
     /**

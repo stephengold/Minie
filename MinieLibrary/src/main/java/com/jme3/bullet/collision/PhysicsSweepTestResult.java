@@ -113,11 +113,13 @@ public class PhysicsSweepTestResult { // TODO finalize the class
      * or a new vector, not null)
      */
     public Vector3f getHitNormalLocal(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return normal.clone();
+            result = normal.clone();
         } else {
-            return storeResult.set(normal);
+            result = storeResult.set(normal);
         }
+        return result;
     }
 
     /**

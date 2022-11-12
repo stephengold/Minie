@@ -163,11 +163,13 @@ public class GearJoint extends Constraint {
     public Vector3f getAxisA(Vector3f storeResult) {
         assert checkAxisA();
 
+        Vector3f result;
         if (storeResult == null) {
-            return axisA.clone();
+            result = axisA.clone();
         } else {
-            return storeResult.set(axisA);
+            result = storeResult.set(axisA);
         }
+        return result;
     }
 
     /**
@@ -180,11 +182,13 @@ public class GearJoint extends Constraint {
     public Vector3f getAxisB(Vector3f storeResult) {
         assert checkAxisB();
 
+        Vector3f result;
         if (storeResult == null) {
-            return axisB.clone();
+            result = axisB.clone();
         } else {
-            return storeResult.set(axisB);
+            result = storeResult.set(axisB);
         }
+        return result;
     }
 
     /**

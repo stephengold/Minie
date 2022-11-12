@@ -254,11 +254,14 @@ public class SimplexCollisionShape extends ConvexShape {
         int numVertices = locations.length;
         Validate.inRange(index, "index", 0, numVertices - 1);
 
+        Vector3f result;
         if (storeResult == null) {
-            return locations[index].clone();
+            result = locations[index].clone();
         } else {
-            return storeResult.set(locations[index]);
+            result = storeResult.set(locations[index]);
         }
+
+        return result;
     }
 
     /**

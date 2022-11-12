@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 jMonkeyEngine
+ * Copyright (c) 2019-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -137,11 +137,14 @@ public class Anchor extends PhysicsJoint {
      * storeResult or a new instance)
      */
     public Vector3f copyPivot(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return pivotInB.clone();
+            result = pivotInB.clone();
         } else {
-            return storeResult.set(pivotInB);
+            result = storeResult.set(pivotInB);
         }
+
+        return result;
     }
 
     /**

@@ -268,14 +268,19 @@ abstract public class Constraint extends PhysicsJoint {
     public Vector3f getPivot(JointEnd end, Vector3f storeResult) {
         Validate.nonNull(end, "end");
 
+        Vector3f result;
         switch (end) {
             case A:
-                return getPivotA(storeResult);
+                result = getPivotA(storeResult);
+                break;
             case B:
-                return getPivotB(storeResult);
+                result = getPivotB(storeResult);
+                break;
             default:
                 throw new IllegalArgumentException("end = " + end);
         }
+
+        return result;
     }
 
     /**
