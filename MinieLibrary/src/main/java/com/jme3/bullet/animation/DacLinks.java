@@ -1653,8 +1653,8 @@ public class DacLinks
             this.torsoLink = new TorsoLink(
                     this, bone, shape, linkConfig, meshToModel, offset);
         } else {
-            this.torsoLink = new TorsoLink(
-                    this, armatureJoint, shape, linkConfig, meshToModel, offset);
+            this.torsoLink = new TorsoLink(this, armatureJoint, shape,
+                    linkConfig, meshToModel, offset);
         }
     }
 
