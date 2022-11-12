@@ -265,8 +265,8 @@ public class VehicleController extends NativePhysicsObject {
      * @param forwardAxisIndex the desired local axis index (0&rarr;X, 1&rarr;Y,
      * 2&rarr;Z, default=2)
      */
-    public void setCoordinateSystem(int rightAxisIndex, int upAxisIndex,
-            int forwardAxisIndex) {
+    public void setCoordinateSystem(
+            int rightAxisIndex, int upAxisIndex, int forwardAxisIndex) {
         Validate.axisIndex(rightAxisIndex, "right axis");
         Validate.axisIndex(upAxisIndex, "up axis");
         Validate.axisIndex(forwardAxisIndex, "forward axis");
@@ -290,8 +290,8 @@ public class VehicleController extends NativePhysicsObject {
      * @param forward the desired direction (in chassis coordinates, not null,
      * length=1, default=(0,0,1))
      */
-    public void setCoordinateSystem(Vector3f right, Vector3f up,
-            Vector3f forward) {
+    public void
+            setCoordinateSystem(Vector3f right, Vector3f up, Vector3f forward) {
         Validate.nonNull(right, "right");
         Validate.nonNull(right, "up");
         Validate.nonNull(right, "forward");
@@ -363,14 +363,14 @@ public class VehicleController extends NativePhysicsObject {
             Vector3f direction, Vector3f axle, float restLength, float radius,
             long tuningId, boolean frontWheel);
 
-    native private static void applyEngineForce(long controllerId,
-            int wheelIndex, float force);
+    native private static void
+            applyEngineForce(long controllerId, int wheelIndex, float force);
 
-    native private static void brake(long controllerId, int wheelIndex,
-            float impulse);
+    native private static void
+            brake(long controllerId, int wheelIndex, float impulse);
 
-    native private static long createRaycastVehicle(long spaceId, long bodyId,
-            long tuningId);
+    native private static long
+            createRaycastVehicle(long spaceId, long bodyId, long tuningId);
 
     native private static void finalizeNative(long controllerId);
 
@@ -378,8 +378,8 @@ public class VehicleController extends NativePhysicsObject {
 
     native private static int getForwardAxisIndex(long controllerId);
 
-    native private static void getForwardVector(long controllerId,
-            Vector3f storeResult);
+    native private static void
+            getForwardVector(long controllerId, Vector3f storeResult);
 
     native private static int getNumWheels(long controllerId);
 
@@ -394,12 +394,12 @@ public class VehicleController extends NativePhysicsObject {
     native private static void setCoordinateSystem(long controllerId,
             int rightAxisIndex, int upAxisIndex, int forwardAxisIndex);
 
-    native private static void setupCoordinateSystem(long controllerId,
-            Vector3f right, Vector3f up, Vector3f forward);
+    native private static void setupCoordinateSystem(
+            long controllerId, Vector3f right, Vector3f up, Vector3f forward);
 
-    native private static void steer(long controllerId, int wheelIndex,
-            float angle);
+    native private static void
+            steer(long controllerId, int wheelIndex, float angle);
 
-    native private static void updateWheelTransform(long controllerId,
-            int wheelIndex, boolean interpolated);
+    native private static void updateWheelTransform(
+            long controllerId, int wheelIndex, boolean interpolated);
 }

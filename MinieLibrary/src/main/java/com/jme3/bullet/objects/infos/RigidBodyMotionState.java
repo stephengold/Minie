@@ -288,19 +288,19 @@ public class RigidBodyMotionState
     // *************************************************************************
     // native private methods
 
-    native private static boolean applyTransform(long stateId,
-            Vector3f location, Quaternion rotation);
+    native private static boolean applyTransform(
+            long stateId, Vector3f location, Quaternion rotation);
 
     native private static long createMotionState();
 
     native private static void finalizeNative(long objectId);
 
-    native private static void getWorldLocation(long stateId,
-            Vector3f storeResult);
+    native private static void
+            getWorldLocation(long stateId, Vector3f storeResult);
 
-    native private static void getWorldRotation(long stateId,
-            Matrix3f storeResult);
+    native private static void
+            getWorldRotation(long stateId, Matrix3f storeResult);
 
-    native private static void getWorldRotationQuat(long stateId,
-            Quaternion storeResult);
+    native private static void
+            getWorldRotationQuat(long stateId, Quaternion storeResult);
 }

@@ -133,6 +133,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     public Collection<PhysicsSoftBody> getSoftBodyList() {
         Collection<PhysicsSoftBody> result = softBodyMap.values();
         result = Collections.unmodifiableCollection(result);
+
         return result;
     }
 

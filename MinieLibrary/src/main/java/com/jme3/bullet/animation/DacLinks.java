@@ -475,8 +475,8 @@ public class DacLinks
      * @return the calculated physics transform (either storeResult or a new
      * transform, not null)
      */
-    Transform physicsTransform(Bone bone, Vector3f localOffset,
-            Transform storeResult) {
+    Transform physicsTransform(
+            Bone bone, Vector3f localOffset, Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 
@@ -506,8 +506,8 @@ public class DacLinks
      * @return the calculated physics transform (either storeResult or a new
      * transform, not null)
      */
-    Transform physicsTransform(Joint joint, Vector3f localOffset,
-            Transform storeResult) {
+    Transform physicsTransform(
+            Joint joint, Vector3f localOffset, Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
         /*
@@ -763,8 +763,7 @@ public class DacLinks
         int numDacs = MySpatial.countControls(spatial, DacLinks.class);
         if (numDacs > 1) {
             logger3.log(Level.WARNING, "Added a DynamicAnimControl to a model "
-                    + "that already contains {0}.",
-                    numDacs - 1);
+                    + "that already contains {0}.", numDacs - 1);
         }
 
         boolean saveHwSkinning;
@@ -804,8 +803,8 @@ public class DacLinks
 
                 userScale.set(bone.getLocalScale());
                 userScale.divideLocal(bone.getBindScale()); // multiply?
-                bone.setUserTransforms(translateIdentity, rotateIdentity,
-                        userScale);
+                bone.setUserTransforms(
+                        translateIdentity, rotateIdentity, userScale);
             }
             MySkeleton.setUserControl(skeleton, false);
             skeleton.updateWorldVectors();
@@ -991,8 +990,8 @@ public class DacLinks
             }
         }
 
-        Savable[] savableArray = capsule.readSavableArray(tagAttachmentLinks,
-                new AttachmentLink[0]);
+        Savable[] savableArray = capsule.readSavableArray(
+                tagAttachmentLinks, new AttachmentLink[0]);
         for (Savable savable : savableArray) {
             AttachmentLink link = (AttachmentLink) savable;
             String name = link.boneName();
@@ -1468,11 +1467,11 @@ public class DacLinks
         Vector3f center = centerHeuristic.center(vertexLocations, null);
 
         // Create the CollisionShape.
-        CollisionShape shape = linkConfig.createShape(transformIdentity,
-                center, vertexLocations);
+        CollisionShape shape = linkConfig
+                .createShape(transformIdentity, center, vertexLocations);
 
-        AttachmentLink link = new AttachmentLink(this, bone, manager,
-                attachModel, shape, linkConfig, center);
+        AttachmentLink link = new AttachmentLink(
+                this, bone, manager, attachModel, shape, linkConfig, center);
         attachmentLinks.put(boneName, link);
     }
 
@@ -1519,8 +1518,8 @@ public class DacLinks
         Vector3f center = centerHeuristic.center(vertexLocations, null);
 
         // Create the CollisionShape.
-        CollisionShape shape = linkConfig.createShape(transformIdentity,
-                center, vertexLocations);
+        CollisionShape shape = linkConfig
+                .createShape(transformIdentity, center, vertexLocations);
 
         AttachmentLink link = new AttachmentLink(this, joint, manager,
                 attachModel, shape, linkConfig, center);
@@ -1651,11 +1650,11 @@ public class DacLinks
         }
 
         if (skeleton != null) {
-            this.torsoLink = new TorsoLink(this, bone, shape, linkConfig,
-                    meshToModel, offset);
+            this.torsoLink = new TorsoLink(
+                    this, bone, shape, linkConfig, meshToModel, offset);
         } else {
-            this.torsoLink = new TorsoLink(this, armatureJoint, shape,
-                    linkConfig, meshToModel, offset);
+            this.torsoLink = new TorsoLink(
+                    this, armatureJoint, shape, linkConfig, meshToModel, offset);
         }
     }
 

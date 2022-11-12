@@ -180,14 +180,14 @@ public class DynamicAnimControl
      */
     public void amputateSubtree(BoneLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
-        Validate.require(rootLink.getControl() == this,
-                "link belongs to this control");
+        Validate.require(
+                rootLink.getControl() == this, "link belongs to this control");
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
         blendDescendants(rootLink, KinematicSubmode.Amputated, blendInterval);
-        rootLink.blendToKinematicMode(KinematicSubmode.Amputated,
-                blendInterval);
+        rootLink.blendToKinematicMode(
+                KinematicSubmode.Amputated, blendInterval);
     }
 
     /**
@@ -201,8 +201,8 @@ public class DynamicAnimControl
      */
     public void animateSubtree(PhysicsLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
-        Validate.require(rootLink.getControl() == this,
-                "link belongs to this control");
+        Validate.require(
+                rootLink.getControl() == this, "link belongs to this control");
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
@@ -219,8 +219,8 @@ public class DynamicAnimControl
      */
     public void bindSubtree(PhysicsLink rootLink, float blendInterval) {
         Validate.nonNull(rootLink, "root link");
-        Validate.require(rootLink.getControl() == this,
-                "link belongs to this control");
+        Validate.require(
+                rootLink.getControl() == this, "link belongs to this control");
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
@@ -334,8 +334,8 @@ public class DynamicAnimControl
             if (armature == null) {
                 Bone attachBone = skeleton.getBone(attachName);
                 if (attachBone == null) {
-                    String message = String.format("non-existent bone %s"
-                            + " in vertex specifier",
+                    String message = String.format(
+                            "non-existent bone %s in vertex specifier",
                             MyString.quote(attachName));
                     throw new IllegalArgumentException(message);
                 }
@@ -349,8 +349,8 @@ public class DynamicAnimControl
             } else { // armature != null
                 Joint attachArmatureJoint = armature.getJoint(attachName);
                 if (attachArmatureJoint == null) {
-                    String message = String.format("non-existent bone %s"
-                            + " in vertex specifier",
+                    String message = String.format(
+                            "non-existent bone %s in vertex specifier",
                             MyString.quote(attachName));
                     throw new IllegalArgumentException(message);
                 }
@@ -388,12 +388,11 @@ public class DynamicAnimControl
         if (vertexIndex < 0 || vertexIndex >= numVertices) {
             String message = String.format(
                     "non-existent vertex %s in vertex specifier (legal range: "
-                    + "0 to %d)", MyString.quote(fields[0]),
-                    numVertices - 1);
+                    + "0 to %d)", MyString.quote(fields[0]), numVertices - 1);
             throw new IllegalArgumentException(message);
         }
-        Vector3f pos = MyMesh.vertexVector3f(mesh, VertexBuffer.Type.Position,
-                vertexIndex, null);
+        Vector3f pos = MyMesh.vertexVector3f(
+                mesh, VertexBuffer.Type.Position, vertexIndex, null);
 
         // Find the manager and convert the pos to a world location.
         PhysicsLink manager;
@@ -410,8 +409,8 @@ public class DynamicAnimControl
             } else {
                 managerMap = managerMap(armature);
             }
-            String managerName = RagUtils.findManager(mesh, vertexIndex,
-                    new int[4], new float[4], managerMap);
+            String managerName = RagUtils.findManager(
+                    mesh, vertexIndex, new int[4], new float[4], managerMap);
             if (managerName.equals(torsoName)) {
                 manager = getTorsoLink();
             } else {
@@ -425,8 +424,8 @@ public class DynamicAnimControl
         if (storeLocalLocation != null) {
             Transform localToWorld = manager.physicsTransform(null);
             localToWorld.setScale(1f);
-            localToWorld.transformInverseVector(worldLocation,
-                    storeLocalLocation);
+            localToWorld
+                    .transformInverseVector(worldLocation, storeLocalLocation);
         }
 
         return manager;
@@ -762,8 +761,8 @@ public class DynamicAnimControl
     public void setContactResponseSubtree(
             PhysicsLink rootLink, boolean desiredResponse) {
         Validate.nonNull(rootLink, "root link");
-        Validate.require(rootLink.getControl() == this,
-                "link belongs to this control");
+        Validate.require(
+                rootLink.getControl() == this, "link belongs to this control");
         verifyAddedToSpatial("change modes");
 
         if (!rootLink.isReleased()) {
@@ -810,8 +809,8 @@ public class DynamicAnimControl
 
         PhysicsLink parent = startLink.getParent();
         if (parent != null && chainLength > 1) {
-            setDynamicChain(parent, chainLength - 1, uniformAcceleration,
-                    lockAll);
+            setDynamicChain(
+                    parent, chainLength - 1, uniformAcceleration, lockAll);
         }
     }
 
@@ -830,8 +829,8 @@ public class DynamicAnimControl
     public void setDynamicSubtree(PhysicsLink rootLink,
             Vector3f uniformAcceleration, boolean lockAll) {
         Validate.nonNull(rootLink, "root link");
-        Validate.require(rootLink.getControl() == this,
-                "link belongs to this control");
+        Validate.require(
+                rootLink.getControl() == this, "link belongs to this control");
         Validate.nonNull(uniformAcceleration, "uniform acceleration");
         verifyAddedToSpatial("change modes");
 
