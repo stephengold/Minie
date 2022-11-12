@@ -191,7 +191,10 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>jme3utilities.math.VectorSet&gt;</span>&nbsp;<span class="element-name">coordsMap</span><wbr><span class="parameters">(com.jme3.scene.Mesh[]&nbsp;meshes,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;managerMap)</span></div>
 <div class="block">Assign each mesh vertex to a bone/torso link and add its location (mesh
- coordinates in bind pose) to that link's list.</div>
+ coordinates in bind pose) to that link's list.
+ <p>
+ A software skin update must precede any request for vertex locations.
+ TODO use the Wes library to avoid this limitation?</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>meshes</code> - array of animated meshes to use (not null, unaffected)</dd>
