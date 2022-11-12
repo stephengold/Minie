@@ -77,7 +77,7 @@ public class VehicleController extends NativePhysicsObject {
         Validate.nonNull(vehicle, "vehicle");
         Validate.nonNull(space, "space");
 
-        pco = vehicle;
+        this.pco = vehicle;
 
         long spaceId = space.nativeId();
         long rigidBodyId = vehicle.nativeId();

@@ -182,7 +182,7 @@ public class VehicleTuning
      * 10000&rarr;kart racer, default=10.5)
      */
     public void setFrictionSlip(float coeff) {
-        frictionSlip = coeff;
+        this.frictionSlip = coeff;
         long tuningId = nativeId();
         setFrictionSlip(tuningId, coeff);
     }
@@ -194,7 +194,7 @@ public class VehicleTuning
      * @param maxForce the desired maximum force (default=6000)
      */
     public void setMaxSuspensionForce(float maxForce) {
-        maxSuspensionForce = maxForce;
+        this.maxSuspensionForce = maxForce;
         long tuningId = nativeId();
         setMaxSuspensionForce(tuningId, maxForce);
     }
@@ -211,7 +211,7 @@ public class VehicleTuning
      * physics-space unit, default=500)
      */
     public void setMaxSuspensionTravelCm(float travelCm) {
-        maxSuspensionTravelCm = travelCm;
+        this.maxSuspensionTravelCm = travelCm;
         long tuningId = nativeId();
         setMaxSuspensionTravelCm(tuningId, travelCm);
     }
@@ -224,7 +224,7 @@ public class VehicleTuning
      * default=0.83)
      */
     public void setSuspensionCompression(float damping) {
-        suspensionCompression = damping;
+        this.suspensionCompression = damping;
         long tuningId = nativeId();
         setSuspensionCompression(tuningId, damping);
     }
@@ -236,7 +236,7 @@ public class VehicleTuning
      * @param damping the desired damping (0&rarr;no damping, default=0.88)
      */
     public void setSuspensionDamping(float damping) {
-        suspensionDamping = damping;
+        this.suspensionDamping = damping;
         long tuningId = nativeId();
         setSuspensionDamping(tuningId, damping);
     }
@@ -249,7 +249,7 @@ public class VehicleTuning
      * 50&rarr;sports car, 200&rarr;Formula-1 race car, default=5.88)
      */
     public void setSuspensionStiffness(float stiffness) {
-        suspensionStiffness = stiffness;
+        this.suspensionStiffness = stiffness;
         long tuningId = nativeId();
         setSuspensionStiffness(tuningId, stiffness);
     }
