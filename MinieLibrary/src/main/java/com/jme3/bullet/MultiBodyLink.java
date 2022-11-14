@@ -763,8 +763,8 @@ public class MultiBodyLink
     native private static void
             getWorldTransform(long linkId, Transform storeTransform);
 
-    native private static void localFrameToWorld(long multiBodyId,
-            int linkIndex, Matrix3f rotationMatrix);
+    native private static void localFrameToWorld(
+            long multiBodyId, int linkIndex, Matrix3f rotationMatrix);
 
     native private static void localPosToWorld(
             long multiBodyId, int linkIndex, Vector3f locationVector);

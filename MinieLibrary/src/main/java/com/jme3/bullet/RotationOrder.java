@@ -95,6 +95,6 @@ public enum RotationOrder {
     // *************************************************************************
     // native private methods
 
-    native private static boolean matrixToEuler(int rotOrder,
-            Matrix3f rotMatrix, Vector3f storeVector);
+    native private static boolean matrixToEuler(
+            int rotOrder, Matrix3f rotMatrix, Vector3f storeVector);
 }

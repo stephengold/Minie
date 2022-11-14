@@ -539,8 +539,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param results the list to hold results (not null, modified)
      * @return results (sorted)
      */
-    public List<PhysicsRayTestResult> rayTest(Vector3f from, Vector3f to,
-            List<PhysicsRayTestResult> results) {
+    public List<PhysicsRayTestResult> rayTest(
+            Vector3f from, Vector3f to, List<PhysicsRayTestResult> results) {
         results.clear();
         long spaceId = nativeId();
         rayTest_native(from, to, spaceId, results, rayTestFlags);
@@ -577,8 +577,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param results the list to hold results (not null, modified)
      * @return results (unsorted)
      */
-    public List<PhysicsRayTestResult> rayTestRaw(Vector3f from, Vector3f to,
-            List<PhysicsRayTestResult> results) {
+    public List<PhysicsRayTestResult> rayTestRaw(
+            Vector3f from, Vector3f to, List<PhysicsRayTestResult> results) {
         results.clear();
         long spaceId = nativeId();
         rayTest_native(from, to, spaceId, results, rayTestFlags);
@@ -707,8 +707,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param allowedCcdPenetration (in physics-space units)
      * @return results
      */
-    public List<PhysicsSweepTestResult> sweepTest(ConvexShape shape,
-            Transform start, Transform end,
+    public List<PhysicsSweepTestResult> sweepTest(
+            ConvexShape shape, Transform start, Transform end,
             List<PhysicsSweepTestResult> results, float allowedCcdPenetration) {
         Validate.nonNull(start, "start");
         Validate.nonNull(end, "end");
@@ -717,8 +717,8 @@ public class CollisionSpace extends NativePhysicsObject {
         long shapeId = shape.nativeId();
         long spaceId = nativeId();
         results.clear();
-        sweepTest_native(shapeId, start, end, spaceId, results,
-                allowedCcdPenetration);
+        sweepTest_native(
+                shapeId, start, end, spaceId, results, allowedCcdPenetration);
 
         return results;
     }
@@ -865,8 +865,8 @@ public class CollisionSpace extends NativePhysicsObject {
     native private static int pairTest(long spaceId, long aId, long bId,
             PhysicsCollisionListener listener);
 
-    native private static void rayTest_native(Vector3f fromLocation,
-            Vector3f toLocation, long spaceId,
+    native private static void rayTest_native(
+            Vector3f fromLocation, Vector3f toLocation, long spaceId,
             List<PhysicsRayTestResult> addToList, int flags);
 
     native private static void removeCollisionObject(long spaceId, long pcoId);
