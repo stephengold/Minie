@@ -1,5 +1,14 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 6.2.0 released on TBD
+
++ Added 3 methods:
+  + `PhysicsSpace.isCcdWithStaticOnly()`
+  + `PhysicsSpace.setCcdWithStaticOnly()`
+  + `NativeLibrary.countClampedCcdMotions()`
++ Updated the native libraries to v17.0.0 of Libbulletjme.
++ Based on v0.9.17 of the Acorus library.
+
 ## Version 6.1.0 released on 1 October 2022
 
 + Bugfix:  `PreComposer` isn't properly cloned or serialized
