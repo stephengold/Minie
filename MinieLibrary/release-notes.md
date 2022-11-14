@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 6.2.0 released on TBD
+## Version 6.2.0 released on 13 November 2022
 
 + Added 3 methods:
   + `PhysicsSpace.isCcdWithStaticOnly()`

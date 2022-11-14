@@ -529,6 +529,13 @@ Things to notice while running the app:
 . The control ball (on the right) falls through the platform,
   passing from one side to the other in a single simulation step.
 
+By default, CCD tests for
+both dynamic-dynamic collisions and dynamic-static ones.
+For some applications (such as simulation of fast-moving ragdolls),
+testing for dynamic-dynamic collisions is undesirable.
+You can disable dynamic-dynamic CCD
+by invoking `physicsSpace.setCcdWithStaticOnly(true)`.
+
 == Summary
 
 * Rigid bodies simulate familiar features of real-world objects.
