@@ -1207,6 +1207,14 @@ passing from one side to the other in a single simulation step.</p>
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>By default, CCD tests for
+both dynamic-dynamic collisions and dynamic-static ones.
+For some applications (such as simulation of fast-moving ragdolls),
+testing for dynamic-dynamic collisions is undesirable.
+You can disable dynamic-dynamic CCD
+by invoking <code>physicsSpace.setCcdWithStaticOnly(true)</code>.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
