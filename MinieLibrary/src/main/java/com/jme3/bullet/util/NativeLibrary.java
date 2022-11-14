@@ -65,6 +65,16 @@ final public class NativeLibrary {
     // new methods exposed
 
     /**
+     * Count the cumulative number of clamped CCD motions (native variable:
+     * gNumClampedCcdMotions).
+     * <p>
+     * For debugging. The value shouldn't grow too large.
+     *
+     * @return the count (&ge;0)
+     */
+    native public static int countClampedCcdMotions();
+
+    /**
      * Count how many threads are available for task scheduling.
      *
      * @return the count (&ge;0)
