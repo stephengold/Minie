@@ -752,6 +752,9 @@ public class PhysicsDumper extends Dumper {
 
         // 4th line: use flags, raytest flags, and world extent
         addLine(indent);
+        if (space.isCcdWithStaticOnly()) {
+            stream.print(" CCDwso");
+        }
         if (space.isUsingDeterministicDispatch()) {
             stream.print(" DeterministicDispatch");
         }

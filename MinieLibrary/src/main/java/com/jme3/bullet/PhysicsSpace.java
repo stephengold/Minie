@@ -675,6 +675,20 @@ public class PhysicsSpace
     }
 
     /**
+     * Test whether CCD checks for collisions with static and kinematic bodies
+     * (native field: m_ccdWithStaticOnly).
+     *
+     * @return true if checks are limited, false if checking also for collisions
+     * with dynamic bodies
+     */
+    public boolean isCcdWithStaticOnly() {
+        long spaceId = nativeId();
+        boolean result = isCcdWithStaticOnly(spaceId);
+
+        return result;
+    }
+
+    /**
      * Test whether this space uses Speculative Contact Restitution (native
      * field: m_applySpeculativeContactRestitution).
      *
@@ -842,6 +856,18 @@ public class PhysicsSpace
     public void setAccuracy(float accuracy) {
         Validate.positive(accuracy, "accuracy");
         this.accuracy = accuracy;
+    }
+
+    /**
+     * Alter whether CCD checks for collisions with static and kinematic bodies
+     * (native field: m_ccdWithStaticOnly).
+     *
+     * @param setting true to limit checking, false to check also for collisions
+     * with dynamic bodies (default=false)
+     */
+    public void setCcdWithStaticOnly(boolean setting) {
+        long spaceId = nativeId();
+        setCcdWithStaticOnly(spaceId, setting);
     }
 
     /**
@@ -1495,6 +1521,8 @@ public class PhysicsSpace
 
     native private static long getSolverInfo(long spaceId);
 
+    native private static boolean isCcdWithStaticOnly(long spaceId);
+
     native private static boolean isSpeculativeContactRestitution(long spaceId);
 
     native private static void removeAction(long spaceId, long actionId);
@@ -1506,6 +1534,9 @@ public class PhysicsSpace
             removeConstraint(long spaceId, long constraintId);
 
     native private static void removeRigidBody(long spaceId, long rigidBodyId);
+
+    native private static void
+            setCcdWithStaticOnly(long spaceId, boolean setting);
 
     native private static void setGravity(long spaceId, Vector3f gravityVector);
 
