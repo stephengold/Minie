@@ -123,9 +123,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
      */
     RomCallable(Model subjectModel) {
         model = subjectModel;
-        /*
-         * Initialize accumulators for maximum and minimum rotation angles.
-         */
+
+        // Initialize accumulators for maximum and minimum rotation angles.
         int numBones = model.countBones();
         maxima = new Vector3f[numBones];
         minima = new Vector3f[numBones];
@@ -135,9 +134,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
                 minima[boneIndex] = new Vector3f(0f, 0f, 0f);
             }
         }
-        /*
-         * Temporarily enable physics-debug visualization.
-         */
+
+        // Temporarily enable physics-debug visualization.
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);
         wasDebugEnabled = bulletAppState.isDebugEnabled();
@@ -221,16 +219,14 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         }
         Spatial controlledSpatial = sControl.getSpatial();
         controlledSpatial.addControl(tempDac);
-        /*
-         * Disable contact response for all rigid bodies in the ragdoll.
-         */
+
+        // Disable contact response for all rigid bodies in the ragdoll.
         PhysicsRigidBody[] bodies = tempDac.listRigidBodies();
         for (PhysicsRigidBody body : bodies) {
             body.setContactResponse(false);
         }
-        /*
-         * Add the ragdoll to physics space.
-         */
+
+        // Add the ragdoll to physics space.
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
         assert physicsSpace.isEmpty();
         tempDac.setPhysicsSpace(physicsSpace);
@@ -266,13 +262,10 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
      */
     @Override
     public RangeOfMotion[] call() throws InterruptedException {
-        /*
-         * Accumulate joint-angle statistics for 10 seconds.
-         */
+        // Accumulate joint-angle statistics for 10 seconds.
         Thread.sleep(10_000);
-        /*
-         * Convert the statistics into ranges of motion.
-         */
+
+        // Convert the statistics into ranges of motion.
         int numBones = model.countBones();
         RangeOfMotion[] roms = new RangeOfMotion[numBones];
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
@@ -297,9 +290,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
-        /*
-         * Read joint angles from the ragdoll and update statistics.
-         */
+        // Read joint angles from the ragdoll and update statistics.
         Vector3f angles = new Vector3f();
         int numBones = model.countBones();
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
@@ -340,9 +331,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
      */
     @SuppressWarnings("unchecked")
     private void applyRandomPose() {
-        /*
-         * Choose an AnimComposer or AnimControl.
-         */
+        // Choose an AnimComposer or AnimControl.
         List controls = MySpatial.listControls(tempModelRoot, AnimControl.class,
                 null);
         MySpatial.listControls(tempModelRoot, AnimComposer.class, controls);
@@ -350,9 +339,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
 
         if (control instanceof AnimControl) {
             AnimControl animControl = (AnimControl) control;
-            /*
-             * Choose an Animation.
-             */
+
+            // Choose an Animation.
             Collection<String> nameCollection = animControl.getAnimationNames();
             int numAnimations = nameCollection.size();
             String[] nameArray = new String[numAnimations];
@@ -362,9 +350,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
                 return;
             }
             Animation animation = animControl.getAnim(animationName);
-            /*
-             * Choose an animation time.
-             */
+
+            // Choose an animation time.
             float duration = animation.getLength();
             float animationTime = generator.nextFloat(0f, duration);
 
@@ -375,9 +362,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
 
         } else if (control instanceof AnimComposer) {
             AnimComposer composer = (AnimComposer) control;
-            /*
-             * Choose an AnimClip.
-             */
+
+            // Choose an AnimClip.
             Collection<AnimClip> clips = composer.getAnimClips();
             int numClips = clips.size();
             AnimClip[] clipArray = new AnimClip[numClips];
@@ -386,9 +372,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
             if (clip == null) {
                 return;
             }
-            /*
-             * Choose an animation time.
-             */
+
+            // Choose an animation time.
             double duration = clip.getLength();
             double animationTime = duration * generator.nextDouble();
 

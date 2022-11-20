@@ -855,9 +855,8 @@ class Model {
             List<Mesh> targetList = RagUtils.listDacMeshes(rootSpatial, null);
             Mesh[] targets = new Mesh[targetList.size()];
             targetList.toArray(targets);
-            /*
-             * Enumerate mesh-vertex coordinates and assign them to managers.
-             */
+
+            // Enumerate mesh-vertex coordinates and assign them to managers.
             this.coordsMap = RagUtils.coordsMap(targets, managerMap);
         }
     }

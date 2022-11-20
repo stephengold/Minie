@@ -269,16 +269,13 @@ public class DacWizard extends GuiApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in certain packages.
-         */
+        // Mute the chatty loggers found in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         String renderer = AppSettings.LWJGL_OPENGL2;
         ShowDialog showDialog = ShowDialog.Never;
-        /*
-         * Process any command-line arguments.
-         */
+
+        // Process any command-line arguments.
         for (String arg : arguments) {
             switch (arg) {
                 case "-3":
@@ -320,26 +317,22 @@ public class DacWizard extends GuiApplication {
         assert cgModel != null;
         assert axesNode == null;
         assert cgmParent == null;
-        /*
-         * Add a disabled visualizer for axes, with its own controlled Node.
-         */
+
+        // Add a disabled visualizer for axes, with its own controlled Node.
         axesNode = new Node("axesNode");
         rootNode.attachChild(axesNode);
         float length = 0.5f;
         Control axes = new AxesVisualizer(assetManager, length);
         axesNode.addControl(axes);
-        /*
-         * Add the C-G model, with its own parent Node.
-         */
+
+        // Add the C-G model, with its own parent Node.
         cgmParent = new Node("cgmParent");
         rootNode.attachChild(cgmParent);
         cgmParent.attachChild(cgModel);
 
         AbstractControl sc = RagUtils.findSControl(cgModel);
         if (sc != null && findSkeletonVisualizer() == null) {
-            /*
-             * Add a SkeletonVisualizer.
-             */
+            // Add a SkeletonVisualizer.
             SkeletonVisualizer sv = new SkeletonVisualizer(assetManager, sc);
             sv.setLineColor(ColorRGBA.Yellow);
             if (sc instanceof SkeletonControl) {
@@ -351,10 +344,7 @@ public class DacWizard extends GuiApplication {
         }
 
         DynamicAnimControl dac = findDac();
-        if (dac != null) {
-            /*
-             * Configure the DAC.
-             */
+        if (dac != null) { // Configure the DAC.
             float gravity = 6f * Model.cgmHeight;
             Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
             dac.setGravity(gravityVector);
@@ -401,16 +391,14 @@ public class DacWizard extends GuiApplication {
         if (!Heart.areAssertionsEnabled()) {
             logger.warning("Assertions are disabled!");
         }
-        /*
-         * Log version strings.
-         */
+
+        // Log version strings.
         logger.log(Level.INFO, "jme3-core version is {0}",
                 MyString.quote(JmeVersion.FULL_NAME));
         logger.log(Level.INFO, "Heart version is {0}",
                 MyString.quote(Heart.versionShort()));
-        /*
-         * Detach an app state created by SimpleApplication.
-         */
+
+        // Detach an app state created by SimpleApplication.
         DebugKeysAppState debugKeys = findAppState(DebugKeysAppState.class);
         stateManager.detach(debugKeys);
 
@@ -446,10 +434,7 @@ public class DacWizard extends GuiApplication {
         if (ongoing) {
             handled = Action.processOngoing(actionString);
         }
-        if (!handled) {
-            /*
-             * Forward unhandled action to the superclass.
-             */
+        if (!handled) { // Forward unhandled action to the superclass.
             super.onAction(actionString, ongoing, tpf);
         }
     }
@@ -568,13 +553,10 @@ public class DacWizard extends GuiApplication {
      */
     private static void mainStartup(final ShowDialog showDialog,
             final String renderer, final String title) {
-        /*
-         * Instantiate the application.
-         */
+        // Instantiate the application.
         application = new DacWizard();
-        /*
-         * Instantiate the display-settings screen.
-         */
+
+        // Instantiate the display-settings screen.
         RectSizeLimits dsl = new RectSizeLimits(
                 640, 480, // min width, height
                 2_048, 1_080 // max width, height
@@ -619,9 +601,7 @@ public class DacWizard extends GuiApplication {
                 // do nothing
             }
             application.start();
-            /*
-             * ... and onward to DacWizard.guiInitializeApplication()!
-             */
+            // ... and onward to DacWizard.guiInitializeApplication()!
         }
     }
 
@@ -650,9 +630,8 @@ public class DacWizard extends GuiApplication {
          */
         setDisplayFps(false);
         setDisplayStatView(false);
-        /*
-         * Enable the initial InputMode.
-         */
+
+        // Enable the initial InputMode.
         InputMode.getActiveMode().setEnabled(false);
         InputMode initialInputMode = InputMode.findMode("filePath");
         initialInputMode.setEnabled(true);

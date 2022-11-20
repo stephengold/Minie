@@ -97,9 +97,7 @@ class BonesMode extends InputMode {
     @Override
     public void initialize(AppStateManager stateManager,
             Application application) {
-        /*
-         * Set the mouse cursor for this mode.
-         */
+        // Set the mouse cursor for this mode.
         AssetManager manager = application.getAssetManager();
         JmeCursor cursor = (JmeCursor) manager.loadAsset(assetPath);
         setCursor(cursor);

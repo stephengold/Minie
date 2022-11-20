@@ -375,15 +375,13 @@ public class LinksScreen extends GuiScreenController {
 
         TreeItem<LinkValue> rootItem = new TreeItem<>();
         rootItem.setExpanded(true);
-        /*
-         * Create an item for the torso.
-         */
+
+        // Create an item for the torso.
         LinkValue linkItem = new LinkValue(DacConfiguration.torsoName);
         TreeItem<LinkValue> torsoItem = new TreeItem<>(linkItem);
         torsoItem.setExpanded(true);
-        /*
-         * Create an item for each linked bone in the hierarchy.
-         */
+
+        // Create an item for each linked bone in the hierarchy.
         Model model = DacWizard.getModel();
         int[] linkedBoneIndices = model.listLinkedBones();
         int numLinkedBones = linkedBoneIndices.length;
@@ -395,9 +393,8 @@ public class LinksScreen extends GuiScreenController {
             lbItems[lbIndex] = new TreeItem<>(linkItem);
             lbItems[lbIndex].setExpanded(true);
         }
-        /*
-         * Parent each item.
-         */
+
+        // Parent each item.
         for (int childLbi = 0; childLbi < numLinkedBones; ++childLbi) {
             TreeItem<LinkValue> childItem = lbItems[childLbi];
             LinkValue childValue = childItem.getValue();
@@ -413,9 +410,8 @@ public class LinksScreen extends GuiScreenController {
         }
         rootItem.addTreeItem(torsoItem);
         treeBox.setTree(rootItem);
-        /*
-         * Initialize the selection.
-         */
+
+        // Initialize the selection.
         String selected = model.selectedLink();
         if (selected.equals(DacConfiguration.torsoName)) {
             treeBox.selectItem(torsoItem);
