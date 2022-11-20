@@ -434,10 +434,10 @@ public class GhostControl
         if (MySpatial.isIgnoringTransforms(spatial)) {
             result.set(scaleIdentity);
         } else if (isApplyPhysicsLocal()) {
-            Vector3f scale = spatial.getLocalScale();
+            Vector3f scale = spatial.getLocalScale(); // alias
             result.set(scale);
         } else {
-            Vector3f scale = spatial.getWorldScale();
+            Vector3f scale = spatial.getWorldScale(); // alias
             result.set(scale);
         }
 
@@ -453,9 +453,9 @@ public class GhostControl
         if (MySpatial.isIgnoringTransforms(spatial)) {
             return rotateIdentity;
         } else if (applyLocal) {
-            return spatial.getLocalRotation();
+            return spatial.getLocalRotation(); // alias
         } else {
-            return spatial.getWorldRotation();
+            return spatial.getWorldRotation(); // alias
         }
     }
 
@@ -468,9 +468,9 @@ public class GhostControl
         if (MySpatial.isIgnoringTransforms(spatial)) {
             return translateIdentity;
         } else if (applyLocal) {
-            return spatial.getLocalTranslation();
+            return spatial.getLocalTranslation(); // alias
         } else {
-            return spatial.getWorldTranslation();
+            return spatial.getWorldTranslation(); // alias
         }
     }
 }

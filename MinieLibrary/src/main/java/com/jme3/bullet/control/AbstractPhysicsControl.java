@@ -214,9 +214,9 @@ abstract public class AbstractPhysicsControl
         if (MySpatial.isIgnoringTransforms(controlledSpatial)) {
             return rotateIdentity;
         } else if (localPhysics) {
-            return controlledSpatial.getLocalRotation();
+            return controlledSpatial.getLocalRotation(); // alias
         } else {
-            return controlledSpatial.getWorldRotation();
+            return controlledSpatial.getWorldRotation(); // alias
         }
     }
 
@@ -233,7 +233,7 @@ abstract public class AbstractPhysicsControl
         } else if (localPhysics) {
             return controlledSpatial.getLocalTranslation();
         } else {
-            return controlledSpatial.getWorldTranslation();
+            return controlledSpatial.getWorldTranslation(); // alias
         }
     }
 

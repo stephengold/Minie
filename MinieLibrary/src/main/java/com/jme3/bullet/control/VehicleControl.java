@@ -400,9 +400,9 @@ public class VehicleControl
         } else {
             RigidBodyMotionState ms = getMotionState();
             if (ms.isApplyPhysicsLocal()) {
-                return spatial.getLocalRotation();
+                return spatial.getLocalRotation(); // alias
             } else {
-                return spatial.getWorldRotation();
+                return spatial.getWorldRotation(); // alias
             }
         }
     }
@@ -419,9 +419,9 @@ public class VehicleControl
         } else {
             RigidBodyMotionState ms = getMotionState();
             if (ms.isApplyPhysicsLocal()) {
-                result = spatial.getLocalTranslation();
+                result = spatial.getLocalTranslation(); // alias
             } else {
-                result = spatial.getWorldTranslation();
+                result = spatial.getWorldTranslation(); // alias
             }
         }
 

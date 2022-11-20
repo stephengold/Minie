@@ -541,7 +541,7 @@ public class RigidBodyControl
         if (!isApplyPhysicsLocal()) {
             Node parent = spatial.getParent();
             if (parent != null) {
-                Vector3f parentScale = parent.getWorldScale();
+                Vector3f parentScale = parent.getWorldScale(); // alias
                 if (parentScale.x == 0f || parentScale.y == 0f
                         || parentScale.z == 0f) {
                     throw new IllegalStateException("Zero in parent scale.");
@@ -565,10 +565,10 @@ public class RigidBodyControl
         if (MySpatial.isIgnoringTransforms(spatial)) {
             result.set(scaleIdentity);
         } else if (isApplyPhysicsLocal()) {
-            Vector3f scale = spatial.getLocalScale();
+            Vector3f scale = spatial.getLocalScale(); // alias
             result.set(scale);
         } else {
-            Vector3f scale = spatial.getWorldScale();
+            Vector3f scale = spatial.getWorldScale(); // alias
             result.set(scale);
         }
 
@@ -586,9 +586,9 @@ public class RigidBodyControl
         } else {
             RigidBodyMotionState ms = getMotionState();
             if (ms.isApplyPhysicsLocal()) {
-                return spatial.getLocalRotation();
+                return spatial.getLocalRotation(); // alias
             } else {
-                return spatial.getWorldRotation();
+                return spatial.getWorldRotation(); // alias
             }
         }
     }
@@ -605,9 +605,9 @@ public class RigidBodyControl
         } else {
             RigidBodyMotionState ms = getMotionState();
             if (ms.isApplyPhysicsLocal()) {
-                result = spatial.getLocalTranslation();
+                result = spatial.getLocalTranslation(); // alias
             } else {
-                result = spatial.getWorldTranslation();
+                result = spatial.getWorldTranslation(); // alias
             }
         }
 
