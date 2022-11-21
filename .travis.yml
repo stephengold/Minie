@@ -15,6 +15,7 @@ jobs:
           update: true
 
 script:
+  - date
   - ./gradlew build --console=plain --no-daemon
 
 after_failure:
