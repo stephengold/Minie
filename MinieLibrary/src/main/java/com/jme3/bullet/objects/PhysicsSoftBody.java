@@ -49,6 +49,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
+import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -1524,6 +1525,23 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Locate the center of this body's axis-aligned bounding box.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new instance, not null)
+     */
+    @Override
+    public Vec3d getPhysicsLocationDp(Vec3d storeResult) {
+        Vec3d result = (storeResult == null) ? new Vec3d() : storeResult;
+
+        long objectId = nativeId();
+        getPhysicsLocationDp(objectId, result);
+
+        return result;
+    }
+
+    /**
      * Copy the orientation (rotation) of this body to a Quaternion.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -1955,6 +1973,9 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     native private static void
             getPhysicsLocation(long bodyId, Vector3f storeVector);
+
+    native private static void
+            getPhysicsLocationDp(long bodyId, Vec3d storeVector);
 
     native private static float getRestLengthScale(long bodyId);
 
