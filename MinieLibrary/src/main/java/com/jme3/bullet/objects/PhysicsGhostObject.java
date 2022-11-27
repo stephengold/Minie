@@ -151,9 +151,11 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      * Directly alter the location of this object's center.
      *
      * @param location the desired location (in physics-space coordinates, not
-     * null, unaffected)
+     * null, finite, unaffected)
      */
     public void setPhysicsLocation(Vector3f location) {
+        Validate.finite(location, "location");
+
         long objectId = nativeId();
         setPhysicsLocation(objectId, location);
     }
@@ -165,6 +167,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      * physics-space coordinates, not null, unaffected)
      */
     public void setPhysicsRotation(Matrix3f rotation) {
+        Validate.nonNull(rotation, "rotation");
         long objectId = nativeId();
         setPhysicsRotation(objectId, rotation);
     }
@@ -173,9 +176,10 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      * Directly alter this object's orientation.
      *
      * @param rotation the desired orientation (a rotation quaternion in
-     * physics-space coordinates, not null, unaffected)
+     * physics-space coordinates, not null, not zero, unaffected)
      */
     public void setPhysicsRotation(Quaternion rotation) {
+        Validate.nonZero(rotation, "rotation");
         long objectId = nativeId();
         setPhysicsRotation(objectId, rotation);
     }

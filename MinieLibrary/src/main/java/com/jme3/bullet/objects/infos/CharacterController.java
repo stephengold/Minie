@@ -499,9 +499,12 @@ public class CharacterController
     /**
      * Directly alter the location of the character's center.
      *
-     * @param location the desired physics location (not null, unaffected)
+     * @param location the desired physics location (not null, finite,
+     * unaffected)
      */
     public void warp(Vector3f location) {
+        Validate.finite(location, "location");
+
         long controllerId = nativeId();
         warp(controllerId, location);
     }

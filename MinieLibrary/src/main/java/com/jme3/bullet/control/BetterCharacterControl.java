@@ -414,10 +414,12 @@ public class BetterCharacterControl
      * coordinate system, which normally is always z-forward (in world
      * coordinates, parent coordinates when set to applyLocalPhysics)
      *
-     * @param jumpForce the desired jump force (not null, unaffected,
+     * @param jumpForce the desired jump force (not null, finite, unaffected,
      * default=5*mass in +Y direction)
      */
     public void setJumpForce(Vector3f jumpForce) {
+        Validate.finite(jumpForce, "jump force");
+
         this.jumpForce.set(jumpForce);
     }
 
@@ -456,9 +458,11 @@ public class BetterCharacterControl
      * Move the character somewhere. Note the character also warps to the
      * location of the Spatial when the Control is added.
      *
-     * @param vec the desired character location (not null)
+     * @param vec the desired character location (in physics-space coordinates,
+     * not null, finite, unaffected)
      */
     public void warp(Vector3f vec) {
+        Validate.finite(vec, "vec");
         setPhysicsLocation(vec);
     }
     // *************************************************************************
@@ -570,10 +574,12 @@ public class BetterCharacterControl
      * Translate the character to the specified location.
      *
      * @param location the desired location (in physics-space coordinates, not
-     * null, unaffected)
+     * null, finite, unaffected)
      */
     @Override
     protected void setPhysicsLocation(Vector3f location) {
+        Validate.finite(location, "location");
+
         rigidBody.setPhysicsLocation(location);
         location.set(location);
     }
@@ -585,10 +591,12 @@ public class BetterCharacterControl
      * might actually be altered by the calculateNewForward method.
      *
      * @param orientation the desired orientation (in physics-space coordinates,
-     * not null, unaffected)
+     * not null, not zero, unaffected)
      */
     @Override
     protected void setPhysicsRotation(Quaternion orientation) {
+        Validate.nonZero(orientation, "orientation");
+
         rotation.set(orientation);
         rotation.multLocal(rotatedViewDirection.set(viewDirection));
         updateLocalViewDirection();

@@ -1240,20 +1240,22 @@ public class DacLinks
     /**
      * Translate the torso to the specified location.
      *
-     * @param vec desired location (not null, unaffected)
+     * @param vec desired location (not null, finite, unaffected)
      */
     @Override
     protected void setPhysicsLocation(Vector3f vec) {
+        Validate.finite(vec, "vec");
         torsoLink.getRigidBody().setPhysicsLocation(vec);
     }
 
     /**
      * Rotate the torso to the specified orientation.
      *
-     * @param quat desired orientation (not null, unaffected)
+     * @param quat desired orientation (not null, not zero, unaffected)
      */
     @Override
     protected void setPhysicsRotation(Quaternion quat) {
+        Validate.nonZero(quat, "quat");
         torsoLink.getRigidBody().setPhysicsRotation(quat);
     }
 

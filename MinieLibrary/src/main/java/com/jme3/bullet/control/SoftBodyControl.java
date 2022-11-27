@@ -55,6 +55,7 @@ import java.nio.IntBuffer;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.MySpatial;
+import jme3utilities.Validate;
 
 /**
  * A PhysicsControl to link a PhysicsSoftBody to a Spatial.
@@ -251,10 +252,11 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      * Translate the soft body to the specified location.
      *
      * @param location the desired location (in physics-space coordinates, not
-     * null, unaffected)
+     * null, finite, unaffected)
      */
     @Override
     public void setPhysicsLocation(Vector3f location) {
+        Validate.finite(location, "location");
         body.setPhysicsLocation(location);
     }
 

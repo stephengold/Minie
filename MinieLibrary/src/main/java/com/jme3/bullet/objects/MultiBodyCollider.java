@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -164,9 +164,11 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
      * Directly alter the location of this collider's center.
      *
      * @param location the desired location (in physics-space coordinates, not
-     * null, unaffected)
+     * null, finite, unaffected)
      */
     public void setPhysicsLocation(Vector3f location) {
+        Validate.finite(location, "location");
+
         long objectId = nativeId();
         setPhysicsLocation(objectId, location);
     }

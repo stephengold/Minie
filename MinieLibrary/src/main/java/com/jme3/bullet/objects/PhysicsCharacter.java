@@ -483,10 +483,10 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      * Directly alter this character's location. (This is equivalent to
      * {@link #warp(com.jme3.math.Vector3f)}.)
      *
-     * @param location the desired location (not null, unaffected)
+     * @param location the desired location (not null, finite, unaffected)
      */
     public void setPhysicsLocation(Vector3f location) {
-        Validate.nonNull(location, "location");
+        Validate.finite(location, "location");
         controller.warp(location);
     }
 
@@ -537,10 +537,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     /**
      * Directly alter the location of this character's center.
      *
-     * @param location the desired physics location (not null, unaffected)
+     * @param location the desired physics location (not null, finite,
+     * unaffected)
      */
     public void warp(Vector3f location) {
-        Validate.nonNull(location, "location");
+        Validate.finite(location, "location");
         controller.warp(location);
     }
     // *************************************************************************
