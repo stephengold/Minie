@@ -45,6 +45,7 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
+import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -488,6 +489,16 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
     public void setPhysicsLocation(Vector3f location) {
         Validate.finite(location, "location");
         controller.warp(location);
+    }
+
+    /**
+     * Directly alter this character's location.
+     *
+     * @param location the desired location (not null, unaffected)
+     */
+    public void setPhysicsLocationDp(Vec3d location) {
+        Validate.nonNull(location, "location");
+        controller.warpDp(location);
     }
 
     /**
