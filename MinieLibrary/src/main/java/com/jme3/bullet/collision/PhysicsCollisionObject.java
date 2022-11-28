@@ -653,11 +653,11 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the location of this object's center.
+     * Copy the location of this object's center to a Vector3f.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
-     * storeResult or a new vector, not null)
+     * storeResult or a new vector, finite)
      */
     public Vector3f getPhysicsLocation(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -670,7 +670,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the location of this object's center.
+     * Copy the location of this object's center to a Vec3d.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either

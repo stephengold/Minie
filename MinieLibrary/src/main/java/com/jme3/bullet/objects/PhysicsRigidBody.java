@@ -959,7 +959,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Alter the linear velocity of this body's center of mass.
      *
      * @param velocity the desired velocity (physics-space units per second in
-     * physics-space coordinates, not null, unaffected)
+     * physics-space coordinates, not null, finite, unaffected)
      */
     public void setLinearVelocity(Vector3f velocity) {
         Validate.finite(velocity, "velocity");
@@ -1382,7 +1382,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Directly relocate this body's center of mass.
      *
      * @param location the desired location (in physics-space coordinates, not
-     * null, unaffected)
+     * null, finite, unaffected)
      */
     @Override
     public void setPhysicsLocation(Vector3f location) {

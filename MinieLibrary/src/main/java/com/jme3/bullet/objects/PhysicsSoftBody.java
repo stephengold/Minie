@@ -1749,7 +1749,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Directly relocate the center of this body's bounding box.
      *
      * @param location the desired location (in physics-space coordinates, not
-     * null, unaffected)
+     * null, finite, unaffected)
      */
     @Override
     public void setPhysicsLocation(Vector3f location) {
