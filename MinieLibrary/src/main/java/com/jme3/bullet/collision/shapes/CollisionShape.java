@@ -45,6 +45,7 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
+import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -286,6 +287,21 @@ abstract public class CollisionShape
 
         assert checkScale(result);
         result.set(scale);
+
+        return result;
+    }
+
+    /**
+     * Copy the scale factors.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the scale factor for each local axis (either {@code storeResult}
+     * or a new vector, not null, no negative component)
+     */
+    public Vec3d getScaleDp(Vec3d storeResult) {
+        long shapeId = nativeId();
+        Vec3d result = (storeResult == null) ? new Vec3d() : storeResult;
+        getLocalScalingDp(shapeId, result);
 
         return result;
     }
@@ -686,6 +702,9 @@ abstract public class CollisionShape
 
     native private static void
             getLocalScaling(long shapeId, Vector3f storeVector);
+
+    native private static void
+            getLocalScalingDp(long shapeId, Vec3d storeVector);
 
     native private static float getMargin(long shapeId);
 
