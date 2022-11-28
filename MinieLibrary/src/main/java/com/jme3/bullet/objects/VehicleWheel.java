@@ -204,8 +204,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
         Vector3f localLocation = subtree.getLocalTranslation();
         Spatial parent = subtree.getParent();
         if (!applyLocal && parent != null) {
-            Vector3f parentOffset = parent.getWorldTranslation();
-            Quaternion parentRot = parent.getWorldRotation();
+            Vector3f parentOffset = parent.getWorldTranslation(); // alias
+            Quaternion parentRot = parent.getWorldRotation(); // alias
             localLocation.set(wheelWorldLocation).subtractLocal(parentOffset);
             localLocation.divideLocal(parent.getWorldScale());
             tmpInverseWheelRotation.set(parentRot).inverseLocal()

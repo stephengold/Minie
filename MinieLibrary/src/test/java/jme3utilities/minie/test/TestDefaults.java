@@ -831,9 +831,7 @@ public class TestDefaults {
      * Verify the defaults for all collision shapes.
      */
     private void testShapes() {
-        /*
-         * Box2d
-         */
+        // Box2d
         Box2dShape box2d = new Box2dShape(1f, 2f);
         testShape(box2d);
         Assert.assertEquals(0.04f, box2d.getMargin(), 0f);
@@ -842,9 +840,8 @@ public class TestDefaults {
         Assert.assertFalse(box2d.isInfinite());
         Assert.assertFalse(box2d.isNonMoving());
         Assert.assertFalse(box2d.isPolyhedral());
-        /*
-         * Box
-         */
+
+        // Box
         box = new BoxCollisionShape(1f);
         testShape(box);
         Assert.assertEquals(0.04f, box.getMargin(), 0f);
@@ -854,9 +851,8 @@ public class TestDefaults {
         Assert.assertFalse(box.isNonMoving());
         Assert.assertTrue(box.isPolyhedral());
         Assert.assertEquals(8f, box.unscaledVolume(), 0f);
-        /*
-         * Capsule
-         */
+
+        // Capsule
         CapsuleCollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         testShape(capsule);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, capsule.getAxis());
@@ -869,9 +865,8 @@ public class TestDefaults {
         Assert.assertFalse(capsule.isPolyhedral());
         Assert.assertEquals(7f * FastMath.PI / 3f, capsule.unscaledVolume(),
                 1e-4f);
-        /*
-         * Compound
-         */
+
+        // Compound
         CompoundCollisionShape compound = new CompoundCollisionShape();
         testShape(compound);
         Assert.assertEquals(0, compound.countChildren());
@@ -881,9 +876,8 @@ public class TestDefaults {
         Assert.assertFalse(compound.isInfinite());
         Assert.assertFalse(compound.isNonMoving());
         Assert.assertFalse(compound.isPolyhedral());
-        /*
-         * Cone
-         */
+
+        // Cone
         ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
         testShape(cone);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, cone.getAxis());
@@ -896,9 +890,8 @@ public class TestDefaults {
         Assert.assertFalse(cone.isPolyhedral());
         Assert.assertEquals(FastMath.PI / 3f, cone.unscaledVolume(),
                 1e-5f);
-        /*
-         * Convex2d
-         */
+
+        // Convex2d
         ConeCollisionShape flatCone
                 = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
         Convex2dShape convex2d = new Convex2dShape(flatCone);
@@ -909,9 +902,8 @@ public class TestDefaults {
         Assert.assertFalse(convex2d.isInfinite());
         Assert.assertFalse(convex2d.isNonMoving());
         Assert.assertFalse(convex2d.isPolyhedral());
-        /*
-         * Cylinder
-         */
+
+        // Cylinder
         CylinderCollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         testShape(cylinder);
@@ -924,9 +916,8 @@ public class TestDefaults {
         Assert.assertFalse(cylinder.isNonMoving());
         Assert.assertFalse(cylinder.isPolyhedral());
         Assert.assertEquals(FastMath.TWO_PI, cylinder.unscaledVolume(), 1e-4f);
-        /*
-         * Empty
-         */
+
+        // Empty
         EmptyShape empty = new EmptyShape(true);
         testShape(empty);
         Assert.assertEquals(0.04f, empty.getMargin(), 0f);
@@ -936,9 +927,8 @@ public class TestDefaults {
         Assert.assertTrue(empty.isNonMoving());
         Assert.assertFalse(empty.isPolyhedral());
         Assert.assertEquals(0f, empty.unscaledVolume(), 0f);
-        /*
-         * GImpact
-         */
+
+        // GImpact
         Torus torus = new Torus(16, 16, 0.2f, 0.8f);
         GImpactCollisionShape gimpact = new GImpactCollisionShape(torus);
         testShape(gimpact);
@@ -948,9 +938,8 @@ public class TestDefaults {
         Assert.assertFalse(gimpact.isInfinite());
         Assert.assertFalse(gimpact.isNonMoving());
         Assert.assertFalse(gimpact.isPolyhedral());
-        /*
-         * Heightfield
-         */
+
+        // Heightfield
         float[] nineHeights = {1f, 0f, 1f, 0f, 0.5f, 0f, 1f, 0f, 1f};
         HeightfieldCollisionShape hcs
                 = new HeightfieldCollisionShape(nineHeights);
@@ -962,9 +951,8 @@ public class TestDefaults {
         Assert.assertFalse(hcs.isInfinite());
         Assert.assertTrue(hcs.isNonMoving());
         Assert.assertFalse(hcs.isPolyhedral());
-        /*
-         * Hull
-         */
+
+        // Hull
         List<Vector3f> prismVertices = new ArrayList<>(6);
         prismVertices.add(new Vector3f(1f, 1f, 1f));
         prismVertices.add(new Vector3f(1f, 1f, -1f));
@@ -984,9 +972,8 @@ public class TestDefaults {
         Assert.assertFalse(hull.isNonMoving());
         Assert.assertTrue(hull.isPolyhedral());
         Assert.assertEquals(4f, hull.scaledVolume(), 1f);
-        /*
-         * Mesh
-         */
+
+        // Mesh
         Quad quad = new Quad(1f, 1f);
         MeshCollisionShape mesh = new MeshCollisionShape(quad);
         testShape(mesh);
@@ -998,9 +985,8 @@ public class TestDefaults {
         Assert.assertFalse(mesh.isInfinite());
         Assert.assertTrue(mesh.isNonMoving());
         Assert.assertFalse(mesh.isPolyhedral());
-        /*
-         * MultiSphere
-         */
+
+        // MultiSphere
         MultiSphere multiSphere = new MultiSphere(1f);
         testShape(multiSphere);
         MinieTest.assertEquals(0f, 0f, 0f, multiSphere.copyCenter(0, null), 0f);
@@ -1013,9 +999,8 @@ public class TestDefaults {
         Assert.assertFalse(multiSphere.isInfinite());
         Assert.assertFalse(multiSphere.isNonMoving());
         Assert.assertFalse(multiSphere.isPolyhedral());
-        /*
-         * Plane
-         */
+
+        // Plane
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
         PlaneCollisionShape pcs = new PlaneCollisionShape(plane);
         testShape(pcs);
@@ -1027,9 +1012,8 @@ public class TestDefaults {
         Assert.assertTrue(pcs.isInfinite());
         Assert.assertTrue(pcs.isNonMoving());
         Assert.assertFalse(pcs.isPolyhedral());
-        /*
-         * Simplex of 1 vertex
-         */
+
+        // Simplex of 1 vertex
         SimplexCollisionShape simplex1
                 = new SimplexCollisionShape(new Vector3f(0f, 0f, 0f));
         testSimplexShape(simplex1);
@@ -1037,9 +1021,8 @@ public class TestDefaults {
         MinieTest.assertEquals(0f, 0f, 0f, simplex1.copyVertex(0, null), 0f);
         MinieTest.assertEquals(0f, 0f, 0f, simplex1.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex1.unscaledVolume(), 0f);
-        /*
-         * Simplex of 2 vertices
-         */
+
+        // Simplex of 2 vertices
         SimplexCollisionShape simplex2 = new SimplexCollisionShape(
                 new Vector3f(1f, 0f, 0f), new Vector3f(-1, 0f, 0f));
         testSimplexShape(simplex2);
@@ -1048,9 +1031,8 @@ public class TestDefaults {
         MinieTest.assertEquals(-1f, 0f, 0f, simplex2.copyVertex(1, null), 0f);
         MinieTest.assertEquals(1f, 0f, 0f, simplex2.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex2.unscaledVolume(), 0f);
-        /*
-         * Simplex of 3 vertices
-         */
+
+        // Simplex of 3 vertices
         SimplexCollisionShape simplex3 = new SimplexCollisionShape(
                 new Vector3f(0f, 1f, 1f),
                 new Vector3f(1f, 1f, 0f),
@@ -1063,9 +1045,8 @@ public class TestDefaults {
         MinieTest.assertEquals(1f, 0f, 1f, simplex3.copyVertex(2, null), 0f);
         MinieTest.assertEquals(1f, 1f, 1f, simplex3.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex3.unscaledVolume(), 0f);
-        /*
-         * Simplex of 4 vertices
-         */
+
+        // Simplex of 4 vertices
         SimplexCollisionShape simplex4 = new SimplexCollisionShape(
                 new Vector3f(0f, 1f, 1f),
                 new Vector3f(0f, 1f, -1f),
@@ -1080,9 +1061,8 @@ public class TestDefaults {
         MinieTest.assertEquals(-1f, -1f, 0f, simplex4.copyVertex(3, null), 0f);
         MinieTest.assertEquals(1f, 1f, 1f, simplex4.getHalfExtents(null), 0f);
         Assert.assertEquals(4f / 3f, simplex4.unscaledVolume(), 1e-6f);
-        /*
-         * Sphere
-         */
+
+        // Sphere
         SphereCollisionShape sphere = new SphereCollisionShape(1f);
         testShape(sphere);
         Assert.assertEquals(0f, sphere.getMargin(), 0f);
