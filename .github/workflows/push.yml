@@ -87,7 +87,7 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java17-Windows:
+  Java18-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2022
     steps:
@@ -95,7 +95,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 18
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
         shell: bash
       - if: failure()
@@ -104,7 +104,7 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java18-Linux:
+  Java19-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-20.04
     steps:
@@ -112,7 +112,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 18
+          java-version: 19
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v3
