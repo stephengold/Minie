@@ -919,10 +919,10 @@ public class DynamicAnimControl
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        ikJoints = cloner.clone(ikJoints);
-        collisionListeners = cloner.clone(collisionListeners);
-        centerLocation = cloner.clone(centerLocation);
-        centerVelocity = cloner.clone(centerVelocity);
+        this.ikJoints = cloner.clone(ikJoints);
+        this.collisionListeners = cloner.clone(collisionListeners);
+        this.centerLocation = cloner.clone(centerLocation);
+        this.centerVelocity = cloner.clone(centerVelocity);
     }
 
     /**

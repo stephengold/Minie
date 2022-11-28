@@ -627,14 +627,14 @@ public class MultiBodyLink
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        multiBody = cloner.clone(multiBody);
-        multiBodyId = multiBody.nativeId();
-        parentLink = cloner.clone(parentLink);
+        this.multiBody = cloner.clone(multiBody);
+        this.multiBodyId = multiBody.nativeId();
+        this.parentLink = cloner.clone(parentLink);
 
         long linkId = getLinkId(multiBodyId, linkIndex);
         reassignNativeId(linkId);
 
-        collider = cloner.clone(collider);
+        this.collider = cloner.clone(collider);
     }
 
     /**
@@ -666,11 +666,13 @@ public class MultiBodyLink
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        collider = (MultiBodyCollider) capsule.readSavable(tagCollider, null);
-        linkIndex = capsule.readInt(tagLinkIndex, -1);
-        multiBody = (MultiBody) capsule.readSavable(tagMultiBody, null);
-        numDofs = capsule.readInt(tagNumDofs, 0);
-        parentLink = (MultiBodyLink) capsule.readSavable(tagParentLink, null);
+        this.collider
+                = (MultiBodyCollider) capsule.readSavable(tagCollider, null);
+        this.linkIndex = capsule.readInt(tagLinkIndex, -1);
+        this.multiBody = (MultiBody) capsule.readSavable(tagMultiBody, null);
+        this.numDofs = capsule.readInt(tagNumDofs, 0);
+        this.parentLink
+                = (MultiBodyLink) capsule.readSavable(tagParentLink, null);
     }
 
     /**

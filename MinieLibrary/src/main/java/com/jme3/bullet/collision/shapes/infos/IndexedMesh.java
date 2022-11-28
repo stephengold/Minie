@@ -446,14 +446,14 @@ public class IndexedMesh
         IndexedMesh originalMesh = (IndexedMesh) original;
 
         int numFloats = vertexPositions.capacity();
-        vertexPositions = BufferUtils.createFloatBuffer(numFloats);
+        this.vertexPositions = BufferUtils.createFloatBuffer(numFloats);
         for (int offset = 0; offset < numFloats; ++offset) {
             float tmpFloat = originalMesh.vertexPositions.get(offset);
             vertexPositions.put(offset, tmpFloat);
         }
 
         int numIndices = indices.getBuffer().capacity();
-        indices = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        this.indices = IndexBuffer.createIndexBuffer(numVertices, numIndices);
         for (int offset = 0; offset < numIndices; ++offset) {
             int tmpIndex = originalMesh.indices.get(offset);
             indices.put(offset, tmpIndex);

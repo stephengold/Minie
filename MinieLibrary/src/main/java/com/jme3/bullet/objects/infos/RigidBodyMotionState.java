@@ -255,8 +255,8 @@ public class RigidBodyMotionState
         long motionStateId = createMotionState();
         reassignNativeId(motionStateId);
 
-        tmpInverseWorldRotation = cloner.clone(tmpInverseWorldRotation);
-        vehicle = cloner.clone(vehicle);
+        this.tmpInverseWorldRotation = cloner.clone(tmpInverseWorldRotation);
+        this.vehicle = cloner.clone(vehicle);
     }
 
     /**

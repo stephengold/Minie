@@ -898,11 +898,11 @@ public class New6Dof extends Constraint {
 
         for (int axisIndex = 0; axisIndex < MyVector3f.numAxes; ++axisIndex) {
             long motorId = getRotationalMotor(constraintId, axisIndex);
-            rotationMotor[axisIndex] = new RotationMotor(motorId);
+            this.rotationMotor[axisIndex] = new RotationMotor(motorId);
         }
 
         long motorId = getTranslationalMotor(constraintId);
-        translationMotor = new TranslationMotor(motorId);
+        this.translationMotor = new TranslationMotor(motorId);
     }
     // *************************************************************************
     // native private methods

@@ -200,7 +200,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         super.cloneFields(cloner, original);
         unassignNativeObject();
 
-        multiBody = cloner.clone(multiBody);
+        this.multiBody = cloner.clone(multiBody);
         buildObject();
 
         MultiBodyCollider old = (MultiBodyCollider) original;
@@ -238,7 +238,7 @@ public class MultiBodyCollider extends PhysicsCollisionObject {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        multiBody = (MultiBody) capsule.readSavable(tagMultiBody, null);
+        this.multiBody = (MultiBody) capsule.readSavable(tagMultiBody, null);
         buildObject();
         readPcoProperties(capsule);
 

@@ -943,15 +943,15 @@ public class MultiBody
 
         if (baseCollider != null) {
             CollisionShape baseShape = baseCollider.getCollisionShape();
-            baseCollider = null;
+            this.baseCollider = null;
             baseShape = cloner.clone(baseShape);
             addBaseCollider(baseShape);
             assert getBaseCollider(multiBodyId) == baseCollider.nativeId();
-            baseCollider.copyPcoProperties(old.getBaseCollider());
+            this.baseCollider.copyPcoProperties(old.getBaseCollider());
         }
 
-        numConfigured = 0;
-        links = new MultiBodyLink[numLinks];
+        this.numConfigured = 0;
+        this.links = new MultiBodyLink[numLinks];
         for (int i = 0; i < numLinks; ++i) {
             links[i] = configureClonedLink(old.links[i]);
         }
@@ -1002,13 +1002,13 @@ public class MultiBody
 
         if (baseCollider != null) {
             CollisionShape baseShape = baseCollider.getCollisionShape();
-            baseCollider = null;
+            this.baseCollider = null;
             addBaseCollider(baseShape);
         }
 
         MultiBodyLink[] originalLinks = links;
-        links = new MultiBodyLink[numLinks];
-        numConfigured = capsule.readInt(tagNumConfigured, 0);
+        this.links = new MultiBodyLink[numLinks];
+        this.numConfigured = capsule.readInt(tagNumConfigured, 0);
         for (int i = 0; i < numConfigured; ++i) {
             configureClonedLink(originalLinks[i]);
         }

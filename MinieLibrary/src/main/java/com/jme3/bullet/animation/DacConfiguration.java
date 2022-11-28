@@ -900,11 +900,11 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        alConfigMap = cloner.clone(alConfigMap);
-        blConfigMap = cloner.clone(blConfigMap);
-        jointMap = cloner.clone(jointMap);
+        this.alConfigMap = cloner.clone(alConfigMap);
+        this.blConfigMap = cloner.clone(blConfigMap);
+        this.jointMap = cloner.clone(jointMap);
 
-        attachModelMap = new HashMap<>(5);
+        this.attachModelMap = new HashMap<>(5);
         DacConfiguration originalCdac
                 = (DacConfiguration) original;
         for (Map.Entry<String, Spatial> entry
@@ -915,7 +915,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             attachModelMap.put(boneName, copySpatial);
         }
 
-        gravityVector = cloner.clone(gravityVector);
+        this.gravityVector = cloner.clone(gravityVector);
     }
 
     /**
@@ -930,9 +930,9 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        ignoredHops = capsule.readInt(tagIgnoredHops, 1);
-        damping = capsule.readFloat(tagDamping, 0.6f);
-        eventDispatchImpulseThreshold
+        this.ignoredHops = capsule.readInt(tagIgnoredHops, 1);
+        this.damping = capsule.readFloat(tagDamping, 0.6f);
+        this.eventDispatchImpulseThreshold
                 = capsule.readFloat(tagEventDispatchImpulseThreshold, 0f);
 
         jointMap.clear();
@@ -949,7 +949,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             blConfigMap.put(boneName, (LinkConfig) blConfigs[i]);
         }
 
-        mainBoneName = capsule.readString(tagMainBoneName, null);
+        this.mainBoneName = capsule.readString(tagMainBoneName, null);
 
         attachModelMap.clear();
         alConfigMap.clear();
@@ -965,9 +965,11 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
             alConfigMap.put(boneName, (LinkConfig) alConfigs[i]);
         }
 
-        torsoConfig = (LinkConfig) capsule.readSavable(tagTorsoConfig, null);
-        gravityVector = (Vector3f) capsule.readSavable(tagGravity, null);
-        relativeTolerance = capsule.readFloat(tagRelativeTolerance, 0.001f);
+        this.torsoConfig
+                = (LinkConfig) capsule.readSavable(tagTorsoConfig, null);
+        this.gravityVector = (Vector3f) capsule.readSavable(tagGravity, null);
+        this.relativeTolerance
+                = capsule.readFloat(tagRelativeTolerance, 0.001f);
     }
 
     /**

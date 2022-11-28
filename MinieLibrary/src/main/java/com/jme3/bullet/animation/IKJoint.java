@@ -149,7 +149,7 @@ public class IKJoint implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        constraint = cloner.clone(constraint);
+        this.constraint = cloner.clone(constraint);
     }
 
     /**

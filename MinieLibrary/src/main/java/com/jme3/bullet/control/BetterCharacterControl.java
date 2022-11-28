@@ -182,9 +182,9 @@ public class BetterCharacterControl
         this.radius = radius;
         this.height = height;
         this.mass = mass;
-        rigidBody = new PhysicsRigidBody(getShape(), mass);
-        jumpForce = new Vector3f(0f, mass * 5f, 0f);
-        rigidBody.setAngularFactor(0f);
+        this.rigidBody = new PhysicsRigidBody(getShape(), mass);
+        this.jumpForce = new Vector3f(0f, mass * 5f, 0f);
+        this.rigidBody.setAngularFactor(0f);
     }
     // *************************************************************************
     // new methods exposed
@@ -803,7 +803,7 @@ public class BetterCharacterControl
 
         for (PhysicsRayTestResult physicsRayTestResult : results) {
             if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
-                onGround = true;
+                this.onGround = true;
                 return;
             }
         }

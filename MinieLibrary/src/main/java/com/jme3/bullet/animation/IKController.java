@@ -157,7 +157,7 @@ abstract public class IKController implements JmeCloneable, Savable {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        controlledLink = cloner.clone(controlledLink);
+        this.controlledLink = cloner.clone(controlledLink);
     }
 
     /**

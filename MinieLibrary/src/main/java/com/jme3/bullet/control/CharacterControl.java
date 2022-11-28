@@ -240,10 +240,10 @@ public class CharacterControl extends AbstractPhysicsControl {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        character = cloner.clone(character);
+        this.character = cloner.clone(character);
         // tmpQuaternion not cloned
         // tmpVector not cloned
-        viewDirection = cloner.clone(viewDirection);
+        this.viewDirection = cloner.clone(viewDirection);
     }
 
     /**
@@ -269,9 +269,10 @@ public class CharacterControl extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        character = (PhysicsCharacter) capsule.readSavable(tagCharacter, null);
-        viewDirection = (Vector3f) capsule.readSavable(tagViewDirection,
-                new Vector3f(0f, 0f, 1f));
+        this.character
+                = (PhysicsCharacter) capsule.readSavable(tagCharacter, null);
+        this.viewDirection = (Vector3f) capsule.readSavable(
+                tagViewDirection, new Vector3f(0f, 0f, 1f));
 
         if (character != null) {
             Spatial controlled = getSpatial();
