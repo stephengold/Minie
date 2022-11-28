@@ -680,7 +680,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
  coordinates, parent coordinates when set to applyLocalPhysics)</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>jumpForce</code> - the desired jump force (not null, unaffected,
+<dd><code>jumpForce</code> - the desired jump force (not null, finite, unaffected,
  default=5*mass in +Y direction)</dd>
 </dl>
 </section>
@@ -729,7 +729,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
  location of the Spatial when the Control is added.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>vec</code> - the desired character location (not null)</dd>
+<dd><code>vec</code> - the desired character location (in physics-space coordinates,
+ not null, finite, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -832,7 +833,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dd><code><a href="AbstractPhysicsControl.html#setPhysicsLocation(com.jme3.math.Vector3f)">setPhysicsLocation</a></code>&nbsp;in class&nbsp;<code><a href="AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>location</code> - the desired location (in physics-space coordinates, not
- null, unaffected)</dd>
+ null, finite, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -849,7 +850,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dd><code><a href="AbstractPhysicsControl.html#setPhysicsRotation(com.jme3.math.Quaternion)">setPhysicsRotation</a></code>&nbsp;in class&nbsp;<code><a href="AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>orientation</code> - the desired orientation (in physics-space coordinates,
- not null, unaffected)</dd>
+ not null, not zero, unaffected)</dd>
 </dl>
 </section>
 </li>
