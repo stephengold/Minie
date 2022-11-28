@@ -425,12 +425,12 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">getPhysicsLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the location of this object's center.</div>
+<div class="block">Copy the location of this object's center to a Vector3f.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Vec3d</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getPhysicsLocationDp</a><wbr>(com.simsilica.mathd.Vec3d&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the location of this object's center.</div>
+<div class="block">Copy the location of this object's center to a Vec3d.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Quaternion</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">getPhysicsRotation</a><wbr>(com.jme3.math.Quaternion&nbsp;storeResult)</code></div>
@@ -1429,13 +1429,13 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getPhysicsLocation(com.jme3.math.Vector3f)">
 <h3>getPhysicsLocation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getPhysicsLocation</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Copy the location of this object's center.</div>
+<div class="block">Copy the location of this object's center to a Vector3f.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
 <dd>a location vector (in physics-space coordinates, either
- storeResult or a new vector, not null)</dd>
+ storeResult or a new vector, finite)</dd>
 </dl>
 </section>
 </li>
@@ -1443,7 +1443,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getPhysicsLocationDp(com.simsilica.mathd.Vec3d)">
 <h3>getPhysicsLocationDp</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.simsilica.mathd.Vec3d</span>&nbsp;<span class="element-name">getPhysicsLocationDp</span><wbr><span class="parameters">(com.simsilica.mathd.Vec3d&nbsp;storeResult)</span></div>
-<div class="block">Copy the location of this object's center.</div>
+<div class="block">Copy the location of this object's center to a Vec3d.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>

@@ -4578,6 +4578,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Determine the location where the suspension connects to the chassis.</div>
 </dd>
+<dt><a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html#getLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getLocationDp(Vec3d)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html" title="class in com.jme3.bullet.objects.infos">RigidBodyMotionState</a></dt>
+<dd>
+<div class="block">Copy the location from this motion state.</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/SliderJoint.html#getLowerAngLimit()" class="member-name-link">getLowerAngLimit()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/SliderJoint.html" title="class in com.jme3.bullet.joints">SliderJoint</a></dt>
 <dd>
 <div class="block">Read the joint's lower limit for on-axis rotation.</div>
@@ -4936,7 +4940,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">getPhysicsLocation(Vector3f)</a> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
-<div class="block">Copy the location of this object's center.</div>
+<div class="block">Copy the location of this object's center to a Vector3f.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#getPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">getPhysicsLocation(Vector3f)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
@@ -4944,7 +4948,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getPhysicsLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getPhysicsLocationDp(Vec3d)</a> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
-<div class="block">Copy the location of this object's center.</div>
+<div class="block">Copy the location of this object's center to a Vec3d.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#getPhysicsLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getPhysicsLocationDp(Vec3d)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
@@ -11015,7 +11019,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsGhostObject.html#setPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">setPhysicsLocation(Vector3f)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsGhostObject.html" title="class in com.jme3.bullet.objects">PhysicsGhostObject</a></dt>
 <dd>
-<div class="block">Directly alter the location of this object's center.</div>
+<div class="block">Directly alter the location of the ghost's center.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsRigidBody.html#setPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">setPhysicsLocation(Vector3f)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></dt>
 <dd>
@@ -11029,6 +11033,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Directly alter the location of this collider's center.</div>
 </dd>
+<dt><a href="com/jme3/bullet/objects/PhysicsCharacter.html#setPhysicsLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">setPhysicsLocationDp(Vec3d)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsCharacter.html" title="class in com.jme3.bullet.objects">PhysicsCharacter</a></dt>
+<dd>
+<div class="block">Directly alter this character's location.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsGhostObject.html#setPhysicsLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">setPhysicsLocationDp(Vec3d)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsGhostObject.html" title="class in com.jme3.bullet.objects">PhysicsGhostObject</a></dt>
 <dd>
 <div class="block">Directly alter the location of the ghost's center.</div>
@@ -11036,6 +11044,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/objects/PhysicsRigidBody.html#setPhysicsLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">setPhysicsLocationDp(Vec3d)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></dt>
 <dd>
 <div class="block">Directly relocate this body's center of mass.</div>
+</dd>
+<dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#setPhysicsLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">setPhysicsLocationDp(Vec3d)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
+<dd>
+<div class="block">Directly relocate the center of this body's bounding box.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/MultiBodyCollider.html#setPhysicsRotation(com.jme3.math.Matrix3f)" class="member-name-link">setPhysicsRotation(Matrix3f)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/MultiBodyCollider.html" title="class in com.jme3.bullet.objects">MultiBodyCollider</a></dt>
 <dd>
@@ -11071,7 +11083,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsGhostObject.html#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation(Quaternion)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsGhostObject.html" title="class in com.jme3.bullet.objects">PhysicsGhostObject</a></dt>
 <dd>
-<div class="block">Directly alter this object's orientation.</div>
+<div class="block">Directly alter the ghost's orientation.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsRigidBody.html#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation(Quaternion)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></dt>
 <dd>
@@ -11161,7 +11173,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#setPose(boolean,boolean)" class="member-name-link">setPose(boolean, boolean)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
-<div class="block">Set the "default pose" or "lowest energy state" of this body to its
+<div class="block">Set the "default pose" (lowest energy state) of this body based on its
  current pose.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/SoftBodyConfig.html#setPositionIterations(int)" class="member-name-link">setPositionIterations(int)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/SoftBodyConfig.html" title="class in com.jme3.bullet.objects.infos">SoftBodyConfig</a></dt>
