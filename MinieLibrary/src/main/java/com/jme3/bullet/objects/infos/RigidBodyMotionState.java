@@ -40,6 +40,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
+import com.simsilica.mathd.Vec3d;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -140,6 +141,22 @@ public class RigidBodyMotionState
         getWorldLocation(motionStateId, result);
 
         assert Vector3f.isValidVector(result);
+        return result;
+    }
+
+    /**
+     * Copy the location from this motion state.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the location vector (in physics-space coordinates, either
+     * storeResult or a new vector, not null)
+     */
+    public Vec3d getLocationDp(Vec3d storeResult) {
+        Vec3d result = (storeResult == null) ? new Vec3d() : storeResult;
+
+        long motionStateId = nativeId();
+        getWorldLocationDp(motionStateId, result);
+
         return result;
     }
 
@@ -297,6 +314,9 @@ public class RigidBodyMotionState
 
     native private static void
             getWorldLocation(long stateId, Vector3f storeResult);
+
+    native private static void
+            getWorldLocationDp(long stateId, Vec3d storeResult);
 
     native private static void
             getWorldRotation(long stateId, Matrix3f storeResult);
