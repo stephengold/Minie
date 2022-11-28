@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2021 jMonkeyEngine
+ * Copyright (c) 2009-2022 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,7 @@ import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.objects.PhysicsGhostObject;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.simsilica.mathd.Vec3d;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -550,6 +551,27 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
+     * Perform a ray-collision test (raycast) and sort the results by ascending
+     * hitFraction.
+     *
+     * @param from the starting location (in physics-space coordinates, not
+     * null, unaffected)
+     * @param to the ending location (in physics-space coordinates, not null,
+     * unaffected)
+     * @param results the list to hold results (not null, modified)
+     * @return results (sorted)
+     */
+    public List<PhysicsRayTestResult> rayTestDp(
+            Vec3d from, Vec3d to, List<PhysicsRayTestResult> results) {
+        results.clear();
+        long spaceId = nativeId();
+        rayTestNativeDp(from, to, spaceId, results, rayTestFlags);
+
+        results.sort(hitFractionComparator);
+        return results;
+    }
+
+    /**
      * Perform a ray-collision test (raycast) and return the results in
      * arbitrary order.
      *
@@ -867,6 +889,10 @@ public class CollisionSpace extends NativePhysicsObject {
 
     native private static void rayTest_native(
             Vector3f fromLocation, Vector3f toLocation, long spaceId,
+            List<PhysicsRayTestResult> addToList, int flags);
+
+    native private static void rayTestNativeDp(
+            Vec3d fromLocation, Vec3d toLocation, long spaceId,
             List<PhysicsRayTestResult> addToList, int flags);
 
     native private static void removeCollisionObject(long spaceId, long pcoId);
