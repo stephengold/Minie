@@ -43,6 +43,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
+import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -508,6 +509,18 @@ public class CharacterController
         long controllerId = nativeId();
         warp(controllerId, location);
     }
+
+    /**
+     * Directly alter the location of the character's center.
+     *
+     * @param location the desired physics location (not null, unaffected)
+     */
+    public void warpDp(Vec3d location) {
+        Validate.nonNull(location, "location");
+
+        long controllerId = nativeId();
+        warpDp(controllerId, location);
+    }
     // *************************************************************************
     // JmeCloneable methods
 
@@ -716,4 +729,6 @@ public class CharacterController
             setWalkDirection(long controllerId, Vector3f direction);
 
     native private static void warp(long controllerId, Vector3f location);
+
+    native private static void warpDp(long controllerId, Vec3d location);
 }
