@@ -255,8 +255,22 @@ loadScripts(document, 'script');</script>
  physics-space coordinates (native field: m_positionWorldOnA).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getPositionWorldOnB(long,com.jme3.math.Vector3f)" class="member-name-link">getPositionWorldOnB</a><wbr>(long&nbsp;manifoldPointId,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getPositionWorldOnADp(long,com.simsilica.mathd.Vec3d)" class="member-name-link">getPositionWorldOnADp</a><wbr>(long&nbsp;manifoldPointId,
+ com.simsilica.mathd.Vec3d&nbsp;storeVector)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Determine the location of the specified point on object A in
+ physics-space coordinates (native field: m_positionWorldOnA).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getPositionWorldOnB(long,com.jme3.math.Vector3f)" class="member-name-link">getPositionWorldOnB</a><wbr>(long&nbsp;manifoldPointId,
  com.jme3.math.Vector3f&nbsp;storeVector)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Determine the location of the specified point on object B in
+ physics-space coordinates (native field: m_positionWorldOnB).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getPositionWorldOnBDp(long,com.simsilica.mathd.Vec3d)" class="member-name-link">getPositionWorldOnBDp</a><wbr>(long&nbsp;manifoldPointId,
+ com.simsilica.mathd.Vec3d&nbsp;storeVector)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Determine the location of the specified point on object B in
  physics-space coordinates (native field: m_positionWorldOnB).</div>
@@ -819,10 +833,40 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="getPositionWorldOnADp(long,com.simsilica.mathd.Vec3d)">
+<h3>getPositionWorldOnADp</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">getPositionWorldOnADp</span><wbr><span class="parameters">(long&nbsp;manifoldPointId,
+ com.simsilica.mathd.Vec3d&nbsp;storeVector)</span></div>
+<div class="block">Determine the location of the specified point on object A in
+ physics-space coordinates (native field: m_positionWorldOnA).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>manifoldPointId</code> - the native ID of the <code>btManifoldPoint</code> (not
+ zero)</dd>
+<dd><code>storeVector</code> - storage for the result (not null, modified)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getPositionWorldOnB(long,com.jme3.math.Vector3f)">
 <h3>getPositionWorldOnB</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">getPositionWorldOnB</span><wbr><span class="parameters">(long&nbsp;manifoldPointId,
  com.jme3.math.Vector3f&nbsp;storeVector)</span></div>
+<div class="block">Determine the location of the specified point on object B in
+ physics-space coordinates (native field: m_positionWorldOnB).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>manifoldPointId</code> - the native ID of the <code>btManifoldPoint</code> (not
+ zero)</dd>
+<dd><code>storeVector</code> - storage for the result (modified if not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getPositionWorldOnBDp(long,com.simsilica.mathd.Vec3d)">
+<h3>getPositionWorldOnBDp</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">getPositionWorldOnBDp</span><wbr><span class="parameters">(long&nbsp;manifoldPointId,
+ com.simsilica.mathd.Vec3d&nbsp;storeVector)</span></div>
 <div class="block">Determine the location of the specified point on object B in
  physics-space coordinates (native field: m_positionWorldOnB).</div>
 <dl class="notes">
