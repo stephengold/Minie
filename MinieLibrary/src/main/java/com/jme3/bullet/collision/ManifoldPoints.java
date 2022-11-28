@@ -32,6 +32,7 @@
 package com.jme3.bullet.collision;
 
 import com.jme3.math.Vector3f;
+import com.simsilica.mathd.Vec3d;
 import java.util.logging.Logger;
 
 /**
@@ -336,6 +337,17 @@ final public class ManifoldPoints {
             getPositionWorldOnA(long manifoldPointId, Vector3f storeVector);
 
     /**
+     * Determine the location of the specified point on object A in
+     * physics-space coordinates (native field: m_positionWorldOnA).
+     *
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
+     * @param storeVector storage for the result (not null, modified)
+     */
+    native public static void
+            getPositionWorldOnADp(long manifoldPointId, Vec3d storeVector);
+
+    /**
      * Determine the location of the specified point on object B in
      * physics-space coordinates (native field: m_positionWorldOnB).
      *
@@ -345,6 +357,17 @@ final public class ManifoldPoints {
      */
     native public static void
             getPositionWorldOnB(long manifoldPointId, Vector3f storeVector);
+
+    /**
+     * Determine the location of the specified point on object B in
+     * physics-space coordinates (native field: m_positionWorldOnB).
+     *
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
+     * @param storeVector storage for the result (modified if not null)
+     */
+    native public static void
+            getPositionWorldOnBDp(long manifoldPointId, Vec3d storeVector);
 
     /**
      * Determine how many points are used to calculate the area of the convex
