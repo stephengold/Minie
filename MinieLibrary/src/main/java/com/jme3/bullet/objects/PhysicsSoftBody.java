@@ -1558,8 +1558,8 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Copy the orientation (rotation) of this body to a Quaternion.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a rotation quaternion (in physics-space coordinates, either
-     * storeResult or a new instance, not null)
+     * @return an identity quaternion (either storeResult or a new instance, not
+     * null)
      */
     @Override
     public Quaternion getPhysicsRotation(Quaternion storeResult) {
@@ -1571,11 +1571,11 @@ public class PhysicsSoftBody extends PhysicsBody {
 
     /**
      * Copy the orientation of this body (the basis of its local coordinate
-     * system) to a 3x3 matrix.
+     * system) to a Matrix3f.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a rotation matrix (in physics-space coordinates, either
-     * storeResult or a new matrix, not null)
+     * @return an identity matrix (either storeResult or a new instance, not
+     * null)
      */
     @Override
     public Matrix3f getPhysicsRotationMatrix(Matrix3f storeResult) {

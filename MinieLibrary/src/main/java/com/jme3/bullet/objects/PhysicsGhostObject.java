@@ -127,7 +127,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     /**
      * Count how many collision objects this object overlaps.
      *
-     * @return count (&ge;0)
+     * @return the count (&ge;0)
      */
     public int getOverlappingCount() {
         long objectId = nativeId();
@@ -137,7 +137,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     }
 
     /**
-     * Access a list of overlapping objects.
+     * Update and access a list of overlapping objects.
      *
      * @return an internal list which may get reused (not null)
      */
