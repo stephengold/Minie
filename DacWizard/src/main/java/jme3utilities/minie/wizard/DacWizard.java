@@ -199,8 +199,8 @@ public class DacWizard extends GuiApplication {
     AxesVisualizer findAxesVisualizer() {
         AxesVisualizer result = null;
         if (axesNode != null) {
-            List<AxesVisualizer> controls = MySpatial.listControls(axesNode,
-                    AxesVisualizer.class, null);
+            List<AxesVisualizer> controls = MySpatial.listControls(
+                    axesNode, AxesVisualizer.class, null);
             if (controls.size() == 1) {
                 result = controls.get(0);
             }
@@ -298,8 +298,8 @@ public class DacWizard extends GuiApplication {
                     break;
 
                 default:
-                    logger.log(Level.WARNING,
-                            "Unknown command-line argument {0}",
+                    logger.log(
+                            Level.WARNING, "Unknown command-line argument {0}",
                             MyString.quote(arg));
             }
         }

@@ -94,8 +94,8 @@ class LinkValue {
         Model model = DacWizard.getModel();
         int numBones = model.countManagedBones(boneName);
         int numVertices = model.countVertices(boneName);
-        result += String.format(" (%d bone%s, %d vert%s)",
-                numBones, (numBones == 1) ? "" : "s",
+        result += String.format(
+                " (%d bone%s, %d vert%s)", numBones, (numBones == 1) ? "" : "s",
                 numVertices, (numVertices == 1) ? "ex" : "ices");
 
         return result;

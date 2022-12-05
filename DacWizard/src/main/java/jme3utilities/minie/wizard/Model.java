@@ -286,8 +286,8 @@ class Model {
      * @return the count (&ge;0) or 0 if no model loaded
      */
     int countDacs() {
-        int count = MySpatial.countControls(rootSpatial,
-                DynamicAnimControl.class);
+        int count = MySpatial.countControls(
+                rootSpatial, DynamicAnimControl.class);
 
         assert count >= 0 : count;
         return count;
@@ -717,8 +717,8 @@ class Model {
 
         this.ragdoll = new DynamicAnimControl();
         float massParameter = 1f;
-        LinkConfig linkConfig = new LinkConfig(massParameter,
-                MassHeuristic.Density, ShapeHeuristic.VertexHull,
+        LinkConfig linkConfig = new LinkConfig(
+                massParameter, MassHeuristic.Density, ShapeHeuristic.VertexHull,
                 new Vector3f(1f, 1f, 1f), CenterHeuristic.Mean);
 
         ragdoll.setConfig(DacConfiguration.torsoName, linkConfig);
@@ -947,8 +947,8 @@ class Model {
             throw new RuntimeException("No model loaded.");
         }
 
-        List<SkinningControl> skinners = MySpatial.listControls(rootSpatial,
-                SkinningControl.class, null);
+        List<SkinningControl> skinners = MySpatial.listControls(
+                rootSpatial, SkinningControl.class, null);
 
         Armature result = null;
         if (skinners.size() == 1) {
@@ -1077,8 +1077,8 @@ class Model {
      * @return the pre-existing control that was removed, or null if none
      */
     private DynamicAnimControl removeDac() {
-        List<DynamicAnimControl> list = MySpatial.listControls(rootSpatial,
-                DynamicAnimControl.class, null);
+        List<DynamicAnimControl> list = MySpatial.listControls(
+                rootSpatial, DynamicAnimControl.class, null);
         DynamicAnimControl result = null;
         if (!list.isEmpty()) {
             assert list.size() == 1 : list.size();

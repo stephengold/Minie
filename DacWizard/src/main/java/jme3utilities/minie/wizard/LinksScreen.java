@@ -113,8 +113,8 @@ public class LinksScreen extends GuiScreenController {
      * @param event details of the event (not null, ignored)
      */
     @NiftyEventSubscriber(pattern = ".*Slider")
-    public void linksScreenSliderChanged(final String sliderId,
-            final SliderChangedEvent event) {
+    public void linksScreenSliderChanged(
+            final String sliderId, final SliderChangedEvent event) {
         Validate.nonNull(sliderId, "slider ID");
         assert sliderId.endsWith("Slider") : sliderId;
         Validate.nonNull(event, "event");
@@ -284,8 +284,8 @@ public class LinksScreen extends GuiScreenController {
         float oldParameter = config.massParameter();
         String defaultText = Float.toString(oldParameter);
         String actionPrefix = "set massParameter ";
-        DialogController controller = new FloatDialog("Set", Float.MIN_VALUE,
-                Float.MAX_VALUE, AllowNull.No);
+        DialogController controller = new FloatDialog(
+                "Set", Float.MIN_VALUE, Float.MAX_VALUE, AllowNull.No);
         showTextEntryDialog("Enter the mass-parameter value:", defaultText,
                 actionPrefix, controller);
     }
@@ -344,8 +344,8 @@ public class LinksScreen extends GuiScreenController {
      * @param application (not null)
      */
     @Override
-    public void initialize(AppStateManager stateManager,
-            Application application) {
+    public void initialize(
+            AppStateManager stateManager, Application application) {
         super.initialize(stateManager, application);
 
         InputMode inputMode = InputMode.findMode("links");
@@ -552,8 +552,8 @@ public class LinksScreen extends GuiScreenController {
      * unaffected)
      * @return the pre-existing item, or null if not found
      */
-    private static TreeItem<LinkValue> findLinkedBoneItem(String boneName,
-            TreeItem<LinkValue>[] linkedBoneItems) {
+    private static TreeItem<LinkValue> findLinkedBoneItem(
+            String boneName, TreeItem<LinkValue>[] linkedBoneItems) {
         assert boneName != null;
         assert !boneName.isEmpty();
 
@@ -593,8 +593,8 @@ public class LinksScreen extends GuiScreenController {
         float minZ = readSlider("minZ", SliderTransform.None);
         minZ = MyMath.toRadians(minZ);
 
-        RangeOfMotion rom = new RangeOfMotion(maxX, minX, maxY, minY, maxZ,
-                minZ);
+        RangeOfMotion rom
+                = new RangeOfMotion(maxX, minX, maxY, minY, maxZ, minZ);
 
         Model model = DacWizard.getModel();
         String boneName = model.selectedLink();

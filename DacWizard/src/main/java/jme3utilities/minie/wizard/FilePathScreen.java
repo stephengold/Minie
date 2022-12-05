@@ -191,8 +191,8 @@ class FilePathScreen extends GuiScreenController {
      * @param application (not null)
      */
     @Override
-    public void initialize(AppStateManager stateManager,
-            Application application) {
+    public void initialize(
+            AppStateManager stateManager, Application application) {
         super.initialize(stateManager, application);
 
         InputMode inputMode = InputMode.findMode("filePath");

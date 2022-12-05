@@ -221,8 +221,8 @@ class TestMode extends InputMode {
         }
         if (!handled) {
             if (actionString.startsWith(Action.setMargin + " ")) {
-                String arg = MyString.remainder(actionString,
-                        Action.setMargin + " ");
+                String arg = MyString.
+                        remainder(actionString, Action.setMargin + " ");
                 float newMargin = Float.parseFloat(arg);
                 setMargin(newMargin);
                 handled = true;
@@ -573,7 +573,7 @@ class TestMode extends InputMode {
         assert configIndex > 0 : configIndex;
 
         String newValue = format(config);
-        stream.printf("        LinkConfig config%d = %s;%n",
-                configIndex, newValue);
+        stream.printf(
+                "        LinkConfig config%d = %s;%n", configIndex, newValue);
     }
 }

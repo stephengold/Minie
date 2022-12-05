@@ -332,8 +332,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
     @SuppressWarnings("unchecked")
     private void applyRandomPose() {
         // Choose an AnimComposer or AnimControl.
-        List controls = MySpatial.listControls(tempModelRoot, AnimControl.class,
-                null);
+        List controls = MySpatial.listControls(
+                tempModelRoot, AnimControl.class, null);
         MySpatial.listControls(tempModelRoot, AnimComposer.class, controls);
         AbstractControl control = (AbstractControl) generator.pick(controls);
 
