@@ -279,10 +279,10 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
         buildObject();
         readPcoProperties(capsule);
 
-        setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
-                new Vector3f()));
-        setPhysicsRotation(((Matrix3f) capsule.readSavable(tagPhysicsRotation,
-                new Matrix3f())));
+        setPhysicsLocation((Vector3f) capsule.readSavable(
+                tagPhysicsLocation, new Vector3f()));
+        setPhysicsRotation(((Matrix3f) capsule.readSavable(
+                tagPhysicsRotation, new Matrix3f())));
     }
 
     /**

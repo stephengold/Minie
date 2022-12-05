@@ -651,8 +651,8 @@ public class TestDefaults {
         Assert.assertTrue(pco.isActive());
         Assert.assertFalse(pco.isInWorld());
 
-        MinieTest.assertEquals(1f, 1f, 1f,
-                pco.getAnisotropicFriction(null), 0f);
+        MinieTest.assertEquals(
+                1f, 1f, 1f, pco.getAnisotropicFriction(null), 0f);
         Assert.assertFalse(pco.hasAnisotropicFriction(1));
         Assert.assertFalse(pco.hasAnisotropicFriction(2));
         Assert.assertNull(pco.getApplicationData());
@@ -788,12 +788,12 @@ public class TestDefaults {
         MinieTest.assertEquals(0f, 0f, 0f, prb.totalAppliedTorque(null), 0f);
 
         if (prb.getMass() > 0f) {
-            MinieTest.assertEquals(0f, 0f, 0f,
-                    prb.getAngularVelocity(null), 0f);
-            MinieTest.assertEquals(0f, 0f, 0f,
-                    prb.getAngularVelocityLocal(null), 0f);
-            MinieTest.assertEquals(0f, 0f, 0f,
-                    prb.getLinearVelocity(null), 0f);
+            MinieTest.assertEquals(
+                    0f, 0f, 0f, prb.getAngularVelocity(null), 0f);
+            MinieTest.assertEquals(
+                    0f, 0f, 0f, prb.getAngularVelocityLocal(null), 0f);
+            MinieTest.assertEquals(
+                    0f, 0f, 0f, prb.getLinearVelocity(null), 0f);
             Assert.assertEquals(1f, prb.getMass(), 0f);
             Assert.assertEquals(0f, prb.getSquaredSpeed(), 0f);
             Assert.assertTrue(prb.isDynamic());
@@ -863,8 +863,8 @@ public class TestDefaults {
         Assert.assertFalse(capsule.isInfinite());
         Assert.assertFalse(capsule.isNonMoving());
         Assert.assertFalse(capsule.isPolyhedral());
-        Assert.assertEquals(7f * FastMath.PI / 3f, capsule.unscaledVolume(),
-                1e-4f);
+        Assert.assertEquals(
+                7f * FastMath.PI / 3f, capsule.unscaledVolume(), 1e-4f);
 
         // Compound
         CompoundCollisionShape compound = new CompoundCollisionShape();
@@ -888,8 +888,8 @@ public class TestDefaults {
         Assert.assertFalse(cone.isInfinite());
         Assert.assertFalse(cone.isNonMoving());
         Assert.assertFalse(cone.isPolyhedral());
-        Assert.assertEquals(FastMath.PI / 3f, cone.unscaledVolume(),
-                1e-5f);
+        Assert.assertEquals(
+                FastMath.PI / 3f, cone.unscaledVolume(), 1e-5f);
 
         // Convex2d
         ConeCollisionShape flatCone
@@ -992,8 +992,8 @@ public class TestDefaults {
         MinieTest.assertEquals(0f, 0f, 0f, multiSphere.copyCenter(0, null), 0f);
         Assert.assertEquals(1, multiSphere.countSpheres());
         Assert.assertEquals(1f, multiSphere.getRadius(0), 0f);
-        Assert.assertEquals(4f * FastMath.PI / 3f, multiSphere.scaledVolume(),
-                1e-4f);
+        Assert.assertEquals(
+                4f * FastMath.PI / 3f, multiSphere.scaledVolume(), 1e-4f);
         Assert.assertFalse(multiSphere.isConcave());
         Assert.assertTrue(multiSphere.isConvex());
         Assert.assertFalse(multiSphere.isInfinite());
@@ -1071,8 +1071,8 @@ public class TestDefaults {
         Assert.assertFalse(sphere.isInfinite());
         Assert.assertFalse(sphere.isNonMoving());
         Assert.assertFalse(sphere.isPolyhedral());
-        Assert.assertEquals(4f * FastMath.PI / 3f, sphere.unscaledVolume(),
-                1e-4f);
+        Assert.assertEquals(
+                4f * FastMath.PI / 3f, sphere.unscaledVolume(), 1e-4f);
     }
 
     /**
@@ -1131,8 +1131,8 @@ public class TestDefaults {
             SixDofSpringJoint spring = (SixDofSpringJoint) six;
             for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
                 Assert.assertEquals(1f, spring.getDamping(dofIndex), 0f);
-                Assert.assertEquals(0f, spring.getEquilibriumPoint(dofIndex),
-                        0f);
+                Assert.assertEquals(
+                        0f, spring.getEquilibriumPoint(dofIndex), 0f);
                 Assert.assertEquals(0f, spring.getStiffness(dofIndex), 0f);
                 Assert.assertFalse(spring.isSpringEnabled(dofIndex));
             }

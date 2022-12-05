@@ -83,8 +83,8 @@ final public class MinieTest {
      * @param actual the vector to test (not null, unaffected)
      * @param tolerance the allowable difference for each component
      */
-    public static void assertEquals(float x, float y, float z, Vector3f actual,
-            float tolerance) {
+    public static void assertEquals(
+            float x, float y, float z, Vector3f actual, float tolerance) {
         Assert.assertEquals("x component", x, actual.x, tolerance);
         Assert.assertEquals("y component", y, actual.y, tolerance);
         Assert.assertEquals("z component", z, actual.z, tolerance);
@@ -97,8 +97,8 @@ final public class MinieTest {
      * @param actual the vector to test (not null, unaffected)
      * @param tolerance the allowable difference for each component
      */
-    public static void assertEquals(Vector3f expected, Vector3f actual,
-            float tolerance) {
+    public static void assertEquals(
+            Vector3f expected, Vector3f actual, float tolerance) {
         assertEquals(expected.x, expected.y, expected.z, actual, tolerance);
     }
 

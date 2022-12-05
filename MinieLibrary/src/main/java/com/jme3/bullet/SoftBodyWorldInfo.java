@@ -301,8 +301,8 @@ public class SoftBodyWorldInfo
         InputCapsule capsule = importer.getCapsule(this);
 
         setAirDensity(capsule.readFloat(tagAirDensity, 1.2f));
-        setGravity((Vector3f) capsule.readSavable(tagGravity,
-                new Vector3f(0f, -10f, 0f)));
+        setGravity((Vector3f) capsule.readSavable(
+                tagGravity, new Vector3f(0f, -10f, 0f)));
         setMaxDisplacement(capsule.readFloat(tagMaxDisplacement, 1000f));
         setWaterDensity(capsule.readFloat(tagWaterDensity, 0f));
         setWaterNormal((Vector3f) capsule.readSavable(tagWaterNormal,
