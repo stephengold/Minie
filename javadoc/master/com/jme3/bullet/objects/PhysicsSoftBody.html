@@ -376,7 +376,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsRotationMatrix(com.jme3.math.Matrix3f)" class="member-name-link">getPhysicsRotationMatrix</a><wbr>(com.jme3.math.Matrix3f&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy the orientation of this body (the basis of its local coordinate
- system) to a 3x3 matrix.</div>
+ system) to a Matrix3f.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScale(com.jme3.math.Vector3f)" class="member-name-link">getScale</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -1740,8 +1740,8 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a rotation quaternion (in physics-space coordinates, either
- storeResult or a new instance, not null)</dd>
+<dd>an identity quaternion (either storeResult or a new instance, not
+ null)</dd>
 </dl>
 </section>
 </li>
@@ -1750,15 +1750,15 @@ loadScripts(document, 'script');</script>
 <h3>getPhysicsRotationMatrix</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Matrix3f</span>&nbsp;<span class="element-name">getPhysicsRotationMatrix</span><wbr><span class="parameters">(com.jme3.math.Matrix3f&nbsp;storeResult)</span></div>
 <div class="block">Copy the orientation of this body (the basis of its local coordinate
- system) to a 3x3 matrix.</div>
+ system) to a Matrix3f.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../collision/PhysicsCollisionObject.html#getPhysicsRotationMatrix(com.jme3.math.Matrix3f)">getPhysicsRotationMatrix</a></code>&nbsp;in class&nbsp;<code><a href="../collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a rotation matrix (in physics-space coordinates, either
- storeResult or a new matrix, not null)</dd>
+<dd>an identity matrix (either storeResult or a new instance, not
+ null)</dd>
 </dl>
 </section>
 </li>

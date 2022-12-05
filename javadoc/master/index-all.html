@@ -4572,7 +4572,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html#getLocation(com.jme3.math.Vector3f)" class="member-name-link">getLocation(Vector3f)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html" title="class in com.jme3.bullet.objects.infos">RigidBodyMotionState</a></dt>
 <dd>
-<div class="block">Copy the location from this motion state.</div>
+<div class="block">Copy the location to a Vector3f.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/VehicleWheel.html#getLocation(com.jme3.math.Vector3f)" class="member-name-link">getLocation(Vector3f)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/VehicleWheel.html" title="class in com.jme3.bullet.objects">VehicleWheel</a></dt>
 <dd>
@@ -4580,7 +4580,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html#getLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getLocationDp(Vec3d)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html" title="class in com.jme3.bullet.objects.infos">RigidBodyMotionState</a></dt>
 <dd>
-<div class="block">Copy the location from this motion state.</div>
+<div class="block">Copy the location to a Vector3d.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/SliderJoint.html#getLowerAngLimit()" class="member-name-link">getLowerAngLimit()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/SliderJoint.html" title="class in com.jme3.bullet.joints">SliderJoint</a></dt>
 <dd>
@@ -4839,11 +4839,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html#getOrientation(com.jme3.math.Matrix3f)" class="member-name-link">getOrientation(Matrix3f)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html" title="class in com.jme3.bullet.objects.infos">RigidBodyMotionState</a></dt>
 <dd>
-<div class="block">Copy the orientation from this motion state (as a matrix).</div>
+<div class="block">Copy the orientation to a Matrix3f.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html#getOrientation(com.jme3.math.Quaternion)" class="member-name-link">getOrientation(Quaternion)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/RigidBodyMotionState.html" title="class in com.jme3.bullet.objects.infos">RigidBodyMotionState</a></dt>
 <dd>
-<div class="block">Copy the orientation from this motion state (as a Quaternion).</div>
+<div class="block">Copy the orientation to a Quaternion.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsGhostObject.html#getOverlapping(int)" class="member-name-link">getOverlapping(int)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsGhostObject.html" title="class in com.jme3.bullet.objects">PhysicsGhostObject</a></dt>
 <dd>
@@ -4855,7 +4855,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsGhostObject.html#getOverlappingObjects()" class="member-name-link">getOverlappingObjects()</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsGhostObject.html" title="class in com.jme3.bullet.objects">PhysicsGhostObject</a></dt>
 <dd>
-<div class="block">Access a list of overlapping objects.</div>
+<div class="block">Update and access a list of overlapping objects.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/Constraint.html#getOverrideIterations()" class="member-name-link">getOverrideIterations()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/Constraint.html" title="class in com.jme3.bullet.joints">Constraint</a></dt>
 <dd>
@@ -4973,12 +4973,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getPhysicsRotationMatrix(com.jme3.math.Matrix3f)" class="member-name-link">getPhysicsRotationMatrix(Matrix3f)</a> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
 <div class="block">Copy the orientation of this object (the basis of its local coordinate
- system) to a 3x3 matrix.</div>
+ system) to a Matrix3f.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#getPhysicsRotationMatrix(com.jme3.math.Matrix3f)" class="member-name-link">getPhysicsRotationMatrix(Matrix3f)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
 <div class="block">Copy the orientation of this body (the basis of its local coordinate
- system) to a 3x3 matrix.</div>
+ system) to a Matrix3f.</div>
 </dd>
 <dt><a href="com/jme3/bullet/SoftPhysicsAppState.html#getPhysicsSoftSpace()" class="member-name-link">getPhysicsSoftSpace()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/SoftPhysicsAppState.html" title="class in com.jme3.bullet">SoftPhysicsAppState</a></dt>
 <dd>
@@ -12250,7 +12250,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)" class="member-name-link">sweepTest(ConvexShape, Transform, Transform, List&lt;PhysicsSweepTestResult&gt;, float)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
-<div class="block">Perform a sweep-collision test and store the results in an existing list.</div>
+<div class="block">Perform a sweep-collision test and store the results in an existing list,
+ in arbitrary order.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:T">T</h2>

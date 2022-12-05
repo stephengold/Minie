@@ -151,12 +151,12 @@ implements com.jme3.util.clone.JmeCloneable</span></div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLocation(com.jme3.math.Vector3f)" class="member-name-link">getLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the location from this motion state.</div>
+<div class="block">Copy the location to a Vector3f.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Vec3d</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getLocationDp</a><wbr>(com.simsilica.mathd.Vec3d&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the location from this motion state.</div>
+<div class="block">Copy the location to a Vector3d.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getObjectId()" class="member-name-link">getObjectId</a>()</code></div>
@@ -166,12 +166,12 @@ implements com.jme3.util.clone.JmeCloneable</span></div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Matrix3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrientation(com.jme3.math.Matrix3f)" class="member-name-link">getOrientation</a><wbr>(com.jme3.math.Matrix3f&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the orientation from this motion state (as a matrix).</div>
+<div class="block">Copy the orientation to a Matrix3f.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Quaternion</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrientation(com.jme3.math.Quaternion)" class="member-name-link">getOrientation</a><wbr>(com.jme3.math.Quaternion&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the orientation from this motion state (as a Quaternion).</div>
+<div class="block">Copy the orientation to a Quaternion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isApplyPhysicsLocal()" class="member-name-link">isApplyPhysicsLocal</a>()</code></div>
@@ -268,7 +268,7 @@ implements com.jme3.util.clone.JmeCloneable</span></div>
 <section class="detail" id="getLocation(com.jme3.math.Vector3f)">
 <h3>getLocation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getLocation</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Copy the location from this motion state.</div>
+<div class="block">Copy the location to a Vector3f.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
@@ -282,7 +282,7 @@ implements com.jme3.util.clone.JmeCloneable</span></div>
 <section class="detail" id="getLocationDp(com.simsilica.mathd.Vec3d)">
 <h3>getLocationDp</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.simsilica.mathd.Vec3d</span>&nbsp;<span class="element-name">getLocationDp</span><wbr><span class="parameters">(com.simsilica.mathd.Vec3d&nbsp;storeResult)</span></div>
-<div class="block">Copy the location from this motion state.</div>
+<div class="block">Copy the location to a Vector3d.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
@@ -308,13 +308,13 @@ implements com.jme3.util.clone.JmeCloneable</span></div>
 <section class="detail" id="getOrientation(com.jme3.math.Matrix3f)">
 <h3>getOrientation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Matrix3f</span>&nbsp;<span class="element-name">getOrientation</span><wbr><span class="parameters">(com.jme3.math.Matrix3f&nbsp;storeResult)</span></div>
-<div class="block">Copy the orientation from this motion state (as a matrix).</div>
+<div class="block">Copy the orientation to a Matrix3f.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>the rotation matrix (in physics-space coordinates, either
- storeResult or a new vector, not null)</dd>
+<dd>the orientation (in physics-space coordinates, either storeResult
+ or a new matrix, not null)</dd>
 </dl>
 </section>
 </li>
@@ -322,13 +322,13 @@ implements com.jme3.util.clone.JmeCloneable</span></div>
 <section class="detail" id="getOrientation(com.jme3.math.Quaternion)">
 <h3>getOrientation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Quaternion</span>&nbsp;<span class="element-name">getOrientation</span><wbr><span class="parameters">(com.jme3.math.Quaternion&nbsp;storeResult)</span></div>
-<div class="block">Copy the orientation from this motion state (as a Quaternion).</div>
+<div class="block">Copy the orientation to a Quaternion.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>the rotation Quaternion (in physics-space coordinates, either
- storeResult or a new vector, not null)</dd>
+<dd>the orientation (in physics-space coordinates, either storeResult
+ or a new instance, not null)</dd>
 </dl>
 </section>
 </li>
