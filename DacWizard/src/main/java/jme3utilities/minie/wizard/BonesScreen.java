@@ -132,6 +132,15 @@ class BonesScreen extends GuiScreenController {
     }
 
     /**
+     * A callback from Nifty, invoked each time the screen shuts down.
+     */
+    @Override
+    public void onEndScreen() {
+        treeBox.clear();
+        super.onEndScreen();
+    }
+
+    /**
      * A callback from Nifty, invoked each time this screen starts up.
      */
     @Override
