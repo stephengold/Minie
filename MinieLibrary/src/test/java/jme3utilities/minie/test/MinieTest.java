@@ -32,6 +32,7 @@ import com.jme3.export.xml.XMLExporter;
 import com.jme3.export.xml.XMLImporter;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.simsilica.mathd.Vec3d;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -72,6 +73,23 @@ final public class MinieTest {
         Assert.assertEquals("y component", y, actual.getY(), tolerance);
         Assert.assertEquals("z component", z, actual.getZ(), tolerance);
         Assert.assertEquals("w component", w, actual.getW(), tolerance);
+    }
+
+    /**
+     * Verify that 2 double-precision vectors are equal to within some
+     * tolerance.
+     *
+     * @param x the expected X component
+     * @param y the expected Y component
+     * @param z the expected Z component
+     * @param actual the vector to test (not null, unaffected)
+     * @param tolerance the allowable difference for each component
+     */
+    public static void assertEquals(
+            double x, double y, double z, Vec3d actual, double tolerance) {
+        Assert.assertEquals("x component", x, actual.x, tolerance);
+        Assert.assertEquals("y component", y, actual.y, tolerance);
+        Assert.assertEquals("z component", z, actual.z, tolerance);
     }
 
     /**
