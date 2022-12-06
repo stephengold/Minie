@@ -178,37 +178,37 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     /**
      * Directly alter the ghost's orientation.
      *
-     * @param rotation the desired orientation (a rotation matrix in
+     * @param orientation the desired orientation (a rotation matrix in
      * physics-space coordinates, not null, unaffected)
      */
-    public void setPhysicsRotation(Matrix3f rotation) {
-        Validate.nonNull(rotation, "rotation");
+    public void setPhysicsRotation(Matrix3f orientation) {
+        Validate.nonNull(orientation, "orientation");
         long objectId = nativeId();
-        setPhysicsRotation(objectId, rotation);
+        setPhysicsRotation(objectId, orientation);
     }
 
     /**
      * Directly alter the ghost's orientation.
      *
-     * @param rotation the desired orientation (a rotation quaternion in
+     * @param orientation the desired orientation (a rotation quaternion in
      * physics-space coordinates, not null, not zero, unaffected)
      */
-    public void setPhysicsRotation(Quaternion rotation) {
-        Validate.nonZero(rotation, "rotation");
+    public void setPhysicsRotation(Quaternion orientation) {
+        Validate.nonZero(orientation, "orientation");
         long objectId = nativeId();
-        setPhysicsRotation(objectId, rotation);
+        setPhysicsRotation(objectId, orientation);
     }
 
     /**
      * Directly alter the ghost's orientation.
      *
-     * @param rotation the desired orientation (a rotation quaternion in
+     * @param orientation the desired orientation (a rotation matrix in
      * physics-space coordinates, not null, unaffected)
      */
-    public void setPhysicsRotationDp(Quatd rotation) {
-        Validate.nonNull(rotation, "rotation");
+    public void setPhysicsRotationDp(Matrix3d orientation) {
+        Validate.nonNull(orientation, "orientation");
         long objectId = nativeId();
-        setPhysicsRotationDp(objectId, rotation);
+        setPhysicsRotationDp(objectId, orientation);
     }
     // *************************************************************************
     // PhysicsCollisionObject methods

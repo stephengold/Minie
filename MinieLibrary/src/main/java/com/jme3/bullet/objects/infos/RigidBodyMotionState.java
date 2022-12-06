@@ -313,14 +313,14 @@ public class RigidBodyMotionState
     native private static void finalizeNative(long objectId);
 
     native private static void
-            getWorldLocation(long stateId, Vector3f storeResult);
+            getWorldLocation(long stateId, Vector3f storeVector);
 
     native private static void
-            getWorldLocationDp(long stateId, Vec3d storeResult);
+            getWorldLocationDp(long stateId, Vec3d storeVector);
 
     native private static void
-            getWorldRotation(long stateId, Matrix3f storeResult);
+            getWorldRotation(long stateId, Matrix3f storeMatrix);
 
     native private static void
-            getWorldRotationQuat(long stateId, Quaternion storeResult);
+            getWorldRotationDp(long stateId, Matrix3d storeMatrix);
 }
