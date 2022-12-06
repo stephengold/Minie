@@ -193,7 +193,8 @@ public class JaimeControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        return findBoneLink("foot.L");
+        BoneLink result = findBoneLink("foot.L");
+        return result;
     }
 
     /**
@@ -203,7 +204,8 @@ public class JaimeControl
      */
     @Override
     public BoneLink getRightFoot() {
-        return findBoneLink("foot.R");
+        BoneLink result = findBoneLink("foot.R");
+        return result;
     }
     // *************************************************************************
     // Face methods

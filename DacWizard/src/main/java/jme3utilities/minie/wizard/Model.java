@@ -238,11 +238,14 @@ class Model {
      * a new instance)
      */
     Transform copyInitTransform(Transform storeResult) {
+        Transform result;
         if (storeResult == null) {
-            return initTransform.clone();
+            result = initTransform.clone();
         } else {
-            return storeResult.set(initTransform);
+            result = storeResult.set(initTransform);
         }
+
+        return result;
     }
 
     /**

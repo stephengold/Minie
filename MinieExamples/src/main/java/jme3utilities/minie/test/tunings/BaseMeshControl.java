@@ -117,7 +117,8 @@ public class BaseMeshControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        return findBoneLink("leg_L.003");
+        BoneLink result = findBoneLink("leg_L.003");
+        return result;
     }
 
     /**
@@ -127,7 +128,8 @@ public class BaseMeshControl
      */
     @Override
     public BoneLink getRightFoot() {
-        return findBoneLink("leg_R.003");
+        BoneLink result = findBoneLink("leg_R.003");
+        return result;
     }
     // *************************************************************************
     // Face methods

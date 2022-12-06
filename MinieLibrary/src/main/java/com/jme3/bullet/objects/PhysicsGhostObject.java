@@ -121,7 +121,8 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      * @return the pre-existing object
      */
     public PhysicsCollisionObject getOverlapping(int index) {
-        return overlappingObjects.get(index);
+        PhysicsCollisionObject result = overlappingObjects.get(index);
+        return result;
     }
 
     /**

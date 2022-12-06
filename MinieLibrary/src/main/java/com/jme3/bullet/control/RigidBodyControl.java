@@ -189,7 +189,9 @@ public class RigidBodyControl
      */
     public boolean isApplyPhysicsLocal() {
         RigidBodyMotionState ms = getMotionState();
-        return ms.isApplyPhysicsLocal();
+        boolean result = ms.isApplyPhysicsLocal();
+
+        return result;
     }
 
     /**
@@ -581,16 +583,19 @@ public class RigidBodyControl
      * @return the pre-existing Quaternion (not null)
      */
     private Quaternion getSpatialRotation() {
+        Quaternion result;
         if (MySpatial.isIgnoringTransforms(spatial)) {
-            return rotateIdentity;
+            result = rotateIdentity;
         } else {
             RigidBodyMotionState ms = getMotionState();
             if (ms.isApplyPhysicsLocal()) {
-                return spatial.getLocalRotation(); // alias
+                result = spatial.getLocalRotation(); // alias
             } else {
-                return spatial.getWorldRotation(); // alias
+                result = spatial.getWorldRotation(); // alias
             }
         }
+
+        return result;
     }
 
     /**

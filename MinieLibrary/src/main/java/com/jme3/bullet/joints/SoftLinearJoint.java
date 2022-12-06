@@ -125,12 +125,15 @@ public class SoftLinearJoint extends SoftPhysicsJoint {
      * a new vector, not null)
      */
     public Vector3f copyLocation(Vector3f storeResult) {
+        Vector3f result;
         // TODO verify copy
         if (storeResult == null) {
-            return location.clone();
+            result = location.clone();
         } else {
-            return storeResult.set(location);
+            result = storeResult.set(location);
         }
+
+        return result;
     }
 
     /**

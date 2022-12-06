@@ -249,7 +249,8 @@ public class BetterCharacterControl
      * @return a new velocity vector
      */
     public Vector3f getVelocity() {
-        return getVelocity(null);
+        Vector3f result = getVelocity(null);
+        return result;
     }
 
     /**
@@ -260,11 +261,14 @@ public class BetterCharacterControl
      * not null)
      */
     public Vector3f getVelocity(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return velocity.clone();
+            result = velocity.clone();
         } else {
-            return storeResult.set(velocity);
+            result = storeResult.set(velocity);
         }
+
+        return result;
     }
 
     /**
@@ -285,11 +289,14 @@ public class BetterCharacterControl
      * provided storage or a new vector, not null)
      */
     public Vector3f getViewDirection(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return viewDirection.clone();
+            result = viewDirection.clone();
         } else {
-            return storeResult.set(viewDirection);
+            result = storeResult.set(viewDirection);
         }
+
+        return result;
     }
 
     /**
@@ -301,11 +308,14 @@ public class BetterCharacterControl
      * provided storage or a new vector, not null)
      */
     public Vector3f getWalkDirection(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return walkDirection.clone();
+            result = walkDirection.clone();
         } else {
-            return storeResult.set(walkDirection);
+            result = storeResult.set(walkDirection);
         }
+
+        return result;
     }
 
     /**

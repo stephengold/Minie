@@ -117,7 +117,9 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
      */
     public int clusterIterations() {
         long bodyId = body.nativeId();
-        return getClusterIterations(bodyId);
+        int result = getClusterIterations(bodyId);
+
+        return result;
     }
 
     /**
@@ -128,7 +130,9 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
      */
     public int collisionFlags() {
         long bodyId = body.nativeId();
-        return getCollisionsFlags(bodyId);
+        int result = getCollisionsFlags(bodyId);
+
+        return result;
     }
 
     /**
@@ -149,7 +153,9 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
      */
     public int driftIterations() {
         long bodyId = body.nativeId();
-        return getDriftIterations(bodyId);
+        int result = getDriftIterations(bodyId);
+
+        return result;
     }
 
     /**
@@ -241,7 +247,9 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
      */
     public int positionIterations() {
         long bodyId = body.nativeId();
-        return getPositionIterations(bodyId);
+        int result = getPositionIterations(bodyId);
+
+        return result;
     }
 
     /**
@@ -405,7 +413,9 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
      */
     public int velocityIterations() {
         long bodyId = body.nativeId();
-        return getVelocitiesIterations(bodyId);
+        int result = getVelocitiesIterations(bodyId);
+
+        return result;
     }
     // *************************************************************************
     // JmeCloneable methods

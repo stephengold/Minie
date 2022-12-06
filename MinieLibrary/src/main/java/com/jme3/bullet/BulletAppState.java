@@ -783,7 +783,8 @@ public class BulletAppState
             }
         };
         try {
-            return executor.submit(call).get();
+            boolean success = executor.submit(call).get();
+            return success;
         } catch (InterruptedException | ExecutionException exception) {
             logger.log(Level.SEVERE, null, exception);
             return false;

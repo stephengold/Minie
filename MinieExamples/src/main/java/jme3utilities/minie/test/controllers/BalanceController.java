@@ -99,11 +99,14 @@ public class BalanceController extends IKController {
      * storeResult or a new vector)
      */
     public Vector3f centerOfSupport(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return centerOfSupport.clone();
+            result = centerOfSupport.clone();
         } else {
-            return storeResult.set(centerOfSupport);
+            result = storeResult.set(centerOfSupport);
         }
+
+        return result;
     }
 
     /**

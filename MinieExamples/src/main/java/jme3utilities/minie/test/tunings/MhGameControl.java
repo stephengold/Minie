@@ -123,7 +123,8 @@ public class MhGameControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        return findBoneLink("foot_l");
+        BoneLink result = findBoneLink("foot_l");
+        return result;
     }
 
     /**
@@ -133,7 +134,8 @@ public class MhGameControl
      */
     @Override
     public BoneLink getRightFoot() {
-        return findBoneLink("foot_r");
+        BoneLink result = findBoneLink("foot_r");
+        return result;
     }
     // *************************************************************************
     // Face methods

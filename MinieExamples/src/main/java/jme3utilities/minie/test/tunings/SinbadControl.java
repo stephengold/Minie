@@ -174,7 +174,8 @@ public class SinbadControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        return findBoneLink("Foot.L");
+        BoneLink result = findBoneLink("Foot.L");
+        return result;
     }
 
     /**
@@ -184,7 +185,8 @@ public class SinbadControl
      */
     @Override
     public BoneLink getRightFoot() {
-        return findBoneLink("Foot.R");
+        BoneLink result = findBoneLink("Foot.R");
+        return result;
     }
     // *************************************************************************
     // Face methods

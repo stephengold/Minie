@@ -211,7 +211,8 @@ public class TowerPerformance
     }
 
     private PhysicsSpace getPhysicsSpace() {
-        return bulletAppState.getPhysicsSpace();
+        PhysicsSpace result = bulletAppState.getPhysicsSpace();
+        return result;
     }
 
     private void initFloor() {

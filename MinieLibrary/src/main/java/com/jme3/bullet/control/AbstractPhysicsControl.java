@@ -211,13 +211,16 @@ abstract public class AbstractPhysicsControl
      * not null)
      */
     protected Quaternion getSpatialRotation() {
+        Quaternion result;
         if (MySpatial.isIgnoringTransforms(controlledSpatial)) {
-            return rotateIdentity;
+            result = rotateIdentity;
         } else if (localPhysics) {
-            return controlledSpatial.getLocalRotation(); // alias
+            result = controlledSpatial.getLocalRotation(); // alias
         } else {
-            return controlledSpatial.getWorldRotation(); // alias
+            result = controlledSpatial.getWorldRotation(); // alias
         }
+
+        return result;
     }
 
     /**
@@ -228,13 +231,16 @@ abstract public class AbstractPhysicsControl
      * null)
      */
     protected Vector3f getSpatialTranslation() {
+        Vector3f result;
         if (MySpatial.isIgnoringTransforms(controlledSpatial)) {
-            return translateIdentity;
+            result = translateIdentity;
         } else if (localPhysics) {
-            return controlledSpatial.getLocalTranslation();
+            result = controlledSpatial.getLocalTranslation(); // alias
         } else {
-            return controlledSpatial.getWorldTranslation(); // alias
+            result = controlledSpatial.getWorldTranslation(); // alias
         }
+
+        return result;
     }
 
     /**

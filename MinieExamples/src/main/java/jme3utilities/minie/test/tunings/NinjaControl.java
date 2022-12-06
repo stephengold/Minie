@@ -120,7 +120,8 @@ public class NinjaControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        return findBoneLink("Joint26");
+        BoneLink result = findBoneLink("Joint26");
+        return result;
     }
 
     /**
@@ -130,7 +131,8 @@ public class NinjaControl
      */
     @Override
     public BoneLink getRightFoot() {
-        return findBoneLink("Joint21");
+        BoneLink result = findBoneLink("Joint21");
+        return result;
     }
     // *************************************************************************
     // Face methods

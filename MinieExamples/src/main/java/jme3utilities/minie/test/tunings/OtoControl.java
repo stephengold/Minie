@@ -110,7 +110,8 @@ public class OtoControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        return findBoneLink("foot.left");
+        BoneLink result = findBoneLink("foot.left");
+        return result;
     }
 
     /**
@@ -120,7 +121,8 @@ public class OtoControl
      */
     @Override
     public BoneLink getRightFoot() {
-        return findBoneLink("foot.right");
+        BoneLink result = findBoneLink("foot.right");
+        return result;
     }
     // *************************************************************************
     // Face methods

@@ -181,11 +181,14 @@ public class DacLinks
      */
     Transform copyBindTransform(int jointIndex, Transform storeResult) {
         Transform alias = bindTransforms[jointIndex];
+        Transform result;
         if (storeResult == null) {
-            return alias.clone();
+            result = alias.clone();
         } else {
-            return storeResult.set(alias);
+            result = storeResult.set(alias);
         }
+
+        return result;
     }
 
     /**

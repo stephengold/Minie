@@ -137,11 +137,14 @@ public class CharacterControl extends AbstractPhysicsControl {
      * provided storage or a new vector, not null)
      */
     public Vector3f getViewDirection(Vector3f storeResult) {
+        Vector3f result;
         if (storeResult == null) {
-            return viewDirection.clone();
+            result = viewDirection.clone();
         } else {
-            return storeResult.set(viewDirection);
+            result = storeResult.set(viewDirection);
         }
+
+        return result;
     }
 
     /**

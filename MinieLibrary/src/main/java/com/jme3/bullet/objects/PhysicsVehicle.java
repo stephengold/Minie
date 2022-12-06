@@ -225,8 +225,10 @@ public class PhysicsVehicle extends PhysicsRigidBody {
             Vector3f direction, Vector3f axle, float suspensionRestLength,
             float wheelRadius, boolean isFrontWheel) {
         Spatial subtree = null;
-        return addWheel(subtree, connectionPoint, direction, axle,
-                suspensionRestLength, wheelRadius, isFrontWheel);
+        VehicleWheel result = addWheel(subtree, connectionPoint, direction,
+                axle, suspensionRestLength, wheelRadius, isFrontWheel);
+
+        return result;
     }
 
     /**

@@ -126,12 +126,15 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      * new vector, not null)
      */
     public Vector3f copyAxis(Vector3f storeResult) {
+        Vector3f result;
         // TODO verify copy
         if (storeResult == null) {
-            return axis.clone();
+            result = axis.clone();
         } else {
-            return storeResult.set(axis);
+            result = storeResult.set(axis);
         }
+
+        return result;
     }
 
     /**
