@@ -40,7 +40,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
-import com.simsilica.mathd.Matrix3d;
 import com.simsilica.mathd.Vec3d;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -323,5 +322,5 @@ public class RigidBodyMotionState
             getWorldRotation(long stateId, Matrix3f storeMatrix);
 
     native private static void
-            getWorldRotationDp(long stateId, Matrix3d storeMatrix);
+            getWorldRotationQuat(long stateId, Quaternion storeQuat);
 }

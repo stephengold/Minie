@@ -42,7 +42,6 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
-import com.simsilica.mathd.Matrix3d;
 import com.simsilica.mathd.Quatd;
 import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
@@ -204,11 +203,12 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     /**
      * Directly alter the ghost's orientation.
      *
-     * @param orientation the desired orientation (a rotation matrix in
+     * @param orientation the desired orientation (a rotation quaternion in
      * physics-space coordinates, not null, unaffected)
      */
-    public void setPhysicsRotationDp(Matrix3d orientation) {
+    public void setPhysicsRotationDp(Quatd orientation) {
         Validate.nonNull(orientation, "orientation");
+
         long objectId = nativeId();
         setPhysicsRotationDp(objectId, orientation);
     }
