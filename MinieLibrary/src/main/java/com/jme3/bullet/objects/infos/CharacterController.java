@@ -389,9 +389,11 @@ public class CharacterController
      * "up" vector.
      *
      * @param gravity the desired acceleration vector (in physics-space units
-     * per second squared, not null, unaffected, default=(0,-29.4,0))
+     * per second squared, not null, finite, unaffected, default=(0,-29.4,0))
      */
     public void setGravity(Vector3f gravity) {
+        Validate.finite(gravity, "gravity");
+
         long controllerId = nativeId();
         setGravity(controllerId, gravity);
     }
@@ -421,9 +423,11 @@ public class CharacterController
     /**
      * Alter the linear velocity of the character's center.
      *
-     * @param velocity the desired velocity vector (not null)
+     * @param velocity the desired velocity vector (not null, finite)
      */
     public void setLinearVelocity(Vector3f velocity) {
+        Validate.finite(velocity, "velocity");
+
         long controllerId = nativeId();
         setLinearVelocity(controllerId, velocity);
     }
@@ -490,9 +494,11 @@ public class CharacterController
      * the "up" direction. It will continue to be applied until altered again.
      *
      * @param offset the desired location increment for each simulation step (in
-     * physics-space coordinates, not null, unaffected, default=(0,0,0))
+     * physics-space coordinates, not null, finite, unaffected, default=(0,0,0))
      */
     public void setWalkDirection(Vector3f offset) {
+        Validate.finite(offset, "offset");
+
         long controllerId = nativeId();
         setWalkDirection(controllerId, offset);
     }
