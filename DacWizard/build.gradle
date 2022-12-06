@@ -17,20 +17,17 @@ tasks.withType(JavaExec) { // Java runtime options:
 }
 
 dependencies {
-    runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
+    runtimeOnly    desktopCoordinates
     implementation heartCoordinates
-    implementation 'com.github.stephengold:jme3-utilities-nifty:0.9.30' + jmeTarget
+    runtimeOnly    lwjglCoordinates
+    implementation niftyCoordinates
+    runtimeOnly    pluginsCoordinates
+    runtimeOnly    styleCoordinates
     implementation wesCoordinates
-    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jme3Version
-
-    // select one version of LWJGL:
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
 
     // DacWizard doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
+    runtimeOnly joggCoordinates
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode
