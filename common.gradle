@@ -15,7 +15,7 @@ ext {
     heartCoordinates = 'com.github.stephengold:Heart:8.2.0' + jmeTarget
     joggCoordinates = 'org.jmonkeyengine:jme3-jogg:' + jme3Version
     junitCoordinates = 'junit:junit:4.13.2'
-    niftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.30' + jmeTarget
+    niftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.31' + jmeTarget
     pluginsCoordinates = 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     styleCoordinates = 'com.github.nifty-gui:nifty-style-black:1.4.3'
     testdataCoordinates = 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
