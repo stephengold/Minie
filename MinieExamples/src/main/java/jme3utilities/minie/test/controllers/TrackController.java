@@ -168,10 +168,10 @@ public class TrackController extends IKController {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        targetBody = cloner.clone(targetBody);
-        directionInLinkBody = cloner.clone(directionInLinkBody);
-        pivotInLinkBody = cloner.clone(pivotInLinkBody);
-        previousError = cloner.clone(previousError);
+        this.targetBody = cloner.clone(targetBody);
+        this.directionInLinkBody = cloner.clone(directionInLinkBody);
+        this.pivotInLinkBody = cloner.clone(pivotInLinkBody);
+        this.previousError = cloner.clone(previousError);
     }
 
     /**

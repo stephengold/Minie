@@ -184,7 +184,7 @@ public class SoftBodyMaterial
     public void cloneFields(Cloner cloner, Object original) {
         unassignNativeObject();
 
-        body = cloner.clone(body);
+        this.body = cloner.clone(body);
         long softBodyId = body.nativeId();
         long materialId = getMaterialId(softBodyId);
         setNativeIdNotTracked(materialId);
@@ -224,7 +224,7 @@ public class SoftBodyMaterial
         assert body == null;
 
         InputCapsule capsule = importer.getCapsule(this);
-        body = (PhysicsSoftBody) capsule.readSavable(tagBody, null);
+        this.body = (PhysicsSoftBody) capsule.readSavable(tagBody, null);
 
         long softBodyId = body.nativeId();
         long materialId = getMaterialId(softBodyId);

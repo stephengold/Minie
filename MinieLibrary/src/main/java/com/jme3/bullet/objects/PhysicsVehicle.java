@@ -782,8 +782,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         RigidBodyMotionState motionState = getMotionState();
         motionState.setVehicle(this);
 
-        wheels = cloner.clone(wheels);
-        tuning = cloner.clone(tuning);
+        this.wheels = cloner.clone(wheels);
+        this.tuning = cloner.clone(tuning);
     }
 
     /**
@@ -814,9 +814,9 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        tuning = (VehicleTuning) capsule.readSavable(tagTuning, null);
-        wheels = capsule.readSavableArrayList(tagWheelsList,
-                new ArrayList<>(6));
+        this.tuning = (VehicleTuning) capsule.readSavable(tagTuning, null);
+        this.wheels = capsule
+                .readSavableArrayList(tagWheelsList, new ArrayList<>(6));
 
         RigidBodyMotionState motionState = getMotionState();
         motionState.setVehicle(this);

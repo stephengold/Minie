@@ -168,10 +168,10 @@ public class DacWizard extends GuiApplication {
         }
 
         if (axesNode != null) {
-            axesNode = null;
+            this.axesNode = null;
         }
         if (cgmParent != null) {
-            cgmParent = null;
+            this.cgmParent = null;
         }
     }
 

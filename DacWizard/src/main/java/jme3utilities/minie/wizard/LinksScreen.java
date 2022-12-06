@@ -366,9 +366,9 @@ public class LinksScreen extends GuiScreenController {
         if (nextButton == null) {
             throw new RuntimeException("missing GUI control: nextButton");
         }
-        nextElement = nextButton.getElement();
+        this.nextElement = nextButton.getElement();
 
-        treeBox = getScreen().findNiftyControl("hierarchy", TreeBox.class);
+        this.treeBox = getScreen().findNiftyControl("hierarchy", TreeBox.class);
         if (treeBox == null) {
             throw new RuntimeException("missing GUI control: hierarchy");
         }

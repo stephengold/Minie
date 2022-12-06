@@ -152,15 +152,15 @@ class BonesScreen extends GuiScreenController {
         if (linksButton == null) {
             throw new RuntimeException("missing GUI control: linksButton");
         }
-        linksElement = linksButton.getElement();
+        this.linksElement = linksButton.getElement();
 
         Button nextButton = getButton("next");
         if (nextButton == null) {
             throw new RuntimeException("missing GUI control: nextButton");
         }
-        nextElement = nextButton.getElement();
+        this.nextElement = nextButton.getElement();
 
-        treeBox = getScreen().findNiftyControl("skeleton", TreeBox.class);
+        this.treeBox = getScreen().findNiftyControl("skeleton", TreeBox.class);
         if (treeBox == null) {
             throw new RuntimeException("missing GUI control: skeleton");
         }

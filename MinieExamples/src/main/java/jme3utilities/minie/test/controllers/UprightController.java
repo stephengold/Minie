@@ -136,7 +136,7 @@ public class UprightController extends IKController {
      * @param newFactor (default = 0.1)
      */
     public void setErrorGainFactor(float newFactor) {
-        errorGainFactor = newFactor;
+        this.errorGainFactor = newFactor;
     }
     // *************************************************************************
     // IKController methods
@@ -154,8 +154,8 @@ public class UprightController extends IKController {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        directionInLinkBody = cloner.clone(directionInLinkBody);
-        previousError = cloner.clone(previousError);
+        this.directionInLinkBody = cloner.clone(directionInLinkBody);
+        this.previousError = cloner.clone(previousError);
     }
 
     /**
@@ -233,12 +233,12 @@ public class UprightController extends IKController {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        deltaGainFactor = capsule.readFloat("deltaGainFactor", 0.1f);
-        errorGainFactor = capsule.readFloat("errorGainFactor", 0.1f);
-        directionInLinkBody = (Vector3f) capsule.readSavable(
+        this.deltaGainFactor = capsule.readFloat("deltaGainFactor", 0.1f);
+        this.errorGainFactor = capsule.readFloat("errorGainFactor", 0.1f);
+        this.directionInLinkBody = (Vector3f) capsule.readSavable(
                 "directionInLinkBody", new Vector3f(1f, 0f, 0f));
-        previousError = (Vector3f) capsule.readSavable("previousError",
-                new Vector3f());
+        this.previousError = (Vector3f) capsule
+                .readSavable("previousError", new Vector3f());
     }
 
     /**

@@ -1180,7 +1180,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         PhysicsRigidBody old = (PhysicsRigidBody) original;
         cloneIgnoreList(cloner, old);
         cloneJoints(cloner);
-        motionState = cloner.clone(motionState);
+        this.motionState = cloner.clone(motionState);
 
         Vector3f tmpVector = new Vector3f(); // TODO garbage
         if (old.isDynamic()) {
@@ -1271,7 +1271,7 @@ public class PhysicsRigidBody extends PhysicsBody {
 
         InputCapsule capsule = importer.getCapsule(this);
         this.kinematic = capsule.readBoolean(tagKinematic, false);
-        mass = capsule.readFloat(tagMass, 1f);
+        this.mass = capsule.readFloat(tagMass, 1f);
         rebuildRigidBody();
 
         setAngularVelocity((Vector3f) capsule.readSavable(tagAngularVelocity,

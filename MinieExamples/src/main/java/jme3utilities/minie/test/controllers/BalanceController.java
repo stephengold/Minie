@@ -165,7 +165,7 @@ public class BalanceController extends IKController {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        centerOfSupport = cloner.clone(centerOfSupport);
+        this.centerOfSupport = cloner.clone(centerOfSupport);
     }
 
     /**

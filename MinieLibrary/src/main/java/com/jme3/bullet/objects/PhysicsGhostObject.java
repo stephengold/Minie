@@ -226,7 +226,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         unassignNativeObject();
-        overlappingObjects = cloner.clone(overlappingObjects);
+        this.overlappingObjects = cloner.clone(overlappingObjects);
         buildObject();
 
         PhysicsGhostObject old = (PhysicsGhostObject) original;

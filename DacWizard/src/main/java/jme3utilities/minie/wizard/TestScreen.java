@@ -119,8 +119,8 @@ class TestScreen extends GuiScreenController {
         inputMode.influence(this);
 
         if (selectMaterial == null) {
-            selectMaterial = MyAsset.createWireframeMaterial(assetManager,
-                    ColorRGBA.White);
+            this.selectMaterial = MyAsset.createWireframeMaterial(
+                    assetManager, ColorRGBA.White);
         }
     }
 
@@ -143,7 +143,7 @@ class TestScreen extends GuiScreenController {
         removeGroundPlane();
         DacWizard wizard = DacWizard.getApplication();
         wizard.clearScene();
-        viewedSpatial = null;
+        this.viewedSpatial = null;
 
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);

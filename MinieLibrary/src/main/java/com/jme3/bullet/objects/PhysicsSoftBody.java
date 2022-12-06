@@ -1234,7 +1234,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * replaced (default=false)
      */
     public void setProtectWorldInfo(boolean newState) {
-        isWorldInfoProtected = newState;
+        this.isWorldInfoProtected = newState;
     }
 
     /**

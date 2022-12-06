@@ -269,13 +269,13 @@ public class TubeTreeMesh extends Mesh {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        weightBuffer = cloner.clone(weightBuffer);
-        normalBuffer = cloner.clone(normalBuffer);
-        positionBuffer = cloner.clone(positionBuffer);
-        indexBuffer = cloner.clone(indexBuffer);
+        this.weightBuffer = cloner.clone(weightBuffer);
+        this.normalBuffer = cloner.clone(normalBuffer);
+        this.positionBuffer = cloner.clone(positionBuffer);
+        this.indexBuffer = cloner.clone(indexBuffer);
         // armature not cloned (read-only)
         assert circleSamples == null : circleSamples;
-        reusable = cloner.clone(reusable);
+        this.reusable = cloner.clone(reusable);
     }
 
     /**
@@ -290,11 +290,11 @@ public class TubeTreeMesh extends Mesh {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        leafOvershoot = capsule.readFloat("leafOvershoot", 0f);
-        radius = capsule.readFloat("radius", 1f);
-        loopsPerSegment = capsule.readInt("loopsPerSegment", 3);
-        samplesPerLoop = capsule.readInt("samplesPerLoop", 12);
-        armature = (Armature) capsule.readSavable("armature", null);
+        this.leafOvershoot = capsule.readFloat("leafOvershoot", 0f);
+        this.radius = capsule.readFloat("radius", 1f);
+        this.loopsPerSegment = capsule.readInt("loopsPerSegment", 3);
+        this.samplesPerLoop = capsule.readInt("samplesPerLoop", 12);
+        this.armature = (Armature) capsule.readSavable("armature", null);
         /*
          * Recalculate the derived properties.
          */
@@ -327,14 +327,16 @@ public class TubeTreeMesh extends Mesh {
      */
     private void allocateBuffers() {
         int weightCount = maxWpv * numVertices;
-        indexBuffer = IndexBuffer.createIndexBuffer(numVertices, weightCount);
+        this.indexBuffer
+                = IndexBuffer.createIndexBuffer(numVertices, weightCount);
         MyMesh.setBoneIndexBuffer(this, maxWpv, indexBuffer);
-        weightBuffer = BufferUtils.createFloatBuffer(weightCount);
+        this.weightBuffer
+                = BufferUtils.createFloatBuffer(weightCount);
         setBuffer(VertexBuffer.Type.BoneWeight, maxWpv, weightBuffer);
 
-        positionBuffer = BufferUtils.createVector3Buffer(numVertices);
+        this.positionBuffer = BufferUtils.createVector3Buffer(numVertices);
         setBuffer(VertexBuffer.Type.BindPosePosition, numAxes, positionBuffer);
-        normalBuffer = BufferUtils.createVector3Buffer(numVertices);
+        this.normalBuffer = BufferUtils.createVector3Buffer(numVertices);
         setBuffer(VertexBuffer.Type.BindPoseNormal, numAxes, normalBuffer);
 
         FloatBuffer pb = BufferUtils.createVector3Buffer(numVertices);
@@ -387,12 +389,12 @@ public class TubeTreeMesh extends Mesh {
      * centered at the origin.
      */
     private void initCircleSamples() {
-        circleSamples = new Vector3f[samplesPerLoop + 1];
+        this.circleSamples = new Vector3f[samplesPerLoop + 1];
         for (int sampleI = 0; sampleI <= samplesPerLoop; ++sampleI) {
             float theta = (FastMath.TWO_PI / samplesPerLoop) * sampleI;
             float cos = FastMath.cos(theta);
             float sin = FastMath.sin(theta);
-            circleSamples[sampleI] = new Vector3f(cos, sin, 0f);
+            this.circleSamples[sampleI] = new Vector3f(cos, sin, 0f);
         }
     }
 
@@ -678,7 +680,7 @@ public class TubeTreeMesh extends Mesh {
             }
         }
 
-        circleSamples = null;
+        this.circleSamples = null;
     }
 
     /**
@@ -709,7 +711,7 @@ public class TubeTreeMesh extends Mesh {
                 = trianglesPerCap * numCaps + trianglesPerSegment * numSegments;
         logger.log(Level.INFO, "{0} triangles", numTriangles);
 
-        numVertices = vpt * numTriangles;
+        this.numVertices = vpt * numTriangles;
         logger.log(Level.INFO, "{0} vertices", numVertices);
         assert numVertices <= Short.MAX_VALUE : numVertices;
     }

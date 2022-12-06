@@ -572,7 +572,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         super.cloneFields(cloner, original);
         unassignNativeObject();
 
-        controller = null;
+        this.controller = null;
         buildObject();
 
         PhysicsCharacter old = (PhysicsCharacter) original;
