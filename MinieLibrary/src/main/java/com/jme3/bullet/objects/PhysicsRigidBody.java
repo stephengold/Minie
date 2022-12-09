@@ -1274,14 +1274,14 @@ public class PhysicsRigidBody extends PhysicsBody {
         this.mass = capsule.readFloat(tagMass, 1f);
         rebuildRigidBody();
 
-        setAngularVelocity((Vector3f) capsule.readSavable(tagAngularVelocity,
-                translateIdentity));
-        setLinearVelocity((Vector3f) capsule.readSavable(tagLinearVelocity,
-                translateIdentity));
-        applyCentralForce((Vector3f) capsule.readSavable(tagAppliedForce,
-                translateIdentity));
-        applyTorque((Vector3f) capsule.readSavable(tagAppliedTorque,
-                translateIdentity));
+        setAngularVelocity((Vector3f) capsule
+                .readSavable(tagAngularVelocity, translateIdentity));
+        setLinearVelocity((Vector3f) capsule
+                .readSavable(tagLinearVelocity, translateIdentity));
+        applyCentralForce((Vector3f) capsule
+                .readSavable(tagAppliedForce, translateIdentity));
+        applyTorque((Vector3f) capsule
+                .readSavable(tagAppliedTorque, translateIdentity));
         /*
          * Set force, torque, velocities, and kinematic flag
          * BEFORE readPcoProperties() because
@@ -1290,12 +1290,12 @@ public class PhysicsRigidBody extends PhysicsBody {
         readPcoProperties(capsule);
 
         setContactResponse(capsule.readBoolean(tagContactResponse, true));
-        setInverseInertiaLocal((Vector3f) capsule.readSavable(tagInverseInertia,
-                scaleIdentity));
-        setAngularFactor((Vector3f) capsule.readSavable(tagAngularFactor,
-                scaleIdentity));
-        setLinearFactor((Vector3f) capsule.readSavable(tagLinearFactor,
-                scaleIdentity));
+        setInverseInertiaLocal((Vector3f) capsule
+                .readSavable(tagInverseInertia, scaleIdentity));
+        setAngularFactor((Vector3f) capsule
+                .readSavable(tagAngularFactor, scaleIdentity));
+        setLinearFactor((Vector3f) capsule
+                .readSavable(tagLinearFactor, scaleIdentity));
         setDamping(capsule.readFloat(tagLinearDamping, 0f),
                 capsule.readFloat(tagAngularDamping, 0f));
         setSleepingThresholds(
@@ -1303,10 +1303,10 @@ public class PhysicsRigidBody extends PhysicsBody {
                 capsule.readFloat(tagAngularSleepingThreshold, 1f));
         setProtectGravity(capsule.readBoolean(tagProtectGravity, false));
 
-        setPhysicsLocation((Vector3f) capsule.readSavable(tagPhysicsLocation,
-                translateIdentity));
-        setPhysicsRotation((Matrix3f) capsule.readSavable(tagPhysicsRotation,
-                matrixIdentity));
+        setPhysicsLocation((Vector3f) capsule
+                .readSavable(tagPhysicsLocation, translateIdentity));
+        setPhysicsRotation((Matrix3f) capsule
+                .readSavable(tagPhysicsRotation, matrixIdentity));
 
         readJoints(capsule);
     }

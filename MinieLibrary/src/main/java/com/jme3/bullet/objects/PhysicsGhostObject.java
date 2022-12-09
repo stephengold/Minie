@@ -184,6 +184,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      */
     public void setPhysicsRotation(Matrix3f orientation) {
         Validate.nonNull(orientation, "orientation");
+
         long objectId = nativeId();
         setPhysicsRotation(objectId, orientation);
     }
@@ -196,6 +197,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      */
     public void setPhysicsRotation(Quaternion orientation) {
         Validate.nonZero(orientation, "orientation");
+
         long objectId = nativeId();
         setPhysicsRotation(objectId, orientation);
     }

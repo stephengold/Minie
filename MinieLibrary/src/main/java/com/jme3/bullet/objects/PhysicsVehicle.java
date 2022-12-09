@@ -562,8 +562,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * @param maxSuspensionForce the desired maximum force per wheel
      * (default=6000)
      */
-    public void setMaxSuspensionForce(int wheelIndex,
-            float maxSuspensionForce) {
+    public void setMaxSuspensionForce(
+            int wheelIndex, float maxSuspensionForce) {
         VehicleWheel wheel = wheels.get(wheelIndex);
         wheel.setMaxSuspensionForce(maxSuspensionForce);
     }
@@ -595,8 +595,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
      * can be compressed or expanded, relative to its rest length (in hundredths
      * of a physics-space unit, default=500)
      */
-    public void setMaxSuspensionTravelCm(int wheelIndex,
-            float maxSuspensionTravelCm) {
+    public void setMaxSuspensionTravelCm(
+            int wheelIndex, float maxSuspensionTravelCm) {
         VehicleWheel wheel = wheels.get(wheelIndex);
         wheel.setMaxSuspensionTravelCm(maxSuspensionTravelCm);
     }

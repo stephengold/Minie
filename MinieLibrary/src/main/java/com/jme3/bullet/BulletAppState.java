@@ -775,8 +775,8 @@ public class BulletAppState
         Callable<Boolean> call = new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                PhysicsSpace pSpace = createPhysicsSpace(worldMin, worldMax,
-                        broadphaseType);
+                PhysicsSpace pSpace = createPhysicsSpace(
+                        worldMin, worldMax, broadphaseType);
                 debugConfig.setSpace(pSpace);
                 pSpace.addTickListener(appState);
                 return true;
