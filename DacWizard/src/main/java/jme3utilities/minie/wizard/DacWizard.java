@@ -98,7 +98,7 @@ public class DacWizard extends GuiApplication {
     /**
      * true once {@link #startup1()} has completed, until then false
      */
-    private boolean didStartup1 = false;
+    private static boolean didStartup1 = false;
     /**
      * application instance
      */
