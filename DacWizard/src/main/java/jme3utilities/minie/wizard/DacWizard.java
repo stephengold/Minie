@@ -558,8 +558,8 @@ public class DacWizard extends GuiApplication {
 
         // Instantiate the display-settings screen.
         RectSizeLimits dsl = new RectSizeLimits(
-                640, 480, // min width, height
-                2_048, 1_080 // max width, height
+                640, 480, // min width and height
+                2_048, 1_080 // max width and height
         );
         DisplaySettings displaySettings
                 = new DisplaySettings(application, applicationName, dsl) {
@@ -625,7 +625,7 @@ public class DacWizard extends GuiApplication {
     private void startup1() {
         logger.info("");
         /*
-         * Disable the JME statistic displays.
+         * Disable the render statistics.
          * These can be re-enabled by pressing the F5 hotkey.
          */
         setDisplayFps(false);

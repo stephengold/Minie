@@ -228,16 +228,13 @@ public class VhacdTuner extends GuiApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in certain packages.
-         */
+        // Mute the chatty loggers found in certain packages.
         Heart.setLoggingLevels(Level.WARNING);
 
         String renderer = AppSettings.LWJGL_OPENGL2;
         ShowDialog showDialog = ShowDialog.Never;
-        /*
-         * Process any command-line arguments.
-         */
+
+        // Process any command-line arguments.
         for (String arg : arguments) {
             switch (arg) {
                 case "-3":
@@ -378,8 +375,7 @@ public class VhacdTuner extends GuiApplication {
         if (ongoing) {
             handled = Action.processOngoing(actionString);
         }
-        if (!handled) {
-            // Forward unhandled action to the superclass.
+        if (!handled) { // Forward unhandled action to the superclass.
             super.onAction(actionString, ongoing, tpf);
         }
     }
@@ -541,7 +537,7 @@ public class VhacdTuner extends GuiApplication {
             application.setShowSettings(false);
             /*
              * Designate a sandbox directory.
-             * This must occur *prior to* initialization.
+             * This has to be done *prior to* initialization.
              */
             try {
                 ActionApplication.designateSandbox("Written Assets");
@@ -549,7 +545,7 @@ public class VhacdTuner extends GuiApplication {
                 // do nothing
             }
             application.start();
-            //... and onward to VhacdTuner.guiInitializeApplication()!
+            // ... and onward to VhacdTuner.guiInitializeApplication()!
         }
     }
 
