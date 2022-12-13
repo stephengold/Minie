@@ -258,8 +258,8 @@ public class VhacdTuner extends GuiApplication {
                     break;
 
                 default:
-                    logger.log(Level.WARNING,
-                            "Unknown command-line argument {0}",
+                    logger.log(
+                            Level.WARNING, "Unknown command-line argument {0}",
                             MyString.quote(arg));
             }
         }
