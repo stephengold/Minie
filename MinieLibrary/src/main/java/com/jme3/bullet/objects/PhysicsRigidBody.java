@@ -589,7 +589,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return true if in dynamic mode, otherwise false (static/kinematic mode)
      */
     public boolean isDynamic() {
-        return mass > massForStatic && !kinematic;
+        boolean result = (mass > massForStatic && !kinematic);
+        return result;
     }
 
     /**
