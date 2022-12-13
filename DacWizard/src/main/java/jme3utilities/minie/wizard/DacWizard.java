@@ -142,7 +142,7 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Clear the scene.
+     * Clear the default scene.
      */
     void clearScene() {
         BulletAppState bulletAppState = findAppState(BulletAppState.class);
@@ -606,7 +606,7 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Reset the camera.
+     * Reset the default camera.
      */
     private void resetCamera() {
         flyCam.setDragToRotate(true);

@@ -234,8 +234,9 @@ abstract public class NativePhysicsObject
     /**
      * Test for ID equality with another object.
      *
-     * @param otherObject the object to compare to (may be null, unaffected)
-     * @return true if the objects have the same ID, otherwise false
+     * @param otherObject the object to compare (may be null, unaffected)
+     * @return true if {@code this} and {@code otherObject} have the same ID,
+     * otherwise false
      */
     @Override
     public boolean equals(Object otherObject) {
