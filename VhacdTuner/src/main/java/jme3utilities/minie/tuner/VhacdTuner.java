@@ -56,6 +56,7 @@ import jme3utilities.math.RectSizeLimits;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.nifty.GuiApplication;
+import jme3utilities.nifty.LibraryVersion;
 import jme3utilities.nifty.bind.BindScreen;
 import jme3utilities.nifty.displaysettings.DsScreen;
 import jme3utilities.ui.ActionApplication;
@@ -331,6 +332,7 @@ public class VhacdTuner extends GuiApplication {
     @Override
     public void guiInitializeApplication() {
         logger.info("");
+        logger.setLevel(Level.INFO);
 
         if (!Heart.areAssertionsEnabled()) {
             logger.warning("Assertions are disabled!");
@@ -341,6 +343,8 @@ public class VhacdTuner extends GuiApplication {
                 MyString.quote(JmeVersion.FULL_NAME));
         logger.log(Level.INFO, "Heart version is {0}",
                 MyString.quote(Heart.versionShort()));
+        logger.log(Level.INFO, "jme3-utilities-nifty version is {0}",
+                MyString.quote(LibraryVersion.versionShort()));
 
         // Detach an app state created by SimpleApplication.
         DebugKeysAppState debugKeys = findAppState(DebugKeysAppState.class);
