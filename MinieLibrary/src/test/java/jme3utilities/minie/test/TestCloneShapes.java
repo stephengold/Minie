@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2021, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,8 @@ import jme3utilities.MyAsset;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading collision shapes of all types.
+ * Test cloning/saving/loading collision shapes of all types. TODO replace
+ * asserts with JUnit Assert
  *
  * @author Stephen Gold sgold@sonic.net
  */

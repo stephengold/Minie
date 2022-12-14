@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,8 @@ import jme3utilities.math.RectangularSolid;
 import org.junit.Test;
 
 /**
- * Test AABB calculations for collision shapes.
+ * Test AABB calculations for collision shapes. TODO replace asserts with JUnit
+ * Assert
  *
  * @author Stephen Gold sgold@sonic.net
  */

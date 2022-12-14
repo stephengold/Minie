@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2020, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,8 @@ import jme3utilities.MyAsset;
 import org.junit.Test;
 
 /**
- * Test the setScale() function on collision shapes of all types.
+ * Test the setScale() function on collision shapes of all types. TODO replace
+ * asserts with JUnit Assert
  *
  * @author Stephen Gold sgold@sonic.net
  */

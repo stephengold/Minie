@@ -60,7 +60,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading/rebuilding on subclasses of PhysicsBody.
+ * Test cloning/saving/loading/rebuilding on subclasses of PhysicsBody. TODO
+ * replace asserts with JUnit Assert
  *
  * @author Stephen Gold sgold@sonic.net
  */

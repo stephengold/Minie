@@ -40,7 +40,8 @@ import java.io.InputStream;
 import org.junit.Assert;
 
 /**
- * Utility methods for automated testing of the Minie Physics Library.
+ * Utility methods for automated testing of the Minie Physics Library. TODO
+ * rename TestUtils
  *
  * @author Stephen Gold sgold@sonic.net
  */

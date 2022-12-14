@@ -38,7 +38,8 @@ import jme3utilities.Heart;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading a PhysicsCharacter.
+ * Test cloning/saving/loading a PhysicsCharacter. TODO replace asserts with
+ * JUnit Assert
  *
  * @author Stephen Gold sgold@sonic.net
  */

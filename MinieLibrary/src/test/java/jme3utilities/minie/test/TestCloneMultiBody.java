@@ -43,7 +43,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading of multibodies.
+ * Test cloning/saving/loading of multibodies. TODO replace asserts with JUnit
+ * Assert
  *
  * @author Stephen Gold sgold@sonic.net
  */

@@ -43,7 +43,8 @@ import jme3utilities.math.MyQuaternion;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading on PhysicsGhostObject and its subclass.
+ * Test cloning/saving/loading on PhysicsGhostObject and its subclass. TODO
+ * replace asserts with JUnit Assert
  *
  * @author Stephen Gold sgold@sonic.net
  */

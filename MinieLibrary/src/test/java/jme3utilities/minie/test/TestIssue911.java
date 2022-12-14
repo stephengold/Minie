@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Stephen Gold
+ Copyright (c) 2018-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@ import org.junit.Test;
 
 /**
  * Test case for JME issue #911: PhysicsRigidBody sleeping threshold setters
- * have unexpected side effects.
+ * have unexpected side effects. TODO replace asserts with JUnit Assert
  *
  * @author Stephen Gold sgold@sonic.net
  */
