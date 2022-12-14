@@ -182,24 +182,24 @@ public class TestDefaults {
         testPco(character);
         Assert.assertEquals(Activation.active, character.getActivationState());
         Assert.assertEquals(0f, character.getAngularDamping(), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f,
-                character.getAngularVelocity(null), 0f);
+        MinieTest.assertEquals(
+                0f, 0f, 0f, character.getAngularVelocity(null), 0f);
         Assert.assertEquals(55f, character.getFallSpeed(), 0f);
-        MinieTest.assertEquals(0f, -29.4f, 0f,
-                character.getGravity(null), 1e-4f);
+        MinieTest.assertEquals(
+                0f, -29.4f, 0f, character.getGravity(null), 1e-4f);
         Assert.assertEquals(29.4f, character.getGravity(null).length(), 1e-4f);
         Assert.assertEquals(10f, character.getJumpSpeed(), 0f);
         Assert.assertEquals(0f, character.getLinearDamping(), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f,
-                character.getLinearVelocity(null), 0f);
+        MinieTest.assertEquals(
+                0f, 0f, 0f, character.getLinearVelocity(null), 0f);
         Assert.assertEquals(0.2f, character.getMaxPenetrationDepth(), 0f);
         Assert.assertEquals(FastMath.QUARTER_PI, character.getMaxSlope(), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f,
-                character.getPhysicsLocation(null), 0f);
-        MinieTest.assertEquals(0f, 1f, 0f,
-                character.getUpDirection(null), 1e-5f);
-        MinieTest.assertEquals(0f, 0f, 0f,
-                character.getWalkDirection(null), 0f);
+        MinieTest.assertEquals(
+                0f, 0f, 0f, character.getPhysicsLocation(null), 0f);
+        MinieTest.assertEquals(
+                0f, 1f, 0f, character.getUpDirection(null), 1e-5f);
+        MinieTest.assertEquals(
+                0f, 0f, 0f, character.getWalkDirection(null), 0f);
         Assert.assertTrue(character.isContactResponse());
         Assert.assertFalse(character.isStatic());
         Assert.assertTrue(character.isUsingGhostSweepTest());

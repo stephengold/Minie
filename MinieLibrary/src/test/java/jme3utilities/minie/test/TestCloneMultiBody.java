@@ -72,8 +72,8 @@ public class TestCloneMultiBody {
         Vector3f inertia = new Vector3f(1f, 1f, 1f);
         boolean fixedBase = true;
         boolean canSleep = true;
-        MultiBody mb1 = new MultiBody(numLinks, mass, inertia,
-                fixedBase, canSleep);
+        MultiBody mb1
+                = new MultiBody(numLinks, mass, inertia, fixedBase, canSleep);
         assert mb1.listColliders().isEmpty();
 
         setParameters(mb1, 0f);
@@ -82,8 +82,8 @@ public class TestCloneMultiBody {
         cloneTest(mb1, mb1Clone);
 
         // mb2: MultiBody with a fixed base, no links, single collider
-        MultiBody mb2 = new MultiBody(numLinks, mass, inertia,
-                fixedBase, canSleep);
+        MultiBody mb2
+                = new MultiBody(numLinks, mass, inertia, fixedBase, canSleep);
         CollisionShape shape = new SphereCollisionShape(0.2f);
         mb2.addBaseCollider(shape);
         assert mb2.listColliders().size() == 1;
@@ -166,13 +166,13 @@ public class TestCloneMultiBody {
         }
     }
 
-    private static void verifyColliderParameters(MultiBodyCollider collider,
-            float b) {
+    private static void
+            verifyColliderParameters(MultiBodyCollider collider, float b) {
         Assert.assertEquals(b + 0.004f, collider.getCcdMotionThreshold(), 0f);
         Assert.assertEquals(b + 0.005f, collider.getCcdSweptSphereRadius(), 0f);
         Assert.assertEquals(b + 0.006f, collider.getContactDamping(), 0f);
-        Assert.assertEquals(b + 0.007f,
-                collider.getContactProcessingThreshold(), 0f);
+        Assert.assertEquals(
+                b + 0.007f, collider.getContactProcessingThreshold(), 0f);
         Assert.assertEquals(b + 0.008f, collider.getContactStiffness(), 0f);
         Assert.assertEquals(b + 0.01f, collider.getFriction(), 0f);
         Assert.assertEquals(b + 0.018f, collider.getRestitution(), 0f);

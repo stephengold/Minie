@@ -364,16 +364,19 @@ public class TestClonePhysicsControls {
         Assert.assertEquals(b + 0.26f, ch.getRollingFriction(), 0f);
         Assert.assertEquals(b + 0.27f, ch.getSpinningFriction(), 0f);
         Assert.assertEquals(b + 0.29f, ch.getStepHeight(), 0f);
-        MinieTest.assertEquals(upDirection, ch.getUpDirection(null), 1e-5f);
-        MinieTest.assertEquals(viewDirection, cc.getViewDirection(null), 0f);
-        MinieTest.assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
+        MinieTest.assertEquals(
+                upDirection, ch.getUpDirection(null), 1e-5f);
+        MinieTest.assertEquals(
+                viewDirection, cc.getViewDirection(null), 0f);
+        MinieTest.assertEquals(
+                walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
 
     private void verifyDac(DynamicAnimControl dac, float b) {
         assert dac.damping() == b + 0.01f;
         assert dac.eventDispatchImpulseThreshold() == b + 0.02f;
-        MinieTest.assertEquals(b + 0.03f, b + 0.04f, b + 0.05f,
-                dac.gravity(null), 0f);
+        MinieTest.assertEquals(
+                b + 0.03f, b + 0.04f, b + 0.05f, dac.gravity(null), 0f);
     }
 
     private void verifySbc(SoftBodyControl sbc, float b) {

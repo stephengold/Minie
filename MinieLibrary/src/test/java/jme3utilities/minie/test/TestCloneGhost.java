@@ -84,8 +84,8 @@ public class TestCloneGhost {
     // *************************************************************************
     // private methods
 
-    private void cloneTest(PhysicsGhostObject pgo,
-            PhysicsGhostObject pgoClone) {
+    private void cloneTest(
+            PhysicsGhostObject pgo, PhysicsGhostObject pgoClone) {
         assert pgoClone.nativeId() != pgo.nativeId();
 
         verifyParameters(pgo, 0f);
@@ -100,12 +100,12 @@ public class TestCloneGhost {
         verifyParameters(pgoClone, 0.6f);
 
         if (pgo instanceof GhostControl) {
-            GhostControl pgoCopy = BinaryExporter.saveAndLoad(assetManager,
-                    (GhostControl) pgo);
+            GhostControl pgoCopy = BinaryExporter
+                    .saveAndLoad(assetManager, (GhostControl) pgo);
             verifyParameters(pgoCopy, 0.3f);
 
-            GhostControl gcCloneCopy = BinaryExporter.saveAndLoad(assetManager,
-                    (GhostControl) pgoClone);
+            GhostControl gcCloneCopy = BinaryExporter
+                    .saveAndLoad(assetManager, (GhostControl) pgoClone);
             verifyParameters(gcCloneCopy, 0.6f);
         }
     }

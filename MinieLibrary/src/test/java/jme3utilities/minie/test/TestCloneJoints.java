@@ -78,7 +78,7 @@ public class TestCloneJoints {
 
     final private static Quaternion qa = new Quaternion(1f, 0f, 0f, 0f);
     final private static Quaternion qb = new Quaternion(0.5f, 0.5f, 0.5f, 0.5f);
-    final private static Vector3f va = new Vector3f(-1f, -2f, -3f);
+    final private static Vector3f va  = new Vector3f(-1f, -2f, -3f);
     final private static Vector3f vaNorm = va.normalize();
     final private static Vector3f vb = new Vector3f(-4f, -5f, -6f);
     final private static Vector3f vbNorm = vb.normalize();
@@ -126,9 +126,8 @@ public class TestCloneJoints {
      * ConeJoint: single- and double-ended
      */
     private void cloneCone() {
-        ConeJoint cone
-                = new ConeJoint(rigidA, rigidB, va, vb, qa.toRotationMatrix(),
-                        qb.toRotationMatrix());
+        ConeJoint cone = new ConeJoint(rigidA, rigidB, va, vb,
+                qa.toRotationMatrix(), qb.toRotationMatrix());
         setParameters(cone, 0f);
         verifyParameters(cone, 0f);
         ConeJoint coneClone = Heart.deepCopy(cone);
@@ -587,12 +586,12 @@ public class TestCloneJoints {
         if (joint instanceof Constraint) {
             Constraint constraint = (Constraint) joint;
             Assert.assertEquals(flag, constraint.isEnabled());
-            Assert.assertEquals(b + 0.505f,
-                    constraint.getBreakingImpulseThreshold(), 0f);
+            Assert.assertEquals(
+                    b + 0.505f, constraint.getBreakingImpulseThreshold(), 0f);
             Assert.assertEquals(index, constraint.getOverrideIterations());
             if (joint.countEnds() == 2) {
-                Assert.assertEquals(!flag,
-                        constraint.isCollisionBetweenLinkedBodies());
+                Assert.assertEquals(
+                        !flag, constraint.isCollisionBetweenLinkedBodies());
             }
         }
 

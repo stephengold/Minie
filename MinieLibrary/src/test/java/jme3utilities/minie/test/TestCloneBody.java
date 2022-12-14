@@ -218,8 +218,8 @@ public class TestCloneBody {
         boolean localPhysics = false;
         boolean updateNormals = true;
         boolean mergeVertices = true;
-        SoftBodyControl sbc = new SoftBodyControl(localPhysics, updateNormals,
-                mergeVertices);
+        SoftBodyControl sbc = new SoftBodyControl(
+                localPhysics, updateNormals, mergeVertices);
         Geometry sbcGeom = new Geometry("sbcGeom", wireBox);
         sbcGeom.addControl(sbc);
         PhysicsSoftBody soft3 = sbc.getBody();
