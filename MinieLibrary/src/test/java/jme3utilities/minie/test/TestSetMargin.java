@@ -88,69 +88,60 @@ public class TestSetMargin {
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
         assetManager.registerLocator(null, ClasspathLocator.class);
-        /*
-         * Box2d
-         */
+
+        // Box2dShape
         CollisionShape box2d = new Box2dShape(1f, 2f);
         assert box2d.getMargin() == 0.04f;
         box2d.setMargin(0.1f);
         assert box2d.getMargin() == 0.1f;
-        /*
-         * Box
-         */
+
+        // BoxCollisionShape
         CollisionShape box = new BoxCollisionShape(1f);
         assert box.getMargin() == 0.04f;
         box.setMargin(0.11f);
         assert box.getMargin() == 0.11f;
-        /*
-         * Capsule
-         */
+
+        // CapsuleCollisionShape
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         assert capsule.getMargin() == 0f;
         capsule.setMargin(0.12f); // cannot alter margin
         assert capsule.getMargin() == 0f;
-        /*
-         * Compound
-         */
+
+        // CompoundCollisionShape
         CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(capsule, 0f, 1f, 0f);
         assert compound.getMargin() == 0.04f;
         compound.setMargin(0.13f);
         assert compound.getMargin() == 0.13f;
-        /*
-         * Cone
-         */
+
+        // ConeCollisionShape
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
         assert cone.getMargin() == 0.04f;
         cone.setMargin(0.14f);
         assert cone.getMargin() == 0.14f;
-        /*
-         * Convex2dShape
-         */
+
+        // Convex2dShape
         ConeCollisionShape flatCone
                 = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
         Convex2dShape convex2d = new Convex2dShape(flatCone);
         assert convex2d.getMargin() == 0.04f;
         convex2d.setMargin(0.145f);
         assert convex2d.getMargin() == 0.145f;
-        /*
-         * Cylinder
-         */
+
+        // CylinderCollisionShape
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         assert cylinder.getMargin() == 0.04f;
         cylinder.setMargin(0.15f);
         assert cylinder.getMargin() == 0.15f;
-        /*
-         * Empty
-         */
+
+        // EmptyShape
         CollisionShape empty = new EmptyShape(true);
         assert empty.getMargin() == 0.04f;
         empty.setMargin(0.155f);
         assert empty.getMargin() == 0.155f;
-        /*
-         * GImpact
-         */
+
+        // GImpactCollisionShape
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
         Node model = (Node) assetManager.loadModel(key);
         Geometry geo = (Geometry) model.getChild(0);

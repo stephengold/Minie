@@ -82,9 +82,8 @@ public class TestClonePhysicsControls {
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
         assetManager.registerLocator(null, ClasspathLocator.class);
-        /*
-         * BetterCharacterControl
-         */
+
+        // BetterCharacterControl
         float radius = 1f;
         float height = 3f;
         float mass = 1f;
@@ -94,18 +93,16 @@ public class TestClonePhysicsControls {
         verifyParameters(bcc, 0f);
         BetterCharacterControl bccClone = Heart.deepCopy(bcc);
         cloneTest(bcc, bccClone);
-        /*
-         * CharacterControl
-         */
+
+        // CharacterControl
         SphereCollisionShape shape = new SphereCollisionShape(2f);
         CharacterControl cc = new CharacterControl(shape, 0.5f);
         setParameters(cc, 0f);
         verifyParameters(cc, 0f);
         CharacterControl ccClone = Heart.deepCopy(cc);
         cloneTest(cc, ccClone);
-        /*
-         * DynamicAnimControl
-         */
+
+        // DynamicAnimControl
         DynamicAnimControl dac = new DynamicAnimControl();
         setParameters(dac, 0f);
         verifyParameters(dac, 0f);
@@ -252,9 +249,8 @@ public class TestClonePhysicsControls {
                 = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
         Vector3f viewDirection
                 = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
-        /*
-         * walk offset must be perpendicular to "up" direction
-         */
+
+        // Walk offset must be perpendicular to "up" direction.
         Vector3f walkOffset = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f)
                 .cross(upDirection);
 
@@ -338,9 +334,8 @@ public class TestClonePhysicsControls {
                 = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
         Vector3f viewDirection
                 = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
-        /*
-         * walk offset must be perpendicular to "up" direction
-         */
+
+        // Walk offset must be perpendicular to "up" direction.
         Vector3f walkOffset = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f)
                 .cross(upDirection);
 

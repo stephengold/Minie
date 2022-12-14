@@ -94,9 +94,8 @@ public class TestCloneShapes {
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
         assetManager.registerLocator(null, ClasspathLocator.class);
-        /*
-         * Box2d
-         */
+
+        // Box2dShape
         CollisionShape box2d = new Box2dShape(1f, 2f);
         setParameters(box2d, 0f);
         verifyParameters(box2d, 0f);
@@ -105,9 +104,8 @@ public class TestCloneShapes {
         assert box2dClone.getMargin() == 0.04f;
         box2d.setMargin(0.11f);
         assert box2dClone.getMargin() == 0.04f;
-        /*
-         * Box
-         */
+
+        // BoxCollisionShape
         CollisionShape box = new BoxCollisionShape(1f);
         setParameters(box, 0f);
         verifyParameters(box, 0f);
@@ -116,9 +114,8 @@ public class TestCloneShapes {
         assert boxClone.getMargin() == 0.04f;
         box.setMargin(0.11f);
         assert boxClone.getMargin() == 0.04f;
-        /*
-         * Capsule
-         */
+
+        // CapsuleCollisionShape
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         setParameters(capsule, 0f);
         verifyParameters(capsule, 0f);
@@ -127,9 +124,8 @@ public class TestCloneShapes {
         assert capsuleClone.getScale(null).x == 1f;
         capsule.setScale(2f);
         assert capsuleClone.getScale(null).x == 1f;
-        /*
-         * Compound
-         */
+
+        // CompoundCollisionShape
         CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(capsule, 0f, 1f, 0f);
         setParameters(compound, 0f);
@@ -139,9 +135,8 @@ public class TestCloneShapes {
         assert compoundClone.getMargin() == 0.04f;
         compound.setMargin(0.13f);
         assert compoundClone.getMargin() == 0.04f;
-        /*
-         * Cone
-         */
+
+        // ConeCollisionShape
         ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
         setParameters(cone, 0f);
         verifyParameters(cone, 0f);
@@ -150,9 +145,8 @@ public class TestCloneShapes {
         assert coneClone.getMargin() == 0.04f;
         cone.setMargin(0.14f);
         assert coneClone.getMargin() == 0.04f;
-        /*
-         * Convex2d
-         */
+
+        // Convex2dShape
         CollisionShape convex2d = new Convex2dShape(cone);
         setParameters(convex2d, 0f);
         verifyParameters(convex2d, 0f);
@@ -161,9 +155,8 @@ public class TestCloneShapes {
         assert convex2dClone.getMargin() == 0.04f;
         convex2d.setMargin(0.14f);
         assert convex2dClone.getMargin() == 0.04f;
-        /*
-         * Cylinder
-         */
+
+        // CylinderCollisionShape
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         setParameters(cylinder, 0f);
@@ -173,9 +166,8 @@ public class TestCloneShapes {
         assert cylinderClone.getMargin() == 0.04f;
         cylinder.setMargin(0.15f);
         assert cylinderClone.getMargin() == 0.04f;
-        /*
-         * Empty
-         */
+
+        // EmptyShape
         CollisionShape empty = new EmptyShape(true);
         setParameters(empty, 0f);
         verifyParameters(empty, 0f);
@@ -185,9 +177,8 @@ public class TestCloneShapes {
         assert emptyClone.getMargin() == 0.04f;
         empty.setMargin(0.155f);
         assert emptyClone.getMargin() == 0.04f;
-        /*
-         * GImpact
-         */
+
+        // GImpactCollisionShape
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
         Node model = (Node) assetManager.loadModel(key);
         Geometry geo = (Geometry) model.getChild(0);
@@ -200,9 +191,8 @@ public class TestCloneShapes {
         assert gimpactClone.getMargin() == 0.04f;
         gimpact.setMargin(0.16f);
         assert gimpactClone.getMargin() == 0.04f;
-        /*
-         * Heightfield
-         */
+
+        // HeightfieldCollisionShape
         Texture heightTexture = MyAsset.loadTexture(assetManager,
                 "Textures/BumpMapTest/Simple_height.png", false);
         Image heightImage = heightTexture.getImage();
@@ -216,9 +206,8 @@ public class TestCloneShapes {
         assert hcsClone.getMargin() == 0.04f;
         hcs.setMargin(0.17f);
         assert hcsClone.getMargin() == 0.04f;
-        /*
-         * Hull
-         */
+
+        // HullCollisionShape
         CollisionShape hull = new HullCollisionShape(mesh);
         setParameters(hull, 0f);
         verifyParameters(hull, 0f);
@@ -227,9 +216,8 @@ public class TestCloneShapes {
         assert hullClone.getMargin() == 0.04f;
         hull.setMargin(0.18f);
         assert hullClone.getMargin() == 0.04f;
-        /*
-         * Mesh, quantized AABB compression
-         */
+
+        // MeshCollisionShape with quantized AABB compression
         CollisionShape mcs = new MeshCollisionShape(mesh, true);
         setParameters(mcs, 0f);
         verifyParameters(mcs, 0f);
@@ -238,9 +226,8 @@ public class TestCloneShapes {
         assert mcsClone.getMargin() == 0.04f;
         mcs.setMargin(0.19f);
         assert mcsClone.getMargin() == 0.04f;
-        /*
-         * Mesh, without compression
-         */
+
+        // MeshCollisionShape without compression
         CollisionShape mcsq = new MeshCollisionShape(mesh, false);
         setParameters(mcsq, 0f);
         verifyParameters(mcsq, 0f);
@@ -249,9 +236,8 @@ public class TestCloneShapes {
         assert mcsqClone.getMargin() == 0.04f;
         mcsq.setMargin(0.191f);
         assert mcsqClone.getMargin() == 0.04f;
-        /*
-         * MultiSphere
-         */
+
+        // MultiSphere
         List<Float> radii = new ArrayList<>(3);
         List<Vector3f> centers = new ArrayList<>(3);
         radii.add(0.5f);
@@ -268,9 +254,8 @@ public class TestCloneShapes {
         assert multiSphereClone.getMargin() == 0.04f;
         multiSphere.setMargin(0.20f);
         assert multiSphereClone.getMargin() == 0.04f;
-        /*
-         * Plane
-         */
+
+        // PlaneCollisionShape
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
         CollisionShape pcs = new PlaneCollisionShape(plane);
         setParameters(pcs, 0f);
@@ -280,9 +265,8 @@ public class TestCloneShapes {
         assert pcsClone.getMargin() == 0.04f;
         pcs.setMargin(0.21f);
         assert pcsClone.getMargin() == 0.04f;
-        /*
-         * Simplex of 1 vertex
-         */
+
+        // SimplexCollisionShape of 1 vertex
         Vector3f p1 = new Vector3f(0f, 1f, 1f);
         CollisionShape simplex1 = new SimplexCollisionShape(p1);
         setParameters(simplex1, 0f);
@@ -292,9 +276,8 @@ public class TestCloneShapes {
         assert simplex1Clone.getMargin() == 0.04f;
         simplex1.setMargin(0.22f);
         assert simplex1Clone.getMargin() == 0.04f;
-        /*
-         * Simplex of 2 vertices
-         */
+
+        // SimplexCollisionShape of 2 vertices
         Vector3f p2 = new Vector3f(1f, 0f, 1f);
         CollisionShape simplex2 = new SimplexCollisionShape(p1, p2);
         setParameters(simplex2, 0f);
@@ -304,9 +287,8 @@ public class TestCloneShapes {
         assert simplex2Clone.getMargin() == 0.04f;
         simplex2.setMargin(0.22f);
         assert simplex2Clone.getMargin() == 0.04f;
-        /*
-         * Simplex of 3 vertices
-         */
+
+        // SimplexCollisionShape of 3 vertices
         Vector3f p3 = new Vector3f(1f, 1f, 0f);
         CollisionShape simplex3 = new SimplexCollisionShape(p1, p2, p3);
         setParameters(simplex3, 0f);
@@ -316,9 +298,8 @@ public class TestCloneShapes {
         assert simplex3Clone.getMargin() == 0.04f;
         simplex3.setMargin(0.22f);
         assert simplex3Clone.getMargin() == 0.04f;
-        /*
-         * Simplex of 4 vertices
-         */
+
+        // SimplexCollisionShape of 4 vertices
         Vector3f p4 = new Vector3f(-1f, -1f, -1f);
         CollisionShape simplex4 = new SimplexCollisionShape(p1, p2, p3, p4);
         setParameters(simplex4, 0f);
@@ -328,9 +309,8 @@ public class TestCloneShapes {
         assert simplex4Clone.getMargin() == 0.04f;
         simplex4.setMargin(0.22f);
         assert simplex4Clone.getMargin() == 0.04f;
-        /*
-         * Sphere
-         */
+
+        // SphereCollisionShape
         CollisionShape sphere = new SphereCollisionShape(1f);
         setParameters(sphere, 0f);
         verifyParameters(sphere, 0f);

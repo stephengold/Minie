@@ -65,9 +65,8 @@ public class TestShapeAabb {
 
         Quaternion rotation;
         Vector3f location;
-        /*
-         * Box
-         */
+
+        // BoxCollisionShape
         CollisionShape box = new BoxCollisionShape(2f);
 
         location = new Vector3f(0.5f, 0f, -0.4f);
@@ -81,9 +80,8 @@ public class TestShapeAabb {
         box.boundingBox(location, rotation, aabb);
         float root8 = FastMath.sqrt(8f);
         checkAabb(-root8, 1f, 7f - root8, root8, 5f, 7f + root8);
-        /*
-         * empty
-         */
+
+        // EmptyShape
         CollisionShape empty = new EmptyShape(true);
         empty.boundingBox(location, rotation, aabb);
         checkAabb(-0.04f, 2.96f, 6.96f, 0.04f, 3.04f, 7.04f);
@@ -95,9 +93,8 @@ public class TestShapeAabb {
         empty.setScale(10f);
         empty.boundingBox(location, rotation, aabb);
         checkAabb(-0.11f, 2.89f, 6.89f, 0.11f, 3.11f, 7.11f);
-        /*
-         * hull
-         */
+
+        // HullCollisionShape
         Vector3f halfExtents = new Vector3f(1f, 2f, 3f);
         RectangularSolid rectangularSolid = new RectangularSolid(halfExtents);
         CollisionShape hull = new HullCollisionShape(rectangularSolid);
@@ -108,9 +105,8 @@ public class TestShapeAabb {
         hull.setMargin(0.55f);
         hull.boundingBox(location, rotation, aabb);
         checkAabb(-2.1f, -0.1f, 2.9f, 2.1f, 6.1f, 11.1f); // double margin
-        /*
-         * Sphere
-         */
+
+        // SphereCollisionShape
         CollisionShape sphere = new SphereCollisionShape(5f);
 
         location = new Vector3f(0.5f, 0f, -0.4f);

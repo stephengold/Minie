@@ -66,9 +66,8 @@ public class TestEmptyShape {
     @Test
     public void testEmptyShape() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Instantiate various "empty" objects.
-         */
+
+        // Instantiate various "empty" objects.
         float[] floatArray = new float[0];
         IndexedMesh[] indexedMeshArray = new IndexedMesh[0];
         Mesh[] jmeMeshArray = new Mesh[0];

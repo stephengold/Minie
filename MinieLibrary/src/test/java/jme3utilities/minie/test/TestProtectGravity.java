@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -89,9 +89,7 @@ public class TestProtectGravity {
     // private methods
 
     private void testPhysicsSpace(PhysicsSpace space) {
-        /*
-         * a protected dynamic body
-         */
+        // a protected dynamic body
         float mass = 1f;
         PhysicsRigidBody pdb = new PhysicsRigidBody(shape, mass);
         pdb.setGravity(bodyGravity);
@@ -99,17 +97,15 @@ public class TestProtectGravity {
         Assert.assertEquals(bodyGravity, pdb.getGravity(null));
         Assert.assertTrue(pdb.isGravityProtected());
         Assert.assertTrue(pdb.isDynamic());
-        /*
-         * an unprotected dynamic body
-         */
+
+        // an unprotected dynamic body
         PhysicsRigidBody udb = new PhysicsRigidBody(shape, mass);
         udb.setGravity(bodyGravity);
         Assert.assertEquals(bodyGravity, udb.getGravity(null));
         Assert.assertFalse(udb.isGravityProtected());
         Assert.assertTrue(udb.isDynamic());
-        /*
-         * an unprotected static body
-         */
+
+        // an unprotected static body
         PhysicsRigidBody usb
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
         usb.setGravity(bodyGravity);
@@ -133,9 +129,8 @@ public class TestProtectGravity {
             Assert.assertFalse(uSoft.isWorldInfoProtected());
             Assert.assertFalse(uSoft.isStatic());
         }
-        /*
-         * Add all bodies to the PhysicsSpace.
-         */
+
+        // Add all bodies to the PhysicsSpace.
         space.addCollisionObject(pdb);
         space.addCollisionObject(udb);
         space.addCollisionObject(usb);
@@ -151,9 +146,8 @@ public class TestProtectGravity {
             Assert.assertEquals(bodyGravity, pSoft.getGravity(null));
             Assert.assertEquals(spaceGravity1, uSoft.getGravity(null));
         }
-        /*
-         * Alter the gravity of the PhysicsSpace.
-         */
+
+        // Alter the gravity of the PhysicsSpace.
         space.setGravity(spaceGravity2);
 
         Assert.assertEquals(bodyGravity, pdb.getGravity(null));

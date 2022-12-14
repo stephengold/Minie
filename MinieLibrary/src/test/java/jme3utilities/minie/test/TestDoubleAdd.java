@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -49,22 +49,21 @@ public class TestDoubleAdd {
     @Test
     public void testDoubleAdd() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * BetterCharacterControl
-         */
+
+        // BetterCharacterControl
         float radius = 1f;
         float height = 3f;
         float mass = 1f;
         BetterCharacterControl bcc
                 = new BetterCharacterControl(radius, height, mass);
         doubleAdd(bcc);
-        /*
-         * CharacterControl
-         */
+
+        // CharacterControl
         SphereCollisionShape shape = new SphereCollisionShape(2f);
         CharacterControl cc = new CharacterControl(shape, 0.5f);
         doubleAdd(cc);
-        // TODO more Control types
+
+        // TODO: more Control types
     }
     // *************************************************************************
     // private methods

@@ -65,9 +65,8 @@ public class TestCloneMultiBody {
     @Test
     public void testCloneMultiBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * mb1: MultiBody with a fixed base, no links, no collider
-         */
+
+        // mb1: MultiBody with a fixed base, no links, no collider
         int numLinks = 0;
         float mass = 1f;
         Vector3f inertia = new Vector3f(1f, 1f, 1f);
@@ -81,9 +80,8 @@ public class TestCloneMultiBody {
         verifyParameters(mb1, 0f);
         MultiBody mb1Clone = Heart.deepCopy(mb1);
         cloneTest(mb1, mb1Clone);
-        /*
-         * mb2: MultiBody with a fixed base, no links, single collider
-         */
+
+        // mb2: MultiBody with a fixed base, no links, single collider
         MultiBody mb2 = new MultiBody(numLinks, mass, inertia,
                 fixedBase, canSleep);
         CollisionShape shape = new SphereCollisionShape(0.2f);
@@ -94,9 +92,8 @@ public class TestCloneMultiBody {
         verifyParameters(mb2, 0f);
         MultiBody mb2Clone = Heart.deepCopy(mb2);
         cloneTest(mb2, mb2Clone);
-        /*
-         * mb3: MultiBody with a movable base, one link, 2 colliders
-         */
+
+        // mb3: MultiBody with a movable base, one link, 2 colliders
         numLinks = 1;
         fixedBase = false;
         MultiBody mb3
@@ -114,9 +111,8 @@ public class TestCloneMultiBody {
         verifyParameters(mb3, 0f);
         MultiBody mb3Clone = Heart.deepCopy(mb3);
         cloneTest(mb3, mb3Clone);
-        /*
-         * TODO various links, added to space, etc.
-         */
+
+        // TODO: various links, added to space, etc.
     }
     // *************************************************************************
     // private methods
