@@ -122,26 +122,8 @@ public class TestClonePhysicsControls {
          * Test cloning/saving/loading abstract physics controls
          * that have been added to a Spatial.
          */
-        dac = new DynamicAnimControl();
-        LinkConfig hull = new LinkConfig(0.005f, MassHeuristic.Mass,
-                ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
-                CenterHeuristic.Mean, RotationOrder.XZY);
-        dac.setConfig(DacConfiguration.torsoName, hull);
-        dac.link("spine", hull, new RangeOfMotion(1f));
-        dac.link("ribs", hull, new RangeOfMotion(0.6f, 0.4f, 0.4f));
-        dac.link("head", hull,
-                new RangeOfMotion(0.3f, -0.6f, 0.5f, -0.5f, 0.5f, -0.5f));
-        dac.link("eye.L", hull, new RangeOfMotion(0.5f, 0f, 0.5f));
-        dac.link("eye.R", hull, new RangeOfMotion(0.5f, 0f, 0.5f));
-        dac.link("tail.001", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
-        dac.link("tail.002", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
-        dac.link("tail.003", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
-        dac.link("tail.004", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
-        dac.link("tail.005", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
-        dac.link("tail.007", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
-        dac.link("tail.009", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
-
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
+        dac = createDac();
         Spatial jaime = assetManager.loadModel(key);
         jaime.addControl(dac);
         setParameters(dac, 0f);
@@ -207,6 +189,34 @@ public class TestClonePhysicsControls {
         AbstractPhysicsControl controlCloneCopy
                 = spatialCloneCopy.getControl(AbstractPhysicsControl.class);
         verifyParameters(controlCloneCopy, 0.6f);
+    }
+
+    /**
+     * Generate a DynamicAnimControl for Jaime.
+     *
+     * @return a new instance, not added to any Spatial
+     */
+    private static DynamicAnimControl createDac() {
+        DynamicAnimControl result = new DynamicAnimControl();
+        LinkConfig hull = new LinkConfig(0.005f, MassHeuristic.Mass,
+                ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
+                CenterHeuristic.Mean, RotationOrder.XZY);
+        result.setConfig(DacConfiguration.torsoName, hull);
+        result.link("spine", hull, new RangeOfMotion(1f));
+        result.link("ribs", hull, new RangeOfMotion(0.6f, 0.4f, 0.4f));
+        result.link("head", hull,
+                new RangeOfMotion(0.3f, -0.6f, 0.5f, -0.5f, 0.5f, -0.5f));
+        result.link("eye.L", hull, new RangeOfMotion(0.5f, 0f, 0.5f));
+        result.link("eye.R", hull, new RangeOfMotion(0.5f, 0f, 0.5f));
+        result.link("tail.001", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        result.link("tail.002", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        result.link("tail.003", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        result.link("tail.004", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        result.link("tail.005", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        result.link("tail.007", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+        result.link("tail.009", hull, new RangeOfMotion(0.5f, 0.2f, 0.5f));
+
+        return result;
     }
 
     private void setParameters(AbstractPhysicsControl control, float b) {
