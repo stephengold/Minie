@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.jme3.anim.util.AnimMigrationUtils;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
@@ -120,7 +121,9 @@ public class TestClonePhysicsControls {
         cloneTest(sbc, sbcClone);
         /*
          * Test cloning/saving/loading abstract physics controls
-         * that have been added to a Spatial.
+         * that have been added to a Spatial:
+         *
+         * DAC without PreComposer (old animation system)
          */
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
         dac = createDac();
@@ -130,6 +133,16 @@ public class TestClonePhysicsControls {
         verifyParameters(dac, 0f);
         Spatial jaimeClone = Heart.deepCopy(jaime);
         cloneTest(jaime, jaimeClone);
+
+        // DAC with PreComposer (new animation system)
+        dac = createDac();
+        Spatial newJaime = assetManager.loadModel(key);
+        AnimMigrationUtils.migrate(newJaime);
+        newJaime.addControl(dac);
+        setParameters(dac, 0f);
+        verifyParameters(dac, 0f);
+        Spatial newJaimeClone = Heart.deepCopy(newJaime);
+        cloneTest(newJaime, newJaimeClone);
 
         // TODO more types
     }
