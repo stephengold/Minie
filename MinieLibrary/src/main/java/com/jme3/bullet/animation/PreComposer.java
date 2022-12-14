@@ -219,9 +219,13 @@ public class PreComposer extends AbstractControl {
         this.dac = (DacLinks) capsule.readSavable(tagDac, null);
 
         Savable[] savables = capsule.readSavableArray(tagSavedTransforms, null);
-        this.savedTransforms = new Transform[savables.length];
-        for (int i = 0; i < savables.length; ++i) {
-            savedTransforms[i] = (Transform) savables[i];
+        if (savables == null) {
+            this.savedTransforms = null;
+        } else {
+            this.savedTransforms = new Transform[savables.length];
+            for (int i = 0; i < savables.length; ++i) {
+                savedTransforms[i] = (Transform) savables[i];
+            }
         }
     }
 
