@@ -426,50 +426,6 @@ To advance the physics simulation at a different rate, use:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_tuning_the_solver"><a class="anchor" href="#_tuning_the_solver"></a>Tuning the solver</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The contact-and-constraint solver
-performs a limited number of iterations per time step,
-by default, 10.
-For higher-quality (but slower) simulation, increase this number.
-For instance, to use 20 iterations:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.getSolverInfo().setNumIterations(20);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Other solver parameters can be tuned, including:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>the global error reduction parameter (ERP) for physics joints,
-described on <a href="new6dof.html#_caveats" class="xref page">the New6Dof page</a></p>
-</li>
-<li>
-<p>the contact ERP</p>
-</li>
-<li>
-<p>the constraint-force mixing parameter (CFM)</p>
-</li>
-<li>
-<p>the batch size</p>
-</li>
-<li>
-<p>the mode flags,
-which enable warm start, constraint ordering, and other features</p>
-</li>
-<li>
-<p>the flag to enable the split-impulse feature</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_default_collision_margin"><a class="anchor" href="#_default_collision_margin"></a>Default collision margin</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -531,14 +487,16 @@ The <code>SIMPLE</code> and <code>DBVT</code> algorithms ignore those parameters
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contact_and_constraint_solver_types"><a class="anchor" href="#_contact_and_constraint_solver_types"></a>Contact-and-constraint solver types</h2>
+<h2 id="_contact_and_constraint_solver"><a class="anchor" href="#_contact_and_constraint_solver"></a>Contact-and-constraint solver</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_algorithms"><a class="anchor" href="#_algorithms"></a>Algorithms</h3>
 <div class="paragraph">
 <p>By default, a
 <a href="http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse">Sequential Impulse (SI) solver</a>
 is used to resolve contacts and constraints.
-To specify a different type of solver, invoke <code>setSolverType()</code>
-before attaching the AppState:</p>
+To specify a different algorithm, invoke <code>setSolverType()</code>
+before attaching the AppState. For instance:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -568,6 +526,49 @@ The NNCG solver doesn&#8217;t support multibodies.
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tuning_parameters"><a class="anchor" href="#_tuning_parameters"></a>Tuning parameters</h3>
+<div class="paragraph">
+<p>The contact-and-constraint solver
+performs a limited number of iterations per time step,
+by default, 10.
+For higher-quality (but slower) simulation, increase this number.
+For instance, to use 20 iterations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.getSolverInfo().setNumIterations(20);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Other solver parameters can be tuned, including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the global error reduction parameter (ERP) for physics joints,
+described on <a href="new6dof.html#_caveats" class="xref page">the New6Dof page</a></p>
+</li>
+<li>
+<p>the contact ERP</p>
+</li>
+<li>
+<p>the constraint-force mixing parameter (CFM)</p>
+</li>
+<li>
+<p>the batch size</p>
+</li>
+<li>
+<p>the mode flags,
+which enable warm start, constraint ordering, and other features</p>
+</li>
+<li>
+<p>the flag to enable the split-impulse feature</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
