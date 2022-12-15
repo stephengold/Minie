@@ -439,7 +439,7 @@ public class TestDac extends PhysicsDemo {
                     goAnimPose();
                     return;
                 case "go bind pose":
-                    animPose = null;
+                    this.animPose = null;
                     dac.bindSubtree(dac.getTorsoLink(), 2f);
                     return;
                 case "go dynamic bind pose":
@@ -724,7 +724,7 @@ public class TestDac extends PhysicsDemo {
         centerCgm(cgModel);
         this.resetTransform = cgModel.getLocalTransform().clone();
 
-        sc = (SkinningControl) RagUtils.findSControl(cgModel);
+        this.sc = (SkinningControl) RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sc.getSpatial();
 
         controlledSpatial.addControl(dac);
@@ -732,7 +732,7 @@ public class TestDac extends PhysicsDemo {
         PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
-        leftClavicle = dac.findBoneLink(leftClavicleName);
+        this.leftClavicle = dac.findBoneLink(leftClavicleName);
         if (dac instanceof Biped) {
             BoneLink leftFoot = ((Biped) dac).getLeftFoot();
             this.leftFemur = leftFoot;
