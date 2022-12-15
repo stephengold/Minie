@@ -30,11 +30,12 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.system.NativeLibraryLoader;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Test case for JME issue #911: PhysicsRigidBody sleeping threshold setters
- * have unexpected side effects. TODO replace asserts with JUnit Assert
+ * have unexpected side effects.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -48,18 +49,18 @@ public class TestIssue911 {
 
         CollisionShape capsule = new SphereCollisionShape(1f);
         PhysicsRigidBody body = new PhysicsRigidBody(capsule, 1f);
-        assert body.getAngularSleepingThreshold() == 1f;
-        assert body.getLinearSleepingThreshold() == 0.8f;
+        Assert.assertEquals(1f, body.getAngularSleepingThreshold(), 0f);
+        Assert.assertEquals(0.8f, body.getLinearSleepingThreshold(), 0f);
 
         body.setAngularSleepingThreshold(0.03f);
 
         assert body.getAngularSleepingThreshold() == 0.03f;
         float lst = body.getLinearSleepingThreshold();
-        assert lst == 0.8f : lst; // fails, actual value is 1f
+        Assert.assertEquals(0.8f, lst, 0f); // fails, actual value is 1f
 
         body.setLinearSleepingThreshold(0.17f);
 
         float ast = body.getAngularSleepingThreshold();
-        assert ast == 0.03f : ast; // fails, actual value is 1f
+        Assert.assertEquals(0.03f, ast, 0f); // fails, actual value is 1f
     }
 }

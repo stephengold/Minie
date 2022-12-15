@@ -40,8 +40,7 @@ import jme3utilities.math.RectangularSolid;
 import org.junit.Test;
 
 /**
- * Test AABB calculations for collision shapes. TODO replace asserts with JUnit
- * Assert
+ * Test AABB calculations for collision shapes.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -125,13 +124,9 @@ public class TestShapeAabb {
     private void checkAabb(float xMin, float yMin, float zMin,
             float xMax, float yMax, float zMax) {
         Vector3f min = aabb.getMin(null);
-        assert FastMath.approximateEquals(min.x, xMin) : min.x;
-        assert FastMath.approximateEquals(min.y, yMin) : min.y;
-        assert FastMath.approximateEquals(min.z, zMin) : min.z;
+        MinieTest.assertEquals(xMin, yMin, zMin, min, 1e-5f);
 
         Vector3f max = aabb.getMax(null);
-        assert FastMath.approximateEquals(max.x, xMax) : max.x;
-        assert FastMath.approximateEquals(max.y, yMax) : max.y;
-        assert FastMath.approximateEquals(max.z, zMax) : max.z;
+        MinieTest.assertEquals(xMax, yMax, zMax, max, 1e-5f);
     }
 }

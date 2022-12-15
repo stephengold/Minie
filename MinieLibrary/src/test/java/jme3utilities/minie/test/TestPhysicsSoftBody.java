@@ -36,7 +36,7 @@ import java.nio.FloatBuffer;
 import org.junit.Test;
 
 /**
- * Test various PhysicsSoftBody methods. TODO replace asserts with JUnit Assert
+ * Test various PhysicsSoftBody methods.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -61,8 +61,6 @@ public class TestPhysicsSoftBody {
         psb.applyTransform(trs1);
 
         Vector3f location = psb.nodeLocation(0, null);
-        assert FastMath.approximateEquals(location.x, 9.5f);
-        assert FastMath.approximateEquals(location.y, 1.4f);
-        assert FastMath.approximateEquals(location.z, -1.7f);
+        MinieTest.assertEquals(9.5f, 1.4f, -1.7f, location, 1e-5f);
     }
 }

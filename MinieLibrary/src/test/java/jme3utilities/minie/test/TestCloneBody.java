@@ -60,8 +60,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading/rebuilding on subclasses of PhysicsBody. TODO
- * replace asserts with JUnit Assert
+ * Test cloning/saving/loading/rebuilding on subclasses of PhysicsBody.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -124,7 +123,7 @@ public class TestCloneBody {
         setParameters(body0, 0f);
         verifyParameters(body0, 0f);
         PhysicsRigidBody body0Clone = Heart.deepCopy(body0);
-        assert body0Clone.isStatic();
+        Assert.assertTrue(body0Clone.isStatic());
         cloneTest(body0, body0Clone);
 
         // dynamic with mass=1
@@ -132,8 +131,8 @@ public class TestCloneBody {
         setParameters(body, 0f);
         verifyParameters(body, 0f);
         PhysicsRigidBody bodyClone = Heart.deepCopy(body);
-        assert bodyClone.isDynamic();
-        assert bodyClone.getMass() == 1f;
+        Assert.assertTrue(bodyClone.isDynamic());
+        Assert.assertEquals(1f, bodyClone.getMass(), 0f);
         cloneTest(body, bodyClone);
 
         // kinematic with mass=2
@@ -142,8 +141,8 @@ public class TestCloneBody {
         setParameters(body2, 0f);
         verifyParameters(body2, 0f);
         PhysicsRigidBody body2Clone = Heart.deepCopy(body2);
-        assert body2Clone.isKinematic();
-        assert body2Clone.getMass() == 2f;
+        Assert.assertTrue(body2Clone.isKinematic());
+        Assert.assertEquals(2f, body2Clone.getMass(), 0f);
         cloneTest(body2, body2Clone);
     }
 
@@ -188,7 +187,7 @@ public class TestCloneBody {
         setParameters(rbc0, 0f);
         verifyParameters(rbc0, 0f);
         RigidBodyControl rbc0Clone = Heart.deepCopy(rbc0);
-        assert rbc0Clone.isStatic();
+        Assert.assertTrue(rbc0Clone.isStatic());
         cloneTest(rbc0, rbc0Clone);
 
         // dynamic with mass=1
@@ -196,8 +195,8 @@ public class TestCloneBody {
         setParameters(rbc, 0f);
         verifyParameters(rbc, 0f);
         RigidBodyControl rbcClone = Heart.deepCopy(rbc);
-        assert rbcClone.isDynamic();
-        assert rbcClone.getMass() == 1f;
+        Assert.assertTrue(rbcClone.isDynamic());
+        Assert.assertEquals(1f, rbcClone.getMass(), 0f);
         cloneTest(rbc, rbcClone);
 
         // kinematic with mass=4
@@ -206,8 +205,8 @@ public class TestCloneBody {
         setParameters(rbc4, 0f);
         verifyParameters(rbc4, 0f);
         RigidBodyControl rbc4Clone = Heart.deepCopy(rbc4);
-        assert rbc4Clone.isKinematic();
-        assert rbc4Clone.getMass() == 4f;
+        Assert.assertTrue(rbc4Clone.isKinematic());
+        Assert.assertEquals(4f, rbc4Clone.getMass(), 0f);
         cloneTest(rbc4, rbc4Clone);
     }
 
@@ -232,18 +231,22 @@ public class TestCloneBody {
     }
 
     private void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
-        assert bodyClone.nativeId() != body.nativeId();
+        Assert.assertNotEquals(bodyClone.nativeId(), body.nativeId());
         if (body instanceof PhysicsRigidBody) {
             PhysicsRigidBody rBody = (PhysicsRigidBody) body;
             PhysicsRigidBody rBodyClone = (PhysicsRigidBody) bodyClone;
-            assert rBody.getMotionState() != rBodyClone.getMotionState();
+            Assert.assertNotEquals(
+                    rBody.getMotionState(), rBodyClone.getMotionState());
 
         } else if (body instanceof PhysicsSoftBody) {
             PhysicsSoftBody sBody = (PhysicsSoftBody) body;
             PhysicsSoftBody sBodyClone = (PhysicsSoftBody) bodyClone;
-            assert sBodyClone.getSoftConfig() != sBody.getSoftConfig();
-            //assert sBodyClone.getSoftMaterial() != sBody.getSoftMaterial();
-            assert sBodyClone.getWorldInfo() != sBody.getWorldInfo();
+            Assert.assertNotEquals(
+                    sBodyClone.getSoftConfig(), sBody.getSoftConfig());
+            Assert.assertNotEquals(
+                    sBodyClone.getSoftMaterial(), sBody.getSoftMaterial());
+            Assert.assertNotEquals(
+                    sBodyClone.getWorldInfo(), sBody.getWorldInfo());
         }
 
         // Verify that cloning didn't affect the original.
@@ -437,67 +440,57 @@ public class TestCloneBody {
 
     private void verifyRigid(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert body.isContactResponse() == flag;
-        assert body.isGravityProtected() == !flag;
-        assert body.countIgnored() == (flag ? 1 : 0);
+        Assert.assertEquals(flag, body.isContactResponse());
+        Assert.assertEquals(!flag, body.isGravityProtected());
+        Assert.assertEquals((flag ? 1 : 0), body.countIgnored());
 
         int index = Math.round(b / 0.3f);
         if (index == 0) {
-            assert !body.hasAnisotropicFriction(AfMode.either);
+            Assert.assertFalse(body.hasAnisotropicFriction(AfMode.either));
         } else {
-            assert body.hasAnisotropicFriction(index);
+            Assert.assertTrue(body.hasAnisotropicFriction(index));
             Vector3f c = body.getAnisotropicFriction(null);
-            assert c.x == b + 0.004f : c;
-            assert c.y == b + 0.005f : c;
-            assert c.z == b + 0.006f : c;
+            MinieTest.assertEquals(b + 0.004f, b + 0.005f, b + 0.006f, c, 0f);
         }
 
-        assert body.getAngularDamping() == b + 0.01f;
+        Assert.assertEquals(b + 0.01f, body.getAngularDamping(), 0f);
 
         Vector3f af = body.getAngularFactor(null);
-        assert af.x == b + 0.02f : af;
-        assert af.y == b + 0.021f : af;
-        assert af.z == b + 0.022f : af;
+        MinieTest.assertEquals(b + 0.02f, b + 0.021f, b + 0.022f, af, 0f);
 
-        assert body.getAngularSleepingThreshold() == b + 0.03f;
-
-        assert body.getCcdMotionThreshold() == b + 0.07f;
-        assert body.getCcdSweptSphereRadius() == b + 0.08f;
-        assert body.getContactDamping() == b + 0.084f;
-        assert body.getContactProcessingThreshold() == b + 0.0845f;
-        assert body.getContactStiffness() == b + 0.085f;
+        Assert.assertEquals(b + 0.03f, body.getAngularSleepingThreshold(), 0f);
+        Assert.assertEquals(b + 0.07f, body.getCcdMotionThreshold(), 0f);
+        Assert.assertEquals(b + 0.08f, body.getCcdSweptSphereRadius(), 0f);
+        Assert.assertEquals(b + 0.084f, body.getContactDamping(), 0f);
+        Assert.assertEquals(
+                b + 0.0845f, body.getContactProcessingThreshold(), 0f);
+        Assert.assertEquals(b + 0.085f, body.getContactStiffness(), 0f);
         Assert.assertEquals(b + 0.087f, body.getDeactivationTime(), 0f);
-        assert body.getFriction() == b + 0.09f;
+        Assert.assertEquals(b + 0.09f, body.getFriction(), 0f);
 
         Vector3f i = body.getInverseInertiaLocal(null);
-        assert i.x == b + 0.122f : i;
-        assert i.y == b + 0.123f : i;
-        assert i.z == b + 0.124f : i;
+        MinieTest.assertEquals(b + 0.122f, b + 0.123f, b + 0.124f, i, 0f);
 
-        assert body.getLinearDamping() == b + 0.13f;
+        Assert.assertEquals(b + 0.13f, body.getLinearDamping(), 0f);
 
         Vector3f f = body.getLinearFactor(null);
-        assert f.x == b + 0.14f : f;
-        assert f.y == b + 0.15f : f;
-        assert f.z == b + 0.16f : f;
+        MinieTest.assertEquals(b + 0.14f, b + 0.15f, b + 0.16f, f, 0f);
 
-        assert body.getLinearSleepingThreshold() == b + 0.17f;
+        Assert.assertEquals(b + 0.17f, body.getLinearSleepingThreshold(), 0f);
 
         Vector3f x = body.getPhysicsLocation(null);
-        assert x.x == b + 0.18f : x;
-        assert x.y == b + 0.19f : x;
-        assert x.z == b + 0.20f : x;
+        MinieTest.assertEquals(b + 0.18f, b + 0.19f, b + 0.20f, x, 0f);
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
         MyQuaternion.normalizeLocal(orient);
         Matrix3f matrix = orient.toRotationMatrix();
         Matrix3f m = body.getPhysicsRotationMatrix(null);
-        assert m.equals(matrix);
+        Assert.assertEquals(matrix, m);
 
-        assert body.getRestitution() == b + 0.25f;
-        assert body.getRollingFriction() == b + 0.254f;
-        assert body.getSpinningFriction() == b + 0.255f;
+        Assert.assertEquals(b + 0.25f, body.getRestitution(), 0f);
+        Assert.assertEquals(b + 0.254f, body.getRollingFriction(), 0f);
+        Assert.assertEquals(b + 0.255f, body.getSpinningFriction(), 0f);
 
         MinieTest.assertEquals(b + 0.231f, b + 0.232f, b + 0.233f,
                 body.totalAppliedForce(null), 1e-6f);
@@ -506,14 +499,10 @@ public class TestCloneBody {
 
         if (body.isDynamic()) {
             Vector3f w = body.getAngularVelocity(null);
-            assert w.x == b + 0.04f : w;
-            assert w.y == b + 0.05f : w;
-            assert w.z == b + 0.06f : w;
+            MinieTest.assertEquals(b + 0.04f, b + 0.05f, b + 0.06f, w, 0f);
 
             Vector3f v = body.getLinearVelocity(null);
-            assert v.x == b + 0.26f : v;
-            assert v.y == b + 0.27f : v;
-            assert v.z == b + 0.28f : v;
+            MinieTest.assertEquals(b + 0.26f, b + 0.27f, b + 0.28f, v, 0f);
         }
 
         if (body instanceof PhysicsVehicle) {
@@ -525,7 +514,7 @@ public class TestCloneBody {
         boolean flag = (b > 0.15f && b < 0.45f);
         int n = Math.round(10f * b);
 
-        assert body.isWorldInfoProtected() == !flag;
+        Assert.assertEquals(!flag, body.isWorldInfoProtected());
 
         SoftBodyConfig config = body.getSoftConfig();
         for (Sbcp sbcp : Sbcp.values()) {
@@ -547,10 +536,10 @@ public class TestCloneBody {
         MinieTest.assertEquals(normal.x, normal.y, normal.z,
                 info.copyWaterNormal(null), 1e-5f);
 
-        assert config.clusterIterations() == n;
-        assert config.driftIterations() == n + 1;
-        assert config.positionIterations() == n + 2;
-        assert config.velocityIterations() == n + 3;
+        Assert.assertEquals(n, config.clusterIterations());
+        Assert.assertEquals(n + 1, config.driftIterations());
+        Assert.assertEquals(n + 2, config.positionIterations());
+        Assert.assertEquals(n + 3, config.velocityIterations());
 
         int flags;
         if (flag) {
@@ -558,7 +547,7 @@ public class TestCloneBody {
         } else {
             flags = ConfigFlag.SDF_RS | ConfigFlag.VF_SS;
         }
-        assert config.collisionFlags() == flags;
+        Assert.assertEquals(flags, config.collisionFlags());
 
         SoftBodyMaterial material = body.getSoftMaterial();
         Assert.assertEquals(b + 0.04f, material.angularStiffness(), 0f);
