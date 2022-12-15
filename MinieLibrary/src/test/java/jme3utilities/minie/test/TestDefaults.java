@@ -682,6 +682,8 @@ public class TestDefaults {
         Assert.assertNotEquals(0L, id);
         Assert.assertEquals(pco, PhysicsCollisionObject.findInstance(id));
         Assert.assertEquals(0, pco.countIgnored());
+        Assert.assertFalse(pco.isInWorld());
+        Assert.assertEquals(0L, pco.spaceId());
         Assert.assertTrue(pco.isActive());
         Assert.assertFalse(pco.isInWorld());
 
@@ -713,10 +715,15 @@ public class TestDefaults {
                 pco.debugMeshResolution());
         Assert.assertEquals(1, pco.debugNumSides());
         Assert.assertEquals(0.5f, pco.getFriction(), 0f);
+
         MinieTest.assertEquals(0f, 0f, 0f, pco.getPhysicsLocation(null), 0f);
+        MinieTest.assertEquals(0., 0., 0., pco.getPhysicsLocationDp(null), 0.);
         MinieTest.assertEquals(0f, 0f, 0f, 1f,
                 pco.getPhysicsRotation(null), 0f);
-
+        MinieTest.assertEquals(0., 0., 0., 1.,
+                pco.getPhysicsRotationDp(null), 0.);
+        Assert.assertEquals(
+                Matrix3f.IDENTITY, pco.getPhysicsRotationMatrix(null));
         // TODO test disabled until Matrix3d.equals() is fixed:
         //Assert.assertEquals(
         //        new Matrix3d(), pco.getPhysicsRotationMatrixDp(null));
@@ -843,6 +850,7 @@ public class TestDefaults {
             Assert.assertFalse(prb.isStatic());
             Assert.assertEquals(0f, prb.kineticEnergy(), 0f);
             Assert.assertEquals(0f, prb.mechanicalEnergy(), 0f);
+
         } else {
             Assert.assertEquals(0f, prb.getMass(), 0f);
             Assert.assertFalse(prb.isDynamic());
@@ -867,6 +875,7 @@ public class TestDefaults {
         Assert.assertNotNull(shape);
         Assert.assertNotEquals(0L, shape.nativeId());
         MinieTest.assertEquals(1f, 1f, 1f, shape.getScale(null), 0f);
+        MinieTest.assertEquals(1., 1., 1., shape.getScaleDp(null), 0.);
         Assert.assertTrue(shape.isContactFilterEnabled());
     }
 
