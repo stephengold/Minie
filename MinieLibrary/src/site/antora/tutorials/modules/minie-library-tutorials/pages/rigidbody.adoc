@@ -368,6 +368,18 @@ Increasing it yields better traction (think sandpaper or dry rubber).
 For each collision, a _coefficient of friction_
 is calculated by multiplying the parameters of the colliding bodies.
 
+==== Related demo apps
+
+{url-examples}/DropTest.java[The DropTest demo] and
+{url-examples}/TargetDemo.java[the TargetDemo application]
+both allow and you to vary the damping, friction, gravity,
+and restitution of all the bodies in a physics space.
+This allows you to see how these 4 parameters affect the bodies' motion.
+
+* Press kbd:[Enter] to add dynamic bodies to the space.
+* Use kbd:[num8] and kbd:[num2] to select the desired parameter.
+* Use kbd:[num4] and kbd:[num6] to cycle through the available parameter values.
+
 === Rigid-body factors
 
 All forces, torques, and impulses acting on dynamic rigid bodies
@@ -394,18 +406,6 @@ body.setLinearFactor(new Vector3f(1f, 1f, 0f));  // default=(1, 1, 1)
 
 NOTE: Factors are defined in terms of world (physics-space) axes,
 not the body's local axes.
-
-=== Related demo apps
-
-{url-examples}/DropTest.java[The DropTest demo] and
-{url-examples}/TargetDemo.java[the TargetDemo application]
-both allow and you to vary the damping, friction, gravity,
-and restitution of all the bodies in a physics space.
-This allows you to see how these 4 parameters affect the bodies' motion.
-
-* Press kbd:[Enter] to add dynamic bodies to the space.
-* Use kbd:[num8] and kbd:[num2] to select the desired parameter.
-* Use kbd:[num4] and kbd:[num6] to cycle through the available parameter values.
 
 == Deactivation
 
