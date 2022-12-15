@@ -682,6 +682,10 @@ public class TestDefaults {
         MinieTest.assertEquals(0f, 0f, 0f, pco.getPhysicsLocation(null), 0f);
         MinieTest.assertEquals(0f, 0f, 0f, 1f,
                 pco.getPhysicsRotation(null), 0f);
+        // test disabled until Matrix3d.equals() is fixed
+        //Assert.assertEquals(
+        //        new Matrix3d(), pco.getPhysicsRotationMatrixDp(null));
+
         Assert.assertNull(pco.proxyGroup());
         Assert.assertNull(pco.proxyMask());
         Assert.assertEquals(0f, pco.getRestitution(), 0f);
