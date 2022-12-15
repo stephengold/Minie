@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -1023,6 +1024,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setPhysicsRotation(Quaternion orientation) {
         Validate.nonZero(orientation, "orientation");
+        if (getCollisionShape() instanceof HeightfieldCollisionShape
+                && !MyQuaternion.isRotationIdentity(orientation)) {
+            throw new IllegalArgumentException("No rotation of heightfields.");
+        }
 
         long objectId = nativeId();
         setPhysicsRotation(objectId, orientation);
