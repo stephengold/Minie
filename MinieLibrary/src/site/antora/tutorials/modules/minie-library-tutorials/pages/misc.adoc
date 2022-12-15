@@ -74,31 +74,6 @@ To advance the physics simulation at a different rate, use:
 bulletAppState.setSpeed(0.5f); // simulate physics at half speed
 ----
 
-== Tuning the solver
-
-The contact-and-constraint solver
-performs a limited number of iterations per time step,
-by default, 10.
-For higher-quality (but slower) simulation, increase this number.
-For instance, to use 20 iterations:
-
-[source,java]
-----
-space.getSolverInfo().setNumIterations(20);
-----
-
-Other solver parameters can be tuned, including:
-
-* the global error reduction parameter (ERP) for physics joints,
-  described on xref:new6dof.adoc#_caveats[the New6Dof page]
-* the contact ERP
-* the constraint-force mixing parameter (CFM)
-* the batch size
-* the mode flags,
-  which enable warm start, constraint ordering, and other features
-* the flag to enable the split-impulse feature
-
-
 == Default collision margin
 
 The default collision margin for new shapes is 0.04 physics-space units.
@@ -132,13 +107,16 @@ NOTE: The world max/min bounds are used
 only by the `AXIS_SWEEP_3` and `AXIS_SWEEP_3_32` broadphase algorithms.
 The `SIMPLE` and `DBVT` algorithms ignore those parameters.
 
-== Contact-and-constraint solver types
+
+== Contact-and-constraint solver
+
+=== Algorithms
 
 By default, a
 http://allenchou.net/2013/12/game-physics-constraints-sequential-impulse[Sequential Impulse (SI) solver]
 is used to resolve contacts and constraints.
-To specify a different type of solver, invoke `setSolverType()`
-before attaching the AppState:
+To specify a different algorithm, invoke `setSolverType()`
+before attaching the AppState. For instance:
 
 [source,java]
 ----
@@ -148,6 +126,31 @@ bulletAppState.setSolverType(SolverType.Dantzig);
 NOTE: For soft-body simulations, SI is the only supported solver type.
 
 NOTE: The NNCG solver doesn't support multibodies.
+
+=== Tuning parameters
+
+The contact-and-constraint solver
+performs a limited number of iterations per time step,
+by default, 10.
+For higher-quality (but slower) simulation, increase this number.
+For instance, to use 20 iterations:
+
+[source,java]
+----
+space.getSolverInfo().setNumIterations(20);
+----
+
+Other solver parameters can be tuned, including:
+
+* the global error reduction parameter (ERP) for physics joints,
+  described on xref:new6dof.adoc#_caveats[the New6Dof page]
+* the contact ERP
+* the constraint-force mixing parameter (CFM)
+* the batch size
+* the mode flags,
+  which enable warm start, constraint ordering, and other features
+* the flag to enable the split-impulse feature
+
 
 == Advanced rigid-body friction
 
