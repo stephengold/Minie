@@ -173,6 +173,16 @@ implements com.jme3.util.clone.JmeCloneable</span></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy the orientation to a Quaternion.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Matrix3d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrientationMatrixDp(com.simsilica.mathd.Matrix3d)" class="member-name-link">getOrientationMatrixDp</a><wbr>(com.simsilica.mathd.Matrix3d&nbsp;storeResult)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy the orientation to a Matrix3d.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Quatd</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrientationQuaternionDp(com.simsilica.mathd.Quatd)" class="member-name-link">getOrientationQuaternionDp</a><wbr>(com.simsilica.mathd.Quatd&nbsp;storeResult)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy the orientation to a Quatd.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isApplyPhysicsLocal()" class="member-name-link">isApplyPhysicsLocal</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -323,6 +333,34 @@ implements com.jme3.util.clone.JmeCloneable</span></div>
 <h3>getOrientation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Quaternion</span>&nbsp;<span class="element-name">getOrientation</span><wbr><span class="parameters">(com.jme3.math.Quaternion&nbsp;storeResult)</span></div>
 <div class="block">Copy the orientation to a Quaternion.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt>Returns:</dt>
+<dd>the orientation (in physics-space coordinates, either storeResult
+ or a new instance, not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getOrientationMatrixDp(com.simsilica.mathd.Matrix3d)">
+<h3>getOrientationMatrixDp</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.simsilica.mathd.Matrix3d</span>&nbsp;<span class="element-name">getOrientationMatrixDp</span><wbr><span class="parameters">(com.simsilica.mathd.Matrix3d&nbsp;storeResult)</span></div>
+<div class="block">Copy the orientation to a Matrix3d.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt>Returns:</dt>
+<dd>the orientation (in physics-space coordinates, either storeResult
+ or a new matrix, not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getOrientationQuaternionDp(com.simsilica.mathd.Quatd)">
+<h3>getOrientationQuaternionDp</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.simsilica.mathd.Quatd</span>&nbsp;<span class="element-name">getOrientationQuaternionDp</span><wbr><span class="parameters">(com.simsilica.mathd.Quatd&nbsp;storeResult)</span></div>
+<div class="block">Copy the orientation to a Quatd.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
