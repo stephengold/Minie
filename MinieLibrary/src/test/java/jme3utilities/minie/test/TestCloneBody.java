@@ -272,7 +272,7 @@ public class TestCloneBody {
                 = BinaryExporter.saveAndLoad(assetManager, bodyClone);
         verifyParameters(bodyCloneCopy, 0.6f);
 
-        PhysicsBody xmlCopy = MinieTest.saveAndLoadXml(assetManager, body);
+        PhysicsBody xmlCopy = Utils.saveAndLoadXml(assetManager, body);
         verifyParameters(xmlCopy, 0.3f);
 
         if (body instanceof PhysicsRigidBody) {
@@ -450,13 +450,13 @@ public class TestCloneBody {
         } else {
             Assert.assertTrue(body.hasAnisotropicFriction(index));
             Vector3f c = body.getAnisotropicFriction(null);
-            MinieTest.assertEquals(b + 0.004f, b + 0.005f, b + 0.006f, c, 0f);
+            Utils.assertEquals(b + 0.004f, b + 0.005f, b + 0.006f, c, 0f);
         }
 
         Assert.assertEquals(b + 0.01f, body.getAngularDamping(), 0f);
 
         Vector3f af = body.getAngularFactor(null);
-        MinieTest.assertEquals(b + 0.02f, b + 0.021f, b + 0.022f, af, 0f);
+        Utils.assertEquals(b + 0.02f, b + 0.021f, b + 0.022f, af, 0f);
 
         Assert.assertEquals(b + 0.03f, body.getAngularSleepingThreshold(), 0f);
         Assert.assertEquals(b + 0.07f, body.getCcdMotionThreshold(), 0f);
@@ -469,17 +469,17 @@ public class TestCloneBody {
         Assert.assertEquals(b + 0.09f, body.getFriction(), 0f);
 
         Vector3f i = body.getInverseInertiaLocal(null);
-        MinieTest.assertEquals(b + 0.122f, b + 0.123f, b + 0.124f, i, 0f);
+        Utils.assertEquals(b + 0.122f, b + 0.123f, b + 0.124f, i, 0f);
 
         Assert.assertEquals(b + 0.13f, body.getLinearDamping(), 0f);
 
         Vector3f f = body.getLinearFactor(null);
-        MinieTest.assertEquals(b + 0.14f, b + 0.15f, b + 0.16f, f, 0f);
+        Utils.assertEquals(b + 0.14f, b + 0.15f, b + 0.16f, f, 0f);
 
         Assert.assertEquals(b + 0.17f, body.getLinearSleepingThreshold(), 0f);
 
         Vector3f x = body.getPhysicsLocation(null);
-        MinieTest.assertEquals(b + 0.18f, b + 0.19f, b + 0.20f, x, 0f);
+        Utils.assertEquals(b + 0.18f, b + 0.19f, b + 0.20f, x, 0f);
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
@@ -492,17 +492,17 @@ public class TestCloneBody {
         Assert.assertEquals(b + 0.254f, body.getRollingFriction(), 0f);
         Assert.assertEquals(b + 0.255f, body.getSpinningFriction(), 0f);
 
-        MinieTest.assertEquals(b + 0.231f, b + 0.232f, b + 0.233f,
+        Utils.assertEquals(b + 0.231f, b + 0.232f, b + 0.233f,
                 body.totalAppliedForce(null), 1e-6f);
-        MinieTest.assertEquals(b + 0.241f, b + 0.242f, b + 0.243f,
+        Utils.assertEquals(b + 0.241f, b + 0.242f, b + 0.243f,
                 body.totalAppliedTorque(null), 1e-6f);
 
         if (body.isDynamic()) {
             Vector3f w = body.getAngularVelocity(null);
-            MinieTest.assertEquals(b + 0.04f, b + 0.05f, b + 0.06f, w, 0f);
+            Utils.assertEquals(b + 0.04f, b + 0.05f, b + 0.06f, w, 0f);
 
             Vector3f v = body.getLinearVelocity(null);
-            MinieTest.assertEquals(b + 0.26f, b + 0.27f, b + 0.28f, v, 0f);
+            Utils.assertEquals(b + 0.26f, b + 0.27f, b + 0.28f, v, 0f);
         }
 
         if (body instanceof PhysicsVehicle) {
@@ -525,15 +525,15 @@ public class TestCloneBody {
 
         SoftBodyWorldInfo info = body.getWorldInfo();
         Assert.assertEquals(b + 0.03f, info.airDensity(), 0f);
-        MinieTest.assertEquals(b + 0.031f, b + 0.032f, b + 0.033f,
-                info.copyGravity(null), 0f);
+        Utils.assertEquals(
+                b + 0.031f, b + 0.032f, b + 0.033f, info.copyGravity(null), 0f);
         Assert.assertEquals(b + 0.034f, info.maxDisplacement(), 0f);
         Assert.assertEquals(b + 0.035f, info.waterDensity(), 0f);
         Assert.assertEquals(b + 0.036f, info.waterOffset(), 0f);
 
         Vector3f normal = new Vector3f(b + 0.1f, b + 0.2f, b + 0.3f);
         normal.normalizeLocal();
-        MinieTest.assertEquals(normal.x, normal.y, normal.z,
+        Utils.assertEquals(normal.x, normal.y, normal.z,
                 info.copyWaterNormal(null), 1e-5f);
 
         Assert.assertEquals(n, config.clusterIterations());

@@ -61,6 +61,6 @@ public class TestPhysicsSoftBody {
         psb.applyTransform(trs1);
 
         Vector3f location = psb.nodeLocation(0, null);
-        MinieTest.assertEquals(9.5f, 1.4f, -1.7f, location, 1e-5f);
+        Utils.assertEquals(9.5f, 1.4f, -1.7f, location, 1e-5f);
     }
 }

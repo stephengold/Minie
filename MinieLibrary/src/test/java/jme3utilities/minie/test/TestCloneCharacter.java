@@ -93,7 +93,7 @@ public class TestCloneCharacter {
                 = BinaryExporter.saveAndLoad(assetManager, chClone);
         verifyParameters(chCloneCopy, 0.6f);
 
-        PhysicsCharacter xmlCopy = MinieTest.saveAndLoadXml(assetManager, ch);
+        PhysicsCharacter xmlCopy = Utils.saveAndLoadXml(assetManager, ch);
         verifyParameters(xmlCopy, 0.3f);
     }
 
@@ -163,14 +163,14 @@ public class TestCloneCharacter {
                 = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f).cross(up);
 
         assert ch.getAngularDamping() == b + 0.01f;
-        MinieTest.assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
+        Utils.assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
                 ch.getAngularVelocity(null), 0f);
 
         if (index == 0) {
             assert !ch.hasAnisotropicFriction(AfMode.either);
         } else {
             assert ch.hasAnisotropicFriction(index);
-            MinieTest.assertEquals(b + 0.004f, b + 0.005f, b + 0.006f,
+            Utils.assertEquals(b + 0.004f, b + 0.005f, b + 0.006f,
                     ch.getAnisotropicFriction(null), 0f);
         }
 
@@ -183,19 +183,19 @@ public class TestCloneCharacter {
         assert ch.getDeactivationTime() == b + 0.087f;
         assert ch.getFallSpeed() == b + 0.09f;
         assert ch.getFriction() == b + 0.095f;
-        MinieTest.assertEquals(gravity, ch.getGravity(null), 1e-5f);
+        Utils.assertEquals(gravity, ch.getGravity(null), 1e-5f);
         assert ch.getJumpSpeed() == b + 0.125f;
         assert ch.getLinearDamping() == b + 0.13f;
         assert ch.getMaxPenetrationDepth() == b + 0.281f;
         assert ch.getMaxSlope() == b + 0.282f;
-        MinieTest.assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
+        Utils.assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
                 ch.getPhysicsLocation(null), 0f);
         assert ch.getRestitution() == b + 0.25f;
         assert ch.getRollingFriction() == b + 0.26f;
         assert ch.getSpinningFriction() == b + 0.27f;
         assert ch.getStepHeight() == b + 0.29f;
         assert ch.isUsingGhostSweepTest() == !flag;
-        MinieTest.assertEquals(up, ch.getUpDirection(null), 1e-5f);
-        MinieTest.assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
+        Utils.assertEquals(up, ch.getUpDirection(null), 1e-5f);
+        Utils.assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
 }

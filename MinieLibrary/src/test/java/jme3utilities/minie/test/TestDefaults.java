@@ -186,24 +186,18 @@ public class TestDefaults {
         testPco(character);
         Assert.assertEquals(Activation.active, character.getActivationState());
         Assert.assertEquals(0f, character.getAngularDamping(), 0f);
-        MinieTest.assertEquals(
-                0f, 0f, 0f, character.getAngularVelocity(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, character.getAngularVelocity(null), 0f);
         Assert.assertEquals(55f, character.getFallSpeed(), 0f);
-        MinieTest.assertEquals(
-                0f, -29.4f, 0f, character.getGravity(null), 1e-4f);
+        Utils.assertEquals(0f, -29.4f, 0f, character.getGravity(null), 1e-4f);
         Assert.assertEquals(29.4f, character.getGravity(null).length(), 1e-4f);
         Assert.assertEquals(10f, character.getJumpSpeed(), 0f);
         Assert.assertEquals(0f, character.getLinearDamping(), 0f);
-        MinieTest.assertEquals(
-                0f, 0f, 0f, character.getLinearVelocity(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, character.getLinearVelocity(null), 0f);
         Assert.assertEquals(0.2f, character.getMaxPenetrationDepth(), 0f);
         Assert.assertEquals(FastMath.QUARTER_PI, character.getMaxSlope(), 0f);
-        MinieTest.assertEquals(
-                0f, 0f, 0f, character.getPhysicsLocation(null), 0f);
-        MinieTest.assertEquals(
-                0f, 1f, 0f, character.getUpDirection(null), 1e-5f);
-        MinieTest.assertEquals(
-                0f, 0f, 0f, character.getWalkDirection(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, character.getPhysicsLocation(null), 0f);
+        Utils.assertEquals(0f, 1f, 0f, character.getUpDirection(null), 1e-5f);
+        Utils.assertEquals(0f, 0f, 0f, character.getWalkDirection(null), 0f);
         Assert.assertTrue(character.isContactResponse());
         Assert.assertFalse(character.isStatic());
         Assert.assertTrue(character.isUsingGhostSweepTest());
@@ -273,10 +267,10 @@ public class TestDefaults {
 
         SoftBodyWorldInfo sbwi = new SoftBodyWorldInfo();
         Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
-        MinieTest.assertEquals(0f, -10f, 0f, sbwi.copyGravity(null), 0f);
+        Utils.assertEquals(0f, -10f, 0f, sbwi.copyGravity(null), 0f);
         Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
         Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
         Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
 
         SoftBodyMaterial mat = softA.getSoftMaterial();
@@ -311,7 +305,7 @@ public class TestDefaults {
         Assert.assertEquals(PhysicsSpace.AXIS_Z, vehicle.forwardAxisIndex());
         Assert.assertNotEquals(0L, vehicle.getVehicleId());
         Assert.assertEquals(0f, vehicle.getCurrentVehicleSpeedKmHour(), 0f);
-        MinieTest.assertEquals(0f, 0f, 1f, vehicle.getForwardVector(null), 0f);
+        Utils.assertEquals(0f, 0f, 1f, vehicle.getForwardVector(null), 0f);
         Assert.assertEquals(PhysicsSpace.AXIS_X, vehicle.rightAxisIndex());
         Assert.assertEquals(PhysicsSpace.AXIS_Y, vehicle.upAxisIndex());
 
@@ -477,12 +471,12 @@ public class TestDefaults {
         link.addCollider(box);
 
         Assert.assertEquals(0.04f, mb.angularDamping(), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, mb.baseAngularVelocity(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, mb.baseForce(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, mb.baseLocation(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, 1f, mb.baseOrientation(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, mb.baseTorque(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, mb.baseVelocity(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, mb.baseAngularVelocity(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, mb.baseForce(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, mb.baseLocation(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, 1f, mb.baseOrientation(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, mb.baseTorque(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, mb.baseVelocity(null), 0f);
         Assert.assertTrue(mb.canWakeup());
         Assert.assertEquals(PhysicsCollisionObject.COLLISION_GROUP_01,
                 mb.collideWithGroups());
@@ -499,14 +493,14 @@ public class TestDefaults {
         Assert.assertEquals(100f, mb.maxCoordinateVelocity(), 0f);
 
         MultiBodyCollider baseCollider = mb.getBaseCollider();
-        MinieTest.assertEquals(0f, 0f, 0f, 1f,
-                baseCollider.getPhysicsRotation(null), 0f);
+        Utils.assertEquals(
+                0f, 0f, 0f, 1f, baseCollider.getPhysicsRotation(null), 0f);
         testPco(baseCollider);
         Assert.assertFalse(baseCollider.isStatic());
 
         MultiBodyCollider linkCollider = link.getCollider();
-        MinieTest.assertEquals(0f, 0f, 0f, 1f,
-                linkCollider.getPhysicsRotation(null), 0f);
+        Utils.assertEquals(
+                0f, 0f, 0f, 1f, linkCollider.getPhysicsRotation(null), 0f);
         testPco(linkCollider);
         Assert.assertFalse(linkCollider.isStatic());
     }
@@ -532,10 +526,10 @@ public class TestDefaults {
 
     private void testMotionState(RigidBodyMotionState motion) {
         Vector3f x = motion.getLocation(null);
-        MinieTest.assertEquals(0f, 0f, 0f, x, 0f);
+        Utils.assertEquals(0f, 0f, 0f, x, 0f);
 
         Vec3d xx = motion.getLocationDp(null);
-        MinieTest.assertEquals(0., 0., 0., xx, 0.);
+        Utils.assertEquals(0., 0., 0., xx, 0.);
 
         Matrix3f m = new Matrix3f();
         motion.getOrientation(m);
@@ -543,13 +537,13 @@ public class TestDefaults {
 
         Quaternion q = new Quaternion();
         motion.getOrientation(q);
-        MinieTest.assertEquals(0f, 0f, 0f, 1f, q, 0f);
+        Utils.assertEquals(0f, 0f, 0f, 1f, q, 0f);
 
         // TODO when Matrix3d.isIdentity() is available:
         //Matrix3d mm = motion.getOrientationMatrixDp(null);
         //Assert.assertTrue(mm.isIdentity());
         Quatd qq = motion.getOrientationQuaternionDp(null);
-        MinieTest.assertEquals(0., 0., 0., 1., qq, 0.);
+        Utils.assertEquals(0., 0., 0., 1., qq, 0.);
 
         Assert.assertFalse(motion.isApplyPhysicsLocal());
 
@@ -590,7 +584,7 @@ public class TestDefaults {
         for (MotorParam param : MotorParam.values()) {
             float def = param.defaultForTranslationMotor();
             Vector3f value = motor.get(param, null);
-            MinieTest.assertEquals(def, def, def, value, 0f);
+            Utils.assertEquals(def, def, def, value, 0f);
         }
     }
 
@@ -658,7 +652,7 @@ public class TestDefaults {
                     break;
                 default:
                     float def = param.defaultForTranslationMotor();
-                    MinieTest.assertEquals(def, def, def, value, 0f);
+                    Utils.assertEquals(def, def, def, value, 0f);
             }
         }
     }
@@ -687,8 +681,7 @@ public class TestDefaults {
         Assert.assertTrue(pco.isActive());
         Assert.assertFalse(pco.isInWorld());
 
-        MinieTest.assertEquals(
-                1f, 1f, 1f, pco.getAnisotropicFriction(null), 0f);
+        Utils.assertEquals(1f, 1f, 1f, pco.getAnisotropicFriction(null), 0f);
         Assert.assertFalse(pco.hasAnisotropicFriction(1));
         Assert.assertFalse(pco.hasAnisotropicFriction(2));
         Assert.assertNull(pco.getApplicationData());
@@ -716,12 +709,10 @@ public class TestDefaults {
         Assert.assertEquals(1, pco.debugNumSides());
         Assert.assertEquals(0.5f, pco.getFriction(), 0f);
 
-        MinieTest.assertEquals(0f, 0f, 0f, pco.getPhysicsLocation(null), 0f);
-        MinieTest.assertEquals(0., 0., 0., pco.getPhysicsLocationDp(null), 0.);
-        MinieTest.assertEquals(0f, 0f, 0f, 1f,
-                pco.getPhysicsRotation(null), 0f);
-        MinieTest.assertEquals(0., 0., 0., 1.,
-                pco.getPhysicsRotationDp(null), 0.);
+        Utils.assertEquals(0f, 0f, 0f, pco.getPhysicsLocation(null), 0f);
+        Utils.assertEquals(0., 0., 0., pco.getPhysicsLocationDp(null), 0.);
+        Utils.assertEquals(0f, 0f, 0f, 1f, pco.getPhysicsRotation(null), 0f);
+        Utils.assertEquals(0., 0., 0., 1., pco.getPhysicsRotationDp(null), 0.);
         Assert.assertEquals(
                 Matrix3f.IDENTITY, pco.getPhysicsRotationMatrix(null));
         // TODO test disabled until Matrix3d.equals() is fixed:
@@ -751,7 +742,7 @@ public class TestDefaults {
         Assert.assertEquals(0, space.countTickListeners());
 
         Assert.assertEquals(1 / 60f, space.getAccuracy(), 0f);
-        MinieTest.assertEquals(0f, -9.81f, 0f, space.getGravity(null), 0f);
+        Utils.assertEquals(0f, -9.81f, 0f, space.getGravity(null), 0f);
         Assert.assertFalse(space.isCcdWithStaticOnly());
         Assert.assertFalse(space.isUsingScr());
         Assert.assertEquals(4, space.maxSubSteps());
@@ -785,12 +776,10 @@ public class TestDefaults {
 
                 SoftBodyWorldInfo sbwi = dSpace.getWorldInfo();
                 Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
-                MinieTest.assertEquals(
-                        0f, -9.81f, 0f, sbwi.copyGravity(null), 0f);
+                Utils.assertEquals(0f, -9.81f, 0f, sbwi.copyGravity(null), 0f);
                 Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
                 Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
-                MinieTest.assertEquals(
-                        0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
+                Utils.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
                 Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
             }
 
@@ -800,10 +789,10 @@ public class TestDefaults {
 
             SoftBodyWorldInfo sbwi = softSpace.getWorldInfo();
             Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
-            MinieTest.assertEquals(0f, -9.81f, 0f, sbwi.copyGravity(null), 0f);
+            Utils.assertEquals(0f, -9.81f, 0f, sbwi.copyGravity(null), 0f);
             Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
             Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
-            MinieTest.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
+            Utils.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
             Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
         }
     }
@@ -820,30 +809,28 @@ public class TestDefaults {
         Assert.assertEquals(0, prb.countJoints());
         Assert.assertEquals(Activation.active, prb.getActivationState());
         Assert.assertEquals(0f, prb.getAngularDamping(), 0f);
-        MinieTest.assertEquals(1f, 1f, 1f, prb.getAngularFactor(null), 0f);
+        Utils.assertEquals(1f, 1f, 1f, prb.getAngularFactor(null), 0f);
         Assert.assertEquals(1f, prb.getAngularSleepingThreshold(), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, prb.getGravity(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, prb.getGravity(null), 0f);
         Assert.assertEquals(0f, prb.getLinearDamping(), 0f);
-        MinieTest.assertEquals(1f, 1f, 1f, prb.getLinearFactor(null), 0f);
+        Utils.assertEquals(1f, 1f, 1f, prb.getLinearFactor(null), 0f);
         Assert.assertEquals(0.8f, prb.getLinearSleepingThreshold(), 0f);
         Assert.assertTrue(prb.isContactResponse());
         Assert.assertFalse(prb.isGravityProtected());
         Assert.assertFalse(prb.isKinematic());
         Assert.assertEquals(0, prb.listJoints().length);
-        MinieTest.assertEquals(0f, 0f, 0f, prb.totalAppliedForce(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, prb.totalAppliedTorque(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, prb.totalAppliedForce(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, prb.totalAppliedTorque(null), 0f);
 
         RigidBodyMotionState motion = prb.getMotionState();
         Assert.assertNotNull(motion);
         testMotionState(motion);
 
         if (prb.getMass() > 0f) {
-            MinieTest.assertEquals(
-                    0f, 0f, 0f, prb.getAngularVelocity(null), 0f);
-            MinieTest.assertEquals(
+            Utils.assertEquals(0f, 0f, 0f, prb.getAngularVelocity(null), 0f);
+            Utils.assertEquals(
                     0f, 0f, 0f, prb.getAngularVelocityLocal(null), 0f);
-            MinieTest.assertEquals(
-                    0f, 0f, 0f, prb.getLinearVelocity(null), 0f);
+            Utils.assertEquals(0f, 0f, 0f, prb.getLinearVelocity(null), 0f);
             Assert.assertEquals(1f, prb.getMass(), 0f);
             Assert.assertEquals(0f, prb.getSquaredSpeed(), 0f);
             Assert.assertTrue(prb.isDynamic());
@@ -874,8 +861,8 @@ public class TestDefaults {
     private void testShape(CollisionShape shape) {
         Assert.assertNotNull(shape);
         Assert.assertNotEquals(0L, shape.nativeId());
-        MinieTest.assertEquals(1f, 1f, 1f, shape.getScale(null), 0f);
-        MinieTest.assertEquals(1., 1., 1., shape.getScaleDp(null), 0.);
+        Utils.assertEquals(1f, 1f, 1f, shape.getScale(null), 0f);
+        Utils.assertEquals(1., 1., 1., shape.getScaleDp(null), 0.);
         Assert.assertTrue(shape.isContactFilterEnabled());
     }
 
@@ -1041,7 +1028,7 @@ public class TestDefaults {
         // MultiSphere
         MultiSphere multiSphere = new MultiSphere(1f);
         testShape(multiSphere);
-        MinieTest.assertEquals(0f, 0f, 0f, multiSphere.copyCenter(0, null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, multiSphere.copyCenter(0, null), 0f);
         Assert.assertEquals(1, multiSphere.countSpheres());
         Assert.assertEquals(1f, multiSphere.getRadius(0), 0f);
         Assert.assertEquals(
@@ -1058,7 +1045,7 @@ public class TestDefaults {
         testShape(pcs);
         Assert.assertEquals(0.04f, pcs.getMargin(), 0f);
         Assert.assertEquals(0f, pcs.getPlane().getConstant(), 0f);
-        MinieTest.assertEquals(0f, 1f, 0f, pcs.getPlane().getNormal(), 0f);
+        Utils.assertEquals(0f, 1f, 0f, pcs.getPlane().getNormal(), 0f);
         Assert.assertTrue(pcs.isConcave());
         Assert.assertFalse(pcs.isConvex());
         Assert.assertTrue(pcs.isInfinite());
@@ -1070,8 +1057,8 @@ public class TestDefaults {
                 = new SimplexCollisionShape(new Vector3f(0f, 0f, 0f));
         testSimplexShape(simplex1);
         Assert.assertEquals(1, simplex1.countMeshVertices());
-        MinieTest.assertEquals(0f, 0f, 0f, simplex1.copyVertex(0, null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, simplex1.getHalfExtents(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, simplex1.copyVertex(0, null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, simplex1.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex1.unscaledVolume(), 0f);
 
         // Simplex of 2 vertices
@@ -1079,9 +1066,9 @@ public class TestDefaults {
                 new Vector3f(1f, 0f, 0f), new Vector3f(-1, 0f, 0f));
         testSimplexShape(simplex2);
         Assert.assertEquals(2, simplex2.countMeshVertices());
-        MinieTest.assertEquals(1f, 0f, 0f, simplex2.copyVertex(0, null), 0f);
-        MinieTest.assertEquals(-1f, 0f, 0f, simplex2.copyVertex(1, null), 0f);
-        MinieTest.assertEquals(1f, 0f, 0f, simplex2.getHalfExtents(null), 0f);
+        Utils.assertEquals(1f, 0f, 0f, simplex2.copyVertex(0, null), 0f);
+        Utils.assertEquals(-1f, 0f, 0f, simplex2.copyVertex(1, null), 0f);
+        Utils.assertEquals(1f, 0f, 0f, simplex2.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex2.unscaledVolume(), 0f);
 
         // Simplex of 3 vertices
@@ -1092,10 +1079,10 @@ public class TestDefaults {
         );
         testSimplexShape(simplex3);
         Assert.assertEquals(3, simplex3.countMeshVertices());
-        MinieTest.assertEquals(0f, 1f, 1f, simplex3.copyVertex(0, null), 0f);
-        MinieTest.assertEquals(1f, 1f, 0f, simplex3.copyVertex(1, null), 0f);
-        MinieTest.assertEquals(1f, 0f, 1f, simplex3.copyVertex(2, null), 0f);
-        MinieTest.assertEquals(1f, 1f, 1f, simplex3.getHalfExtents(null), 0f);
+        Utils.assertEquals(0f, 1f, 1f, simplex3.copyVertex(0, null), 0f);
+        Utils.assertEquals(1f, 1f, 0f, simplex3.copyVertex(1, null), 0f);
+        Utils.assertEquals(1f, 0f, 1f, simplex3.copyVertex(2, null), 0f);
+        Utils.assertEquals(1f, 1f, 1f, simplex3.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex3.unscaledVolume(), 0f);
 
         // Simplex of 4 vertices
@@ -1107,11 +1094,11 @@ public class TestDefaults {
         );
         testSimplexShape(simplex4);
         Assert.assertEquals(4, simplex4.countMeshVertices());
-        MinieTest.assertEquals(0f, 1f, 1f, simplex4.copyVertex(0, null), 0f);
-        MinieTest.assertEquals(0f, 1f, -1f, simplex4.copyVertex(1, null), 0f);
-        MinieTest.assertEquals(1f, -1f, 0f, simplex4.copyVertex(2, null), 0f);
-        MinieTest.assertEquals(-1f, -1f, 0f, simplex4.copyVertex(3, null), 0f);
-        MinieTest.assertEquals(1f, 1f, 1f, simplex4.getHalfExtents(null), 0f);
+        Utils.assertEquals(0f, 1f, 1f, simplex4.copyVertex(0, null), 0f);
+        Utils.assertEquals(0f, 1f, -1f, simplex4.copyVertex(1, null), 0f);
+        Utils.assertEquals(1f, -1f, 0f, simplex4.copyVertex(2, null), 0f);
+        Utils.assertEquals(-1f, -1f, 0f, simplex4.copyVertex(3, null), 0f);
+        Utils.assertEquals(1f, 1f, 1f, simplex4.getHalfExtents(null), 0f);
         Assert.assertEquals(4f / 3f, simplex4.unscaledVolume(), 1e-6f);
 
         // Sphere
@@ -1164,20 +1151,20 @@ public class TestDefaults {
         Assert.assertEquals(-1f, rlm.getUpperLimit(), 0f);
 
         TranslationalLimitMotor tlm = six.getTranslationalLimitMotor();
-        MinieTest.assertEquals(0f, 0f, 0f, tlm.getAccumulatedImpulse(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, tlm.getAccumulatedImpulse(null), 0f);
         Assert.assertEquals(1f, tlm.getDamping(), 0f);
         Assert.assertFalse(tlm.isEnabled(0));
         Assert.assertFalse(tlm.isEnabled(1));
         Assert.assertFalse(tlm.isEnabled(2));
-        MinieTest.assertEquals(0.2f, 0.2f, 0.2f, tlm.getERP(null), 0f);
+        Utils.assertEquals(0.2f, 0.2f, 0.2f, tlm.getERP(null), 0f);
         Assert.assertEquals(0.7f, tlm.getLimitSoftness(), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, tlm.getLowerLimit(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, tlm.getMaxMotorForce(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, tlm.getNormalCFM(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, tlm.getLowerLimit(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, tlm.getMaxMotorForce(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, tlm.getNormalCFM(null), 0f);
         Assert.assertEquals(0f, tlm.getRestitution(), 0.5f);
-        MinieTest.assertEquals(0f, 0f, 0f, tlm.getStopCFM(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, tlm.getTargetVelocity(null), 0f);
-        MinieTest.assertEquals(0f, 0f, 0f, tlm.getUpperLimit(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, tlm.getStopCFM(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, tlm.getTargetVelocity(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, tlm.getUpperLimit(null), 0f);
 
         if (six instanceof SixDofSpringJoint) {
             SixDofSpringJoint spring = (SixDofSpringJoint) six;

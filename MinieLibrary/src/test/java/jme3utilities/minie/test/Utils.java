@@ -41,19 +41,18 @@ import java.io.InputStream;
 import org.junit.Assert;
 
 /**
- * Utility methods for automated testing of the Minie Physics Library. TODO
- * rename TestUtils
+ * Utility methods for automated testing of the Minie Physics Library.
  *
  * @author Stephen Gold sgold@sonic.net
  */
-final public class MinieTest {
+final public class Utils {
     // *************************************************************************
     // constructors
 
     /**
      * A private constructor to inhibit instantiation of this class.
      */
-    private MinieTest() {
+    private Utils() {
         // do nothing
     }
     // *************************************************************************
