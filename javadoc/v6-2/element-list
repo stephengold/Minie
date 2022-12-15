@@ -1,0 +1,15 @@
+com.jme3.bullet
+com.jme3.bullet.animation
+com.jme3.bullet.collision
+com.jme3.bullet.collision.shapes
+com.jme3.bullet.collision.shapes.infos
+com.jme3.bullet.control
+com.jme3.bullet.debug
+com.jme3.bullet.joints
+com.jme3.bullet.joints.motors
+com.jme3.bullet.objects
+com.jme3.bullet.objects.infos
+com.jme3.bullet.util
+jme3utilities.minie
+vhacd
+vhacd4
