@@ -85,6 +85,7 @@ import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.VehicleWheel;
 import com.jme3.bullet.objects.infos.Aero;
 import com.jme3.bullet.objects.infos.ConfigFlag;
+import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.objects.infos.SoftBodyMaterial;
@@ -96,12 +97,15 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.shape.Quad;
 import com.jme3.scene.shape.Torus;
 import com.jme3.system.NativeLibraryLoader;
+import com.simsilica.mathd.Quatd;
+import com.simsilica.mathd.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 import jme3utilities.MeshNormals;
@@ -221,6 +225,9 @@ public class TestDefaults {
 
         RigidBodyControl dynamicRbc = new RigidBodyControl(box);
         testRigidBody(dynamicRbc);
+
+        RigidBodyMotionState motion = new RigidBodyMotionState();
+        testMotionState(motion);
 
         softA = new PhysicsSoftBody();
         testPco(softA);
@@ -523,6 +530,33 @@ public class TestDefaults {
         Assert.assertEquals(-1f, constraint.getUpperLimit(), 0f);
     }
 
+    private void testMotionState(RigidBodyMotionState motion) {
+        Vector3f x = motion.getLocation(null);
+        MinieTest.assertEquals(0f, 0f, 0f, x, 0f);
+
+        Vec3d xx = motion.getLocationDp(null);
+        MinieTest.assertEquals(0., 0., 0., xx, 0.);
+
+        Matrix3f m = new Matrix3f();
+        motion.getOrientation(m);
+        Assert.assertTrue(m.isIdentity());
+
+        Quaternion q = new Quaternion();
+        motion.getOrientation(q);
+        MinieTest.assertEquals(0f, 0f, 0f, 1f, q, 0f);
+
+        // TODO when Matrix3d.isIdentity() is available:
+        //Matrix3d mm = motion.getOrientationMatrixDp(null);
+        //Assert.assertTrue(mm.isIdentity());
+        Quatd qq = motion.getOrientationQuaternionDp(null);
+        MinieTest.assertEquals(0., 0., 0., 1., qq, 0.);
+
+        Assert.assertFalse(motion.isApplyPhysicsLocal());
+
+        Transform t = motion.physicsTransform(null);
+        Assert.assertTrue(t.equals(Transform.IDENTITY));
+    }
+
     private void testNew6Dof(New6Dof constraint, int numEnds) {
         Assert.assertEquals(numEnds, constraint.countEnds());
         testConstraint(constraint);
@@ -790,6 +824,10 @@ public class TestDefaults {
         Assert.assertEquals(0, prb.listJoints().length);
         MinieTest.assertEquals(0f, 0f, 0f, prb.totalAppliedForce(null), 0f);
         MinieTest.assertEquals(0f, 0f, 0f, prb.totalAppliedTorque(null), 0f);
+
+        RigidBodyMotionState motion = prb.getMotionState();
+        Assert.assertNotNull(motion);
+        testMotionState(motion);
 
         if (prb.getMass() > 0f) {
             MinieTest.assertEquals(
