@@ -32,6 +32,7 @@ import com.jme3.export.xml.XMLExporter;
 import com.jme3.export.xml.XMLImporter;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.simsilica.mathd.Quatd;
 import com.simsilica.mathd.Vec3d;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -59,7 +60,27 @@ final public class MinieTest {
     // new methods exposed
 
     /**
-     * Verify that 2 quaternions are equal to within some tolerance.
+     * Verify that 2 double-precision quaternions are equal to within some
+     * tolerance.
+     *
+     * @param x the expected X component
+     * @param y the expected Y component
+     * @param z the expected Z component
+     * @param w the expected W component
+     * @param actual the Quaternion to test (not null, unaffected)
+     * @param tolerance the allowable difference for each component (&ge;0)
+     */
+    public static void assertEquals(double x, double y, double z, double w,
+            Quatd actual, double tolerance) {
+        Assert.assertEquals("x component", x, actual.x, tolerance);
+        Assert.assertEquals("y component", y, actual.y, tolerance);
+        Assert.assertEquals("z component", z, actual.z, tolerance);
+        Assert.assertEquals("w component", w, actual.w, tolerance);
+    }
+
+    /**
+     * Verify that 2 single-precision quaternions are equal to within some
+     * tolerance.
      *
      * @param x the expected X component
      * @param y the expected Y component
