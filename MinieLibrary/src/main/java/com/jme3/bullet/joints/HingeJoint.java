@@ -369,7 +369,7 @@ public class HingeJoint extends Constraint {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * Alter the angular limits for this joint.
      *
      * @param low the desired lower limit of the hinge angle (in radians,
      * default=1)
