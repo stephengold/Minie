@@ -49,6 +49,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
+import com.simsilica.mathd.Matrix3d;
+import com.simsilica.mathd.Quatd;
 import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
 import java.nio.Buffer;
@@ -1574,6 +1576,24 @@ public class PhysicsSoftBody extends PhysicsBody {
     }
 
     /**
+     * Copy the orientation (rotation) of this body to a Quatd.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return an identity quaternion (either storeResult or a new instance, not
+     * null)
+     */
+    @Override
+    public Quatd getPhysicsRotationDp(Quatd storeResult) {
+        Quatd result;
+        if (storeResult == null) {
+            result = new Quatd();
+        } else {
+            result = storeResult.set(0., 0., 0., 1.);
+        }
+        return result;
+    }
+
+    /**
      * Copy the orientation of this body (the basis of its local coordinate
      * system) to a Matrix3f.
      *
@@ -1585,6 +1605,25 @@ public class PhysicsSoftBody extends PhysicsBody {
     public Matrix3f getPhysicsRotationMatrix(Matrix3f storeResult) {
         Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
         result.loadIdentity();
+        return result;
+    }
+
+    /**
+     * Copy the orientation of this body (the basis of its local coordinate
+     * system) to a Matrix3d.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return an identity matrix (either storeResult or a new instance, not
+     * null)
+     */
+    @Override
+    public Matrix3d getPhysicsRotationMatrixDp(Matrix3d storeResult) {
+        Matrix3d result;
+        if (storeResult == null) {
+            result = new Matrix3d();
+        } else {
+            result = storeResult.makeIdentity();
+        }
         return result;
     }
 
