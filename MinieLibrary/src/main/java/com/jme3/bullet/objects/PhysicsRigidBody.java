@@ -49,6 +49,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
+import com.simsilica.mathd.Matrix3d;
 import com.simsilica.mathd.Quatd;
 import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
@@ -1030,6 +1031,19 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Directly reorient this body.
      *
+     * @param orientation the desired orientation (rotation matrix relative to
+     * physics-space coordinates, not null, unaffected)
+     */
+    public void setPhysicsRotationDp(Matrix3d orientation) {
+        Validate.nonNull(orientation, "orientation");
+
+        long objectId = nativeId();
+        setPhysicsRotationDp(objectId, orientation);
+    }
+
+    /**
+     * Directly reorient this body.
+     *
      * @param orientation the desired orientation (relative to physics-space
      * coordinates, not null, unaffected)
      */
@@ -1602,6 +1616,9 @@ public class PhysicsRigidBody extends PhysicsBody {
 
     native private static void
             setPhysicsRotation(long objectId, Quaternion rotation);
+
+    native private static void
+            setPhysicsRotationDp(long objectId, Matrix3d rotation);
 
     native private static void
             setPhysicsRotationDp(long objectId, Quatd rotation);
