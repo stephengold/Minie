@@ -192,14 +192,14 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      */
     @Override
     protected void createSpatialData(Spatial spatial) {
-        body = new PhysicsSoftBody();
-        body.setUserObject(spatial); // link from collision object
+        this.body = new PhysicsSoftBody();
+        this.body.setUserObject(spatial); // link from collision object
 
         List<Geometry> geometries = MySpatial.listGeometries(spatial);
-        geometry = geometries.get(0); // TODO use name
+        this.geometry = geometries.get(0); // TODO use name
         Mesh mesh = geometry.getMesh();
         if (mesh.getBuffer(VertexBuffer.Type.Normal) == null) {
-            updateNormals = false;
+            this.updateNormals = false;
         }
         appendFromGeometry();
     }
@@ -216,10 +216,10 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        body = (PhysicsSoftBody) capsule.readSavable(tagBody, null);
-        geometry = (Geometry) capsule.readSavable(tagGeometry, null);
-        mergeVertices = capsule.readBoolean(tagMergeVertices, false);
-        updateNormals = capsule.readBoolean(tagUpdateNormals, false);
+        this.body = (PhysicsSoftBody) capsule.readSavable(tagBody, null);
+        this.geometry = (Geometry) capsule.readSavable(tagGeometry, null);
+        this.mergeVertices = capsule.readBoolean(tagMergeVertices, false);
+        this.updateNormals = capsule.readBoolean(tagUpdateNormals, false);
 
         if (body != null) {
             Spatial controlled = getSpatial();
@@ -245,7 +245,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     @Override
     protected void removeSpatialData(Spatial spatial) {
         body.setUserObject(null);
-        body = null;
+        this.body = null;
     }
 
     /**

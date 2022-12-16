@@ -418,7 +418,7 @@ abstract public class AbstractPhysicsControl
 
         if (added) {
             removePhysics();
-            added = false;
+            this.added = false;
         }
         this.space = newSpace;
         if (newSpace != null && isEnabled()) {

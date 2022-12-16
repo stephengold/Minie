@@ -103,7 +103,7 @@ public class CharacterControl extends AbstractPhysicsControl {
      * physics-space units)
      */
     public CharacterControl(ConvexShape shape, float stepHeight) {
-        character = new PhysicsCharacter(shape, stepHeight);
+        this.character = new PhysicsCharacter(shape, stepHeight);
     }
     // *************************************************************************
     // new methods exposed
