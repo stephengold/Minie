@@ -219,8 +219,8 @@ final public class MyControlP {
      * @param subtree (not null)
      * @param space the PhysicsSpace to add to, or null for none
      */
-    public static void enablePhysicsControls(Spatial subtree,
-            PhysicsSpace space) {
+    public static void enablePhysicsControls(
+            Spatial subtree, PhysicsSpace space) {
         int numControls = subtree.getNumControls();
         for (int controlI = 0; controlI < numControls; ++controlI) {
             Control control = subtree.getControl(controlI);

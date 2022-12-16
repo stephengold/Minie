@@ -548,18 +548,18 @@ public class TorsoLink extends PhysicsLink {
             }
         }
 
-        this.submode = capsule.readEnum(tagSubmode, KinematicSubmode.class,
-                KinematicSubmode.Animated);
-        this.endModelTransform = (Transform) capsule.readSavable(
-                tagEndModelTransform, new Transform());
-        this.meshToModel = (Transform) capsule.readSavable(tagMeshToModel,
-                new Transform());
-        this.startModelTransform = (Transform) capsule.readSavable(
-                tagStartModelTransform, new Transform());
-        this.prevBoneTransforms = RagUtils.readTransformArray(capsule,
-                tagPrevBoneTransforms);
-        this.startBoneTransforms = RagUtils.readTransformArray(capsule,
-                tagStartBoneTransforms);
+        this.submode = capsule.readEnum(
+                tagSubmode, KinematicSubmode.class, KinematicSubmode.Animated);
+        this.endModelTransform = (Transform) capsule
+                .readSavable(tagEndModelTransform, new Transform());
+        this.meshToModel = (Transform) capsule
+                .readSavable(tagMeshToModel, new Transform());
+        this.startModelTransform = (Transform) capsule
+                .readSavable(tagStartModelTransform, new Transform());
+        this.prevBoneTransforms = RagUtils
+                .readTransformArray(capsule, tagPrevBoneTransforms);
+        this.startBoneTransforms = RagUtils
+                .readTransformArray(capsule, tagStartBoneTransforms);
     }
 
     /**
@@ -643,12 +643,12 @@ public class TorsoLink extends PhysicsLink {
         capsule.write(submode, tagSubmode, KinematicSubmode.Animated);
         capsule.write(endModelTransform, tagEndModelTransform, new Transform());
         capsule.write(meshToModel, tagMeshToModel, new Transform());
-        capsule.write(startModelTransform, tagStartModelTransform,
-                new Transform());
-        capsule.write(prevBoneTransforms, tagPrevBoneTransforms,
-                new Transform[0]);
-        capsule.write(startBoneTransforms, tagStartBoneTransforms,
-                new Transform[0]);
+        capsule.write(
+                startModelTransform, tagStartModelTransform, new Transform());
+        capsule.write(
+                prevBoneTransforms, tagPrevBoneTransforms, new Transform[0]);
+        capsule.write(
+                startBoneTransforms, tagStartBoneTransforms, new Transform[0]);
     }
     // *************************************************************************
     // private methods
@@ -660,8 +660,8 @@ public class TorsoLink extends PhysicsLink {
      * @param storeResult storage for the result (modified if not null)
      * @return the Transform (either storeResult or a new instance, not null)
      */
-    private Transform copyManagedTransform(int managedIndex,
-            Transform storeResult) {
+    private Transform copyManagedTransform(
+            int managedIndex, Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 

@@ -291,14 +291,14 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                 break;
 
             case FourSphere:
-                solid = RagUtils.makeRectangularSolid(vertexLocations,
-                        shapeScale);
+                solid = RagUtils
+                        .makeRectangularSolid(vertexLocations, shapeScale);
                 result = new MultiSphere(solid);
                 break;
 
             case MinBox:
-                solid = RagUtils.makeRectangularSolid(vertexLocations,
-                        shapeScale);
+                solid = RagUtils
+                        .makeRectangularSolid(vertexLocations, shapeScale);
                 result = new HullCollisionShape(solid);
                 break;
 
@@ -308,8 +308,8 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                 break;
 
             case TwoSphere:
-                solid = RagUtils.makeRectangularSolid(vertexLocations,
-                        shapeScale);
+                solid = RagUtils
+                        .makeRectangularSolid(vertexLocations, shapeScale);
                 result = new MultiSphere(solid, 0.5f);
                 break;
 
@@ -514,13 +514,13 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
     public void write(JmeExporter exporter) throws IOException {
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(centerHeuristic, tagCenterHeuristic,
-                CenterHeuristic.Mean);
+        capsule.write(
+                centerHeuristic, tagCenterHeuristic, CenterHeuristic.Mean);
         capsule.write(massParameter, tagMassParameter, 1f);
         capsule.write(massHeuristic, tagMassHeuristic, MassHeuristic.Mass);
         capsule.write(rotationOrder, tagRotationOrder, null);
-        capsule.write(shapeHeuristic, tagShapeHeuristic,
-                ShapeHeuristic.VertexHull);
+        capsule.write(
+                shapeHeuristic, tagShapeHeuristic, ShapeHeuristic.VertexHull);
         capsule.write(shapeScale, tagShapeScale, null);
     }
     // *************************************************************************

@@ -771,8 +771,8 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * @param collisionShape the desired shape (not null, alias created)
      * @return a new instance, not in any PhysicsSpace
      */
-    private PhysicsRigidBody createRigidBody(LinkConfig linkConfig,
-            CollisionShape collisionShape) {
+    private PhysicsRigidBody createRigidBody(
+            LinkConfig linkConfig, CollisionShape collisionShape) {
         assert collisionShape != null;
 
         float volume = MyShape.volume(collisionShape);

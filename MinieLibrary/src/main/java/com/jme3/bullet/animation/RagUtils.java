@@ -255,10 +255,10 @@ final public class RagUtils {
     public static AbstractControl findSControl(Spatial subtree) {
         AbstractControl result = null;
         if (subtree != null) {
-            List<SkinningControl> skinners = MySpatial.listControls(subtree,
-                    SkinningControl.class, null);
-            List<SkeletonControl> skellers = MySpatial.listControls(subtree,
-                    SkeletonControl.class, null);
+            List<SkinningControl> skinners = MySpatial
+                    .listControls(subtree, SkinningControl.class, null);
+            List<SkeletonControl> skellers = MySpatial
+                    .listControls(subtree, SkeletonControl.class, null);
             if (skellers.isEmpty() && skinners.size() == 1) {
                 result = skinners.get(0);
             } else if (skinners.isEmpty() && skellers.size() == 1) {
@@ -522,8 +522,8 @@ final public class RagUtils {
      * @return a coordinate transform (either storeResult or a new vector, not
      * null)
      */
-    public static Transform relativeTransform(Spatial startSpatial,
-            Node ancestorNode, Transform storeResult) {
+    public static Transform relativeTransform(
+            Spatial startSpatial, Node ancestorNode, Transform storeResult) {
         Validate.nonNull(startSpatial, "spatial");
         Validate.nonNull(ancestorNode, "ancestor");
         assert startSpatial.hasAncestor(ancestorNode);
@@ -556,8 +556,8 @@ final public class RagUtils {
         for (int jointIndex = 0; jointIndex < numJoints; ++jointIndex) {
             Joint joint = armature.getJoint(jointIndex);
             if (joint == null) {
-                String msg = String.format("Joint %d in armature is null!",
-                        jointIndex);
+                String msg = String
+                        .format("Joint %d in armature is null!", jointIndex);
                 throw new IllegalArgumentException(msg);
             }
             String jointName = joint.getName();
@@ -594,8 +594,8 @@ final public class RagUtils {
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             Bone bone = skeleton.getBone(boneIndex);
             if (bone == null) {
-                String msg = String.format(
-                        "Bone %d in skeleton is null!", boneIndex);
+                String msg = String
+                        .format("Bone %d in skeleton is null!", boneIndex);
                 throw new IllegalArgumentException(msg);
             }
             String boneName = bone.getName();

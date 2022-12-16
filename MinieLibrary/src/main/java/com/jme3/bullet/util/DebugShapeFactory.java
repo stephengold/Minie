@@ -154,8 +154,8 @@ final public class DebugShapeFactory {
      * @return a new, unflipped, direct buffer full of scaled shape coordinates
      * (capacity a multiple of 3)
      */
-    public static FloatBuffer debugVertices(CollisionShape shape,
-            int meshResolution) {
+    public static FloatBuffer debugVertices(
+            CollisionShape shape, int meshResolution) {
         Validate.nonNull(shape, "shape");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
@@ -284,8 +284,8 @@ final public class DebugShapeFactory {
      * @return a new, unflipped, direct buffer full of scaled shape coordinates
      * (capacity a multiple of 9)
      */
-    public static FloatBuffer getDebugTriangles(CollisionShape shape,
-            int meshResolution) {
+    public static FloatBuffer getDebugTriangles(
+            CollisionShape shape, int meshResolution) {
         Validate.nonNull(shape, "shape");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
@@ -530,8 +530,8 @@ final public class DebugShapeFactory {
             mesh = cache.get(key);
             if (mesh == null) {
                 if (shape instanceof PlaneCollisionShape) {
-                    mesh = createPlaneMesh((PlaneCollisionShape) shape,
-                            normals);
+                    mesh = createPlaneMesh(
+                            (PlaneCollisionShape) shape, normals);
                 } else {
                     mesh = createMesh(shape, normals, resolution);
                 }
@@ -570,8 +570,8 @@ final public class DebugShapeFactory {
         getTriangles(shapeId, resolution, callback);
 
         Mesh mesh = new Mesh();
-        mesh.setBuffer(VertexBuffer.Type.Position, numAxes,
-                callback.getVertices());
+        mesh.setBuffer(
+                VertexBuffer.Type.Position, numAxes, callback.getVertices());
 
         // Add a normal buffer, if requested.
         switch (normals) {

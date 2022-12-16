@@ -260,8 +260,8 @@ public class BoneLink extends PhysicsLink {
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
      */
-    public void blendToKinematicMode(KinematicSubmode submode,
-            float blendInterval) {
+    public void blendToKinematicMode(
+            KinematicSubmode submode, float blendInterval) {
         Validate.nonNull(submode, "submode");
         Validate.nonNegative(blendInterval, "blend interval");
 
@@ -343,8 +343,8 @@ public class BoneLink extends PhysicsLink {
         Transform localToWorld = physicsTransform(null);
         localToWorld.setScale(1f);
 
-        Vector3f[] result = DebugShapeFactory.footprint(shape,
-                localToWorld, DebugShapeFactory.lowResolution);
+        Vector3f[] result = DebugShapeFactory.footprint(
+                shape, localToWorld, DebugShapeFactory.lowResolution);
         return result;
     }
 
@@ -415,8 +415,8 @@ public class BoneLink extends PhysicsLink {
      * @param userRotation the desired rotation relative to the bind rotation of
      * the linked bone (not null, unaffected)
      */
-    public void setDynamic(Vector3f uniformAcceleration,
-            Quaternion userRotation) {
+    public void setDynamic(
+            Vector3f uniformAcceleration, Quaternion userRotation) {
         Validate.finite(uniformAcceleration, "uniform acceleration");
         String desiredAction = "put " + name() + " into dynamic mode";
         getControl().verifyReadyForDynamicMode(desiredAction);
@@ -583,9 +583,9 @@ public class BoneLink extends PhysicsLink {
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
                 }
-                MyMath.slerp(kinematicWeight(),
-                        startBoneTransforms[managedIndex], transform,
-                        transform);
+                MyMath.slerp(
+                        kinematicWeight(), startBoneTransforms[managedIndex],
+                        transform, transform);
                 // TODO smarter sign flipping
             }
 
@@ -724,10 +724,10 @@ public class BoneLink extends PhysicsLink {
         capsule.write(managedArmatureJoints, tagManagedArmatureJoints, null);
         capsule.write(managedBones, tagManagedBones, null);
         capsule.write(submode, tagSubmode, KinematicSubmode.Animated);
-        capsule.write(prevBoneTransforms, tagPrevBoneTransforms,
-                new Transform[0]);
-        capsule.write(startBoneTransforms, tagStartBoneTransforms,
-                new Transform[0]);
+        capsule.write(
+                prevBoneTransforms, tagPrevBoneTransforms, new Transform[0]);
+        capsule.write(
+                startBoneTransforms, tagStartBoneTransforms, new Transform[0]);
     }
     // *************************************************************************
     // private methods
@@ -739,8 +739,8 @@ public class BoneLink extends PhysicsLink {
      * @param storeResult storage for the result (modified if not null)
      * @return the Transform (either storeResult or a new instance, not null)
      */
-    private Transform copyManagedTransform(int managedIndex,
-            Transform storeResult) {
+    private Transform copyManagedTransform(
+            int managedIndex, Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 

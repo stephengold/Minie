@@ -490,8 +490,8 @@ public class DynamicAnimControl
      */
     public void freezeSubtree(PhysicsLink rootLink, boolean forceKinematic) {
         Validate.nonNull(rootLink, "root link");
-        Validate.require(rootLink.getControl() == this,
-                "link belongs to this control");
+        Validate.require(
+                rootLink.getControl() == this, "link belongs to this control");
         verifyAddedToSpatial("change modes");
 
         rootLink.freeze(forceKinematic);
@@ -597,8 +597,8 @@ public class DynamicAnimControl
         Validate.nonNull(pivotInGoalBody, "pivot in goal body");
 
         PhysicsRigidBody linkBody = link.getRigidBody();
-        Point2PointJoint newJoint = new Point2PointJoint(linkBody, goalBody,
-                pivotInLinkBody, pivotInGoalBody);
+        Point2PointJoint newJoint = new Point2PointJoint(
+                linkBody, goalBody, pivotInLinkBody, pivotInGoalBody);
         IKJoint ikJoint = new IKJoint(newJoint, true);
 
         ikJoints.add(ikJoint);

@@ -763,8 +763,8 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * @param addResult the collection of skeleton bones to append to (not null,
      * modified)
      */
-    protected void addUnlinkedDescendants(Bone startBone,
-            Collection<Bone> addResult) {
+    protected void addUnlinkedDescendants(
+            Bone startBone, Collection<Bone> addResult) {
         for (Bone child : startBone.getChildren()) {
             String childName = child.getName();
             if (!hasBoneLink(childName)) {
@@ -782,8 +782,8 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      * @param addResult the collection of armature joints to append to (not
      * null, modified)
      */
-    protected void addUnlinkedDescendants(Joint startJoint,
-            Collection<Joint> addResult) {
+    protected void addUnlinkedDescendants(
+            Joint startJoint, Collection<Joint> addResult) {
         for (Joint child : startJoint.getChildren()) {
             String childName = child.getName();
             if (!hasBoneLink(childName)) {

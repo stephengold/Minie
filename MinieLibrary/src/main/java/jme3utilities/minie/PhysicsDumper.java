@@ -349,8 +349,8 @@ public class PhysicsDumper extends Dumper {
 
         addLine(indent);
         int numIgnores = character.countIgnored();
-        stream.printf(" with %d ignore%s",
-                numIgnores, (numIgnores == 1) ? "" : "s");
+        stream.printf(
+                " with %d ignore%s", numIgnores, (numIgnores == 1) ? "" : "s");
         if (dumpIgnores && numIgnores > 0) {
             dumpIgnores(character, indent);
         }
@@ -412,8 +412,8 @@ public class PhysicsDumper extends Dumper {
         stream.print(desc);
 
         int numIgnores = ghost.countIgnored();
-        stream.printf(" with %d ignore%s",
-                numIgnores, (numIgnores == 1) ? "" : "s");
+        stream.printf(
+                " with %d ignore%s", numIgnores, (numIgnores == 1) ? "" : "s");
         if (dumpIgnores && numIgnores > 0) {
             dumpIgnores(ghost, indent);
         }
@@ -496,8 +496,8 @@ public class PhysicsDumper extends Dumper {
         if (body instanceof PhysicsVehicle) {
             PhysicsVehicle vehicle = (PhysicsVehicle) body;
             int numWheels = vehicle.getNumWheels();
-            stream.printf(" %d wheel%s", numWheels,
-                    (numWheels == 1) ? "" : "s");
+            stream.printf(
+                    " %d wheel%s", numWheels, (numWheels == 1) ? "" : "s");
             if (numWheels > 0) {
                 dumpWheels(vehicle, indent, numWheels);
             } else {
@@ -512,8 +512,8 @@ public class PhysicsDumper extends Dumper {
         }
 
         int numJoints = body.countJoints();
-        stream.printf(" and %d joint%s",
-                numJoints, (numJoints == 1) ? "" : "s");
+        stream.printf(
+                " and %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
         if (dumpJointsInBodies && numJoints > 0) {
             dumpJoints(body, indent);
         }
@@ -608,8 +608,8 @@ public class PhysicsDumper extends Dumper {
 
         // physics joints in the soft body
         int numJoints = body.countJoints();
-        stream.printf(" with %d joint%s", numJoints,
-                (numJoints == 1) ? "" : "s");
+        stream.printf(
+                " with %d joint%s", numJoints, (numJoints == 1) ? "" : "s");
         if (dumpJointsInBodies && numJoints > 0) {
             dumpJoints(body, indent);
             addLine(indent);
@@ -619,8 +619,8 @@ public class PhysicsDumper extends Dumper {
 
         // clusters in the soft body
         int numClusters = body.countClusters();
-        stream.printf(" %d cluster%s", numClusters,
-                (numClusters == 1) ? "" : "s");
+        stream.printf(
+                " %d cluster%s", numClusters, (numClusters == 1) ? "" : "s");
         if (dumpClustersInSofts && numClusters > 0) {
             dumpClusters(body, indent);
         } else {
@@ -679,8 +679,8 @@ public class PhysicsDumper extends Dumper {
         if (space instanceof MultiBodySpace) {
             multibodies = ((MultiBodySpace) space).getMultiBodyList();
             int numMultis = multibodies.size();
-            stream.printf("%d multi%s, ", numMultis,
-                    (numMultis == 1) ? "" : "s");
+            stream.printf(
+                    "%d multi%s, ", numMultis, (numMultis == 1) ? "" : "s");
         }
 
         Collection<PhysicsRigidBody> rigidBodies = space.getRigidBodyList();
@@ -1300,13 +1300,13 @@ public class PhysicsDumper extends Dumper {
             stream.print(MyString.describe(mass));
 
             stream.print(" damp[ang=");
-            float angularDamping = softBody.get(Cluster.AngularDamping,
-                    clusterIndex);
+            float angularDamping
+                    = softBody.get(Cluster.AngularDamping, clusterIndex);
             stream.print(MyString.describe(angularDamping));
 
             stream.print(" lin=");
-            float linearDamping = softBody.get(Cluster.LinearDamping,
-                    clusterIndex);
+            float linearDamping
+                    = softBody.get(Cluster.LinearDamping, clusterIndex);
             stream.print(MyString.describe(linearDamping));
 
             stream.print(" node=");
@@ -1566,8 +1566,8 @@ public class PhysicsDumper extends Dumper {
         int numNodes = softBody.countNodes();
         int numLinks = softBody.countLinks();
         for (int nodeIndex = 0; nodeIndex < numNodes; ++nodeIndex) {
-            int degree = MyBuffer.frequency(linkIndices, 0, 2 * numLinks,
-                    nodeIndex);
+            int degree = MyBuffer
+                    .frequency(linkIndices, 0, 2 * numLinks, nodeIndex);
             float nodeMass = masses.get(nodeIndex);
             String locString = describeVector(locations, nodeIndex);
             String vString = describeVector(velocities, nodeIndex);
@@ -1583,8 +1583,8 @@ public class PhysicsDumper extends Dumper {
      * @param softBody the soft body to dump (not null, unaffected)
      * @param clusterIndex which cluster (&ge;0, &lt;numClusters)
      */
-    private void dumpNodesInCluster(PhysicsSoftBody softBody,
-            int clusterIndex) {
+    private void dumpNodesInCluster(
+            PhysicsSoftBody softBody, int clusterIndex) {
         IntBuffer nodeIndices = softBody.listNodesInCluster(clusterIndex, null);
         int numIndices = nodeIndices.capacity();
         int numNodesInBody = softBody.countNodes();

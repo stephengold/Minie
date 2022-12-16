@@ -112,8 +112,8 @@ final public class CollisionShapeFactory {
         if (modelRoot instanceof Geometry) {
             Geometry geometry = (Geometry) modelRoot;
             Vector3f centerOffset = new Vector3f();
-            BoxCollisionShape box = createSingleBoxShape(geometry, geometry,
-                    centerOffset);
+            BoxCollisionShape box = createSingleBoxShape(
+                    geometry, geometry, centerOffset);
             result.addChildShape(box, centerOffset);
 
         } else if (modelRoot instanceof Node) {
@@ -253,8 +253,8 @@ final public class CollisionShapeFactory {
      */
     public static CollisionShape createMeshShape(Spatial modelRoot) {
         if (modelRoot instanceof Terrain) {
-            return new HeightfieldCollisionShape((Terrain) modelRoot,
-                    modelRoot.getLocalScale());
+            return new HeightfieldCollisionShape(
+                    (Terrain) modelRoot, modelRoot.getLocalScale());
 
         } else if (modelRoot instanceof Geometry) {
             return createSingleMeshShape((Geometry) modelRoot, modelRoot);
@@ -450,8 +450,8 @@ final public class CollisionShapeFactory {
                         childShape = createSingleMeshShape(geometry, modelRoot);
                     }
                 } else {
-                    childShape = createSingleBoxShape(geometry, modelRoot,
-                            centerOffset);
+                    childShape = createSingleBoxShape(
+                            geometry, modelRoot, centerOffset);
                     transform.getRotation().mult(centerOffset, centerOffset);
                     transform.getTranslation().addLocal(centerOffset);
                 }
@@ -472,8 +472,8 @@ final public class CollisionShapeFactory {
      * @param storeCenter storage for the center offset (not null, modified)
      * @return a new instance, or null if the Mesh is null or empty
      */
-    private static BoxCollisionShape createSingleBoxShape(Geometry geometry,
-            Spatial modelRoot, Vector3f storeCenter) {
+    private static BoxCollisionShape createSingleBoxShape(
+            Geometry geometry, Spatial modelRoot, Vector3f storeCenter) {
         Mesh mesh = geometry.getMesh();
         if (mesh == null) {
             return null;
@@ -506,8 +506,8 @@ final public class CollisionShapeFactory {
      * @param modelRoot the ancestor for which the shape is being generated (not
      * null, unaffected)
      */
-    private static HullCollisionShape createSingleHullShape(Geometry geometry,
-            Spatial modelRoot) {
+    private static HullCollisionShape createSingleHullShape(
+            Geometry geometry, Spatial modelRoot) {
         Mesh mesh = geometry.getMesh();
         if (mesh == null) {
             return null;
@@ -531,8 +531,8 @@ final public class CollisionShapeFactory {
      * @return a new MeshCollisionShape, or null if the Geometry doesn't contain
      * any triangles
      */
-    private static MeshCollisionShape createSingleMeshShape(Geometry geometry,
-            Spatial modelRoot) {
+    private static MeshCollisionShape createSingleMeshShape(
+            Geometry geometry, Spatial modelRoot) {
         Mesh mesh = geometry.getMesh();
         if (mesh == null || !MyMesh.hasTriangles(mesh)) {
             return null;
@@ -616,8 +616,8 @@ final public class CollisionShapeFactory {
      * null, unaffected)
      * @return a new Transform (not null)
      */
-    private static Transform relativeTransform(Spatial spatial,
-            Spatial modelRoot) {
+    private static Transform relativeTransform(
+            Spatial spatial, Spatial modelRoot) {
         Transform result = new Transform();
         Spatial currentSpatial = spatial;
         while (currentSpatial != modelRoot) {

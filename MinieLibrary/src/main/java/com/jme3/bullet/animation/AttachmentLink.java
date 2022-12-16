@@ -253,8 +253,8 @@ public class AttachmentLink extends PhysicsLink {
      * model the blend completes or null for no change to local transform
      * (unaffected)
      */
-    public void blendToKinematicMode(float blendInterval,
-            Transform endModelTransform) {
+    public void blendToKinematicMode(
+            float blendInterval, Transform endModelTransform) {
         Validate.nonNegative(blendInterval, "blend interval");
         if (isReleased()) {
             throw new IllegalStateException(

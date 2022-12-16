@@ -165,8 +165,8 @@ abstract public class AbstractPhysicsControl
      * @param physicsOrientation the desired orientation (in physics-space
      * coordinates, not null, unaffected)
      */
-    protected void applyPhysicsTransform(Vector3f physicsLocation,
-            Quaternion physicsOrientation) {
+    protected void applyPhysicsTransform(
+            Vector3f physicsLocation, Quaternion physicsOrientation) {
         if (enabled && controlledSpatial != null) {
             Vector3f localLocation = controlledSpatial.getLocalTranslation();
             Quaternion localRotationQuat = controlledSpatial.getLocalRotation();

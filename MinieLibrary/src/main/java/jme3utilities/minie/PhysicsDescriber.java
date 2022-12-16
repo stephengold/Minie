@@ -906,8 +906,8 @@ public class PhysicsDescriber extends Describer {
         } else if (joint instanceof Constraint) {
             result = describeConstraintInSpace((Constraint) joint, forceIds);
         } else {
-            result = describeSoftJointInSpace((SoftPhysicsJoint) joint,
-                    forceIds);
+            result = describeSoftJointInSpace(
+                    (SoftPhysicsJoint) joint, forceIds);
         }
 
         return result;
@@ -1024,8 +1024,8 @@ public class PhysicsDescriber extends Describer {
      * @param builder the StringBuilder to append to (not null, modified)
      * @param subject the Object to describe (not null, unaffected)
      */
-    private void appendObjectDescription(StringBuilder builder,
-            Object subject) {
+    private void appendObjectDescription(
+            StringBuilder builder, Object subject) {
         String className = subject.getClass().getSimpleName();
 
         String desc;
@@ -1143,8 +1143,8 @@ public class PhysicsDescriber extends Describer {
      * include them only when there's no user or application data
      * @return descriptive text (not null, not empty)
      */
-    private String describeConstraintInSpace(Constraint constraint,
-            boolean forceIds) {
+    private String describeConstraintInSpace(
+            Constraint constraint, boolean forceIds) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(constraint);
@@ -1226,8 +1226,8 @@ public class PhysicsDescriber extends Describer {
      * include them only when there's no user or application data
      * @return descriptive text (not null, not empty)
      */
-    private String describeSoftJointInSpace(SoftPhysicsJoint joint,
-            boolean forceIds) {
+    private String describeSoftJointInSpace(
+            SoftPhysicsJoint joint, boolean forceIds) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(joint);

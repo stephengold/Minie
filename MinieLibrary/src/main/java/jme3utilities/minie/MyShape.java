@@ -352,8 +352,8 @@ final public class MyShape {
      * @param newHalfExtents (not null, no negative component, unaffected)
      * @return a new shape, or null if not possible
      */
-    public static CollisionShape setHalfExtents(CollisionShape oldShape,
-            Vector3f newHalfExtents) {
+    public static CollisionShape setHalfExtents(
+            CollisionShape oldShape, Vector3f newHalfExtents) {
         Validate.nonNull(oldShape, "old shape");
         Validate.nonNegative(newHalfExtents, "new half extents");
 
@@ -434,8 +434,8 @@ final public class MyShape {
      * @param newHeight the desired unscaled height (&ge;0)
      * @return a new shape
      */
-    public static CollisionShape setHeight(CollisionShape oldShape,
-            float newHeight) {
+    public static CollisionShape setHeight(
+            CollisionShape oldShape, float newHeight) {
         Validate.nonNull(oldShape, "old shape");
         Validate.nonNegative(newHeight, "new height");
 
@@ -486,8 +486,8 @@ final public class MyShape {
      * @param newRadius the desired unscaled radius (&ge;0)
      * @return a new shape
      */
-    public static CollisionShape setRadius(CollisionShape oldShape,
-            float newRadius) {
+    public static CollisionShape setRadius(
+            CollisionShape oldShape, float newRadius) {
         Validate.nonNull(oldShape, "old shape");
         Validate.nonNegative(newRadius, "new radius");
 
