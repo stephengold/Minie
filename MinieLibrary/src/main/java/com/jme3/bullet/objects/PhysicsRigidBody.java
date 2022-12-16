@@ -678,7 +678,7 @@ public class PhysicsRigidBody extends PhysicsBody {
             }
             snapshot = new RigidBodySnapshot(this);
 
-            logger2.log(Level.FINE, "Clearing {0}.", this);
+            logger2.log(Level.INFO, "Clearing {0}.", this);
             clearIgnoreList();
             unassignNativeObject();
         }
@@ -691,7 +691,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         setNativeId(objectId);
         assert getInternalType(objectId) == PcoType.rigid :
                 getInternalType(objectId);
-        logger2.log(Level.FINE, "Created {0}.", this);
+        logger2.log(Level.INFO, "Created {0}.", this);
 
         if (mass != massForStatic) {
             setKinematic(kinematic);
