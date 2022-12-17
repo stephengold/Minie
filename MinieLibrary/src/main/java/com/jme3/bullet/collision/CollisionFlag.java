@@ -73,7 +73,7 @@ final public class CollisionFlag {
      */
     final public static int DISABLE_SPU_COLLISION_PROCESSING = 0x40;
     /**
-     * flag not supported by Minie
+     * indicates that contact damping and/or contact stiffness have been set
      */
     final public static int HAS_CONTACT_STIFFNESS_DAMPING = 0x80;
     /**
