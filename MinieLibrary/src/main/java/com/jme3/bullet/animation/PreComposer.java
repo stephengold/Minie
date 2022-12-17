@@ -37,7 +37,6 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import com.jme3.export.Savable;
 import com.jme3.math.Transform;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
@@ -217,16 +216,8 @@ public class PreComposer extends AbstractControl {
 
         this.haveSaved = capsule.readBoolean(tagHaveSaved, false);
         this.dac = (DacLinks) capsule.readSavable(tagDac, null);
-
-        Savable[] savables = capsule.readSavableArray(tagSavedTransforms, null);
-        if (savables == null) {
-            this.savedTransforms = null;
-        } else {
-            this.savedTransforms = new Transform[savables.length];
-            for (int i = 0; i < savables.length; ++i) {
-                savedTransforms[i] = (Transform) savables[i];
-            }
-        }
+        this.savedTransforms
+                = RagUtils.readTransformArray(capsule, tagSavedTransforms);
     }
 
     /**
