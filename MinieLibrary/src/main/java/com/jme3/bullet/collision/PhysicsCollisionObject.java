@@ -1443,7 +1443,7 @@ abstract public class PhysicsCollisionObject
         setCcdSweptSphereRadius(
                 capsule.readFloat(tagCcdSweptSphereRadius, 0f));
 
-        boolean hasCsd = capsule.readBoolean(tagHasCsd, false);
+        boolean hasCsd = capsule.readBoolean(tagHasCsd, true);
         if (hasCsd) {
             setContactDamping(capsule.readFloat(tagContactDamping, 0.1f));
         }
@@ -1635,7 +1635,7 @@ abstract public class PhysicsCollisionObject
         int flags = collisionFlags();
         boolean hasCsd
                 = (flags & CollisionFlag.HAS_CONTACT_STIFFNESS_DAMPING) != 0;
-        capsule.write(hasCsd, tagHasCsd, false);
+        capsule.write(hasCsd, tagHasCsd, true);
         capsule.write(getContactDamping(), tagContactDamping, 0.1f);
         capsule.write(getContactProcessingThreshold(),
                 tagContactProcessingThreshold, 0f);
