@@ -32,6 +32,7 @@
 package com.jme3.bullet.objects.infos;
 
 import com.jme3.bullet.collision.AfMode;
+import com.jme3.bullet.collision.CollisionFlag;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
@@ -91,7 +92,7 @@ public class RigidBodySnapshot {
     /**
      * contact damping
      */
-    final private float contactDamping;
+    private Float contactDamping;
     /**
      * contact processing threshold (in physics-space units)
      */
@@ -99,7 +100,7 @@ public class RigidBodySnapshot {
     /**
      * contact stiffness
      */
-    final private float contactStiffness;
+    private Float contactStiffness;
     /**
      * deactivation time (in seconds)
      */
@@ -181,6 +182,10 @@ public class RigidBodySnapshot {
      * @param body the body to capture (not null)
      */
     public RigidBodySnapshot(PhysicsRigidBody body) {
+        int flags = body.collisionFlags();
+        boolean hasCsd
+                = (flags & CollisionFlag.HAS_CONTACT_STIFFNESS_DAMPING) != 0;
+
         // boolean
         this.contactResponse = body.isContactResponse();
         this.protectGravity = body.isGravityProtected();
@@ -190,9 +195,13 @@ public class RigidBodySnapshot {
         this.angularSleepingThreshold = body.getAngularSleepingThreshold();
         this.ccdMotionThreshold = body.getCcdMotionThreshold();
         this.ccdSweptSphereRadius = body.getCcdSweptSphereRadius();
-        this.contactDamping = body.getContactDamping();
+        if (hasCsd) {
+            this.contactDamping = body.getContactDamping();
+        }
         this.contactProcessingThreshold = body.getContactProcessingThreshold();
-        this.contactStiffness = body.getContactStiffness();
+        if (hasCsd) {
+            this.contactStiffness = body.getContactStiffness();
+        }
         this.deactivationTime = body.getDeactivationTime();
         this.friction = body.getFriction();
         this.linearDamping = body.getLinearDamping();
@@ -248,9 +257,13 @@ public class RigidBodySnapshot {
         body.setAngularSleepingThreshold(angularSleepingThreshold);
         body.setCcdMotionThreshold(ccdMotionThreshold);
         body.setCcdSweptSphereRadius(ccdSweptSphereRadius);
-        body.setContactDamping(contactDamping);
+        if (contactDamping != null) {
+            body.setContactDamping(contactDamping);
+        }
         body.setContactProcessingThreshold(contactProcessingThreshold);
-        body.setContactStiffness(contactStiffness);
+        if (contactStiffness != null) {
+            body.setContactStiffness(contactStiffness);
+        }
         // deactivation time is set below
         body.setFriction(friction);
         body.setLinearDamping(linearDamping);

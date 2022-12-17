@@ -170,6 +170,7 @@ abstract public class PhysicsCollisionObject
     final private static String tagDebugMaterial = "debugMaterial";
     final private static String tagDebugMeshNormals = "debugMeshNormals";
     final private static String tagDebugMeshResolution = "debugMeshResolution";
+    final private static String tagHasCsd = "hasCsd";
     final private static String tagFriction = "friction";
     final private static String tagIgnoreList = "ignoreList";
     final private static String tagRestitution = "restitution";
@@ -340,11 +341,19 @@ abstract public class PhysicsCollisionObject
         assert old.hasAssignedNativeObject();
         assert old.nativeId() != nativeId();
 
+        int flags = old.collisionFlags();
+        boolean hasCsd
+                = (flags & CollisionFlag.HAS_CONTACT_STIFFNESS_DAMPING) != 0;
+
         setCcdMotionThreshold(old.getCcdMotionThreshold());
         setCcdSweptSphereRadius(old.getCcdSweptSphereRadius());
-        setContactDamping(old.getContactDamping());
+        if (hasCsd) {
+            setContactDamping(old.getContactDamping());
+        }
         setContactProcessingThreshold(old.getContactProcessingThreshold());
-        setContactStiffness(old.getContactStiffness());
+        if (hasCsd) {
+            setContactStiffness(old.getContactStiffness());
+        }
         setDeactivationTime(old.getDeactivationTime());
         setFriction(old.getFriction());
         setRestitution(old.getRestitution());
@@ -1433,10 +1442,16 @@ abstract public class PhysicsCollisionObject
         setCcdMotionThreshold(capsule.readFloat(tagCcdMotionThreshold, 0f));
         setCcdSweptSphereRadius(
                 capsule.readFloat(tagCcdSweptSphereRadius, 0f));
-        setContactDamping(capsule.readFloat(tagContactDamping, 0.1f));
+
+        boolean hasCsd = capsule.readBoolean(tagHasCsd, false);
+        if (hasCsd) {
+            setContactDamping(capsule.readFloat(tagContactDamping, 0.1f));
+        }
         setContactProcessingThreshold(
                 capsule.readFloat(tagContactProcessingThreshold, 0f));
-        setContactStiffness(capsule.readFloat(tagContactStiffness, 1e30f));
+        if (hasCsd) {
+            setContactStiffness(capsule.readFloat(tagContactStiffness, 1e30f));
+        }
         setDeactivationTime(capsule.readFloat(tagDeactivationTime, 0f));
         setFriction(capsule.readFloat(tagFriction, 0.5f));
         setRestitution(capsule.readFloat(tagRestitution, 0f));
@@ -1616,6 +1631,11 @@ abstract public class PhysicsCollisionObject
         // common properties
         capsule.write(getCcdMotionThreshold(), tagCcdMotionThreshold, 0f);
         capsule.write(getCcdSweptSphereRadius(), tagCcdSweptSphereRadius, 0f);
+
+        int flags = collisionFlags();
+        boolean hasCsd
+                = (flags & CollisionFlag.HAS_CONTACT_STIFFNESS_DAMPING) != 0;
+        capsule.write(hasCsd, tagHasCsd, false);
         capsule.write(getContactDamping(), tagContactDamping, 0.1f);
         capsule.write(getContactProcessingThreshold(),
                 tagContactProcessingThreshold, 0f);
