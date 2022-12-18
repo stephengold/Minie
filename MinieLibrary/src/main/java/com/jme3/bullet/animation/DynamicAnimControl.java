@@ -939,12 +939,13 @@ public class DynamicAnimControl
         InputCapsule capsule = importer.getCapsule(this);
 
         // isReady and collisionListeners not read
-        ikJoints = capsule.readSavableArrayList(tagIkJoints, new ArrayList(1));
-        ragdollMass = capsule.readFloat(tagRagdollMass, 1f);
-        centerLocation = (Vector3f) capsule.readSavable(
-                tagCenterLocation, new Vector3f());
-        centerVelocity = (Vector3f) capsule.readSavable(
-                tagCenterVelocity, new Vector3f());
+        this.ikJoints = capsule
+                .readSavableArrayList(tagIkJoints, new ArrayList(1));
+        this.ragdollMass = capsule.readFloat(tagRagdollMass, 1f);
+        this.centerLocation = (Vector3f) capsule
+                .readSavable(tagCenterLocation, new Vector3f());
+        this.centerVelocity = (Vector3f) capsule
+                .readSavable(tagCenterVelocity, new Vector3f());
     }
 
     /**
@@ -1155,6 +1156,6 @@ public class DynamicAnimControl
         float invMass = (float) (1.0 / massSum);
         locationSum.mult(invMass, centerLocation);
         velocitySum.mult(invMass, centerVelocity);
-        ragdollMass = (float) massSum;
+        this.ragdollMass = (float) massSum;
     }
 }

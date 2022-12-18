@@ -249,7 +249,7 @@ public class BoneLink extends PhysicsLink {
 
         this.startBoneTransforms = new Transform[numManaged];
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
-            startBoneTransforms[managedIndex] = new Transform();
+            this.startBoneTransforms[managedIndex] = new Transform();
         }
     }
 
@@ -360,13 +360,13 @@ public class BoneLink extends PhysicsLink {
 
         super.postRebuildLink(oldLink);
         if (oldLink.isKinematic()) {
-            submode = oldLink.submode;
+            this.submode = oldLink.submode;
         } else {
-            submode = KinematicSubmode.Frozen;
+            this.submode = KinematicSubmode.Frozen;
         }
 
         if (prevBoneTransforms == null) {
-            prevBoneTransforms = new Transform[numManaged];
+            this.prevBoneTransforms = new Transform[numManaged];
             for (int managedI = 0; managedI < numManaged; ++managedI) {
                 prevBoneTransforms[managedI] = new Transform();
             }
@@ -626,7 +626,7 @@ public class BoneLink extends PhysicsLink {
         } else {
             this.managedArmatureJoints = new Joint[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
-                managedArmatureJoints[managedI] = (Joint) tmp[managedI];
+                this.managedArmatureJoints[managedI] = (Joint) tmp[managedI];
             }
         }
 
@@ -636,7 +636,7 @@ public class BoneLink extends PhysicsLink {
         } else {
             this.managedBones = new Bone[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
-                managedBones[managedI] = (Bone) tmp[managedI];
+                this.managedBones[managedI] = (Bone) tmp[managedI];
             }
         }
 
@@ -696,7 +696,7 @@ public class BoneLink extends PhysicsLink {
             this.prevBoneTransforms = new Transform[numManaged];
             for (int managedI = 0; managedI < numManaged; ++managedI) {
                 Transform boneTransform = copyManagedTransform(managedI, null);
-                prevBoneTransforms[managedI] = boneTransform;
+                this.prevBoneTransforms[managedI] = boneTransform;
             }
         }
 

@@ -613,7 +613,7 @@ public class TorsoLink extends PhysicsLink {
             this.prevBoneTransforms = new Transform[numManaged];
             for (int managedI = 0; managedI < numManaged; ++managedI) {
                 Transform boneTransform = copyManagedTransform(managedI, null);
-                prevBoneTransforms[managedI] = boneTransform;
+                this.prevBoneTransforms[managedI] = boneTransform;
             }
         }
 
