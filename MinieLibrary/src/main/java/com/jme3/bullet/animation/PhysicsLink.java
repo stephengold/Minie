@@ -550,7 +550,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * @param storeResult storage for the result (modified if not null)
      * @return a new velocity vector (psu/sec in physics-space coordinates)
      */
-    Vector3f velocity(Vector3f storeResult) {
+    public Vector3f velocity(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
         if (isKinematic()) {
             result.set(kpVelocity);
