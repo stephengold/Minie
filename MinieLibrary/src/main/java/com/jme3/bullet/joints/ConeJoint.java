@@ -295,15 +295,7 @@ public class ConeJoint extends Constraint {
         createJoint();
 
         ConeJoint old = (ConeJoint) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableJoint = old.isEnabled();
-        setEnabled(enableJoint);
-
-        int numIterations = old.getOverrideIterations();
-        overrideIterations(numIterations);
+        copyConstraintProperties(old);
     }
 
     /**

@@ -895,15 +895,7 @@ public class SliderJoint extends Constraint {
         createJoint();
 
         SliderJoint old = (SliderJoint) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableJoint = old.isEnabled();
-        setEnabled(enableJoint);
-
-        int numIterations = old.getOverrideIterations();
-        overrideIterations(numIterations);
+        copyConstraintProperties(old);
 
         setDampingDirAng(old.getDampingDirAng());
         setDampingDirLin(old.getDampingDirLin());

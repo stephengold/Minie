@@ -646,15 +646,7 @@ public class New6Dof extends Constraint {
         createConstraint();
 
         New6Dof old = (New6Dof) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableConstraint = old.isEnabled();
-        setEnabled(enableConstraint);
-
-        int numIterations = old.getOverrideIterations();
-        overrideIterations(numIterations);
+        copyConstraintProperties(old);
 
         for (int i = 0; i < MyVector3f.numAxes; ++i) {
             RotationMotor motor = getRotationMotor(i);

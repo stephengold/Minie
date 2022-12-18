@@ -433,15 +433,7 @@ public class HingeJoint extends Constraint {
         setAngularOnly(angularOnly);
 
         HingeJoint old = (HingeJoint) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableJoint = old.isEnabled();
-        setEnabled(enableJoint);
-
-        int numIterations = old.getOverrideIterations();
-        overrideIterations(numIterations);
+        copyConstraintProperties(old);
 
         float low = old.getLowerLimit();
         float high = old.getUpperLimit();

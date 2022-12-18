@@ -417,6 +417,26 @@ abstract public class Constraint extends PhysicsJoint {
     // new protected methods
 
     /**
+     * Copy common properties from another constraint. Used during
+     * cloning.
+     *
+     * @param old (not null, unaffected)
+     */
+    final protected void copyConstraintProperties(Constraint old) {
+        assert old.hasAssignedNativeObject();
+        assert old.nativeId() != nativeId();
+
+        float bit = old.getBreakingImpulseThreshold();
+        setBreakingImpulseThreshold(bit);
+
+        boolean enableConstraint = old.isEnabled();
+        setEnabled(enableConstraint);
+
+        int numIterations = old.getOverrideIterations();
+        overrideIterations(numIterations);
+    }
+
+    /**
      * Read the constraint type.
      *
      * @param constraintId identifier of the {@code btTypedConstraint} (not

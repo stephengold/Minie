@@ -220,15 +220,7 @@ public class Point2PointJoint extends Constraint {
         createJoint();
 
         Point2PointJoint old = (Point2PointJoint) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableJoint = old.isEnabled();
-        setEnabled(enableJoint);
-
-        int numIterations = old.getOverrideIterations();
-        overrideIterations(numIterations);
+        copyConstraintProperties(old);
 
         setDamping(old.getDamping());
         setImpulseClamp(old.getImpulseClamp());

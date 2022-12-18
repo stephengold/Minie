@@ -267,15 +267,7 @@ public class GearJoint extends Constraint {
         createJoint();
 
         GearJoint old = (GearJoint) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableJoint = old.isEnabled();
-        setEnabled(enableJoint);
-
-        int numIterations = old.getOverrideIterations();
-        overrideIterations(numIterations);
+        copyConstraintProperties(old);
     }
 
     /**

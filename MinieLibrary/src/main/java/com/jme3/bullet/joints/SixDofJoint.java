@@ -517,15 +517,7 @@ public class SixDofJoint extends Constraint {
         this.linearUpperLimit = cloner.clone(linearUpperLimit);
 
         SixDofJoint old = (SixDofJoint) original;
-
-        float bit = old.getBreakingImpulseThreshold();
-        setBreakingImpulseThreshold(bit);
-
-        boolean enableJoint = old.isEnabled();
-        setEnabled(enableJoint);
-
-        int numIterations = old.getOverrideIterations();
-        overrideIterations(numIterations);
+        copyConstraintProperties(old);
 
         setAngularLowerLimit(old.getAngularLowerLimit(null));
         setAngularUpperLimit(old.getAngularUpperLimit(null));
