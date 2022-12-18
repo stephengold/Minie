@@ -89,7 +89,7 @@ abstract public class PhysicsJoint
     // constructors
 
     /**
-     * No-argument constructor needed by SavableClassUtil.
+     * A no-argument constructor to avoid javadoc warnings from JDK 18.
      */
     protected PhysicsJoint() {
     }

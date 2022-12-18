@@ -139,8 +139,8 @@ public class TorsoLink extends PhysicsLink {
      *
      * @param control the Control that will manage this link (not null, alias
      * created)
-     * @param mainRootBone the root bone with the most animation weight (not
-     * null, alias created)
+     * @param mainRootBone the main bone, or if not configured then then root
+     * bone with the most animation weight (not null, alias created)
      * @param collisionShape the desired shape (not null, alias created)
      * @param linkConfig the link configuration (not null)
      * @param meshToModel the transform from mesh coordinates to model
@@ -169,8 +169,9 @@ public class TorsoLink extends PhysicsLink {
      *
      * @param control the Control that will manage this link (not null, alias
      * created)
-     * @param mainRootJoint the root armature joint with the most mesh weight
-     * (not null, alias created)
+     * @param mainRootJoint the main armature joint, or if not configured then
+     * the root armature joint with the most animation weight (not null, alias
+     * created)
      * @param collisionShape the desired shape (not null, alias created)
      * @param linkConfig the link configuration (not null)
      * @param meshToModel the transform from mesh coordinates to model
