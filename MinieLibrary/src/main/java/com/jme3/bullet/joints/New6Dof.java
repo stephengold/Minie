@@ -191,54 +191,6 @@ public class New6Dof extends Constraint {
     // new methods exposed
 
     /**
-     * Compare Bullet's rotation order to the local copy.
-     *
-     * @return true if rotation orders are identical, otherwise false
-     */
-    public boolean checkRotationOrder() {
-        long constraintId = nativeId();
-        int rotOrder = getRotationOrder(constraintId);
-        boolean result = rotOrder == rotationOrder.ordinal();
-
-        return result;
-    }
-
-    /**
-     * Calculate the constraint's rotation angles.
-     *
-     * @param storeResult storage for the result (modified if not null)
-     * @return the rotation angle for each local axis (in radians, either
-     * storeResult or a new vector, not null)
-     */
-    public Vector3f getAngles(Vector3f storeResult) {
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-
-        long constraintId = nativeId();
-        getAngles(constraintId, result);
-
-        return result;
-    }
-
-    /**
-     * Calculate the indexed axis of the Constraint.
-     *
-     * @param axisIndex the axis index of the desired motor: 0&rarr;X, 1&rarr;Y,
-     * 2&rarr;Z
-     * @param storeResult storage for the result (modified if not null)
-     * @return the rotation angle for each local axis (in radians, either
-     * storeResult or a new vector, not null)
-     */
-    public Vector3f getAxis(int axisIndex, Vector3f storeResult) {
-        Validate.axisIndex(axisIndex, "axis index");
-        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
-
-        long constraintId = nativeId();
-        getAxis(constraintId, axisIndex, result);
-
-        return result;
-    }
-
-    /**
      * Determine the translation component of the global transform of the offset
      * for body A.
      *
@@ -273,28 +225,14 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Copy the constraint's frame transform relative to the specified end.
+     * Compare Bullet's rotation order to the local copy.
      *
-     * @param end which end (not null)
-     * @param storeResult storage for the result (modified if not null)
-     * @return the transform of the constraint space relative to the end
+     * @return true if rotation orders are identical, otherwise false
      */
-    public Transform getFrameTransform(JointEnd end, Transform storeResult) {
-        Transform result
-                = (storeResult == null) ? new Transform() : storeResult;
-
+    public boolean checkRotationOrder() {
         long constraintId = nativeId();
-        switch (end) {
-            case A:
-                getFrameOffsetA(constraintId, result);
-                break;
-            case B:
-                getFrameOffsetB(constraintId, result);
-                break;
-            default:
-                String message = "end = " + end;
-                throw new IllegalArgumentException(message);
-        }
+        int rotOrder = getRotationOrder(constraintId);
+        boolean result = (rotOrder == rotationOrder.ordinal());
 
         return result;
     }
@@ -335,6 +273,68 @@ public class New6Dof extends Constraint {
             TranslationMotor motor = getTranslationMotor();
             Vector3f vector = motor.get(parameter, null); // TODO garbage
             result = vector.get(dofIndex);
+        }
+
+        return result;
+    }
+
+    /**
+     * Calculate the constraint's rotation angles.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the rotation angle for each local axis (in radians, either
+     * storeResult or a new vector, not null)
+     */
+    public Vector3f getAngles(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long constraintId = nativeId();
+        getAngles(constraintId, result);
+
+        return result;
+    }
+
+    /**
+     * Calculate the indexed axis of the Constraint.
+     *
+     * @param axisIndex the axis index of the desired motor: 0&rarr;X, 1&rarr;Y,
+     * 2&rarr;Z
+     * @param storeResult storage for the result (modified if not null)
+     * @return the rotation angle for each local axis (in radians, either
+     * storeResult or a new vector, not null)
+     */
+    public Vector3f getAxis(int axisIndex, Vector3f storeResult) {
+        Validate.axisIndex(axisIndex, "axis index");
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+
+        long constraintId = nativeId();
+        getAxis(constraintId, axisIndex, result);
+
+        return result;
+    }
+
+    /**
+     * Copy the constraint's frame transform relative to the specified end.
+     *
+     * @param end which end (not null)
+     * @param storeResult storage for the result (modified if not null)
+     * @return the transform of the constraint space relative to the end
+     */
+    public Transform getFrameTransform(JointEnd end, Transform storeResult) {
+        Transform result
+                = (storeResult == null) ? new Transform() : storeResult;
+
+        long constraintId = nativeId();
+        switch (end) {
+            case A:
+                getFrameOffsetA(constraintId, result);
+                break;
+            case B:
+                getFrameOffsetB(constraintId, result);
+                break;
+            default:
+                String message = "end = " + end;
+                throw new IllegalArgumentException(message);
         }
 
         return result;
