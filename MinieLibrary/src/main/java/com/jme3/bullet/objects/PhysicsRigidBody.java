@@ -1433,10 +1433,10 @@ public class PhysicsRigidBody extends PhysicsBody {
         capsule.write(getInverseInertiaLocal(null), tagInverseInertia, null);
         capsule.write(getLinearDamping(), tagLinearDamping, 0f);
         capsule.write(getAngularDamping(), tagAngularDamping, 0f);
-        capsule.write(getLinearSleepingThreshold(), tagLinearSleepingThreshold,
-                0.8f);
-        capsule.write(getAngularSleepingThreshold(),
-                tagAngularSleepingThreshold, 1f);
+        capsule.write(
+                getLinearSleepingThreshold(), tagLinearSleepingThreshold, 0.8f);
+        capsule.write(
+                getAngularSleepingThreshold(), tagAngularSleepingThreshold, 1f);
         capsule.write(isGravityProtected(), tagProtectGravity, false);
 
         capsule.write(getPhysicsLocation(null), tagPhysicsLocation, null);

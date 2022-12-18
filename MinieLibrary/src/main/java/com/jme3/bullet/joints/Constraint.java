@@ -417,8 +417,7 @@ abstract public class Constraint extends PhysicsJoint {
     // new protected methods
 
     /**
-     * Copy common properties from another constraint. Used during
-     * cloning.
+     * Copy common properties from another constraint. Used during cloning.
      *
      * @param old (not null, unaffected)
      */

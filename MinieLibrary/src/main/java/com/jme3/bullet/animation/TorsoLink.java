@@ -453,9 +453,7 @@ public class TorsoLink extends PhysicsLink {
                 Quaternion endQuat = transform.getRotation(); // alias
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
-                }
-                // TODO smarter sign flipping
-
+                } // TODO smarter sign flipping
                 MyQuaternion.normalizeLocal(endQuat);
                 MyMath.slerp(kinematicWeight(), start, transform, transform);
 
@@ -556,10 +554,10 @@ public class TorsoLink extends PhysicsLink {
                 .readSavable(tagMeshToModel, new Transform());
         this.startModelTransform = (Transform) capsule
                 .readSavable(tagStartModelTransform, new Transform());
-        this.prevBoneTransforms = RagUtils
-                .readTransformArray(capsule, tagPrevBoneTransforms);
-        this.startBoneTransforms = RagUtils
-                .readTransformArray(capsule, tagStartBoneTransforms);
+        this.prevBoneTransforms
+                = RagUtils.readTransformArray(capsule, tagPrevBoneTransforms);
+        this.startBoneTransforms
+                = RagUtils.readTransformArray(capsule, tagStartBoneTransforms);
     }
 
     /**

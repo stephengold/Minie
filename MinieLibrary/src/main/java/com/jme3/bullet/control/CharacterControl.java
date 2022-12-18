@@ -274,8 +274,8 @@ public class CharacterControl extends AbstractPhysicsControl {
 
         this.character
                 = (PhysicsCharacter) capsule.readSavable(tagCharacter, null);
-        this.viewDirection = (Vector3f) capsule.readSavable(
-                tagViewDirection, new Vector3f(0f, 0f, 1f));
+        this.viewDirection = (Vector3f) capsule
+                .readSavable(tagViewDirection, new Vector3f(0f, 0f, 1f));
 
         if (character != null) {
             Spatial controlled = getSpatial();

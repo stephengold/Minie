@@ -840,8 +840,8 @@ public class PhysicsDescriber extends Describer {
      * include them only when there's no user or application data
      * @return descriptive text (not null, not empty)
      */
-    public String describeJointInBody(PhysicsJoint joint, PhysicsBody body,
-            boolean forceId) {
+    public String describeJointInBody(
+            PhysicsJoint joint, PhysicsBody body, boolean forceId) {
         StringBuilder result = new StringBuilder(80);
 
         String desc = describe(joint);

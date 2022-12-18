@@ -640,8 +640,8 @@ public class BoneLink extends PhysicsLink {
             }
         }
 
-        this.submode = capsule.readEnum(tagSubmode, KinematicSubmode.class,
-                KinematicSubmode.Animated);
+        this.submode = capsule.readEnum(
+                tagSubmode, KinematicSubmode.class, KinematicSubmode.Animated);
         this.prevBoneTransforms
                 = RagUtils.readTransformArray(capsule, tagPrevBoneTransforms);
         this.startBoneTransforms

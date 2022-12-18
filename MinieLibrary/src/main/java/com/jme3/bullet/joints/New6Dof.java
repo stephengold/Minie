@@ -708,8 +708,8 @@ public class New6Dof extends Constraint {
 
         this.rotA = (Matrix3f) capsule.readSavable(tagRotA, null);
         this.rotB = (Matrix3f) capsule.readSavable(tagRotB, null);
-        this.rotationOrder = capsule.readEnum(tagRotOrder, RotationOrder.class,
-                RotationOrder.XYZ);
+        this.rotationOrder = capsule
+                .readEnum(tagRotOrder, RotationOrder.class, RotationOrder.XYZ);
 
         createConstraint();
         readConstraintProperties(capsule);
@@ -868,8 +868,7 @@ public class New6Dof extends Constraint {
             b.setPhysicsLocation(saveLocation);
             b.setPhysicsRotation(saveRotation);
 
-        } else {
-            // Create a double-ended constraint.
+        } else { // Create a double-ended constraint.
             long aId = a.nativeId();
             constraintId = createDoubleEnded(
                     aId, bId, pivotA, rotA, pivotB, rotB, rotOrder);
