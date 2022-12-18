@@ -704,8 +704,9 @@ public class PhysicsDescriber extends Describer {
         if (hi < lo) {
             result.append(" free");
         } else if (hi == lo) {
-            result.append(" locked=");
+            result.append(" lock[");
             result.append(MyString.describe(lo));
+            result.append(']');
         } else {
             result.append(" lo=");
             result.append(MyString.describe(lo));
@@ -866,7 +867,7 @@ public class PhysicsDescriber extends Describer {
         if (otherBody == null) {
             result.append(" single-ended");
         } else {
-            result.append(" to:");
+            result.append(" to");
             appendPco(result, otherBody, forceId);
         }
 
@@ -1076,6 +1077,7 @@ public class PhysicsDescriber extends Describer {
                 builder.append(desc);
             } else {
                 desc = pco.getClass().getSimpleName();
+                desc = desc.replace("Body", "");
                 desc = desc.replace("Control", "C");
                 desc = desc.replace("Physics", "");
                 desc = desc.replace("Object", "");
