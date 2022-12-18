@@ -304,9 +304,14 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Replace the rigid body for this link.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#velocity(com.jme3.math.Vector3f)" class="member-name-link">velocity</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy the body's linear velocity, or an estimate thereof.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this link to the specified exporter, for example when saving to
  a J3O file.</div>
 </div>
@@ -597,6 +602,19 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>setRagdollMode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRagdollMode</span>()</div>
 <div class="block">Immediately put this link (and all its controllers) into ragdoll mode.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="velocity(com.jme3.math.Vector3f)">
+<h3>velocity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">velocity</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
+<div class="block">Copy the body's linear velocity, or an estimate thereof.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt>Returns:</dt>
+<dd>a new velocity vector (psu/sec in physics-space coordinates)</dd>
+</dl>
 </section>
 </li>
 <li>
