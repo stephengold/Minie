@@ -420,6 +420,75 @@ public class PhysicsDumper extends Dumper {
     }
 
     /**
+     * Dump the specified PhysicsJoint in a PhysicsSpace context.
+     *
+     * @param joint the joint to dump (not null, unaffected)
+     * @param indent (not null)
+     */
+    public void dump(PhysicsJoint joint, String indent) {
+        Validate.nonNull(joint, "joint");
+        Validate.nonNull(indent, "indent");
+
+        String moreIndent = indent + indentIncrement();
+        addLine(moreIndent);
+        PhysicsDescriber describer = getDescriber();
+        String desc
+                = describer.describeJointInSpace(joint, dumpNativeIDs);
+        stream.print(desc);
+
+        String mmIndent = moreIndent + indentIncrement();
+        if (joint instanceof SixDofJoint) {
+            SixDofJoint sixDof = (SixDofJoint) joint;
+
+            desc = describer.describeAngular(sixDof);
+            stream.printf("%n%s %s", moreIndent, desc);
+            desc = describer.describeLinear(sixDof);
+            stream.printf("%n%s %s", moreIndent, desc);
+
+            if (dumpMotors) {
+                for (int axisI = 0; axisI < MyVector3f.numAxes; ++axisI) {
+                    String axisName = MyString.axisName(axisI);
+                    stream.printf("%n%srot%s: ", mmIndent, axisName);
+                    RotationalLimitMotor motor
+                            = sixDof.getRotationalLimitMotor(axisI);
+                    desc = describer.describe(motor);
+                    stream.print(desc);
+                }
+
+                TranslationalLimitMotor motor
+                        = sixDof.getTranslationalLimitMotor();
+                for (int axisI = 0; axisI < MyVector3f.numAxes; ++axisI) {
+                    String axisName = MyString.axisName(axisI);
+                    stream.printf("%n%stra%s: ", mmIndent, axisName);
+                    desc = describer.describe(motor, axisI);
+                    stream.print(desc);
+                }
+            }
+
+        } else if (joint instanceof New6Dof) {
+            New6Dof sixDof = (New6Dof) joint;
+
+            desc = sixDof.getRotationOrder().toString();
+            stream.printf("%n%s rotOrder=%s", moreIndent, desc);
+            Vector3f angles = sixDof.getAngles(null);
+            stream.printf(" angles[%s]", MyVector3f.describe(angles));
+            Vector3f offset = sixDof.getPivotOffset(null);
+            stream.printf(" offset[%s]", MyVector3f.describe(offset));
+
+            if (dumpMotors) {
+                for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
+                    int axisIndex = dofIndex % MyVector3f.numAxes;
+                    String dofName = (dofIndex < 3) ? "tra" : "rot";
+                    dofName += MyString.axisName(axisIndex);
+                    stream.printf("%n%s%s: ", mmIndent, dofName);
+                    desc = describer.describeDof(sixDof, dofIndex);
+                    stream.print(desc);
+                }
+            }
+        }
+    }
+
+    /**
      * Dump the specified PhysicsRigidBody.
      *
      * @param body the rigid body to dump (not null, unaffected)
@@ -1367,66 +1436,9 @@ public class PhysicsDumper extends Dumper {
      */
     private void dumpJoints(Collection<PhysicsJoint> joints, String indent,
             BulletDebugAppState.DebugAppStateFilter filter) {
-        PhysicsDescriber describer = getDescriber();
-        String moreIndent = indent + indentIncrement();
-        String mmIndent = moreIndent + indentIncrement();
-
         for (PhysicsJoint joint : joints) {
             if (filter == null || filter.displayObject(joint)) {
-                addLine(moreIndent);
-                String desc
-                        = describer.describeJointInSpace(joint, dumpNativeIDs);
-                stream.print(desc);
-
-                if (joint instanceof SixDofJoint) {
-                    SixDofJoint sixDof = (SixDofJoint) joint;
-
-                    desc = describer.describeAngular(sixDof);
-                    stream.printf("%n%s %s", moreIndent, desc);
-                    desc = describer.describeLinear(sixDof);
-                    stream.printf("%n%s %s", moreIndent, desc);
-
-                    if (dumpMotors) {
-                        for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
-                            String axisName = MyString.axisName(axisIndex);
-                            stream.printf("%n%srot%s: ", mmIndent, axisName);
-                            RotationalLimitMotor motor
-                                    = sixDof.getRotationalLimitMotor(axisIndex);
-                            desc = describer.describe(motor);
-                            stream.print(desc);
-                        }
-
-                        TranslationalLimitMotor motor
-                                = sixDof.getTranslationalLimitMotor();
-                        for (int axisIndex = 0; axisIndex < 3; ++axisIndex) {
-                            String axisName = MyString.axisName(axisIndex);
-                            stream.printf("%n%stra%s: ", mmIndent, axisName);
-                            desc = describer.describe(motor, axisIndex);
-                            stream.print(desc);
-                        }
-                    }
-
-                } else if (joint instanceof New6Dof) {
-                    New6Dof sixDof = (New6Dof) joint;
-
-                    desc = sixDof.getRotationOrder().toString();
-                    stream.printf("%n%s rotOrder=%s", moreIndent, desc);
-                    Vector3f angles = sixDof.getAngles(null);
-                    stream.printf(" angles[%s]", MyVector3f.describe(angles));
-                    Vector3f offset = sixDof.getPivotOffset(null);
-                    stream.printf(" offset[%s]", MyVector3f.describe(offset));
-
-                    if (dumpMotors) {
-                        for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
-                            int axisIndex = dofIndex % 3;
-                            String dofName = (dofIndex < 3) ? "tra" : "rot";
-                            dofName += MyString.axisName(axisIndex);
-                            stream.printf("%n%s%s: ", mmIndent, dofName);
-                            desc = describer.describeDof(sixDof, dofIndex);
-                            stream.print(desc);
-                        }
-                    }
-                }
+                dump(joint, indent);
             }
         }
     }
