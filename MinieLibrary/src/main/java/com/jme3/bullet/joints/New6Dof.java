@@ -357,6 +357,28 @@ public class New6Dof extends Constraint {
     }
 
     /**
+     * Copy the the orientation of the constraint in the specified end's
+     * coordinate system.
+     *
+     * @param end which end (not null)
+     * @param storeResult storage for the result (modified if not null)
+     * @return a rotation matrix (either storeResult or a new instance)
+     */
+    public Matrix3f getRotationMatrix(JointEnd end, Matrix3f storeResult) {
+        Validate.nonNull(end, "end");
+        Matrix3f result = (storeResult == null) ? new Matrix3f() : storeResult;
+
+        if (end == JointEnd.A) {
+            result.set(rotA);
+        } else {
+            assert end == JointEnd.B : end;
+            result.set(rotB);
+        }
+
+        return result;
+    }
+
+    /**
      * Access the indexed RotationMotor of this constraint, the motor which
      * influences rotation around the indexed axis.
      *
