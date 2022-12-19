@@ -68,6 +68,7 @@ import com.jme3.bullet.objects.infos.Sbcp;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.material.Material;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -935,6 +936,36 @@ public class PhysicsDescriber extends Describer {
         Vector3f hi = joint.getLinearUpperLimit(new Vector3f());
         result.append(MyVector3f.describe(hi));
         result.append(']');
+
+        return result.toString();
+    }
+
+    /**
+     * Generate a textual description of a Matrix3f value. TODO move to MyMath
+     *
+     * @param matrix the value to describe (may be null, unaffected)
+     * @return a description (not null, not empty)
+     */
+    static String describeMatrix(Matrix3f matrix) {
+        if (matrix == null) {
+            return "null";
+        }
+
+        StringBuilder result = new StringBuilder(80);
+        for (int row = 0; row < 3; ++row) {
+            for (int column = 0; column < 3; ++column) {
+                float element = matrix.get(row, column);
+                String desc = MyString.describe(element);
+                result.append(desc);
+
+                if (row < 2 || column < 2) {
+                    result.append(' ');
+                }
+            }
+            if (row < 2) { // Add an extra space between rows.
+                result.append(' ');
+            }
+        }
 
         return result.toString();
     }
