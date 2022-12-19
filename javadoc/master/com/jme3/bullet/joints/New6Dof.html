@@ -468,6 +468,36 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="calculatedOriginA(com.jme3.math.Vector3f)">
+<h3>calculatedOriginA</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">calculatedOriginA</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
+<div class="block">Determine the translation component of the global transform of the offset
+ for body A.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt>Returns:</dt>
+<dd>the origin location (either storeResult or a new vector, not
+ null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="calculatedOriginB(com.jme3.math.Vector3f)">
+<h3>calculatedOriginB</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">calculatedOriginB</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
+<div class="block">Determine the translation component of the global transform of the offset
+ for body B.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt>Returns:</dt>
+<dd>the origin location (either storeResult or a new vector, not
+ null)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="checkRotationOrder()">
 <h3>checkRotationOrder</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">checkRotationOrder</span>()</div>
@@ -475,6 +505,38 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if rotation orders are identical, otherwise false</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="enableSpring(int,boolean)">
+<h3>enableSpring</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">enableSpring</span><wbr><span class="parameters">(int&nbsp;dofIndex,
+ boolean&nbsp;onOff)</span></div>
+<div class="block">Enable or disable the spring for the indexed degree of freedom.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>dofIndex</code> - which degree of freedom (0&rarr;X translation, 1&rarr;Y
+ translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+ 5&rarr;Z rotation)</dd>
+<dd><code>onOff</code> - true &rarr; enable, false &rarr; disable (default=false)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="get(com.jme3.bullet.joints.motors.MotorParam,int)">
+<h3>get</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="motors/MotorParam.html" title="enum class in com.jme3.bullet.joints.motors">MotorParam</a>&nbsp;parameter,
+ int&nbsp;dofIndex)</span></div>
+<div class="block">Read the specified parameter of the indexed degree of freedom.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>parameter</code> - which parameter (not null)</dd>
+<dd><code>dofIndex</code> - which degree of freedom (0&rarr;X translation, 1&rarr;Y
+ translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
+ 5&rarr;Z rotation)</dd>
+<dt>Returns:</dt>
+<dd>the parameter value</dd>
 </dl>
 </section>
 </li>
@@ -510,36 +572,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="calculatedOriginA(com.jme3.math.Vector3f)">
-<h3>calculatedOriginA</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">calculatedOriginA</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Determine the translation component of the global transform of the offset
- for body A.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
-<dt>Returns:</dt>
-<dd>the origin location (either storeResult or a new vector, not
- null)</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="calculatedOriginB(com.jme3.math.Vector3f)">
-<h3>calculatedOriginB</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">calculatedOriginB</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Determine the translation component of the global transform of the offset
- for body B.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
-<dt>Returns:</dt>
-<dd>the origin location (either storeResult or a new vector, not
- null)</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getFrameTransform(com.jme3.bullet.joints.JointEnd,com.jme3.math.Transform)">
 <h3>getFrameTransform</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Transform</span>&nbsp;<span class="element-name">getFrameTransform</span><wbr><span class="parameters">(<a href="JointEnd.html" title="enum class in com.jme3.bullet.joints">JointEnd</a>&nbsp;end,
@@ -551,38 +583,6 @@ loadScripts(document, 'script');</script>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
 <dd>the transform of the constraint space relative to the end</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="enableSpring(int,boolean)">
-<h3>enableSpring</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">enableSpring</span><wbr><span class="parameters">(int&nbsp;dofIndex,
- boolean&nbsp;onOff)</span></div>
-<div class="block">Enable or disable the spring for the indexed degree of freedom.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>dofIndex</code> - which degree of freedom (0&rarr;X translation, 1&rarr;Y
- translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
- 5&rarr;Z rotation)</dd>
-<dd><code>onOff</code> - true &rarr; enable, false &rarr; disable (default=false)</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="get(com.jme3.bullet.joints.motors.MotorParam,int)">
-<h3>get</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="motors/MotorParam.html" title="enum class in com.jme3.bullet.joints.motors">MotorParam</a>&nbsp;parameter,
- int&nbsp;dofIndex)</span></div>
-<div class="block">Read the specified parameter of the indexed degree of freedom.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>parameter</code> - which parameter (not null)</dd>
-<dd><code>dofIndex</code> - which degree of freedom (0&rarr;X translation, 1&rarr;Y
- translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
- 5&rarr;Z rotation)</dd>
-<dt>Returns:</dt>
-<dd>the parameter value</dd>
 </dl>
 </section>
 </li>

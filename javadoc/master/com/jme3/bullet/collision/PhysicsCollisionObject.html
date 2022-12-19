@@ -1887,7 +1887,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setContactDamping(float)">
 <h3>setContactDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setContactDamping</span><wbr><span class="parameters">(float&nbsp;damping)</span></div>
-<div class="block">Alter the contact damping (native field: m_contactDamping).
+<div class="block">Alter the contact damping (native field: m_contactDamping). Also affects
+ the collision flags.
  <p>
  Contact damping doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
@@ -1916,7 +1917,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setContactStiffness(float)">
 <h3>setContactStiffness</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setContactStiffness</span><wbr><span class="parameters">(float&nbsp;stiffness)</span></div>
-<div class="block">Alter the contact stiffness (native field: m_contactStiffness).
+<div class="block">Alter the contact stiffness (native field: m_contactStiffness). Also
+ affects the collision flags.
  <p>
  Contact stiffness doesn't affect a PhysicsCharacter or
  PhysicsGhostObject.</div>
