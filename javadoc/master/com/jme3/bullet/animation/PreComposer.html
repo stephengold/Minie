@@ -155,20 +155,15 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update this control.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PreComposer.html" title="class in com.jme3.bullet.animation">PreComposer</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Create a shallow clone for the JME cloner.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-serialize this Control from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this Control to the specified exporter, for example when saving
  to a J3O file.</div>
 </div>
@@ -177,7 +172,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.jme3.scene.control.AbstractControl">Methods inherited from class&nbsp;com.jme3.scene.control.AbstractControl</h3>
-<code>cloneForSpatial, getSpatial, isEnabled, render, setEnabled, setSpatial, update</code></div>
+<code>cloneForSpatial, getSpatial, isEnabled, jmeClone, render, setEnabled, setSpatial, update</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -271,21 +266,6 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>rm</code> - the render manager (unused)</dd>
 <dd><code>vp</code> - the view port to render (unused)</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="jmeClone()">
-<h3>jmeClone</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="PreComposer.html" title="class in com.jme3.bullet.animation">PreComposer</a></span>&nbsp;<span class="element-name">jmeClone</span>()</div>
-<div class="block">Create a shallow clone for the JME cloner.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code>jmeClone</code>&nbsp;in interface&nbsp;<code>com.jme3.util.clone.JmeCloneable</code></dd>
-<dt>Overrides:</dt>
-<dd><code>jmeClone</code>&nbsp;in class&nbsp;<code>com.jme3.scene.control.AbstractControl</code></dd>
-<dt>Returns:</dt>
-<dd>a new Control (not null)</dd>
 </dl>
 </section>
 </li>
