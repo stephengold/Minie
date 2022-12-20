@@ -709,10 +709,11 @@ public class PhysicsDescriber extends Describer {
             result.append(MyString.describe(lo));
             result.append(']');
         } else {
-            result.append(" lo=");
+            result.append(" lims[");
             result.append(MyString.describe(lo));
-            result.append(" hi=");
+            result.append(' ');
             result.append(MyString.describe(hi));
+            result.append(']');
         }
 
         result.append(" motor[");
@@ -1231,6 +1232,13 @@ public class PhysicsDescriber extends Describer {
         if (bit != Float.MAX_VALUE) {
             result.append(" bit=");
             result.append(MyString.describe(bit));
+        }
+
+        if (forceIds) {
+            result.append(" #");
+            long id = constraint.nativeId();
+            String hex = Long.toHexString(id);
+            result.append(hex);
         }
 
         return result.toString();

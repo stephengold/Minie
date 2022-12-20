@@ -478,9 +478,9 @@ public class PhysicsDumper extends Dumper {
             if (dumpMotors) {
                 for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
                     int axisIndex = dofIndex % MyVector3f.numAxes;
-                    String dofName = (dofIndex < 3) ? "tra" : "rot";
-                    dofName += MyString.axisName(axisIndex);
-                    stream.printf("%n%s%s: ", mmIndent, dofName);
+                    String tr = (dofIndex < 3) ? "T" : "R";
+                    String axisName = MyString.axisName(axisIndex);
+                    stream.printf("%n%s%s%s:", mmIndent, tr, axisName);
                     desc = describer.describeDof(sixDof, dofIndex);
                     stream.print(desc);
                 }
@@ -1173,7 +1173,7 @@ public class PhysicsDumper extends Dumper {
 
         int activationState = body.getActivationState();
         if (activationState != expectedState) {
-            stream.printf(" as=%d", activationState);
+            stream.printf(" act=%d", activationState);
         }
     }
 
