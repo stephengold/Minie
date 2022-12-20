@@ -789,21 +789,6 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public PhysicsVehicle jmeClone() {
-        try {
-            PhysicsVehicle clone = (PhysicsVehicle) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this vehicle from the specified importer, for example when
      * loading from a J3O file.
      *

@@ -476,21 +476,6 @@ public class RigidBodyControl
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new Control (not null)
-     */
-    @Override
-    public RigidBodyControl jmeClone() {
-        try {
-            RigidBodyControl clone = (RigidBodyControl) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this Control from the specified importer, for example when
      * loading from a J3O file.
      *
