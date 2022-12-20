@@ -1316,6 +1316,7 @@ public class DacLinks
         capsule.write(links, tagAttachmentLinks, new AttachmentLink[0]);
 
         capsule.write(armature, tagArmature, null);
+        // isReady and boneLinks are never written.
         capsule.write(skeleton, tagSkeleton, null);
         capsule.write(transformer, tagTransformer, null);
         capsule.write(torsoLink, tagTorsoLink, null);

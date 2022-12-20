@@ -350,7 +350,7 @@ public class TorsoLink extends PhysicsLink {
         // Disable bone animations, if any.
         int numManaged = countManaged();
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
-            Transform t = prevBoneTransforms[managedIndex];
+            Transform t = prevBoneTransforms[managedIndex]; // alias
             setManagedTransform(managedIndex, t);
         }
 
@@ -529,7 +529,7 @@ public class TorsoLink extends PhysicsLink {
         Savable[] tmp
                 = capsule.readSavableArray(tagManagedArmatureJoints, null);
         if (tmp == null) {
-            this.managedArmatureJoints = null;
+            this.managedArmatureJoints = null; // TODO unnecessary
         } else {
             this.managedArmatureJoints = new Joint[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
@@ -539,7 +539,7 @@ public class TorsoLink extends PhysicsLink {
 
         tmp = capsule.readSavableArray(tagManagedBones, null);
         if (tmp == null) {
-            this.managedBones = null;
+            this.managedBones = null; // TODO unnecessary
         } else {
             this.managedBones = new Bone[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
@@ -620,7 +620,7 @@ public class TorsoLink extends PhysicsLink {
 
         // Save copies of the latest managed-bone transforms.
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
-            Transform lastTransform = prevBoneTransforms[managedIndex];
+            Transform lastTransform = prevBoneTransforms[managedIndex]; // alias
             copyManagedTransform(managedIndex, lastTransform);
         }
     }

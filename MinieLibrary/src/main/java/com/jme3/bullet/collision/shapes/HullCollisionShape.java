@@ -522,7 +522,7 @@ public class HullCollisionShape extends ConvexShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        this.directBuffer = null; // directBuffer not cloned
+        this.directBuffer = null; // directBuffer is never cloned.
         this.points = cloner.clone(points);
         createShape();
     }

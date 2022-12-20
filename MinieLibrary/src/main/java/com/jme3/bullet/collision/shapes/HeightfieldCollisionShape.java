@@ -285,8 +285,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        // directBuffer not cloned
-        // heightfieldData not cloned
+        // directBuffer and heightfieldData are never cloned.
         createShape();
     }
 

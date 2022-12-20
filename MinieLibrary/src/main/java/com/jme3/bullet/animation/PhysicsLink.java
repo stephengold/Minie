@@ -760,6 +760,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         capsule.write(kpTransform, tagKpTransform, null);
         capsule.write(kpVelocity, tagKpVelocity, null);
         capsule.write(localOffset, tagLocalOffset, null);
+        // tmpScale is never written.
     }
     // *************************************************************************
     // private methods

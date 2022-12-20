@@ -338,6 +338,7 @@ abstract public class PhysicsCollisionObject
      * @param old (not null, unaffected)
      */
     final public void copyPcoProperties(PhysicsCollisionObject old) {
+        // TODO method should be protected
         assert old.hasAssignedNativeObject();
         assert old.nativeId() != nativeId();
 
@@ -1374,14 +1375,13 @@ abstract public class PhysicsCollisionObject
      * null, unaffected)
      */
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
+        // TODO finalize this method
         long[] ignoredIds = old.listIgnoredIds();
         for (long oldPcoId : ignoredIds) {
             PhysicsCollisionObject oldPco = findInstance(oldPcoId);
             /*
-             * Don't do any real cloning here because rigid bodies get
-             * rebuilt during cloneFields(), which alters their native IDs.
              * We want to ignore new IDs, not old ones,
-             * so if the other PCO hasn't been cloned yet,
+             * so if the other PCO hasn't cloned its list yet,
              * wait and let *that* PCO invoke addToIgnoreList().
              */
             if (cloner.isCloned(oldPco)) {
@@ -1623,6 +1623,7 @@ abstract public class PhysicsCollisionObject
         capsule.write(debugMaterial, tagDebugMaterial, null);
         capsule.write(collisionShape, tagCollisionShape, null);
 
+        // begin common properties
         if (applicationData instanceof Savable) {
             capsule.write((Savable) applicationData, tagApplicationData, null);
         }
@@ -1630,7 +1631,6 @@ abstract public class PhysicsCollisionObject
             capsule.write((Savable) userObject, tagUserObject, null);
         }
 
-        // common properties
         capsule.write(getCcdMotionThreshold(), tagCcdMotionThreshold, 0f);
         capsule.write(getCcdSweptSphereRadius(), tagCcdSweptSphereRadius, 0f);
 

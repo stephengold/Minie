@@ -938,7 +938,6 @@ public class DynamicAnimControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        // isReady and collisionListeners not read
         this.ikJoints = capsule
                 .readSavableArrayList(tagIkJoints, new ArrayList(1));
         this.ragdollMass = capsule.readFloat(tagRagdollMass, 1f);
@@ -997,8 +996,8 @@ public class DynamicAnimControl
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        // isReady and collisionListeners not written
         capsule.writeSavableArrayList(ikJoints, tagIkJoints, null);
+        // blendListener and collisionListeners are never written.
         capsule.write(ragdollMass, tagRagdollMass, 1f);
         capsule.write(centerLocation, tagCenterLocation, null);
         capsule.write(centerVelocity, tagCenterVelocity, null);

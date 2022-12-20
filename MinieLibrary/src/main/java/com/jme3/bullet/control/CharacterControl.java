@@ -244,8 +244,7 @@ public class CharacterControl extends AbstractPhysicsControl {
         super.cloneFields(cloner, original);
 
         this.character = cloner.clone(character);
-        // tmpQuaternion not cloned
-        // tmpVector not cloned
+        // tmpQuaternion and tmpVector are never cloned.
         this.viewDirection = cloner.clone(viewDirection);
     }
 

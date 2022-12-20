@@ -285,9 +285,9 @@ abstract public class AbstractPhysicsControl
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        // space is never cloned.
         this.tmpInverseWorldRotation = cloner.clone(tmpInverseWorldRotation);
         this.controlledSpatial = cloner.clone(controlledSpatial);
-        // space not cloned
     }
 
     /**
@@ -469,6 +469,7 @@ abstract public class AbstractPhysicsControl
 
         capsule.write(enabled, tagEnabled, true);
         capsule.write(localPhysics, tagApplyLocalPhysics, false);
+        // added, space, and tmpInverseWorldRotation are never written.
         capsule.write(controlledSpatial, tagSpatial, null);
     }
 }

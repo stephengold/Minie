@@ -507,7 +507,10 @@ abstract public class Constraint extends PhysicsJoint {
 
         this.pivotA = cloner.clone(pivotA);
         this.pivotB = cloner.clone(pivotB);
-        // Each subclass must create the btTypedConstraint.
+        /*
+         * Each subclass must create the btTypedConstraint
+         * and invoke setNativeId().
+         */
     }
 
     /**

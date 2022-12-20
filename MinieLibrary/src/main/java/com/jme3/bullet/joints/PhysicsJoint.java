@@ -332,6 +332,7 @@ abstract public class PhysicsJoint
 
         capsule.write(bodyA, tagNodeA, null);
         capsule.write(bodyB, tagNodeB, null);
+        // space is never written.
     }
     // *************************************************************************
     // NativePhysicsObject methods

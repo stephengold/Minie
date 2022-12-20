@@ -622,7 +622,7 @@ public class BoneLink extends PhysicsLink {
         Savable[] tmp
                 = capsule.readSavableArray(tagManagedArmatureJoints, null);
         if (tmp == null) {
-            this.managedArmatureJoints = null;
+            this.managedArmatureJoints = null; // TODO unnecessary
         } else {
             this.managedArmatureJoints = new Joint[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
@@ -632,7 +632,7 @@ public class BoneLink extends PhysicsLink {
 
         tmp = capsule.readSavableArray(tagManagedBones, null);
         if (tmp == null) {
-            this.managedBones = null;
+            this.managedBones = null; // TODO unnecessary
         } else {
             this.managedBones = new Bone[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
@@ -704,7 +704,7 @@ public class BoneLink extends PhysicsLink {
 
         // Save copies of the latest managed-bone transforms.
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
-            Transform lastTransform = prevBoneTransforms[managedIndex];
+            Transform lastTransform = prevBoneTransforms[managedIndex]; // alias
             copyManagedTransform(managedIndex, lastTransform);
         }
     }
@@ -767,9 +767,9 @@ public class BoneLink extends PhysicsLink {
     private Transform localBoneTransform(Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
-        Vector3f location = result.getTranslation();
-        Quaternion orientation = result.getRotation();
-        Vector3f scale = result.getScale();
+        Vector3f location = result.getTranslation(); // alias
+        Quaternion orientation = result.getRotation(); // alias
+        Vector3f scale = result.getScale(); // alias
 
         // Start with the rigid body's transform in physics/world coordinates.
         getRigidBody().getTransform(result);
