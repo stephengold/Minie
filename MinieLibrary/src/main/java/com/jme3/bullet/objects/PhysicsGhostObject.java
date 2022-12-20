@@ -256,21 +256,6 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public PhysicsGhostObject jmeClone() {
-        try {
-            PhysicsGhostObject clone = (PhysicsGhostObject) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Apply the specified CollisionShape to this object. Note that the object
      * should not be in any CollisionSpace while changing shape; the object gets
      * rebuilt on the physics side.
