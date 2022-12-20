@@ -563,21 +563,6 @@ public class SixDofJoint extends Constraint {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public SixDofJoint jmeClone() {
-        try {
-            SixDofJoint clone = (SixDofJoint) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this joint from the specified importer, for example when
      * loading from a J3O file.
      *

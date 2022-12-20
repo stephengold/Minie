@@ -935,21 +935,6 @@ public class SliderJoint extends Constraint {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public SliderJoint jmeClone() {
-        try {
-            SliderJoint clone = (SliderJoint) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this joint from the specified importer, for example when
      * loading from a J3O file.
      *

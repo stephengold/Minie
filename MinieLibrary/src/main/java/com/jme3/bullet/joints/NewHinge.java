@@ -273,21 +273,6 @@ public class NewHinge extends New6Dof {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public NewHinge jmeClone() {
-        try {
-            NewHinge clone = (NewHinge) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this Constraint from the specified importer, for example
      * when loading from a J3O file.
      *
