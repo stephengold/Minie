@@ -524,21 +524,6 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public BoneLink jmeClone() {
-        try {
-            BoneLink clone = (BoneLink) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Update this link in blended Kinematic mode.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)

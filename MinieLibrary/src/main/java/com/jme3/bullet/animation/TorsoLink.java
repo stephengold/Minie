@@ -380,21 +380,6 @@ public class TorsoLink extends PhysicsLink {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public TorsoLink jmeClone() {
-        try {
-            TorsoLink clone = (TorsoLink) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Update this link in blended Kinematic mode.
      *
      * @param tpf the time interval between frames (in seconds, &ge;0)
