@@ -184,21 +184,6 @@ public class SphereCollisionShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public SphereCollisionShape jmeClone() {
-        try {
-            SphereCollisionShape clone = (SphereCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Calculate how far the sphere extends from its center.
      *
      * @return the distance (in physics-space units, &ge;0)

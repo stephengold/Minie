@@ -271,22 +271,6 @@ public class CylinderCollisionShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public CylinderCollisionShape jmeClone() {
-        try {
-            CylinderCollisionShape clone
-                    = (CylinderCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Estimate how far the cylinder extends from its center.
      *
      * @return a distance (in physics-space units, &ge;0)

@@ -290,22 +290,6 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public HeightfieldCollisionShape jmeClone() {
-        try {
-            HeightfieldCollisionShape clone
-                    = (HeightfieldCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this shape from the specified importer, for example when
      * loading from a J3O file.
      *

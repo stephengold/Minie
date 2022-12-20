@@ -176,21 +176,6 @@ public class Box2dShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public Box2dShape jmeClone() {
-        try {
-            Box2dShape clone = (Box2dShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Calculate how far the box extends from its center.
      *
      * @return a distance (in physics-space units, &ge;0)

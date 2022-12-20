@@ -203,21 +203,6 @@ public class BoxCollisionShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public BoxCollisionShape jmeClone() {
-        try {
-            BoxCollisionShape clone = (BoxCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Calculate how far the box extends from its center.
      *
      * @return the distance (in physics-space units, &ge;0)

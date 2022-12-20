@@ -377,21 +377,6 @@ public class SimplexCollisionShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public SimplexCollisionShape jmeClone() {
-        try {
-            SimplexCollisionShape clone = (SimplexCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Calculate how far the simplex extends from its center, including margin.
      *
      * @return a distance (in physics-space units, &ge;0)

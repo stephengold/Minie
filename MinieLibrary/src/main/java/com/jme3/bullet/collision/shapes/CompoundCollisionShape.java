@@ -613,22 +613,6 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public CompoundCollisionShape jmeClone() {
-        try {
-            CompoundCollisionShape clone
-                    = (CompoundCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Estimate how far this shape extends from its center.
      *
      * @return a distance estimate (in physics-space units, &ge;0)

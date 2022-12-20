@@ -222,21 +222,6 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public CapsuleCollisionShape jmeClone() {
-        try {
-            CapsuleCollisionShape clone = (CapsuleCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Calculate how far the capsule extends from its center.
      *
      * @return the distance (in physics-space units, &ge;0)

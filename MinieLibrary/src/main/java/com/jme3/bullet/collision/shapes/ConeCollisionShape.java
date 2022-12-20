@@ -204,21 +204,6 @@ public class ConeCollisionShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public ConeCollisionShape jmeClone() {
-        try {
-            ConeCollisionShape clone = (ConeCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Calculate how far the cone extends from its center.
      *
      * @return a distance (in physics-space units, &ge;0)

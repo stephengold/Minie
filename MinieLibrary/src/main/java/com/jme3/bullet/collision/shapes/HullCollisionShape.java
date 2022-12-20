@@ -528,21 +528,6 @@ public class HullCollisionShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public HullCollisionShape jmeClone() {
-        try {
-            HullCollisionShape clone = (HullCollisionShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * Calculate how far this shape extends from its center, including margin.
      *
      * @return a distance (in physics-space units, &ge;0)

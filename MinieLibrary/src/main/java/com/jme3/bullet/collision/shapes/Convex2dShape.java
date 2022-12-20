@@ -150,21 +150,6 @@ public class Convex2dShape extends ConvexShape {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public Convex2dShape jmeClone() {
-        try {
-            Convex2dShape clone = (Convex2dShape) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this shape from the specified importer, for example when
      * loading from a J3O file.
      *
