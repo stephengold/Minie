@@ -115,7 +115,7 @@ public class BoneLink extends PhysicsLink {
     /**
      * reusable temporary storage for a 3x3 matrix
      */
-    final private Matrix3f tmpMatrix = new Matrix3f();
+    private Matrix3f tmpMatrix = new Matrix3f();
     /**
      * local transform of each managed bone from the previous update
      */
@@ -474,6 +474,7 @@ public class BoneLink extends PhysicsLink {
 
         this.managedBones = cloner.clone(managedBones);
         this.managedArmatureJoints = cloner.clone(managedArmatureJoints);
+        this.tmpMatrix = cloner.clone(tmpMatrix);
         this.prevBoneTransforms = cloner.clone(prevBoneTransforms);
         this.startBoneTransforms = cloner.clone(startBoneTransforms);
     }
