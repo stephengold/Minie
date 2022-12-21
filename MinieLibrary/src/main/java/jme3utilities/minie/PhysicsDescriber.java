@@ -864,6 +864,14 @@ public class PhysicsDescriber extends Describer {
             Vector3f piv = constraint.getPivot(end, null);
             result.append(MyVector3f.describe(piv));
             result.append(']');
+        }
+
+        if (joint instanceof New6Dof) {
+            New6Dof sixDof = (New6Dof) joint;
+            result.append(" rot[");
+            Matrix3f rot = sixDof.getRotationMatrix(end, null);
+            result.append(describeMatrix(rot));
+            result.append(']');
         } else if (joint instanceof SoftAngularJoint) {
             SoftAngularJoint saj = (SoftAngularJoint) joint;
             result.append(" axis[");
