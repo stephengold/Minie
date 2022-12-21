@@ -80,6 +80,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     final private static String tagBone = "bone";
     final private static String tagChildren = "children";
     final private static String tagControl = "control";
+    final private static String tagDensity = "density";
     final private static String tagIkControllers = "ikControllers";
     final private static String tagJoint = "joint";
     final private static String tagKinematicWeight = "kinematicWeight";
@@ -721,6 +722,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         this.bone = (Bone) capsule.readSavable(tagBone, null);
         this.control = (DacLinks) capsule.readSavable(tagControl, null);
         this.blendInterval = capsule.readFloat(tagBlendInterval, 1f);
+        this.density = capsule.readFloat(tagDensity, 1f);
         this.kinematicWeight = capsule.readFloat(tagKinematicWeight, 1f);
         this.joint = (PhysicsJoint) capsule.readSavable(tagJoint, null);
         this.parent = (PhysicsLink) capsule.readSavable(tagParent, null);
@@ -753,6 +755,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
         capsule.write(bone, tagBone, null);
         capsule.write(control, tagControl, null);
         capsule.write(blendInterval, tagBlendInterval, 1f);
+        capsule.write(density, tagDensity, 1f);
         capsule.write(kinematicWeight, tagKinematicWeight, 1f);
         capsule.write(joint, tagJoint, null);
         capsule.write(parent, tagParent, null);
