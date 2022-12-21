@@ -150,7 +150,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Do not invoke directly! Joints are added automatically when created.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cloneJoints(com.jme3.util.clone.Cloner)" class="member-name-link">cloneJoints</a><wbr>(com.jme3.util.clone.Cloner&nbsp;cloner)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cloneJoints(com.jme3.util.clone.Cloner,com.jme3.bullet.objects.PhysicsBody)" class="member-name-link">cloneJoints</a><wbr>(com.jme3.util.clone.Cloner&nbsp;cloner,
+ <a href="PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;old)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Clone this body's joints.</div>
 </div>
@@ -299,13 +300,16 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="cloneJoints(com.jme3.util.clone.Cloner)">
+<section class="detail" id="cloneJoints(com.jme3.util.clone.Cloner,com.jme3.bullet.objects.PhysicsBody)">
 <h3>cloneJoints</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cloneJoints</span><wbr><span class="parameters">(com.jme3.util.clone.Cloner&nbsp;cloner)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cloneJoints</span><wbr><span class="parameters">(com.jme3.util.clone.Cloner&nbsp;cloner,
+ <a href="PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>&nbsp;old)</span></div>
 <div class="block">Clone this body's joints.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>cloner</code> - the Cloner that's cloning this body (not null, modified)</dd>
+<dd><code>old</code> - the instance from which this body was shallow-cloned (not
+ null, unaffected)</dd>
 </dl>
 </section>
 </li>
