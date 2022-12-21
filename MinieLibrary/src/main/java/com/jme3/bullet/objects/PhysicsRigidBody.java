@@ -827,13 +827,13 @@ public class PhysicsRigidBody extends PhysicsBody {
      * (default=true)
      */
     public void setContactResponse(boolean newState) {
-        long objectId = nativeId();
-        int flags = getCollisionFlags(objectId);
+        int flags = collisionFlags();
         if (newState) {
             flags &= ~CollisionFlag.NO_CONTACT_RESPONSE;
         } else {
             flags |= CollisionFlag.NO_CONTACT_RESPONSE;
         }
+        long objectId = nativeId();
         setCollisionFlags(objectId, flags);
     }
 
@@ -1175,13 +1175,13 @@ public class PhysicsRigidBody extends PhysicsBody {
      * For use by subclasses.
      */
     protected void postRebuild() {
-        long objectId = nativeId();
-        int flags = getCollisionFlags(objectId);
+        int flags = collisionFlags();
         if (mass == massForStatic) {
             flags |= CollisionFlag.STATIC_OBJECT;
         } else {
             flags &= ~CollisionFlag.STATIC_OBJECT;
         }
+        long objectId = nativeId();
         setCollisionFlags(objectId, flags);
 
         initUserPointer();
@@ -1385,7 +1385,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         long objectId = nativeId();
         updateMassProps(objectId, shape.nativeId(), mass);
 
-        int flags = getCollisionFlags(objectId);
+        int flags = collisionFlags();
         if (mass == massForStatic) {
             flags |= CollisionFlag.STATIC_OBJECT;
         } else {
@@ -1470,12 +1470,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     private boolean checkKinematicFlag() {
         if (mass == massForStatic) {
-            // don't invoke getCollisionFlags(long) TODO
-            return true;
+            return true; // TODO
         }
 
-        long objectId = nativeId();
-        int flags = getCollisionFlags(objectId);
+        int flags = collisionFlags();
         boolean nativeKinematicFlag
                 = (flags & CollisionFlag.KINEMATIC_OBJECT) != 0x0;
 

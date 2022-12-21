@@ -1409,17 +1409,6 @@ abstract public class PhysicsCollisionObject
     native protected static void finalizeNative(long objectId);
 
     /**
-     * Return the collision flags of this object. Subclasses are responsible for
-     * cloning/loading/saving these flags. Flag values are defined in
-     * {@link com.jme3.bullet.collision.CollisionFlag}. Native method.
-     *
-     * @param objectId the ID of the btCollisionObject (not zero)
-     * @return the flags that are set, ORed together
-     */
-    native protected static int getCollisionFlags(long objectId);
-    // TODO privatize
-
-    /**
      * Return the type of this object. Native method.
      *
      * @param objectId the ID of the btCollisionObject (not zero)
@@ -1735,6 +1724,8 @@ abstract public class PhysicsCollisionObject
     native private static float getCcdSweptSphereRadius(long objectId);
 
     native private static int getCollideWithGroups(long objectId);
+
+    native private static int getCollisionFlags(long objectId);
 
     native private static int getCollisionGroup(long objectId);
 
