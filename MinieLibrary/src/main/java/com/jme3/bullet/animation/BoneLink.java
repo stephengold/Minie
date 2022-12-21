@@ -572,9 +572,7 @@ public class BoneLink extends PhysicsLink {
                     endQuat.multLocal(-1f);
                 }
                 MyQuaternion.normalizeLocal(endQuat);
-                MyMath.slerp(
-                        kinematicWeight(), startBoneTransforms[managedIndex],
-                        transform, transform);
+                MyMath.slerp(kinematicWeight(), start, transform, transform);
                 // TODO smarter sign flipping
             }
 
