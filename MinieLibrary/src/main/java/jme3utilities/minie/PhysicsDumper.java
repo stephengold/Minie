@@ -66,6 +66,7 @@ import com.jme3.bullet.objects.PhysicsSoftBody;
 import com.jme3.bullet.objects.PhysicsVehicle;
 import com.jme3.bullet.objects.VehicleWheel;
 import com.jme3.bullet.objects.infos.Cluster;
+import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.objects.infos.SoftBodyMaterial;
 import com.jme3.math.Quaternion;
@@ -514,9 +515,15 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describeUser(body);
         stream.print(desc);
 
+        RigidBodyMotionState motionState = body.getMotionState();
+        Vector3f msLoc = motionState.getLocation(null);
+        String locString = MyVector3f.describe(msLoc);
+        stream.printf(" msLoc[%s]", locString);
         Vector3f location = body.getPhysicsLocation(null);
-        String locString = MyVector3f.describe(location);
-        stream.printf(" loc[%s]", locString);
+        if (!location.equals(msLoc)) {
+            locString = MyVector3f.describe(location);
+            stream.printf(" loc[%s]", locString);
+        }
 
         Quaternion orientation = body.getPhysicsRotation(null);
         if (!MyQuaternion.isRotationIdentity(orientation)) {
