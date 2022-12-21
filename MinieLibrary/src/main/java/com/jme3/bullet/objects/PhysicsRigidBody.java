@@ -668,11 +668,13 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Rebuild this rigid body with a new native object.
      */
     public void rebuildRigidBody() {
+        long oldId = 0L;
         PhysicsSpace removedFrom = null;
         RigidBodySnapshot snapshot = null;
 
         if (hasAssignedNativeObject()) {
             // Gather information regarding the existing native object.
+            oldId = nativeId();
             removedFrom = (PhysicsSpace) getCollisionSpace();
             if (removedFrom != null) {
                 removedFrom.removeCollisionObject(this);
@@ -692,7 +694,17 @@ public class PhysicsRigidBody extends PhysicsBody {
         setNativeId(objectId);
         assert getInternalType(objectId) == PcoType.rigid :
                 getInternalType(objectId);
-        logger2.log(Level.INFO, "Created {0}.", this);
+        if (logger2.isLoggable(Level.INFO)) {
+            if (oldId == 0L) {
+                logger2.log(
+                        Level.INFO, "Created {0}.", Long.toHexString(objectId));
+            } else {
+                logger2.log(
+                        Level.INFO, "Substituted {0} for {1}.", new Object[]{
+                            Long.toHexString(objectId), Long.toHexString(oldId)
+                        });
+            }
+        }
 
         if (mass != massForStatic) {
             setKinematic(kinematic);
