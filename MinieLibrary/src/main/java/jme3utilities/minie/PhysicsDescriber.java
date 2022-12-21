@@ -849,33 +849,20 @@ public class PhysicsDescriber extends Describer {
         String desc = describe(joint);
         result.append(desc);
 
-        PhysicsBody otherBody;
-        Vector3f pivot = null;
-        if (joint.getBody(JointEnd.A) == body) {
-            otherBody = joint.getBody(JointEnd.B);
-            if (joint instanceof Constraint) {
-                Constraint constraint = (Constraint) joint;
-                pivot = constraint.getPivotA(null);
-            }
-        } else {
-            assert joint.getBody(JointEnd.B) == body;
-            otherBody = joint.getBody(JointEnd.A);
-            if (joint instanceof Constraint) {
-                Constraint constraint = (Constraint) joint;
-                pivot = constraint.getPivotB(null);
-            }
-        }
-
-        if (otherBody == null) {
+        if (joint.countEnds() == 1) {
             result.append(" single-ended");
         } else {
             result.append(" to");
+            PhysicsBody otherBody = joint.findOtherBody(body);
             appendPco(result, otherBody, forceId);
         }
 
-        if (pivot != null) {
+        JointEnd end = joint.findEnd(body);
+        if (joint instanceof Constraint) {
+            Constraint constraint = (Constraint) joint;
             result.append(" piv[");
-            result.append(MyVector3f.describe(pivot));
+            Vector3f piv = constraint.getPivot(end, null);
+            result.append(MyVector3f.describe(piv));
             result.append(']');
         } else if (joint instanceof SoftAngularJoint) {
             SoftAngularJoint saj = (SoftAngularJoint) joint;
