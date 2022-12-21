@@ -587,8 +587,8 @@ abstract public class Constraint extends PhysicsJoint {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        this.pivotA = (Vector3f) capsule.readSavable(tagPivotA, new Vector3f());
-        this.pivotB = (Vector3f) capsule.readSavable(tagPivotB, new Vector3f());
+        this.pivotA = (Vector3f) capsule.readSavable(tagPivotA, null);
+        this.pivotB = (Vector3f) capsule.readSavable(tagPivotB, null);
         /*
          * Each subclass must create the btTypedConstraint and then
          * invoke readConstraintProperties().
