@@ -380,6 +380,7 @@ public class TestCloneJoints {
         if (joint instanceof Constraint) {
             Constraint constraint = (Constraint) joint;
             constraint.setEnabled(flag);
+            constraint.setFeedback(flag);
             constraint.setBreakingImpulseThreshold(b + 0.505f);
             constraint.overrideIterations(index);
             if (joint.countEnds() == 2) {
@@ -586,6 +587,7 @@ public class TestCloneJoints {
         if (joint instanceof Constraint) {
             Constraint constraint = (Constraint) joint;
             Assert.assertEquals(flag, constraint.isEnabled());
+            Assert.assertEquals(flag, constraint.isFeedback());
             Assert.assertEquals(
                     b + 0.505f, constraint.getBreakingImpulseThreshold(), 0f);
             Assert.assertEquals(index, constraint.getOverrideIterations());

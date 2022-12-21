@@ -75,6 +75,7 @@ abstract public class Constraint extends PhysicsJoint {
     final private static String tagIsCollision
             = "isCollisionBetweenLinkedBodies";
     final private static String tagIsEnabled = "isEnabled";
+    final private static String tagIsFeedback = "isFeedback";
     final private static String tagNumIterations = "numIterations";
     final private static String tagPivotA = "pivotA";
     final private static String tagPivotB = "pivotB";
@@ -431,6 +432,9 @@ abstract public class Constraint extends PhysicsJoint {
         boolean enableConstraint = old.isEnabled();
         setEnabled(enableConstraint);
 
+        boolean enableFeedback = old.isFeedback();
+        setFeedback(enableFeedback);
+
         int numIterations = old.getOverrideIterations();
         overrideIterations(numIterations);
     }
@@ -463,6 +467,9 @@ abstract public class Constraint extends PhysicsJoint {
 
         boolean isEnabled = capsule.readBoolean(tagIsEnabled, true);
         setEnabled(isEnabled);
+
+        boolean isFeedback = capsule.readBoolean(tagIsFeedback, false);
+        setFeedback(isFeedback);
 
         int numIterations = capsule.readInt(tagNumIterations, -1);
         overrideIterations(numIterations);
@@ -607,6 +614,7 @@ abstract public class Constraint extends PhysicsJoint {
                 Float.MAX_VALUE);
         capsule.write(isCollisionBetweenLinkedBodies(), tagIsCollision, true);
         capsule.write(isEnabled(), tagIsEnabled, true);
+        capsule.write(isFeedback(), tagIsFeedback, false);
         capsule.write(getOverrideIterations(), tagNumIterations, -1);
     }
     // *************************************************************************
