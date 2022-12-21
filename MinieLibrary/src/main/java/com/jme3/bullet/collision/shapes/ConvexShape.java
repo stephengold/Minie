@@ -48,9 +48,9 @@ abstract public class ConvexShape extends CollisionShape {
     // constants and loggers
 
     /**
-     * message logger for this class TODO rename
+     * message logger for this class
      */
-    final public static Logger logger
+    final public static Logger logger15
             = Logger.getLogger(ConvexShape.class.getName());
     // *************************************************************************
     // constructors
