@@ -1683,8 +1683,12 @@ abstract public class PhysicsCollisionObject
         result = result.replace("Control", "C");
         result = result.replace("Physics", "");
         result = result.replace("Object", "");
-        long objectId = nativeId();
-        result += "#" + Long.toHexString(objectId);
+        if (hasAssignedNativeObject()) {
+            long objectId = nativeId();
+            result += "#" + Long.toHexString(objectId);
+        } else {
+            result += "#unassigned";
+        }
 
         return result;
     }
