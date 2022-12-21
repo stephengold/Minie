@@ -102,7 +102,9 @@ public class DacLinks
      */
     final private static String tagArmature = "armature";
     final private static String tagAttachmentLinks = "attachmentLinks";
+    final private static String tagBindTransforms = "bindTransforms";
     final private static String tagBoneLinkList = "boneLinkList";
+    final private static String tagPreComposer = "preComposer";
     final private static String tagSkeleton = "skeleton";
     final private static String tagTorsoLink = "torsoLink";
     final private static String tagTransformer = "transformer";
@@ -1004,8 +1006,12 @@ public class DacLinks
         }
 
         this.armature = (Armature) capsule.readSavable(tagArmature, null);
+        this.preComposer
+                = (PreComposer) capsule.readSavable(tagPreComposer, null);
         this.skeleton = (Skeleton) capsule.readSavable(tagSkeleton, null);
         this.transformer = (Spatial) capsule.readSavable(tagTransformer, null);
+        this.bindTransforms
+                = RagUtils.readTransformArray(capsule, tagBindTransforms);
         this.torsoLink = (TorsoLink) capsule.readSavable(tagTorsoLink, null);
     }
 
@@ -1315,8 +1321,10 @@ public class DacLinks
 
         capsule.write(armature, tagArmature, null);
         // isReady and boneLinks are never written.
+        capsule.write(preComposer, tagPreComposer, null);
         capsule.write(skeleton, tagSkeleton, null);
         capsule.write(transformer, tagTransformer, null);
+        capsule.write(bindTransforms, tagBindTransforms, null);
         capsule.write(torsoLink, tagTorsoLink, null);
     }
     // *************************************************************************
