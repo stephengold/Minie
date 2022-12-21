@@ -551,9 +551,9 @@ public class CharacterController
      * @return a new instance
      */
     @Override
-    public PhysicsCharacter jmeClone() {
+    public CharacterController jmeClone() {
         try {
-            PhysicsCharacter clone = (PhysicsCharacter) super.clone();
+            CharacterController clone = (CharacterController) super.clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
