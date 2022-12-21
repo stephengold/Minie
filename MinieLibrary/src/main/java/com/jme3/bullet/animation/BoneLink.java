@@ -608,9 +608,7 @@ public class BoneLink extends PhysicsLink {
 
         Savable[] tmp
                 = capsule.readSavableArray(tagManagedArmatureJoints, null);
-        if (tmp == null) {
-            this.managedArmatureJoints = null; // TODO unnecessary
-        } else {
+        if (tmp != null) {
             this.managedArmatureJoints = new Joint[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
                 this.managedArmatureJoints[managedI] = (Joint) tmp[managedI];
@@ -618,9 +616,7 @@ public class BoneLink extends PhysicsLink {
         }
 
         tmp = capsule.readSavableArray(tagManagedBones, null);
-        if (tmp == null) {
-            this.managedBones = null; // TODO unnecessary
-        } else {
+        if (tmp != null) {
             this.managedBones = new Bone[tmp.length];
             for (int managedI = 0; managedI < tmp.length; ++managedI) {
                 this.managedBones[managedI] = (Bone) tmp[managedI];
