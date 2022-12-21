@@ -1126,7 +1126,6 @@ public class DacLinks
     @Override
     public void setAttachmentMass(String boneName, float mass) {
         Validate.positive(mass, "mass");
-
         super.setAttachmentMass(boneName, mass);
 
         AttachmentLink link = attachmentLinks.get(boneName);
@@ -1144,7 +1143,6 @@ public class DacLinks
     @Override
     public void setDamping(float dampingRatio) {
         Validate.nonNegative(dampingRatio, "damping ratio");
-
         super.setDamping(dampingRatio);
 
         if (getSpatial() != null) {
@@ -1164,7 +1162,6 @@ public class DacLinks
     @Override
     public void setGravity(Vector3f gravity) {
         Validate.finite(gravity, "gravity");
-
         super.setGravity(gravity);
 
         if (getSpatial() != null) { // TODO make sure it's in ragdoll mode
@@ -1227,7 +1224,6 @@ public class DacLinks
     @Override
     public void setMass(String boneName, float mass) {
         Validate.positive(mass, "mass");
-
         super.setMass(boneName, mass);
 
         if (getSpatial() != null) {
