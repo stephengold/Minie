@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  *
  * @author normenhansen
  */
-public class PhysicsSweepTestResult { // TODO finalize the class
+final public class PhysicsSweepTestResult {
     // *************************************************************************
     // constants and loggers
 
