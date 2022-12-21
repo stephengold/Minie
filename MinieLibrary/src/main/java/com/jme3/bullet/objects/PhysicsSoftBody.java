@@ -1444,11 +1444,21 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        this.worldInfo = cloner.clone(worldInfo);
-        newEmptySoftBody(); // needs worldInfo!
-
         super.cloneFields(cloner, original);
+        unassignNativeObject();
+
         PhysicsSoftBody old = (PhysicsSoftBody) original;
+        this.worldInfo = cloner.clone(old.worldInfo);
+        long infoId = worldInfo.nativeId();
+        long objectId = createEmpty(infoId);
+        setNativeId(objectId);
+        assert getInternalType(objectId) == PcoType.soft :
+                getInternalType(objectId);
+        logger2.log(Level.FINE, "Created {0}.", this);
+
+        this.config = new SoftBodyConfig(this);
+        initUserPointer();
+
         cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
         config.copyAll(old.config);
@@ -1478,7 +1488,6 @@ public class PhysicsSoftBody extends PhysicsBody {
 
         assert countClusters() == 0 : countClusters();
         int numClusters = old.countClusters();
-        long objectId = nativeId();
         for (int clusterIndex = 0; clusterIndex < numClusters; ++clusterIndex) {
             IntBuffer nodeIndices = old.listNodesInCluster(clusterIndex, null);
             int numNodesInCluster = nodeIndices.capacity();
