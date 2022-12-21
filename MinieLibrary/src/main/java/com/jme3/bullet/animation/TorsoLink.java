@@ -396,10 +396,12 @@ public class TorsoLink extends PhysicsLink {
              * (from the start of the blend interval) into the goal transform.
              */
             Quaternion startQuat = startModelTransform.getRotation(); // alias
+            MyQuaternion.normalizeLocal(startQuat);
             Quaternion endQuat = endModelTransform.getRotation(); // alias
             if (startQuat.dot(endQuat) < 0f) {
                 endQuat.multLocal(-1f);
             }
+            MyQuaternion.normalizeLocal(endQuat);
             MyMath.slerp(kinematicWeight(), startModelTransform,
                     endModelTransform, transform);
             getControl().getSpatial().setLocalTransform(transform);

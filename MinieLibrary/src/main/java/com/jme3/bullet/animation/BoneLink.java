@@ -58,6 +58,7 @@ import java.util.logging.Logger;
 import jme3utilities.MySkeleton;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * Link an animated bone in an Armature/Skeleton to a jointed rigid body in a
@@ -565,10 +566,12 @@ public class BoneLink extends PhysicsLink {
                  */
                 Transform start = startBoneTransforms[managedIndex]; // alias
                 Quaternion startQuat = start.getRotation(); // alias
+                MyQuaternion.normalizeLocal(startQuat);
                 Quaternion endQuat = transform.getRotation(); // alias
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
                 }
+                MyQuaternion.normalizeLocal(endQuat);
                 MyMath.slerp(
                         kinematicWeight(), startBoneTransforms[managedIndex],
                         transform, transform);
