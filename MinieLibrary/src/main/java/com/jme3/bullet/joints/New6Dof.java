@@ -191,12 +191,12 @@ public class New6Dof extends Constraint {
     // new methods exposed
 
     /**
-     * Determine the translation component of the global transform of the offset
-     * for body A.
+     * Calculate the pivot location of the A end (native field:
+     * m_calculatedTransformA.m_origin).
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the origin location (either storeResult or a new vector, not
-     * null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new vector, not null)
      */
     public Vector3f calculatedOriginA(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -208,12 +208,12 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Determine the translation component of the global transform of the offset
-     * for body B.
+     * Calculate the pivot location of the B end (native field:
+     * m_calculatedTransformB.m_origin).
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the origin location (either storeResult or a new vector, not
-     * null)
+     * @return a location vector (in physics-space coordinates, either
+     * storeResult or a new vector, not null)
      */
     public Vector3f calculatedOriginB(Vector3f storeResult) {
         Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
@@ -279,7 +279,8 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Calculate the constraint's rotation angles.
+     * Calculate the constraint's rotation angles (native field:
+     * m_calculatedAxisAngleDiff).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the rotation angle for each local axis (in radians, either
@@ -295,7 +296,8 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Calculate the indexed axis of the Constraint.
+     * Calculate the indexed axis of the Constraint (native field:
+     * m_calculatedAxis).
      *
      * @param axisIndex the axis index of the desired motor: 0&rarr;X, 1&rarr;Y,
      * 2&rarr;Z
@@ -314,7 +316,8 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Copy the constraint's frame transform relative to the specified end.
+     * Copy the constraint's frame transform relative to the specified end
+     * (native fields: m_frameInA, m_frameInB).
      *
      * @param end which end (not null)
      * @param storeResult storage for the result (modified if not null)
@@ -341,7 +344,8 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Copy the constraint's pivot offset.
+     * Copy the constraint's pivot offset (native field:
+     * m_calculatedLinearDiff).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the relative pivot position on each local axis (in physics-space
@@ -359,6 +363,9 @@ public class New6Dof extends Constraint {
     /**
      * Copy the the orientation of the constraint in the specified end's
      * coordinate system.
+     *
+     * @see com.jme3.bullet.joints.Constraint#getPivot(
+     * com.jme3.bullet.joints.JointEnd, com.jme3.math.Vector3f)
      *
      * @param end which end (not null)
      * @param storeResult storage for the result (modified if not null)
@@ -392,7 +399,8 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Read the order in which axis rotations are applied.
+     * Return the order in which axis rotations are applied (native field:
+     * m_rotateOrder).
      *
      * @return an enum value (not null)
      */

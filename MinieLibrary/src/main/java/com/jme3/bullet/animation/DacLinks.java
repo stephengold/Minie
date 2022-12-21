@@ -945,7 +945,7 @@ public class DacLinks
     }
 
     /**
-     * Read the mass of the named bone/torso.
+     * Return the mass of the named bone/torso.
      *
      * @param boneName the name of the bone/torso (not null)
      * @return the mass (&gt;0) or NaN if undetermined

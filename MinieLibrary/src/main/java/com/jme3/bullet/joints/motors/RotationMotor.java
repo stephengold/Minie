@@ -67,7 +67,7 @@ public class RotationMotor extends NativePhysicsObject {
     // new methods exposed
 
     /**
-     * Read the specified parameter of this motor.
+     * Return the value of the specified parameter.
      *
      * @param param which parameter (not null)
      * @return the parameter value
@@ -122,7 +122,8 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Test whether the spring's damping is limited (m_springDampingLimited).
+     * Test whether the spring's damping is limited (native field:
+     * m_springDampingLimited).
      *
      * @return true if limited, otherwise false
      */
@@ -134,7 +135,7 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Test whether this motor is enabled (m_enableMotor).
+     * Test whether the motor is enabled (native field: m_enableMotor).
      *
      * @return true if enabled, otherwise false
      */
@@ -146,7 +147,7 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Test whether the servo is enabled (m_servoMotor).
+     * Test whether the servo is enabled (native field: m_servoMotor).
      *
      * @return true if enabled, otherwise false
      */
@@ -158,7 +159,7 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Test whether the spring is enabled (m_enableSpring).
+     * Test whether the spring is enabled (native field: m_enableSpring).
      *
      * @return true if enabled, otherwise false
      */
@@ -183,7 +184,7 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter the specified parameter of this motor.
+     * Alter the specified parameter.
      *
      * @param param which parameter (not null)
      * @param value the desired parameter value
@@ -234,7 +235,8 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Limit or unlimit the spring's damping (m_springDampingLimited).
+     * Limit or unlimit the spring's damping (native field:
+     * m_springDampingLimited).
      *
      * @param limitDamping true&rarr;limit, false&rarr;don't limit
      * (default=false)
@@ -245,7 +247,7 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Enable or disable this motor (m_enableMotor).
+     * Enable or disable this motor (native field: m_enableMotor).
      *
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
@@ -255,8 +257,8 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Enable or disable the servo (m_servoMotor). This setting has no effect if
-     * the motor is disabled.
+     * Enable or disable the servo (native field: m_servoMotor). This setting
+     * has no effect if the motor is disabled.
      *
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
@@ -266,7 +268,7 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Enable or disable the spring (m_enableSpring).
+     * Enable or disable the spring (native field: m_enableSpring).
      *
      * @param enableFlag true&rarr;enable, false&rarr;disable (default=false)
      */
@@ -276,7 +278,8 @@ public class RotationMotor extends NativePhysicsObject {
     }
 
     /**
-     * Limit or unlimit the spring's stiffness (m_springStiffnessLimited).
+     * Limit or unlimit the spring's stiffness (native field:
+     * m_springStiffnessLimited).
      *
      * @param limitStiffness true&rarr;limit, false&rarr;don't limit
      * (default=false)

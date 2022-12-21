@@ -1646,8 +1646,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      * Copy the scale factors of this object.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return the scale factor for each local axis (either storeResult or a new
-     * vector, not null, no negative component)
+     * @return the value (1,1,1) (either storeResult or a new vector)
      */
     @Override
     public Vector3f getScale(Vector3f storeResult) {
