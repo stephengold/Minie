@@ -170,13 +170,13 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        geometry = cloner.clone(geometry);
-        body = cloner.clone(body);
+        this.geometry = cloner.clone(geometry);
+        this.body = cloner.clone(body);
 
         if (indexMap != null) {
             SoftBodyControl originalControl = (SoftBodyControl) original;
             int numIndices = indexMap.limit();
-            indexMap = BufferUtils.createIntBuffer(numIndices);
+            this.indexMap = BufferUtils.createIntBuffer(numIndices);
             for (int offset = 0; offset < numIndices; ++offset) {
                 int tmpIndex = originalControl.indexMap.get(offset);
                 indexMap.put(tmpIndex);

@@ -339,7 +339,7 @@ public class VehicleControl
             return;
         }
 
-        spatial = cloner.clone(spatial);
+        this.spatial = cloner.clone(spatial);
     }
 
     /**

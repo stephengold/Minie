@@ -303,7 +303,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
             assert getCollisionSpace() == space;
         }
 
-        controller = new VehicleController(this, space);
+        this.controller = new VehicleController(this, space);
         logger3.log(Level.FINE, "Created {0}", controller);
 
         controller.setCoordinateSystem(PhysicsSpace.AXIS_X,

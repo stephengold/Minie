@@ -650,7 +650,7 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
         long shapeId = shape.nativeId();
         attachCollisionShape(objectId, shapeId);
 
-        controller = new CharacterController(this);
+        this.controller = new CharacterController(this);
         logger2.log(Level.FINE, "Creating {0}.", this);
     }
     // *************************************************************************
