@@ -749,8 +749,10 @@ public class DacLinks
         }
 
         this.armature = cloner.clone(armature);
+        this.preComposer = cloner.clone(preComposer);
         this.skeleton = cloner.clone(skeleton);
         this.transformer = cloner.clone(transformer);
+        this.bindTransforms = cloner.clone(bindTransforms);
         this.torsoLink = cloner.clone(torsoLink);
     }
 
