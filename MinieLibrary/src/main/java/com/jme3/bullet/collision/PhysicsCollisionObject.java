@@ -181,6 +181,10 @@ abstract public class PhysicsCollisionObject
     // fields
 
     /**
+     * make cloneFields() progress visible
+     */
+    private boolean doneCloningIgnores = false;
+    /**
      * shape of this object, or null if none
      */
     private CollisionShape collisionShape;
@@ -1376,19 +1380,25 @@ abstract public class PhysicsCollisionObject
      */
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
         // TODO finalize this method
+        assert !doneCloningIgnores;
+
         long[] ignoredIds = old.listIgnoredIds();
         for (long oldPcoId : ignoredIds) {
             PhysicsCollisionObject oldPco = findInstance(oldPcoId);
+            assert oldPco != null;
             /*
-             * We want to ignore new IDs, not old ones,
+             * We want to ignore only new IDs, not old ones,
              * so if the other PCO hasn't cloned its list yet,
              * wait and let *that* PCO invoke addToIgnoreList().
              */
             if (cloner.isCloned(oldPco)) {
                 PhysicsCollisionObject newPco = cloner.clone(oldPco);
-                addToIgnoreList(newPco);
+                if (newPco.doneCloningIgnores) {
+                    addToIgnoreList(newPco);
+                }
             }
         }
+        this.doneCloningIgnores = true;
     }
 
     /**
@@ -1566,6 +1576,7 @@ abstract public class PhysicsCollisionObject
         try {
             PhysicsCollisionObject clone
                     = (PhysicsCollisionObject) super.clone();
+            clone.doneCloningIgnores = false;
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
