@@ -1680,6 +1680,7 @@ abstract public class PhysicsCollisionObject
     @Override
     public String toString() {
         String result = getClass().getSimpleName();
+        result = result.replace("Body", "");
         result = result.replace("Control", "C");
         result = result.replace("Physics", "");
         result = result.replace("Object", "");
