@@ -1194,45 +1194,32 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-        rebuildRigidBody();
-
         PhysicsRigidBody old = (PhysicsRigidBody) original;
-        cloneIgnoreList(cloner, old);
-        cloneJoints(cloner, old);
+        RigidBodySnapshot snapshot = new RigidBodySnapshot(old);
+        super.cloneFields(cloner, original);
         this.motionState = cloner.clone(motionState);
+        unassignNativeObject();
+
+        CollisionShape shape = getCollisionShape();
+        long objectId = createRigidBody(
+                mass, motionState.nativeId(), shape.nativeId());
+        setNativeId(objectId);
+        assert getInternalType(objectId) == PcoType.rigid :
+                getInternalType(objectId);
+        logger2.log(Level.INFO, "Created " + Long.toHexString(objectId));
+        if (mass != massForStatic) {
+            setKinematic(kinematic);
+        }
+        postRebuild();
+        snapshot.applyTo(this);
 
         Vector3f tmpVector = new Vector3f(); // TODO garbage
-        if (old.isDynamic()) {
-            setAngularVelocity(old.getAngularVelocity(tmpVector));
-            setLinearVelocity(old.getLinearVelocity(tmpVector));
-        }
-
-        clearForces();
-
-        setAngularFactor(scaleIdentity);
-        applyTorque(old.totalAppliedTorque(tmpVector));
-        setAngularFactor(old.getAngularFactor(tmpVector));
-
-        setLinearFactor(scaleIdentity);
-        applyCentralForce(old.totalAppliedForce(tmpVector));
-        setLinearFactor(old.getLinearFactor(tmpVector));
-        /*
-         * Set force, torque, velocities, and kinematic flag
-         * BEFORE copyPcoProperties() because
-         * those setters also affect deactivation time.
-         */
-        copyPcoProperties(old);
-
-        setAngularDamping(old.getAngularDamping());
-        setAngularSleepingThreshold(old.getAngularSleepingThreshold());
-        setContactResponse(old.isContactResponse());
         setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
-        setLinearDamping(old.getLinearDamping());
-        setLinearSleepingThreshold(old.getLinearSleepingThreshold());
-        setPhysicsLocation(old.getPhysicsLocation(tmpVector));
-        setPhysicsRotation(old.getPhysicsRotationMatrix(null));
-        setProtectGravity(old.isGravityProtected());
+
+        clearIgnoreList();
+        cloneIgnoreList(cloner, old);
+
+        cloneJoints(cloner, old);
     }
 
     /**
