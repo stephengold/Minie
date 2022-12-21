@@ -97,6 +97,7 @@ public class PhysicsRigidBody extends PhysicsBody {
             = "linearSleepingThreshold";
     final private static String tagLinearVelocity = "linearVelocity";
     final private static String tagMass = "mass";
+    final private static String tagMotionState = "motionState";
     final private static String tagPhysicsLocation = "physicsLocation";
     final private static String tagPhysicsRotation = "physicsRotation";
     final private static String tagProtectGravity = "tagProtectGravity";
@@ -1272,6 +1273,9 @@ public class PhysicsRigidBody extends PhysicsBody {
         InputCapsule capsule = importer.getCapsule(this);
         this.kinematic = capsule.readBoolean(tagKinematic, false);
         this.mass = capsule.readFloat(tagMass, 1f);
+        this.motionState = (RigidBodyMotionState) capsule
+                .readSavable(tagMotionState, null);
+
         rebuildRigidBody();
 
         setAngularVelocity((Vector3f) capsule
@@ -1409,6 +1413,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         capsule.write(getAngularFactor(null), tagAngularFactor, null);
         capsule.write(getLinearFactor(null), tagLinearFactor, null);
         capsule.write(kinematic, tagKinematic, false);
+        capsule.write(motionState, tagMotionState, null);
 
         capsule.write(getInverseInertiaLocal(null), tagInverseInertia, null);
         capsule.write(getLinearDamping(), tagLinearDamping, 0f);

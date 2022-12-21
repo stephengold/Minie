@@ -33,6 +33,11 @@ package com.jme3.bullet.objects.infos;
 
 import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.bullet.objects.PhysicsVehicle;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
+import com.jme3.export.Savable;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
@@ -43,6 +48,7 @@ import com.jme3.util.clone.JmeCloneable;
 import com.simsilica.mathd.Matrix3d;
 import com.simsilica.mathd.Quatd;
 import com.simsilica.mathd.Vec3d;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,7 +59,7 @@ import java.util.logging.Logger;
  */
 public class RigidBodyMotionState
         extends NativePhysicsObject
-        implements JmeCloneable {
+        implements JmeCloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -62,6 +68,11 @@ public class RigidBodyMotionState
      */
     final public static Logger logger
             = Logger.getLogger(RigidBodyMotionState.class.getName());
+    /**
+     * field names for serialization
+     */
+    final private static String tagApplyPhysicsLocal = "applyPhysicsLocal";
+    final private static String tagVehicle = "vehicle";
     // *************************************************************************
     // fields
 
@@ -323,6 +334,40 @@ public class RigidBodyMotionState
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
+    }
+    // *************************************************************************
+    // Savable methods
+
+    /**
+     * De-serialize this state from the specified importer, for example when
+     * loading from a J3O file.
+     *
+     * @param importer (not null)
+     * @throws IOException from the importer
+     */
+    @Override
+    public void read(JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
+
+        this.applyPhysicsLocal
+                = capsule.readBoolean(tagApplyPhysicsLocal, false);
+        this.vehicle = (PhysicsVehicle) capsule.readSavable(tagVehicle, null);
+    }
+
+    /**
+     * Serialize this object to the specified exporter, for example when saving
+     * to a J3O file.
+     *
+     * @param exporter (not null)
+     * @throws IOException from the exporter
+     */
+    @Override
+    public void write(JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
+
+        capsule.write(applyPhysicsLocal, tagApplyPhysicsLocal, false);
+        capsule.write(vehicle, tagVehicle, null);
+        // tmpInverseWorldRotation is never written.
     }
     // *************************************************************************
     // Java private methods
