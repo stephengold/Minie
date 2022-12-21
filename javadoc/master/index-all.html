@@ -983,13 +983,13 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#calculatedOriginA(com.jme3.math.Vector3f)" class="member-name-link">calculatedOriginA(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
-<div class="block">Determine the translation component of the global transform of the offset
- for body A.</div>
+<div class="block">Calculate the pivot location of the A end (native field:
+ m_calculatedTransformA.m_origin).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#calculatedOriginB(com.jme3.math.Vector3f)" class="member-name-link">calculatedOriginB(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
-<div class="block">Determine the translation component of the global transform of the offset
- for body B.</div>
+<div class="block">Calculate the pivot location of the B end (native field:
+ m_calculatedTransformB.m_origin).</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#calculateNewForward(com.jme3.math.Quaternion,com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">calculateNewForward(Quaternion, Vector3f, Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
@@ -3592,7 +3592,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#get(com.jme3.bullet.joints.motors.MotorParam)" class="member-name-link">get(MotorParam)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Read the specified parameter of this motor.</div>
+<div class="block">Return the value of the specified parameter.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#get(com.jme3.bullet.joints.motors.MotorParam,int)" class="member-name-link">get(MotorParam, int)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
@@ -3656,7 +3656,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#getAngles(com.jme3.math.Vector3f)" class="member-name-link">getAngles(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
-<div class="block">Calculate the constraint's rotation angles.</div>
+<div class="block">Calculate the constraint's rotation angles (native field:
+ m_calculatedAxisAngleDiff).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/SixDofJoint.html#getAngles(com.jme3.math.Vector3f)" class="member-name-link">getAngles(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/SixDofJoint.html" title="class in com.jme3.bullet.joints">SixDofJoint</a></dt>
 <dd>
@@ -3792,7 +3793,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#getAxis(int,com.jme3.math.Vector3f)" class="member-name-link">getAxis(int, Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
-<div class="block">Calculate the indexed axis of the Constraint.</div>
+<div class="block">Calculate the indexed axis of the Constraint (native field:
+ m_calculatedAxis).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/NewHinge.html#getAxis1(com.jme3.math.Vector3f)" class="member-name-link">getAxis1(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/NewHinge.html" title="class in com.jme3.bullet.joints">NewHinge</a></dt>
 <dd>
@@ -4269,7 +4271,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#getFrameTransform(com.jme3.bullet.joints.JointEnd,com.jme3.math.Transform)" class="member-name-link">getFrameTransform(JointEnd, Transform)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
-<div class="block">Copy the constraint's frame transform relative to the specified end.</div>
+<div class="block">Copy the constraint's frame transform relative to the specified end
+ (native fields: m_frameInA, m_frameInB).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/SixDofJoint.html#getFrameTransform(com.jme3.bullet.joints.JointEnd,com.jme3.math.Transform)" class="member-name-link">getFrameTransform(JointEnd, Transform)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/SixDofJoint.html" title="class in com.jme3.bullet.joints">SixDofJoint</a></dt>
 <dd>
@@ -5066,7 +5069,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#getPivotOffset(com.jme3.math.Vector3f)" class="member-name-link">getPivotOffset(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
-<div class="block">Copy the constraint's pivot offset.</div>
+<div class="block">Copy the constraint's pivot offset (native field:
+ m_calculatedLinearDiff).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/SixDofJoint.html#getPivotOffset(com.jme3.math.Vector3f)" class="member-name-link">getPivotOffset(Vector3f)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/SixDofJoint.html" title="class in com.jme3.bullet.joints">SixDofJoint</a></dt>
 <dd>
@@ -5148,7 +5152,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#getRayTestFlags()" class="member-name-link">getRayTestFlags()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
-<div class="block">Read the flags used in ray tests (native field: m_flags).</div>
+<div class="block">Return the flags used in ray tests (native field: m_flags).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/HingeJoint.html#getRelaxationFactor()" class="member-name-link">getRelaxationFactor()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
@@ -5246,7 +5250,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#getRotationOrder()" class="member-name-link">getRotationOrder()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
-<div class="block">Read the order in which axis rotations are applied.</div>
+<div class="block">Return the order in which axis rotations are applied (native field:
+ m_rotateOrder).</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#getScale(com.jme3.math.Vector3f)" class="member-name-link">getScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
@@ -5374,7 +5379,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#getSpaceId()" class="member-name-link">getSpaceId()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
-<div class="block">Read the identifier of the native object.</div>
+<div class="block">Return the identifier of the native object.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/AbstractPhysicsControl.html#getSpatial()" class="member-name-link">getSpatial()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></dt>
 <dd>
@@ -6155,7 +6160,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#isDampingLimited()" class="member-name-link">isDampingLimited()</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Test whether the spring's damping is limited (m_springDampingLimited).</div>
+<div class="block">Test whether the spring's damping is limited (native field:
+ m_springDampingLimited).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#isDampingLimited(int)" class="member-name-link">isDampingLimited(int)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
@@ -6324,7 +6330,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#isMotorEnabled()" class="member-name-link">isMotorEnabled()</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Test whether this motor is enabled (m_enableMotor).</div>
+<div class="block">Test whether the motor is enabled (native field: m_enableMotor).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#isMotorEnabled(int)" class="member-name-link">isMotorEnabled(int)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
@@ -6381,7 +6387,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#isServoEnabled()" class="member-name-link">isServoEnabled()</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Test whether the servo is enabled (m_servoMotor).</div>
+<div class="block">Test whether the servo is enabled (native field: m_servoMotor).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#isServoEnabled(int)" class="member-name-link">isServoEnabled(int)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
@@ -6411,7 +6417,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#isSpringEnabled()" class="member-name-link">isSpringEnabled()</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Test whether the spring is enabled (m_enableSpring).</div>
+<div class="block">Test whether the spring is enabled (native field: m_enableSpring).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#isSpringEnabled(int)" class="member-name-link">isSpringEnabled(int)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
@@ -7439,7 +7445,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/animation/DacLinks.html#mass(java.lang.String)" class="member-name-link">mass(String)</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DacLinks.html" title="class in com.jme3.bullet.animation">DacLinks</a></dt>
 <dd>
-<div class="block">Read the mass of the named bone/torso.</div>
+<div class="block">Return the mass of the named bone/torso.</div>
 </dd>
 <dt><a href="com/jme3/bullet/animation/MassHeuristic.html#Mass" class="member-name-link">Mass</a> - Enum constant in enum class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/MassHeuristic.html" title="enum class in com.jme3.bullet.animation">MassHeuristic</a></dt>
 <dd>
@@ -9433,7 +9439,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#set(com.jme3.bullet.joints.motors.MotorParam,float)" class="member-name-link">set(MotorParam, float)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Alter the specified parameter of this motor.</div>
+<div class="block">Alter the specified parameter.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/New6Dof.html#set(com.jme3.bullet.joints.motors.MotorParam,int,float)" class="member-name-link">set(MotorParam, int, float)</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/New6Dof.html" title="class in com.jme3.bullet.joints">New6Dof</a></dt>
 <dd>
@@ -9936,7 +9942,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#setDampingLimited(boolean)" class="member-name-link">setDampingLimited(boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Limit or unlimit the spring's damping (m_springDampingLimited).</div>
+<div class="block">Limit or unlimit the spring's damping (native field:
+ m_springDampingLimited).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#setDampingLimited(int,boolean)" class="member-name-link">setDampingLimited(int, boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
@@ -10788,7 +10795,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#setMotorEnabled(boolean)" class="member-name-link">setMotorEnabled(boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Enable or disable this motor (m_enableMotor).</div>
+<div class="block">Enable or disable this motor (native field: m_enableMotor).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#setMotorEnabled(int,boolean)" class="member-name-link">setMotorEnabled(int, boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
@@ -11251,7 +11258,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#setServoEnabled(boolean)" class="member-name-link">setServoEnabled(boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Enable or disable the servo (m_servoMotor).</div>
+<div class="block">Enable or disable the servo (native field: m_servoMotor).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#setServoEnabled(int,boolean)" class="member-name-link">setServoEnabled(int, boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
@@ -11364,7 +11371,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#setSpringEnabled(boolean)" class="member-name-link">setSpringEnabled(boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Enable or disable the spring (m_enableSpring).</div>
+<div class="block">Enable or disable the spring (native field: m_enableSpring).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#setSpringEnabled(int,boolean)" class="member-name-link">setSpringEnabled(int, boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
@@ -11393,7 +11400,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/RotationMotor.html#setStiffnessLimited(boolean)" class="member-name-link">setStiffnessLimited(boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/RotationMotor.html" title="class in com.jme3.bullet.joints.motors">RotationMotor</a></dt>
 <dd>
-<div class="block">Limit or unlimit the spring's stiffness (m_springStiffnessLimited).</div>
+<div class="block">Limit or unlimit the spring's stiffness (native field:
+ m_springStiffnessLimited).</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/TranslationMotor.html#setStiffnessLimited(int,boolean)" class="member-name-link">setStiffnessLimited(int, boolean)</a> - Method in class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/TranslationMotor.html" title="class in com.jme3.bullet.joints.motors">TranslationMotor</a></dt>
 <dd>
