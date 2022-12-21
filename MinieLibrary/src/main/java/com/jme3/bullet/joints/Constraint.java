@@ -503,7 +503,15 @@ abstract public class Constraint extends PhysicsJoint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        Constraint old = (Constraint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.pivotA = cloner.clone(pivotA);
         this.pivotB = cloner.clone(pivotB);

@@ -276,10 +276,9 @@ abstract public class PhysicsJoint
         this.bodyA = cloner.clone(bodyA);
         this.bodyB = cloner.clone(bodyB);
         this.space = null;
-        unassignNativeObject();
         /*
          * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,
-         * or btSoftBody::Joint and invoke setNativeId()
+         * or btSoftBody::Joint and invoke setNativeId().
          */
     }
 
@@ -292,6 +291,7 @@ abstract public class PhysicsJoint
     public PhysicsJoint jmeClone() {
         try {
             PhysicsJoint clone = (PhysicsJoint) super.clone();
+            clone.unassignNativeObject();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

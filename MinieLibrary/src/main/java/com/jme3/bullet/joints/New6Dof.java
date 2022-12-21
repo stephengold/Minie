@@ -659,7 +659,15 @@ public class New6Dof extends Constraint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        New6Dof old = (New6Dof) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.rotA = cloner.clone(rotA);
         this.rotB = cloner.clone(rotB);
@@ -667,7 +675,6 @@ public class New6Dof extends Constraint {
         this.translationMotor = null;
         createConstraint();
 
-        New6Dof old = (New6Dof) original;
         copyConstraintProperties(old);
 
         for (int i = 0; i < MyVector3f.numAxes; ++i) {

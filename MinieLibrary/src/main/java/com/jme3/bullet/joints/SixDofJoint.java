@@ -503,7 +503,15 @@ public class SixDofJoint extends Constraint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        SixDofJoint old = (SixDofJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.rotA = cloner.clone(rotA);
         this.rotB = cloner.clone(rotB);
@@ -516,7 +524,6 @@ public class SixDofJoint extends Constraint {
         this.linearLowerLimit = cloner.clone(linearLowerLimit);
         this.linearUpperLimit = cloner.clone(linearUpperLimit);
 
-        SixDofJoint old = (SixDofJoint) original;
         copyConstraintProperties(old);
 
         setAngularLowerLimit(old.getAngularLowerLimit(null));

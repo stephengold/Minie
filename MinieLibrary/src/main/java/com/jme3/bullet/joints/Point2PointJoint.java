@@ -215,11 +215,17 @@ public class Point2PointJoint extends Constraint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        Point2PointJoint old = (Point2PointJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         createJoint();
-
-        Point2PointJoint old = (Point2PointJoint) original;
         copyConstraintProperties(old);
 
         setDamping(old.getDamping());

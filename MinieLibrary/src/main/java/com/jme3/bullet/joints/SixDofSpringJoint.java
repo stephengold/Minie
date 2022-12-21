@@ -330,9 +330,15 @@ public class SixDofSpringJoint extends SixDofJoint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-
+        assert !hasAssignedNativeObject();
         SixDofSpringJoint old = (SixDofSpringJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
+        super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
             setDamping(dofIndex, old.getDamping(dofIndex));

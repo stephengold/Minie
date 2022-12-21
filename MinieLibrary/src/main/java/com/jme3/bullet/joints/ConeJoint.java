@@ -288,13 +288,20 @@ public class ConeJoint extends Constraint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        ConeJoint old = (ConeJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.rotA = cloner.clone(rotA);
         this.rotB = cloner.clone(rotB);
         createJoint();
 
-        ConeJoint old = (ConeJoint) original;
         copyConstraintProperties(old);
     }
 

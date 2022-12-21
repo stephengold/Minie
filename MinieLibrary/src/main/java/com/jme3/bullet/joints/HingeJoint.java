@@ -424,15 +424,22 @@ public class HingeJoint extends Constraint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        HingeJoint old = (HingeJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+        assert !hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.axisA = cloner.clone(axisA);
         this.axisB = cloner.clone(axisB);
         createJoint();
 
         setAngularOnly(angularOnly);
-
-        HingeJoint old = (HingeJoint) original;
         copyConstraintProperties(old);
 
         float low = old.getLowerLimit();

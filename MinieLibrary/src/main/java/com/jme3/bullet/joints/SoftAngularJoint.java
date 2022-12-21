@@ -162,15 +162,22 @@ public class SoftAngularJoint extends SoftPhysicsJoint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        SoftAngularJoint old = (SoftAngularJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.axis = cloner.clone(axis);
         createJoint();
 
-        SoftAngularJoint originalJoint = (SoftAngularJoint) original;
-        setCFM(originalJoint.getCFM());
-        setERP(originalJoint.getERP());
-        setSplit(originalJoint.getSplit());
+        setCFM(old.getCFM());
+        setERP(old.getERP());
+        setSplit(old.getSplit());
     }
 
     /**

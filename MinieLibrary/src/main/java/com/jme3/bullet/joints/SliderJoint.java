@@ -888,13 +888,20 @@ public class SliderJoint extends Constraint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        SliderJoint old = (SliderJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.rotA = cloner.clone(rotA);
         this.rotB = cloner.clone(rotB);
         createJoint();
 
-        SliderJoint old = (SliderJoint) original;
         copyConstraintProperties(old);
 
         setDampingDirAng(old.getDampingDirAng());

@@ -266,7 +266,15 @@ public class NewHinge extends New6Dof {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        NewHinge old = (NewHinge) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.axis1 = cloner.clone(axis1);
         this.axis2 = cloner.clone(axis2);

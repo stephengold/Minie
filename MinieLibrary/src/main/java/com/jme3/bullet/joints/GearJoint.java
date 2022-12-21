@@ -260,13 +260,20 @@ public class GearJoint extends Constraint {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        GearJoint old = (GearJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.axisA = cloner.clone(axisA);
         this.axisB = cloner.clone(axisB);
         createJoint();
 
-        GearJoint old = (GearJoint) original;
         copyConstraintProperties(old);
     }
 
