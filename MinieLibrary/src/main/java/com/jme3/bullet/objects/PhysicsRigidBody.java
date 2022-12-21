@@ -1199,7 +1199,7 @@ public class PhysicsRigidBody extends PhysicsBody {
 
         PhysicsRigidBody old = (PhysicsRigidBody) original;
         cloneIgnoreList(cloner, old);
-        cloneJoints(cloner);
+        cloneJoints(cloner, old);
         this.motionState = cloner.clone(motionState);
 
         Vector3f tmpVector = new Vector3f(); // TODO garbage

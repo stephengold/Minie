@@ -95,8 +95,10 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * Clone this body's joints.
      *
      * @param cloner the Cloner that's cloning this body (not null, modified)
+     * @param old the instance from which this body was shallow-cloned (not
+     * null, unaffected)
      */
-    protected void cloneJoints(Cloner cloner) {
+    protected void cloneJoints(Cloner cloner, PhysicsBody old) {
         joints = cloner.clone(joints);
     }
 
