@@ -99,7 +99,30 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      * null, unaffected)
      */
     protected void cloneJoints(Cloner cloner, PhysicsBody old) {
-        joints = cloner.clone(joints);
+        int size = joints.size();
+        this.joints = new ArrayList<>(size);
+        for (PhysicsJoint oldJoint : old.joints) {
+            if (oldJoint.countEnds() == 1) {
+                PhysicsJoint newJoint = cloner.clone(oldJoint);
+                addJoint(newJoint);
+            } else {
+                PhysicsBody otherBodyOld = oldJoint.findOtherBody(old);
+                PhysicsBody otherBodyNew = cloner.clone(otherBodyOld);
+                /*
+                 * We want to join new bodies, not old ones,
+                 * so if the other body hasn't assigned a native object yet,
+                 * wait and let *that* body clone the joint.
+                 */
+                if (otherBodyNew.hasAssignedNativeObject()) {
+                    PhysicsJoint newJoint = cloner.clone(oldJoint);
+                    if (!newJoint.hasAssignedNativeObject()) {
+                        newJoint.cloneFields(cloner, oldJoint);
+                    }
+                    otherBodyNew.addJoint(newJoint);
+                    addJoint(newJoint);
+                }
+            }
+        }
     }
 
     /**
@@ -233,5 +256,20 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      */
     protected void writeJoints(OutputCapsule capsule) throws IOException {
         capsule.writeSavableArrayList(joints, tagJoints, null);
+    }
+    // *************************************************************************
+    // PhysicsCollisionObject methods
+
+    /**
+     * Create a shallow clone for the JME cloner.
+     *
+     * @return a new body
+     */
+    @Override
+    public PhysicsBody jmeClone() {
+        PhysicsBody clone = (PhysicsBody) super.jmeClone();
+        clone.unassignNativeObject();
+
+        return clone;
     }
 }

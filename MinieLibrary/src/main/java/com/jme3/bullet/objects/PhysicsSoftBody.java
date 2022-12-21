@@ -1444,10 +1444,16 @@ public class PhysicsSoftBody extends PhysicsBody {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        super.cloneFields(cloner, original);
-        unassignNativeObject();
-
+        assert !hasAssignedNativeObject();
         PhysicsSoftBody old = (PhysicsSoftBody) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
+        super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
+
         this.worldInfo = cloner.clone(old.worldInfo);
         long infoId = worldInfo.nativeId();
         long objectId = createEmpty(infoId);

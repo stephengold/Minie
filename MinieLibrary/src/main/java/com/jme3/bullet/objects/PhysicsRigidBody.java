@@ -1194,11 +1194,19 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
         PhysicsRigidBody old = (PhysicsRigidBody) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         RigidBodySnapshot snapshot = new RigidBodySnapshot(old);
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
+
         this.motionState = cloner.clone(motionState);
-        unassignNativeObject();
+        assert !hasAssignedNativeObject();
 
         CollisionShape shape = getCollisionShape();
         long objectId = createRigidBody(

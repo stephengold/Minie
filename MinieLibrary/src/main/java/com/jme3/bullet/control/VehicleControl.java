@@ -329,7 +329,16 @@ public class VehicleControl
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        VehicleControl old = (VehicleControl) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
+        if (hasAssignedNativeObject()) {
+            return;
+        }
+
         spatial = cloner.clone(spatial);
     }
 

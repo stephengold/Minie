@@ -273,8 +273,25 @@ abstract public class PhysicsJoint
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        this.bodyA = cloner.clone(bodyA);
-        this.bodyB = cloner.clone(bodyB);
+        assert !hasAssignedNativeObject();
+        PhysicsJoint old = (PhysicsJoint) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
+        PhysicsBody oldBodyA = old.bodyA;
+        this.bodyA = cloner.clone(oldBodyA);
+        if (bodyA != null && !bodyA.hasAssignedNativeObject()) {
+            bodyA.cloneFields(cloner, oldBodyA);
+        }
+        assert bodyA == null || bodyA.hasAssignedNativeObject() : bodyA;
+
+        PhysicsBody oldBodyB = old.bodyB;
+        this.bodyB = cloner.clone(oldBodyB);
+        if (bodyB != null && !bodyB.hasAssignedNativeObject()) {
+            bodyB.cloneFields(cloner, oldBodyB);
+        }
+        assert bodyB == null || bodyB.hasAssignedNativeObject() : bodyA;
+
         this.space = null;
         /*
          * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,
