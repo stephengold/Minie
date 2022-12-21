@@ -1264,21 +1264,6 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Create a shallow clone for the JME cloner.
-     *
-     * @return a new instance
-     */
-    @Override
-    public PhysicsRigidBody jmeClone() {
-        try {
-            PhysicsRigidBody clone = (PhysicsRigidBody) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    /**
      * De-serialize this body from the specified importer, for example when
      * loading from a J3O file.
      *
