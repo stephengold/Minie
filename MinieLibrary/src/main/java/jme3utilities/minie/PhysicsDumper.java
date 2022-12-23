@@ -469,12 +469,15 @@ public class PhysicsDumper extends Dumper {
         } else if (joint instanceof New6Dof) {
             New6Dof sixDof = (New6Dof) joint;
 
-            desc = sixDof.getRotationOrder().toString();
-            stream.printf("%n%s rotOrder=%s", moreIndent, desc);
-            Vector3f angles = sixDof.getAngles(null);
-            stream.printf(" angles[%s]", MyVector3f.describe(angles));
+            addLine(moreIndent);
             Vector3f offset = sixDof.getPivotOffset(null);
             stream.printf(" offset[%s]", MyVector3f.describe(offset));
+
+            addLine(moreIndent);
+            Vector3f angles = sixDof.getAngles(null);
+            stream.printf(" angles[%s]", MyVector3f.describe(angles));
+            desc = sixDof.getRotationOrder().toString();
+            stream.printf(" ro=%s", desc);
 
             if (dumpMotors) {
                 for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
