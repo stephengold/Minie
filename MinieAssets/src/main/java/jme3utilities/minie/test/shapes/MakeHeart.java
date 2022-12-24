@@ -81,6 +81,15 @@ public class MakeHeart {
     final private static FloatBuffer sampleBuffer
             = BufferUtils.createFloatBuffer(numAxes * numSamples);
     // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeHeart() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

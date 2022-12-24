@@ -96,6 +96,15 @@ public class MakeGlyphs {
     final private static Vector3f v2a = new Vector3f();
     final private static Vector3f v2b = new Vector3f();
     // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeGlyphs() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

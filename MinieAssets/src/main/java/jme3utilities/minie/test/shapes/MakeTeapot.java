@@ -69,6 +69,15 @@ public class MakeTeapot {
     final private static String assetDirPath
             = "../MinieExamples/src/main/resources";
     // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeTeapot() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**
