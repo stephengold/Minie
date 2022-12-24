@@ -1,5 +1,82 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.0.0 released on TBD
+
++ API changes:
+  + Privatized `PhysicsCollisionObject.getCollisionFlags()` (a native method)
+  + Added the `static` qualifier to `PersistentManifolds.listPointIds()`
+  + Renamed the public logger in the `ConvexShape` class to avoid conflict.
+  + Added an argument to `PhysicsBody.cloneJoints()`
+  + Corrected the return type of `CharacterController.jmeClone()`
+  + Finalized 3 classes:
+    + `NativeSoftBodyUtil`
+    + `PhysicsRayTestResult`
+    + `PhysicsSweepTestResult`
+
++ Bug fixes:
+  + `DynamicAnimControl` may pass illegal arguments to `MyMath.slerp()`
+  + assertion failure when `toString()` is invoked on a collision object
+    or physics joint with no native object assigned
+  + out-of-range exception upon re-entering DacWizard's "bones" screen
+    with a different model
+  + transforms are not updated for the `getCalculatedOriginA()` and
+    `getCalculatedOriginB()` methods in the `New6Dof` class
+  + `getPhysicsLocationDp()` and `getPhysicsRotationDp()` return incorrect
+    values for a soft body
+  + cloning bugs:
+    + physics joints are cloned inaccurately
+    + ignore lists are cloned inaccurately
+    + cloning or rebuilding a collision object results in
+      different collision flags
+    + the feedback parameter of a `Constraint` isn't cloned
+    + `DacLinks` incompletely cloned
+    + `BoneLink.tmpMatrix` is shared between clones
+  + serialization bugs:
+    + `NullPointerException` in `PreComposer.read()`
+    + `RigidBodyMotionState` is never serialized
+    + the pivot offsets of single-ended constraints
+      are de-serialized incorrectly
+    + `PhysicsLink.density` is never saved or loaded
+    + the feedback parameter of a `Constraint` is never saved or loaded
+    + the `bindTransform` and `preComposer` fields of a `DacLinks`
+      are never saved or loaded
+
++ Publicized the `PhysicsLink.velocity()` method.
++ Added 9 double-precision setters:
+  + `CharacterController.warpDp()`
+  + `MultiBodyCollider.setPhysicsLocationDp()`
+  + `MultiBodyCollider.setPhysicsRotationDp(Matrix3d)`
+  + `PhysicsCharacter.setPhysicsLocationDp()`
+  + `PhysicsGhostObject.setPhysicsLocationDp()`
+  + `PhysicsGhostObject.setPhysicsRotationDp()` (2 signatures)
+  + `PhysicsRigidBody.setPhysicsRotationDp(Matrix3d)`
+  + `PhysicsSoftBody.setPhysicsLocationDp()`
++ Added 8 other double-precision methods:
+  + `CollisionShape.getScaleDp()`
+  + `CollisionSpace.rayTestDp()`
+  + `ManifoldPoints.getPositionWorldOnADp()`
+  + `ManifoldPoints.getPositionWorldOnBDp()`
+  + `PhysicsCollisionObject.getPhysicsRotationMatrixDp()`
+  + `RigidBodyMotionState.getLocationDp()`
+  + `RigidBodyMotionState.getOrientationMatrixDp()`
+  + `RigidBodyMotionState.getOrientationQuaternionDp()`
++ Added 6 other methods:
+  + `New6Dof.calculatedBasisA()`
+  + `New6Dof.calculatedBasisB()`
+  + `New6Dof.getRotationMatrix()`
+  + `PhysicsCollisionObject.collisionFlags()`
+  + `PhysicsDescriber.describeMatrix()`
+  + `PhysicsDumper.dump(PhysicsJoint, String)`
+
++ Added `INFO`-level log messages
+  to the `New6Dof` and `PhysicsRigidBody` classes.
++ Made incremental improvements to the `PhysicsDumper` output format.
++ Strengthened argument validation.
++ Updated the native libraries to v17.4.0 of Libbulletjme.
++ Update `DacWizard` and `VhacdTuner` to use v0.9.32
+  of the jme3-utilities-nifty library.
++ Built using Gradle v7.6 .
+
 ## Version 6.2.0 released on 13 November 2022
 
 + Added 3 methods:
