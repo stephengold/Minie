@@ -328,6 +328,8 @@ public class TorsoLink extends PhysicsLink {
      */
     @Override
     protected void dynamicUpdate() {
+        assert !getRigidBody().isKinematic();
+
         DacLinks control = getControl();
         Spatial spatial = control.getSpatial();
         Node parent = spatial.getParent();
