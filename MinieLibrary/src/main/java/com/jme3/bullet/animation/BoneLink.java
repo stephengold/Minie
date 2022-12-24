@@ -491,7 +491,7 @@ public class BoneLink extends PhysicsLink {
         // Disable bone animations, if any.
         int numManaged = countManaged();
         for (int managedIndex = 1; managedIndex < numManaged; ++managedIndex) {
-            Transform t = prevBoneTransforms[managedIndex];
+            Transform t = prevBoneTransforms[managedIndex]; // alias
             setManagedTransform(managedIndex, t);
         }
 
@@ -570,10 +570,9 @@ public class BoneLink extends PhysicsLink {
                 Quaternion endQuat = transform.getRotation(); // alias
                 if (startQuat.dot(endQuat) < 0f) {
                     endQuat.multLocal(-1f);
-                }
+                } // TODO smarter sign flipping
                 MyQuaternion.normalizeLocal(endQuat);
                 MyMath.slerp(kinematicWeight(), start, transform, transform);
-                // TODO smarter sign flipping
             }
 
             // Update the managed bone.
@@ -710,6 +709,7 @@ public class BoneLink extends PhysicsLink {
         capsule.write(managedArmatureJoints, tagManagedArmatureJoints, null);
         capsule.write(managedBones, tagManagedBones, null);
         capsule.write(submode, tagSubmode, KinematicSubmode.Animated);
+        // tmpMatrix is never written.
         capsule.write(
                 prevBoneTransforms, tagPrevBoneTransforms, new Transform[0]);
         capsule.write(

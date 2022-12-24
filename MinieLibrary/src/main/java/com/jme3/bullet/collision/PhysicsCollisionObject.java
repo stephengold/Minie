@@ -342,7 +342,6 @@ abstract public class PhysicsCollisionObject
      * @param old (not null, unaffected)
      */
     final public void copyPcoProperties(PhysicsCollisionObject old) {
-        // TODO method should be protected
         assert old.hasAssignedNativeObject();
         assert old.nativeId() != nativeId();
 
@@ -1379,7 +1378,6 @@ abstract public class PhysicsCollisionObject
      * null, unaffected)
      */
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
-        // TODO finalize this method
         assert !doneCloningIgnores;
 
         long[] ignoredIds = old.listIgnoredIds();
