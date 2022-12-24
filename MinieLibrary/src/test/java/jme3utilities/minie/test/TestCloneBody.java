@@ -99,8 +99,8 @@ public class TestCloneBody {
     public void testCloneBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         shape = new SphereCollisionShape(1f);
-        this.ignoreBuddy = new PhysicsRigidBody(shape);
-        this.space = new PhysicsSoftSpace(PhysicsSpace.BroadphaseType.DBVT);
+        ignoreBuddy = new PhysicsRigidBody(shape);
+        space = new PhysicsSoftSpace(PhysicsSpace.BroadphaseType.DBVT);
 
         for (int iteration = 0; iteration < 9; ++iteration) {
             clonePrb();
