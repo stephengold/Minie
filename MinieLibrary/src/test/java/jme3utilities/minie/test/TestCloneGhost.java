@@ -55,7 +55,7 @@ public class TestCloneGhost {
     /**
      * AssetManager required by the BinaryImporter
      */
-    final private AssetManager assetManager = new DesktopAssetManager();
+    final private static AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************
     // new methods exposed
 

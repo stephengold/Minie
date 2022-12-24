@@ -124,9 +124,9 @@ public class TestDefaults {
     // *************************************************************************
     // fields
 
-    private BoxCollisionShape box; // initialized by testShapes()
-    private PhysicsRigidBody rigidA;
-    private PhysicsSoftBody softA;
+    private static BoxCollisionShape box; // initialized by testShapes()
+    private static PhysicsRigidBody rigidA;
+    private static PhysicsSoftBody softA;
     // *************************************************************************
     // new methods exposed
 

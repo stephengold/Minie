@@ -51,7 +51,7 @@ public class TestShapeAabb {
     /**
      * storage for returned results
      */
-    final private BoundingBox aabb = new BoundingBox();
+    final private static BoundingBox aabb = new BoundingBox();
     // *************************************************************************
     // new methods exposed
 

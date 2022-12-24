@@ -80,7 +80,7 @@ public class TestStaticBody {
     /**
      * AssetManager to load Jaime, also required by the BinaryImporter
      */
-    final private AssetManager assetManager = new DesktopAssetManager();
+    final private static AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************
     // new methods exposed
 

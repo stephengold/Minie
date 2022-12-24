@@ -71,23 +71,23 @@ public class TestCloneBody {
     /**
      * AssetManager required by the BinaryImporter
      */
-    final private AssetManager assetManager = new DesktopAssetManager();
+    final private static AssetManager assetManager = new DesktopAssetManager();
     /**
      * collision shape for generating rigid bodies
      */
-    private CollisionShape shape;
+    private static CollisionShape shape;
     /**
      * wire mesh for generating soft bodies
      */
-    final private Mesh wireBox = new WireBox();
+    final private static Mesh wireBox = new WireBox();
     /**
      * body added to ignore lists
      */
-    private PhysicsRigidBody ignoreBuddy;
+    private static PhysicsRigidBody ignoreBuddy;
     /**
      * container for bodies
      */
-    private PhysicsSoftSpace space;
+    private static PhysicsSoftSpace space;
     // *************************************************************************
     // new methods exposed
 

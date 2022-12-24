@@ -54,7 +54,7 @@ public class TestProtectGravity {
     // *************************************************************************
     // fields
 
-    private CollisionShape shape;
+    private static CollisionShape shape;
     // *************************************************************************
     // new methods exposed
 
