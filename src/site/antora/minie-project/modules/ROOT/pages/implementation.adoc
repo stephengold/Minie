@@ -136,7 +136,7 @@ during each rendered frame.
 
 Debug visualization can be enabled or disabled simply by setting a parameter.
 
-== Direct buffers, GC, and threading
+== Direct buffers, garbage collection, and threading
 
 Direct buffers used in {Project} should have native byte order.
 
@@ -146,7 +146,7 @@ weak references.
 Successful initialization of a native library causes {Project}
 to start a daemon thread named "Physics Cleaner".
 Its purpose is to free any tracked native objects
-whose corresponding java objects have been garbage collected (GC'ed).
+whose corresponding java objects have been garbage collected.
 
 As a performance enhancement,
 {Project} can parallelize certain for-loops on platforms that support OpenMP.
