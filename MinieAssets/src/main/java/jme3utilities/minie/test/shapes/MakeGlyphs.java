@@ -105,9 +105,8 @@ public class MakeGlyphs {
      */
     public static void main(String[] arguments) {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
@@ -157,10 +156,8 @@ public class MakeGlyphs {
      * Generate collision shapes for all 26 letters of the English alphabet in
      * upper case.
      */
-    private void makeAlphabet() {
-        /*
-         * Initialize the vertex list.
-         */
+    private static void makeAlphabet() {
+        // Initialize the vertex list.
         prismVertices.clear();
         prismVertices.add(v0a);
         prismVertices.add(v0b);
@@ -168,9 +165,8 @@ public class MakeGlyphs {
         prismVertices.add(v1b);
         prismVertices.add(v2a);
         prismVertices.add(v2b);
-        /*
-         * Generate the shapes.
-         */
+
+        // Generate the shapes.
         TrueTypeFont font = loadProFont();
         Transform transformA = new Transform();
         transformA.getTranslation().set(0f, 0f, 0.5f);
@@ -196,18 +192,15 @@ public class MakeGlyphs {
      */
     private void makeGlyphShape(TrueTypeFont font, char character,
             Transform transformA, Transform transformB) {
-        /*
-         * Convert the specified character to a TrueTypeNode.
-         */
+        // Convert the specified character to a TrueTypeNode.
         String string = Character.toString(character);
         int kerning = 0;
         ColorRGBA color = null;
         StringContainer.Align hAlign = StringContainer.Align.Center;
         StringContainer.VAlign vAlign = StringContainer.VAlign.Center;
         Spatial ttNode = font.getText(string, kerning, color, hAlign, vAlign);
-        /*
-         * Access the generated mesh.
-         */
+
+        // Access the generated mesh.
         List<Geometry> list = MySpatial.listGeometries(ttNode);
         assert list.size() == 1;
         Mesh mesh = list.get(0).getMesh();
@@ -241,9 +234,8 @@ public class MakeGlyphs {
             CollisionShape prism = new HullCollisionShape(prismVertices);
             compoundShape.addChildShape(prism);
         }
-        /*
-         * Write the compound shape to a J3O file.
-         */
+
+        // Write the compound shape to a J3O file.
         String assetPath
                 = String.format("CollisionShapes/glyphs/%s.j3o", string);
         String filePath = String.format("%s/%s", assetDirPath, assetPath);

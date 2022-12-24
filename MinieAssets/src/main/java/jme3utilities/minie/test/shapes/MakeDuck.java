@@ -77,9 +77,8 @@ public class MakeDuck {
      */
     public static void main(String[] arguments) {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
@@ -121,9 +120,8 @@ public class MakeDuck {
         Spatial parent = ((Node) cgmRoot).getChild(0);
         parent.setLocalTransform(Transform.IDENTITY);
         Spatial geom = ((Node) parent).getChild(0);
-        /*
-         * Translate and uniformly scale the model to fit inside a 2x2x2 cube.
-         */
+
+        // Translate and uniformly scale the model to fit inside a 2x2x2 cube.
         Vector3f[] minMax = MySpatial.findMinMaxCoords(geom);
         Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
         Vector3f offset = center.negate();
@@ -132,17 +130,15 @@ public class MakeDuck {
         Vector3f extents = minMax[1].subtract(minMax[0]);
         float radius = MyMath.max(extents.x, extents.y, extents.z) / 2f;
         parent.setLocalScale(1f / radius);
-        /*
-         * Generate a CollisionShape to approximate the Mesh.
-         */
+
+        // Generate a CollisionShape to approximate the Mesh.
         VHACDParameters parameters = new VHACDParameters();
         parameters.setMaxVerticesPerHull(99);
         parameters.setVoxelResolution(900_000);
         CompoundCollisionShape shape
                 = ShapeUtils.createVhacdShape(cgmRoot, parameters, "MakeDuck");
-        /*
-         * Write the shape to the asset file.
-         */
+
+        // Write the shape to the asset file.
         String assetPath = "CollisionShapes/duck.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         Heart.writeJ3O(writeFilePath, shape);

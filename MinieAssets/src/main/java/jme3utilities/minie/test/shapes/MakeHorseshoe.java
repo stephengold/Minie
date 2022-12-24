@@ -74,9 +74,8 @@ public class MakeHorseshoe {
      */
     public static void main(String[] arguments) {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
@@ -114,9 +113,8 @@ public class MakeHorseshoe {
          */
         Spatial cgmRoot
                 = assetManager.loadModel("Models/Horseshoe/Horseshoe.glb");
-        /*
-         * Generate a CollisionShape to approximate the Mesh.
-         */
+
+        // Generate a CollisionShape to approximate the Mesh.
         CompoundCollisionShape shape;
         if (useManualDecomposition) {
             shape = (CompoundCollisionShape)
@@ -127,9 +125,8 @@ public class MakeHorseshoe {
             shape = ShapeUtils.createVhacdShape(
                     cgmRoot, parameters, "MakeHorseshoe");
         }
-        /*
-         * Write the shape to the asset file.
-         */
+
+        // Write the shape to the asset file.
         String assetPath = "CollisionShapes/horseshoe.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         Heart.writeJ3O(writeFilePath, shape);

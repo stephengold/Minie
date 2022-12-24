@@ -76,9 +76,8 @@ public class MakeSword {
      */
     public static void main(String[] arguments) {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
@@ -120,9 +119,8 @@ public class MakeSword {
                 = assetManager.loadModel("Models/Sinbad/Sword.mesh.xml");
         Node cgmRoot = new Node();
         cgmRoot.attachChild(parent);
-        /*
-         * Translate and uniformly scale the model to fit inside a 2x2x2 cube.
-         */
+
+        // Translate and uniformly scale the model to fit inside a 2x2x2 cube.
         Vector3f[] minMax = MySpatial.findMinMaxCoords(parent);
         Vector3f center = MyVector3f.midpoint(minMax[0], minMax[1], null);
         Vector3f offset = center.negate();
@@ -133,16 +131,14 @@ public class MakeSword {
         Vector3f extents = minMax[1].subtract(minMax[0]);
         float radius = MyMath.max(extents.x, extents.y, extents.z) / 2f;
         parent.setLocalScale(1f / radius);
-        /*
-         * Generate a CollisionShape to approximate the Mesh.
-         */
+
+        // Generate a CollisionShape to approximate the Mesh.
         Vhacd4Parameters parameters = new Vhacd4Parameters();
         parameters.setMaxHulls(8);
         CompoundCollisionShape shape
                 = ShapeUtils.createVhacdShape(cgmRoot, parameters, "MakeSword");
-        /*
-         * Write the shape to the asset file.
-         */
+
+        // Write the shape to the asset file.
         String assetPath = "CollisionShapes/sword.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         Heart.writeJ3O(writeFilePath, shape);

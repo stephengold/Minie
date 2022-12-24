@@ -74,9 +74,8 @@ public class MakeAnkh {
      */
     public static void main(String[] arguments) {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
@@ -113,9 +112,8 @@ public class MakeAnkh {
          * from src/main/resources:
          */
         Spatial cgmRoot = assetManager.loadModel("Models/Ankh/Ankh.glb");
-        /*
-         * Generate a CollisionShape to approximate the Mesh.
-         */
+
+        // Generate a CollisionShape to approximate the Mesh.
         CompoundCollisionShape shape;
         if (useManualDecomposition) {
             shape = (CompoundCollisionShape)
@@ -126,9 +124,8 @@ public class MakeAnkh {
             shape = ShapeUtils.createVhacdShape(
                     cgmRoot, parameters, "MakeAnkh");
         }
-        /*
-         * Write the shape to the asset file.
-         */
+
+        // Write the shape to the asset file.
         String assetPath = "CollisionShapes/ankh.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         Heart.writeJ3O(writeFilePath, shape);

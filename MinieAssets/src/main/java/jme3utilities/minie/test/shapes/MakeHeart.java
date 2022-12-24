@@ -90,9 +90,8 @@ public class MakeHeart {
      */
     public static void main(String[] arguments) {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
@@ -119,26 +118,22 @@ public class MakeHeart {
     /**
      * Generate a collision shape for a 3-D heart.
      */
-    private void makeHeart() {
-        /*
-         * Phase 1: add solutions for y=0, x>0
-         */
+    private static void makeHeart() {
+        // Phase 1: add solutions for y=0, x>0
         int n1 = 30;
         for (int i = 0; i < n1; ++i) {
             double gamma = i * Math.PI / (n1 - 1);
             solve1(gamma);
         }
-        /*
-         * Phase 2: add solutions for x=0, y>0 (symmetric in y)
-         */
+
+        // Phase 2: add solutions for x=0, y>0 (symmetric in y)
         int n2 = 15;
         for (int i = 0; i < n2; ++i) {
             double beta = (i + 1) * Math.PI / n2;
             solve2(beta);
         }
-        /*
-         * Phase 3: add solutions for x>0, y>0 (symmetric in y)
-         */
+
+        // Phase 3: add solutions for x>0, y>0 (symmetric in y)
         Generator generate = new Generator();
         while (sampleBuffer.remaining() >= 2 * numAxes) {
             double x = 1.2 * generate.nextDouble();
@@ -157,9 +152,8 @@ public class MakeHeart {
         Matrix3f rotation = new Matrix3f();
         rotation.fromAngleAxis(FastMath.PI, Vector3f.UNIT_Z);
         compound.addChildShape(half, Vector3f.ZERO, rotation);
-        /*
-         * Phase 5: write the shape to the asset file.
-         */
+
+        // Phase 5: write the shape to the asset file.
         String assetPath = "CollisionShapes/heart.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         Heart.writeJ3O(writeFilePath, compound);
@@ -214,9 +208,8 @@ public class MakeHeart {
         while (Math.abs(r1 - r2) > tolerance) {
             assert !trial1(cosGamma, sinGamma, r1);
             assert trial1(cosGamma, sinGamma, r2);
-            /*
-             * Bisect to obtain a new estimate of the solution.
-             */
+
+            // Bisect to obtain a new estimate of the solution.
             double r = (r1 + r2) / 2.0;
             boolean s = trial1(cosGamma, sinGamma, r);
             if (s) {
@@ -256,9 +249,8 @@ public class MakeHeart {
         while (Math.abs(r1 - r2) > tolerance) {
             assert !trial2(cosGamma, sinGamma, r1);
             assert trial2(cosGamma, sinGamma, r2);
-            /*
-             * Bisect to obtain a new estimate of R.
-             */
+
+            // Bisect to obtain a new estimate of R.
             double r = (r1 + r2) / 2.0;
             boolean s = trial2(cosGamma, sinGamma, r);
             if (s) {
@@ -298,9 +290,8 @@ public class MakeHeart {
         while (Math.abs(r1 - r2) > tolerance) {
             assert !trial3(x, z, r1);
             assert trial3(x, z, r2);
-            /*
-             * Bisect to obtain a new estimate of the solution.
-             */
+
+            // Bisect to obtain a new estimate of the solution.
             double r = (r1 + r2) / 2.0;
             boolean s = trial3(x, z, r);
             if (s) {

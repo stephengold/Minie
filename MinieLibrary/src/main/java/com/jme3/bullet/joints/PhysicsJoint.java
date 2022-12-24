@@ -332,7 +332,7 @@ abstract public class PhysicsJoint
         this.bodyB = (PhysicsBody) capsule.readSavable(tagNodeB, null);
         /*
          * Each subclass must create the btTypedConstraint, btSoftBody::Anchor,
-         * or btSoftBody::Joint.
+         * or btSoftBody::Joint and then read the remaining properties.
          */
     }
 

@@ -80,14 +80,9 @@ final public class MakeBarrel {
      */
     public static void main(String[] arguments) {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
 
         // Log the working directory.
         String userDir = System.getProperty("user.dir");
@@ -113,15 +108,13 @@ final public class MakeBarrel {
          * from src/main/resources:
          */
         Spatial cgmRoot = assetManager.loadModel("Models/Barrel/Barrel.glb");
-        /*
-         * Generate a HullCollisionShape based on mesh vertices.
-         */
+
+        // Generate a HullCollisionShape based on mesh vertices.
         VectorSet locations = MyMesh.listVertexLocations(cgmRoot, null);
         FloatBuffer buffer = locations.toBuffer();
         HullCollisionShape shape = new HullCollisionShape(buffer);
-        /*
-         * Write the shape to the asset file.
-         */
+
+        // Write the shape to the asset file.
         String assetPath = "CollisionShapes/barrel.j3o";
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         Heart.writeJ3O(writeFilePath, shape);
