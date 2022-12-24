@@ -936,7 +936,7 @@ public class RopeDemo extends PhysicsDemo {
      * @param stepIndex the joint's index in the branch (&ge;0)
      * @return the name (not null, not empty)
      */
-    private String jointName(int branchIndex, int stepIndex) {
+    private static String jointName(int branchIndex, int stepIndex) {
         assert branchIndex >= 0 : branchIndex;
         assert stepIndex >= 0 : stepIndex;
 

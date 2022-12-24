@@ -479,7 +479,7 @@ public class ConveyorDemo
      *
      * @param rootSpatial which scene (not null)
      */
-    private void addLighting(Spatial rootSpatial) {
+    private static void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);

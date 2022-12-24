@@ -587,7 +587,7 @@ public class SplitDemo
      *
      * @param rootSpatial which scene (not null)
      */
-    private void addLighting(Spatial rootSpatial) {
+    private static void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.1f, 0.1f, 0.1f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
@@ -675,7 +675,7 @@ public class SplitDemo
      *
      * @param body (not null)
      */
-    private void makeSplittable(PhysicsRigidBody body) {
+    private static void makeSplittable(PhysicsRigidBody body) {
         CollisionShape oldShape = body.getCollisionShape();
         CollisionShape splittableShape = oldShape.toSplittableShape();
         assert splittableShape.canSplit();

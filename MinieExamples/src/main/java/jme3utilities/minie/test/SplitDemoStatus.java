@@ -295,7 +295,7 @@ class SplitDemoStatus extends SimpleAppState {
      *
      * @param amount the number of values to advance (may be negative)
      */
-    private void advanceMargin(int amount) {
+    private static void advanceMargin(int amount) {
         float margin = CollisionShape.getDefaultMargin();
         margin = AcorusDemo.advanceFloat(marginValues, margin, amount);
         CollisionShape.setDefaultMargin(margin);
