@@ -115,6 +115,10 @@ public class TestDac extends PhysicsDemo {
     // constants and loggers
 
     /**
+     * radius of each falling ball (in mesh units)
+     */
+    final private static float ballRadius = 1f;
+    /**
      * message logger for this class
      */
     final public static Logger logger
@@ -159,7 +163,6 @@ public class TestDac extends PhysicsDemo {
      * Control being tested
      */
     private DynamicAnimControl dac;
-    final private float ballRadius = 1f; // mesh units
     /**
      * Mesh for falling balls
      */
