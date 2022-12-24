@@ -1052,7 +1052,7 @@ public class PhysicsDescriber extends Describer {
      * @param builder the StringBuilder to append to (not null, modified)
      * @param subject the Object to describe (not null, unaffected)
      */
-    private void appendObjectDescription(
+    private static void appendObjectDescription(
             StringBuilder builder, Object subject) {
         String className = subject.getClass().getSimpleName();
 
@@ -1246,7 +1246,7 @@ public class PhysicsDescriber extends Describer {
      * @param radius the radius of the shape
      * @return a bracketed description (not null, not empty)
      */
-    private String describeHeightAndRadius(float height, float radius) {
+    private static String describeHeightAndRadius(float height, float radius) {
         String hText = MyString.describe(height);
         String rText = MyString.describe(radius);
         String result = String.format(" h=%s r=%s", hText, rText);

@@ -411,7 +411,8 @@ class TestScreen extends GuiScreenController {
      * @param test (not null)
      * @param space (not null, may be modified)
      */
-    private void updatePhysics(DecompositionTest test, PhysicsSpace space) {
+    private static void updatePhysics(
+            DecompositionTest test, PhysicsSpace space) {
         boolean haveShape = test.hasBeenRun();
         boolean isEmpty = space.isEmpty();
         if (haveShape) {

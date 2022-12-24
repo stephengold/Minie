@@ -638,7 +638,7 @@ public class HullCollisionShape extends ConvexShape {
      * @param meshes the mesh(es) to read (not null)
      * @return a new array (not null, length a multiple of 3)
      */
-    private float[] getPoints(Mesh... meshes) {
+    private static float[] getPoints(Mesh... meshes) {
         int numVectors = 0;
         for (Mesh mesh : meshes) {
             numVectors += mesh.getVertexCount();

@@ -841,8 +841,8 @@ public class TestSoftBody
      * modified)
      * @return a new Mesh, fitted to the model in her bone's local coordinates
      */
-    private Mesh createSkirtMesh(DynamicAnimControl puppetDac, int numSubdiv,
-            float skirtLength, Vector3f[] local) {
+    private static Mesh createSkirtMesh(DynamicAnimControl puppetDac,
+            int numSubdiv, float skirtLength, Vector3f[] local) {
         int numWaistVerts = waistlineVertices.length;
         int numXLines = local.length;
 

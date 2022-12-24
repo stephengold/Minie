@@ -225,7 +225,7 @@ class TestScreen extends GuiScreenController {
      * Apply the pivot-to-PhysicsSpace transform of the specified Constraint to
      * the specified Spatial.
      */
-    private void applyTransform(Constraint constraint, Spatial spatial) {
+    private static void applyTransform(Constraint constraint, Spatial spatial) {
         Transform frame = new Transform(); // TODO garbage
         if (constraint instanceof New6Dof) {
             New6Dof new6dof = (New6Dof) constraint;

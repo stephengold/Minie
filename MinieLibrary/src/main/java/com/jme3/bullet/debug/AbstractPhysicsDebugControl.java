@@ -163,8 +163,8 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      * unaffected)
      * @param spatial where to apply (may be null)
      */
-    private void applyPhysicsTransform(Vector3f location,
-            Quaternion rotation, Spatial spatial) {
+    private static void applyPhysicsTransform(
+            Vector3f location, Quaternion rotation, Spatial spatial) {
         if (spatial != null) {
             spatial.setLocalTranslation(location);
             spatial.setLocalRotation(rotation);

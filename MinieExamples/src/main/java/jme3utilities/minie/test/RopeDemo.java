@@ -801,7 +801,7 @@ public class RopeDemo extends PhysicsDemo {
      * @param branchIndex the index of the branch (&ge;0)
      * @return the count (&ge;0)
      */
-    private int countSteps(Armature armature, int branchIndex) {
+    private static int countSteps(Armature armature, int branchIndex) {
         int numSteps = 0;
 
         while (true) {
@@ -995,8 +995,8 @@ public class RopeDemo extends PhysicsDemo {
      * @param branchToStepOffsets the parent-to-child offset in each branch
      * @return a new Armature in bind pose (not null)
      */
-    private Armature makeArmature(int[] branchToNumSteps,
-            Vector3f[] branchToStepOffsets) {
+    private static Armature makeArmature(
+            int[] branchToNumSteps, Vector3f[] branchToStepOffsets) {
         assert branchToNumSteps.length > 0;
         assert branchToNumSteps.length == branchToStepOffsets.length;
         int numJoints = 1;

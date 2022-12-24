@@ -1073,7 +1073,7 @@ public class DynamicAnimControl
      * @param blendInterval the duration of the blend interval (in seconds,
      * &ge;0)
      */
-    private void blendDescendants(PhysicsLink rootLink,
+    private static void blendDescendants(PhysicsLink rootLink,
             KinematicSubmode submode, float blendInterval) {
         assert rootLink != null;
         assert submode != null;
