@@ -88,7 +88,7 @@ class BonesScreen extends GuiScreenController {
      *
      * @return "" if ready to proceed, otherwise an explanatory message
      */
-    String feedback() {
+    static String feedback() {
         Model model = DacWizard.getModel();
         int numBones = model.countBones();
 

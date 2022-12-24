@@ -209,7 +209,7 @@ class LinksMode extends InputMode {
      * @param actionString textual description of the action (not null)
      * @return true if the action is handled, otherwise false
      */
-    private boolean testForPrefixes(String actionString) {
+    private static boolean testForPrefixes(String actionString) {
         boolean handled = true;
         LinksScreen screen = DacWizard.findAppState(LinksScreen.class);
         String arg;

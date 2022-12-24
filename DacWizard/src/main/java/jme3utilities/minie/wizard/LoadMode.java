@@ -173,8 +173,7 @@ class LoadMode extends InputMode {
      * Advance to the BonesScreen if possible.
      */
     private void nextScreen() {
-        LoadScreen screen = DacWizard.findAppState(LoadScreen.class);
-        String feedback = screen.feedback();
+        String feedback = LoadScreen.feedback();
         if (feedback.isEmpty()) {
             setEnabled(false);
             InputMode bones = InputMode.findMode("bones");

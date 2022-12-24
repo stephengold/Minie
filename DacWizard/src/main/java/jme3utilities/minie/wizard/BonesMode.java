@@ -165,8 +165,7 @@ class BonesMode extends InputMode {
      * LinksScreen.
      */
     private void nextScreen() {
-        BonesScreen screen = DacWizard.findAppState(BonesScreen.class);
-        String feedback = screen.feedback();
+        String feedback = BonesScreen.feedback();
         if (feedback.isEmpty()) {
             setEnabled(false);
             Model model = DacWizard.getModel();

@@ -83,7 +83,7 @@ class LoadScreen extends GuiScreenController {
      *
      * @return "" if ready to proceed, otherwise an explanatory message
      */
-    String feedback() {
+    static String feedback() {
         Model model = DacWizard.getModel();
         int numDacs = model.countDacs();
         int numSkeletonControls = model.countSControls();
