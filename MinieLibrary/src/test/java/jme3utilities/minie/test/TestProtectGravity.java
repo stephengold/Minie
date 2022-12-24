@@ -88,7 +88,7 @@ public class TestProtectGravity {
     // *************************************************************************
     // private methods
 
-    private void testPhysicsSpace(PhysicsSpace space) {
+    private static void testPhysicsSpace(PhysicsSpace space) {
         // a protected dynamic body
         float mass = 1f;
         PhysicsRigidBody pdb = new PhysicsRigidBody(shape, mass);

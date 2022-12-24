@@ -121,7 +121,7 @@ public class TestShapeAabb {
     // *************************************************************************
     // private methods
 
-    private void checkAabb(float xMin, float yMin, float zMin,
+    private static void checkAabb(float xMin, float yMin, float zMin,
             float xMax, float yMax, float zMax) {
         Vector3f min = aabb.getMin(null);
         Utils.assertEquals(xMin, yMin, zMin, min, 1e-5f);

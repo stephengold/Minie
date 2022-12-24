@@ -367,7 +367,7 @@ public class TestDefaults {
      *
      * @param space the space to test (not null, unaffected)
      */
-    private void testCollisionSpace(CollisionSpace space) {
+    private static void testCollisionSpace(CollisionSpace space) {
         Assert.assertNotNull(space);
         Assert.assertTrue(space.isEmpty());
         Assert.assertEquals(0, space.countCollisionObjects());
@@ -376,7 +376,7 @@ public class TestDefaults {
         Assert.assertFalse(space.isUsingDeterministicDispatch());
     }
 
-    private void testConstraint(Constraint constraint) {
+    private static void testConstraint(Constraint constraint) {
         Assert.assertFalse(constraint.isFeedback());
         constraint.setFeedback(true);
 
@@ -390,7 +390,7 @@ public class TestDefaults {
         Assert.assertTrue(constraint.isEnabled());
     }
 
-    private void testJoints() {
+    private static void testJoints() {
         PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
 
         // TODO Anchor
@@ -452,7 +452,7 @@ public class TestDefaults {
         Assert.assertEquals(1f, srAngularJoint.getSplit(), 0f);
     }
 
-    private void testMultiBody() {
+    private static void testMultiBody() {
         int numLinks = 1;
         float mass = 1f;
         Vector3f inertia = new Vector3f(1f, 1f, 1f);
@@ -505,14 +505,14 @@ public class TestDefaults {
         Assert.assertFalse(linkCollider.isStatic());
     }
 
-    private void testGear(GearJoint constraint, int numEnds) {
+    private static void testGear(GearJoint constraint, int numEnds) {
         Assert.assertEquals(numEnds, constraint.countEnds());
         testConstraint(constraint);
 
         Assert.assertEquals(1f, constraint.getRatio(), 0f);
     }
 
-    private void testHinge(HingeJoint constraint, int numEnds) {
+    private static void testHinge(HingeJoint constraint, int numEnds) {
         Assert.assertEquals(numEnds, constraint.countEnds());
         testConstraint(constraint);
 
@@ -524,7 +524,7 @@ public class TestDefaults {
         Assert.assertEquals(-1f, constraint.getUpperLimit(), 0f);
     }
 
-    private void testMotionState(RigidBodyMotionState motion) {
+    private static void testMotionState(RigidBodyMotionState motion) {
         Vector3f x = motion.getLocation(null);
         Utils.assertEquals(0f, 0f, 0f, x, 0f);
 
@@ -551,7 +551,7 @@ public class TestDefaults {
         Assert.assertTrue(t.equals(Transform.IDENTITY));
     }
 
-    private void testNew6Dof(New6Dof constraint, int numEnds) {
+    private static void testNew6Dof(New6Dof constraint, int numEnds) {
         Assert.assertEquals(numEnds, constraint.countEnds());
         testConstraint(constraint);
 
@@ -588,7 +588,7 @@ public class TestDefaults {
         }
     }
 
-    private void testNewHinge(NewHinge constraint) {
+    private static void testNewHinge(NewHinge constraint) {
         Assert.assertEquals(2, constraint.countEnds());
         testConstraint(constraint);
 
@@ -657,7 +657,7 @@ public class TestDefaults {
         }
     }
 
-    private void testP2P(Point2PointJoint p2p, int numEnds) {
+    private static void testP2P(Point2PointJoint p2p, int numEnds) {
         Assert.assertEquals(numEnds, p2p.countEnds());
         testConstraint(p2p);
 
@@ -671,7 +671,7 @@ public class TestDefaults {
      *
      * @param pco the object to test (not null, unaffected)
      */
-    private void testPco(PhysicsCollisionObject pco) {
+    private static void testPco(PhysicsCollisionObject pco) {
         long id = pco.nativeId();
         Assert.assertNotEquals(0L, id);
         Assert.assertEquals(pco, PhysicsCollisionObject.findInstance(id));
@@ -732,7 +732,7 @@ public class TestDefaults {
      *
      * @param space the space to test (not null, unaffected)
      */
-    private void testPhysicsSpace(PhysicsSpace space) {
+    private static void testPhysicsSpace(PhysicsSpace space) {
         testCollisionSpace(space);
 
         Assert.assertEquals(0, space.countCollisionGroupListeners());
@@ -802,7 +802,7 @@ public class TestDefaults {
      *
      * @param prb the body to test (not null, unaffected)
      */
-    private void testRigidBody(PhysicsRigidBody prb) {
+    private static void testRigidBody(PhysicsRigidBody prb) {
         Assert.assertNotNull(prb);
         testPco(prb);
 
@@ -858,7 +858,7 @@ public class TestDefaults {
      *
      * @param shape the shape to test (not null, unaffected)
      */
-    private void testShape(CollisionShape shape) {
+    private static void testShape(CollisionShape shape) {
         Assert.assertNotNull(shape);
         Assert.assertNotEquals(0L, shape.nativeId());
         Utils.assertEquals(1f, 1f, 1f, shape.getScale(null), 0f);
@@ -869,7 +869,7 @@ public class TestDefaults {
     /**
      * Verify the defaults for all collision shapes.
      */
-    private void testShapes() {
+    private static void testShapes() {
         // Box2d
         Box2dShape box2d = new Box2dShape(1f, 2f);
         testShape(box2d);
@@ -1119,7 +1119,7 @@ public class TestDefaults {
      *
      * @param simplex the shape to test (not null, unaffected)
      */
-    private void testSimplexShape(SimplexCollisionShape simplex) {
+    private static void testSimplexShape(SimplexCollisionShape simplex) {
         testShape(simplex);
         Assert.assertEquals(0.04f, simplex.getMargin(), 0f);
 
@@ -1130,7 +1130,7 @@ public class TestDefaults {
         Assert.assertTrue(simplex.isPolyhedral());
     }
 
-    private void testSixDof(SixDofJoint six, int numEnds) {
+    private static void testSixDof(SixDofJoint six, int numEnds) {
         Assert.assertEquals(numEnds, six.countEnds());
         testConstraint(six);
 
@@ -1178,7 +1178,7 @@ public class TestDefaults {
         }
     }
 
-    private void testSlider(SliderJoint slider, int numEnds) {
+    private static void testSlider(SliderJoint slider, int numEnds) {
         Assert.assertEquals(numEnds, slider.countEnds());
         testConstraint(slider);
 

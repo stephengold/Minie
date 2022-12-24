@@ -71,7 +71,8 @@ public class TestCloneCharacter {
     // *************************************************************************
     // private methods
 
-    private void cloneTest(PhysicsCharacter ch, PhysicsCharacter chClone) {
+    private static void cloneTest(
+            PhysicsCharacter ch, PhysicsCharacter chClone) {
         assert chClone.nativeId() != ch.nativeId();
         assert chClone.getControllerId() != ch.getControllerId();
 
@@ -103,7 +104,7 @@ public class TestCloneCharacter {
      * @param ch the character to modify (not null)
      * @param b the key value
      */
-    private void setParameters(PhysicsCharacter ch, float b) {
+    private static void setParameters(PhysicsCharacter ch, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
         Vector3f gravity = new Vector3f(b - 0.2f, b + 0.8f, b - 0.3f);
@@ -150,7 +151,7 @@ public class TestCloneCharacter {
      * @param ch the character to verify (not null, unaffected)
      * @param b the key value
      */
-    private void verifyParameters(PhysicsCharacter ch, float b) {
+    private static void verifyParameters(PhysicsCharacter ch, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
         Vector3f gravity = new Vector3f(b - 0.2f, b + 0.8f, b - 0.3f);

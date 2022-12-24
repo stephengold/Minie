@@ -149,7 +149,7 @@ public class TestClonePhysicsControls {
     // *************************************************************************
     // private methods
 
-    private void cloneTest(AbstractPhysicsControl control,
+    private static void cloneTest(AbstractPhysicsControl control,
             AbstractPhysicsControl controlClone) {
         verifyParameters(control, 0f);
         verifyParameters(controlClone, 0f);
@@ -175,7 +175,7 @@ public class TestClonePhysicsControls {
         verifyParameters(xmlCopy, 0.3f);
     }
 
-    private void cloneTest(Spatial spatial, Spatial spatialClone) {
+    private static void cloneTest(Spatial spatial, Spatial spatialClone) {
         AbstractPhysicsControl control
                 = spatial.getControl(AbstractPhysicsControl.class);
         AbstractPhysicsControl controlClone
@@ -232,7 +232,7 @@ public class TestClonePhysicsControls {
         return result;
     }
 
-    private void setParameters(AbstractPhysicsControl control, float b) {
+    private static void setParameters(AbstractPhysicsControl control, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         if (!(control instanceof DynamicAnimControl)) {
             control.setApplyPhysicsLocal(!flag);
@@ -259,7 +259,7 @@ public class TestClonePhysicsControls {
      * @param bcc the control to modify (not null)
      * @param b the key value
      */
-    private void setBcc(BetterCharacterControl bcc, float b) {
+    private static void setBcc(BetterCharacterControl bcc, float b) {
         bcc.setDuckedFactor(b + 0.01f);
         bcc.setJumpForce(new Vector3f(b + 0.05f, b + 0.06f, b + 0.07f));
         bcc.setPhysicsDamping(b + 0.08f);
@@ -267,7 +267,7 @@ public class TestClonePhysicsControls {
         bcc.setWalkDirection(new Vector3f(b + 0.13f, b + 0.14f, b + 0.15f));
     }
 
-    private void setCc(CharacterControl cc, float b) {
+    private static void setCc(CharacterControl cc, float b) {
         Vector3f upDirection
                 = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
         Vector3f viewDirection
@@ -304,17 +304,18 @@ public class TestClonePhysicsControls {
         cc.setWalkDirection(walkOffset);
     }
 
-    private void setDac(DynamicAnimControl dac, float b) {
+    private static void setDac(DynamicAnimControl dac, float b) {
         dac.setDamping(b + 0.01f);
         dac.setEventDispatchImpulseThreshold(b + 0.02f);
         dac.setGravity(new Vector3f(b + 0.03f, b + 0.04f, b + 0.05f));
     }
 
-    private void setSbc(SoftBodyControl sbc, float b) {
+    private static void setSbc(SoftBodyControl sbc, float b) {
         // TODO
     }
 
-    private void verifyParameters(AbstractPhysicsControl control, float b) {
+    private static void verifyParameters(
+            AbstractPhysicsControl control, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         if (!(control instanceof DynamicAnimControl)) {
             assert control.isApplyPhysicsLocal() == !flag;
@@ -341,7 +342,7 @@ public class TestClonePhysicsControls {
      * @param bcc the control to verify (not null, unaffected)
      * @param b the key value
      */
-    private void verifyBcc(BetterCharacterControl bcc, float b) {
+    private static void verifyBcc(BetterCharacterControl bcc, float b) {
         assert bcc.getDuckedFactor() == b + 0.01f;
         Utils.assertEquals(
                 b + 0.05f, b + 0.06f, b + 0.07f, bcc.getJumpForce(null), 0f);
@@ -352,7 +353,7 @@ public class TestClonePhysicsControls {
                 bcc.getWalkDirection(null), 0f);
     }
 
-    private void verifyCc(CharacterControl cc, float b) {
+    private static void verifyCc(CharacterControl cc, float b) {
         Vector3f upDirection
                 = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
         Vector3f viewDirection
@@ -392,14 +393,14 @@ public class TestClonePhysicsControls {
         Utils.assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
 
-    private void verifyDac(DynamicAnimControl dac, float b) {
+    private static void verifyDac(DynamicAnimControl dac, float b) {
         assert dac.damping() == b + 0.01f;
         assert dac.eventDispatchImpulseThreshold() == b + 0.02f;
         Utils.assertEquals(
                 b + 0.03f, b + 0.04f, b + 0.05f, dac.gravity(null), 0f);
     }
 
-    private void verifySbc(SoftBodyControl sbc, float b) {
+    private static void verifySbc(SoftBodyControl sbc, float b) {
         // TODO
     }
 }

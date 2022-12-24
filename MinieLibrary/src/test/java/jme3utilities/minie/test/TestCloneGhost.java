@@ -84,7 +84,7 @@ public class TestCloneGhost {
     // *************************************************************************
     // private methods
 
-    private void cloneTest(
+    private static void cloneTest(
             PhysicsGhostObject pgo, PhysicsGhostObject pgoClone) {
         assert pgoClone.nativeId() != pgo.nativeId();
 
@@ -116,7 +116,7 @@ public class TestCloneGhost {
      * @param pgo the ghost object to modify (not null)
      * @param b the key value
      */
-    private void setParameters(PhysicsGhostObject pgo, float b) {
+    private static void setParameters(PhysicsGhostObject pgo, float b) {
         int afMode = Math.round(b / 0.3f);
         pgo.setAnisotropicFriction(
                 new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), afMode);
@@ -148,7 +148,7 @@ public class TestCloneGhost {
      * @param pgo the ghost object to verify (not null, unaffected)
      * @param b the key value
      */
-    private void verifyParameters(PhysicsGhostObject pgo, float b) {
+    private static void verifyParameters(PhysicsGhostObject pgo, float b) {
         int index = Math.round(b / 0.3f);
         if (index == 0) {
             assert !pgo.hasAnisotropicFriction(AfMode.either);

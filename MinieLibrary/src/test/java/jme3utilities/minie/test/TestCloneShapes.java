@@ -323,7 +323,8 @@ public class TestCloneShapes {
     // *************************************************************************
     // private methods
 
-    private void cloneTest(CollisionShape shape, CollisionShape shapeClone) {
+    private static void cloneTest(
+            CollisionShape shape, CollisionShape shapeClone) {
         //logger.log(Level.SEVERE, "{0}", shape.getClass());
         assert shapeClone.getClass() == shape.getClass();
         assert shapeClone.nativeId() != shape.nativeId();
@@ -360,7 +361,7 @@ public class TestCloneShapes {
      * @param shape the collision shape to modify (not null)
      * @param b the key value
      */
-    private void setParameters(CollisionShape shape, float b) {
+    private static void setParameters(CollisionShape shape, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         shape.setContactFilterEnabled(flag);
     }
@@ -372,7 +373,7 @@ public class TestCloneShapes {
      * @param shape the collision shape to verify (not null, unaffected)
      * @param b the key value
      */
-    private void verifyParameters(CollisionShape shape, float b) {
+    private static void verifyParameters(CollisionShape shape, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         assert shape.isContactFilterEnabled() == flag;
     }

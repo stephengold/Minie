@@ -117,7 +117,7 @@ public class TestCloneBody {
     /**
      * Clone rigid bodies.
      */
-    private void clonePrb() {
+    private static void clonePrb() {
         // static
         PhysicsRigidBody body0 = new PhysicsRigidBody(shape, 0f);
         setParameters(body0, 0f);
@@ -149,7 +149,7 @@ public class TestCloneBody {
     /**
      * Clone soft bodies.
      */
-    private void clonePsb() {
+    private static void clonePsb() {
         // empty
         PhysicsSoftBody soft = new PhysicsSoftBody();
         setParameters(soft, 0f);
@@ -169,7 +169,7 @@ public class TestCloneBody {
     /**
      * Clone vehicles.
      */
-    private void clonePv() {
+    private static void clonePv() {
         // TODO add wheel(s)
         PhysicsVehicle vehicle = new PhysicsVehicle(shape, 1f);
         setParameters(vehicle, 0f);
@@ -181,7 +181,7 @@ public class TestCloneBody {
     /**
      * Clone rigid-body controls.
      */
-    private void cloneRbc() {
+    private static void cloneRbc() {
         // static
         RigidBodyControl rbc0 = new RigidBodyControl(shape, 0f);
         setParameters(rbc0, 0f);
@@ -213,7 +213,7 @@ public class TestCloneBody {
     /**
      * Clone soft-body controls.
      */
-    private void cloneSbc() {
+    private static void cloneSbc() {
         boolean localPhysics = false;
         boolean updateNormals = true;
         boolean mergeVertices = true;
@@ -230,7 +230,7 @@ public class TestCloneBody {
         cloneTest(soft3, soft3Clone);
     }
 
-    private void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
+    private static void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
         Assert.assertNotEquals(bodyClone.nativeId(), body.nativeId());
         if (body instanceof PhysicsRigidBody) {
             PhysicsRigidBody rBody = (PhysicsRigidBody) body;
@@ -306,7 +306,7 @@ public class TestCloneBody {
     /**
      * Clone vehicle controls.
      */
-    private void cloneVc() {
+    private static void cloneVc() {
         // TODO add wheel(s)
         VehicleControl vc = new VehicleControl(shape, 1f);
         setParameters(vc, 0f);
@@ -315,7 +315,7 @@ public class TestCloneBody {
         cloneTest(vc, vcClone);
     }
 
-    private void setParameters(PhysicsBody pco, float b) {
+    private static void setParameters(PhysicsBody pco, float b) {
         if (pco instanceof PhysicsRigidBody) {
             setRigid((PhysicsRigidBody) pco, b);
         } else if (pco instanceof PhysicsSoftBody) {
@@ -325,7 +325,7 @@ public class TestCloneBody {
         }
     }
 
-    private void setRigid(PhysicsRigidBody body, float b) {
+    private static void setRigid(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         body.setContactResponse(flag);
         body.setProtectGravity(!flag);
@@ -380,12 +380,12 @@ public class TestCloneBody {
         }
     }
 
-    private void setRigidInertia(PhysicsRigidBody body, float b) {
+    private static void setRigidInertia(PhysicsRigidBody body, float b) {
         body.setInverseInertiaLocal(
                 new Vector3f(b + 0.122f, b + 0.123f, b + 0.124f));
     }
 
-    private void setSoft(PhysicsSoftBody body, float b) {
+    private static void setSoft(PhysicsSoftBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int n = Math.round(10f * b);
 
@@ -427,7 +427,7 @@ public class TestCloneBody {
         material.setVolumeStiffness(b + 0.042f);
     }
 
-    private void verifyParameters(PhysicsBody pco, float b) {
+    private static void verifyParameters(PhysicsBody pco, float b) {
         Assert.assertNotNull(pco);
         if (pco instanceof PhysicsRigidBody) {
             verifyRigid((PhysicsRigidBody) pco, b);
@@ -438,7 +438,7 @@ public class TestCloneBody {
         }
     }
 
-    private void verifyRigid(PhysicsRigidBody body, float b) {
+    private static void verifyRigid(PhysicsRigidBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         Assert.assertEquals(flag, body.isContactResponse());
         Assert.assertEquals(!flag, body.isGravityProtected());
@@ -510,7 +510,7 @@ public class TestCloneBody {
         }
     }
 
-    private void verifySoft(PhysicsSoftBody body, float b) {
+    private static void verifySoft(PhysicsSoftBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int n = Math.round(10f * b);
 
