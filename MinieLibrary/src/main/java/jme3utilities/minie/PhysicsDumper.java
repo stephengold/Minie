@@ -69,6 +69,7 @@ import com.jme3.bullet.objects.infos.Cluster;
 import com.jme3.bullet.objects.infos.RigidBodyMotionState;
 import com.jme3.bullet.objects.infos.SoftBodyConfig;
 import com.jme3.bullet.objects.infos.SoftBodyMaterial;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import java.io.PrintStream;
@@ -472,12 +473,20 @@ public class PhysicsDumper extends Dumper {
             addLine(moreIndent);
             Vector3f offset = sixDof.getPivotOffset(null);
             stream.printf(" offset[%s]", MyVector3f.describe(offset));
+            Vector3f locA = sixDof.calculatedOriginA(null);
+            stream.printf(" locA[%s]", MyVector3f.describe(locA));
+            Vector3f locB = sixDof.calculatedOriginB(null);
+            stream.printf(" locB[%s]", MyVector3f.describe(locB));
 
             addLine(moreIndent);
             Vector3f angles = sixDof.getAngles(null);
             stream.printf(" angles[%s]", MyVector3f.describe(angles));
             desc = sixDof.getRotationOrder().toString();
             stream.printf(" ro=%s", desc);
+            Matrix3f basA = sixDof.calculatedBasisA(null);
+            stream.printf(" basA[%s]", PhysicsDescriber.describeMatrix(basA));
+            Matrix3f basB = sixDof.calculatedBasisB(null);
+            stream.printf(" basB[%s]", PhysicsDescriber.describeMatrix(basB));
 
             if (dumpMotors) {
                 for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
