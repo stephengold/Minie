@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  * Named collision flags for a PhysicsCollisionObject.
  *
  * @author Stephen Gold sgold@sonic.net
- * @see PhysicsCollisionObject#getCollisionFlags(long)
+ * @see PhysicsCollisionObject#collisionFlags()
  */
 final public class CollisionFlag {
     // *************************************************************************

@@ -158,7 +158,7 @@ abstract public class NativePhysicsObject
     /**
      * Assign a tracked native object to this instance, unassigning (but not
      * freeing) any previously assigned one. Typically invoked while cloning a
-     * subclass.
+     * subclass. Typically invoked while cloning a subclass.
      *
      * @param nativeId the identifier of the native object to assign (not zero)
      */
@@ -204,7 +204,8 @@ abstract public class NativePhysicsObject
 
     /**
      * Unassign (but don't free) the assigned native object, assuming that one
-     * is assigned.
+     * is assigned. Typically invoked while cloning, destroying, or rebuilding a
+     * subclass.
      */
     final protected void unassignNativeObject() {
         assert hasAssignedNativeObject();
