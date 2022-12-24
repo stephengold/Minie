@@ -84,17 +84,17 @@ public class MakeGlyphs {
     /**
      * list of vertices in a triangular prism
      */
-    final private List<Vector3f> prismVertices
+    final private static List<Vector3f> prismVertices
             = new ArrayList<>(2 * MyMesh.vpt);
     /**
      * individual vertices in the above list
      */
-    final private Vector3f v0a = new Vector3f();
-    final private Vector3f v0b = new Vector3f();
-    final private Vector3f v1a = new Vector3f();
-    final private Vector3f v1b = new Vector3f();
-    final private Vector3f v2a = new Vector3f();
-    final private Vector3f v2b = new Vector3f();
+    final private static Vector3f v0a = new Vector3f();
+    final private static Vector3f v0b = new Vector3f();
+    final private static Vector3f v1a = new Vector3f();
+    final private static Vector3f v1b = new Vector3f();
+    final private static Vector3f v2a = new Vector3f();
+    final private static Vector3f v2b = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
