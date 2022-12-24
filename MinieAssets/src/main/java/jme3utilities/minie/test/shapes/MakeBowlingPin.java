@@ -77,24 +77,14 @@ public class MakeBowlingPin {
 
         // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeBowlingPin application = new MakeBowlingPin();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
-        application.makeBowlingPin();
+
+        // Generate the collision shape.
+        makeBowlingPin();
     }
     // *************************************************************************
     // private methods
@@ -102,7 +92,7 @@ public class MakeBowlingPin {
     /**
      * Generate a collision shape for a bowling pin.
      */
-    private void makeBowlingPin() {
+    private static void makeBowlingPin() {
         AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(GlbLoader.class, "glb");
         assetManager.registerLoader(J3MLoader.class, "j3md");

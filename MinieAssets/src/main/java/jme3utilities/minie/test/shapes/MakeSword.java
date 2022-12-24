@@ -79,24 +79,14 @@ public class MakeSword {
 
         // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeSword application = new MakeSword();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
-        application.makeSword();
+
+        // Generate the collision shape.
+        makeSword();
     }
     // *************************************************************************
     // private methods
@@ -104,7 +94,7 @@ public class MakeSword {
     /**
      * Generate a collision shape for Sinbad's scimitar.
      */
-    private void makeSword() {
+    private static void makeSword() {
         AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(AWTLoader.class, "jpg");
         assetManager.registerLoader(J3MLoader.class, "j3md");

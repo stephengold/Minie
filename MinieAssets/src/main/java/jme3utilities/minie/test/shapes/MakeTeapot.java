@@ -83,16 +83,13 @@ public class MakeTeapot {
         Heart.setLoggingLevels(Level.WARNING);
         Logger.getLogger(OBJLoader.class.getName()).setLevel(Level.SEVERE);
 
-        // Instantiate the application.
-        MakeTeapot application = new MakeTeapot();
-
         // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
 
         // Generate the collision shape.
-        application.makeTeapot();
+        makeTeapot();
     }
     // *************************************************************************
     // private methods
@@ -100,7 +97,7 @@ public class MakeTeapot {
     /**
      * Generate a collision shape for a teapot.
      */
-    private void makeTeapot() {
+    private static void makeTeapot() {
         DesktopAssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(OBJLoader.class, "obj");
         assetManager.registerLoader(MTLLoader.class, "mtl");

@@ -108,24 +108,14 @@ public class MakeGlyphs {
 
         // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeGlyphs application = new MakeGlyphs();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shapes.
-         */
-        application.makeAlphabet();
+
+        // Generate the collision shapes.
+        makeAlphabet();
     }
     // *************************************************************************
     // private methods
@@ -190,7 +180,7 @@ public class MakeGlyphs {
      * @param transformB the 2nd coordinate transform to apply to triangles (not
      * null, unaffected)
      */
-    private void makeGlyphShape(TrueTypeFont font, char character,
+    private static void makeGlyphShape(TrueTypeFont font, char character,
             Transform transformA, Transform transformB) {
         // Convert the specified character to a TrueTypeNode.
         String string = Character.toString(character);

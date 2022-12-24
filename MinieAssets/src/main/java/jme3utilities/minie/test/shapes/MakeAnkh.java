@@ -77,24 +77,14 @@ public class MakeAnkh {
 
         // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeAnkh application = new MakeAnkh();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
-        application.makeAnkh();
+
+        // Generate the collision shape.
+        makeAnkh();
     }
     // *************************************************************************
     // private methods
@@ -102,7 +92,7 @@ public class MakeAnkh {
     /**
      * Generate a collision shape for an ankh.
      */
-    private void makeAnkh() {
+    private static void makeAnkh() {
         AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(GlbLoader.class, "glb");
         assetManager.registerLoader(J3MLoader.class, "j3md");

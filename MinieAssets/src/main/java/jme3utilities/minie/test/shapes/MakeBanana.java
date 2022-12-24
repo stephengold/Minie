@@ -77,24 +77,14 @@ public class MakeBanana {
 
         // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeBanana application = new MakeBanana();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
-        application.makeBanana();
+
+        // Generate the collision shape.
+        makeBanana();
     }
     // *************************************************************************
     // private methods
@@ -102,7 +92,7 @@ public class MakeBanana {
     /**
      * Generate a collision shape for a banana.
      */
-    private void makeBanana() {
+    private static void makeBanana() {
         AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(GlbLoader.class, "glb");
         assetManager.registerLoader(J3MLoader.class, "j3md");

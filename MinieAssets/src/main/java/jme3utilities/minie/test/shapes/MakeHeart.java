@@ -93,24 +93,14 @@ public class MakeHeart {
 
         // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeHeart application = new MakeHeart();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
-        application.makeHeart();
+
+        // Generate the collision shape.
+        makeHeart();
     }
     // *************************************************************************
     // private methods
@@ -187,7 +177,7 @@ public class MakeHeart {
      *
      * @param gamma angle from the +Z axis (in radians)
      */
-    private void solve1(double gamma) {
+    private static void solve1(double gamma) {
         double sinGamma = Math.sin(gamma);
         if (sinGamma < 0.0 && sinGamma > -1e-10) {
             sinGamma = 0.0;
@@ -231,7 +221,7 @@ public class MakeHeart {
      *
      * @param gamma angle from the +Z axis (in radians)
      */
-    private void solve2(double gamma) {
+    private static void solve2(double gamma) {
         double sinGamma = Math.sin(gamma);
         double cosGamma = Math.cos(gamma);
 
@@ -273,7 +263,7 @@ public class MakeHeart {
      *
      * @return true if successful, otherwise false
      */
-    private boolean solve3(double x, double z) {
+    private static boolean solve3(double x, double z) {
         double r1 = 0.0;
         boolean s1 = trial3(x, z, r1);
         double r2 = 0.7;
@@ -307,7 +297,7 @@ public class MakeHeart {
         return true;
     }
 
-    private boolean trial1(double cosGamma, double sinGamma, double r) {
+    private static boolean trial1(double cosGamma, double sinGamma, double r) {
         double x = r * sinGamma;
         double z = r * cosGamma;
         double error = plug(x, 0.0, z);
@@ -315,7 +305,7 @@ public class MakeHeart {
         return error > 0.0;
     }
 
-    private boolean trial2(double cosGamma, double sinGamma, double r) {
+    private static boolean trial2(double cosGamma, double sinGamma, double r) {
         double y = r * sinGamma;
         double z = r * cosGamma;
         double error = plug(0.0, y, z);
@@ -323,7 +313,7 @@ public class MakeHeart {
         return error > 0.0;
     }
 
-    private boolean trial3(double x, double z, double r) {
+    private static boolean trial3(double x, double z, double r) {
         double error = plug(x, r, z);
         return error > 0.0;
     }

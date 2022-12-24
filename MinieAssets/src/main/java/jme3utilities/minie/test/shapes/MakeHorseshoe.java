@@ -77,24 +77,14 @@ public class MakeHorseshoe {
 
         // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeHorseshoe application = new MakeHorseshoe();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
-        application.makeHorseshoe();
+
+        // Generate the collision shape.
+        makeHorseshoe();
     }
     // *************************************************************************
     // private methods
@@ -102,7 +92,7 @@ public class MakeHorseshoe {
     /**
      * Generate a collision shape for a horseshoe.
      */
-    private void makeHorseshoe() {
+    private static void makeHorseshoe() {
         AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(GlbLoader.class, "glb");
         assetManager.registerLoader(J3MLoader.class, "j3md");

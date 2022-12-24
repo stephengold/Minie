@@ -80,24 +80,14 @@ public class MakeDuck {
 
         // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
-        MakeDuck application = new MakeDuck();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate the collision shape.
-         */
-        application.makeDuck();
+
+        // Generate the collision shape.
+        makeDuck();
     }
     // *************************************************************************
     // private methods
@@ -105,7 +95,7 @@ public class MakeDuck {
     /**
      * Generate a collision shape for a toy duck.
      */
-    private void makeDuck() {
+    private static void makeDuck() {
         AssetManager assetManager = new DesktopAssetManager();
         assetManager.registerLoader(AWTLoader.class, "png");
         assetManager.registerLoader(BinLoader.class, "bin");

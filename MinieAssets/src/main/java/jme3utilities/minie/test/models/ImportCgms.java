@@ -293,7 +293,7 @@ public class ImportCgms extends SimpleApplication {
     /**
      * Write the specified model to a J3O file.
      */
-    private void writeToJ3O(Spatial model, String writeAssetPath) {
+    private static void writeToJ3O(Spatial model, String writeAssetPath) {
         String writeFilePath
                 = String.format("%s/%s", assetDirPath, writeAssetPath);
         Heart.writeJ3O(writeFilePath, model);
