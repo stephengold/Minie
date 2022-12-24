@@ -536,7 +536,7 @@ during each rendered frame.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_direct_buffers_gc_and_threading"><a class="anchor" href="#_direct_buffers_gc_and_threading"></a>Direct buffers, GC, and threading</h2>
+<h2 id="_direct_buffers_garbage_collection_and_threading"><a class="anchor" href="#_direct_buffers_garbage_collection_and_threading"></a>Direct buffers, garbage collection, and threading</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Direct buffers used in Minie should have native byte order.</p>
@@ -549,7 +549,7 @@ weak references.</p>
 <p>Successful initialization of a native library causes Minie
 to start a daemon thread named "Physics Cleaner".
 Its purpose is to free any tracked native objects
-whose corresponding java objects have been garbage collected (GC&#8217;ed).</p>
+whose corresponding java objects have been garbage collected.</p>
 </div>
 <div class="paragraph">
 <p>As a performance enhancement,

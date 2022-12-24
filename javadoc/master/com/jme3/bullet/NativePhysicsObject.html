@@ -304,7 +304,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">reassignNativeId</span><wbr><span class="parameters">(long&nbsp;nativeId)</span></div>
 <div class="block">Assign a tracked native object to this instance, unassigning (but not
  freeing) any previously assigned one. Typically invoked while cloning a
- subclass.</div>
+ subclass. Typically invoked while cloning a subclass.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>nativeId</code> - the identifier of the native object to assign (not zero)</dd>
@@ -340,7 +340,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <h3>unassignNativeObject</h3>
 <div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unassignNativeObject</span>()</div>
 <div class="block">Unassign (but don't free) the assigned native object, assuming that one
- is assigned.</div>
+ is assigned. Typically invoked while cloning, destroying, or rebuilding a
+ subclass.</div>
 </section>
 </li>
 <li>
