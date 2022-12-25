@@ -1,12 +1,12 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.0.0 released on TBD
+## Version 7.0.0 released on 24 December 2022
 
 + API changes:
   + Privatized `PhysicsCollisionObject.getCollisionFlags()` (a native method)
   + Added the `static` qualifier to `PersistentManifolds.listPointIds()`
   + Renamed the public logger in the `ConvexShape` class to avoid conflict.
-  + Added an argument to `PhysicsBody.cloneJoints()`
+  + Added a 2nd argument to `PhysicsBody.cloneJoints()`
   + Corrected the return type of `CharacterController.jmeClone()`
   + Finalized 3 classes:
     + `NativeSoftBodyUtil`
