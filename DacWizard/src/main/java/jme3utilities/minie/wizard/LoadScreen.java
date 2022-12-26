@@ -151,6 +151,9 @@ class LoadScreen extends GuiScreenController {
         DacWizard wizard = DacWizard.getApplication();
         wizard.clearScene();
         this.viewedSpatial = null;
+        
+        Model model = DacWizard.getModel();
+        model.setShowingMeshes(true);
     }
 
     /**

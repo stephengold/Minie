@@ -128,21 +128,6 @@ public class DacWizard extends GuiApplication {
     // new methods exposed
 
     /**
-     * Test whether mesh rendering is disabled.
-     */
-    boolean areMeshesHidden() {
-        boolean result = true;
-        if (cgmParent != null) {
-            Spatial.CullHint cull = cgmParent.getLocalCullHint();
-            if (cull != Spatial.CullHint.Always) {
-                result = false;
-            }
-        }
-
-        return result;
-    }
-
-    /**
      * Clear the default scene.
      */
     void clearScene() {
@@ -328,6 +313,11 @@ public class DacWizard extends GuiApplication {
 
         // Add the C-G model, with its own parent Node.
         cgmParent = new Node("cgmParent");
+        if (model.isShowingMeshes()) {
+            cgmParent.setCullHint(Spatial.CullHint.Never);
+        } else {
+            cgmParent.setCullHint(Spatial.CullHint.Always);
+        }
         rootNode.attachChild(cgmParent);
         cgmParent.attachChild(cgModel);
 
@@ -358,13 +348,18 @@ public class DacWizard extends GuiApplication {
      * Toggle mesh rendering on/off.
      */
     void toggleMesh() {
+        boolean oldShow = model.isShowingMeshes();
+        boolean newShow = !oldShow;
+        model.setShowingMeshes(newShow);
+
         if (cgmParent != null) {
-            Spatial.CullHint cull = cgmParent.getLocalCullHint();
-            if (cull == Spatial.CullHint.Always) {
-                cgmParent.setCullHint(Spatial.CullHint.Never);
+            Spatial.CullHint cull;
+            if (newShow) {
+                cull = Spatial.CullHint.Never;
             } else {
-                cgmParent.setCullHint(Spatial.CullHint.Always);
+                cull = Spatial.CullHint.Always;
             }
+            cgmParent.setCullHint(cull);
         }
     }
 

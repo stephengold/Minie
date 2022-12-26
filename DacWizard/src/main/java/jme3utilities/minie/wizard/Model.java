@@ -106,6 +106,10 @@ class Model {
      */
     private boolean isShowingAxes = false;
     /**
+     * whether to render model meshes
+     */
+    private boolean isShowingMeshes = true;
+    /**
      * PhysicsControl that will be added to the C-G model
      */
     private DynamicAnimControl ragdoll;
@@ -515,6 +519,15 @@ class Model {
     }
 
     /**
+     * Test whether the model meshes will be rendered.
+     *
+     * @return true if rendered, otherwise false
+     */
+    boolean isShowingMeshes() {
+        return isShowingMeshes;
+    }
+
+    /**
      * Determine the parent (in the link hierarchy) of the named linked bone. A
      * C-G model must be loaded.
      *
@@ -876,6 +889,15 @@ class Model {
         assert rom != null;
 
         ragdoll.setJointLimits(boneName, rom);
+    }
+
+    /**
+     * Alter whether model meshes will be rendered.
+     *
+     * @param setting true to render meshes, false to hide them
+     */
+    void setShowingMeshes(boolean setting) {
+        this.isShowingMeshes = setting;
     }
 
     /**

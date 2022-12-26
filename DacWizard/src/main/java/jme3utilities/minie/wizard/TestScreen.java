@@ -367,16 +367,17 @@ class TestScreen extends GuiScreenController {
         }
         setButtonText("debug", debugButton);
 
-        DacWizard app = DacWizard.getApplication();
+        Model model = DacWizard.getModel();
         String meshButton;
-        if (app.areMeshesHidden()) {
-            meshButton = "Show meshes";
-        } else {
+        if (model.isShowingMeshes()) {
             meshButton = "Hide meshes";
+        } else {
+            meshButton = "Show meshes";
         }
         setButtonText("mesh", meshButton);
 
         String skeletonText = "";
+        DacWizard app = DacWizard.getApplication();
         SkeletonVisualizer sv = app.findSkeletonVisualizer();
         if (sv != null) {
             if (sv.isEnabled()) {
@@ -387,7 +388,6 @@ class TestScreen extends GuiScreenController {
         }
         setButtonText("skeleton", skeletonText);
 
-        Model model = DacWizard.getModel();
         String axesText = model.isShowingAxes() ? "Hide axes" : "Show axes";
         setButtonText("axes", axesText);
     }
