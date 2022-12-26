@@ -305,14 +305,14 @@ public class DacWizard extends GuiApplication {
         assert cgmParent == null;
 
         // Add a disabled visualizer for axes, with its own controlled Node.
-        axesNode = new Node("axesNode");
+        this.axesNode = new Node("axesNode");
         rootNode.attachChild(axesNode);
         float length = 0.5f;
         Control axes = new AxesVisualizer(assetManager, length);
         axesNode.addControl(axes);
 
         // Add the C-G model, with its own parent Node.
-        cgmParent = new Node("cgmParent");
+        this.cgmParent = new Node("cgmParent");
         if (model.isShowingMeshes()) {
             cgmParent.setCullHint(Spatial.CullHint.Never);
         } else {
