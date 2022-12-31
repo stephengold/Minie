@@ -124,19 +124,19 @@ public class PoolDemo extends PhysicsDemo {
     /**
      * text displayed in the upper-left corner of the GUI node
      */
-    final private BitmapText[] statusLines = new BitmapText[1];
+    final private static BitmapText[] statusLines = new BitmapText[1];
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * Mesh shared by all balls in the scene
      */
-    private Mesh ballMesh;
+    private static Mesh ballMesh;
     /**
      * scene-graph node to parent all spatials with physics controls
      */
-    final private Node rbcNode = new Node("rbc node");
+    final private static Node rbcNode = new Node("rbc node");
     // *************************************************************************
     // new methods exposed
 
@@ -448,7 +448,7 @@ public class PoolDemo extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();

@@ -119,40 +119,40 @@ public class WatchDemo extends PhysicsDemo {
     /**
      * true once {@link #initWhenReady()} has been invoked for the latest model
      */
-    private boolean dacReadyInitDone = false;
+    private static boolean dacReadyInitDone = false;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * Control being tested
      */
-    private DynamicAnimControl dac;
+    private static DynamicAnimControl dac;
     /**
      * root node of the C-G model on which the Control is being tested
      */
-    private Node cgModel;
+    private static Node cgModel;
 
-    private PhysicsRigidBody targetBody;
+    private static PhysicsRigidBody targetBody;
     /**
      * visualizer for the target
      */
-    private PointVisualizer targetPoint;
+    private static PointVisualizer targetPoint;
     /**
      * visualizer for the skeleton of the C-G model
      */
-    private SkeletonVisualizer sv;
+    private static SkeletonVisualizer sv;
 
-    private TrackController leftWatch = null;
-    private TrackController rightWatch = null;
-    private TrackController watch = null;
+    private static TrackController leftWatch = null;
+    private static TrackController rightWatch = null;
+    private static TrackController watch = null;
     /**
      * locations of grid corners in world coordinates
      */
-    final private Vector3f gridBottomLeft = new Vector3f();
-    final private Vector3f gridBottomRight = new Vector3f();
-    private Vector3f gridTopLeft;
-    private Vector3f gridTopRight;
+    final private static Vector3f gridBottomLeft = new Vector3f();
+    final private static Vector3f gridBottomRight = new Vector3f();
+    private static Vector3f gridTopLeft;
+    private static Vector3f gridTopRight;
     // *************************************************************************
     // new methods exposed
 
@@ -208,7 +208,7 @@ public class WatchDemo extends PhysicsDemo {
         attachCubePlatform(halfExtent, topY);
 
         int indicatorSize = 16; // in pixels
-        this.targetPoint = new PointVisualizer(
+        targetPoint = new PointVisualizer(
                 assetManager, indicatorSize, ColorRGBA.Red, "ring");
         rootNode.attachChild(targetPoint);
 
@@ -218,7 +218,7 @@ public class WatchDemo extends PhysicsDemo {
 
         // Add a target rigid body, to be moved by dragging RMB.
         CollisionShape shape = new SphereCollisionShape(0.1f);
-        this.targetBody = new PhysicsRigidBody(shape);
+        targetBody = new PhysicsRigidBody(shape);
         targetBody.setKinematic(true);
         addCollisionObject(targetBody);
 
@@ -339,7 +339,7 @@ public class WatchDemo extends PhysicsDemo {
 
         if (!dacReadyInitDone && dac.isReady()) {
             initWhenReady();
-            this.dacReadyInitDone = true;
+            dacReadyInitDone = true;
         }
     }
     // *************************************************************************
@@ -377,8 +377,8 @@ public class WatchDemo extends PhysicsDemo {
         geometry.move(gridBottomLeft);
         float gridX = gridBottomLeft.x;
         float topY = gridBottomLeft.y + gridSpacing * numRows;
-        this.gridTopLeft = new Vector3f(gridX, topY, gridBottomLeft.z);
-        this.gridTopRight = new Vector3f(gridX, topY, gridBottomRight.z);
+        gridTopLeft = new Vector3f(gridX, topY, gridBottomLeft.z);
+        gridTopRight = new Vector3f(gridX, topY, gridBottomRight.z);
     }
 
     /**
@@ -415,7 +415,7 @@ public class WatchDemo extends PhysicsDemo {
             dac.getSpatial().removeControl(dac);
             rootNode.detachChild(cgModel);
             rootNode.removeControl(sv);
-            this.dacReadyInitDone = false;
+            dacReadyInitDone = false;
         }
 
         switch (modelName) {
@@ -468,7 +468,7 @@ public class WatchDemo extends PhysicsDemo {
         PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
-        this.sv = new SkeletonVisualizer(assetManager, sc);
+        sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);
@@ -497,7 +497,7 @@ public class WatchDemo extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();

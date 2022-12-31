@@ -188,23 +188,24 @@ public class TestSoftBody
      * lines of text displayed in the upper-left corner of the GUI node ([0] is
      * the top line)
      */
-    final private BitmapText[] statusLines = new BitmapText[numStatusLines];
+    final private static BitmapText[] statusLines
+            = new BitmapText[numStatusLines];
     /**
      * invisible physics objects
      */
-    final private FilterAll hiddenObjects = new FilterAll(true);
+    final private static FilterAll hiddenObjects = new FilterAll(true);
     /**
      * space for physics simulation
      */
-    private PhysicsSoftSpace physicsSpace;
+    private static PhysicsSoftSpace physicsSpace;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private SoftPhysicsAppState bulletAppState;
+    private static SoftPhysicsAppState bulletAppState;
     /**
      * name of the test being run
      */
-    private String testName = "puppetInSkirt";
+    private static String testName = "puppetInSkirt";
     // *************************************************************************
     // new methods exposed
 
@@ -819,7 +820,7 @@ public class TestSoftBody
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
-        this.bulletAppState = new SoftPhysicsAppState();
+        bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugFilter(hiddenObjects);
         bulletAppState.setDebugInitListener(this);

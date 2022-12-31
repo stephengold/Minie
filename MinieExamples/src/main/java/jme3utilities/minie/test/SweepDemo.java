@@ -117,37 +117,37 @@ public class SweepDemo
     /**
      * play the "Punches" animation for one cycle before returning to idle
      */
-    private Action punchesOnce;
+    private static Action punchesOnce;
     /**
      * for playing canned animations
      */
-    private AnimComposer composer;
+    private static AnimComposer composer;
     /**
      * text displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * collision shape for sweep tests
      */
-    private ConvexShape saberShape;
+    private static ConvexShape saberShape;
     /**
      * results of the latest sweep test
      */
-    final private List<PhysicsSweepTestResult> sweepResults
+    final private static List<PhysicsSweepTestResult> sweepResults
             = new ArrayList<>(10);
     /**
      * visualize the blade of Jaime's saber
      */
-    private Spatial saberSpatial;
+    private static Spatial saberSpatial;
     /**
      * previous position of the saber (in physics-space coordinates) or null if
      * not initialized
      */
-    private Transform previousPosition;
+    private static Transform previousPosition;
     // *************************************************************************
     // new methods exposed
 
@@ -187,7 +187,7 @@ public class SweepDemo
     @Override
     public void acorusInit() {
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
         super.acorusInit();
@@ -219,7 +219,7 @@ public class SweepDemo
 
         Vector3f halfExtents = new Vector3f(0.3f, 0.02f, 0.02f);
         Box box = new Box(halfExtents.x, halfExtents.y, halfExtents.z);
-        this.saberSpatial = new Geometry("saber", box);
+        saberSpatial = new Geometry("saber", box);
         saberSpatial.move(0.4f, 0.05f, 0.01f);
         Material idleMaterial = findMaterial("idleSaber");
         saberSpatial.setMaterial(idleMaterial);
@@ -235,18 +235,18 @@ public class SweepDemo
          * Define a "PunchesOnce" animation sequence
          * to play one cycle of the "Punches" clip and then return to idle.
          */
-        this.composer = model.getControl(AnimComposer.class);
+        composer = model.getControl(AnimComposer.class);
         Action punches = composer.action("Punches");
         Tween doneTween
                 = Tweens.callMethod(composer, "setCurrentAction", "Idle");
-        this.punchesOnce
+        punchesOnce
                 = composer.actionSequence("PunchesOnce", punches, doneTween);
 
         // Begin playing the "Idle" animation at half speed.
         composer.setCurrentAction("Idle");
         composer.setGlobalSpeed(0.5f);
 
-        this.saberShape = new BoxCollisionShape(halfExtents);
+        saberShape = new BoxCollisionShape(halfExtents);
         saberShape.setScale(scale); // Scale the shape to match the Spatial!
 
         launchProjectile();
@@ -362,7 +362,7 @@ public class SweepDemo
 
         Transform currentPosition = saberSpatial.getWorldTransform(); // alias
         if (previousPosition == null) {
-            this.previousPosition = new Transform();
+            previousPosition = new Transform();
 
         } else {
             /*
@@ -468,7 +468,7 @@ public class SweepDemo
     private void configurePhysics() {
         PhysicsBody.setDeactivationEnabled(false); // default = true
 
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true); // default = false
 
         // Add lighting to the debug scene.

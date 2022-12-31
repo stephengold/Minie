@@ -92,31 +92,31 @@ public class JointDemo extends PhysicsDemo {
     /**
      * text displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * scene-graph node for visualizing solid objects
      */
-    final private Node meshesNode = new Node("meshes node");
+    final private static Node meshesNode = new Node("meshes node");
     /**
      * motor to rotate the left-front leg
      */
-    private RotationMotor lfMotor;
+    private static RotationMotor lfMotor;
     /**
      * motor to rotate the left-rear leg
      */
-    private RotationMotor lrMotor;
+    private static RotationMotor lrMotor;
     /**
      * motor to rotate the right-front leg
      */
-    private RotationMotor rfMotor;
+    private static RotationMotor rfMotor;
     /**
      * motor to rotate the right-rear leg
      */
-    private RotationMotor rrMotor;
+    private static RotationMotor rrMotor;
     // *************************************************************************
     // new methods exposed
 
@@ -174,7 +174,7 @@ public class JointDemo extends PhysicsDemo {
         meshesNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(0f, cam.getHeight(), 0f);
         guiNode.attachChild(statusText);
     }
@@ -398,25 +398,25 @@ public class JointDemo extends PhysicsDemo {
         Geometry lfGeom = new Geometry("lf leg", legMesh);
         Vector3f lfLegInWorld = new Vector3f(-0.8f, 0.6f, 0.5f);
         Vector3f lfPivotInChassis = new Vector3f(-0.8f, 0f, 0.4f);
-        this.lfMotor = addLeg(lfGeom, lfLegInWorld, lfPivotInChassis,
+        lfMotor = addLeg(lfGeom, lfLegInWorld, lfPivotInChassis,
                 chassisInWorld, chassisRbc);
 
         Geometry rfGeom = new Geometry("rf leg", legMesh);
         Vector3f rfLegInWorld = new Vector3f(-0.8f, 0.6f, -0.5f);
         Vector3f rfPivotInChassis = new Vector3f(-0.8f, 0f, -0.4f);
-        this.rfMotor = addLeg(rfGeom, rfLegInWorld, rfPivotInChassis,
+        rfMotor = addLeg(rfGeom, rfLegInWorld, rfPivotInChassis,
                 chassisInWorld, chassisRbc);
 
         Geometry lrGeom = new Geometry("lr leg", legMesh);
         Vector3f lrLegInWorld = new Vector3f(0.8f, 0.6f, 0.5f);
         Vector3f lrPivotInChassis = new Vector3f(0.8f, 0f, 0.4f);
-        this.lrMotor = addLeg(lrGeom, lrLegInWorld, lrPivotInChassis,
+        lrMotor = addLeg(lrGeom, lrLegInWorld, lrPivotInChassis,
                 chassisInWorld, chassisRbc);
 
         Geometry rrGeom = new Geometry("rr leg", legMesh);
         Vector3f rrLegInWorld = new Vector3f(0.8f, 0.6f, -0.5f);
         Vector3f rrPivotInChassis = new Vector3f(0.8f, 0f, -0.4f);
-        this.rrMotor = addLeg(rrGeom, rrLegInWorld, rrPivotInChassis,
+        rrMotor = addLeg(rrGeom, rrLegInWorld, rrPivotInChassis,
                 chassisInWorld, chassisRbc);
     }
 
@@ -440,7 +440,7 @@ public class JointDemo extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
     }
 

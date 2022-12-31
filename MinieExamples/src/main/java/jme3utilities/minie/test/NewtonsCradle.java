@@ -93,11 +93,11 @@ public class NewtonsCradle
     /**
      * text displayed at the bottom of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * proposed display settings, for the DsEditOverlay
      */
@@ -177,7 +177,7 @@ public class NewtonsCradle
         viewPort.setBackgroundColor(skyColor);
 
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
 
@@ -409,7 +409,7 @@ public class NewtonsCradle
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);

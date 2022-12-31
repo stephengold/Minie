@@ -88,11 +88,11 @@ public class TestSoftBodyControl
     /**
      * physics objects that are not to be visualized
      */
-    final private FilterAll hiddenObjects = new FilterAll(true);
+    final private static FilterAll hiddenObjects = new FilterAll(true);
     /**
      * AppState to manage the PhysicsSpace
      */
-    private SoftPhysicsAppState bulletAppState;
+    private static SoftPhysicsAppState bulletAppState;
     // *************************************************************************
     // new methods exposed
 
@@ -382,7 +382,7 @@ public class TestSoftBodyControl
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
-        this.bulletAppState = new SoftPhysicsAppState();
+        bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugFilter(hiddenObjects);
         bulletAppState.setDebugInitListener(this);

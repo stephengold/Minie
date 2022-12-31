@@ -136,11 +136,11 @@ public class ConveyorDemo
     /**
      * text displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     // *************************************************************************
     // new methods exposed
 
@@ -254,7 +254,7 @@ public class ConveyorDemo
     @Override
     public void acorusInit() {
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
         super.acorusInit();
@@ -553,7 +553,7 @@ public class ConveyorDemo
      */
     private void configurePhysics() {
         // Set up Bullet physics and create a physics space.
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         final PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 

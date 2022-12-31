@@ -99,23 +99,23 @@ public class TestRectangularSolid extends PhysicsDemo {
     /**
      * status displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * pseudo-random seed for the current/next trial
      */
-    private long trialSeed = 1L;
+    private static long trialSeed = 1L;
     /**
      * scene-graph node for the current trial
      */
-    private Node trialNode = null;
+    private static Node trialNode = null;
     /**
      * latest rigid body
      */
-    private PhysicsRigidBody rigidBody;
+    private static PhysicsRigidBody rigidBody;
     // *************************************************************************
     // new methods exposed
 
@@ -152,7 +152,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         configureCamera();
 
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
         super.acorusInit();
 
@@ -160,7 +160,7 @@ public class TestRectangularSolid extends PhysicsDemo {
                 assetManager, sampleColor, samplePointSize);
         registerMaterial("samplePoint", material);
 
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSpeed(0f);
         stateManager.attach(bulletAppState);
@@ -275,10 +275,10 @@ public class TestRectangularSolid extends PhysicsDemo {
         if (trialNode != null) {
             PhysicsSpace space = bulletAppState.getPhysicsSpace();
             space.removeCollisionObject(rigidBody);
-            this.rigidBody = null;
+            rigidBody = null;
 
             trialNode.removeFromParent();
-            this.trialNode = null;
+            trialNode = null;
         }
         trial(shapeName);
     }
@@ -291,7 +291,7 @@ public class TestRectangularSolid extends PhysicsDemo {
      * spheres, "rounded"&rarr;MultiSphere with 4 spheres
      */
     private void trial(String shapeName) {
-        this.trialNode = new Node("trialNode");
+        trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
 
         String message = "trialSeed = " + trialSeed;
@@ -355,7 +355,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         }
 
         // Add a dynamic rigid body with that shape.
-        this.rigidBody = new PhysicsRigidBody(collisionShape);
+        rigidBody = new PhysicsRigidBody(collisionShape);
         rigidBody.setDebugMeshResolution(DebugShapeFactory.highResolution);
         PhysicsSpace space = bulletAppState.getPhysicsSpace();
         space.addCollisionObject(rigidBody);

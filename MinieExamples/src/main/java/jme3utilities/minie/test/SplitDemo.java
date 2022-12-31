@@ -118,50 +118,50 @@ public class SplitDemo
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * angle between the normal of the splitting plane and default camera's "up"
      * vector (in radians, &ge;0, &lt;Pi)
      */
-    private float splitAngle = 0f;
+    private static float splitAngle = 0f;
     /**
      * visualize the splitting plane
      */
-    private Geometry splitterGeometry;
+    private static Geometry splitterGeometry;
     /**
      * temporary storage for a 3x3 matrix
      */
-    final private Matrix3f tmpMatrix = new Matrix3f();
+    final private static Matrix3f tmpMatrix = new Matrix3f();
     /**
      * temporary storage for a Quaternion
      */
-    final private Quaternion tmpRotation = new Quaternion();
+    final private static Quaternion tmpRotation = new Quaternion();
     /**
      * AppState to manage the status overlay
      */
-    private SplitDemoStatus status;
+    private static SplitDemoStatus status;
     /**
      * first screen location used to define the splitting plane (measured from
      * the lower left corner)
      */
-    final private Vector2f screen1 = new Vector2f();
+    final private static Vector2f screen1 = new Vector2f();
     /**
      * 2nd screen location used to define the splitting plane (measured from the
      * lower left corner)
      */
-    final private Vector2f screen2 = new Vector2f();
+    final private static Vector2f screen2 = new Vector2f();
     /**
      * temporary storage for a vector
      */
-    final private Vector3f tmpLocation = new Vector3f();
+    final private static Vector3f tmpLocation = new Vector3f();
     /**
      * first world location used to define the splitting plane
      */
-    final private Vector3f world1 = new Vector3f();
+    final private static Vector3f world1 = new Vector3f();
     /**
      * 2nd world location used to define the splitting plane
      */
-    final private Vector3f world2 = new Vector3f();
+    final private static Vector3f world2 = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
@@ -227,7 +227,7 @@ public class SplitDemo
      */
     @Override
     public void acorusInit() {
-        this.status = new SplitDemoStatus();
+        status = new SplitDemoStatus();
         boolean success = stateManager.attach(status);
         assert success;
 
@@ -250,7 +250,7 @@ public class SplitDemo
         renderer.setDefaultAnisotropicFilter(degree);
 
         Line lineMesh = new Line(Vector3f.ZERO, Vector3f.ZERO);
-        this.splitterGeometry = new Geometry("plane", lineMesh);
+        splitterGeometry = new Geometry("plane", lineMesh);
         Material splitter = MyAsset.createWireframeMaterial(
                 assetManager, ColorRGBA.White);
         splitterGeometry.setMaterial(splitter);
@@ -536,12 +536,12 @@ public class SplitDemo
 
         Signals signals = getSignals();
         if (signals.test("rotatePlaneCcw")) {
-            this.splitAngle += tpf;
+            splitAngle += tpf;
         }
         if (signals.test("rotatePlaneCw")) {
-            this.splitAngle -= tpf;
+            splitAngle -= tpf;
         }
-        this.splitAngle = MyMath.modulo(splitAngle, FastMath.PI);
+        splitAngle = MyMath.modulo(splitAngle, FastMath.PI);
 
         float w = cam.getWidth();
         float h = cam.getHeight();
@@ -649,7 +649,7 @@ public class SplitDemo
     private void configurePhysics() {
         PhysicsBody.setDeactivationEnabled(false); // avoid a distraction
 
-        this.bulletAppState = new SoftPhysicsAppState();
+        bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         stateManager.attach(bulletAppState);

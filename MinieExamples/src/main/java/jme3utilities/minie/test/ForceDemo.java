@@ -79,15 +79,15 @@ public class ForceDemo
     /**
      * text displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * subject body to which forces and torques are applied
      */
-    private PhysicsRigidBody cube;
+    private static PhysicsRigidBody cube;
     // *************************************************************************
     // new methods exposed
 
@@ -122,7 +122,7 @@ public class ForceDemo
     @Override
     public void acorusInit() {
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
         super.acorusInit();
@@ -139,7 +139,7 @@ public class ForceDemo
 
         // Add a spinning cube.
         BoxCollisionShape shape = new BoxCollisionShape(1f);
-        this.cube = new PhysicsRigidBody(shape);
+        cube = new PhysicsRigidBody(shape);
         cube.setEnableSleep(false);
         Quaternion initialOrientation
                 = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
@@ -299,7 +299,7 @@ public class ForceDemo
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         float axisLength = maxArrowLength();
         bulletAppState.setDebugAxisLength(axisLength);
         bulletAppState.setDebugEnabled(true);

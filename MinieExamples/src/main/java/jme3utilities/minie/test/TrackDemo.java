@@ -117,45 +117,45 @@ public class TrackDemo extends PhysicsDemo {
     /**
      * true once {@link #initWhenReady()} has been invoked for the latest model
      */
-    private boolean dacReadyInitDone = false;
+    private static boolean dacReadyInitDone = false;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * inverse kinematics joint for the finger/sword tip
      */
-    private Constraint tipJoint = null;
+    private static Constraint tipJoint = null;
     /**
      * Control being tested
      */
-    private DynamicAnimControl dac;
+    private static DynamicAnimControl dac;
 
-    private int chainLength;
+    private static int chainLength;
     /**
      * root node of the C-G model on which the Control is being tested
      */
-    private Node cgModel;
-    private PhysicsRigidBody targetBody;
+    private static Node cgModel;
+    private static PhysicsRigidBody targetBody;
     /**
      * visualizer for the skeleton of the C-G model
      */
-    private SkeletonVisualizer sv;
+    private static SkeletonVisualizer sv;
     /**
      * vertex specifier for finger/sword tip
      */
-    private String tipSpec;
+    private static String tipSpec;
 
-    private TrackController leftWatch = null;
-    private TrackController rightWatch = null;
-    private TrackController watch = null;
+    private static TrackController leftWatch = null;
+    private static TrackController rightWatch = null;
+    private static TrackController watch = null;
     /**
      * locations of grid corners in world coordinates
      */
-    private Vector3f gridBottomLeft;
-    private Vector3f gridBottomRight;
-    private Vector3f gridTopLeft;
-    private Vector3f gridTopRight;
+    private static Vector3f gridBottomLeft;
+    private static Vector3f gridBottomRight;
+    private static Vector3f gridTopLeft;
+    private static Vector3f gridTopRight;
     // *************************************************************************
     // new methods exposed
 
@@ -216,7 +216,7 @@ public class TrackDemo extends PhysicsDemo {
 
         // Add a target rigid body, to be moved by dragging RMB.
         CollisionShape shape = new SphereCollisionShape(0.02f);
-        this.targetBody = new PhysicsRigidBody(shape);
+        targetBody = new PhysicsRigidBody(shape);
         targetBody.setKinematic(true);
         addCollisionObject(targetBody);
 
@@ -416,7 +416,7 @@ public class TrackDemo extends PhysicsDemo {
             rootNode.removeControl(sv);
             dacReadyInitDone = false;
         }
-        this.chainLength = 6; // constant?
+        chainLength = 6; // constant?
 
         switch (modelName) {
             case "BaseMesh":
@@ -468,7 +468,7 @@ public class TrackDemo extends PhysicsDemo {
         PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
-        this.sv = new SkeletonVisualizer(assetManager, sc);
+        sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);
@@ -498,7 +498,7 @@ public class TrackDemo extends PhysicsDemo {
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
@@ -542,7 +542,7 @@ public class TrackDemo extends PhysicsDemo {
             PhysicsLink link = dac.findManagerForVertex(spec, null, pivot);
             link.setDynamic(Vector3f.ZERO);
             Vector3f lookDirection = binocular.leftEyeLookDirection(null);
-            this.leftWatch = new TrackController(
+            leftWatch = new TrackController(
                     link, pivot, lookDirection, targetBody);
             link.addIKController(leftWatch);
             leftWatch.setDeltaGainFactor(4f);
@@ -554,7 +554,7 @@ public class TrackDemo extends PhysicsDemo {
             link = dac.findManagerForVertex(spec, null, pivot);
             link.setDynamic(Vector3f.ZERO);
             binocular.leftEyeLookDirection(lookDirection);
-            this.rightWatch = new TrackController(
+            rightWatch = new TrackController(
                     link, pivot, lookDirection, targetBody);
             link.addIKController(rightWatch);
             rightWatch.setDeltaGainFactor(4f);
@@ -567,86 +567,81 @@ public class TrackDemo extends PhysicsDemo {
      * Load the BaseMesh model.
      */
     private void loadBaseMesh() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/BaseMesh/BaseMesh.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/BaseMesh/BaseMesh.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new BaseMeshControl();
-        this.tipSpec = "4914/BaseMesh_011"; // tip of right index finger
+        dac = new BaseMeshControl();
+        tipSpec = "4914/BaseMesh_011"; // tip of right index finger
     }
 
     /**
      * Load the Jaime model.
      */
     private void loadJaime() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new JaimeControl();
-        this.tipSpec = "2704/JaimeGeom-geom-1"; // tip of right index finger
+        dac = new JaimeControl();
+        tipSpec = "2704/JaimeGeom-geom-1"; // tip of right index finger
     }
 
     /**
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new MhGameControl();
-        this.tipSpec = "5239/male_generic"; // tip of right index finger
+        dac = new MhGameControl();
+        tipSpec = "5239/male_generic"; // tip of right index finger
     }
 
     /**
      * Load the Ninja model.
      */
     private void loadNinja() {
-        this.cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
         cgModel.rotate(0f, 1.6f, 0f);
 
-        this.dac = new NinjaControl();
-        this.tipSpec = "55/Ninja-geom-2"; // tip of katana blade
+        dac = new NinjaControl();
+        tipSpec = "55/Ninja-geom-2"; // tip of katana blade
     }
 
     /**
      * Load the Oto model.
      */
     private void loadOto() {
-        this.cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new OtoControl();
-        this.tipSpec = "3236/Oto-geom-1"; // right knuckle
+        dac = new OtoControl();
+        tipSpec = "3236/Oto-geom-1"; // right knuckle
     }
 
     /**
      * Load the Puppet model.
      */
     private void loadPuppet() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
         AnimMigrationUtils.migrate(cgModel);
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new PuppetControl();
-        this.tipSpec = "3185/Mesh.009_0"; // tip of right index finger
+        dac = new PuppetControl();
+        tipSpec = "3185/Mesh.009_0"; // tip of right index finger
     }
 
     /**
      * Load the Sinbad model without attachments.
      */
     private void loadSinbad() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new SinbadControl();
-        this.tipSpec = "223/Sinbad-geom-2"; // tip of right index finger
+        dac = new SinbadControl();
+        tipSpec = "223/Sinbad-geom-2"; // tip of right index finger
 
         gridBottomLeft.set(-1f, 0.5f, -1f);
         gridBottomRight.set(-1f, 0.5f, 1f);
@@ -656,8 +651,7 @@ public class TrackDemo extends PhysicsDemo {
      * Load the Sinbad model with an attached sword.
      */
     private void loadSinbadWith1Sword() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
@@ -669,20 +663,19 @@ public class TrackDemo extends PhysicsDemo {
         LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
                 CenterHeuristic.AABB);
-        this.dac = new SinbadControl();
+        dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
-        this.tipSpec = "4/Sword-geom-3/Handle.R"; // tip of sword blade
-        this.gridBottomLeft = new Vector3f(-1f, 0.5f, -1f);
-        this.gridBottomRight = new Vector3f(-1f, 0.5f, 1f);
+        tipSpec = "4/Sword-geom-3/Handle.R"; // tip of sword blade
+        gridBottomLeft = new Vector3f(-1f, 0.5f, -1f);
+        gridBottomRight = new Vector3f(-1f, 0.5f, 1f);
     }
 
     /**
      * Load the Sinbad model with 2 attached swords.
      */
     private void loadSinbadWithSwords() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
@@ -694,12 +687,11 @@ public class TrackDemo extends PhysicsDemo {
         LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
                 CenterHeuristic.AABB);
-        this.dac = new SinbadControl();
+        dac = new SinbadControl();
         dac.attach("Handle.L", swordConfig, sword);
         dac.attach("Handle.R", swordConfig, sword);
 
-        this.tipSpec
-                = "4/Sword-geom-3/Handle.R"; // tip of right-hand sword blade
+        tipSpec = "4/Sword-geom-3/Handle.R"; // tip of right-hand sword blade
     }
 
     /**

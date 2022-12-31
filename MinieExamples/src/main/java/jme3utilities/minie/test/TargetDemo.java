@@ -120,15 +120,15 @@ public class TargetDemo
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * selected rigid body, or null if none
      */
-    private PhysicsRigidBody selectedBody = null;
+    private static PhysicsRigidBody selectedBody = null;
     /**
      * AppState to manage the status overlay
      */
-    private TargetDemoStatus status;
+    private static TargetDemoStatus status;
     // *************************************************************************
     // new methods exposed
 
@@ -221,7 +221,7 @@ public class TargetDemo
      */
     @Override
     public void acorusInit() {
-        this.status = new TargetDemoStatus();
+        status = new TargetDemoStatus();
         boolean success = stateManager.attach(status);
         assert success;
 
@@ -545,7 +545,7 @@ public class TargetDemo
     private void configurePhysics() {
         DebugShapeFactory.setIndexBuffers(200);
 
-        this.bulletAppState = new SoftPhysicsAppState();
+        bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         bulletAppState.setDebugShadowMode(
@@ -736,7 +736,7 @@ public class TargetDemo
      */
     private void selectBody(PhysicsRigidBody rigidBody) {
         if (rigidBody != selectedBody) {
-            this.selectedBody = rigidBody;
+            selectedBody = rigidBody;
             setDebugMaterialsAll();
         }
     }

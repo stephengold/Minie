@@ -151,51 +151,51 @@ public class TestRbc
     /**
      * text displayed in the upper-left corner of the GUI node
      */
-    final private BitmapText[] statusLines = new BitmapText[2];
+    final private static BitmapText[] statusLines = new BitmapText[2];
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * shape being tested
      */
-    private CollisionShape testShape;
+    private static CollisionShape testShape;
     /**
      * part index returned by the most recent ray/sweep test
      */
-    private int partIndex = -1;
+    private static int partIndex = -1;
     /**
      * triangle index returned by the most recent ray/sweep test
      */
-    private int triangleIndex = -1;
+    private static int triangleIndex = -1;
     /**
      * cursor shown when the raytest finds a collision object
      */
-    private JmeCursor hitCursor;
+    private static JmeCursor hitCursor;
     /**
      * cursor shown when the raytest doesn't find a collision object
      */
-    private JmeCursor missCursor;
+    private static JmeCursor missCursor;
     /**
      * parent for added spatials
      */
-    final private Node meshesNode = new Node("meshes node");
+    final private static Node meshesNode = new Node("meshes node");
     /**
      * visualizer for the most recent ray/sweep test hit
      */
-    private PointVisualizer hitPoint;
+    private static PointVisualizer hitPoint;
     /**
      * geometry for the missile, or null if none
      */
-    private Spatial missileSpatial;
+    private static Spatial missileSpatial;
     /**
      * spatial(s) being tested
      */
-    private Spatial testSpatial;
+    private static Spatial testSpatial;
     /**
      * name of the test being run
      */
-    private String testName = "Box";
+    private static String testName = "Box";
     // *************************************************************************
     // new methods exposed
 
@@ -869,13 +869,13 @@ public class TestRbc
      * Add a 513x513 terrain to the scene and PhysicsSpace.
      */
     private void addLargeTerrain() {
-        this.testSpatial = MinieTestTerrains.largeQuad;
-        this.testShape = CollisionShapeFactory.createMeshShape(testSpatial);
+        testSpatial = MinieTestTerrains.largeQuad;
+        testShape = CollisionShapeFactory.createMeshShape(testSpatial);
         makeTestShape();
         Material greenMaterial = findMaterial("platform");
         testSpatial.setMaterial(greenMaterial);
 
-        this.testShape = CollisionShapeFactory.createMeshShape(testSpatial);
+        testShape = CollisionShapeFactory.createMeshShape(testSpatial);
         makeTestShape();
     }
 
@@ -905,10 +905,9 @@ public class TestRbc
         float thickness = 1f;
         boolean normals = true;
         Mesh mesh = new Prism(numSides, radius, thickness, normals);
-        this.testSpatial = new Geometry("prism", mesh);
+        testSpatial = new Geometry("prism", mesh);
 
-        this.testShape
-                = CollisionShapeFactory.createDynamicMeshShape(testSpatial);
+        testShape = CollisionShapeFactory.createDynamicMeshShape(testSpatial);
         makeTestShape();
     }
 
@@ -924,7 +923,7 @@ public class TestRbc
         float radius = 0.05f;
         Mesh mesh = new Icosphere(numRefineSteps, radius);
 
-        this.missileSpatial = new Geometry("missile", mesh);
+        missileSpatial = new Geometry("missile", mesh);
         meshesNode.attachChild(missileSpatial);
         Material redMaterial = findMaterial("red");
         missileSpatial.setMaterial(redMaterial);
@@ -949,32 +948,32 @@ public class TestRbc
         int numRefineSteps = 3;
         float radius = 2.5f;
         Mesh mesh = new Icosphere(numRefineSteps, radius);
-        this.testSpatial = new Geometry("sphere", mesh);
+        testSpatial = new Geometry("sphere", mesh);
 
         switch (testName) {
             case "OneSphere":
-                this.testShape = new MultiSphere(radius);
+                testShape = new MultiSphere(radius);
                 break;
 
             case "Sphere":
-                this.testShape = new SphereCollisionShape(radius);
+                testShape = new SphereCollisionShape(radius);
                 break;
 
             case "SphereCapsule":
                 float height = 0f;
-                this.testShape = new CapsuleCollisionShape(radius, height);
+                testShape = new CapsuleCollisionShape(radius, height);
                 break;
 
             case "SphereGImpact":
-                this.testShape = new GImpactCollisionShape(mesh);
+                testShape = new GImpactCollisionShape(mesh);
                 break;
 
             case "SphereHull":
-                this.testShape = new HullCollisionShape(mesh);
+                testShape = new HullCollisionShape(mesh);
                 break;
 
             case "SphereMesh":
-                this.testShape = new MeshCollisionShape(mesh);
+                testShape = new MeshCollisionShape(mesh);
                 break;
 
             default:
@@ -990,25 +989,25 @@ public class TestRbc
     private void addSquare() {
         float he = 1f;
         Mesh mesh = new RectangleMesh(-he, +he, -he, +he, 1f);
-        this.testSpatial = new Geometry("square", mesh);
+        testSpatial = new Geometry("square", mesh);
 
         switch (testName) {
             case "Square":
-                this.testShape = new Box2dShape(he);
+                testShape = new Box2dShape(he);
                 break;
 
             case "SquareBox":
-                this.testShape = new BoxCollisionShape(he, he, 0.04f);
+                testShape = new BoxCollisionShape(he, he, 0.04f);
                 break;
 
             case "SquareConvex2d":
                 FloatBuffer buffer
                         = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-                this.testShape = new Convex2dShape(buffer);
+                testShape = new Convex2dShape(buffer);
                 break;
 
             case "SquareGImpact":
-                this.testShape = new GImpactCollisionShape(mesh);
+                testShape = new GImpactCollisionShape(mesh);
                 break;
 
             case "SquareHeightfield":
@@ -1021,17 +1020,17 @@ public class TestRbc
                 boolean flipTriangleWinding = false;
                 boolean useDiamond = false;
                 boolean useZigzag = false;
-                this.testShape = new HeightfieldCollisionShape(stickLength,
+                testShape = new HeightfieldCollisionShape(stickLength,
                         stickWidth, heightmap, scale, upAxis, flipQuadEdges,
                         flipTriangleWinding, useDiamond, useZigzag);
                 break;
 
             case "SquareHull":
-                this.testShape = new HullCollisionShape(mesh);
+                testShape = new HullCollisionShape(mesh);
                 break;
 
             case "SquareMesh":
-                this.testShape = new MeshCollisionShape(mesh);
+                testShape = new MeshCollisionShape(mesh);
                 break;
 
             default:
@@ -1057,7 +1056,7 @@ public class TestRbc
     private void addTetrahedron() {
         float radius = 2.5f;
         Mesh mesh = new Tetrahedron(radius, true);
-        this.testSpatial = new Geometry("tetrahedron", mesh);
+        testSpatial = new Geometry("tetrahedron", mesh);
 
         switch (testName) {
             case "Simplex":
@@ -1065,20 +1064,20 @@ public class TestRbc
                         = mesh.getFloatBuffer(VertexBuffer.Type.Position);
                 VectorSet vs = MyBuffer.distinct(buffer, 0, buffer.limit());
                 buffer = vs.toBuffer();
-                this.testShape
+                testShape
                         = new SimplexCollisionShape(buffer, 0, buffer.limit());
                 break;
 
             case "TetraGImpact":
-                this.testShape = new GImpactCollisionShape(mesh);
+                testShape = new GImpactCollisionShape(mesh);
                 break;
 
             case "TetraHull":
-                this.testShape = new HullCollisionShape(mesh);
+                testShape = new HullCollisionShape(mesh);
                 break;
 
             case "TetraMesh":
-                this.testShape = new MeshCollisionShape(mesh);
+                testShape = new MeshCollisionShape(mesh);
                 break;
 
             default:
@@ -1097,11 +1096,11 @@ public class TestRbc
     private void advanceTest(int amount) {
         int index = Arrays.binarySearch(testNames, testName);
         if (index < 0) {
-            this.testName = testNames[0];
+            testName = testNames[0];
         } else {
             assert testNames[index].equals(testName);
             index = MyMath.modulo(index + amount, testNames.length);
-            this.testName = testNames[index];
+            testName = testNames[index];
         }
 
         restartTest();
@@ -1130,8 +1129,8 @@ public class TestRbc
             hitPoint.setLocalTranslation(location);
             hitPoint.setEnabled(true);
 
-            this.partIndex = nearestHit.partIndex();
-            this.triangleIndex = nearestHit.triangleIndex();
+            partIndex = nearestHit.partIndex();
+            triangleIndex = nearestHit.triangleIndex();
         } else {
             hitPoint.setEnabled(false);
         }
@@ -1143,13 +1142,13 @@ public class TestRbc
      */
     private void clearShapes() {
         hitPoint.setEnabled(false);
-        this.partIndex = -1;
-        this.triangleIndex = -1;
+        partIndex = -1;
+        triangleIndex = -1;
 
         // Remove any added spatials from the scene.
         meshesNode.detachAllChildren();
-        this.missileSpatial = null;
-        this.testSpatial = null;
+        missileSpatial = null;
+        testSpatial = null;
         /*
          * Remove all collision objects from the PhysicsSpace,
          * which also removes their debug meshes.
@@ -1183,7 +1182,7 @@ public class TestRbc
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
@@ -1196,10 +1195,10 @@ public class TestRbc
      */
     private void generateCursors() {
         String hitPath = "Textures/cursors/green.cur";
-        this.hitCursor = (JmeCursor) assetManager.loadAsset(hitPath);
+        hitCursor = (JmeCursor) assetManager.loadAsset(hitPath);
 
         String missPath = "Textures/cursors/default.cur";
-        this.missCursor = (JmeCursor) assetManager.loadAsset(missPath);
+        missCursor = (JmeCursor) assetManager.loadAsset(missPath);
     }
 
     /**
@@ -1341,8 +1340,8 @@ public class TestRbc
             hitPoint.setLocalTranslation(location);
             hitPoint.setEnabled(true);
 
-            this.partIndex = nearestHit.partIndex();
-            this.triangleIndex = nearestHit.triangleIndex();
+            partIndex = nearestHit.partIndex();
+            triangleIndex = nearestHit.triangleIndex();
         } else {
             hitPoint.setEnabled(false);
         }

@@ -113,74 +113,74 @@ public class BalanceDemo extends PhysicsDemo {
     /**
      * composer for playing canned animations
      */
-    private AnimComposer composer = null;
+    private static AnimComposer composer = null;
     /**
      * keeps the model's center of mass directly above its center of support
      */
-    private BalanceController balance = null;
+    private static BalanceController balance = null;
     /**
      * true once {@link #initWhenReady()} has been invoked for the latest model
      */
-    private boolean dacReadyInitDone = false;
+    private static boolean dacReadyInitDone = false;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * Control being tested
      */
-    private DynamicAnimControl dac;
+    private static DynamicAnimControl dac;
     /**
      * fraction of the model's weight that's on its right foot
      */
-    private float rightSupportFraction = 0.5f;
+    private static float rightSupportFraction = 0.5f;
     /**
      * gain for the UprightController (tuned for each model)
      */
-    private float uprightGain;
+    private static float uprightGain;
     /**
      * parameters that determine the torso's vertical acceleration
      */
-    private float vaBias = 0f; // tuned for each model
-    private float vaMagnitude = 0f; // tuned for each model
-    private float vaSign = +1f;
+    private static float vaBias = 0f; // tuned for each model
+    private static float vaMagnitude = 0f; // tuned for each model
+    private static float vaSign = +1f;
     /**
      * root node of the C-G model on which the Control is being tested
      */
-    private Node cgModel;
+    private static Node cgModel;
     /**
      * visualizer for the center of mass
      */
-    private PointVisualizer comPoint;
+    private static PointVisualizer comPoint;
     /**
      * visualizer for the center of support
      */
-    private PointVisualizer supportPoint;
+    private static PointVisualizer supportPoint;
     /**
      * visualizer for the skeleton of the C-G model
      */
-    private SkeletonVisualizer sv;
+    private static SkeletonVisualizer sv;
     /**
      * name of the Animation/Action to play on the C-G model
      */
-    private String animationName = null;
+    private static String animationName = null;
     /**
      * TorsoLink of the model
      */
-    private TorsoLink torso;
+    private static TorsoLink torso;
     /**
      * location of the left foot's center of support
      */
-    private Vector3f leftSupportLocation;
+    private static Vector3f leftSupportLocation;
     /**
      * location of the right foot's center of support
      */
-    private Vector3f rightSupportLocation;
+    private static Vector3f rightSupportLocation;
     /**
      * "up" direction of the torso, in its local coordinate system (unit vector,
      * different for each model)
      */
-    private Vector3f torsoUpDirection = null;
+    private static Vector3f torsoUpDirection = null;
     // *************************************************************************
     // new methods exposed
 
@@ -229,11 +229,11 @@ public class BalanceDemo extends PhysicsDemo {
         stateManager.getState(StatsAppState.class).toggleStats();
 
         int indicatorSize = 16; // in pixels
-        this.comPoint = new PointVisualizer(
+        comPoint = new PointVisualizer(
                 assetManager, indicatorSize, ColorRGBA.Cyan, "ring");
         rootNode.attachChild(comPoint);
 
-        this.supportPoint = new PointVisualizer(
+        supportPoint = new PointVisualizer(
                 assetManager, indicatorSize, ColorRGBA.Yellow, "square");
         rootNode.attachChild(supportPoint);
 
@@ -393,7 +393,7 @@ public class BalanceDemo extends PhysicsDemo {
         if (dac.isReady()) {
             if (!dacReadyInitDone) {
                 initWhenReady();
-                this.dacReadyInitDone = true;
+                dacReadyInitDone = true;
             }
 
             Vector3f comLocation = new Vector3f();
@@ -500,10 +500,10 @@ public class BalanceDemo extends PhysicsDemo {
         PhysicsSpace physicsSpace = getPhysicsSpace();
         dac.setPhysicsSpace(physicsSpace);
 
-        this.torso = dac.getTorsoLink();
-        this.composer = controlledSpatial.getControl(AnimComposer.class);
+        torso = dac.getTorsoLink();
+        composer = controlledSpatial.getControl(AnimComposer.class);
 
-        this.sv = new SkeletonVisualizer(assetManager, sc);
+        sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);
@@ -535,7 +535,7 @@ public class BalanceDemo extends PhysicsDemo {
     private void configurePhysics() {
         CollisionShape.setDefaultMargin(0.005f); // 5-mm margin
 
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
@@ -591,106 +591,101 @@ public class BalanceDemo extends PhysicsDemo {
      * Load the Jaime model.
      */
     private void loadJaime() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Jaime/Jaime-new.j3o");
         Geometry g = (Geometry) cgModel.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new JaimeControl();
-        this.animationName = "Punches";
-        this.uprightGain = 10f;
-        this.vaBias = 5f;
-        this.vaMagnitude = 100f;
-        this.torsoUpDirection = Vector3f.UNIT_Z;
+        dac = new JaimeControl();
+        animationName = "Punches";
+        uprightGain = 10f;
+        vaBias = 5f;
+        vaMagnitude = 100f;
+        torsoUpDirection = Vector3f.UNIT_Z;
     }
 
     /**
      * Load the MhGame model.
      */
     private void loadMhGame() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/MhGame/MhGame.j3o");
         cgModel.rotate(0f, 0f, 1.6f);
 
-        this.dac = new MhGameControl();
-        this.animationName = "expr-lib-pose";
-        this.uprightGain = 25f;
-        this.vaBias = 0f;
-        this.vaMagnitude = 40f;
-        this.torsoUpDirection = Vector3f.UNIT_X;
+        dac = new MhGameControl();
+        animationName = "expr-lib-pose";
+        uprightGain = 25f;
+        vaBias = 0f;
+        vaMagnitude = 40f;
+        torsoUpDirection = Vector3f.UNIT_X;
     }
 
     /**
      * Load the Ninja model.
      */
     private void loadNinja() {
-        this.cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Ninja/Ninja.j3o");
         cgModel.rotate(0f, 1.6f, 0f);
 
-        this.dac = new NinjaControl();
-        this.animationName = "Walk";
-        this.uprightGain = 100f;
-        this.vaBias = -8f;
-        this.vaMagnitude = 12f;
-        this.torsoUpDirection = Vector3f.UNIT_Y;
+        dac = new NinjaControl();
+        animationName = "Walk";
+        uprightGain = 100f;
+        vaBias = -8f;
+        vaMagnitude = 12f;
+        torsoUpDirection = Vector3f.UNIT_Y;
     }
 
     /**
      * Load the Oto model.
      */
     private void loadOto() {
-        this.cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Oto/Oto.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new OtoControl();
-        this.animationName = "pull";
-        this.uprightGain = 8f;
-        this.vaBias = 0f;
-        this.vaMagnitude = 100f;
-        this.torsoUpDirection = Vector3f.UNIT_Y;
+        dac = new OtoControl();
+        animationName = "pull";
+        uprightGain = 8f;
+        vaBias = 0f;
+        vaMagnitude = 100f;
+        torsoUpDirection = Vector3f.UNIT_Y;
     }
 
     /**
      * Load the Puppet model.
      */
     private void loadPuppet() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Puppet/Puppet.j3o");
         AnimMigrationUtils.migrate(cgModel);
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new PuppetControl();
-        this.animationName = "wave";
-        this.uprightGain = 10f;
-        this.vaBias = 0f;
-        this.vaMagnitude = 20f;
-        this.torsoUpDirection = new Vector3f(0f, 0f, -1f);
+        dac = new PuppetControl();
+        animationName = "wave";
+        uprightGain = 10f;
+        vaBias = 0f;
+        vaMagnitude = 20f;
+        torsoUpDirection = new Vector3f(0f, 0f, -1f);
     }
 
     /**
      * Load the Sinbad model without attachments.
      */
     private void loadSinbad() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
-        this.dac = new SinbadControl();
-        this.animationName = "Dance";
-        this.uprightGain = 40f;
-        this.vaBias = 0f;
-        this.vaMagnitude = 80f;
-        this.torsoUpDirection = Vector3f.UNIT_Y;
+        dac = new SinbadControl();
+        animationName = "Dance";
+        uprightGain = 40f;
+        vaBias = 0f;
+        vaMagnitude = 80f;
+        torsoUpDirection = Vector3f.UNIT_Y;
     }
 
     /**
      * Load the Sinbad model with an attached sword.
      */
     private void loadSinbadWith1Sword() {
-        this.cgModel
-                = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
+        cgModel = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o");
         cgModel.rotate(0f, -1.6f, 0f);
 
         Node sword = (Node) assetManager.loadModel("Models/Sinbad/Sword.j3o");
@@ -702,13 +697,13 @@ public class BalanceDemo extends PhysicsDemo {
         LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
                 CenterHeuristic.AABB);
-        this.dac = new SinbadControl();
+        dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
-        this.animationName = "RunTop";
-        this.uprightGain = 40f;
-        this.vaBias = 0f;
-        this.vaMagnitude = 80f;
+        animationName = "RunTop";
+        uprightGain = 40f;
+        vaBias = 0f;
+        vaMagnitude = 80f;
         torsoUpDirection = Vector3f.UNIT_Y;
     }
 

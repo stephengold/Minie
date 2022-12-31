@@ -81,11 +81,11 @@ public class TestInsideTriangle extends AcorusDemo {
     /**
      * enhanced pseudo-random generator
      */
-    final private Generator generator = new Generator();
+    final private static Generator generator = new Generator();
     /**
      * scene-graph node for the current trial
      */
-    private Node trialNode = null;
+    private static Node trialNode = null;
     // *************************************************************************
     // new methods exposed
 
@@ -197,7 +197,7 @@ public class TestInsideTriangle extends AcorusDemo {
      * Perform a new trial.
      */
     private void trial() {
-        this.trialNode = new Node("trialNode");
+        trialNode = new Node("trialNode");
         rootNode.attachChild(trialNode);
 
         // Generate a triangle.

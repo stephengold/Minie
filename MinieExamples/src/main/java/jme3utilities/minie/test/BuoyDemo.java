@@ -117,35 +117,35 @@ public class BuoyDemo extends PhysicsDemo {
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * Control being tested
      */
-    private DynamicAnimControl dac;
+    private static DynamicAnimControl dac;
     /**
      * root node of the C-G model on which the Control is being tested
      */
-    private Node cgModel;
+    private static Node cgModel;
     /**
      * scene-graph subtree containing all geometries visible in reflections
      */
-    final private Node reflectiblesNode = new Node("reflectibles");
+    final private static Node reflectiblesNode = new Node("reflectibles");
     /**
      * scene-graph subtree containing all reflective geometries
      */
-    final private Node reflectorsNode = new Node("reflectors");
+    final private static Node reflectorsNode = new Node("reflectors");
     /**
      * scene processor for water effects
      */
-    private SimpleWaterProcessor processor;
+    private static SimpleWaterProcessor processor;
     /**
      * visualizer for the skeleton of the C-G model
      */
-    private SkeletonVisualizer sv;
+    private static SkeletonVisualizer sv;
     /**
      * name of the Animation/Action to play on the C-G model
      */
-    private String animationName = null;
+    private static String animationName = null;
     // *************************************************************************
     // new methods exposed
 
@@ -364,7 +364,7 @@ public class BuoyDemo extends PhysicsDemo {
         rootNode.addLight(sun);
         sun.setName("sun");
 
-        this.processor = new SimpleWaterProcessor(assetManager);
+        processor = new SimpleWaterProcessor(assetManager);
         viewPort.addProcessor(processor);
         processor.setLightPosition(direction.mult(1000f));
         Plane surface = new Plane(Vector3f.UNIT_Y, surfaceElevation);
@@ -461,7 +461,7 @@ public class BuoyDemo extends PhysicsDemo {
                 = controlledSpatial.getControl(AnimComposer.class);
         composer.setCurrentAction(animationName);
 
-        this.sv = new SkeletonVisualizer(assetManager, sc);
+        sv = new SkeletonVisualizer(assetManager, sc);
         sv.setLineColor(ColorRGBA.Yellow);
         InfluenceUtil.hideNonInfluencers(sv, sc);
         rootNode.addControl(sv);
@@ -516,7 +516,7 @@ public class BuoyDemo extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();

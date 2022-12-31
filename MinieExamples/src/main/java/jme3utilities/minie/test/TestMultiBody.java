@@ -87,15 +87,15 @@ public class TestMultiBody extends PhysicsDemo {
      * lines of text displayed in the upper-left corner of the GUI node ([0] is
      * the top line)
      */
-    final private BitmapText[] statusLines = new BitmapText[1];
+    final private static BitmapText[] statusLines = new BitmapText[1];
     /**
      * AppState to manage the PhysicsSpace
      */
-    private MultiBodyAppState bulletAppState;
+    private static MultiBodyAppState bulletAppState;
     /**
      * name of the test being run
      */
-    private String testName = "test1";
+    private static String testName = "test1";
     // *************************************************************************
     // new methods exposed
 
@@ -369,7 +369,7 @@ public class TestMultiBody extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new MultiBodyAppState();
+        bulletAppState = new MultiBodyAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setSolverType(SolverType.Lemke);
         float axisLength = maxArrowLength();

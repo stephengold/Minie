@@ -109,15 +109,15 @@ public class Windlass
     /**
      * text displayed at the bottom of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * All cable segments have exactly the same shape.
      */
-    private CollisionShape segmentShape;
+    private static CollisionShape segmentShape;
     /**
      * proposed display settings, for the DsEditOverlay
      */
@@ -125,27 +125,27 @@ public class Windlass
     /**
      * rotation of the barrel (in radians)
      */
-    private float barrelXRotation;
+    private static float barrelXRotation;
     /**
      * input signal: 1&rarr;turn counter-clockwise (initially lowers the hook)
      */
-    private int signalCcw;
+    private static int signalCcw;
     /**
      * input signal: 1&rarr;turn clockwise (initially raises the hook)
      */
-    private int signalCw;
+    private static int signalCw;
     /**
      * body that represents the barrel
      */
-    private PhysicsRigidBody barrel;
+    private static PhysicsRigidBody barrel;
     /**
      * orientation of the barrel
      */
-    final private Quaternion barrelOrientation = new Quaternion();
+    final private static Quaternion barrelOrientation = new Quaternion();
     /**
      * location of the forward pivot in a segment's local coordinates
      */
-    final private Vector3f localPivot = new Vector3f();
+    final private static Vector3f localPivot = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
@@ -217,7 +217,7 @@ public class Windlass
         viewPort.setBackgroundColor(skyColor);
 
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
 
@@ -245,7 +245,7 @@ public class Windlass
 
         // The segment shape is a Z-axis capsule.
         assert segmentLength > 2f * cableRadius; // alternate segments collide!
-        this.segmentShape = new CapsuleCollisionShape(
+        segmentShape = new CapsuleCollisionShape(
                 cableRadius, segmentLength, PhysicsSpace.AXIS_Z);
         localPivot.set(0f, 0f, segmentLength / 2f);
         /*
@@ -381,8 +381,8 @@ public class Windlass
         super.simpleUpdate(tpf);
 
         Signals signals = getSignals();
-        this.signalCcw = signals.test("wind ccw") ? 1 : 0;
-        this.signalCw = signals.test("wind cw") ? 1 : 0;
+        signalCcw = signals.test("wind ccw") ? 1 : 0;
+        signalCw = signals.test("wind cw") ? 1 : 0;
 
         updateStatusText();
 
@@ -424,7 +424,7 @@ public class Windlass
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         // Turn the barrel based on user-input signals.
         float turnRate = 4f; // radians per second
-        this.barrelXRotation += (signalCcw - signalCw) * turnRate * timeStep;
+        barrelXRotation += (signalCcw - signalCw) * turnRate * timeStep;
         barrelOrientation.fromAngles(barrelXRotation, 0f, 0f);
         barrel.setPhysicsRotation(barrelOrientation);
     }
@@ -471,7 +471,7 @@ public class Windlass
         barrelShape.addChildShape(handleShape, -handleX, -handleY, 0f);
 
         float barrelMass = 100f;
-        this.barrel = new PhysicsRigidBody(barrelShape, barrelMass);
+        barrel = new PhysicsRigidBody(barrelShape, barrelMass);
         barrel.setKinematic(true);
         barrel.setAnisotropicFriction(new Vector3f(900f, 10f, 10f),
                 AfMode.basic);
@@ -637,7 +637,7 @@ public class Windlass
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
 
         // Visualize only the rigid bodies, not the joints.

@@ -135,19 +135,19 @@ public class DropTest
     /**
      * current drops, in order of creation
      */
-    final private Deque<Drop> drops = new ArrayDeque<>(maxNumDrops);
+    final private static Deque<Drop> drops = new ArrayDeque<>(maxNumDrops);
     /**
      * selected drop, or null if none
      */
-    private Drop selectedDrop = null;
+    private static Drop selectedDrop = null;
     /**
      * AppState to manage the status overlay
      */
-    private DropTestStatus status;
+    private static DropTestStatus status;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private SoftPhysicsAppState bulletAppState;
+    private static SoftPhysicsAppState bulletAppState;
     // *************************************************************************
     // new methods exposed
 
@@ -231,7 +231,7 @@ public class DropTest
      */
     @Override
     public void acorusInit() {
-        this.status = new DropTestStatus();
+        status = new DropTestStatus();
         boolean success = stateManager.attach(status);
         assert success;
 
@@ -796,7 +796,7 @@ public class DropTest
     private void configurePhysics() {
         DebugShapeFactory.setIndexBuffers(200);
 
-        this.bulletAppState = new SoftPhysicsAppState();
+        bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugInitListener(this);
         bulletAppState.setDebugShadowMode(

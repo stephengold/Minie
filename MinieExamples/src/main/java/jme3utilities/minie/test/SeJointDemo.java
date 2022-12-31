@@ -123,51 +123,51 @@ public class SeJointDemo extends PhysicsDemo {
     /**
      * status displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
-    private CollisionShape seedShape;
+    private static BulletAppState bulletAppState;
+    private static CollisionShape seedShape;
     /**
      * material for each type of seed
      */
-    final private Material[] materials = new Material[maxGroups];
+    final private static Material[] materials = new Material[maxGroups];
 
-    final private Matrix3f rotInSeed = new Matrix3f();
-    final private Matrix3f rotInWorld = new Matrix3f();
+    final private static Matrix3f rotInSeed = new Matrix3f();
+    final private static Matrix3f rotInWorld = new Matrix3f();
     /**
      * mesh for visualizing seeds
      */
-    private Mesh seedMesh;
+    private static Mesh seedMesh;
     /**
      * scene-graph node for visualizing seeds
      */
-    final private Node meshesNode = new Node("meshes node");
+    final private static Node meshesNode = new Node("meshes node");
     /**
      * name of the test that's currently running
      */
-    private String testName = "p2p";
+    private static String testName = "p2p";
     /**
      * joint axis in each seed's local coordinates (unit vector)
      */
-    final private Vector3f axisInSeed = new Vector3f();
+    final private static Vector3f axisInSeed = new Vector3f();
     /**
      * gravity vector (in physics-space coordinates)
      */
-    final private Vector3f gravity = new Vector3f();
+    final private static Vector3f gravity = new Vector3f();
     /**
      * offset of pivot relative to each seed (in scaled shape coordinates)
      */
-    final private Vector3f pivotInSeed = new Vector3f();
+    final private static Vector3f pivotInSeed = new Vector3f();
     /**
      * pivot location for each group (in physics-space coordinates)
      */
-    final private Vector3f[] pivotLocations = new Vector3f[maxGroups];
+    final private static Vector3f[] pivotLocations = new Vector3f[maxGroups];
     /**
      * scale factors that determine the seed's shape
      */
-    final private Vector3f seedScale = new Vector3f();
+    final private static Vector3f seedScale = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
@@ -202,7 +202,7 @@ public class SeJointDemo extends PhysicsDemo {
     @Override
     public void acorusInit() {
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         guiNode.attachChild(statusText);
 
         super.acorusInit();
@@ -221,8 +221,8 @@ public class SeJointDemo extends PhysicsDemo {
         attachWorldAxes(length);
 
         int numRefineSteps = 1;
-        this.seedMesh = new Icosphere(numRefineSteps, seedRadius);
-        this.seedShape = new MultiSphere(seedRadius);
+        seedMesh = new Icosphere(numRefineSteps, seedRadius);
+        seedShape = new MultiSphere(seedRadius);
 
         meshesNode.setCullHint(Spatial.CullHint.Never); // with meshes visible
         rootNode.attachChild(meshesNode);
@@ -313,11 +313,11 @@ public class SeJointDemo extends PhysicsDemo {
 
                 case "test 6dof":
                     cleanupAfterTest();
-                    this.testName = "6dof";
+                    testName = "6dof";
                     return;
                 case "test 6dofSpring":
                     cleanupAfterTest();
-                    this.testName = "6dofSpring";
+                    testName = "6dofSpring";
                     return;
                 case "test cone":
                     cleanupAfterTest();
@@ -325,19 +325,19 @@ public class SeJointDemo extends PhysicsDemo {
                     return;
                 case "test hinge":
                     cleanupAfterTest();
-                    this.testName = "hinge";
+                    testName = "hinge";
                     return;
                 case "test new6dof":
                     cleanupAfterTest();
-                    this.testName = "new6dof";
+                    testName = "new6dof";
                     return;
                 case "test p2p":
                     cleanupAfterTest();
-                    this.testName = "p2p";
+                    testName = "p2p";
                     return;
                 case "test slider":
                     cleanupAfterTest();
-                    this.testName = "slider";
+                    testName = "slider";
                     return;
 
                 case "toggle view":
@@ -632,7 +632,7 @@ public class SeJointDemo extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();

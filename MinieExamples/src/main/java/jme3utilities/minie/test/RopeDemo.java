@@ -181,19 +181,19 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * true once {@link #initWhenReady()} has been invoked for the latest rope
      */
-    private boolean dacReadyInitDone = false;
+    private static boolean dacReadyInitDone = false;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * physics controls for the ropes, in order of creation
      */
-    final private Deque<DynamicAnimControl> dacs = new ArrayDeque<>(12);
+    final private static Deque<DynamicAnimControl> dacs = new ArrayDeque<>(12);
     /**
      * shapes of the ropes, in order of creation
      */
-    final private Deque<RopeShape> shapes = new ArrayDeque<>(12);
+    final private static Deque<RopeShape> shapes = new ArrayDeque<>(12);
     /**
      * proposed display settings (for editing)
      */
@@ -201,19 +201,19 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * AppState to manage the display-settings editor
      */
-    private DsEditOverlay dseOverlay;
+    private static DsEditOverlay dseOverlay;
     /**
      * generate names for rope geometries
      */
-    final private NameGenerator geometryNamer = new NameGenerator();
+    final private static NameGenerator geometryNamer = new NameGenerator();
     /**
      * parent for rope geometries
      */
-    final private Node meshesNode = new Node("meshes node");
+    final private static Node meshesNode = new Node("meshes node");
     /**
      * visualizer for the Armature of the most recently added rope
      */
-    private SkeletonVisualizer sv;
+    private static SkeletonVisualizer sv;
     // *************************************************************************
     // new methods exposed
 
@@ -703,7 +703,7 @@ public class RopeDemo extends PhysicsDemo {
      * Add the skeleton visualizer the scene.
      */
     private void addSkeleton() {
-        this.sv = new SkeletonVisualizer(assetManager, null);
+        sv = new SkeletonVisualizer(assetManager, null);
         rootNode.addControl(sv);
         sv.setLineColor(ColorRGBA.Red);
         sv.setHeadColor(0, ColorRGBA.Green);
@@ -787,7 +787,7 @@ public class RopeDemo extends PhysicsDemo {
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();

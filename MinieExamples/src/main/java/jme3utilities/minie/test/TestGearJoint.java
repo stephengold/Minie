@@ -83,11 +83,11 @@ public class TestGearJoint
     /**
      * text displayed at the bottom of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * AppState to manage the PhysicsSpace
      */
-    private BulletAppState bulletAppState;
+    private static BulletAppState bulletAppState;
     /**
      * proposed display settings (for editing)
      */
@@ -95,7 +95,7 @@ public class TestGearJoint
     /**
      * subject body to which torques are applied
      */
-    private PhysicsRigidBody driveshaft;
+    private static PhysicsRigidBody driveshaft;
     // *************************************************************************
     // new methods exposed
 
@@ -152,7 +152,7 @@ public class TestGearJoint
         stateManager.getState(StatsAppState.class).toggleStats();
 
         // Add the status text to the GUI.
-        this.statusText = new BitmapText(guiFont);
+        statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
 
@@ -171,7 +171,7 @@ public class TestGearJoint
         float height = 3f;
         CollisionShape driveshaftShape = new CylinderCollisionShape(
                 radius, height, PhysicsSpace.AXIS_Y);
-        this.driveshaft = new PhysicsRigidBody(driveshaftShape);
+        driveshaft = new PhysicsRigidBody(driveshaftShape);
         driveshaft.setPhysicsLocation(new Vector3f(-1f, 0.2f, 0f));
         driveshaft.setEnableSleep(false);
         addCollisionObject(driveshaft);
@@ -326,7 +326,7 @@ public class TestGearJoint
      */
     private void configurePhysics() {
         // Set up Bullet physics and create a physics space.
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         float axisLength = maxArrowLength();
         bulletAppState.setDebugAxisLength(axisLength);
         bulletAppState.setDebugEnabled(true);
