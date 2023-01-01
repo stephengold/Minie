@@ -133,8 +133,8 @@ public class NewtonsCradle
                 2_048, 1_080 // max width, height
         );
         final String title = applicationName + " " + MyString.join(arguments);
-        proposedSettings = new DisplaySettings(application, applicationName,
-                sizeLimits) {
+        proposedSettings = new DisplaySettings(
+                application, applicationName, sizeLimits) {
             @Override
             protected void applyOverrides(AppSettings settings) {
                 setShowDialog(ShowDialog.Never);

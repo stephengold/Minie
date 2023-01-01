@@ -535,8 +535,8 @@ public class WatchDemo extends PhysicsDemo {
             PhysicsLink link = dac.findManagerForVertex(spec, null, pivot);
             link.setDynamic(Vector3f.ZERO);
             Vector3f lookDirection = binocular.leftEyeLookDirection(null);
-            leftWatch = new TrackController(link, pivot, lookDirection,
-                    targetBody);
+            leftWatch = new TrackController(
+                    link, pivot, lookDirection, targetBody);
             link.addIKController(leftWatch);
             leftWatch.setDeltaGainFactor(4f);
             leftWatch.setEnabled(false);
@@ -547,8 +547,8 @@ public class WatchDemo extends PhysicsDemo {
             link = dac.findManagerForVertex(spec, null, pivot);
             link.setDynamic(Vector3f.ZERO);
             binocular.leftEyeLookDirection(lookDirection);
-            rightWatch = new TrackController(link, pivot, lookDirection,
-                    targetBody);
+            rightWatch = new TrackController(
+                    link, pivot, lookDirection, targetBody);
             link.addIKController(rightWatch);
             rightWatch.setDeltaGainFactor(4f);
             rightWatch.setEnabled(false);
@@ -728,10 +728,10 @@ public class WatchDemo extends PhysicsDemo {
         Ray ray = MyCamera.mouseRay(cam, inputManager);
 
         Vector3f location = new Vector3f();
-        boolean isTopLeft = ray.intersectWhere(gridTopLeft,
-                gridTopRight, gridBottomLeft, location);
-        boolean isBottomRight = ray.intersectWhere(gridBottomRight,
-                gridTopRight, gridBottomLeft, location);
+        boolean isTopLeft = ray.intersectWhere(
+                gridTopLeft, gridTopRight, gridBottomLeft, location);
+        boolean isBottomRight = ray.intersectWhere(
+                gridBottomRight, gridTopRight, gridBottomLeft, location);
         if (isTopLeft || isBottomRight) {
             if (leftWatch != null) {
                 leftWatch.setEnabled(true);

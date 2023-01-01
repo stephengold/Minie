@@ -169,8 +169,8 @@ public class TestSoftBody
      * indices of the waistline vertices in the Puppet model, arranged clockwise
      * as seen from above, starting at her right hip
      */
-    final private static int[] waistlineVertices = {2396, 2394, 569,
-        545, 553, 554, 562, 2401};
+    final private static int[] waistlineVertices = {
+        2396, 2394, 569, 545, 553, 554, 562, 2401};
     /**
      * message logger for this class
      */

@@ -609,8 +609,8 @@ public class SplitDemo
      * (not null)
      * @param mass the desired mass (0 or 1)
      */
-    private void addRigidBody(CollisionShape shape,
-            MeshNormals debugMeshNormals, float mass) {
+    private void addRigidBody(
+            CollisionShape shape, MeshNormals debugMeshNormals, float mass) {
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
         body.setDebugMeshNormals(debugMeshNormals);
 

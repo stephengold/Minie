@@ -416,7 +416,7 @@ public class DropTest
             char[] array = {character};
             String glyphString = new String(array);
             String assetPath = String.format(
-                            "CollisionShapes/glyphs/%s.j3o", glyphString);
+                    "CollisionShapes/glyphs/%s.j3o", glyphString);
             shape = (CollisionShape) assetManager.loadAsset(assetPath);
             registerShape(glyphString, shape);
         }

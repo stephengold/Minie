@@ -548,8 +548,8 @@ public class SeJointDemo extends PhysicsDemo {
                 gravity.set(0f, 0f, 0f); // TODO
                 pivotInSeed.set(40f, 0f, 0f);
                 referenceFrame = JointEnd.B;
-                joint = new SliderJoint(rbc, pivotInSeed, pivotInWorld,
-                        referenceFrame);
+                joint = new SliderJoint(
+                        rbc, pivotInSeed, pivotInWorld, referenceFrame);
                 break;
 
             default:

@@ -259,8 +259,8 @@ public class TestRbc
         stateManager.getState(StatsAppState.class).toggleStats();
 
         int indicatorSize = 16; // in pixels
-        hitPoint = new PointVisualizer(assetManager, indicatorSize,
-                ColorRGBA.Red, "saltire");
+        hitPoint = new PointVisualizer(
+                assetManager, indicatorSize, ColorRGBA.Red, "saltire");
         rootNode.attachChild(hitPoint);
         hitPoint.setEnabled(false);
 
@@ -311,8 +311,8 @@ public class TestRbc
         RenderState ars = platformMaterial.getAdditionalRenderState();
         ars.setFaceCullMode(RenderState.FaceCullMode.Off);
 
-        Material wireMaterial = MyAsset.createWireframeMaterial(assetManager,
-                ColorRGBA.Green);
+        Material wireMaterial = MyAsset.createWireframeMaterial(
+                assetManager, ColorRGBA.Green);
         ars = wireMaterial.getAdditionalRenderState();
         ars.setFaceCullMode(RenderState.FaceCullMode.Off);
         registerMaterial("green wire", wireMaterial);
@@ -705,8 +705,8 @@ public class TestRbc
 
         switch (testName) {
             case "Cone":
-                testShape = new ConeCollisionShape(radius, height,
-                        PhysicsSpace.AXIS_Y);
+                testShape = new ConeCollisionShape(
+                        radius, height, PhysicsSpace.AXIS_Y);
                 break;
 
             case "ConeGImpact":
@@ -737,14 +737,14 @@ public class TestRbc
         float radius = 2f;
         int heightSample = 2;
         int circSample = 18;
-        Mesh mesh = new Cylinder(heightSample, circSample, radius, height,
-                closedFlag);
+        Mesh mesh = new Cylinder(
+                heightSample, circSample, radius, height, closedFlag);
         testSpatial = new Geometry("cylinder", mesh);
 
         switch (testName) {
             case "Cylinder":
-                testShape = new CylinderCollisionShape(radius, height,
-                        PhysicsSpace.AXIS_Z);
+                testShape = new CylinderCollisionShape(
+                        radius, height, PhysicsSpace.AXIS_Z);
                 break;
 
             case "CylinderGImpact":
@@ -824,13 +824,13 @@ public class TestRbc
 
         switch (testName) {
             case "KissCapsule":
-                testShape = new CapsuleCollisionShape(radius, 2f * radius,
-                        PhysicsSpace.AXIS_X);
+                testShape = new CapsuleCollisionShape(
+                        radius, 2f * radius, PhysicsSpace.AXIS_X);
                 break;
 
             case "KissHull":
-                testShape = CollisionShapeFactory.createDynamicMeshShape(
-                        testSpatial);
+                testShape = CollisionShapeFactory
+                        .createDynamicMeshShape(testSpatial);
                 break;
 
             case "KissMesh":
@@ -854,8 +854,8 @@ public class TestRbc
                 break;
 
             case "TwoSphere":
-                testShape = new MultiSphere(radius, 2f * radius,
-                        PhysicsSpace.AXIS_X);
+                testShape = new MultiSphere(
+                        radius, 2f * radius, PhysicsSpace.AXIS_X);
                 break;
 
             default:
@@ -1123,8 +1123,8 @@ public class TestRbc
         if (rayTest.size() > 0) {
             PhysicsRayTestResult nearestHit = rayTest.get(0);
             float fraction = nearestHit.getHitFraction();
-            Vector3f location = MyVector3f.lerp(fraction, nearLocation,
-                    farLocation, null);
+            Vector3f location = MyVector3f
+                    .lerp(fraction, nearLocation, farLocation, null);
 
             hitPoint.setLocalTranslation(location);
             hitPoint.setEnabled(true);
@@ -1326,16 +1326,16 @@ public class TestRbc
         List<PhysicsSweepTestResult> sweepTest = new LinkedList<>();
         float penetration = 0f; // physics-space units
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        physicsSpace.sweepTest(shape, nearTransform, farTransform, sweepTest,
-                penetration);
+        physicsSpace.sweepTest(
+                shape, nearTransform, farTransform, sweepTest, penetration);
 
         if (sweepTest.size() > 0) {
             PhysicsSweepTestResult nearestHit = sweepTest.get(0);
             float fraction = nearestHit.getHitFraction();
             Vector3f fromLocation = nearTransform.getTranslation();
             Vector3f toLocation = farTransform.getTranslation();
-            Vector3f location = MyVector3f.lerp(fraction, fromLocation,
-                    toLocation, null);
+            Vector3f location = MyVector3f
+                    .lerp(fraction, fromLocation, toLocation, null);
 
             hitPoint.setLocalTranslation(location);
             hitPoint.setEnabled(true);

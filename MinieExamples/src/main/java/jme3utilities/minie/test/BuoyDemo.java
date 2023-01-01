@@ -476,8 +476,8 @@ public class BuoyDemo extends PhysicsDemo {
      */
     private void addSky() {
         String assetPath = "Textures/Sky/Bright/BrightSky.dds";
-        Spatial sky = SkyFactory.createSky(assetManager, assetPath,
-                SkyFactory.EnvMapType.CubeMap);
+        Spatial sky = SkyFactory.createSky(
+                assetManager, assetPath, SkyFactory.EnvMapType.CubeMap);
         reflectiblesNode.attachChild(sky);
     }
 
@@ -626,9 +626,9 @@ public class BuoyDemo extends PhysicsDemo {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
 
-        LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
-                ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
-                CenterHeuristic.AABB);
+        LinkConfig swordConfig = new LinkConfig(
+                5f, MassHeuristic.Density, ShapeHeuristic.VertexHull,
+                Vector3f.UNIT_XYZ, CenterHeuristic.AABB);
         dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
@@ -647,9 +647,9 @@ public class BuoyDemo extends PhysicsDemo {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
 
-        LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
-                ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
-                CenterHeuristic.AABB);
+        LinkConfig swordConfig = new LinkConfig(
+                5f, MassHeuristic.Density, ShapeHeuristic.VertexHull,
+                Vector3f.UNIT_XYZ, CenterHeuristic.AABB);
         dac = new SinbadControl();
         dac.attach("Handle.L", swordConfig, sword);
         dac.attach("Handle.R", swordConfig, sword);
