@@ -425,7 +425,7 @@ public class NewtonsCradle
      */
     private void restartSimulation(int numBalls) {
         clearSpace();
-        speed = pausedSpeed;
+        this.speed = pausedSpeed;
 
         float xSeparation = 20f;
 

@@ -72,8 +72,8 @@ class NpoTracker extends WeakReference<NativePhysicsObject> {
     NpoTracker(NativePhysicsObject referent) {
         super(referent, NativePhysicsObject.weakReferenceQueue);
 
-        referentClass = referent.getClass();
-        id = referent.nativeId();
+        this.referentClass = referent.getClass();
+        this.id = referent.nativeId();
         assert id != 0L;
     }
     // *************************************************************************
