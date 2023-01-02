@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -269,11 +269,11 @@ class TestMode extends InputMode {
                 "new LinkConfig(%sf, MassHeuristic.%s,%n"
                 + "                ShapeHeuristic.%s, "
                 + "new Vector3f(%sf, %sf, %sf),%n"
-                + "                CenterHeuristic.%s)",
+                + "                CenterHeuristic.%s, RotationOrder.%s)",
                 massPString, config.massHeuristic(),
                 config.shapeHeuristic(),
                 scaleXString, scaleYString, scaleZString,
-                config.centerHeuristic());
+                config.centerHeuristic(), config.rotationOrder());
 
         return code;
     }
@@ -479,7 +479,8 @@ class TestMode extends InputMode {
      * @param stream the output stream (not null)
      */
     private void write(DynamicAnimControl dac, PrintStream stream) {
-        stream.printf("import com.jme3.bullet.animation.CenterHeuristic;%n"
+        stream.printf("import com.jme3.bullet.RotationOrder;%n"
+                + "import com.jme3.bullet.animation.CenterHeuristic;%n"
                 + "import com.jme3.bullet.animation.DynamicAnimControl;%n"
                 + "import com.jme3.bullet.animation.LinkConfig;%n"
                 + "import com.jme3.bullet.animation.MassHeuristic;%n"
