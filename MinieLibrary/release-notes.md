@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.0.1 released on TBD
+## Version 7.0.1 released on 1 January 2023
 
 Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 
