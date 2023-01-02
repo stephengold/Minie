@@ -1465,9 +1465,11 @@ abstract public class PhysicsCollisionObject
         }
 
         Savable[] ignoreList = capsule.readSavableArray(tagIgnoreList, null);
-        for (Savable savable : ignoreList) {
-            PhysicsCollisionObject pco = (PhysicsCollisionObject) savable;
-            addToIgnoreList(pco);
+        if (ignoreList != null) {
+            for (Savable savable : ignoreList) {
+                PhysicsCollisionObject pco = (PhysicsCollisionObject) savable;
+                addToIgnoreList(pco);
+            }
         }
 
         this.applicationData = capsule.readSavable(tagApplicationData, null);
