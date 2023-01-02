@@ -15,7 +15,7 @@ content:
       start_path: MinieLibrary/src/site/antora/tutorials
 ui:
   bundle:
-    url: https://github.com/stephengold/antora-ui-bundle/releases/download/v-sgold220125a/ui-bundle.zip
+    url: https://github.com/stephengold/antora-ui-bundle/releases/download/v-sgold230101a/ui-bundle.zip
     snapshot: true
 output:
   clean: true
