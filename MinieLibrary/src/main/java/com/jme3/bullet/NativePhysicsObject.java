@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 jMonkeyEngine
+ * Copyright (c) 2020-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -94,7 +94,8 @@ abstract public class NativePhysicsObject
     }
 
     /**
-     * Dump all native-object trackers to {@code System.out}.
+     * Dump all native-object trackers to {@code System.out}. This method is
+     * intended for debugging.
      */
     final public static void dumpTrackers() {
         System.out.println("Active trackers:");
