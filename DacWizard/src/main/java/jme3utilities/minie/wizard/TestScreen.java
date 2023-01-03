@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -361,9 +361,9 @@ class TestScreen extends GuiScreenController {
 
         String debugButton;
         if (bulletAppState.isDebugEnabled()) {
-            debugButton = "Hide debug";
+            debugButton = "Hide physics";
         } else {
-            debugButton = "Show debug";
+            debugButton = "Show physics";
         }
         setButtonText("debug", debugButton);
 
