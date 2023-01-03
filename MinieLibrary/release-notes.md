@@ -1,5 +1,11 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.0.2 released on TBD
+
++ Bugfix:  `NullPointerException` in `rebuildRigidBody()` while de-serializing
+  an old model
++ Bugfix:  DacWizard doesn't write rotation orders to Java source code
+
 ## Version 7.0.1 released on 1 January 2023
 
 Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
