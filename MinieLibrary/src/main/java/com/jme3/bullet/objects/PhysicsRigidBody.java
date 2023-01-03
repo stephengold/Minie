@@ -688,9 +688,10 @@ public class PhysicsRigidBody extends PhysicsBody {
 
         preRebuild();
 
+        long msId = motionState.nativeId();
         CollisionShape shape = getCollisionShape();
-        long objectId = createRigidBody(
-                mass, motionState.nativeId(), shape.nativeId());
+        long shapeId = shape.nativeId();
+        long objectId = createRigidBody(mass, msId, shapeId);
         setNativeId(objectId);
         assert getInternalType(objectId) == PcoType.rigid :
                 getInternalType(objectId);
