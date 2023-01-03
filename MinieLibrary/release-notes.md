@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.0.2 released on TBD
+## Version 7.0.2 released on 2 January 2023
 
 + Bugfix:  `NullPointerException` in `rebuildRigidBody()` while de-serializing
   an old model
