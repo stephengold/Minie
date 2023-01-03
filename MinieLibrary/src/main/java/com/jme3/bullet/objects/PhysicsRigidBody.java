@@ -1287,6 +1287,10 @@ public class PhysicsRigidBody extends PhysicsBody {
         this.mass = capsule.readFloat(tagMass, 1f);
         this.motionState = (RigidBodyMotionState) capsule
                 .readSavable(tagMotionState, null);
+        if (motionState == null) {
+            // de-serializing a model serialized prior to v7.0.0
+            this.motionState = new RigidBodyMotionState();
+        }
 
         rebuildRigidBody();
 
