@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -307,8 +307,9 @@ public class DacWizard extends GuiApplication {
         // Add a disabled visualizer for axes, with its own controlled Node.
         this.axesNode = new Node("axesNode");
         rootNode.attachChild(axesNode);
-        float length = 0.5f;
-        Control axes = new AxesVisualizer(assetManager, length);
+        float arrowLength = 0.2f * Model.cgmHeight;
+        AxesVisualizer axes = new AxesVisualizer(assetManager, arrowLength);
+        axes.setLineWidth(0f); // solid arrows
         axesNode.addControl(axes);
 
         // Add the C-G model, with its own parent Node.
