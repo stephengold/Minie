@@ -84,7 +84,8 @@ abstract public class NativePhysicsObject
     // new methods exposed
 
     /**
-     * Count how many native objects are being tracked.
+     * Count how many native objects are being tracked. This method is intended
+     * for debugging.
      *
      * @return the count (&ge;0)
      */
