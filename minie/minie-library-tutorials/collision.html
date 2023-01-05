@@ -358,7 +358,7 @@ resulting in a list of <em>manifolds</em> where the shapes intersect.</p>
 <div class="paragraph">
 <p>Each manifold is composed of up to 4 <em>contact points</em>.
 Bullet&#8217;s rigid-body dynamics
-uses manifolds and contact points implement contact response,
+uses manifolds and contact points to implement contact response,
 including friction and restitution.</p>
 </div>
 <div class="paragraph">
@@ -382,9 +382,15 @@ or when it processes a contact point.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>It also provides mechanisms
-to count or enumerate collision objects that intersect with:</p>
+<p>It also provides mechanisms:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>to test for intersection between 2 collision objects or</p>
+</li>
+<li>
+<p>to count or enumerate collision objects that intersect with:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -398,9 +404,13 @@ to count or enumerate collision objects that intersect with:</p>
 </li>
 </ul>
 </div>
+</li>
+</ul>
+</div>
 <div class="paragraph">
-<p>Such <em>intersection tests</em> are usually performed <strong>between</strong> simulation steps.
-They are useful (for instance) when you want to add an object to a space without
+<p>Such <em>intersection tests</em> are typically performed <strong>between</strong> simulation steps.
+They are useful (for instance)
+when you want to add a collision object to a space without
 causing an immediate collision.</p>
 </div>
 </div>
@@ -724,9 +734,33 @@ that will be invoked after each contact is created, provided:</p>
 <h2 id="_intersection_tests"><a class="anchor" href="#_intersection_tests"></a>Intersection tests</h2>
 <div class="sectionbody">
 <div class="sect2">
+<h3 id="_pair_test"><a class="anchor" href="#_pair_test"></a>Pair test</h3>
+<div class="paragraph">
+<p>The <code>space.pairTest()</code> method
+performs a <em>pair test</em> between 2 collision objects,
+returning <code>true</code> if they intersect.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Although a space is required, the objects needn&#8217;t be added to any space.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can request a callback for each contact point that would be created
+if both collision objects were added to the space.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_ray_test"><a class="anchor" href="#_ray_test"></a>Ray test</h3>
 <div class="paragraph">
-<p>The <code>space.rayTest()</code> method performs <em>ray test</em> against a space,
+<p>The <code>space.rayTest()</code> method performs a <em>ray test</em> against a space,
 returning a list of objects in the space
 that intersect with the specified <a href="https://en.wikipedia.org/wiki/Line_segment">line segment</a>.</p>
 </div>
@@ -818,8 +852,7 @@ to enumerate overlaps, manifolds, and contact points.</p>
 </li>
 <li>
 <p>Between simulation steps,
-you can perform ray tests, contact tests, and sweep tests
-against a space.</p>
+you can perform pair tests, ray tests, contact tests, and sweep tests.</p>
 </li>
 </ul>
 </div>
