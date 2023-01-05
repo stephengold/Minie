@@ -17,7 +17,7 @@ broadphase and narrowphase.
 
 Each manifold is composed of up to 4 _contact points_.
 Bullet's rigid-body dynamics
-uses manifolds and contact points implement contact response,
+uses manifolds and contact points to implement contact response,
 including friction and restitution.
 
 {Project} provides mechanisms to:
@@ -203,7 +203,7 @@ that will be invoked after each contact is created, provided:
 
 === Ray test
 
-The `space.rayTest()` method performs _ray test_ against a space,
+The `space.rayTest()` method performs a _ray test_ against a space,
 returning a list of objects in the space
 that intersect with the specified {url-enwiki}/Line_segment[line segment].
 
