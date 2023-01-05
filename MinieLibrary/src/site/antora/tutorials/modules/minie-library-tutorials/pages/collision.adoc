@@ -28,15 +28,17 @@ including friction and restitution.
 * perform custom actions when Bullet creates or destroys a manifold
   or when it processes a contact point.
 
-It also provides mechanisms
-to count or enumerate collision objects that intersect with:
+It also provides mechanisms:
 
-* a specific line segment,
-* a shape in a specific position, or
-* a shape sweeping from one position to another.
+* to test for intersection between 2 collision objects or
+* to count or enumerate collision objects that intersect with:
+** a specific line segment,
+** a shape in a specific position, or
+** a shape sweeping from one position to another.
 
-Such _intersection tests_ are usually performed *between* simulation steps.
-They are useful (for instance) when you want to add an object to a space without
+Such _intersection tests_ are typically performed *between* simulation steps.
+They are useful (for instance)
+when you want to add a collision object to a space without
 causing an immediate collision.
 
 
@@ -201,6 +203,17 @@ that will be invoked after each contact is created, provided:
 
 == Intersection tests
 
+=== Pair test
+
+The `space.pairTest()` method
+performs a _pair test_ between 2 collision objects,
+returning `true` if they intersect.
+
+NOTE: Although a space is required, the objects needn't be added to any space.
+
+You can request a callback for each contact point that would be created
+if both collision objects were added to the space.
+
 === Ray test
 
 The `space.rayTest()` method performs a _ray test_ against a space,
@@ -244,5 +257,4 @@ NOTE:  The shape must be convex.
   to enumerate overlaps, manifolds, and contact points.
 * You can trigger custom actions during each stage of collision processing.
 * Between simulation steps,
-  you can perform ray tests, contact tests, and sweep tests
-  against a space.
+  you can perform pair tests, ray tests, contact tests, and sweep tests.
