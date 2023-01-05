@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -134,6 +134,11 @@ Nifty XML to lay out the GUI for the "links" screen of DacWizard.
                 <control name="label" id="feedback"
                          color="#800f"
                          width="*"/>
+                <control name="button" id="angleModeButton"
+                         width="70px">
+                    <interact onRelease="perform(toggle angleMode)"/>
+                </control>
+                <control name="label" text="  "/>
                 <control name="button" id="nextButton"
                          label="Next >"
                          width="60px">

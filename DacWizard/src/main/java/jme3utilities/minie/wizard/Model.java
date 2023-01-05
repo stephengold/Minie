@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -90,6 +90,10 @@ class Model {
     // fields
 
     /**
+     * mode for displaying angles
+     */
+    private AngleMode angleMode = AngleMode.Degrees;
+    /**
      * bones that influence the Mesh in any way
      */
     private BitSet anyInfluenceBones;
@@ -152,6 +156,16 @@ class Model {
     final private Transform initTransform = new Transform();
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Return the mode for displaying angles.
+     *
+     * @return an enum value (not null)
+     */
+    AngleMode angleMode() {
+        assert angleMode != null;
+        return angleMode;
+    }
 
     /**
      * Determine the asset path to the J3O/glTF asset. The filesystem path must
@@ -909,6 +923,22 @@ class Model {
         this.romTask = new FutureTask<>(romCallable);
         Thread romThread = new Thread(romTask);
         romThread.start();
+    }
+
+    /**
+     * Toggle the mode for displaying angles.
+     */
+    void toggleAngleMode() {
+        switch (angleMode) {
+            case Degrees:
+                this.angleMode = AngleMode.Radians;
+                break;
+            case Radians:
+                this.angleMode = AngleMode.Degrees;
+                break;
+            default:
+                throw new IllegalStateException("angleMode = " + angleMode);
+        }
     }
 
     /**

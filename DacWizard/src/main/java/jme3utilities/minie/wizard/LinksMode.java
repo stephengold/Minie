@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -166,6 +166,11 @@ class LinksMode extends InputMode {
 
                 case Action.setShapeScale:
                     screen.setShapeScale();
+                    handled = true;
+                    break;
+
+                case Action.toggleAngleMode:
+                    DacWizard.getModel().toggleAngleMode();
                     handled = true;
                     break;
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -506,6 +506,10 @@ public class LinksScreen extends GuiScreenController {
         } else {
             nextElement.hide();
         }
+
+        AngleMode angleMode = model.angleMode();
+        String angleModeText = angleMode.toString();
+        setButtonText("angleMode", angleModeText);
     }
     // *************************************************************************
     // private methods
@@ -532,14 +536,27 @@ public class LinksScreen extends GuiScreenController {
      */
     private static String describe(RangeOfMotion rom, int axisIndex) {
         float maxRadians = rom.getMaxRotation(axisIndex);
-        float maxDegrees = MyMath.toDegrees(maxRadians);
-        int max = Math.round(maxDegrees);
-
         float minRadians = rom.getMinRotation(axisIndex);
-        float minDegrees = MyMath.toDegrees(minRadians);
-        int min = Math.round(minDegrees);
 
-        String text = String.format("%+d to %+d degrees", min, max);
+        String text;
+        AngleMode angleMode = DacWizard.getModel().angleMode();
+        switch (angleMode) {
+            case Degrees:
+                float maxDegrees = MyMath.toDegrees(maxRadians);
+                float minDegrees = MyMath.toDegrees(minRadians);
+                int max = Math.round(maxDegrees);
+                int min = Math.round(minDegrees);
+                text = String.format("%+d to %+d degrees", min, max);
+                break;
+
+            case Radians:
+                text = String.format(
+                        "%+.2f to %+.2f rad", minRadians, maxRadians);
+                break;
+
+            default:
+                throw new IllegalStateException("angleMode = " + angleMode);
+        }
 
         return text;
     }

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -73,6 +73,7 @@ final class Action {
     final static String setMargin = "set margin";
     final static String setMassParameter = "set massParameter";
     final static String setShapeScale = "set shapeScale";
+    final static String toggleAngleMode = "toggle angleMode";
     final static String toggleAxes = "toggle axes";
     final static String toggleMesh = "toggle mesh";
     final static String togglePhysicsDebug = "toggle physicsDebug";
