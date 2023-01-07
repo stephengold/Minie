@@ -169,7 +169,8 @@ abstract public class AbstractPhysicsControl
             Vector3f physicsLocation, Quaternion physicsOrientation) {
         if (enabled && controlledSpatial != null) {
             Vector3f localLocation = controlledSpatial.getLocalTranslation();
-            Quaternion localRotationQuat = controlledSpatial.getLocalRotation();
+            Quaternion localRotationQuat
+                    = controlledSpatial.getLocalRotation(); // alias
             if (!localPhysics && controlledSpatial.getParent() != null) {
                 localLocation
                         .set(physicsLocation)

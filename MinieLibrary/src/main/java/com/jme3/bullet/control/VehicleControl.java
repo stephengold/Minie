@@ -308,7 +308,7 @@ public class VehicleControl
 
         if (spatial != null) {
             if (getMotionState().applyTransform(spatial)) {
-                spatial.getWorldTransform();
+                spatial.getWorldTransform(); // updates the world transform
                 applyWheelTransforms();
             }
         } else {

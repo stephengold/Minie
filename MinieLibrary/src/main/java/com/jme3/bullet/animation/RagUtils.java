@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -442,8 +442,8 @@ final public class RagUtils {
         Quaternion msr = parentBone.getModelSpaceRotation();
         Validate.require(msr.norm() > 0f, "non-zero parent rotation");
 
-        Vector3f location = transform.getTranslation();
-        Quaternion orientation = transform.getRotation();
+        Vector3f location = transform.getTranslation(); // alias
+        Quaternion orientation = transform.getRotation(); // alias
         Vector3f scale = transform.getScale();
 
         Vector3f pmTranslate = parentBone.getModelSpacePosition();
@@ -469,13 +469,13 @@ final public class RagUtils {
         Validate.require(
                 pm.getRotation().norm() > 0f, "non-zero parent rotation");
 
-        Vector3f location = transform.getTranslation();
-        Quaternion orientation = transform.getRotation();
-        Vector3f scale = transform.getScale();
+        Vector3f location = transform.getTranslation(); // alias
+        Quaternion orientation = transform.getRotation(); // alias
+        Vector3f scale = transform.getScale(); // alias
 
-        Vector3f pmTranslate = pm.getTranslation();
+        Vector3f pmTranslate = pm.getTranslation(); // alias
         Quaternion pmRotInv = pm.getRotation().inverse(); // TODO garbage
-        Vector3f pmScale = pm.getScale();
+        Vector3f pmScale = pm.getScale(); // alias
 
         location.subtractLocal(pmTranslate);
         location.divideLocal(pmScale);

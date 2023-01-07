@@ -200,7 +200,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
             return;
         }
 
-        Quaternion localRotationQuat = subtree.getLocalRotation();
+        Quaternion localRotationQuat = subtree.getLocalRotation(); // alias
         Vector3f localLocation = subtree.getLocalTranslation();
         Spatial parent = subtree.getParent();
         if (!applyLocal && parent != null) {

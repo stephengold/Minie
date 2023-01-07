@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -99,7 +99,7 @@ class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
         WireBox mesh = new WireBox(xExtent, yExtent, zExtent);
         this.geom = new Geometry("bounding box of " + pco, mesh);
 
-        center = bbox.getCenter();
+        center = bbox.getCenter(); // alias
         geom.setLocalTranslation(center);
 
         Material material = debugAppState.getBoundingBoxMaterial();

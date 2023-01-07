@@ -773,7 +773,7 @@ public class BulletDebugAppState extends BaseAppState {
         if (transformSpatial == null) {
             root.setLocalTransform(transformIdentity);
         } else {
-            Transform transform = transformSpatial.getWorldTransform();
+            Transform transform = transformSpatial.getWorldTransform(); // alias
             root.setLocalTransform(transform);
         }
         root.updateGeometricState();
