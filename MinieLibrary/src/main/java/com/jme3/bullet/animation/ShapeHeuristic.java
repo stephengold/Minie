@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,5 +64,9 @@ public enum ShapeHeuristic {
     /**
      * convex hull of mesh vertices (precise but relatively slow)
      */
-    VertexHull
+    VertexHull,
+    /**
+     * rotated cylinder
+     */
+    Cylinder
 }

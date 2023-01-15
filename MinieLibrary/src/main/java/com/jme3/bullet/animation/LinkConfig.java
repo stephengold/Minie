@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -288,6 +288,10 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                 RectangularSolid solid
                         = new RectangularSolid(minima, maxima, rotateIdentity);
                 result = new HullCollisionShape(solid);
+                break;
+
+            case Cylinder:
+                result = RagUtils.makeCylinder(vertexLocations, shapeScale);
                 break;
 
             case FourSphere:
