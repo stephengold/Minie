@@ -48,6 +48,9 @@ final public class TestIssue1351 extends SimpleApplication {
      */
     public TestIssue1351() { // explicit to avoid a warning from JDK 18 javadoc
     }
+    // *************************************************************************
+    // new methods exposed
+
     /**
      * Main entry point for the TestIssue1351 application.
      *
