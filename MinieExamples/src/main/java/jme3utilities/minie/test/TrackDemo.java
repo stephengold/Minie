@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -156,6 +156,14 @@ public class TrackDemo extends PhysicsDemo {
     private static Vector3f gridBottomRight;
     private static Vector3f gridTopLeft;
     private static Vector3f gridTopRight;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TrackDemo application.
+     */
+    public TrackDemo() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

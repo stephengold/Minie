@@ -207,6 +207,14 @@ public class TestSoftBody
      */
     private static String testName = "puppetInSkirt";
     // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestSoftBody application.
+     */
+    public TestSoftBody() { // explicit to avoid a warning from JDK 18 javadoc
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

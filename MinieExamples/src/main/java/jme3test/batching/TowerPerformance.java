@@ -92,6 +92,14 @@ public class TowerPerformance
     private Sphere bullet;
     private SphereCollisionShape bulletCollisionShape;
     // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TowerPerformance application.
+     */
+    public TowerPerformance() { // to avoid a warning from JDK 18 javadoc
+    }
+    // *************************************************************************
     // new methods exposed
 
     public static void main(String[] args) {

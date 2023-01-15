@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephen Gold
+ Copyright (c) 2021-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -86,6 +86,14 @@ public class TestInsideTriangle extends AcorusDemo {
      * scene-graph node for the current trial
      */
     private static Node trialNode = null;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestInsideTriangle application.
+     */
+    public TestInsideTriangle() { // to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

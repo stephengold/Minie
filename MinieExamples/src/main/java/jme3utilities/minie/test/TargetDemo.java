@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -129,6 +129,14 @@ public class TargetDemo
      * AppState to manage the status overlay
      */
     private static TargetDemoStatus status;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TargetDemo application.
+     */
+    public TargetDemo() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

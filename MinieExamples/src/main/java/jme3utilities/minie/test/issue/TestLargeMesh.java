@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -56,6 +56,14 @@ public class TestLargeMesh extends SimpleApplication {
      */
     final public static Logger logger
             = Logger.getLogger(TestLargeMesh.class.getName());
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestLargeMesh application.
+     */
+    public TestLargeMesh() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

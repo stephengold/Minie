@@ -122,6 +122,14 @@ public class TestRectangularSolid extends PhysicsDemo {
      */
     private static PhysicsRigidBody rigidBody;
     // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestRectangularSolid application.
+     */
+    public TestRectangularSolid() { // to avoid a warning from JDK 18 javadoc
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

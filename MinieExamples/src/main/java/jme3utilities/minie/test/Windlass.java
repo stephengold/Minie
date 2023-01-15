@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephen Gold
+ Copyright (c) 2022-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -146,6 +146,14 @@ public class Windlass
      * location of the forward pivot in a segment's local coordinates
      */
     final private static Vector3f localPivot = new Vector3f();
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the Windlass application.
+     */
+    public Windlass() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

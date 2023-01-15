@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -93,6 +93,14 @@ public class TestSoftBodyControl
      * AppState to manage the PhysicsSpace
      */
     private static SoftPhysicsAppState bulletAppState;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestSoftBodyControl application.
+     */
+    public TestSoftBodyControl() { // to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

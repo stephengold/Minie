@@ -125,6 +125,14 @@ public class DacWizard extends GuiApplication {
      */
     final static PhysicsDumper dumper = new PhysicsDumper();
     // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the DacWizard application.
+     */
+    public DacWizard() { // explicit to avoid a warning from JDK 18 javadoc
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

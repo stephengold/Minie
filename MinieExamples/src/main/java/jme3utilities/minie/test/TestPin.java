@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -56,6 +56,14 @@ public class TestPin extends AcorusDemo {
      * application name (for the title bar of the app's window)
      */
     final private static String applicationName = TestPin.class.getSimpleName();
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestPin application.
+     */
+    public TestPin() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -196,6 +196,14 @@ public class TestRbc
      * name of the test being run
      */
     private static String testName = "Box";
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestRbc application.
+     */
+    public TestRbc() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

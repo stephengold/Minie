@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,14 @@ import com.jme3.bullet.control.RigidBodyControl;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestIssue889 extends SimpleApplication {
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestIssue889 application.
+     */
+    public TestIssue889() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

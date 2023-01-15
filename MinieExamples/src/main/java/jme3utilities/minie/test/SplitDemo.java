@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -162,6 +162,14 @@ public class SplitDemo
      * 2nd world location used to define the splitting plane
      */
     final private static Vector3f world2 = new Vector3f();
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the SplitDemo application.
+     */
+    public SplitDemo() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

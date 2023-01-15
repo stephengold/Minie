@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -153,6 +153,14 @@ public class WatchDemo extends PhysicsDemo {
     final private static Vector3f gridBottomRight = new Vector3f();
     private static Vector3f gridTopLeft;
     private static Vector3f gridTopRight;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the WatchDemo application.
+     */
+    public WatchDemo() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 
