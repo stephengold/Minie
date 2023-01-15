@@ -307,7 +307,7 @@ class TestMode extends InputMode {
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
         List<PhysicsRayTestResult> rayTest = physicsSpace.rayTest(from, to);
-        if (rayTest.size() > 0) {
+        if (!rayTest.isEmpty()) {
             PhysicsRayTestResult nearestHit = rayTest.get(0);
             PhysicsCollisionObject pco = nearestHit.getCollisionObject();
             Object user = pco.getUserObject();

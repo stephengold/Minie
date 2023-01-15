@@ -403,9 +403,6 @@ public class DacWizard extends GuiApplication {
         stateManager.detach(debugKeys);
 
         configureDumper();
-
-        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
-        viewPort.setBackgroundColor(bgColor);
         addLighting();
 
         getSignals().add("orbitLeft");
@@ -470,6 +467,9 @@ public class DacWizard extends GuiApplication {
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
         sun.setName("sun");
+
+        ColorRGBA bgColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        viewPort.setBackgroundColor(bgColor);
     }
 
     /**
@@ -487,7 +487,7 @@ public class DacWizard extends GuiApplication {
         success = stateManager.attach(displaySettingsScreen);
         assert success;
 
-        AppState cameraOrbitAppState
+        CameraOrbitAppState cameraOrbitAppState
                 = new CameraOrbitAppState(cam, "orbitLeft", "orbitRight");
         stateManager.attach(cameraOrbitAppState);
         /*
