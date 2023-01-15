@@ -481,8 +481,9 @@ final public class RagUtils {
      */
     public static RectangularSolid
             makeRectangularSolid(VectorSet vectorSet, Vector3f scaleFactors) {
+        Validate.nonNull(scaleFactors, "scale factors");
         int numVectors = vectorSet.numVectors();
-        assert numVectors > 1 : numVectors;
+        Validate.require(numVectors > 1, "multiple vectors");
 
         // Orient local axes based on the eigenvectors of the covariance matrix.
         Matrix3f covariance = vectorSet.covariance(null);
