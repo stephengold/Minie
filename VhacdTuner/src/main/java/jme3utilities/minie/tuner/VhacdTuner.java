@@ -549,7 +549,7 @@ public class VhacdTuner extends GuiApplication {
             application.setShowSettings(false);
             /*
              * Designate a sandbox directory.
-             * This has to be done *prior to* initialization.
+             * This must be done *prior to* initialization.
              */
             try {
                 ActionApplication.designateSandbox("Written Assets");

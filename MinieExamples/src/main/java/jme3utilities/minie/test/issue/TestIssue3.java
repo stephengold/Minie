@@ -81,6 +81,8 @@ final public class TestIssue3 extends SimpleApplication
      */
     public TestIssue3() { // explicit to avoid a warning from JDK 18 javadoc
     }
+    // *************************************************************************
+    // new methods exposed
 
     /**
      * Main entry point for the TestIssue3 application.
@@ -91,6 +93,8 @@ final public class TestIssue3 extends SimpleApplication
         TestIssue3 app = new TestIssue3();
         app.start();
     }
+    // *************************************************************************
+    // SimpleApplication methods
 
     @Override
     public void simpleInitApp() {

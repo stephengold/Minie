@@ -93,6 +93,11 @@ final public class TestIssue18Gimpact
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Main entry point for the TestIssue18Gimpact application.
+     *
+     * @param arguments unused
+     */
     public static void main(String[] arguments) {
         TestIssue18Gimpact application = new TestIssue18Gimpact();
         application.start();

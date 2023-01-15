@@ -566,8 +566,8 @@ public class DacWizard extends GuiApplication {
 
         // Instantiate the display-settings screen.
         RectSizeLimits dsl = new RectSizeLimits(
-                640, 480, // min width and height
-                2_048, 1_080 // max width and height
+                640, 480, // minimum width and height
+                2_048, 1_080 // maximum width and height
         );
         DisplaySettings displaySettings
                 = new DisplaySettings(application, applicationName, dsl) {
@@ -601,7 +601,7 @@ public class DacWizard extends GuiApplication {
             application.setShowSettings(false);
             /*
              * Designate a sandbox directory.
-             * This has to be done *prior to* initialization.
+             * This must be done *prior to* initialization.
              */
             try {
                 ActionApplication.designateSandbox("Written Assets");

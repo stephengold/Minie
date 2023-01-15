@@ -519,6 +519,7 @@ public class BulletDebugAppState extends BaseAppState {
      * @return the pre-existing instance
      */
     protected HashMap<PhysicsCollisionObject, Node> getPcoMap() {
+        // TODO should return Map<>
         return pcoMap;
     }
 

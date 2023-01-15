@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 /**
  * Test case for JME issue #1351: native Bullet crash during garbage collection.
  *
- * If successful, the app will complete normally.
+ * If successful, the application will complete normally.
  *
  * @author Stephen Gold sgold@sonic.net
  */

@@ -69,10 +69,9 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     // constructors
 
     /**
-     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     * Instantiate a PhysicsBody.
      */
-    protected PhysicsBody() {
-        // do nothing
+    protected PhysicsBody() { // explicit to avoid a warning from JDK 18 javadoc
     }
     // *************************************************************************
     // new methods exposed

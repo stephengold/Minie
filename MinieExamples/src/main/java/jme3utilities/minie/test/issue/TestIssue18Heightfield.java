@@ -90,6 +90,11 @@ final public class TestIssue18Heightfield
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Main entry point for the TestIssue18Heightfield application.
+     *
+     * @param arguments unused
+     */
     public static void main(String[] arguments) {
         TestIssue18Heightfield application = new TestIssue18Heightfield();
         application.start();

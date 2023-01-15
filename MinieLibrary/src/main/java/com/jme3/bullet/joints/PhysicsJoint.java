@@ -89,9 +89,9 @@ abstract public class PhysicsJoint
     // constructors
 
     /**
-     * A no-argument constructor to avoid javadoc warnings from JDK 18.
+     * Instantiate a PhysicsJoint.
      */
-    protected PhysicsJoint() {
+    protected PhysicsJoint() { // explicit to avoid a warning from JDK 18 javadoc
     }
     // *************************************************************************
     // new methods exposed

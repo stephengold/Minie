@@ -474,9 +474,10 @@ final public class RagUtils {
      * Instantiate a compact RectangularSolid that bounds the sample locations
      * contained in a VectorSet.
      *
-     * @param vectorSet the set of sample locations (not null, numVectors&gt;1,
+     * @param vectorSet the set of locations (not null, numVectors&gt;1,
      * contents unaffected)
-     * @param scaleFactors to apply to local coordinates (not null, unaffected)
+     * @param scaleFactors scale factors to apply to local coordinates (not
+     * null, unaffected)
      * @return a new RectangularSolid
      */
     public static RectangularSolid

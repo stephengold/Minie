@@ -93,6 +93,11 @@ final public class TestIssue18Mesh
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Main entry point for the TestIssue18Mesh application.
+     *
+     * @param arguments unused
+     */
     public static void main(String[] arguments) {
         TestIssue18Mesh application = new TestIssue18Mesh();
         application.start();

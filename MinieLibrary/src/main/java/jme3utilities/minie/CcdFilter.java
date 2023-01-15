@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -53,7 +53,7 @@ public class CcdFilter implements BulletDebugAppState.DebugAppStateFilter {
     /**
      * Instantiate a filter.
      */
-    public CcdFilter() {
+    public CcdFilter() { // made explicit to avoid a warning from JDK 18 javadoc
     }
     // *************************************************************************
     // DebugAppStateFilter methods

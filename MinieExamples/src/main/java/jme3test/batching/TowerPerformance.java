@@ -102,6 +102,11 @@ public class TowerPerformance
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Main entry point for the TowerPerformance application.
+     *
+     * @param args array of command-line arguments (ignored)
+     */
     public static void main(String[] args) {
         TowerPerformance f = new TowerPerformance();
         AppSettings s = new AppSettings(true);

@@ -166,10 +166,11 @@ public class BulletAppState
     // constructors
 
     /**
-     * Instantiate an enabled app state to manage a new PhysicsSpace with DBVT
-     * collision detection.
+     * Instantiate an enabled app state to manage a new space with the DBVT
+     * broadphase collision-detection algorithm.
      * <p>
-     * Use getStateManager().addState(bulletAppState) to start physics.
+     * Use {@code getStateManager().addState(bulletAppState)} to start
+     * simulating physics.
      */
     public BulletAppState() {
         // do nothing
@@ -178,7 +179,8 @@ public class BulletAppState
     /**
      * Instantiate an enabled app state to manage a new PhysicsSpace.
      * <p>
-     * Use getStateManager().addState(bulletAppState) to start physics.
+     * Use {@code getStateManager().addState(bulletAppState)} to start
+     * simulating physics.
      *
      * @param broadphaseType which broadphase collision-detection algorithm to
      * use (not null)
@@ -190,10 +192,11 @@ public class BulletAppState
     }
 
     /**
-     * Instantiate an enabled app state to manage a new PhysicsSpace with
-     * AXIS_SWEEP_3 collision detection.
+     * Instantiate an enabled app state to manage a new space with the
+     * AXIS_SWEEP_3 broadphase collision-detection algorithm.
      * <p>
-     * Use getStateManager().addState(bulletAppState) to start physics.
+     * Use {@code getStateManager().addState(bulletAppState)} to start
+     * simulating physics.
      *
      * @param worldMin the desired minimum coordinate values (not null,
      * unaffected, default=-10k,-10k,-10k)
@@ -205,9 +208,10 @@ public class BulletAppState
     }
 
     /**
-     * Instantiate an enabled app state to manage a new PhysicsSpace.
+     * Instantiate an enabled AppState to manage a new space.
      * <p>
-     * Use getStateManager().addState(bulletAppState) to enable physics.
+     * Use {@code getStateManager().addState(bulletAppState)} to start
+     * simulating physics.
      *
      * @param worldMin the desired minimum coordinate values (not null,
      * unaffected, default=-10k,-10k,-10k)

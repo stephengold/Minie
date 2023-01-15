@@ -131,13 +131,12 @@ public class DebugConfiguration {
      */
     private ViewPort[] viewPorts;
     // *************************************************************************
-    // constructors
+    // constructors - TODO de-publicize
 
     /**
-     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     * Instantiate a configuration with no space and no viewports.
      */
-    public DebugConfiguration() {
-        // do nothing
+    public DebugConfiguration() { // to avoid a warning from JDK 18 javadoc
     }
     // *************************************************************************
     // new methods exposed

@@ -239,7 +239,7 @@ public class TestDac extends PhysicsDemo {
         application.setSettings(settings);
         /*
          * Designate a sandbox directory.
-         * This has to be done *prior to* initialization.
+         * This must be done *prior to* initialization.
          */
         try {
             ActionApplication.designateSandbox("Written Assets");

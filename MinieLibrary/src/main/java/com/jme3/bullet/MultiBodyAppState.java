@@ -64,8 +64,8 @@ public class MultiBodyAppState extends BulletAppState {
     // new methods exposed
 
     /**
-     * Access the MultiBodySpace managed by this state. Normally there is none
-     * until the state is attached.
+     * Access the space managed by this state. Normally there is none until the
+     * state is attached.
      *
      * @return the pre-existing instance, or null if no simulation running
      */

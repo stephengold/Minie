@@ -68,10 +68,10 @@ public class SoftPhysicsAppState extends BulletAppState {
     // constructors
 
     /**
-     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     * Instantiate an enabled app state with no filters to manage a space with
+     * the DBVT broadphase collision-detection algorithm.
      */
-    public SoftPhysicsAppState() {
-        // do nothing
+    public SoftPhysicsAppState() { // to avoid a warning from JDK 18 javadoc
     }
     // *************************************************************************
     // new methods exposed
