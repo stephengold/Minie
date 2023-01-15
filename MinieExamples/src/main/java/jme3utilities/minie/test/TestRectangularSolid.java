@@ -205,6 +205,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         InputMode dim = getDefaultInputMode();
 
         dim.bind("next trial capsule", KeyInput.KEY_F3);
+        dim.bind("next trial cylinder", KeyInput.KEY_F4);
         dim.bind("next trial rounded", KeyInput.KEY_F1);
         dim.bind("next trial square", KeyInput.KEY_F2);
 
@@ -347,6 +348,9 @@ public class TestRectangularSolid extends PhysicsDemo {
         switch (shapeName) {
             case "capsule":
                 collisionShape = new MultiSphere(solid, 0.5f);
+                break;
+            case "cylinder":
+                collisionShape = RagUtils.makeCylinder(samples, scaleIdentity);
                 break;
             case "rounded":
                 collisionShape = new MultiSphere(solid);
