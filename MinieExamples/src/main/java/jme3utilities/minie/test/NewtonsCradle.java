@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -106,6 +106,14 @@ public class NewtonsCradle
      * temporary storage used in updateStatusText()
      */
     final private static Vector3f tmpVector = new Vector3f();
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the NewtonsCradle application.
+     */
+    public NewtonsCradle() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

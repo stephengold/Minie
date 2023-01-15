@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -66,6 +66,14 @@ public class TestIssue1029
      * track elapsed time (in seconds) for the timeout
      */
     private double elapsedSeconds = 0.0;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestIssue1029 application.
+     */
+    public TestIssue1029() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

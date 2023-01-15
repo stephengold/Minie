@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -99,6 +99,14 @@ public class TestIssue1283 extends SimpleApplication {
      * space for physics simulation
      */
     private PhysicsSpace physicsSpace;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestIssue1283 application.
+     */
+    public TestIssue1283() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

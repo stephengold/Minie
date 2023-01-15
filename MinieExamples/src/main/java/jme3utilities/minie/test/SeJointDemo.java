@@ -169,6 +169,14 @@ public class SeJointDemo extends PhysicsDemo {
      */
     final private static Vector3f seedScale = new Vector3f();
     // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the SeJointDemo application.
+     */
+    public SeJointDemo() { // explicit to avoid a warning from JDK 18 javadoc
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

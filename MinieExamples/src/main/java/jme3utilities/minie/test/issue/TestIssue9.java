@@ -41,6 +41,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
+import java.util.logging.Logger;
 import jme3utilities.Heart;
 
 /**
@@ -52,6 +53,14 @@ import jme3utilities.Heart;
  * @author Stephen Gold sgold@sonic.net
  */
 final public class TestIssue9 extends SimpleApplication {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestIssue9.class.getName());
     // *************************************************************************
     // fields
 

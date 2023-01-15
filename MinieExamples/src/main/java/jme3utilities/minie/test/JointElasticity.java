@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -123,6 +123,14 @@ public class JointElasticity extends PhysicsDemo {
      * dynamic door
      */
     private static PhysicsRigidBody doorBody;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the JointElasticity application.
+     */
+    public JointElasticity() { // to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

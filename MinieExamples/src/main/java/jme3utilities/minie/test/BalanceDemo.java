@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -181,6 +181,14 @@ public class BalanceDemo extends PhysicsDemo {
      * different for each model)
      */
     private static Vector3f torsoUpDirection = null;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the BalanceDemo application.
+     */
+    public BalanceDemo() { // to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

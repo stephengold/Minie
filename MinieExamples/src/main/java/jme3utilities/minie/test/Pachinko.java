@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephen Gold
+ Copyright (c) 2022-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -127,6 +127,14 @@ public class Pachinko
      * rotation matrix for pins
      */
     final private static Matrix3f rot45 = new Matrix3f();
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the Pachinko application.
+     */
+    public Pachinko() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

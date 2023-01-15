@@ -35,6 +35,7 @@ import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
+import java.util.logging.Logger;
 
 /**
  * Test case for JME issue #889: disabled physics control gets added to a
@@ -45,6 +46,14 @@ import com.jme3.bullet.control.RigidBodyControl;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestIssue889 extends SimpleApplication {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestIssue889.class.getName());
     // *************************************************************************
     // constructors
 

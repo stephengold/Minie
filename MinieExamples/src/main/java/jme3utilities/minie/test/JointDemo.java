@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -117,6 +117,14 @@ public class JointDemo extends PhysicsDemo {
      * motor to rotate the right-rear leg
      */
     private static RotationMotor rrMotor;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the JointDemo application.
+     */
+    public JointDemo() { // to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

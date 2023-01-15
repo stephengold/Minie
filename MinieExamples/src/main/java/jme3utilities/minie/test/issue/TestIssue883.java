@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,14 @@ public class TestIssue883 extends SimpleApplication {
     private float timeToNextPrint = 1f; // in seconds
     private double frameTime; // in seconds
     private double physicsTime; // in seconds
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestIssue883 application.
+     */
+    public TestIssue883() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -62,6 +62,14 @@ final public class TestIssue3 extends SimpleApplication
     private int tickCount = 0;
     private PhysicsCharacter character;
     private PhysicsSpace physicsSpace;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestIssue3 application.
+     */
+    public TestIssue3() { // explicit to avoid a warning from JDK 18 javadoc
+    }
 
     /**
      * Main entry point for the TestIssue3 application.

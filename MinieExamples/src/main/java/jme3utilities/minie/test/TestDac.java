@@ -207,6 +207,14 @@ public class TestDac extends PhysicsDemo {
      */
     private static Transform resetTransform;
     // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestDac application.
+     */
+    public TestDac() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephen Gold
+ Copyright (c) 2021-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,14 @@ import jme3utilities.mesh.PointMesh;
 final public class TestIssue13 extends SimpleApplication {
 
     final private Random random = new Random();
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestIssue13 application.
+     */
+    public TestIssue13() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

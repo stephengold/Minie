@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -214,6 +214,14 @@ public class RopeDemo extends PhysicsDemo {
      * visualizer for the Armature of the most recently added rope
      */
     private static SkeletonVisualizer sv;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the RopeDemo application.
+     */
+    public RopeDemo() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

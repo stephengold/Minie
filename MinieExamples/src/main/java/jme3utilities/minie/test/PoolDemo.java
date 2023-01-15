@@ -138,6 +138,14 @@ public class PoolDemo extends PhysicsDemo {
      */
     final private static Node rbcNode = new Node("rbc node");
     // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the PoolDemo application.
+     */
+    public PoolDemo() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephen Gold
+ Copyright (c) 2021-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -73,6 +73,14 @@ final public class TestIssue18Mesh
      * count of physics timesteps simulated
      */
     private int tickCount = 0;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestIssue18Mesh application.
+     */
+    public TestIssue18Mesh() { // explicit to avoid warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

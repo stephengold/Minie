@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -146,6 +146,14 @@ public class BuoyDemo extends PhysicsDemo {
      * name of the Animation/Action to play on the C-G model
      */
     private static String animationName = null;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the BuoyDemo application.
+     */
+    public BuoyDemo() { // made explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

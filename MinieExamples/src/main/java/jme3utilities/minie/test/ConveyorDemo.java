@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -141,6 +141,14 @@ public class ConveyorDemo
      * AppState to manage the PhysicsSpace
      */
     private static BulletAppState bulletAppState;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the ConveyorDemo application.
+     */
+    public ConveyorDemo() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephen Gold
+ Copyright (c) 2021-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -73,6 +73,14 @@ final public class TestIssue18Gimpact
      * count of physics timesteps simulated
      */
     private int tickCount = 0;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestIssue18Gimpact application.
+     */
+    public TestIssue18Gimpact() { // to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 
