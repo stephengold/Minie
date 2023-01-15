@@ -53,7 +53,7 @@ public class MixamoControl
      * message logger for this class
      */
     final public static Logger logger4
-            = Logger.getLogger(BaseMeshControl.class.getName());
+            = Logger.getLogger(MixamoControl.class.getName());
     /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
      */
