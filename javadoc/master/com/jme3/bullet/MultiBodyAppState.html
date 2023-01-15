@@ -131,7 +131,8 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">MultiBodyAppState</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate an enabled AppState to manage a space with DBVT broadphase
+ collision detection.</div>
 </div>
 </div>
 </section>
@@ -162,7 +163,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="MultiBodySpace.html" title="class in com.jme3.bullet">MultiBodySpace</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMultiBodySpace()" class="member-name-link">getMultiBodySpace</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Access the MultiBodySpace managed by this state.</div>
+<div class="block">Access the space managed by this state.</div>
 </div>
 </div>
 </div>
@@ -206,7 +207,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>MultiBodyAppState</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MultiBodyAppState</span>()</div>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate an enabled AppState to manage a space with DBVT broadphase
+ collision detection.</div>
 </section>
 </li>
 </ul>
@@ -221,8 +223,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getMultiBodySpace()">
 <h3>getMultiBodySpace</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MultiBodySpace.html" title="class in com.jme3.bullet">MultiBodySpace</a></span>&nbsp;<span class="element-name">getMultiBodySpace</span>()</div>
-<div class="block">Access the MultiBodySpace managed by this state. Normally there is none
- until the state is attached.</div>
+<div class="block">Access the space managed by this state. Normally there is none until the
+ state is attached.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the pre-existing instance, or null if no simulation running</dd>

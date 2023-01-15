@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/control/AbstractPhysicsControl.html#%3Cinit%3E()" class="member-name-link">AbstractPhysicsControl()</a> - Constructor for class com.jme3.bullet.control.<a href="com/jme3/bullet/control/AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate an enabled control that isn't added to any space or spatial.</div>
 </dd>
 <dt><a href="com/jme3/bullet/debug/AbstractPhysicsDebugControl.html" class="type-name-link" title="class in com.jme3.bullet.debug">AbstractPhysicsDebugControl</a> - Class in <a href="com/jme3/bullet/debug/package-summary.html">com.jme3.bullet.debug</a></dt>
 <dd>
@@ -901,8 +901,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/BulletAppState.html#%3Cinit%3E()" class="member-name-link">BulletAppState()</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.html" title="class in com.jme3.bullet">BulletAppState</a></dt>
 <dd>
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace with DBVT
- collision detection.</div>
+<div class="block">Instantiate an enabled app state to manage a new space with the DBVT
+ broadphase collision-detection algorithm.</div>
 </dd>
 <dt><a href="com/jme3/bullet/BulletAppState.html#%3Cinit%3E(com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">BulletAppState(PhysicsSpace.BroadphaseType)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.html" title="class in com.jme3.bullet">BulletAppState</a></dt>
 <dd>
@@ -910,12 +910,12 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/BulletAppState.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">BulletAppState(Vector3f, Vector3f)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.html" title="class in com.jme3.bullet">BulletAppState</a></dt>
 <dd>
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace with
- AXIS_SWEEP_3 collision detection.</div>
+<div class="block">Instantiate an enabled app state to manage a new space with the
+ AXIS_SWEEP_3 broadphase collision-detection algorithm.</div>
 </dd>
 <dt><a href="com/jme3/bullet/BulletAppState.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">BulletAppState(Vector3f, Vector3f, PhysicsSpace.BroadphaseType)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.html" title="class in com.jme3.bullet">BulletAppState</a></dt>
 <dd>
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace.</div>
+<div class="block">Instantiate an enabled AppState to manage a new space.</div>
 </dd>
 <dt><a href="com/jme3/bullet/BulletAppState.ThreadingType.html" class="type-name-link" title="enum class in com.jme3.bullet">BulletAppState.ThreadingType</a> - Enum Class in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
 <dd>
@@ -1890,7 +1890,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#%3Cinit%3E()" class="member-name-link">CollisionShape()</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate a collision shape with no tracker and no assigned native
+ object.</div>
 </dd>
 <dt><a href="com/jme3/bullet/util/CollisionShapeFactory.html" class="type-name-link" title="class in com.jme3.bullet.util">CollisionShapeFactory</a> - Class in <a href="com/jme3/bullet/util/package-summary.html">com.jme3.bullet.util</a></dt>
 <dd>
@@ -2222,7 +2223,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/ConvexShape.html#%3Cinit%3E()" class="member-name-link">ConvexShape()</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate a collision shape with no tracker and no assigned native
+ object.</div>
 </dd>
 <dt><a href="com/jme3/bullet/animation/RagUtils.html#coordsMap(com.jme3.scene.Mesh%5B%5D,java.lang.String%5B%5D)" class="member-name-link">coordsMap(Mesh[], String[])</a> - Static method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/RagUtils.html" title="class in com.jme3.bullet.animation">RagUtils</a></dt>
 <dd>
@@ -2874,7 +2876,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/debug/DebugConfiguration.html#%3Cinit%3E()" class="member-name-link">DebugConfiguration()</a> - Constructor for class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/DebugConfiguration.html" title="class in com.jme3.bullet.debug">DebugConfiguration</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate a configuration with no space and no viewports.</div>
 </dd>
 <dt><a href="com/jme3/bullet/debug/DebugInitListener.html" class="type-name-link" title="interface in com.jme3.bullet.debug">DebugInitListener</a> - Interface in <a href="com/jme3/bullet/debug/package-summary.html">com.jme3.bullet.debug</a></dt>
 <dd>
@@ -4789,7 +4791,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/MultiBodyAppState.html#getMultiBodySpace()" class="member-name-link">getMultiBodySpace()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodyAppState.html" title="class in com.jme3.bullet">MultiBodyAppState</a></dt>
 <dd>
-<div class="block">Access the MultiBodySpace managed by this state.</div>
+<div class="block">Access the space managed by this state.</div>
 </dd>
 <dt><a href="com/jme3/bullet/MultiBodySpace.html#getMultiBodySpace()" class="member-name-link">getMultiBodySpace()</a> - Static method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodySpace.html" title="class in com.jme3.bullet">MultiBodySpace</a></dt>
 <dd>
@@ -7739,7 +7741,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/MultiBodyAppState.html#%3Cinit%3E()" class="member-name-link">MultiBodyAppState()</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodyAppState.html" title="class in com.jme3.bullet">MultiBodyAppState</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate an enabled AppState to manage a space with DBVT broadphase
+ collision detection.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/MultiBodyCollider.html" class="type-name-link" title="class in com.jme3.bullet.objects">MultiBodyCollider</a> - Class in <a href="com/jme3/bullet/objects/package-summary.html">com.jme3.bullet.objects</a></dt>
 <dd>
@@ -7896,7 +7899,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/NativePhysicsObject.html#%3Cinit%3E()" class="member-name-link">NativePhysicsObject()</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate with no tracker and no assigned native object.</div>
 </dd>
 <dt><a href="com/jme3/bullet/util/NativeSoftBodyUtil.html" class="type-name-link" title="class in com.jme3.bullet.util">NativeSoftBodyUtil</a> - Class in <a href="com/jme3/bullet/util/package-summary.html">com.jme3.bullet.util</a></dt>
 <dd>
@@ -8151,7 +8154,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsBody.html#%3Cinit%3E()" class="member-name-link">PhysicsBody()</a> - Constructor for class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate a PhysicsBody.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsCharacter.html" class="type-name-link" title="class in com.jme3.bullet.objects">PhysicsCharacter</a> - Class in <a href="com/jme3/bullet/objects/package-summary.html">com.jme3.bullet.objects</a></dt>
 <dd>
@@ -8192,7 +8195,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/PhysicsCollisionObject.html#%3Cinit%3E()" class="member-name-link">PhysicsCollisionObject()</a> - Constructor for class com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate a collision object with no tracker and no assigned native
+ object.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/PhysicsControl.html" class="type-name-link" title="interface in com.jme3.bullet.control">PhysicsControl</a> - Interface in <a href="com/jme3/bullet/control/package-summary.html">com.jme3.bullet.control</a></dt>
 <dd>
@@ -8206,7 +8210,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="jme3utilities/minie/PhysicsDescriber.html#%3Cinit%3E()" class="member-name-link">PhysicsDescriber()</a> - Constructor for class jme3utilities.minie.<a href="jme3utilities/minie/PhysicsDescriber.html" title="class in jme3utilities.minie">PhysicsDescriber</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate a describer with the default separator.</div>
 </dd>
 <dt><a href="jme3utilities/minie/PhysicsDumper.html" class="type-name-link" title="class in jme3utilities.minie">PhysicsDumper</a> - Class in <a href="jme3utilities/minie/package-summary.html">jme3utilities.minie</a></dt>
 <dd>
@@ -8240,7 +8244,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/joints/PhysicsJoint.html#%3Cinit%3E()" class="member-name-link">PhysicsJoint()</a> - Constructor for class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a></dt>
 <dd>
-<div class="block">A no-argument constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate a PhysicsJoint.</div>
 </dd>
 <dt><a href="com/jme3/bullet/animation/PhysicsLink.html" class="type-name-link" title="class in com.jme3.bullet.animation">PhysicsLink</a> - Class in <a href="com/jme3/bullet/animation/package-summary.html">com.jme3.bullet.animation</a></dt>
 <dd>
@@ -11992,7 +11996,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/SoftPhysicsAppState.html#%3Cinit%3E()" class="member-name-link">SoftPhysicsAppState()</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/SoftPhysicsAppState.html" title="class in com.jme3.bullet">SoftPhysicsAppState</a></dt>
 <dd>
-<div class="block">A no-arg constructor to avoid javadoc warnings from JDK 18.</div>
+<div class="block">Instantiate an enabled app state with no filters to manage a space with
+ the DBVT broadphase collision-detection algorithm.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/SoftPhysicsJoint.html" class="type-name-link" title="class in com.jme3.bullet.joints">SoftPhysicsJoint</a> - Class in <a href="com/jme3/bullet/joints/package-summary.html">com.jme3.bullet.joints</a></dt>
 <dd>

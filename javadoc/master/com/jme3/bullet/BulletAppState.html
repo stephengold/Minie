@@ -139,8 +139,8 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">BulletAppState</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace with DBVT
- collision detection.</div>
+<div class="block">Instantiate an enabled app state to manage a new space with the DBVT
+ broadphase collision-detection algorithm.</div>
 </div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">BulletAppState</a><wbr>(<a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</code></div>
 <div class="col-last odd-row-color">
@@ -149,14 +149,14 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">BulletAppState</a><wbr>(com.jme3.math.Vector3f&nbsp;worldMin,
  com.jme3.math.Vector3f&nbsp;worldMax)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace with
- AXIS_SWEEP_3 collision detection.</div>
+<div class="block">Instantiate an enabled app state to manage a new space with the
+ AXIS_SWEEP_3 broadphase collision-detection algorithm.</div>
 </div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType)" class="member-name-link">BulletAppState</a><wbr>(com.jme3.math.Vector3f&nbsp;worldMin,
  com.jme3.math.Vector3f&nbsp;worldMax,
  <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace.</div>
+<div class="block">Instantiate an enabled AppState to manage a new space.</div>
 </div>
 </div>
 </section>
@@ -480,10 +480,11 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <section class="detail" id="&lt;init&gt;()">
 <h3>BulletAppState</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BulletAppState</span>()</div>
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace with DBVT
- collision detection.
+<div class="block">Instantiate an enabled app state to manage a new space with the DBVT
+ broadphase collision-detection algorithm.
  <p>
- Use getStateManager().addState(bulletAppState) to start physics.</div>
+ Use <code>getStateManager().addState(bulletAppState)</code> to start
+ simulating physics.</div>
 </section>
 </li>
 <li>
@@ -492,7 +493,8 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BulletAppState</span><wbr><span class="parameters">(<a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</span></div>
 <div class="block">Instantiate an enabled app state to manage a new PhysicsSpace.
  <p>
- Use getStateManager().addState(bulletAppState) to start physics.</div>
+ Use <code>getStateManager().addState(bulletAppState)</code> to start
+ simulating physics.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>broadphaseType</code> - which broadphase collision-detection algorithm to
@@ -505,10 +507,11 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <h3>BulletAppState</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BulletAppState</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;worldMin,
  com.jme3.math.Vector3f&nbsp;worldMax)</span></div>
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace with
- AXIS_SWEEP_3 collision detection.
+<div class="block">Instantiate an enabled app state to manage a new space with the
+ AXIS_SWEEP_3 broadphase collision-detection algorithm.
  <p>
- Use getStateManager().addState(bulletAppState) to start physics.</div>
+ Use <code>getStateManager().addState(bulletAppState)</code> to start
+ simulating physics.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>worldMin</code> - the desired minimum coordinate values (not null,
@@ -524,9 +527,10 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BulletAppState</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;worldMin,
  com.jme3.math.Vector3f&nbsp;worldMax,
  <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType)</span></div>
-<div class="block">Instantiate an enabled app state to manage a new PhysicsSpace.
+<div class="block">Instantiate an enabled AppState to manage a new space.
  <p>
- Use getStateManager().addState(bulletAppState) to enable physics.</div>
+ Use <code>getStateManager().addState(bulletAppState)</code> to start
+ simulating physics.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>worldMin</code> - the desired minimum coordinate values (not null,
