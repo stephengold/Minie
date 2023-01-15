@@ -72,6 +72,9 @@ public class MixamoControl
 
         setIgnoredHops(2);
 
+        LinkConfig cylinder = new LinkConfig(density, MassHeuristic.Density,
+                ShapeHeuristic.Cylinder, scaleIdentity,
+                CenterHeuristic.Mean, RotationOrder.XZY);
         LinkConfig fourSphere = new LinkConfig(density, MassHeuristic.Density,
                 ShapeHeuristic.FourSphere, scaleIdentity,
                 CenterHeuristic.Mean, RotationOrder.XZY);
@@ -84,13 +87,13 @@ public class MixamoControl
 
         // trunk, neck, and head
         super.setConfig(torsoName, fourSphere);
-        super.link("mixamorig:Spine", vertexHull,
+        super.link("mixamorig:Spine", cylinder,
                 new RangeOfMotion(0.2f, -1f, 0.1f, -0.1f, 0.1f, -0.1f));
         super.link("mixamorig:Spine1", vertexHull,
                 new RangeOfMotion(0.2f, 0.3f, 0.3f));
         super.link("mixamorig:Spine2", vertexHull,
                 new RangeOfMotion(0.4f, 0.6f, 0.5f));
-        super.link("mixamorig:Neck", vertexHull,
+        super.link("mixamorig:Neck", fourSphere,
                 new RangeOfMotion(0.6f, -0.3f, 0.6f, -0.6f, 0.4f, -0.4f));
         super.link("mixamorig:Head", fourSphere,
                 new RangeOfMotion(0.6f, -0.3f, 0.6f, -0.6f, 0.7f, -0.7f));
