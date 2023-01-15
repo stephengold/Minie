@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import jme3utilities.math.MyVector3f;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakeGlyphs {
+final public class MakeGlyphs {
     // *************************************************************************
     // constants and loggers
 

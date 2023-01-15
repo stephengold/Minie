@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -53,7 +53,7 @@ import vhacd.VHACDParameters;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakeDuck {
+final public class MakeDuck {
     // *************************************************************************
     // constants and loggers
 
