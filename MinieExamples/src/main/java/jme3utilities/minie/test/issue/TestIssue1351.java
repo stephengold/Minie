@@ -31,6 +31,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsGhostObject;
+import java.util.logging.Logger;
 
 /**
  * Test case for JME issue #1351: native Bullet crash during garbage collection.
@@ -40,6 +41,14 @@ import com.jme3.bullet.objects.PhysicsGhostObject;
  * @author Stephen Gold sgold@sonic.net
  */
 final public class TestIssue1351 extends SimpleApplication {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestIssue1351.class.getName());
     // *************************************************************************
     // constructors
 

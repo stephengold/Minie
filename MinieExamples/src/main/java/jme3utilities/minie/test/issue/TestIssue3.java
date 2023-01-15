@@ -45,6 +45,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import java.nio.FloatBuffer;
+import java.util.logging.Logger;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.mesh.RectangleMesh;
 import jme3utilities.minie.PhysicsDumper;
@@ -58,6 +59,16 @@ import jme3utilities.minie.PhysicsDumper;
  */
 final public class TestIssue3 extends SimpleApplication
         implements ActionListener, PhysicsTickListener {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestIssue3.class.getName());
+    // *************************************************************************
+    // fields
 
     private int tickCount = 0;
     private PhysicsCharacter character;

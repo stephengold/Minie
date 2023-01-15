@@ -43,6 +43,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
+import java.util.logging.Logger;
 
 /**
  * Test for Minie issue #18 (BetterCharacterController hops across seams) using
@@ -54,6 +55,14 @@ import com.jme3.scene.shape.Quad;
 final public class TestIssue18Gimpact
         extends SimpleApplication
         implements PhysicsTickListener {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestIssue18Gimpact.class.getName());
     // *************************************************************************
     // fields
 

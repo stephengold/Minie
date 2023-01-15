@@ -40,6 +40,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import java.util.logging.Logger;
 
 /**
  * Test for Minie issue #18 (BetterCharacterController hops across seams) using
@@ -51,6 +52,14 @@ import com.jme3.scene.Node;
 final public class TestIssue18Heightfield
         extends SimpleApplication
         implements PhysicsTickListener {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestIssue18Heightfield.class.getName());
     // *************************************************************************
     // fields
 

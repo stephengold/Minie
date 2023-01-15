@@ -43,6 +43,7 @@ import com.jme3.scene.Geometry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
+import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.mesh.PointMesh;
@@ -53,6 +54,16 @@ import jme3utilities.mesh.PointMesh;
  * @author Stephen Gold sgold@sonic.net
  */
 final public class TestIssue13 extends SimpleApplication {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final public static Logger logger
+            = Logger.getLogger(TestIssue13.class.getName());
+    // *************************************************************************
+    // fields
 
     final private Random random = new Random();
     // *************************************************************************
