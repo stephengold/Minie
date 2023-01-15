@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
@@ -46,8 +47,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -55,6 +54,8 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
 import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.VectorSet;
+import jme3utilities.math.VectorSetUsingBuffer;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.PointMesh;
 import jme3utilities.minie.test.common.PhysicsDemo;
@@ -93,6 +94,10 @@ public class TestRectangularSolid extends PhysicsDemo {
      */
     final private static String applicationName
             = TestRectangularSolid.class.getSimpleName();
+    /**
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
+     */
+    final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
     // fields
 
@@ -314,17 +319,16 @@ public class TestRectangularSolid extends PhysicsDemo {
          * Generate sample points on the surface of a transformed unit sphere
          * (which is an ellipsoid).
          */
-        Collection<Vector3f> sampleLocations = new ArrayList<>(samplesPerTrial);
-        for (int sampleIndex = 0;
-                sampleIndex < samplesPerTrial;
-                ++sampleIndex) {
-            Vector3f sampleLocation = random.nextUnitVector3f();
+        VectorSet samples = new VectorSetUsingBuffer(samplesPerTrial, true);
+        Vector3f sampleLocation = new Vector3f();
+        for (int sampleI = 0; sampleI < samplesPerTrial; ++sampleI) {
+            random.nextUnitVector3f(sampleLocation);
             transform.transformVector(sampleLocation, sampleLocation);
-            sampleLocations.add(sampleLocation);
+            samples.add(sampleLocation);
         }
 
         // Visualize the sample points.
-        for (Vector3f location : sampleLocations) {
+        for (Vector3f location : samples.toVectorArray()) {
             PointMesh pointMesh = new PointMesh();
             pointMesh.setLocation(location);
             Geometry sampleGeometry = new Geometry("sample", pointMesh);
@@ -334,7 +338,8 @@ public class TestRectangularSolid extends PhysicsDemo {
         }
 
         // Generate a rectangular solid that contains all the samples.
-        RectangularSolid solid = new RectangularSolid(sampleLocations);
+        RectangularSolid solid
+                = RagUtils.makeRectangularSolid(samples, scaleIdentity);
         logger.log(Level.INFO, solid.toString());
 
         // Generate a collision shape.
