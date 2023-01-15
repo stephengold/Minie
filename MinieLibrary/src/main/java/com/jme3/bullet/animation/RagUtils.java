@@ -37,6 +37,8 @@ import com.jme3.anim.SkinningControl;
 import com.jme3.animation.Bone;
 import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
+import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.export.InputCapsule;
@@ -72,6 +74,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
@@ -371,6 +374,98 @@ final public class RagUtils {
                 }
             }
         }
+
+        return result;
+    }
+
+    /**
+     * Create a transformed CylinderCollisionShape that bounds the locations in
+     * the specified VectorSet.
+     *
+     * @param vectorSet the set of locations (not null, numVectors&gt;1,
+     * unaffected)
+     * @param scaleFactors scale factors to apply to local coordinates (not
+     * null, unaffected)
+     * @return a new shape
+     */
+    public static CompoundCollisionShape
+            makeCylinder(VectorSet vectorSet, Vector3f scaleFactors) {
+        Validate.nonNull(scaleFactors, "scale factors");
+        int numVectors = vectorSet.numVectors();
+        Validate.require(numVectors > 1, "multiple vectors");
+
+        RectangularSolid solid = makeRectangularSolid(vectorSet, scaleFactors);
+
+        Vector3f halfExtents = solid.halfExtents(null); // in local coordinates
+        float max = MyMath.max(halfExtents.x, halfExtents.y, halfExtents.z);
+        float mid = MyMath.mid(halfExtents.x, halfExtents.y, halfExtents.z);
+        float min = MyMath.min(halfExtents.x, halfExtents.y, halfExtents.z);
+        float halfHeight;
+        if (max - mid > mid - min) { // prolate
+            halfHeight = max;
+        } else { // oblate
+            halfHeight = min;
+        }
+        Vector3f heightDirection = new Vector3f(); // in local coordinates
+        if (halfHeight == halfExtents.x) {
+            heightDirection.set(1f, 0f, 0f);
+        } else if (halfHeight == halfExtents.y) {
+            heightDirection.set(0f, 1f, 0f);
+        } else {
+            assert halfHeight == halfExtents.z;
+            heightDirection.set(0f, 0f, 1f);
+        }
+
+        Quaternion localToWorld = solid.localToWorld(null);
+        Quaternion worldToLocal = localToWorld.inverse();
+        assert worldToLocal != null;
+
+        // Convert heightDirection to world coordinates:
+        localToWorld.mult(heightDirection, heightDirection);
+
+        // Calculate minimum half height and squared radius for the cylinder.
+        halfHeight = 0f;
+        double squaredRadius = 0.;
+        FloatBuffer buffer = vectorSet.toBuffer();
+        Vector3f worldCenter = vectorSet.mean(null);
+        Vector3f tempVector = new Vector3f();
+        buffer.rewind();
+        while (buffer.hasRemaining()) {
+            tempVector.x = buffer.get();
+            tempVector.y = buffer.get();
+            tempVector.z = buffer.get();
+            tempVector.subtractLocal(worldCenter);
+
+            // update halfHeight
+            float h = tempVector.dot(heightDirection);
+            float absH = FastMath.abs(h);
+            if (absH > halfHeight) {
+                halfHeight = absH;
+            }
+
+            // update squaredRadius
+            MyVector3f.accumulateScaled(tempVector, heightDirection, -h);
+            double r2 = MyVector3f.lengthSquared(tempVector);
+            if (r2 > squaredRadius) {
+                squaredRadius = r2;
+            }
+        }
+
+        // Generate the cylinder shape.
+        float height = 2f * halfHeight;
+        float radius = (float) Math.sqrt(squaredRadius);
+        CylinderCollisionShape cylinder
+                = new CylinderCollisionShape(radius, height, MyVector3f.xAxis);
+
+        // Choose an orientation for the cylinder.
+        Vector3f yAxis = new Vector3f();
+        Vector3f zAxis = new Vector3f();
+        MyVector3f.generateBasis(heightDirection, yAxis, zAxis);
+        Matrix3f cylinderOrientation = new Matrix3f();
+        cylinderOrientation.fromAxes(heightDirection, yAxis, zAxis);
+
+        CompoundCollisionShape result = new CompoundCollisionShape();
+        result.addChildShape(cylinder, worldCenter, cylinderOrientation);
 
         return result;
     }
