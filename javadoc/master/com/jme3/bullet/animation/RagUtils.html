@@ -132,6 +132,20 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Enumerate all physics joints that connect bodies in the specified array.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#makeCylinder(jme3utilities.math.VectorSet,com.jme3.math.Vector3f)" class="member-name-link">makeCylinder</a><wbr>(jme3utilities.math.VectorSet&nbsp;vectorSet,
+ com.jme3.math.Vector3f&nbsp;scaleFactors)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Create a transformed CylinderCollisionShape that bounds the locations in
+ the specified VectorSet.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static jme3utilities.math.RectangularSolid</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#makeRectangularSolid(jme3utilities.math.VectorSet,com.jme3.math.Vector3f)" class="member-name-link">makeRectangularSolid</a><wbr>(jme3utilities.math.VectorSet&nbsp;vectorSet,
+ com.jme3.math.Vector3f&nbsp;scaleFactors)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Instantiate a compact RectangularSolid that bounds the sample locations
+ contained in a VectorSet.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#meshToLocal(com.jme3.animation.Bone,com.jme3.math.Transform)" class="member-name-link">meshToLocal</a><wbr>(com.jme3.animation.Bone&nbsp;parentBone,
  com.jme3.math.Transform&nbsp;transform)</code></div>
@@ -283,6 +297,41 @@ loadScripts(document, 'script');</script>
 <dd><code>bodies</code> - the array to search (not null, unaffected)</dd>
 <dt>Returns:</dt>
 <dd>a new Set of pre-existing instances</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="makeCylinder(jme3utilities.math.VectorSet,com.jme3.math.Vector3f)">
+<h3>makeCylinder</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></span>&nbsp;<span class="element-name">makeCylinder</span><wbr><span class="parameters">(jme3utilities.math.VectorSet&nbsp;vectorSet,
+ com.jme3.math.Vector3f&nbsp;scaleFactors)</span></div>
+<div class="block">Create a transformed CylinderCollisionShape that bounds the locations in
+ the specified VectorSet.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>vectorSet</code> - the set of locations (not null, numVectors&gt;1,
+ unaffected)</dd>
+<dd><code>scaleFactors</code> - scale factors to apply to local coordinates (not
+ null, unaffected)</dd>
+<dt>Returns:</dt>
+<dd>a new shape</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="makeRectangularSolid(jme3utilities.math.VectorSet,com.jme3.math.Vector3f)">
+<h3>makeRectangularSolid</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">jme3utilities.math.RectangularSolid</span>&nbsp;<span class="element-name">makeRectangularSolid</span><wbr><span class="parameters">(jme3utilities.math.VectorSet&nbsp;vectorSet,
+ com.jme3.math.Vector3f&nbsp;scaleFactors)</span></div>
+<div class="block">Instantiate a compact RectangularSolid that bounds the sample locations
+ contained in a VectorSet.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>vectorSet</code> - the set of sample locations (not null, numVectors&gt;1,
+ contents unaffected)</dd>
+<dd><code>scaleFactors</code> - to apply to local coordinates (not null, unaffected)</dd>
+<dt>Returns:</dt>
+<dd>a new RectangularSolid</dd>
 </dl>
 </section>
 </li>
