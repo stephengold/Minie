@@ -384,7 +384,7 @@ final public class RagUtils {
      * @param scaleFactors to apply to local coordinates (not null, unaffected)
      * @return a new RectangularSolid
      */
-    static RectangularSolid
+    public static RectangularSolid
             makeRectangularSolid(VectorSet vectorSet, Vector3f scaleFactors) {
         int numVectors = vectorSet.numVectors();
         assert numVectors > 1 : numVectors;
