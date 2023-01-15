@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -624,7 +624,7 @@ public class TestDac extends PhysicsDemo {
         location.y += 20f;
         geometry.move(location);
 
-        Vector3f worldScale = geometry.getWorldScale();
+        Vector3f worldScale = geometry.getWorldScale(); // alias
         CollisionShape shape = findShape("ball");
         shape.setScale(worldScale);
 
@@ -1048,7 +1048,7 @@ public class TestDac extends PhysicsDemo {
         // Apply the animation pose to all bone links and their managed bones.
         for (BoneLink boneLink : dac.listLinks(BoneLink.class)) {
             int boneIndex = boneLink.boneIndex(0); // the linked bone
-            Quaternion userRotation = tmpTransform.getRotation();
+            Quaternion userRotation = tmpTransform.getRotation(); // alias
             animPose.userRotation(boneIndex, userRotation);
             boneLink.setDynamic(acceleration, userRotation);
 

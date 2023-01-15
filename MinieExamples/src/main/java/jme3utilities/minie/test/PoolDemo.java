@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -572,7 +572,7 @@ public class PoolDemo extends PhysicsDemo {
         rbcNode.attachChild(platformNode);
 
         Transform tmpTransform = new Transform();
-        Quaternion rotation = tmpTransform.getRotation();
+        Quaternion rotation = tmpTransform.getRotation(); // alias
 
         for (int offsetIndex = 0; offsetIndex < 2; ++offsetIndex) {
             float zOffset = (2 * offsetIndex - 1) * legLength;

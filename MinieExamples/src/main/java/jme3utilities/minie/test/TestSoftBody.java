@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -872,7 +872,7 @@ public class TestSoftBody
          */
         float margin = 0.02f;
         BoundingBox aabb = MyArray.aabb(local, null);
-        Vector3f apex = aabb.getCenter();
+        Vector3f apex = aabb.getCenter(); // alias
         float raiseApex = 0.5f; // 0 = full-circle skirt, 0.5 = not very full
         apex.z -= raiseApex;
         float maxRadius = 0f;

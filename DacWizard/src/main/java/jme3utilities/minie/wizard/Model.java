@@ -1115,11 +1115,11 @@ class Model {
          * center lies on the Y axis.
          */
         minMax = MySpatial.findMinMaxCoords(cgmCopy);
-        min = minMax[0];
-        max = minMax[1];
+        min = minMax[0]; // alias
+        max = minMax[1]; // alias
         Vector3f center = MyVector3f.midpoint(min, max, null);
         Vector3f offset = new Vector3f(center.x, min.y, center.z);
-        Vector3f location = cgmCopy.getWorldTranslation();
+        Vector3f location = cgmCopy.getWorldTranslation(); // alias
         location.subtractLocal(offset);
         MySpatial.setWorldLocation(cgmCopy, location);
 
