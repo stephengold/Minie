@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2022 jMonkeyEngine
+ * Copyright (c) 2009-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -268,8 +268,8 @@ public class SoftDebugAppState extends BulletDebugAppState {
         renderState.setBlendMode(RenderState.BlendMode.Alpha);
         renderState.setDepthTest(false);
 
-        this.windVelocityMaterial = createWireMaterial(am, whiteColor,
-                "wind velocity", 2);
+        this.windVelocityMaterial
+                = createWireMaterial(am, whiteColor, "wind velocity", 2);
     }
 
     /**

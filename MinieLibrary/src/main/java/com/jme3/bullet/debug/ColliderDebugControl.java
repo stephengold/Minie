@@ -88,8 +88,8 @@ class ColliderDebugControl extends CollisionShapeDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param mbc the collider to visualize (not null, alias created)
      */
-    ColliderDebugControl(BulletDebugAppState debugAppState,
-            MultiBodyCollider mbc) {
+    ColliderDebugControl(
+            BulletDebugAppState debugAppState, MultiBodyCollider mbc) {
         super(debugAppState);
         this.collider = mbc;
 

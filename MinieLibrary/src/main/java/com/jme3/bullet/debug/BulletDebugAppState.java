@@ -604,8 +604,8 @@ public class BulletDebugAppState extends BaseAppState {
                 node.removeControl(control);
             }
         } else if (displayAxes) {
-            control = new AxesVisualizer(assetManager, axisLength,
-                    axisLineWidth);
+            control = new AxesVisualizer(
+                    assetManager, axisLength, axisLineWidth);
             node.addControl(control);
             control.setEnabled(true);
         }

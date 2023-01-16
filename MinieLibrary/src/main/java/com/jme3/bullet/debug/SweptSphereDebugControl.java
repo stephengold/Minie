@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,8 +85,8 @@ class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param pco which collision object to visualize (not null, alias created)
      */
-    SweptSphereDebugControl(BulletDebugAppState debugAppState,
-            PhysicsCollisionObject pco) {
+    SweptSphereDebugControl(
+            BulletDebugAppState debugAppState, PhysicsCollisionObject pco) {
         super(debugAppState);
         this.pco = pco;
 

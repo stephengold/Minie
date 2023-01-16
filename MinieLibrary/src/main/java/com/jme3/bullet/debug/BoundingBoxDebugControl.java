@@ -87,8 +87,8 @@ class BoundingBoxDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param pco which collision object to visualize (not null, alias created)
      */
-    BoundingBoxDebugControl(BulletDebugAppState debugAppState,
-            PhysicsCollisionObject pco) {
+    BoundingBoxDebugControl(
+            BulletDebugAppState debugAppState, PhysicsCollisionObject pco) {
         super(debugAppState);
         this.pco = pco;
 

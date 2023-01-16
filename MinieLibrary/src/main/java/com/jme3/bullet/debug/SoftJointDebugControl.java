@@ -82,8 +82,8 @@ class SoftJointDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param joint the joint to visualize (not null, alias created)
      */
-    SoftJointDebugControl(BulletDebugAppState debugAppState,
-            SoftPhysicsJoint joint) {
+    SoftJointDebugControl(
+            BulletDebugAppState debugAppState, SoftPhysicsJoint joint) {
         super(debugAppState);
         this.joint = joint;
 

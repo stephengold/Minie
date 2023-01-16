@@ -119,8 +119,8 @@ public class DebugTools {
     /**
      * geometry for the magenta arrow
      */
-    public Geometry arrowMagentaGeom = new Geometry("Magenta Arrow",
-            arrowMagenta);
+    public Geometry arrowMagentaGeom
+            = new Geometry("Magenta Arrow", arrowMagenta);
     /**
      * geometry for the pink arrow
      */

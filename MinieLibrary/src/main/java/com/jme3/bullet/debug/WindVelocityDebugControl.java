@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 jMonkeyEngine
+ * Copyright (c) 2020-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,8 +86,8 @@ class WindVelocityDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param pco which soft body to visualize (not null, alias created)
      */
-    WindVelocityDebugControl(BulletDebugAppState debugAppState,
-            PhysicsCollisionObject pco) {
+    WindVelocityDebugControl(
+            BulletDebugAppState debugAppState, PhysicsCollisionObject pco) {
         super(debugAppState);
         this.softBody = (PhysicsSoftBody) pco;
 

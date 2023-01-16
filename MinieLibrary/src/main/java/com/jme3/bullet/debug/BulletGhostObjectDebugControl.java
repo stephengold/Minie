@@ -88,8 +88,8 @@ public class BulletGhostObjectDebugControl extends CollisionShapeDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param gh which object to visualize (not null, alias created)
      */
-    public BulletGhostObjectDebugControl(BulletDebugAppState debugAppState,
-            PhysicsGhostObject gh) {
+    public BulletGhostObjectDebugControl(
+            BulletDebugAppState debugAppState, PhysicsGhostObject gh) {
         super(debugAppState);
         this.ghost = gh;
 

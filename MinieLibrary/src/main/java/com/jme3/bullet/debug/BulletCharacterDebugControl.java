@@ -88,8 +88,8 @@ public class BulletCharacterDebugControl extends CollisionShapeDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param ch the character to visualize (not null, alias created)
      */
-    public BulletCharacterDebugControl(BulletDebugAppState debugAppState,
-            PhysicsCharacter ch) {
+    public BulletCharacterDebugControl(
+            BulletDebugAppState debugAppState, PhysicsCharacter ch) {
         super(debugAppState);
         this.character = ch;
 

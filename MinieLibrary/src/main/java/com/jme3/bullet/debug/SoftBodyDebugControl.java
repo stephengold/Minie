@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2022 jMonkeyEngine
+ * Copyright (c) 2009-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -121,8 +121,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param body which body to visualize (not null, alias created)
      */
-    SoftBodyDebugControl(BulletDebugAppState debugAppState,
-            PhysicsSoftBody body) {
+    SoftBodyDebugControl(
+            BulletDebugAppState debugAppState, PhysicsSoftBody body) {
         super(debugAppState);
         this.body = body;
     }

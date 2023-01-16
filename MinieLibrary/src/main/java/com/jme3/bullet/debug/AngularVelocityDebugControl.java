@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 jMonkeyEngine
+ * Copyright (c) 2020-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,8 +87,8 @@ class AngularVelocityDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param pco which rigid body to visualize (not null, alias created)
      */
-    AngularVelocityDebugControl(BulletDebugAppState debugAppState,
-            PhysicsCollisionObject pco) {
+    AngularVelocityDebugControl(
+            BulletDebugAppState debugAppState, PhysicsCollisionObject pco) {
         super(debugAppState);
         this.rigidBody = (PhysicsRigidBody) pco;
 

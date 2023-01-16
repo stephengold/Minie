@@ -82,8 +82,8 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param ve which vehicle to visualize (not null, alias created)
      */
-    public BulletVehicleDebugControl(BulletDebugAppState debugAppState,
-            PhysicsVehicle ve) {
+    public BulletVehicleDebugControl(
+            BulletDebugAppState debugAppState, PhysicsVehicle ve) {
         super(debugAppState);
         this.vehicle = ve;
         this.suspensionNode = new Node("Suspension");
@@ -178,14 +178,14 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
             Arrow dirArrow = new Arrow(
                     wDirection.normalizeLocal().multLocal(restLength));
 
-            Geometry locGeom = new Geometry("WheelLocationDebugShape" + i,
-                    locArrow);
-            Geometry dirGeom = new Geometry("WheelDirectionDebugShape" + i,
-                    dirArrow);
-            Geometry axleGeom = new Geometry("WheelAxleDebugShape" + i,
-                    axleArrow);
-            Geometry wheelGeom = new Geometry("WheelRadiusDebugShape" + i,
-                    wheelArrow);
+            Geometry locGeom = new Geometry(
+                    "WheelLocationDebugShape" + i, locArrow);
+            Geometry dirGeom = new Geometry(
+                    "WheelDirectionDebugShape" + i, dirArrow);
+            Geometry axleGeom = new Geometry(
+                    "WheelAxleDebugShape" + i, axleArrow);
+            Geometry wheelGeom = new Geometry(
+                    "WheelRadiusDebugShape" + i, wheelArrow);
 
             dirGeom.setLocalTranslation(wLocation);
             axleGeom.setLocalTranslation(wLocation.add(wDirection));

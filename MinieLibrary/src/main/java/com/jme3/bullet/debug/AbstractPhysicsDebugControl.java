@@ -79,8 +79,8 @@ abstract public class AbstractPhysicsDebugControl extends AbstractControl {
      * @param worldRotation orientation (in physics-space coordinates, not null,
      * unaffected)
      */
-    protected void applyPhysicsTransform(Vector3f worldLocation,
-            Quaternion worldRotation) {
+    protected void applyPhysicsTransform(
+            Vector3f worldLocation, Quaternion worldRotation) {
         applyPhysicsTransform(worldLocation, worldRotation, spatial);
     }
     // *************************************************************************

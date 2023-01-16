@@ -89,8 +89,8 @@ public class BulletRigidBodyDebugControl extends CollisionShapeDebugControl {
      * @param debugAppState which app state (not null, alias created)
      * @param body which body to visualize (not null, alias created)
      */
-    public BulletRigidBodyDebugControl(BulletDebugAppState debugAppState,
-            PhysicsRigidBody body) {
+    public BulletRigidBodyDebugControl(
+            BulletDebugAppState debugAppState, PhysicsRigidBody body) {
         super(debugAppState);
         this.body = body;
 
