@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -541,7 +541,7 @@ class DropTestStatus extends SimpleAppState {
         message += viewOptions;
         statusLines[0].setText(message);
 
-        int numDrops = appInstance.countDrops();
+        int numDrops = DropTest.countDrops();
         int numActiveBodies = appInstance.countActive();
         int numCachedMeshes = DebugShapeFactory.countCachedMeshes();
         boolean isPaused = appInstance.isPaused();

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -324,7 +324,7 @@ final class JointElasticityStatus extends SimpleAppState {
     private void advanceRatio(int amount) {
         this.massRatio = AcorusDemo
                 .advanceFloat(ratioValues, massRatio, amount);
-        appInstance.setMassRatio(massRatio);
+        JointElasticity.setMassRatio(massRatio);
     }
 
     /**

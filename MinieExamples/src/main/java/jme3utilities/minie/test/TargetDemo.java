@@ -212,7 +212,7 @@ public class TargetDemo
     /**
      * Update the ShadowMode of the debug scene.
      */
-    void setDebugShadowMode() {
+    static void setDebugShadowMode() {
         RenderQueue.ShadowMode mode;
         if (status.isWireframe()) {
             mode = RenderQueue.ShadowMode.Off;

@@ -178,7 +178,7 @@ public class DropTest
     /**
      * Count how many drops are in the PhysicsSpace.
      */
-    int countDrops() {
+    static int countDrops() {
         int result = drops.size();
         return result;
     }

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -423,7 +423,7 @@ class TargetDemoStatus extends SimpleAppState {
     void toggleWireframe() {
         this.isWireframe = !isWireframe;
         appInstance.setDebugMaterialsAll();
-        appInstance.setDebugShadowMode();
+        TargetDemo.setDebugShadowMode();
     }
     // *************************************************************************
     // ActionAppState methods

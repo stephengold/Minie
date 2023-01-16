@@ -221,7 +221,7 @@ public class SplitDemo
      * @return the angle between the plane normal and the default camera's "up"
      * vector (in radians, &ge;0, &lt;Pi)
      */
-    float splitAngle() {
+    static float splitAngle() {
         assert splitAngle >= 0f : splitAngle;
         assert splitAngle < FastMath.PI : splitAngle;
 
