@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephen Gold
+ Copyright (c) 2022-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -57,15 +57,6 @@ class ProgressDialog implements DialogController, VHACDProgressListener {
      * message to display
      */
     private String statusMessage = "0% complete";
-    // *************************************************************************
-    // constructors
-
-    /**
-     * Instantiate a dialog.
-     */
-    ProgressDialog() {
-        // do nothing
-    }
     // *************************************************************************
     // DialogController methods
 
