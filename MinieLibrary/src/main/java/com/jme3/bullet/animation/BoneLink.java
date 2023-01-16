@@ -267,7 +267,6 @@ public class BoneLink extends PhysicsLink {
         Validate.nonNegative(blendInterval, "blend interval");
 
         blendToKinematicMode(blendInterval);
-
         this.submode = submode;
 
         // Save initial bone transforms for blending.

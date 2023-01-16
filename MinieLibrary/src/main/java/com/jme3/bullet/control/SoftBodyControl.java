@@ -317,8 +317,8 @@ public class SoftBodyControl extends AbstractPhysicsControl {
 
         Mesh mesh = geometry.getMesh();
         boolean localFlag = false; // copy physics-space locations, not local
-        NativeSoftBodyUtil.updateMesh(body, indexMap, mesh, localFlag,
-                updateNormals, physicsToMesh);
+        NativeSoftBodyUtil.updateMesh(
+                body, indexMap, mesh, localFlag, updateNormals, physicsToMesh);
 
         spatial.updateModelBound(); // TODO needed?
     }

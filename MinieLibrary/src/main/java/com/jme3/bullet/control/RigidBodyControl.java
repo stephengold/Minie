@@ -273,8 +273,8 @@ public class RigidBodyControl
                 shape = new SphereCollisionShape(radius);
             } else if (mesh instanceof Box) {
                 Box box = (Box) mesh;
-                shape = new BoxCollisionShape(box.getXExtent(),
-                        box.getYExtent(), box.getZExtent());
+                shape = new BoxCollisionShape(
+                        box.getXExtent(), box.getYExtent(), box.getZExtent());
             }
         }
         if (shape == null) {
