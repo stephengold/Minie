@@ -167,7 +167,7 @@ public class JointElasticity extends PhysicsDemo {
      * @param massRatio the mass of the ball as a multiple of the door's mass
      * (&gt;0)
      */
-    public void setMassRatio(float massRatio) {
+    void setMassRatio(float massRatio) {
         Validate.positive(massRatio, "mass ratio");
 
         float newMass = massRatio * doorMass;
