@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -692,7 +692,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     @Override
     public PhysicsLink jmeClone() {
         try {
-            PhysicsLink clone = (PhysicsLink) super.clone();
+            PhysicsLink clone = (PhysicsLink) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

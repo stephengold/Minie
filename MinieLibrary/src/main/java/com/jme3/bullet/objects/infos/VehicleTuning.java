@@ -279,7 +279,7 @@ public class VehicleTuning
     @Override
     public VehicleTuning jmeClone() {
         try {
-            VehicleTuning clone = (VehicleTuning) super.clone();
+            VehicleTuning clone = (VehicleTuning) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

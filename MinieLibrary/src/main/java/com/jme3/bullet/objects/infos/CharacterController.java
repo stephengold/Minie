@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2022 jMonkeyEngine
+ * Copyright (c) 2009-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -553,7 +553,7 @@ public class CharacterController
     @Override
     public CharacterController jmeClone() {
         try {
-            CharacterController clone = (CharacterController) super.clone();
+            CharacterController clone = (CharacterController) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

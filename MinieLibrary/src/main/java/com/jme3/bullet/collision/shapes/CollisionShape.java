@@ -586,7 +586,7 @@ abstract public class CollisionShape
     @Override
     public CollisionShape jmeClone() {
         try {
-            CollisionShape clone = (CollisionShape) super.clone();
+            CollisionShape clone = (CollisionShape) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

@@ -280,7 +280,7 @@ public class SoftBodyWorldInfo
     @Override
     public SoftBodyWorldInfo jmeClone() {
         try {
-            SoftBodyWorldInfo clone = (SoftBodyWorldInfo) super.clone();
+            SoftBodyWorldInfo clone = (SoftBodyWorldInfo) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

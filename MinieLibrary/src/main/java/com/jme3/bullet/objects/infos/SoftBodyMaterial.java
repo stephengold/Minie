@@ -203,7 +203,7 @@ public class SoftBodyMaterial
     @Override
     public SoftBodyMaterial jmeClone() {
         try {
-            SoftBodyMaterial clone = (SoftBodyMaterial) super.clone();
+            SoftBodyMaterial clone = (SoftBodyMaterial) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

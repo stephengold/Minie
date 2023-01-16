@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2020 jMonkeyEngine
+ * Copyright (c) 2009-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -445,7 +445,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     @Override
     public SoftBodyConfig jmeClone() {
         try {
-            SoftBodyConfig clone = (SoftBodyConfig) super.clone();
+            SoftBodyConfig clone = (SoftBodyConfig) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

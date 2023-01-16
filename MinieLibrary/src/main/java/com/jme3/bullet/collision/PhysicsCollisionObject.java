@@ -1563,8 +1563,7 @@ abstract public class PhysicsCollisionObject
     @Override
     public PhysicsCollisionObject jmeClone() {
         try {
-            PhysicsCollisionObject clone
-                    = (PhysicsCollisionObject) super.clone();
+            PhysicsCollisionObject clone = (PhysicsCollisionObject) clone();
             clone.doneCloningIgnores = false;
             return clone;
         } catch (CloneNotSupportedException exception) {

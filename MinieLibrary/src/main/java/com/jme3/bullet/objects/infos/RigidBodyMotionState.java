@@ -329,7 +329,7 @@ public class RigidBodyMotionState
     @Override
     public RigidBodyMotionState jmeClone() {
         try {
-            RigidBodyMotionState clone = (RigidBodyMotionState) super.clone();
+            RigidBodyMotionState clone = (RigidBodyMotionState) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

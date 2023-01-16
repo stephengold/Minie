@@ -307,7 +307,7 @@ abstract public class PhysicsJoint
     @Override
     public PhysicsJoint jmeClone() {
         try {
-            PhysicsJoint clone = (PhysicsJoint) super.clone();
+            PhysicsJoint clone = (PhysicsJoint) clone();
             clone.unassignNativeObject();
             return clone;
         } catch (CloneNotSupportedException exception) {

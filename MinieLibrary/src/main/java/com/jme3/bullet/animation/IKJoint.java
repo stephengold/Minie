@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -160,7 +160,7 @@ public class IKJoint implements JmeCloneable, Savable {
     @Override
     public IKJoint jmeClone() {
         try {
-            IKJoint clone = (IKJoint) super.clone();
+            IKJoint clone = (IKJoint) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

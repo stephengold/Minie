@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 jMonkeyEngine
+ * Copyright (c) 2020-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -970,7 +970,7 @@ public class MultiBody
     @Override
     public MultiBody jmeClone() {
         try {
-            MultiBody clone = (MultiBody) super.clone();
+            MultiBody clone = (MultiBody) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

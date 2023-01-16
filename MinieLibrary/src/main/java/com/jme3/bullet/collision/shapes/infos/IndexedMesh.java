@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -471,7 +471,7 @@ public class IndexedMesh
     @Override
     public IndexedMesh jmeClone() {
         try {
-            IndexedMesh clone = (IndexedMesh) super.clone();
+            IndexedMesh clone = (IndexedMesh) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

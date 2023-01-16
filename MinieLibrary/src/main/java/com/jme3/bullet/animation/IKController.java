@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -168,7 +168,7 @@ abstract public class IKController implements JmeCloneable, Savable {
     @Override
     public IKController jmeClone() {
         try {
-            IKController clone = (IKController) super.clone();
+            IKController clone = (IKController) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

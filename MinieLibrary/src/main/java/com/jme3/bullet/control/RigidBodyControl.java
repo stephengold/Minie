@@ -284,7 +284,7 @@ public class RigidBodyControl
                 shape = CollisionShapeFactory.createMeshShape(spatial);
             }
         }
-        super.setCollisionShape(shape);
+        setCollisionShape(shape);
     }
     // *************************************************************************
     // PhysicsControl methods

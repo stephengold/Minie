@@ -302,7 +302,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
     @Override
     public ChildCollisionShape jmeClone() {
         try {
-            ChildCollisionShape clone = (ChildCollisionShape) super.clone();
+            ChildCollisionShape clone = (ChildCollisionShape) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

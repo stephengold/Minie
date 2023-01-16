@@ -456,7 +456,7 @@ public class AttachmentLink extends PhysicsLink {
     void postRebuild(AttachmentLink oldLink) {
         assert oldLink != null;
 
-        super.postRebuildLink(oldLink);
+        postRebuildLink(oldLink);
         if (oldLink.isReleased()) {
             setDynamic(translateIdentity);
             release();
