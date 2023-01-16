@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -72,9 +72,9 @@ public class TestEmptyShape {
         IndexedMesh[] indexedMeshArray = new IndexedMesh[0];
         Mesh[] jmeMeshArray = new Mesh[0];
 
-        List<Float> floatList = new ArrayList<>();
-        List<IndexedMesh> indexedMeshList = new ArrayList<>();
-        List<Vector3f> vectorList = new ArrayList<>();
+        List<Float> floatList = new ArrayList<>(1);
+        List<IndexedMesh> indexedMeshList = new ArrayList<>(1);
+        List<Vector3f> vectorList = new ArrayList<>(1);
 
         FloatBuffer buffer = BufferUtils.createFloatBuffer(0);
         buffer.flip();
