@@ -86,7 +86,7 @@ public class BulletVehicleDebugControl extends AbstractPhysicsDebugControl {
             PhysicsVehicle ve) {
         super(debugAppState);
         this.vehicle = ve;
-        suspensionNode = new Node("Suspension");
+        this.suspensionNode = new Node("Suspension");
         createVehicle();
     }
     // *************************************************************************

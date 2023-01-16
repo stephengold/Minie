@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 jMonkeyEngine
+ * Copyright (c) 2020-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -91,13 +91,13 @@ class ColliderDebugControl extends CollisionShapeDebugControl {
     ColliderDebugControl(BulletDebugAppState debugAppState,
             MultiBodyCollider mbc) {
         super(debugAppState);
-        collider = mbc;
+        this.collider = mbc;
 
         super.setShape(collider.getCollisionShape());
-        oldNormals = collider.debugMeshNormals();
-        oldResolution = collider.debugMeshResolution();
+        this.oldNormals = collider.debugMeshNormals();
+        this.oldResolution = collider.debugMeshResolution();
 
-        debugSpatial = DebugShapeFactory.getDebugShape(collider);
+        this.debugSpatial = DebugShapeFactory.getDebugShape(collider);
         debugSpatial.setName(mbc.toString());
         updateMaterial();
     }
@@ -131,13 +131,13 @@ class ColliderDebugControl extends CollisionShapeDebugControl {
         if (rebuild) {
             logger.log(Level.INFO, "Rebuild debugSpatial for {0}.", collider);
             setShape(newShape);
-            oldNormals = newNormals;
-            oldResolution = newResolution;
+            this.oldNormals = newNormals;
+            this.oldResolution = newResolution;
 
             Node node = (Node) spatial;
             node.detachChild(debugSpatial);
 
-            debugSpatial = DebugShapeFactory.getDebugShape(collider);
+            this.debugSpatial = DebugShapeFactory.getDebugShape(collider);
             debugSpatial.setName(collider.toString());
 
             node.attachChild(debugSpatial);

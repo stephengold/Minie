@@ -91,14 +91,14 @@ public class BulletGhostObjectDebugControl extends CollisionShapeDebugControl {
     public BulletGhostObjectDebugControl(BulletDebugAppState debugAppState,
             PhysicsGhostObject gh) {
         super(debugAppState);
-        ghost = gh;
+        this.ghost = gh;
 
         super.setShape(ghost.getCollisionShape());
-        oldNormals = gh.debugMeshNormals();
-        oldResolution = gh.debugMeshResolution();
+        this.oldNormals = gh.debugMeshNormals();
+        this.oldResolution = gh.debugMeshResolution();
 
-        debugSpatial = DebugShapeFactory.getDebugShape(ghost);
-        debugSpatial.setName(ghost.toString());
+        this.debugSpatial = DebugShapeFactory.getDebugShape(ghost);
+        this.debugSpatial.setName(ghost.toString());
         updateMaterial();
     }
     // *************************************************************************
@@ -132,13 +132,13 @@ public class BulletGhostObjectDebugControl extends CollisionShapeDebugControl {
             logger.log(Level.INFO, "Rebuild debugSpatial for {0}.", ghost);
 
             setShape(newShape);
-            oldNormals = newNormals;
-            oldResolution = newResolution;
+            this.oldNormals = newNormals;
+            this.oldResolution = newResolution;
 
             Node node = (Node) spatial;
             node.detachChild(debugSpatial);
 
-            debugSpatial = DebugShapeFactory.getDebugShape(ghost);
+            this.debugSpatial = DebugShapeFactory.getDebugShape(ghost);
             debugSpatial.setName(ghost.toString());
 
             node.attachChild(debugSpatial);

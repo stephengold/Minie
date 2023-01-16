@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,7 +87,7 @@ class SoftJointDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         this.joint = joint;
 
-        endsGeometry = createEndsGeometry();
+        this.endsGeometry = createEndsGeometry();
     }
     // *************************************************************************
     // AbstractPhysicsDebugControl methods

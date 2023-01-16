@@ -98,7 +98,7 @@ public class BulletRigidBodyDebugControl extends CollisionShapeDebugControl {
         this.oldNormals = body.debugMeshNormals();
         this.oldResolution = body.debugMeshResolution();
 
-        debugSpatial = DebugShapeFactory.getDebugShape(body);
+        this.debugSpatial = DebugShapeFactory.getDebugShape(body);
         debugSpatial.setName(body.toString());
         updateMaterial();
     }
