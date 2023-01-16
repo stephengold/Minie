@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -261,7 +261,7 @@ public class AttachmentLink extends PhysicsLink {
                     "Cannot change modes once released.");
         }
 
-        super.blendToKinematicMode(blendInterval);
+        blendToKinematicMode(blendInterval);
         this.endModelTransform = endModelTransform;
 
         // Save initial transform for blending.

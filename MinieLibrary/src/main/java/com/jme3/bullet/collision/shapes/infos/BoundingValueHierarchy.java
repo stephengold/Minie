@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2020-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -143,8 +143,7 @@ public class BoundingValueHierarchy
     @Override
     public BoundingValueHierarchy jmeClone() {
         try {
-            BoundingValueHierarchy clone
-                    = (BoundingValueHierarchy) super.clone();
+            BoundingValueHierarchy clone = (BoundingValueHierarchy) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
@@ -166,7 +165,7 @@ public class BoundingValueHierarchy
 
         byte[] bytes = capsule.readByteArray(tagBytes, null);
         long bvhId = deSerialize(bytes);
-        super.setNativeId(bvhId);
+        setNativeId(bvhId);
     }
 
     /**

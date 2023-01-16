@@ -844,7 +844,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     @Override
     public VehicleWheel jmeClone() {
         try {
-            VehicleWheel clone = (VehicleWheel) super.clone();
+            VehicleWheel clone = (VehicleWheel) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

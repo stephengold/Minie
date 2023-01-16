@@ -303,8 +303,7 @@ abstract public class AbstractPhysicsControl
             throw new IllegalStateException(message);
         }
         try {
-            AbstractPhysicsControl clone
-                    = (AbstractPhysicsControl) super.clone();
+            AbstractPhysicsControl clone = (AbstractPhysicsControl) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

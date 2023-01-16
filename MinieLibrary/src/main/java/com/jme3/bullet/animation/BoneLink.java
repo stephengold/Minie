@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -231,7 +231,7 @@ public class BoneLink extends PhysicsLink {
             constraint = new New6Dof(parentBody, childBody, pivotParent,
                     pivotChild, rotParent, rotChild, rotationOrder);
         }
-        super.setJoint(constraint);
+        setJoint(constraint);
 
         RangeOfMotion rangeOfMotion = getControl().getJointLimits(name);
         rangeOfMotion.setup(constraint, false, false, false);
@@ -266,7 +266,7 @@ public class BoneLink extends PhysicsLink {
         Validate.nonNull(submode, "submode");
         Validate.nonNegative(blendInterval, "blend interval");
 
-        super.blendToKinematicMode(blendInterval);
+        blendToKinematicMode(blendInterval);
 
         this.submode = submode;
 
@@ -359,7 +359,7 @@ public class BoneLink extends PhysicsLink {
         int numManaged = countManaged();
         assert oldLink.countManaged() == numManaged;
 
-        super.postRebuildLink(oldLink);
+        postRebuildLink(oldLink);
         if (oldLink.isKinematic()) {
             this.submode = oldLink.submode;
         } else {
