@@ -1,5 +1,14 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.1.0 released on TBD
+
++ Added the capability to generate cylinder shapes in a ragdoll.
++ Publicized the `RagUtils.makeRectangularSolid()` method.
++ Added `DynamicAnimControl` tunings for a Mixamo rig.
++ Added the capability to display angles in degrees or radians in DacWizard.
++ Updated `DacWizard` and `VhacdTuner` to use v0.9.33
+  of the jme3-utilities-nifty library.
+
 ## Version 7.0.2 released on 2 January 2023
 
 + Bugfix:  `NullPointerException` in `rebuildRigidBody()` while de-serializing
@@ -83,7 +92,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Made incremental improvements to the `PhysicsDumper` output format.
 + Strengthened argument validation.
 + Updated the native libraries to v17.4.0 of Libbulletjme.
-+ Update `DacWizard` and `VhacdTuner` to use v0.9.32
++ Updated `DacWizard` and `VhacdTuner` to use v0.9.32
   of the jme3-utilities-nifty library.
 + Built using Gradle v7.6 .
 

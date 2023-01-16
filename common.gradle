@@ -6,7 +6,7 @@ apply plugin: 'java'
 ext {
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
 
-    // current versions of libraries:
+    // current version of the JMonkeyEngine libraries:
     jme3Version = '3.5.2-stable'
 
     // module coordinates of external dependencies:
@@ -25,9 +25,9 @@ ext {
     //lwjglCoordinates =  'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
     lwjglCoordinates = 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
 
-    minieSnapshot = '-SNAPSHOT' // for development builds
-    //minieSnapshot = '' // for releases
-    minieVersion = '7.0.3'
+    //minieSnapshot = '-SNAPSHOT' // for development builds
+    minieSnapshot = '' // for releases
+    minieVersion = '7.1.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7
