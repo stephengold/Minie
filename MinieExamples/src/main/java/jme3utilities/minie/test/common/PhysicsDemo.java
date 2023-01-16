@@ -177,7 +177,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
     /**
      * Instantiate a generic PhysicsDemo.
      */
-    public PhysicsDemo() { // explicit to avoid a warning from JDK 18 javadoc
+    protected PhysicsDemo() {
     }
     // *************************************************************************
     // new methods exposed
