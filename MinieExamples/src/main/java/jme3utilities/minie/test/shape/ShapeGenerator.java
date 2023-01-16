@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -75,6 +75,14 @@ public class ShapeGenerator extends Generator {
      */
     final public static Logger logger
             = Logger.getLogger(ShapeGenerator.class.getName());
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate a generator.
+     */
+    public ShapeGenerator() { // explicit to avoid a warning from JDK 18 javadoc
+    }
     // *************************************************************************
     // new methods exposed
 
