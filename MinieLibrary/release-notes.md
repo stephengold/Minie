@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.1.0 released on TBD
+## Version 7.1.0 released on 16 January 2023
 
 + Added the capability to generate cylinder shapes in a ragdoll.
 + Publicized the `RagUtils.makeRectangularSolid()` method.
