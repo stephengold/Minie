@@ -675,7 +675,7 @@ public class PoolDemo extends PhysicsDemo {
     /**
      * Toggle mesh rendering on/off.
      */
-    private void toggleScene() {
+    private static void toggleScene() {
         Spatial.CullHint hint = rbcNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {

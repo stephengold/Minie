@@ -753,7 +753,7 @@ public class RopeDemo extends PhysicsDemo {
      * @param branchIndex which branch(&ge;0)
      * @return the vertex index (&ge;0)
      */
-    private int capVertex0(int branchIndex) {
+    private static int capVertex0(int branchIndex) {
         assert branchIndex >= 0 : branchIndex;
 
         DynamicAnimControl latestDac = dacs.peekLast();
@@ -834,8 +834,8 @@ public class RopeDemo extends PhysicsDemo {
      * @param totalAngle the angle between the first and last steps (in radians,
      * may be negative)
      */
-    private void curlBranch(Armature armature, int branchIndex, Vector3f axis,
-            float totalAngle) {
+    private static void curlBranch(Armature armature, int branchIndex,
+            Vector3f axis, float totalAngle) {
         assert !MyVector3f.isZero(axis);
 
         // Count the steps in this branch.
@@ -857,7 +857,7 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * Delete the most recently added rope.
      */
-    private void delete() {
+    private static void delete() {
         DynamicAnimControl latestDac = dacs.peekLast();
         if (latestDac != null) {
             latestDac.setEnabled(false);
@@ -883,7 +883,7 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * Put the most recently added rope into dynamic mode, with gravity.
      */
-    private void goLimp() {
+    private static void goLimp() {
         DynamicAnimControl latestDac = dacs.peekLast();
         if (latestDac != null && latestDac.isReady()) {
             PhysicsLink rootLink = latestDac.getTorsoLink();
@@ -1068,7 +1068,7 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * Disable one single-ended IK constraint of the most recently added rope.
      */
-    private void pullAPin() {
+    private static void pullAPin() {
         DynamicAnimControl latestDac = dacs.peekLast();
         if (latestDac != null) {
             IKJoint[] ikJoints = latestDac.listIKJoints();
@@ -1114,7 +1114,7 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * Toggle mesh rendering of ropes on/off.
      */
-    private void toggleMeshes() {
+    private static void toggleMeshes() {
         Spatial.CullHint hint = meshesNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
@@ -1128,7 +1128,7 @@ public class RopeDemo extends PhysicsDemo {
     /**
      * Toggle the skeleton visualizer on/off.
      */
-    private void toggleSkeleton() {
+    private static void toggleSkeleton() {
         boolean enabled = sv.isEnabled();
         sv.setEnabled(!enabled);
     }

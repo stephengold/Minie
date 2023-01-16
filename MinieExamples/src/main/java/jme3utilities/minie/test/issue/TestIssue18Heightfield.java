@@ -179,7 +179,7 @@ final public class TestIssue18Heightfield
      *
      * @param physicsSpace (not null)
      */
-    private void addGround(PhysicsSpace physicsSpace) {
+    private static void addGround(PhysicsSpace physicsSpace) {
         float[] heightmap = {0f, 0f, 0f, 0f};
         Vector3f scale = new Vector3f(1000f, 1f, 1000f);
         CollisionShape shape = new HeightfieldCollisionShape(heightmap, scale);

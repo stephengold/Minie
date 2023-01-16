@@ -555,7 +555,7 @@ public class BalanceDemo extends PhysicsDemo {
      * Initialization that takes place once all links are ready for dynamic
      * mode.
      */
-    private void initWhenReady() {
+    private static void initWhenReady() {
         Biped biped = (Biped) dac;
         BoneLink leftFoot = biped.getLeftFoot();
         BoneLink rightFoot = biped.getRightFoot();
@@ -742,7 +742,7 @@ public class BalanceDemo extends PhysicsDemo {
         torsoUpDirection = Vector3f.UNIT_Y;
     }
 
-    private void setPosture(String vertical, String side) {
+    private static void setPosture(String vertical, String side) {
         switch (vertical) {
             case "squat":
                 vaSign = -1f;
@@ -772,7 +772,7 @@ public class BalanceDemo extends PhysicsDemo {
     /**
      * Toggle mesh rendering on/off.
      */
-    private void toggleMeshes() {
+    private static void toggleMeshes() {
         Spatial.CullHint hint = cgModel.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
@@ -786,7 +786,7 @@ public class BalanceDemo extends PhysicsDemo {
     /**
      * Toggle the skeleton visualizer on/off.
      */
-    private void toggleSkeleton() {
+    private static void toggleSkeleton() {
         boolean enabled = sv.isEnabled();
         sv.setEnabled(!enabled);
     }

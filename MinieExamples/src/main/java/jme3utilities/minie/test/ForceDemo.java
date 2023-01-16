@@ -321,7 +321,7 @@ public class ForceDemo
     /**
      * Update the status text in the GUI.
      */
-    private void updateStatusText() {
+    private static void updateStatusText() {
         float v = cube.getLinearVelocity().length();
         float omega = cube.getAngularVelocity().length();
         String message = String.format(" v=%f psu/s, omega=%f rad/s", v, omega);

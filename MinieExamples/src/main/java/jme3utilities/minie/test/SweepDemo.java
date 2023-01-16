@@ -495,7 +495,7 @@ public class SweepDemo
      *
      * @return true if ready, otherwise false
      */
-    private boolean isSaberReady() {
+    private static boolean isSaberReady() {
         boolean isReady = composer.getCurrentAction() != punchesOnce;
         return isReady;
     }

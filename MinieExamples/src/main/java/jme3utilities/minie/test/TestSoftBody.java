@@ -525,7 +525,7 @@ public class TestSoftBody
      * @param topY the Y coordinate of the top surface (in physics-space
      * coordinates)
      */
-    private void addCylinder(float topY) {
+    private static void addCylinder(float topY) {
         float radius = 1f;
         float height = 0.4f;
         CollisionShape shape = new CylinderCollisionShape(
@@ -981,7 +981,7 @@ public class TestSoftBody
     /**
      * Cycle through wind velocities.
      */
-    private void nextWindVelocity() {
+    private static void nextWindVelocity() {
         Collection<PhysicsSoftBody> softBodies = physicsSpace.getSoftBodyList();
         for (PhysicsSoftBody softBody : softBodies) {
             Vector3f windVelocity = softBody.windVelocity(null);

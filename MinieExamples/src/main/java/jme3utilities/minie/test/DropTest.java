@@ -877,7 +877,7 @@ public class DropTest
     /**
      * Apply an upward impulse to the selected drop.
      */
-    private void popSelected() {
+    private static void popSelected() {
         if (selectedDrop != null) {
             float gravity = status.gravity();
             float deltaV = FastMath.sqrt(30f * gravity);
@@ -935,7 +935,7 @@ public class DropTest
     /**
      * Update the ShadowMode of the debug scene.
      */
-    private void setDebugShadowMode() {
+    private static void setDebugShadowMode() {
         RenderQueue.ShadowMode mode;
         if (status.isWireframe()) {
             mode = RenderQueue.ShadowMode.Off;

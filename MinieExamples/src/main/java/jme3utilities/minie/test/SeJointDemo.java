@@ -650,7 +650,7 @@ public class SeJointDemo extends PhysicsDemo {
     /**
      * Toggle seed rendering on/off.
      */
-    private void toggleMeshes() {
+    private static void toggleMeshes() {
         Spatial.CullHint hint = meshesNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {

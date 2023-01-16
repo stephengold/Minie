@@ -126,7 +126,7 @@ final public class TestIssue13 extends SimpleApplication {
     // *************************************************************************
     // private methods
 
-    private float test(float startX, float startZ) {
+    private static float test(float startX, float startZ) {
         PhysicsSpace physicsSpace
                 = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
 

@@ -518,7 +518,7 @@ public class TrackDemo extends PhysicsDemo {
      * Initialization that takes place once all links are ready for dynamic
      * mode.
      */
-    private void initWhenReady() {
+    private static void initWhenReady() {
         // Touch the tip vertex to the target.
         Vector3f pivot = new Vector3f();
         PhysicsLink tipLink = dac.findManagerForVertex(tipSpec, null, pivot);
@@ -705,7 +705,7 @@ public class TrackDemo extends PhysicsDemo {
     /**
      * Toggle mesh rendering on/off.
      */
-    private void toggleMeshes() {
+    private static void toggleMeshes() {
         Spatial.CullHint hint = cgModel.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
@@ -719,7 +719,7 @@ public class TrackDemo extends PhysicsDemo {
     /**
      * Toggle the skeleton visualizer on/off.
      */
-    private void toggleSkeleton() {
+    private static void toggleSkeleton() {
         boolean enabled = sv.isEnabled();
         sv.setEnabled(!enabled);
     }

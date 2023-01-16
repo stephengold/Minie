@@ -164,7 +164,7 @@ final public class TestIssue9 extends SimpleApplication {
         }
     }
 
-    private void setSoft(PhysicsSoftBody body, float b) {
+    private static void setSoft(PhysicsSoftBody body, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         int n = Math.round(10f * b);
 

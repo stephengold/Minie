@@ -338,7 +338,7 @@ class TestMode extends InputMode {
     /**
      * Write the model to a file, along with a configured control.
      */
-    private void saveJ3o() {
+    private static void saveJ3o() {
         Model model = DacWizard.getModel();
 
         String originalPath = model.filePath();
@@ -408,7 +408,7 @@ class TestMode extends InputMode {
     /**
      * Open a dialog box to change the collision margin.
      */
-    private void setMargin() {
+    private static void setMargin() {
         float oldValue = CollisionShape.getDefaultMargin();
         String defaultValue = Float.toString(oldValue);
         FloatDialog controller = new FloatDialog("Set", Float.MIN_VALUE,
@@ -425,7 +425,7 @@ class TestMode extends InputMode {
      *
      * @param newMargin the desired value (&gt;0)
      */
-    private void setMargin(float newMargin) {
+    private static void setMargin(float newMargin) {
         CollisionShape.setDefaultMargin(newMargin);
 
         BulletAppState bulletAppState
@@ -441,7 +441,7 @@ class TestMode extends InputMode {
     /**
      * Toggle physics-debug visualization on/off.
      */
-    private void togglePhysicsDebug() {
+    private static void togglePhysicsDebug() {
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);
         boolean enabled = bulletAppState.isDebugEnabled();
@@ -478,7 +478,7 @@ class TestMode extends InputMode {
      * @param dac a configured control to use as a model (not null, unaffected)
      * @param stream the output stream (not null)
      */
-    private void write(DynamicAnimControl dac, PrintStream stream) {
+    private static void write(DynamicAnimControl dac, PrintStream stream) {
         stream.printf("import com.jme3.bullet.RotationOrder;%n"
                 + "import com.jme3.bullet.animation.CenterHeuristic;%n"
                 + "import com.jme3.bullet.animation.DynamicAnimControl;%n"

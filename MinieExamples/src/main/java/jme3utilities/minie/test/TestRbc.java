@@ -892,7 +892,7 @@ public class TestRbc
      *
      * @param rootSpatial which scene (not null)
      */
-    private void addLighting(Spatial rootSpatial) {
+    private static void addLighting(Spatial rootSpatial) {
         ColorRGBA ambientColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         rootSpatial.addLight(ambient);
@@ -1274,7 +1274,7 @@ public class TestRbc
      *
      * @param factor the factor to increase the margin (&gt;0)
      */
-    private void multiplyMargin(float factor) {
+    private static void multiplyMargin(float factor) {
         assert factor > 0f : factor;
 
         float margin = testShape.getMargin();
@@ -1299,7 +1299,7 @@ public class TestRbc
      * @param yScale desired Y-axis scale factor (default=1)
      * @param zScale desired Z-axis scale factor (default=1)
      */
-    private void setScale(float xScale, float yScale, float zScale) {
+    private static void setScale(float xScale, float yScale, float zScale) {
         if (testSpatial == null) {
             return;
         }
@@ -1358,7 +1358,7 @@ public class TestRbc
     /**
      * Toggle rendering of the test/missile spatial(s).
      */
-    private void toggleMeshes() {
+    private static void toggleMeshes() {
         Spatial.CullHint hint = meshesNode.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {

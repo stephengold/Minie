@@ -182,7 +182,7 @@ final public class TestIssue18Mesh
      *
      * @param physicsSpace (not null)
      */
-    private void addGround(PhysicsSpace physicsSpace) {
+    private static void addGround(PhysicsSpace physicsSpace) {
         Mesh quad = new Quad(1000f, 1000f);
         Spatial ground = new Geometry("ground", quad);
         ground.move(-500f, 0f, 500f);

@@ -492,7 +492,7 @@ public class BuoyDemo extends PhysicsDemo {
     /**
      * Add a large Quad to represent the surface of the water.
      */
-    private void addSurface() {
+    private static void addSurface() {
         float diameter = 2000f;
         Mesh mesh = new Quad(diameter, diameter);
         mesh.scaleTextureCoordinates(new Vector2f(80f, 80f));
@@ -535,7 +535,7 @@ public class BuoyDemo extends PhysicsDemo {
     /**
      * Put the loaded model into ragdoll mode with buoyancy enabled.
      */
-    private void goFloating() {
+    private static void goFloating() {
         if (dac.isReady()) {
             dac.setRagdollMode();
         }
@@ -668,7 +668,7 @@ public class BuoyDemo extends PhysicsDemo {
     /**
      * Toggle mesh rendering on/off.
      */
-    private void toggleMeshes() {
+    private static void toggleMeshes() {
         Spatial.CullHint hint = cgModel.getLocalCullHint();
         if (hint == Spatial.CullHint.Inherit
                 || hint == Spatial.CullHint.Never) {
@@ -682,7 +682,7 @@ public class BuoyDemo extends PhysicsDemo {
     /**
      * Toggle the skeleton visualizer on/off.
      */
-    private void toggleSkeleton() {
+    private static void toggleSkeleton() {
         boolean enabled = sv.isEnabled();
         sv.setEnabled(!enabled);
     }

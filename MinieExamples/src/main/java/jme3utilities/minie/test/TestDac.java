@@ -817,7 +817,7 @@ public class TestDac extends PhysicsDemo {
      * Put all bone/torso links into zero-g dynamic mode and lock all physics
      * joints at bind pose.
      */
-    private void goDynamicBindPose() {
+    private static void goDynamicBindPose() {
         animPose = null;
 
         TorsoLink torsoLink = dac.getTorsoLink();
@@ -1025,7 +1025,7 @@ public class TestDac extends PhysicsDemo {
      * Update the animation pose and apply it to all bones except the main root
      * bone.
      */
-    private void matchAnimPose() {
+    private static void matchAnimPose() {
         assert animPose != null;
 
         // Update the animation pose.
@@ -1122,7 +1122,7 @@ public class TestDac extends PhysicsDemo {
     /**
      * Test re-scaling the model.
      */
-    private void setHeight(float height) {
+    private static void setHeight(float height) {
         assert height > 0f : height;
 
         setCgmHeight(cgModel, height);
@@ -1152,7 +1152,7 @@ public class TestDac extends PhysicsDemo {
     /**
      * Toggle the skeleton visualizer on/off.
      */
-    private void toggleSkeleton() {
+    private static void toggleSkeleton() {
         boolean enabled = sv.isEnabled();
         sv.setEnabled(!enabled);
     }
