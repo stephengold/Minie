@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephen Gold
+ Copyright (c) 2021-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import com.jme3.material.plugins.J3MLoader;
 import com.jme3.scene.Spatial;
 import com.jme3.system.NativeLibraryLoader;
 import com.jme3.texture.plugins.AWTLoader;
+import java.util.logging.Logger;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 
@@ -47,6 +48,14 @@ import jme3utilities.minie.PhysicsDumper;
  * @author Stephen Gold sgold@sonic.net
  */
 final public class MinieDump {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final static Logger logger
+            = Logger.getLogger(MinieDump.class.getName());
     // *************************************************************************
     // fields
 
