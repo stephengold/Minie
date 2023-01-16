@@ -91,7 +91,7 @@ abstract public class PhysicsJoint
     /**
      * Instantiate a PhysicsJoint.
      */
-    protected PhysicsJoint() { // explicit to avoid a warning from JDK 18 javadoc
+    protected PhysicsJoint() { // to avoid a warning from JDK 18 javadoc
     }
     // *************************************************************************
     // new methods exposed
