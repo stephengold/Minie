@@ -123,6 +123,10 @@ ext {
     nativeDir = resourcesDir + 'native/' // for desktop native libraries
 }
 
+jar.manifest {
+    attributes 'Created-By': "${JavaVersion.current()} (${System.getProperty("java.vendor")})"
+}
+
 dependencies {
     api heartCoordinates
     api 'com.simsilica:sim-math:1.5.0'
