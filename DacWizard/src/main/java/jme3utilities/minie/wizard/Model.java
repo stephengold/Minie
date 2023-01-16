@@ -184,8 +184,6 @@ class Model {
         String result = String.join("/", resultComponents);
         result = "/" + result;
 
-        assert result != null;
-        assert !result.isEmpty();
         return result;
     }
 
