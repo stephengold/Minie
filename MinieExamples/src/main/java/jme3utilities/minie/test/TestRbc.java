@@ -518,10 +518,10 @@ public class TestRbc
         PhysicsSpace physicsSpace = getPhysicsSpace();
         List<PhysicsRayTestResult> rayTest
                 = physicsSpace.rayTestRaw(nearLocation, farLocation);
-        if (rayTest.size() > 0) {
-            inputManager.setMouseCursor(hitCursor);
-        } else {
+        if (rayTest.isEmpty()) {
             inputManager.setMouseCursor(missCursor);
+        } else {
+            inputManager.setMouseCursor(hitCursor);
         }
 
         updateStatusLines();
@@ -1128,7 +1128,9 @@ public class TestRbc
         List<PhysicsRayTestResult> rayTest
                 = physicsSpace.rayTest(nearLocation, farLocation);
 
-        if (rayTest.size() > 0) {
+        if (rayTest.isEmpty()) {
+            hitPoint.setEnabled(false);
+        } else {
             PhysicsRayTestResult nearestHit = rayTest.get(0);
             float fraction = nearestHit.getHitFraction();
             Vector3f location = MyVector3f
@@ -1139,8 +1141,6 @@ public class TestRbc
 
             partIndex = nearestHit.partIndex();
             triangleIndex = nearestHit.triangleIndex();
-        } else {
-            hitPoint.setEnabled(false);
         }
     }
 
@@ -1337,7 +1337,9 @@ public class TestRbc
         physicsSpace.sweepTest(
                 shape, nearTransform, farTransform, sweepTest, penetration);
 
-        if (sweepTest.size() > 0) {
+        if (sweepTest.isEmpty()) {
+            hitPoint.setEnabled(false);
+        } else {
             PhysicsSweepTestResult nearestHit = sweepTest.get(0);
             float fraction = nearestHit.getHitFraction();
             Vector3f fromLocation = nearTransform.getTranslation();
@@ -1350,8 +1352,6 @@ public class TestRbc
 
             partIndex = nearestHit.partIndex();
             triangleIndex = nearestHit.triangleIndex();
-        } else {
-            hitPoint.setEnabled(false);
         }
     }
 

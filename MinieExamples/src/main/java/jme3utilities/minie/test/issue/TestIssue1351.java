@@ -66,8 +66,8 @@ final public class TestIssue1351 extends SimpleApplication {
      * @param arguments unused
      */
     public static void main(String[] arguments) {
-        TestIssue1351 app = new TestIssue1351();
-        app.start();
+        TestIssue1351 application = new TestIssue1351();
+        application.start();
     }
 
     @Override

@@ -51,7 +51,6 @@ public class TestIssue1058
 
     private volatile boolean hasStepped = false;
     private PhysicsRigidBody body1;
-    private PhysicsRigidBody body2;
     private PhysicsSpace physicsSpace;
     // *************************************************************************
     // constructors
@@ -93,7 +92,7 @@ public class TestIssue1058
         body1 = new PhysicsRigidBody(shape, 1f);
         physicsSpace.addCollisionObject(body1);
 
-        body2 = new PhysicsRigidBody(shape, 2f);
+        PhysicsRigidBody body2 = new PhysicsRigidBody(shape, 2f);
         physicsSpace.addCollisionObject(body2);
     }
 

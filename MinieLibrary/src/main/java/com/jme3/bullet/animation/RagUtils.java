@@ -490,8 +490,7 @@ final public class RagUtils {
         Matrix3f covariance = vectorSet.covariance(null);
         Eigen3f eigen = new Eigen3f(covariance);
         Vector3f[] basis = eigen.getEigenVectors();
-        Quaternion localToWorld = new Quaternion();
-        localToWorld.fromAxes(basis);
+        Quaternion localToWorld = new Quaternion().fromAxes(basis);
         Quaternion worldToLocal = localToWorld.inverse();
 
         // Calculate the min and max for each local axis.
