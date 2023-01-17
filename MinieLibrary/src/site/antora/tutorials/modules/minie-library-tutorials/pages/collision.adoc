@@ -4,6 +4,7 @@
 :page-pagination:
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-enwiki: https://en.wikipedia.org/wiki
+:url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial
 
 During each simulation step, Bullet performs collision detection in 2 phases:
@@ -166,6 +167,8 @@ To confirm intersection,
 use `ManifoldPoints.getDistance1()` to get the separation distance.
 When the distance is positive, there's no intersection.
 
+{url-examples}/ConveyorDemo.java[`ConveyorDemo`] is a simple application
+that implements conveyor belts using contact-point modification.
 
 == Collision/contact listeners
 
