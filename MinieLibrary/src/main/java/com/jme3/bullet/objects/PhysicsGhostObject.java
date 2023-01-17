@@ -173,6 +173,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      */
     public void setPhysicsLocationDp(Vec3d location) {
         Validate.nonNull(location, "location");
+
         long objectId = nativeId();
         setPhysicsLocationDp(objectId, location);
     }
