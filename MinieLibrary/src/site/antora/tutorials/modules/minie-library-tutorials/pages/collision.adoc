@@ -260,4 +260,5 @@ NOTE:  The shape must be convex.
   to enumerate overlaps, manifolds, and contact points.
 * You can trigger custom actions during each stage of collision processing.
 * Between simulation steps,
-  you can perform pair tests, ray tests, contact tests, and sweep tests.
+  you can perform pair tests, ray tests, contact tests, and sweep tests
+  against a space.
