@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1264,6 +1264,33 @@ public class DacLinks
     protected void setPhysicsRotation(Quaternion quat) {
         Validate.nonZero(quat, "quat");
         torsoLink.getRigidBody().setPhysicsRotation(quat);
+    }
+
+    /**
+     * Return the ragdoll's total mass, including attachments.
+     *
+     * @return the total mass (&gt;0) or NaN if undetermined
+     */
+    @Override
+    public float totalMass() {
+        float result;
+        Spatial controlledSpatial = getSpatial();
+        if (controlledSpatial == null) {
+            result = super.totalMass();
+        } else {
+            PhysicsRigidBody body = torsoLink.getRigidBody();
+            result = body.getMass();
+            for (BoneLink boneLink : boneLinkList) {
+                body = boneLink.getRigidBody();
+                result += body.getMass();
+            }
+            for (AttachmentLink attachmentLink : attachmentLinks.values()) {
+                body = attachmentLink.getRigidBody();
+                result += body.getMass();
+            }
+        }
+
+        return result;
     }
 
     /**
