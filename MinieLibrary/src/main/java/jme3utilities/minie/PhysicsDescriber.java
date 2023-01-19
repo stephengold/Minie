@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -795,13 +795,13 @@ public class PhysicsDescriber extends Describer {
         int group = multiBody.collisionGroup();
         if (group != PhysicsCollisionObject.COLLISION_GROUP_01) {
             result.append(" group=0x");
-            result.append(Integer.toString(group, 16));
+            result.append(Integer.toHexString(group));
         }
 
         int groupMask = multiBody.collideWithGroups();
         if (groupMask != PhysicsCollisionObject.COLLISION_GROUP_01) {
             result.append(" gMask=0x");
-            result.append(Integer.toString(groupMask, 16));
+            result.append(Integer.toHexString(groupMask));
         }
 
         return result.toString();
@@ -820,13 +820,13 @@ public class PhysicsDescriber extends Describer {
         int group = pco.getCollisionGroup();
         if (group != PhysicsCollisionObject.COLLISION_GROUP_01) {
             result.append(" group=0x");
-            result.append(Integer.toString(group, 16));
+            result.append(Integer.toHexString(group));
         }
 
         int groupMask = pco.getCollideWithGroups();
         if (groupMask != PhysicsCollisionObject.COLLISION_GROUP_01) {
             result.append(" gMask=0x");
-            result.append(Integer.toString(groupMask, 16));
+            result.append(Integer.toHexString(groupMask));
         }
 
         return result.toString();
