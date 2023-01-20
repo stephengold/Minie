@@ -201,7 +201,7 @@ public class CompoundCollisionShape extends CollisionShape {
      * unaffected)
      */
     public void addChildShape(CollisionShape shape, Transform transform) {
-        Vector3f offset = transform.getTranslation();
+        Vector3f offset = transform.getTranslation(); // alias
         Matrix3f rotation = transform.getRotation().toRotationMatrix();
         addChildShape(shape, offset, rotation);
     }
@@ -475,7 +475,7 @@ public class CompoundCollisionShape extends CollisionShape {
             setChildTransform(CollisionShape childShape, Transform transform) {
         long childId = childShape.nativeId();
         long parentId = nativeId();
-        Vector3f offset = transform.getTranslation();
+        Vector3f offset = transform.getTranslation(); // alias
 
         int childIndex = findIndex(childShape);
         assert childIndex >= 0 : childIndex;

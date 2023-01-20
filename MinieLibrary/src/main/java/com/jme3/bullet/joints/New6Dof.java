@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -560,7 +560,7 @@ public class New6Dof extends Constraint {
         tmpTransform = tmpTransform.invert();  // w2a
         Transform p2a = new Transform(pivotInWorld, rotInWorld);
         p2a.combineWithParent(tmpTransform);
-        Vector3f pivotInA = p2a.getTranslation();
+        Vector3f pivotInA = p2a.getTranslation(); // alias
         Matrix3f rotInA = p2a.getRotation().toRotationMatrix();
 
         rigidBodyB.getTransform(tmpTransform);
@@ -568,7 +568,7 @@ public class New6Dof extends Constraint {
         tmpTransform = tmpTransform.invert();  // w2b
         Transform p2b = new Transform(pivotInWorld, rotInWorld);
         p2b.combineWithParent(tmpTransform);
-        Vector3f pivotInB = p2b.getTranslation();
+        Vector3f pivotInB = p2b.getTranslation(); // alias
         Matrix3f rotInB = p2b.getRotation().toRotationMatrix();
 
         New6Dof result = new New6Dof(rigidBodyA, rigidBodyB, pivotInA,
