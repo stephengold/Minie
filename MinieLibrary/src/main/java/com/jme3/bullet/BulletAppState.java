@@ -556,7 +556,7 @@ public class BulletAppState
         Validate.nonNull(solver, "solver");
         assert !isRunning();
 
-        solverType = solver;
+        this.solverType = solver;
     }
 
     /**
@@ -662,7 +662,7 @@ public class BulletAppState
 
         if (executor != null) {
             executor.shutdown();
-            executor = null;
+            this.executor = null;
         }
         PhysicsSpace pSpace = debugConfig.getSpace();
         pSpace.removeTickListener(this);
@@ -761,7 +761,7 @@ public class BulletAppState
      * @param desiredSetting true&rarr;running, false&rarr;not running
      */
     protected void setRunning(boolean desiredSetting) {
-        isRunning = desiredSetting;
+        this.isRunning = desiredSetting;
     }
 
     /**
@@ -774,7 +774,7 @@ public class BulletAppState
         if (executor != null) {
             executor.shutdown();
         }
-        executor = new ScheduledThreadPoolExecutor(1);
+        this.executor = new ScheduledThreadPoolExecutor(1);
         final BulletAppState appState = this;
         Callable<Boolean> call = new Callable<Boolean>() {
             @Override
@@ -811,7 +811,7 @@ public class BulletAppState
 
         if (debugAppState != null) {
             stateManager.detach(debugAppState);
-            debugAppState = null;
+            this.debugAppState = null;
         }
         stopPhysics();
     }
@@ -843,7 +843,7 @@ public class BulletAppState
         if (physicsFuture != null) {
             try {
                 physicsFuture.get();
-                physicsFuture = null;
+                this.physicsFuture = null;
             } catch (InterruptedException | ExecutionException exception) {
                 throw new RuntimeException(exception);
             }
@@ -862,7 +862,7 @@ public class BulletAppState
         super.render(rm);
 
         if (threadingType == ThreadingType.PARALLEL) {
-            physicsFuture = executor.submit(parallelPhysicsUpdate);
+            this.physicsFuture = executor.submit(parallelPhysicsUpdate);
         } else if (threadingType == ThreadingType.SEQUENTIAL) {
             PhysicsSpace pSpace = debugConfig.getSpace();
             pSpace.update(isEnabled() ? tpf * speed : 0f);
@@ -904,13 +904,13 @@ public class BulletAppState
         boolean enable = debugConfig.isEnabled();
         if (enable && debugAppState == null) {
             // Start debug visualization.
-            debugAppState = createDebugAppState();
-            stateManager.attach(debugAppState);
+            this.debugAppState = createDebugAppState();
+            this.stateManager.attach(debugAppState);
 
         } else if (!enable && debugAppState != null) {
             // Stop debug visualization.
-            stateManager.detach(debugAppState);
-            debugAppState = null;
+            this.stateManager.detach(debugAppState);
+            this.debugAppState = null;
         }
 
         PhysicsSpace pSpace = debugConfig.getSpace();
