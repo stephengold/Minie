@@ -123,10 +123,6 @@ ext {
     nativeDir = resourcesDir + 'native/' // for desktop native libraries
 }
 
-jar.manifest {
-    attributes 'Created-By': "${JavaVersion.current()} (${System.getProperty("java.vendor")})"
-}
-
 dependencies {
     api heartCoordinates
     api 'com.simsilica:sim-math:1.5.0'
@@ -335,6 +331,9 @@ jar {
     if (project.ext.jarType == 'nativesOnly') {
         exclude '**/*.class'  // no class files
         includeEmptyDirs false
+    }
+    manifest {
+        attributes 'Created-By': "${JavaVersion.current()} (${System.getProperty("java.vendor")})"
     }
 }
 tasks.register('javadocJar', Jar) {
