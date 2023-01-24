@@ -21,22 +21,6 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java8-MacOS:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-11
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 8
-      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
-      - if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: 'build/reports/tests/test/index.html'
-
   Java11-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-20.04
@@ -87,22 +71,6 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java14-MacOS:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-11
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 14
-      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
-      - if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: 'build/reports/tests/test/index.html'
-
   Java17-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-12
@@ -118,22 +86,6 @@ jobs:
         with:
           name: crash-log
           path: 'MinieLibrary/*.log'
-
-  Java18-MacOS:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-11
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: 18
-      - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
-      - if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: 'build/reports/tests/test/index.html'
 
   Java18-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
