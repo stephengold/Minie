@@ -1,5 +1,18 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.2.0 released on TBD
+
++ Bugfix: `PhysicsCollisionObject.findInstance()`
+  creates a weak global reference that's never deleted
++ Bugfix:  `DynamicAnimControl.totalMass()` returns `NaN` even when
+  the control is added to a `Spatial`
++ Bugfix: weak global references in `PhysicsCollisionObject` and `MultiBody`
+  are never deleted
++ Added 2 new methods:
+  + `CollisionSpace.jniEnvId()`
+  + `NativeLibrary.jniEnvId()`
++ Updated the native libraries to v17.5.4 of Libbulletjme.
+
 ## Version 7.1.0 released on 16 January 2023
 
 + Added the capability to generate cylinder shapes in a ragdoll.
