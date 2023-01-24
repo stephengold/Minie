@@ -50,7 +50,7 @@ final public class NativeLibrary {
     final public static Logger logger
             = Logger.getLogger(NativeLibrary.class.getName());
     /**
-     * expected version of the native library
+     * expected version string of the native library
      */
     final public static String expectedVersion = "17.5.2";
     // *************************************************************************
@@ -82,7 +82,8 @@ final public class NativeLibrary {
     native public static int countThreads();
 
     /**
-     * Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL, for testing.
+     * Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL. Intended for
+     * testing only!
      */
     native public static void crash();
 
@@ -109,7 +110,7 @@ final public class NativeLibrary {
     /**
      * Execute btAssert(0). This has no effect on Release builds, but if the
      * native library was built with debugging enabled, it should terminate the
-     * JVM.
+     * Java Virtual Machine. Intended for testing only!
      */
     native public static void fail();
 
@@ -191,9 +192,9 @@ final public class NativeLibrary {
     native public static void setStartupMessageEnabled(boolean printFlag);
 
     /**
-     * Determine the native library's core version number.
+     * Determine the native library's version string.
      *
-     * @return the version number (typically of the form Major.Minor.Patch)
+     * @return the version string (typically of the form Major.Minor.Patch)
      */
     native public static String versionNumber();
     // *************************************************************************
