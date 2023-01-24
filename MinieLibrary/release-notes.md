@@ -1,13 +1,13 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.2.0 released on TBD
+## Version 7.2.0 released on 24 January 2023
 
 + Bugfix: `PhysicsCollisionObject.findInstance()`
-  creates a weak global reference that's never deleted
+  creates a weak global reference that can never be deleted
 + Bugfix:  `DynamicAnimControl.totalMass()` returns `NaN` even when
   the control is added to a `Spatial`
 + Bugfix: weak global references in `PhysicsCollisionObject` and `MultiBody`
-  are never deleted
+  can never be deleted
 + Added 2 new methods:
   + `CollisionSpace.jniEnvId()`
   + `NativeLibrary.jniEnvId()`
