@@ -2595,7 +2595,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/util/NativeLibrary.html#crash()" class="member-name-link">crash()</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
 <dd>
-<div class="block">Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL, for testing.</div>
+<div class="block">Crash the JVM with an EXCEPTION_ACCESS_VIOLATION or SIGILL.</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#create()" class="member-name-link">create()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
@@ -3368,7 +3368,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/util/NativeLibrary.html#expectedVersion" class="member-name-link">expectedVersion</a> - Static variable in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
 <dd>
-<div class="block">expected version of the native library</div>
+<div class="block">expected version string of the native library</div>
 </dd>
 </dl>
 <h2 class="title" id="I:F">F</h2>
@@ -6588,6 +6588,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/SoftBodyWorldInfo.html#jmeClone()" class="member-name-link">jmeClone()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/SoftBodyWorldInfo.html" title="class in com.jme3.bullet">SoftBodyWorldInfo</a></dt>
 <dd>
 <div class="block">Create a shallow clone for the JME cloner.</div>
+</dd>
+<dt><a href="com/jme3/bullet/CollisionSpace.html#jniEnvId()" class="member-name-link">jniEnvId()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Return the address of the JNIEnv that this space uses for callbacks.</div>
+</dd>
+<dt><a href="com/jme3/bullet/util/NativeLibrary.html#jniEnvId()" class="member-name-link">jniEnvId()</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
+<dd>
+<div class="block">Return the address of the current thread's JNIEnv.</div>
 </dd>
 <dt><a href="com/jme3/bullet/animation/CenterHeuristic.html#Joint" class="member-name-link">Joint</a> - Enum constant in enum class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/CenterHeuristic.html" title="enum class in com.jme3.bullet.animation">CenterHeuristic</a></dt>
 <dd>
@@ -12851,7 +12859,7 @@ the order they are declared.</div>
 </dd>
 <dt><a href="com/jme3/bullet/util/NativeLibrary.html#versionNumber()" class="member-name-link">versionNumber()</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
 <dd>
-<div class="block">Determine the native library's core version number.</div>
+<div class="block">Determine the native library's version string.</div>
 </dd>
 <dt><a href="jme3utilities/minie/MinieVersion.html#versionShort()" class="member-name-link">versionShort()</a> - Static method in class jme3utilities.minie.<a href="jme3utilities/minie/MinieVersion.html" title="class in jme3utilities.minie">MinieVersion</a></dt>
 <dd>
