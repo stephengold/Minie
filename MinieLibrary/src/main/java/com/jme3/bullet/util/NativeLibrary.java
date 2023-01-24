@@ -157,6 +157,14 @@ final public class NativeLibrary {
     native public static boolean isThreadSafe();
 
     /**
+     * Return the address of the current thread's JNIEnv. For debugging and
+     * testing.
+     *
+     * @return the virtual address of the (native) object (not zero)
+     */
+    native public static long jniEnvId();
+
+    /**
      * Reset Quickprof. This feature is enabled only in native libraries built
      * with the BT_ENABLE_PROFILE macro defined. Must be invoked on the
      * designated physics thread.
