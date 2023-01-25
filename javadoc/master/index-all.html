@@ -293,6 +293,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Add all managed physics objects to the PhysicsSpace.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#addPhysics()" class="member-name-link">addPhysics()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">Add all managed physics objects to the PhysicsSpace.</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/SoftBodyControl.html#addPhysics()" class="member-name-link">addPhysics()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/SoftBodyControl.html" title="class in com.jme3.bullet.control">SoftBodyControl</a></dt>
 <dd>
 <div class="block">Add all managed physics objects to the PhysicsSpace.</div>
@@ -1485,6 +1489,12 @@ loadScripts(document, 'script');</script>
  and original to resolve copied fields.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/GhostControl.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/GhostControl.html" title="class in com.jme3.bullet.control">GhostControl</a></dt>
+<dd>
+<div class="block">Callback from <code>Cloner</code> to convert this
+ shallow-cloned Control into a deep-cloned one, using the specified Cloner
+ and original to resolve copied fields.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
 <dd>
 <div class="block">Callback from <code>Cloner</code> to convert this
  shallow-cloned Control into a deep-cloned one, using the specified Cloner
@@ -2706,6 +2716,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Create spatial-dependent data.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/CharacterControl.html#createSpatialData(com.jme3.scene.Spatial)" class="member-name-link">createSpatialData(Spatial)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
+<dd>
+<div class="block">Create spatial-dependent data.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#createSpatialData(com.jme3.scene.Spatial)" class="member-name-link">createSpatialData(Spatial)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
 <dd>
 <div class="block">Create spatial-dependent data.</div>
 </dd>
@@ -5218,6 +5232,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Access the rigid body managed by this control.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#getRigidBody()" class="member-name-link">getRigidBody()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">Access the rigid body managed by this Control.</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/Anchor.html#getRigidBody()" class="member-name-link">getRigidBody()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/Anchor.html" title="class in com.jme3.bullet.joints">Anchor</a></dt>
 <dd>
 <div class="block">Access the rigid body at the B end.</div>
@@ -6597,6 +6615,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Return the address of the current thread's JNIEnv.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html" class="type-name-link" title="class in com.jme3.bullet.control">JoinedBodyControl</a> - Class in <a href="com/jme3/bullet/control/package-summary.html">com.jme3.bullet.control</a></dt>
+<dd>
+<div class="block">A custom PhysicsControl for a dynamic rigid body that can be joined to other
+ bodies.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#%3Cinit%3E()" class="member-name-link">JoinedBodyControl()</a> - Constructor for class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#%3Cinit%3E(com.jme3.bullet.collision.shapes.CollisionShape,float)" class="member-name-link">JoinedBodyControl(CollisionShape, float)</a> - Constructor for class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">Instantiate an enabled Control.</div>
+</dd>
 <dt><a href="com/jme3/bullet/animation/CenterHeuristic.html#Joint" class="member-name-link">Joint</a> - Enum constant in enum class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/CenterHeuristic.html" title="enum class in com.jme3.bullet.animation">CenterHeuristic</a></dt>
 <dd>
 <div class="block">for bone links only: center on the joint's pivot</div>
@@ -7329,6 +7360,10 @@ loadScripts(document, 'script');</script>
 <div class="block">message logger for this class</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/GhostControl.html#logger3" class="member-name-link">logger3</a> - Static variable in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/GhostControl.html" title="class in com.jme3.bullet.control">GhostControl</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#logger3" class="member-name-link">logger3</a> - Static variable in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
@@ -8829,6 +8864,11 @@ loadScripts(document, 'script');</script>
 <div class="block">De-serialize this Control from the specified importer, for example when
  loading from a J3O file.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">De-serialize this Control from the specified importer, for example when
+ loading from a J3O file.</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/RigidBodyControl.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/RigidBodyControl.html" title="class in com.jme3.bullet.control">RigidBodyControl</a></dt>
 <dd>
 <div class="block">De-serialize this Control from the specified importer, for example when
@@ -9184,6 +9224,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Remove all managed physics objects from the PhysicsSpace.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#removePhysics()" class="member-name-link">removePhysics()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">Remove all managed physics objects from the PhysicsSpace.</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/SoftBodyControl.html#removePhysics()" class="member-name-link">removePhysics()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/SoftBodyControl.html" title="class in com.jme3.bullet.control">SoftBodyControl</a></dt>
 <dd>
 <div class="block">Remove all managed physics objects from the PhysicsSpace.</div>
@@ -9213,6 +9257,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Destroy spatial-dependent data.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/CharacterControl.html#removeSpatialData(com.jme3.scene.Spatial)" class="member-name-link">removeSpatialData(Spatial)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
+<dd>
+<div class="block">Destroy spatial-dependent data.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#removeSpatialData(com.jme3.scene.Spatial)" class="member-name-link">removeSpatialData(Spatial)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
 <dd>
 <div class="block">Destroy spatial-dependent data.</div>
 </dd>
@@ -10918,6 +10966,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Translate the PhysicsCharacter to the specified location.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#setPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">setPhysicsLocation(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">Translate the body to the specified location.</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/SoftBodyControl.html#setPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">setPhysicsLocation(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/SoftBodyControl.html" title="class in com.jme3.bullet.control">SoftBodyControl</a></dt>
 <dd>
 <div class="block">Translate the soft body to the specified location.</div>
@@ -10993,6 +11045,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/control/CharacterControl.html#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation(Quaternion)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>
 <div class="block">Rotate the PhysicsCharacter to the specified orientation.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation(Quaternion)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">Rotate the body to the specified orientation.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/SoftBodyControl.html#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation(Quaternion)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/SoftBodyControl.html" title="class in com.jme3.bullet.control">SoftBodyControl</a></dt>
 <dd>
@@ -12449,6 +12505,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Update this Control.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#update(float)" class="member-name-link">update(float)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
+<dd>
+<div class="block">Update this Control.</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/RigidBodyControl.html#update(float)" class="member-name-link">update(float)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/RigidBodyControl.html" title="class in com.jme3.bullet.control">RigidBodyControl</a></dt>
 <dd>
 <div class="block">Update this Control.</div>
@@ -13188,6 +13248,11 @@ the order they are declared.</div>
  to a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/GhostControl.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/GhostControl.html" title="class in com.jme3.bullet.control">GhostControl</a></dt>
+<dd>
+<div class="block">Serialize this Control to the specified exporter, for example when saving
+ to a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/JoinedBodyControl.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/JoinedBodyControl.html" title="class in com.jme3.bullet.control">JoinedBodyControl</a></dt>
 <dd>
 <div class="block">Serialize this Control to the specified exporter, for example when saving
  to a J3O file.</div>
