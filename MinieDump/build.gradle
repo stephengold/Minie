@@ -10,11 +10,9 @@ tasks.withType(JavaCompile) { // Java compile-time options:
     options.deprecation = true
 }
 
-mainClassName = 'jme3utilities.minie.cli.MinieDump'
-if (!hasProperty('mainClass')) {
-    ext.mainClass = mainClassName
+application {
+    mainClass = 'jme3utilities.cli.J3oDump'
 }
-jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
     implementation desktopCoordinates
