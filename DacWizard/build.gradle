@@ -6,14 +6,12 @@ plugins {
     id 'application'
 }
 
-mainClassName = 'jme3utilities.minie.wizard.DacWizard'
-if (!hasProperty('mainClass')) {
-    ext.mainClass = mainClassName
-}
-jar.manifest.attributes('Main-Class': mainClassName)
-
 tasks.withType(JavaExec) { // Java runtime options:
     args '--openGL3'
+}
+
+application {
+    mainClass = 'jme3utilities.minie.wizard.DacWizard'
 }
 
 dependencies {
