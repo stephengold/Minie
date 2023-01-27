@@ -125,7 +125,7 @@ ext {
 
 dependencies {
     api heartCoordinates
-    api 'com.simsilica:sim-math:1.5.0'
+    api 'com.simsilica:sim-math:1.6.0'
     api 'org.jmonkeyengine:jme3-core:' + jme3Version
     api 'org.jmonkeyengine:jme3-terrain:' + jme3Version
 
