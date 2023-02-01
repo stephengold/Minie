@@ -42,7 +42,7 @@ tasks.withType(JavaCompile) { // Java compile-time options:
 }
 
 dependencies {
-    implementation 'com.github.stephengold:jme-ttf:2.2.4' + jmeTarget
+    implementation 'com.github.stephengold:jme-ttf:2.2.4'
     implementation heartCoordinates
     implementation 'org.jmonkeyengine:jme3-blender:3.3.2-stable'
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
