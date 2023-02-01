@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -116,7 +116,7 @@ public class PoolHalfCushions extends Mesh {
 
         putQuadPair(posBuffer, x0, x0, y0, y1, z0, 0f);
 
-        MyMesh.generateNormals(this);
+        MyMesh.generateFacetNormals(this);
         updateBound();
         setStatic();
     }
