@@ -227,8 +227,8 @@ public class HelloNewHinge
             Vector3f suspensionDirection, Vector3f axle, float restLength,
             float wheelRadius, boolean isFrontWheel) {
         float thickness = 0.5f * wheelRadius;
-        CylinderCollisionShape shape = new CylinderCollisionShape(wheelRadius,
-                thickness, PhysicsSpace.AXIS_X);
+        CylinderCollisionShape shape = new CylinderCollisionShape(
+                wheelRadius, thickness, PhysicsSpace.AXIS_X);
         float mass = 0.5f;
         PhysicsRigidBody body = new PhysicsRigidBody(shape, mass);
         body.setEnableSleep(false);
@@ -236,8 +236,8 @@ public class HelloNewHinge
         body.setPhysicsLocation(center);
         physicsSpace.addCollisionObject(body);
 
-        NewHinge joint = new NewHinge(chassis, body, center,
-                suspensionDirection, axle);
+        NewHinge joint = new NewHinge(
+                chassis, body, center, suspensionDirection, axle);
         if (isFrontWheel) {
             RotationMotor motor = joint.getRotationMotor(PhysicsSpace.AXIS_Z);
             motor.setMotorEnabled(true);
