@@ -11,12 +11,12 @@ rootProject.name = 'Minie'
  */
 def subDirs = rootDir.listFiles(
     new FileFilter() {
-        boolean accept(File file) {
-            return file.isDirectory() && new File(file, 'build.gradle').isFile()
+        boolean accept(File sub) {
+            return sub.isDirectory() && new File(sub, 'build.gradle').isFile()
         }
     }
 )
 
-subDirs.each { File dir ->
-    include dir.name
+subDirs.each { File sub ->
+    include sub.name
 }
