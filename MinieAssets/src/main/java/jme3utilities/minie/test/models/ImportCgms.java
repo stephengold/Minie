@@ -90,27 +90,18 @@ public class ImportCgms extends SimpleApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        //logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
+
+        // Instantiate the application.
         ImportCgms application = new ImportCgms();
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Import the C-G models.
-         */
+
+        // Import the C-G models.
         application.start(JmeContext.Type.Headless);
     }
     // *************************************************************************
@@ -125,9 +116,8 @@ public class ImportCgms extends SimpleApplication {
         Logger.getLogger(MaterialLoader.class.getName()).setLevel(Level.SEVERE);
         Logger.getLogger(MeshLoader.class.getName()).setLevel(Level.SEVERE);
         Logger.getLogger(TemporalMesh.class.getName()).setLevel(Level.SEVERE);
-        /*
-         * Import the BaseMesh model from jme3-testdata-3.1.0-stable.jar:
-         */
+
+        // Import the BaseMesh model from jme3-testdata-3.1.0-stable.jar:
         assetManager.registerLoader(BlenderLoader.class, "blend");
         BlenderKey blendKey = new BlenderKey("Blender/2.4x/BaseMesh_249.blend");
         Spatial baseMesh = assetManager.loadModel(blendKey);
@@ -152,9 +142,8 @@ public class ImportCgms extends SimpleApplication {
         Spatial duck = assetManager.loadModel("Models/Duck/Duck.gltf");
         writeToJ3O(duck, "Models/Duck/Duck.j3o");
         writeTextures(duck);
-        /*
-         * Import the Elephant model from jme3-testdata-3.1.0-stable.jar:
-         */
+
+        // Import the Elephant model from jme3-testdata-3.1.0-stable.jar:
         Spatial elephant
                 = assetManager.loadModel("Models/Elephant/Elephant.mesh.xml");
         writeToJ3O(elephant, "Models/Elephant/Elephant.j3o");
@@ -243,9 +232,8 @@ public class ImportCgms extends SimpleApplication {
 
         String writeFilePath = String.format("%s/%s", assetDirPath, assetPath);
         File file = new File(writeFilePath);
-        /*
-         * Create the parent folder.
-         */
+
+        // Create the parent folder.
         File parent = file.getParentFile();
         if (parent != null && !parent.exists()) {
             boolean success = parent.mkdirs();
@@ -273,9 +261,7 @@ public class ImportCgms extends SimpleApplication {
      * @param model the scene-graph subtree to analyze (may be null)
      */
     private void writeTextures(Spatial model) {
-        /*
-         * Collect all unique 2-D textures used in the model.
-         */
+        // Collect all unique 2-D textures used in the model.
         Set<TextureKey> textureKeys = new HashSet<>(20);
         for (Material materials : MySpatial.listMaterials(model, null)) {
             for (MatParam matParam : materials.getParams()) {
@@ -286,9 +272,8 @@ public class ImportCgms extends SimpleApplication {
                 }
             }
         }
-        /*
-         * Write each texture to a JPG file.
-         */
+
+        // Write each texture to a JPG file.
         for (TextureKey textureKey : textureKeys) {
             writeImage(textureKey);
         }
