@@ -172,6 +172,7 @@ public class TestInsideTriangle extends AcorusDemo {
      *
      * @param location the desired location (in world coordinates, not null)
      * @param materialName the name of the Material to use (not null)
+     * @param radius the radius of the visualization (in mesh units, &ge;0)
      */
     private void attachPoint(
             Vector3f location, String materialName, float radius) {

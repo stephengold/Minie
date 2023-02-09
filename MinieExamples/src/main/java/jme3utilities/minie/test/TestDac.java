@@ -1088,6 +1088,9 @@ public class TestDac extends PhysicsDemo {
 
     /**
      * Save the specified model to a J3O or XML file.
+     *
+     * @param model the model to save
+     * @param assetPath the asset-path portion of the save filename (not null)
      */
     private static void save(Spatial model, String assetPath) {
         String filePath = filePath(assetPath);
@@ -1121,6 +1124,8 @@ public class TestDac extends PhysicsDemo {
 
     /**
      * Test re-scaling the model.
+     *
+     * @param height the desired height of the model (in world units, &gt;0)
      */
     private static void setHeight(float height) {
         assert height > 0f : height;

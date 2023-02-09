@@ -175,6 +175,8 @@ public class SplitDemo
 
     /**
      * Count how many rigid bodies are active.
+     *
+     * @return the count (&ge;0)
      */
     int countActive() {
         int result = 0;
@@ -692,6 +694,8 @@ public class SplitDemo
 
     /**
      * Pseudo-randomly select the shape of a decimal digit.
+     *
+     * @return the pre-existing instance (not null)
      */
     private CollisionShape randomDigit() {
         Random random = getGenerator();
@@ -705,6 +709,8 @@ public class SplitDemo
 
     /**
      * Pseudo-randomly select the shape of an uppercase letter.
+     *
+     * @return the pre-existing instance (not null)
      */
     private CollisionShape randomLetter() {
         Random random = getGenerator();

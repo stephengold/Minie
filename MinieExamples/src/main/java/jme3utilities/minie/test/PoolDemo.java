@@ -490,6 +490,8 @@ public class PoolDemo extends PhysicsDemo {
      *
      * @param location the desired location (in physics-space coordinates, not
      * null, unaffected)
+     * @param ballId which ball (0=cue ball, 8=eight ball, &ge;0,
+     * &le;numberedBalls)
      */
     private void setUpBall(Vector3f location, int ballId) {
         String ballName = ballName(ballId);

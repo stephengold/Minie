@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -186,6 +186,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
     /**
      * Test whether this Drop includes a DynamicAnimControl.
+     *
+     * @return true if a DynamicAnimControl is included, otherwise false
      */
     boolean hasDac() {
         if (dac == null) {
@@ -197,6 +199,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
     /**
      * Test for contacts with this drop's convex hull.
+     *
+     * @return true if there are contacts, otherwise false
      */
     boolean hasHullContacts() {
         int numBodies = allBodies.size();
@@ -552,6 +556,10 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     /**
      * Create a diptych consisting of 2 thin boxes, joined by a hinge. The axis
      * of the hinge is the drop's local Y axis.
+     *
+     * @param height the desired height of each box (&gt;0)
+     * @param thickness the desired thickness of each box (&gt;0)
+     * @param boxWidth the desired width of each box (&gt;0)
      */
     private void createDiptych(float height, float thickness, float boxWidth) {
         float boxHalfWidth = boxWidth / 2f;
@@ -602,6 +610,10 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     /**
      * Create a flail consisting of 2 unequal staves, joined by a pivot.
      * Initially both staves lie on the drop's local Y axis.
+     *
+     * @param aLength the length of the "A" staff (&gt;0)
+     * @param bLength the length of the "B" staff (&gt;0)
+     * @param radius the radius of each staff (&gt;0)
      */
     private void createFlail(float aLength, float bLength, float radius) {
         float linearDensity = totalMass / (aLength + bLength);
@@ -810,6 +822,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
     /**
      * Pseudo-randomly select the shape of a decimal digit.
+     *
+     * @return the pre-existing instance (not null)
      */
     private CollisionShape randomDigit() {
         Random random = appInstance.getGenerator();
@@ -823,6 +837,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
     /**
      * Pseudo-randomly select the shape of an uppercase letter.
+     *
+     * @return the pre-existing instance (not null)
      */
     private CollisionShape randomLetter() {
         Random random = appInstance.getGenerator();
@@ -840,6 +856,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      *
      * @param correctAxes if true, correct the shape's center of mass and
      * principal axes
+     * @return a new instance (not null)
      */
     private CollisionShape randomMallet(boolean correctAxes) {
         Generator random = appInstance.getGenerator();

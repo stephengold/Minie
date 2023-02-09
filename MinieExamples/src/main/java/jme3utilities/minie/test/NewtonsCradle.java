@@ -360,6 +360,9 @@ public class NewtonsCradle
     /**
      * Add a dynamic ball to the PhysicsSpace, suspended between 2 single-ended
      * point-to-point joints.
+     *
+     * @param xOffset the desired X coordinate for the ball's center
+     * @return the new instance (not null)
      */
     private PhysicsRigidBody addSuspendedBall(float xOffset) {
         float radius = 9.9f;

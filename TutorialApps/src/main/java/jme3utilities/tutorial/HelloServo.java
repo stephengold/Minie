@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephen Gold
+ Copyright (c) 2021-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -219,7 +219,10 @@ public class HelloServo extends SimpleApplication {
     }
 
     /**
-     * Add lighting and shadows to the specified scene.
+     * Add lighting and shadows to the specified scene and set the background
+     * color.
+     *
+     * @param scene the scene to augment (not null)
      */
     private void addLighting(Spatial scene) {
         ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
@@ -263,6 +266,8 @@ public class HelloServo extends SimpleApplication {
 
     /**
      * Configure physics during startup.
+     *
+     * @return a new instance (not null)
      */
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();

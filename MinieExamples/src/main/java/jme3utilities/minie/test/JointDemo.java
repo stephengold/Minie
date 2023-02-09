@@ -314,6 +314,15 @@ public class JointDemo extends PhysicsDemo {
 
     /**
      * Add a rectangular leg to the robot chassis.
+     *
+     * @param legGeom the geometry for the leg (not null)
+     * @param legInWorld the location of the leg (in world coordinates, not
+     * null)
+     * @param pivotInChassis the pivot offset relative to the chassis (not null)
+     * @param chassisInWorld the chassis location (in world coordinates, not
+     * null)
+     * @param chassisRbc the body for the chassis (not null)
+     * @return the new instance
      */
     private RotationMotor addLeg(Geometry legGeom, Vector3f legInWorld,
             Vector3f pivotInChassis, Vector3f chassisInWorld,

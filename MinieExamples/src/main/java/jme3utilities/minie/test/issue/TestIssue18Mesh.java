@@ -197,6 +197,8 @@ final public class TestIssue18Mesh
 
     /**
      * Configure physics during startup.
+     *
+     * @return a new instance (not null)
      */
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();

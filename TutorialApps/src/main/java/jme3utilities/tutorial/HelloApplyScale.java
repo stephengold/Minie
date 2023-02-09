@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -140,6 +140,8 @@ public class HelloApplyScale extends SimpleApplication {
 
     /**
      * Add lighting to the specified scene.
+     *
+     * @param scene the scene to augment (not null)
      */
     private static void addLighting(Spatial scene) {
         ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
@@ -164,6 +166,8 @@ public class HelloApplyScale extends SimpleApplication {
 
     /**
      * Configure physics during startup.
+     *
+     * @return a new instance (not null)
      */
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();

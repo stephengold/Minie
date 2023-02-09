@@ -512,6 +512,9 @@ class DropTestStatus extends SimpleAppState {
 
     /**
      * Update the indexed status line.
+     *
+     * @param lineIndex which status line (&ge;0)
+     * @param text the text to display, not including the arrow, if any
      */
     private void updateStatusLine(int lineIndex, String text) {
         BitmapText spatial = statusLines[lineIndex];

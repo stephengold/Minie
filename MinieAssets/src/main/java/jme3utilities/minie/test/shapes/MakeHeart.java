@@ -270,6 +270,8 @@ final public class MakeHeart {
      * Use bisection search to find a value of R for which (x, R, z) is a zero
      * of the parametric function. If successful, adds 2 samples to the buffer.
      *
+     * @param x the X coordinate to solve for
+     * @param z the Z coordinate to solve for
      * @return true if successful, otherwise false
      */
     private static boolean solve3(double x, double z) {

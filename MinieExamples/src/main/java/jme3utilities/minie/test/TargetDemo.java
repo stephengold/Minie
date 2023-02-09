@@ -142,6 +142,8 @@ public class TargetDemo
 
     /**
      * Count how many rigid bodies are active.
+     *
+     * @return the count (&ge;0)
      */
     int countActive() {
         int result = 0;
@@ -751,6 +753,8 @@ public class TargetDemo
 
     /**
      * Update the debug materials of the specified collision object.
+     *
+     * @param pco the collision object to modify (not null)
      */
     private void setDebugMaterial(PhysicsCollisionObject pco) {
         CollisionShape shape = pco.getCollisionShape();
@@ -832,6 +836,10 @@ public class TargetDemo
 
     /**
      * Set up a round tower of bricks.
+     *
+     * @param numRings the desired number of rings/layers of bricks (&ge;0)
+     * @param numBricksPerRing the desired number of bricks per ring (&gt;0)
+     * @param thickness the thickness of the tower wall (&gt;0)
      */
     private void setUpBrickTower(
             int numRings, int numBricksPerRing, float thickness) {
@@ -868,6 +876,9 @@ public class TargetDemo
 
     /**
      * Erect a brick wall along the X axis.
+     *
+     * @param numRows the desired number of rows of bricks (&ge;0)
+     * @param numBricksPerRow the desired number of bricks per row (&ge;1)
      */
     private void setUpBrickWall(int numRows, int numBricksPerRow) {
         float xSpacing = 32f / numBricksPerRow; // center-to-center
@@ -928,6 +939,8 @@ public class TargetDemo
 
     /**
      * Erect a pyramid of cans along the X axis.
+     *
+     * @param numRows the desired number of rows in the pyramid (&ge;1)
      */
     private void setUpCanPyramid(int numRows) {
         float xSpacing = 32f / numRows; // center-to-center
@@ -972,6 +985,8 @@ public class TargetDemo
 
     /**
      * Set up a row of dominoes, evenly-spaced along the X axis.
+     *
+     * @param numDominoes the desired number of dominoes (&ge;1)
      */
     private void setUpDominoRow(int numDominoes) {
         float xSpacing = 32f / numDominoes; // center-to-center

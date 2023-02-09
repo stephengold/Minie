@@ -642,6 +642,8 @@ public class TestSoftBody
 
     /**
      * Add a Puppet model.
+     *
+     * @return the new instance (not null)
      */
     private DynamicAnimControl addPuppet() {
         // Load the model in "T" pose.
@@ -721,6 +723,8 @@ public class TestSoftBody
 
     /**
      * Add a squishy ball to the scene.
+     *
+     * @param startY the desired initial Y coordinate of the center
      */
     private void addSquishyBall(float startY) {
         int numRefinementIterations = 3;
@@ -760,6 +764,8 @@ public class TestSoftBody
 
     /**
      * Add a square tablecloth to the scene.
+     *
+     * @param startY the desired initial Y coordinate of the cloth
      */
     private void addTablecloth(float startY) {
         int numLines = 40;
@@ -999,6 +1005,7 @@ public class TestSoftBody
      * Generate a specifier for the indexed vertex on Puppet's waistline.
      *
      * @param waistIndex (&ge;0, &lt;numWaistVertices)
+     * @return the specifier string
      */
     private static String puppetVSpec(int waistIndex) {
         int puppetVertex = waistlineVertices[waistIndex];

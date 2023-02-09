@@ -171,6 +171,8 @@ public class LinksScreen extends GuiScreenController {
 
     /**
      * Handle a "select centerHeuristic" action with an argument.
+     *
+     * @param heuristic the desired heuristic (not null)
      */
     void selectCenterHeuristic(CenterHeuristic heuristic) {
         LinkConfig config = config();
@@ -262,6 +264,8 @@ public class LinksScreen extends GuiScreenController {
 
     /**
      * Handle a "select shapeHeuristic" action with an argument.
+     *
+     * @param heuristic the desired heuristic (not null)
      */
     void selectShapeHeuristic(ShapeHeuristic heuristic) {
         LinkConfig config = config();
@@ -292,6 +296,8 @@ public class LinksScreen extends GuiScreenController {
 
     /**
      * Handle a "set massParameter" action with an argument.
+     *
+     * @param value the desired parameter value (&gt;0)
      */
     void setMassParameter(float value) {
         LinkConfig config = config();
@@ -321,6 +327,9 @@ public class LinksScreen extends GuiScreenController {
 
     /**
      * Handle a "set shapeScale" action with an argument.
+     *
+     * @param scaleFactors the desired scale factors (not null, no negative
+     * component, unaffected)
      */
     void setShapeScale(Vector3f scaleFactors) {
         LinkConfig config = config();

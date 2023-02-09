@@ -505,6 +505,7 @@ final public class CollisionShapeFactory {
      * @param geometry the Geometry on which to base the shape (not null)
      * @param modelRoot the ancestor for which the shape is being generated (not
      * null, unaffected)
+     * @return a new instance (not null)
      */
     private static HullCollisionShape createSingleHullShape(
             Geometry geometry, Spatial modelRoot) {

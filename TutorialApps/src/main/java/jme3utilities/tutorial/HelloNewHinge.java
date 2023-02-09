@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -212,6 +212,16 @@ public class HelloNewHinge
 
     /**
      * Add a cylindrical wheel, joined to the chassis by a NewHinge.
+     *
+     * @param connectionPoint the location of the connection point (not null)
+     * @param suspensionDirection the direction of suspension motion (not null,
+     * not zero, unaffected)
+     * @param axle the direction of the axle's axis (not null, not zero,
+     * unaffected)
+     * @param restLength the rest length
+     * @param wheelRadius the desired radius of the wheel
+     * @param isFrontWheel true for a front/steer wheel, false for a rear/drive
+     * wheel
      */
     private void addWheel(Vector3f connectionPoint,
             Vector3f suspensionDirection, Vector3f axle, float restLength,

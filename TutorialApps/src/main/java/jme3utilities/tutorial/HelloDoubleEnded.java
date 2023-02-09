@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -226,6 +226,8 @@ public class HelloDoubleEnded
 
     /**
      * Add lighting and shadows to the specified scene.
+     *
+     * @param scene the scene to augment (not null)
      */
     private void addLighting(Spatial scene) {
         ColorRGBA ambientColor = new ColorRGBA(0.03f, 0.03f, 0.03f, 1f);
@@ -319,6 +321,8 @@ public class HelloDoubleEnded
 
     /**
      * Configure physics during startup.
+     *
+     * @return a new instance (not null)
      */
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();

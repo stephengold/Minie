@@ -511,6 +511,7 @@ final public class DebugShapeFactory {
      * shape.
      *
      * @param shape (not null, not compound, unaffected)
+     * @param listener (may be null)
      * @param normals which normals to generate (not null)
      * @param resolution how much detail for convex shapes (0=low, 1=high)
      * @return a new Geometry (not null)
@@ -609,6 +610,7 @@ final public class DebugShapeFactory {
      * Create a Node for visualizing the specified CompoundCollisionShape.
      *
      * @param compoundShape (not null, unaffected)
+     * @param listener (may be null)
      * @param normals which normals to generate (not null)
      * @param resolution how much detail for convex child shapes (0=low, 1=high)
      * @return a new Node (not null)

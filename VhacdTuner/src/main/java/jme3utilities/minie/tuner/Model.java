@@ -558,6 +558,8 @@ class Model {
 
     /**
      * Start a thread to run the specified test.
+     *
+     * @param test the test to run (not null, not running)
      */
     void startTest(DecompositionTest test) {
         assert !test.hasBeenRun();

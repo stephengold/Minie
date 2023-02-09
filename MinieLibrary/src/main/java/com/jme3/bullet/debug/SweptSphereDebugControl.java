@@ -165,6 +165,9 @@ class SweptSphereDebugControl extends AbstractPhysicsDebugControl {
     /**
      * Update the Mesh of the debug geometry, based on whether the Camera is
      * known.
+     *
+     * @param oldMesh the mesh in use
+     * @return the updated mesh to use
      */
     private Mesh updateMesh(Mesh oldMesh) {
         DebugConfiguration config = debugAppState.getConfiguration();

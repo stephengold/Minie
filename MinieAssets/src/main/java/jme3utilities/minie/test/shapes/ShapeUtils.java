@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -70,6 +70,7 @@ final class ShapeUtils {
      * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
      * @param parameters (not null, unaffected)
+     * @param prefix the prefix for each line of output
      * @return a new compound shape
      */
     static CompoundCollisionShape createVhacdShape(
@@ -93,6 +94,7 @@ final class ShapeUtils {
      * @param modelRoot the model on which to base the shape (not null,
      * unaffected)
      * @param parameters (not null, unaffected)
+     * @param prefix the prefix for each line of output
      * @return a new compound shape
      */
     static CompoundCollisionShape createVhacdShape(

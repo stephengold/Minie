@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -244,6 +244,7 @@ class FilePathScreen extends GuiScreenController {
      * Build a file-selection popup menu based on the specified file map.
      *
      * @param fileMap the map of files to include (not null)
+     * @return a new instance (not null)
      */
     private PopupMenuBuilder buildFileMenu(Map<String, File> fileMap) {
         assert fileMap != null;
@@ -287,6 +288,7 @@ class FilePathScreen extends GuiScreenController {
      *
      * @param dirPath the filesystem path to the directory (not null)
      * @param namePrefix required name prefix (not null)
+     * @return a new instance (not null)
      */
     private static Map<String, File> directoryMap(
             String dirPath, String namePrefix) {

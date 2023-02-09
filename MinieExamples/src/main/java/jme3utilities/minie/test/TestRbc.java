@@ -776,6 +776,8 @@ public class TestRbc
 
     /**
      * Add terrain to the scene and PhysicsSpace.
+     *
+     * @param patchSize the desired patch size (3, 5, 8, 17, 33, or 65)
      */
     private void addTerrain(int patchSize) {
         switch (patchSize) {

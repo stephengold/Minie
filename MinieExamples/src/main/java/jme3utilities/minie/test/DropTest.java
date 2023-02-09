@@ -161,6 +161,8 @@ public class DropTest
 
     /**
      * Count how many rigid bodies are active.
+     *
+     * @return the count (&ge;0)
      */
     int countActive() {
         int result = 0;
@@ -177,6 +179,8 @@ public class DropTest
 
     /**
      * Count how many drops are in the PhysicsSpace.
+     *
+     * @return the count (&ge;0)
      */
     static int countDrops() {
         int result = drops.size();
@@ -899,6 +903,8 @@ public class DropTest
 
     /**
      * Update the debug materials of the specified collision object.
+     *
+     * @param pco the object to update (not null)
      */
     private void setDebugMaterial(PhysicsCollisionObject pco) {
         CollisionShape shape = pco.getCollisionShape();

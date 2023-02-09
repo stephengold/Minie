@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -222,6 +222,8 @@ public class ImportCgms extends SimpleApplication {
 
     /**
      * Write the image of a texture to JPG or PNG file.
+     *
+     * @param key access the texture to be written (not null)
      */
     private void writeImage(TextureKey key) {
         String suffix = key.getExtension();
@@ -267,6 +269,8 @@ public class ImportCgms extends SimpleApplication {
 
     /**
      * Write the image of each 2-D texture used in the specified model.
+     *
+     * @param model the scene-graph subtree to analyze (may be null)
      */
     private void writeTextures(Spatial model) {
         /*
@@ -292,6 +296,10 @@ public class ImportCgms extends SimpleApplication {
 
     /**
      * Write the specified model to a J3O file.
+     *
+     * @param model the scene-graph subtree to write (not null)
+     * @param writeAssetPath the asset-path portion of the filename (not null,
+     * not empty, should end in ".j3o")
      */
     private static void writeToJ3O(Spatial model, String writeAssetPath) {
         String writeFilePath
