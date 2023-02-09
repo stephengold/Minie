@@ -367,7 +367,7 @@
         <!-- Checks for size violations.                  -->
         <!-- See https://checkstyle.org/config_sizes.html -->
         <module name="MethodLength">
-            <property name="max" value="300"/>
+            <property name="max" value="250"/>
         </module>
         <module name="ParameterNumber">
             <property name="max" value="12"/>
