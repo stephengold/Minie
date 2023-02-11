@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,9 @@ public class TestIssue911 {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test to verify that the issue remains solved.
+     */
     @Test
     public void testIssue911() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);

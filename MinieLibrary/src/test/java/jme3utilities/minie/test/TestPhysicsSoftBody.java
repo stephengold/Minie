@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,9 @@ public class TestPhysicsSoftBody {
     // *************************************************************************
     // new methods exposed
 
+    /**
+     * Test the {@code applyTransform()} method.
+     */
     @Test
     public void testPhysicsSoftBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
