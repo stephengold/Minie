@@ -180,8 +180,64 @@ public class TestDefaults {
         testPhysicsSpace(dSpace);
 
         testShapes();
+        testCollisionObjects();
         // TODO GhostControl, CharacterControl, VehicleControl
 
+        RigidBodyControl dynamicRbc = new RigidBodyControl(box);
+        testRigidBody(dynamicRbc);
+
+        RigidBodyMotionState motion = new RigidBodyMotionState();
+        testMotionState(motion);
+
+        SoftBodyWorldInfo sbwi = new SoftBodyWorldInfo();
+        Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
+        Utils.assertEquals(0f, -10f, 0f, sbwi.copyGravity(null), 0f);
+        Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
+        Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
+        Utils.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
+        Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
+
+        VehicleTuning tuning = new VehicleTuning();
+        Assert.assertEquals(10.5f, tuning.getFrictionSlip(), 0f);
+        Assert.assertEquals(6000f, tuning.getMaxSuspensionForce(), 0f);
+        Assert.assertEquals(500f, tuning.getMaxSuspensionTravelCm(), 0f);
+        Assert.assertEquals(0.83f, tuning.getSuspensionCompression(), 0f);
+        Assert.assertEquals(0.88f, tuning.getSuspensionDamping(), 0f);
+        Assert.assertEquals(5.88f, tuning.getSuspensionStiffness(), 0f);
+
+        testMultiBody();
+        testJoints();
+
+        Vhacd4Parameters p4 = new Vhacd4Parameters();
+        Assert.assertTrue(p4.isAsync());
+        Assert.assertFalse(p4.getDebugEnabled());
+        Assert.assertEquals(FillMode.FloodFill, p4.getFillMode());
+        Assert.assertFalse(p4.isFindBestPlane());
+        Assert.assertEquals(64, p4.getMaxHulls());
+        Assert.assertEquals(14, p4.getMaxRecursion());
+        Assert.assertEquals(32, p4.getMaxVerticesPerHull());
+        Assert.assertEquals(2, p4.getMinEdgeLength());
+        Assert.assertTrue(p4.isShrinkWrap());
+        Assert.assertEquals(1.0, p4.getVolumePercentError(), 0.0);
+        Assert.assertEquals(100_000, p4.getVoxelResolution());
+
+        VHACDParameters parameters = new VHACDParameters();
+        Assert.assertFalse(parameters.getDebugEnabled());
+        Assert.assertEquals(ACDMode.VOXEL, parameters.getACDMode());
+        Assert.assertEquals(0.05, parameters.getAlpha(), 0.0);
+        Assert.assertEquals(0.05, parameters.getBeta(), 0.0);
+        Assert.assertEquals(4, parameters.getConvexHullDownSampling());
+        Assert.assertEquals(0.0025, parameters.getMaxConcavity(), 0.0);
+        Assert.assertEquals(32, parameters.getMaxVerticesPerHull());
+        Assert.assertEquals(0.0001, parameters.getMinVolumePerHull(), 0.0);
+        Assert.assertFalse(parameters.getPCA());
+        Assert.assertEquals(4, parameters.getPlaneDownSampling());
+        Assert.assertEquals(100_000, parameters.getVoxelResolution());
+    }
+    // *************************************************************************
+    // private methods
+
+    private static void testCollisionObjects() {
         PhysicsCharacter character = new PhysicsCharacter(box, 1f);
         testPco(character);
         Assert.assertEquals(Activation.active, character.getActivationState());
@@ -216,12 +272,6 @@ public class TestDefaults {
 
         rigidA = new PhysicsRigidBody(box);
         testRigidBody(rigidA);
-
-        RigidBodyControl dynamicRbc = new RigidBodyControl(box);
-        testRigidBody(dynamicRbc);
-
-        RigidBodyMotionState motion = new RigidBodyMotionState();
-        testMotionState(motion);
 
         softA = new PhysicsSoftBody();
         testPco(softA);
@@ -265,14 +315,6 @@ public class TestDefaults {
         Assert.assertEquals(1, config.positionIterations());
         Assert.assertEquals(0, config.velocityIterations());
 
-        SoftBodyWorldInfo sbwi = new SoftBodyWorldInfo();
-        Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
-        Utils.assertEquals(0f, -10f, 0f, sbwi.copyGravity(null), 0f);
-        Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
-        Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
-        Utils.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
-        Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
-
         SoftBodyMaterial mat = softA.getSoftMaterial();
         Assert.assertEquals(1f, mat.angularStiffness(), 0f);
         Assert.assertEquals(1f, mat.linearStiffness(), 0f);
@@ -282,14 +324,6 @@ public class TestDefaults {
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, softA);
         softA.generateClusters(2, 999);
         softA.setMass(1f);
-
-        VehicleTuning tuning = new VehicleTuning();
-        Assert.assertEquals(10.5f, tuning.getFrictionSlip(), 0f);
-        Assert.assertEquals(6000f, tuning.getMaxSuspensionForce(), 0f);
-        Assert.assertEquals(500f, tuning.getMaxSuspensionTravelCm(), 0f);
-        Assert.assertEquals(0.83f, tuning.getSuspensionCompression(), 0f);
-        Assert.assertEquals(0.88f, tuning.getSuspensionDamping(), 0f);
-        Assert.assertEquals(5.88f, tuning.getSuspensionStiffness(), 0f);
 
         PhysicsVehicle vehicle = new PhysicsVehicle(box);
         testRigidBody(vehicle);
@@ -301,6 +335,8 @@ public class TestDefaults {
         Assert.assertEquals(0.88f, vehicle.getSuspensionDamping(), 0f);
         Assert.assertEquals(5.88f, vehicle.getSuspensionStiffness(), 0f);
 
+        PhysicsSpace space
+                = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
         space.addCollisionObject(vehicle);
         Assert.assertEquals(PhysicsSpace.AXIS_Z, vehicle.forwardAxisIndex());
         Assert.assertNotEquals(0L, vehicle.getVehicleId());
@@ -329,38 +365,7 @@ public class TestDefaults {
         Assert.assertEquals(0.83f, wheel.getWheelsDampingCompression(), 0f);
         Assert.assertEquals(0.88f, wheel.getWheelsDampingRelaxation(), 0f);
         Assert.assertFalse(wheel.isApplyLocal());
-
-        testMultiBody();
-        testJoints();
-
-        Vhacd4Parameters p4 = new Vhacd4Parameters();
-        Assert.assertTrue(p4.isAsync());
-        Assert.assertFalse(p4.getDebugEnabled());
-        Assert.assertEquals(FillMode.FloodFill, p4.getFillMode());
-        Assert.assertFalse(p4.isFindBestPlane());
-        Assert.assertEquals(64, p4.getMaxHulls());
-        Assert.assertEquals(14, p4.getMaxRecursion());
-        Assert.assertEquals(32, p4.getMaxVerticesPerHull());
-        Assert.assertEquals(2, p4.getMinEdgeLength());
-        Assert.assertTrue(p4.isShrinkWrap());
-        Assert.assertEquals(1.0, p4.getVolumePercentError(), 0.0);
-        Assert.assertEquals(100_000, p4.getVoxelResolution());
-
-        VHACDParameters parameters = new VHACDParameters();
-        Assert.assertFalse(parameters.getDebugEnabled());
-        Assert.assertEquals(ACDMode.VOXEL, parameters.getACDMode());
-        Assert.assertEquals(0.05, parameters.getAlpha(), 0.0);
-        Assert.assertEquals(0.05, parameters.getBeta(), 0.0);
-        Assert.assertEquals(4, parameters.getConvexHullDownSampling());
-        Assert.assertEquals(0.0025, parameters.getMaxConcavity(), 0.0);
-        Assert.assertEquals(32, parameters.getMaxVerticesPerHull());
-        Assert.assertEquals(0.0001, parameters.getMinVolumePerHull(), 0.0);
-        Assert.assertFalse(parameters.getPCA());
-        Assert.assertEquals(4, parameters.getPlaneDownSampling());
-        Assert.assertEquals(100_000, parameters.getVoxelResolution());
     }
-    // *************************************************************************
-    // private methods
 
     /**
      * Verify defaults common to all newly-created collision spaces.
