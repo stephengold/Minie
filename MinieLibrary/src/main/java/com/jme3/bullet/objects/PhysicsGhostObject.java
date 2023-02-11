@@ -312,7 +312,7 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      *
      * @param co the collision object to add (alias created)
      */
-    private void addOverlappingObject_native(PhysicsCollisionObject co) {
+    private void addOverlappingObject(PhysicsCollisionObject co) {
         overlappingObjects.add(co);
     }
 

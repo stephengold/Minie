@@ -557,7 +557,7 @@ public class CollisionSpace extends NativePhysicsObject {
             Vector3f from, Vector3f to, List<PhysicsRayTestResult> results) {
         results.clear();
         long spaceId = nativeId();
-        rayTest_native(from, to, spaceId, results, rayTestFlags);
+        rayTestNative(from, to, spaceId, results, rayTestFlags);
 
         results.sort(hitFractionComparator);
         return results;
@@ -616,7 +616,7 @@ public class CollisionSpace extends NativePhysicsObject {
             Vector3f from, Vector3f to, List<PhysicsRayTestResult> results) {
         results.clear();
         long spaceId = nativeId();
-        rayTest_native(from, to, spaceId, results, rayTestFlags);
+        rayTestNative(from, to, spaceId, results, rayTestFlags);
 
         return results;
     }
@@ -753,7 +753,7 @@ public class CollisionSpace extends NativePhysicsObject {
         long shapeId = shape.nativeId();
         long spaceId = nativeId();
         results.clear();
-        sweepTest_native(
+        sweepTestNative(
                 shapeId, start, end, spaceId, results, allowedCcdPenetration);
 
         return results;
@@ -846,7 +846,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @return true to simulate collisions between pcoA and pcoB, false to
      * ignore such collisions during this timestep
      */
-    private boolean notifyCollisionGroupListeners_native(
+    private boolean notifyCollisionGroupListeners(
             PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
         boolean result = needsCollision(pcoA, pcoB);
         return result;
@@ -903,7 +903,7 @@ public class CollisionSpace extends NativePhysicsObject {
     native private static int pairTest(long spaceId, long aId, long bId,
             PhysicsCollisionListener listener);
 
-    native private static void rayTest_native(
+    native private static void rayTestNative(
             Vector3f fromLocation, Vector3f toLocation, long spaceId,
             List<PhysicsRayTestResult> addToList, int flags);
 
@@ -916,7 +916,7 @@ public class CollisionSpace extends NativePhysicsObject {
     native private static void setDeterministicOverlappingPairs(
             long spaceId, boolean desiredSetting);
 
-    native private static void sweepTest_native(long shapeId, Transform from,
+    native private static void sweepTestNative(long shapeId, Transform from,
             Transform to, long spaceId, List<PhysicsSweepTestResult> addToList,
             float allowedCcdPenetration);
 }
