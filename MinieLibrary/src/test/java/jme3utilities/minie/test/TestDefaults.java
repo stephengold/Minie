@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -870,6 +870,85 @@ public class TestDefaults {
      * Verify the defaults for all collision shapes.
      */
     private static void testShapes() {
+        testShapesConcave();
+        testShapesConvex();
+
+        // Compound
+        CompoundCollisionShape compound = new CompoundCollisionShape();
+        testShape(compound);
+        Assert.assertEquals(0, compound.countChildren());
+        Assert.assertEquals(0.04f, compound.getMargin(), 0f);
+        Assert.assertFalse(compound.isConcave());
+        Assert.assertFalse(compound.isConvex());
+        Assert.assertFalse(compound.isInfinite());
+        Assert.assertFalse(compound.isNonMoving());
+        Assert.assertFalse(compound.isPolyhedral());
+    }
+
+    private static void testShapesConcave() {
+        // Empty
+        EmptyShape empty = new EmptyShape(true);
+        testShape(empty);
+        Assert.assertEquals(0.04f, empty.getMargin(), 0f);
+        Assert.assertTrue(empty.isConcave());
+        Assert.assertFalse(empty.isConvex());
+        Assert.assertFalse(empty.isInfinite());
+        Assert.assertTrue(empty.isNonMoving());
+        Assert.assertFalse(empty.isPolyhedral());
+        Assert.assertEquals(0f, empty.unscaledVolume(), 0f);
+
+        // GImpact
+        Torus torus = new Torus(16, 16, 0.2f, 0.8f);
+        GImpactCollisionShape gimpact = new GImpactCollisionShape(torus);
+        testShape(gimpact);
+        Assert.assertEquals(0.04f, gimpact.getMargin(), 0f);
+        Assert.assertTrue(gimpact.isConcave());
+        Assert.assertFalse(gimpact.isConvex());
+        Assert.assertFalse(gimpact.isInfinite());
+        Assert.assertFalse(gimpact.isNonMoving());
+        Assert.assertFalse(gimpact.isPolyhedral());
+
+        // Heightfield
+        float[] nineHeights = {1f, 0f, 1f, 0f, 0.5f, 0f, 1f, 0f, 1f};
+        HeightfieldCollisionShape hcs
+                = new HeightfieldCollisionShape(nineHeights);
+        testShape(hcs);
+        Assert.assertEquals(9, hcs.countMeshVertices());
+        Assert.assertEquals(0.04f, hcs.getMargin(), 0f);
+        Assert.assertTrue(hcs.isConcave());
+        Assert.assertFalse(hcs.isConvex());
+        Assert.assertFalse(hcs.isInfinite());
+        Assert.assertTrue(hcs.isNonMoving());
+        Assert.assertFalse(hcs.isPolyhedral());
+
+        // Mesh
+        Quad quad = new Quad(1f, 1f);
+        MeshCollisionShape mesh = new MeshCollisionShape(quad);
+        testShape(mesh);
+        Assert.assertEquals(2, mesh.countMeshTriangles());
+        Assert.assertEquals(4, mesh.countMeshVertices());
+        Assert.assertEquals(0.04f, mesh.getMargin(), 0f);
+        Assert.assertTrue(mesh.isConcave());
+        Assert.assertFalse(mesh.isConvex());
+        Assert.assertFalse(mesh.isInfinite());
+        Assert.assertTrue(mesh.isNonMoving());
+        Assert.assertFalse(mesh.isPolyhedral());
+
+        // Plane
+        Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
+        PlaneCollisionShape pcs = new PlaneCollisionShape(plane);
+        testShape(pcs);
+        Assert.assertEquals(0.04f, pcs.getMargin(), 0f);
+        Assert.assertEquals(0f, pcs.getPlane().getConstant(), 0f);
+        Utils.assertEquals(0f, 1f, 0f, pcs.getPlane().getNormal(), 0f);
+        Assert.assertTrue(pcs.isConcave());
+        Assert.assertFalse(pcs.isConvex());
+        Assert.assertTrue(pcs.isInfinite());
+        Assert.assertTrue(pcs.isNonMoving());
+        Assert.assertFalse(pcs.isPolyhedral());
+    }
+
+    private static void testShapesConvex() {
         // Box2d
         Box2dShape box2d = new Box2dShape(1f, 2f);
         testShape(box2d);
@@ -904,17 +983,6 @@ public class TestDefaults {
         Assert.assertFalse(capsule.isPolyhedral());
         Assert.assertEquals(
                 7f * FastMath.PI / 3f, capsule.unscaledVolume(), 1e-4f);
-
-        // Compound
-        CompoundCollisionShape compound = new CompoundCollisionShape();
-        testShape(compound);
-        Assert.assertEquals(0, compound.countChildren());
-        Assert.assertEquals(0.04f, compound.getMargin(), 0f);
-        Assert.assertFalse(compound.isConcave());
-        Assert.assertFalse(compound.isConvex());
-        Assert.assertFalse(compound.isInfinite());
-        Assert.assertFalse(compound.isNonMoving());
-        Assert.assertFalse(compound.isPolyhedral());
 
         // Cone
         ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
@@ -956,41 +1024,6 @@ public class TestDefaults {
         Assert.assertFalse(cylinder.isPolyhedral());
         Assert.assertEquals(FastMath.TWO_PI, cylinder.unscaledVolume(), 1e-4f);
 
-        // Empty
-        EmptyShape empty = new EmptyShape(true);
-        testShape(empty);
-        Assert.assertEquals(0.04f, empty.getMargin(), 0f);
-        Assert.assertTrue(empty.isConcave());
-        Assert.assertFalse(empty.isConvex());
-        Assert.assertFalse(empty.isInfinite());
-        Assert.assertTrue(empty.isNonMoving());
-        Assert.assertFalse(empty.isPolyhedral());
-        Assert.assertEquals(0f, empty.unscaledVolume(), 0f);
-
-        // GImpact
-        Torus torus = new Torus(16, 16, 0.2f, 0.8f);
-        GImpactCollisionShape gimpact = new GImpactCollisionShape(torus);
-        testShape(gimpact);
-        Assert.assertEquals(0.04f, gimpact.getMargin(), 0f);
-        Assert.assertTrue(gimpact.isConcave());
-        Assert.assertFalse(gimpact.isConvex());
-        Assert.assertFalse(gimpact.isInfinite());
-        Assert.assertFalse(gimpact.isNonMoving());
-        Assert.assertFalse(gimpact.isPolyhedral());
-
-        // Heightfield
-        float[] nineHeights = {1f, 0f, 1f, 0f, 0.5f, 0f, 1f, 0f, 1f};
-        HeightfieldCollisionShape hcs
-                = new HeightfieldCollisionShape(nineHeights);
-        testShape(hcs);
-        Assert.assertEquals(9, hcs.countMeshVertices());
-        Assert.assertEquals(0.04f, hcs.getMargin(), 0f);
-        Assert.assertTrue(hcs.isConcave());
-        Assert.assertFalse(hcs.isConvex());
-        Assert.assertFalse(hcs.isInfinite());
-        Assert.assertTrue(hcs.isNonMoving());
-        Assert.assertFalse(hcs.isPolyhedral());
-
         // Hull
         List<Vector3f> prismVertices = new ArrayList<>(6);
         prismVertices.add(new Vector3f(1f, 1f, 1f));
@@ -1012,19 +1045,6 @@ public class TestDefaults {
         Assert.assertTrue(hull.isPolyhedral());
         Assert.assertEquals(4f, hull.scaledVolume(), 1f);
 
-        // Mesh
-        Quad quad = new Quad(1f, 1f);
-        MeshCollisionShape mesh = new MeshCollisionShape(quad);
-        testShape(mesh);
-        Assert.assertEquals(2, mesh.countMeshTriangles());
-        Assert.assertEquals(4, mesh.countMeshVertices());
-        Assert.assertEquals(0.04f, mesh.getMargin(), 0f);
-        Assert.assertTrue(mesh.isConcave());
-        Assert.assertFalse(mesh.isConvex());
-        Assert.assertFalse(mesh.isInfinite());
-        Assert.assertTrue(mesh.isNonMoving());
-        Assert.assertFalse(mesh.isPolyhedral());
-
         // MultiSphere
         MultiSphere multiSphere = new MultiSphere(1f);
         testShape(multiSphere);
@@ -1038,19 +1058,6 @@ public class TestDefaults {
         Assert.assertFalse(multiSphere.isInfinite());
         Assert.assertFalse(multiSphere.isNonMoving());
         Assert.assertFalse(multiSphere.isPolyhedral());
-
-        // Plane
-        Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
-        PlaneCollisionShape pcs = new PlaneCollisionShape(plane);
-        testShape(pcs);
-        Assert.assertEquals(0.04f, pcs.getMargin(), 0f);
-        Assert.assertEquals(0f, pcs.getPlane().getConstant(), 0f);
-        Utils.assertEquals(0f, 1f, 0f, pcs.getPlane().getNormal(), 0f);
-        Assert.assertTrue(pcs.isConcave());
-        Assert.assertFalse(pcs.isConvex());
-        Assert.assertTrue(pcs.isInfinite());
-        Assert.assertTrue(pcs.isNonMoving());
-        Assert.assertFalse(pcs.isPolyhedral());
 
         // Simplex of 1 vertex
         SimplexCollisionShape simplex1
