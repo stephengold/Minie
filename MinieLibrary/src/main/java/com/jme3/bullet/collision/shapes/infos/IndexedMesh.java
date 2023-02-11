@@ -273,7 +273,7 @@ public class IndexedMesh
      * @param indexBuffer (not null, not flipped, length a multiple of 3, alias
      * created)
      */
-    IndexedMesh(FloatBuffer positionBuffer, IntBuffer indexBuffer) {
+    public IndexedMesh(FloatBuffer positionBuffer, IntBuffer indexBuffer) {
         Validate.nonNull(positionBuffer, "position buffer");
         Validate.nonNull(indexBuffer, "index buffer");
         int numFloats = positionBuffer.capacity();
