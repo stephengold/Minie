@@ -65,6 +65,9 @@ final public class TestIssue19 extends SimpleApplication {
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         BulletAppState bulletAppState = new BulletAppState();

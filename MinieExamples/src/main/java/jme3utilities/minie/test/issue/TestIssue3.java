@@ -96,6 +96,9 @@ final public class TestIssue3 extends SimpleApplication
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
@@ -126,6 +129,13 @@ final public class TestIssue3 extends SimpleApplication
         new PhysicsDumper().dump(bulletAppState);
     }
 
+    /**
+     * Process an input action.
+     *
+     * @param binding textual description of the action (not null)
+     * @param ongoing true if the action is ongoing, otherwise false
+     * @param tpf time interval between frames (in seconds, &ge;0)
+     */
     @Override
     public void onAction(String binding, boolean ongoing, float tpf) {
         if (ongoing && binding.equals("Jump")) {
@@ -136,6 +146,12 @@ final public class TestIssue3 extends SimpleApplication
         }
     }
 
+    /**
+     * Callback from Bullet, invoked just before the physics is stepped.
+     *
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         ++tickCount;
@@ -145,6 +161,12 @@ final public class TestIssue3 extends SimpleApplication
         }
     }
 
+    /**
+     * Callback from Bullet, invoked just after the physics has been stepped.
+     *
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
         // do nothing

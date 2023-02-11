@@ -105,6 +105,9 @@ final public class TestIssue18Mesh
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         PhysicsSpace physicsSpace = configurePhysics();
@@ -122,6 +125,11 @@ final public class TestIssue18Mesh
         physicsSpace.add(bcc);
     }
 
+    /**
+     * Callback invoked once per frame.
+     *
+     * @param tpf the time interval between frames (in seconds, &ge;0)
+     */
     @Override
     public void simpleUpdate(float tpf) {
         /*
@@ -134,6 +142,12 @@ final public class TestIssue18Mesh
     // *************************************************************************
     // PhysicsTickListener methods
 
+    /**
+     * Callback from Bullet, invoked just after the physics has been stepped.
+     *
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
         /*
@@ -147,6 +161,12 @@ final public class TestIssue18Mesh
         }
     }
 
+    /**
+     * Callback from Bullet, invoked just before the physics is stepped.
+     *
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         ++tickCount;

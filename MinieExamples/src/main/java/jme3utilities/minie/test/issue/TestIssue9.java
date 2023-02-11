@@ -91,6 +91,9 @@ final public class TestIssue9 extends SimpleApplication {
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         for (int iteration = 0; iteration < 99; ++iteration) {

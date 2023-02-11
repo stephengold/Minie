@@ -70,6 +70,9 @@ final public class TestIssue1351 extends SimpleApplication {
         application.start();
     }
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         CollisionShape shape = new SphereCollisionShape(1f);

@@ -89,6 +89,9 @@ final public class TestIssue13 extends SimpleApplication {
     // *************************************************************************
     // SimpleApplication methods
 
+    /**
+     * Initialize this application.
+     */
     @Override
     public void simpleInitApp() {
         cam.setLocation(new Vector3f(39f, 64f, 172f));
