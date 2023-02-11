@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -83,8 +83,8 @@ public class BalanceController extends IKController {
      * @param centerOfSupport the initial location of the center of support (in
      * physics-space coordinates, not null, unaffected)
      */
-    public BalanceController(PhysicsLink controlledLink,
-            Vector3f centerOfSupport) {
+    public BalanceController(
+            PhysicsLink controlledLink, Vector3f centerOfSupport) {
         super(controlledLink);
         this.centerOfSupport = centerOfSupport.clone();
     }

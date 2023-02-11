@@ -176,8 +176,8 @@ public class TubeTreeMesh extends Mesh {
         Validate.nonNull(armature, "armature");
         Validate.positive(radius, "radius");
         Validate.positive(loopsPerSegment, "loops per segment");
-        Validate.inRange(samplesPerLoop, "samples per loop", 3,
-                Integer.MAX_VALUE);
+        Validate.inRange(
+                samplesPerLoop, "samples per loop", 3, Integer.MAX_VALUE);
 
         this.armature = Heart.deepCopy(armature);
         this.armature.update();
@@ -433,8 +433,8 @@ public class TubeTreeMesh extends Mesh {
      * @param jointIndex2 the index of the 2nd Joint (&ge;0)
      * @param w1 the weight for the first Joint
      */
-    private void putAnimationForVertex(int jointIndex1, int jointIndex2,
-            float w1) {
+    private void putAnimationForVertex(
+            int jointIndex1, int jointIndex2, float w1) {
         float weight1 = FastMath.clamp(w1, 0f, 1f);
 
         int weightIndex;
@@ -492,14 +492,14 @@ public class TubeTreeMesh extends Mesh {
             a.set(radius * pos1.x, radius * pos1.y, posZ);
             b.set(radius * pos2.x, radius * pos2.y, posZ);
             c.set(radius * pos3.x, radius * pos3.y, posZ);
-            putTransformedTriangle(positionBuffer, centerPos, orientation,
-                    a, b, c);
+            putTransformedTriangle(
+                    positionBuffer, centerPos, orientation, a, b, c);
 
             a.set(0f, 0f, normalZ);
             b.set(0f, 0f, normalZ);
             c.set(0f, 0f, normalZ);
-            putTransformedTriangle(normalBuffer, translateIdentity, orientation,
-                    a, b, c);
+            putTransformedTriangle(
+                    normalBuffer, translateIdentity, orientation, a, b, c);
 
             putAnimationForTriangle(jointIndex);
         }
@@ -518,9 +518,9 @@ public class TubeTreeMesh extends Mesh {
      * @param v2 the 2nd vertex vector to transform (not null, modified)
      * @param v3 the 3rd vertex vector to transform (not null, modified)
      */
-    private static void putTransformedTriangle(FloatBuffer buffer,
-            Vector3f offset, Quaternion rotation, Vector3f v1, Vector3f v2,
-            Vector3f v3) {
+    private static void putTransformedTriangle(
+            FloatBuffer buffer, Vector3f offset, Quaternion rotation,
+            Vector3f v1, Vector3f v2, Vector3f v3) {
         rotation.mult(v1, v1);
         v1.addLocal(offset);
         buffer.put(v1.x).put(v1.y).put(v1.z);

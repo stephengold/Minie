@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -70,8 +70,8 @@ public class PoolTableSlice extends Mesh {
      * @param numArcEdges the number of edges in a 90-degree arc of a pocket
      * (&gt;0)
      */
-    public PoolTableSlice(float legLength, float pocketRadius,
-            int numArcEdges) {
+    public PoolTableSlice(
+            float legLength, float pocketRadius, int numArcEdges) {
         Validate.inRange(legLength, "leg length", pocketRadius,
                 Float.MAX_VALUE);
         Validate.inRange(pocketRadius, "pocket radius", 0f, legLength);

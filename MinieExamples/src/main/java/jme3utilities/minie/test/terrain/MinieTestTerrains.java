@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -178,13 +178,13 @@ final public class MinieTestTerrains {
         int mapSize = terrainDiameter + 1; // number of samples on a side
         float[] heightArray = heightMap.getHeightMap();
         int patchSize = 33; // number of samples on a side
-        largeQuad = new TerrainQuad("large terrain", patchSize, mapSize,
-                heightArray);
+        largeQuad = new TerrainQuad(
+                "large terrain", patchSize, mapSize, heightArray);
 
         patchSize = 3;
         mapSize = patchSize;
-        smallQuad = new TerrainQuad("small terrain", patchSize, mapSize,
-                nineHeights);
+        smallQuad = new TerrainQuad(
+                "small terrain", patchSize, mapSize, nineHeights);
 
         patchSize = 5;
         float[] heights25 = new float[patchSize * patchSize];
@@ -192,8 +192,8 @@ final public class MinieTestTerrains {
             heights25[i] = (i % 3) / 2f;
         }
         mapSize = patchSize;
-        quad5x5 = new TerrainQuad("5x5 terrain", patchSize, mapSize,
-                heights25);
+        quad5x5 = new TerrainQuad(
+                "5x5 terrain", patchSize, mapSize, heights25);
 
         patchSize = 9;
         float[] heights81 = new float[patchSize * patchSize];
@@ -201,8 +201,8 @@ final public class MinieTestTerrains {
             heights81[i] = (i % 5) / 4f;
         }
         mapSize = patchSize;
-        quad9x9 = new TerrainQuad("9x9 terrain", patchSize, mapSize,
-                heights81);
+        quad9x9 = new TerrainQuad(
+                "9x9 terrain", patchSize, mapSize, heights81);
 
         patchSize = 17;
         mapSize = patchSize;
@@ -210,8 +210,8 @@ final public class MinieTestTerrains {
         for (int i = 0; i < patchSize * patchSize; ++i) {
             heights289[i] = (i % 3) / 2f;
         }
-        quad17x17 = new TerrainQuad("17x17 terrain", patchSize, mapSize,
-                heights289);
+        quad17x17 = new TerrainQuad(
+                "17x17 terrain", patchSize, mapSize, heights289);
 
         patchSize = 33;
         float[] heights1089 = new float[patchSize * patchSize];
@@ -219,8 +219,8 @@ final public class MinieTestTerrains {
             heights1089[i] = (i % 5) / 4f;
         }
         mapSize = patchSize;
-        quad33x33 = new TerrainQuad("33x33 terrain", patchSize, mapSize,
-                heights1089);
+        quad33x33 = new TerrainQuad(
+                "33x33 terrain", patchSize, mapSize, heights1089);
 
         patchSize = 65;
         float[] heights4225 = new float[patchSize * patchSize];
@@ -228,9 +228,8 @@ final public class MinieTestTerrains {
             heights4225[i] = (i % 3) / 2f;
         }
         mapSize = patchSize;
-        quad65x65 = new TerrainQuad("65x65 terrain", patchSize, mapSize,
-                heights4225);
-
+        quad65x65 = new TerrainQuad(
+                "65x65 terrain", patchSize, mapSize, heights4225);
     }
 
     /**

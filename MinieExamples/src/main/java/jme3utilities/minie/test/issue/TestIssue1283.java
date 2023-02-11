@@ -225,13 +225,13 @@ public class TestIssue1283 extends SimpleApplication {
      * Configure materials during startup.
      */
     private void configureMaterials() {
-        this.wallMaterial = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
+        this.wallMaterial = new Material(
+                assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         wallMaterial.setColor("Color", ColorRGBA.White.clone());
         wallMaterial.getAdditionalRenderState().setWireframe(true);
 
-        this.projectileMaterial = new Material(assetManager,
-                "Common/MatDefs/Light/Lighting.j3md");
+        this.projectileMaterial = new Material(
+                assetManager, "Common/MatDefs/Light/Lighting.j3md");
         projectileMaterial.setBoolean("UseMaterialColors", true);
         projectileMaterial.setColor("Ambient", ColorRGBA.Red.clone());
         projectileMaterial.setColor("Diffuse", ColorRGBA.Red.clone());

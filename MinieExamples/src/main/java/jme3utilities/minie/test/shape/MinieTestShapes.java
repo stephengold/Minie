@@ -85,8 +85,8 @@ final public class MinieTestShapes {
             float barLength = 4.8f; // TODO randomize
             float barRadius = 0.2f;
             float plateRadius = 1f;
-            CollisionShape barbell = CompoundTestShapes.makeBarbell(barLength,
-                    barRadius, plateRadius);
+            CollisionShape barbell = CompoundTestShapes
+                    .makeBarbell(barLength, barRadius, plateRadius);
             namedShapes.put("barbell", barbell);
         }
 
@@ -106,8 +106,8 @@ final public class MinieTestShapes {
             float legLength = 2f;
             float legOffset = 1f;
             float legRadius = 0.2f;
-            CollisionShape chair = CompoundTestShapes.makeChair(backLength,
-                    legLength, legOffset, legRadius);
+            CollisionShape chair = CompoundTestShapes
+                    .makeChair(backLength, legLength, legOffset, legRadius);
             namedShapes.put("chair", chair);
         }
 
@@ -136,8 +136,8 @@ final public class MinieTestShapes {
             float rungLength = 2f; // TODO randomize
             float rungSpacing = 2f;
             float rungRadius = 0.2f;
-            CollisionShape ladder = CompoundTestShapes.makeLadder(rungLength,
-                    rungSpacing, rungRadius);
+            CollisionShape ladder = CompoundTestShapes.makeLadder(
+                    rungLength, rungSpacing, rungRadius);
             namedShapes.put("ladder", ladder);
         }
 
@@ -206,10 +206,9 @@ final public class MinieTestShapes {
         boolean flipTriangleWinding = false;
         boolean useDiamond = true;
         boolean useZigzag = false;
-        HeightfieldCollisionShape result
-                = new HeightfieldCollisionShape(n, n, array, scale, upAxis,
-                        flipQuadEdges, flipTriangleWinding, useDiamond,
-                        useZigzag);
+        HeightfieldCollisionShape result = new HeightfieldCollisionShape(
+                n, n, array, scale, upAxis, flipQuadEdges,
+                flipTriangleWinding, useDiamond, useZigzag);
 
         return result;
     }
@@ -238,8 +237,8 @@ final public class MinieTestShapes {
      * radians, &lt;Pi, &gt;0, Pi/2 &rarr; hemisphere)
      * @return a new hull shape
      */
-    public static HullCollisionShape makeDome(float radius,
-            float verticalAngle) {
+    public static HullCollisionShape makeDome(
+            float radius, float verticalAngle) {
         Validate.positive(radius, "radius");
         Validate.inRange(verticalAngle, "vertical angle", 0f, FastMath.PI);
 

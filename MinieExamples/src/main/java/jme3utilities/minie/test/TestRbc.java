@@ -1394,8 +1394,8 @@ public class TestRbc
 
         float margin = testShape.getMargin();
         Vector3f scale = testShape.getScale(null);
-        message = String.format("view=%s, margin=%.3f, scale=%s",
-                viewName, margin, scale);
+        message = String.format(
+                "view=%s, margin=%.3f, scale=%s", viewName, margin, scale);
         if (partIndex >= 0) {
             message += String.format(", part[%d]", partIndex);
         }

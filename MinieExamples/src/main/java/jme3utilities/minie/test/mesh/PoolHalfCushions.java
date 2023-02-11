@@ -74,8 +74,8 @@ public class PoolHalfCushions extends Mesh {
      */
     public PoolHalfCushions(float legLength, float pocketRadius,
             int numArcEdges, float yHeight) {
-        Validate.inRange(legLength, "leg length", pocketRadius,
-                Float.MAX_VALUE);
+        Validate.inRange(
+                legLength, "leg length", pocketRadius, Float.MAX_VALUE);
         Validate.inRange(pocketRadius, "pocket radius", 0f, legLength);
         Validate.positive(numArcEdges, "number of arc edges");
 

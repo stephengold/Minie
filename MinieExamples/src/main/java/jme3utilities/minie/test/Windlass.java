@@ -181,8 +181,8 @@ public class Windlass
                 2_048, 1_080 // max width, height
         );
         final String title = applicationName + " " + MyString.join(arguments);
-        proposedSettings = new DisplaySettings(application, applicationName,
-                sizeLimits) {
+        proposedSettings = new DisplaySettings(
+                application, applicationName, sizeLimits) {
             @Override
             protected void applyOverrides(AppSettings settings) {
                 setShowDialog(ShowDialog.Never);
@@ -481,8 +481,8 @@ public class Windlass
         float barrelMass = 100f;
         barrel = new PhysicsRigidBody(barrelShape, barrelMass);
         barrel.setKinematic(true);
-        barrel.setAnisotropicFriction(new Vector3f(900f, 10f, 10f),
-                AfMode.basic);
+        barrel.setAnisotropicFriction(
+                new Vector3f(900f, 10f, 10f), AfMode.basic);
         barrel.setFriction(0f); // disable normal friction
 
         Material material = findMaterial("drab");

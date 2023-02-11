@@ -116,8 +116,8 @@ final public class TestIssue18Heightfield
         float characterRadius = 1f;
         float characterHeight = 4f;
         float characterMass = 1f;
-        bcc = new BetterCharacterControl(characterRadius, characterHeight,
-                characterMass);
+        bcc = new BetterCharacterControl(
+                characterRadius, characterHeight, characterMass);
         controlledNode.addControl(bcc);
         physicsSpace.add(bcc);
     }

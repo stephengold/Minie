@@ -230,8 +230,8 @@ public class PoolDemo extends PhysicsDemo {
             String ballName = ballName(ballId);
             String assetPath = "Textures/poolBalls/" + ballName + ".png";
             final boolean generateMips = false;
-            Texture texture = MyAsset.loadTexture(assetManager, assetPath,
-                    generateMips);
+            Texture texture = MyAsset
+                    .loadTexture(assetManager, assetPath, generateMips);
 
             Material material
                     = MyAsset.createShadedMaterial(assetManager, texture);

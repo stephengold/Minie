@@ -297,8 +297,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
      * @param centerY the desired Y coordinate of the center (in physics-space
      * coordinates)
      */
-    public void addPlatform(String shapeName, MeshNormals normals,
-            float centerY) {
+    public void addPlatform(
+            String shapeName, MeshNormals normals, float centerY) {
         Validate.nonNull(shapeName, "shape name");
 
         CollisionShape shape = findShape(shapeName);
@@ -409,8 +409,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
     public void generateMaterials() {
         super.generateMaterials();
 
-        Texture texture = MyAsset.loadTexture(assetManager,
-                "Textures/greenTile.png", true);
+        Texture texture = MyAsset
+                .loadTexture(assetManager, "Textures/greenTile.png", true);
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
         Material greenTile
@@ -664,13 +664,13 @@ abstract public class PhysicsDemo extends AcorusDemo {
      * @param topHalfExtent half the desired extent of the top surface (&gt;0)
      * @param thickness the desired thickness (in physics-space units, &gt;0)
      */
-    private void addBoxPlatform(float topY, float topHalfExtent,
-            float thickness) {
+    private void addBoxPlatform(
+            float topY, float topHalfExtent, float thickness) {
         Validate.positive(topHalfExtent, "top half extent");
         Validate.positive(thickness, "thickness");
 
-        CollisionShape shape = new BoxCollisionShape(topHalfExtent,
-                thickness / 2f, topHalfExtent);
+        CollisionShape shape = new BoxCollisionShape(
+                topHalfExtent, thickness / 2f, topHalfExtent);
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
@@ -722,8 +722,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
         Validate.positive(topRadius, "top radius");
 
         float height = 3f * topRadius; // tall to mitigate smoothed normals
-        CylinderCollisionShape shape = new CylinderCollisionShape(topRadius,
-                height, PhysicsSpace.AXIS_Y);
+        CylinderCollisionShape shape = new CylinderCollisionShape(
+                topRadius, height, PhysicsSpace.AXIS_Y);
 
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
@@ -816,8 +816,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
      * @param topHalfExtent half the desired extent of the top surface (&gt;0)
      * @param thickness the desired thickness (in physics-space units, &gt;0)
      */
-    private void addSquarePlatform(float topY, float topHalfExtent,
-            float thickness) {
+    private void addSquarePlatform(
+            float topY, float topHalfExtent, float thickness) {
         Validate.positive(topHalfExtent, "top half extent");
         Validate.positive(thickness, "thickness");
 

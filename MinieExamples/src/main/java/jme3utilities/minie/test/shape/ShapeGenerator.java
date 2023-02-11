@@ -562,8 +562,8 @@ public class ShapeGenerator extends Generator {
         int numPoints = nextInt(4, 9);
         float radiusRatio = nextFloat(0.2f, 0.7f);
         int numTriangles = 4 + 2 * nextInt(0, 1);
-        CompoundCollisionShape result = CompoundTestShapes.makeStar(numPoints,
-                outerRadius, centerY, radiusRatio, numTriangles);
+        CompoundCollisionShape result = CompoundTestShapes.makeStar(
+                numPoints, outerRadius, centerY, radiusRatio, numTriangles);
 
         return result;
     }

@@ -115,8 +115,8 @@ public class TestIssue883 extends SimpleApplication {
             firstPrint = false;
         }
 
-        System.out.printf(" frameTime= %s   physicsTime= %s%n",
-                frameTime, physicsTime);
+        System.out.printf(
+                " frameTime= %s   physicsTime= %s%n", frameTime, physicsTime);
         timeToNextPrint = 1f;
     }
 }

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -531,9 +531,8 @@ public class SeJointDemo extends PhysicsDemo {
                 rotInSeed.loadIdentity();
                 angle = (groupIndex - 1) * FastMath.HALF_PI;
                 rotInWorld.fromAngleAxis(angle, Vector3f.UNIT_Z);
-                New6Dof nJoint = new New6Dof(
-                        rbc, pivotInSeed, pivotInWorld, rotInSeed, rotInWorld,
-                        RotationOrder.XYZ);
+                New6Dof nJoint = new New6Dof(rbc, pivotInSeed, pivotInWorld,
+                        rotInSeed, rotInWorld, RotationOrder.XYZ);
                 RotationMotor x = nJoint.getRotationMotor(PhysicsSpace.AXIS_X);
                 x.set(MotorParam.LowerLimit, 0f);
                 x.set(MotorParam.UpperLimit, 0f);

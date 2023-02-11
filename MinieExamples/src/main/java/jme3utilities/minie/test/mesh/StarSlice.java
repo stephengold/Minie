@@ -81,8 +81,8 @@ public class StarSlice extends Mesh {
             float yThickness, boolean generateNormals, int numTriangles) {
         Validate.inRange(sliceAngle, "slice angle", 0, FastMath.PI);
         Validate.positive(innerRadius, "inner radius");
-        Validate.inRange(outerRadius, "outer radius", innerRadius,
-                Float.MAX_VALUE);
+        Validate.inRange(
+                outerRadius, "outer radius", innerRadius, Float.MAX_VALUE);
         Validate.positive(yThickness, "thickness");
 
         float centerY = yThickness / 2f;
@@ -144,8 +144,8 @@ public class StarSlice extends Mesh {
             throw new IllegalArgumentException(message);
         }
 
-        setBuffer(VertexBuffer.Type.Position, MyVector3f.numAxes,
-                positionBuffer);
+        setBuffer(
+                VertexBuffer.Type.Position, MyVector3f.numAxes, positionBuffer);
         positionBuffer.clear();
 
         if (generateNormals) {

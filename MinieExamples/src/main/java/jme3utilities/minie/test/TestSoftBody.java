@@ -322,8 +322,8 @@ public class TestSoftBody
         renderState.setFaceCullMode(RenderState.FaceCullMode.Off);
         registerMaterial("plaid", plaidMaterial);
 
-        Texture texture = MyAsset.loadTexture(assetManager,
-                "Interface/Logo/Monkey.png", true);
+        Texture texture = MyAsset.loadTexture(
+                assetManager, "Interface/Logo/Monkey.png", true);
         Material logoMaterial
                 = MyAsset.createShadedMaterial(assetManager, texture);
         renderState = logoMaterial.getAdditionalRenderState();

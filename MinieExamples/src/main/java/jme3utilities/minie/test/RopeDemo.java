@@ -586,8 +586,8 @@ public class RopeDemo extends PhysicsDemo {
         };
         Armature armature = makeArmature(stepCounts, stepOffsets);
 
-        TubeTreeMesh ropeMesh = new TubeTreeMesh(armature, ropeRadius,
-                0f, loopsPerSegment, samplesPerLoop);
+        TubeTreeMesh ropeMesh = new TubeTreeMesh(
+                armature, ropeRadius, 0f, loopsPerSegment, samplesPerLoop);
         String geometryName = geometryNamer.unique("noose");
         Geometry geometry = new Geometry(geometryName, ropeMesh);
 
@@ -615,8 +615,8 @@ public class RopeDemo extends PhysicsDemo {
         };
         Armature armature = makeArmature(stepCounts, stepOffsets);
 
-        TubeTreeMesh ropeMesh = new TubeTreeMesh(armature, ropeRadius,
-                0f, loopsPerSegment, samplesPerLoop);
+        TubeTreeMesh ropeMesh = new TubeTreeMesh(
+                armature, ropeRadius, 0f, loopsPerSegment, samplesPerLoop);
 
         String geometryName = geometryNamer.unique("rope ring");
         Geometry geometry = new Geometry(geometryName, ropeMesh);

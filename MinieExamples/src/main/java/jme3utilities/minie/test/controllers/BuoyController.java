@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -77,8 +77,8 @@ public class BuoyController extends IKController {
      * @param surfaceY the Y coordinate of the surface (in physics-space
      * coordinates)
      */
-    public BuoyController(PhysicsLink controlledLink, float densityOfMedium,
-            float surfaceY) {
+    public BuoyController(
+            PhysicsLink controlledLink, float densityOfMedium, float surfaceY) {
         super(controlledLink);
         Validate.positive(densityOfMedium, "density of medium");
 

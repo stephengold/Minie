@@ -98,10 +98,10 @@ final public class TestIssue13 extends SimpleApplication {
         cam.setRotation(new Quaternion(-0.013f, 0.98608f, -0.1254f, -0.1084f));
         flyCam.setMoveSpeed(100f);
 
-        Material hiMat = MyAsset.createWireframeMaterial(assetManager,
-                ColorRGBA.Red, 3f);
-        Material loMat = MyAsset.createWireframeMaterial(assetManager,
-                ColorRGBA.Green, 3f);
+        Material hiMat = MyAsset
+                .createWireframeMaterial(assetManager, ColorRGBA.Red, 3f);
+        Material loMat = MyAsset
+                .createWireframeMaterial(assetManager, ColorRGBA.Green, 3f);
 
         // Add axes
         float axisLength = 30f;
