@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -248,16 +248,14 @@ final public class MinieTestShapes {
         DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
         mesh.setVerticalAngle(verticalAngle);
         FloatBuffer buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-        /*
-         * Scale mesh positions to the desired radius.
-         */
+
+        // Scale mesh positions to the desired radius.
         int start = 0;
         int end = buffer.limit();
         Vector3f scale = new Vector3f(radius, radius, radius);
         MyBuffer.scale(buffer, start, end, scale);
-        /*
-         * Use max-min to center the vertices.
-         */
+
+        // Use max-min to center the vertices.
         Vector3f max = new Vector3f();
         Vector3f min = new Vector3f();
         MyBuffer.maxMin(buffer, start, end, max, min);

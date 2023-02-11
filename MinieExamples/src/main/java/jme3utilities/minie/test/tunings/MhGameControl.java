@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022 Stephen Gold
+ Copyright (c) 2018-2023 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -64,9 +64,8 @@ public class MhGameControl
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.XZY);
-        /*
-         * Generate FourSphere shapes for links with > 1,000 mesh vertices.
-         */
+
+        // Generate FourSphere shapes for links with > 1,000 mesh vertices.
         LinkConfig simplified = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.FourSphere, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.XZY);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -613,9 +613,8 @@ final public class CompoundTestShapes {
         float zHalfExtent = (numXWires - 1) * wireSpacing / 2f;
         CompoundCollisionShape result
                 = new CompoundCollisionShape(numXWires + numZWires + 1);
-        /*
-         * Add numXWires wires parallel to the X axis.
-         */
+
+        // Add numXWires wires parallel to the X axis.
         Vector3f p0 = new Vector3f(-xHalfExtent, 0f, 0f);
         Vector3f p1 = new Vector3f(xHalfExtent, 0f, 0f);
         SimplexCollisionShape xWire = new SimplexCollisionShape(p0, p1);
@@ -624,9 +623,8 @@ final public class CompoundTestShapes {
             float z = -zHalfExtent + wireSpacing * zIndex;
             result.addChildShape(xWire, 0f, yHeight, z);
         }
-        /*
-         * Add numZWires wires parallel to the Z axis.
-         */
+
+        // Add numZWires wires parallel to the Z axis.
         p0.set(0f, 0f, -zHalfExtent);
         p1.set(0f, 0f, zHalfExtent);
         SimplexCollisionShape zWire = new SimplexCollisionShape(p0, p1);
@@ -635,9 +633,8 @@ final public class CompoundTestShapes {
             float x = -xHalfExtent + wireSpacing * xIndex;
             result.addChildShape(zWire, x, yHeight, 0f);
         }
-        /*
-         * Add a plane to catch any drops that pass through the sieve.
-         */
+
+        // Add a plane to catch any drops that pass through the sieve.
         Plane plane = new Plane(Vector3f.UNIT_Y, 0f);
         PlaneCollisionShape pcs = new PlaneCollisionShape(plane);
         result.addChildShape(pcs);

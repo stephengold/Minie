@@ -85,7 +85,7 @@ final public class TestIssue18Heightfield
     /**
      * Instantiate the TestIssue18Heightfield application.
      */
-    public TestIssue18Heightfield() { // to avoid warning from JDK 18 javadoc
+    public TestIssue18Heightfield() { // to avoid a warning from JDK 18 javadoc
     }
     // *************************************************************************
     // new methods exposed
@@ -129,9 +129,7 @@ final public class TestIssue18Heightfield
      */
     @Override
     public void simpleUpdate(float tpf) {
-        /*
-         * Terminate the test after 200 time steps.
-         */
+        // Terminate the test after 200 time steps.
         if (tickCount > 200) {
             stop();
         }
@@ -147,9 +145,7 @@ final public class TestIssue18Heightfield
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
-        /*
-         * Determine the character's elevation and print it if it's a new high.
-         */
+        // Determine the character's elevation and print it if it's a new high.
         PhysicsRigidBody body = bcc.getRigidBody();
         Vector3f location = body.getPhysicsLocation();
         if (location.y > maxElevation) {
@@ -167,9 +163,8 @@ final public class TestIssue18Heightfield
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         ++tickCount;
-        /*
-         * Walk rapidly back and forth across the seam between the 2 triangles.
-         */
+
+        // Walk rapidly back and forth across the seam between the 2 triangles.
         Vector3f desiredVelocity = new Vector3f();
         float walkSpeed = 99f;
         if (increasingX) {

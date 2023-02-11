@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2021, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -86,9 +86,8 @@ public class NetGrid extends Mesh {
         int numFloats = numAxes * numVertices;
         FloatBuffer posBuffer = BufferUtils.createFloatBuffer(numFloats);
         setBuffer(VertexBuffer.Type.Position, numAxes, posBuffer);
-        /*
-         * Write the vertex locations:
-         */
+
+        // Write the vertex locations:
         for (int xIndex = 0; xIndex < zLines; ++xIndex) {
             float x = (2 * xIndex - zLines + 1) * lineSpacing / 2f;
             for (int zIndex = 0; zIndex < xLines; ++zIndex) {
@@ -106,9 +105,8 @@ public class NetGrid extends Mesh {
         VertexBuffer.Format ibFormat = indexBuffer.getFormat();
         Buffer ibData = indexBuffer.getBuffer();
         setBuffer(VertexBuffer.Type.Index, 1, ibFormat, ibData);
-        /*
-         * Write vertex indices for edges that parallel the X axis:
-         */
+
+        // Write vertex indices for edges that parallel the X axis:
         for (int zIndex = 0; zIndex < xLines; ++zIndex) {
             for (int xIndex = 0; xIndex < zLines - 1; ++xIndex) {
                 int vi0 = zIndex + xLines * xIndex;
@@ -117,9 +115,8 @@ public class NetGrid extends Mesh {
                 indexBuffer.put(vi1);
             }
         }
-        /*
-         * Write vertex indices for edges the parallel the Z axis:
-         */
+
+        // Write vertex indices for edges the parallel the Z axis:
         for (int xIndex = 0; xIndex < zLines; ++xIndex) {
             for (int zIndex = 0; zIndex < xLines - 1; ++zIndex) {
                 int vi0 = zIndex + xLines * xIndex;

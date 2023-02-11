@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -295,9 +295,8 @@ public class TubeTreeMesh extends Mesh {
         this.loopsPerSegment = capsule.readInt("loopsPerSegment", 3);
         this.samplesPerLoop = capsule.readInt("samplesPerLoop", 12);
         this.armature = (Armature) capsule.readSavable("armature", null);
-        /*
-         * Recalculate the derived properties.
-         */
+
+        // Recalculate the derived properties.
         updateDerivedProperties();
     }
 
@@ -476,9 +475,8 @@ public class TubeTreeMesh extends Mesh {
         Vector3f c = reusable[2];
 
         int startBufferOffset = positionBuffer.position();
-        /*
-         * Put a triangle for each sample point except the first and last.
-         */
+
+        // Put a triangle for each sample point except the first and last.
         for (int triIndex = 1; triIndex < samplesPerLoop - 1; ++triIndex) {
             Vector3f pos1 = circleSamples[0];
             Vector3f pos2;
@@ -578,9 +576,8 @@ public class TubeTreeMesh extends Mesh {
                 float y2 = circleSamples[rectIndex + 1].y * radius;
                 Vector3f normal1 = circleSamples[rectIndex];
                 Vector3f normal2 = circleSamples[rectIndex + 1];
-                /*
-                 * Put the lower-right triangle.
-                 */
+
+                // Put the lower-right triangle.
                 pos11.set(x1, y1, z1);
                 pos21.set(x2, y2, z1);
                 pos22.set(x2, y2, z2);
@@ -599,9 +596,8 @@ public class TubeTreeMesh extends Mesh {
                         endJointIndex, startJointIndex, fraction1);
                 putAnimationForVertex(
                         endJointIndex, startJointIndex, fraction2);
-                /*
-                 * Put the upper-left triangle.
-                 */
+
+                // Put the upper-left triangle.
                 pos11.set(x1, y1, z1);
                 pos12.set(x1, y1, z2);
                 pos22.set(x2, y2, z2);

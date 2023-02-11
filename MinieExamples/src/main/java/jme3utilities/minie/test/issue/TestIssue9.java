@@ -108,16 +108,13 @@ final public class TestIssue9 extends SimpleApplication {
      * Clone soft bodies.
      */
     private void clonePsb() {
-        /*
-         * empty
-         */
+        // empty
         PhysicsSoftBody soft = new PhysicsSoftBody();
         setParameters(soft, 0f);
         PhysicsSoftBody softClone = Heart.deepCopy(soft);
         cloneTest(soft, softClone);
-        /*
-         * non-empty
-         */
+
+        // non-empty
         PhysicsSoftBody soft2 = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft2);
         setParameters(soft2, 0f);

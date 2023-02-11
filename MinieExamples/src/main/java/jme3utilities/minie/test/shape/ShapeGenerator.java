@@ -241,9 +241,8 @@ public class ShapeGenerator extends Generator {
             tmpLocation.multLocal(1.5f);
             buffer.put(tmpLocation.x).put(tmpLocation.y).put(tmpLocation.z);
         }
-        /*
-         * Use arithmetic mean to center the vertices.
-         */
+
+        // Use arithmetic mean to center the vertices.
         int start = 0;
         int end = buffer.limit();
         Vector3f offset = MyBuffer.mean(buffer, start, end, null);
@@ -301,9 +300,8 @@ public class ShapeGenerator extends Generator {
 
         List<Vector3f> centers = new ArrayList<>(numSpheres);
         List<Float> radii = new ArrayList<>(numSpheres);
-        /*
-         * The first sphere is always centered.
-         */
+
+        // The first sphere is always centered.
         centers.add(Vector3f.ZERO);
         float mainRadius = nextFloat(0.8f, 1.4f);
         radii.add(mainRadius);
