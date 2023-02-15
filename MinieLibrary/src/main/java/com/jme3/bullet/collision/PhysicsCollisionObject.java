@@ -1737,14 +1737,12 @@ abstract public class PhysicsCollisionObject
             capsule.write(components, tagAnisotropicFrictionComponents, null);
         }
 
-        int numIgnored = ignoreList.size();
-        Savable[] tmpArray = new Savable[numIgnored];
-        int index = 0;
-        for (PhysicsCollisionObject pco : ignoreList) {
-            tmpArray[index] = pco;
-            ++index;
+        if (ignoreList != null) {
+            int numIgnored = ignoreList.size();
+            Savable[] tmpArray = new Savable[numIgnored];
+            ignoreList.toArray(tmpArray);
+            capsule.write(tmpArray, tagIgnoreList, null);
         }
-        capsule.write(tmpArray, tagIgnoreList, null);
     }
     // *************************************************************************
     // NativePhysicsObject methods
