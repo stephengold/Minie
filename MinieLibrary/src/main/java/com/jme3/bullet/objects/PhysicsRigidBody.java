@@ -1055,6 +1055,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setPhysicsRotationDp(Matrix3d orientation) {
         Validate.nonNull(orientation, "orientation");
+        if (getCollisionShape() instanceof HeightfieldCollisionShape
+                && !orientation.isIdentity()) {
+            throw new IllegalArgumentException("No rotation of heightfields.");
+        }
 
         long objectId = nativeId();
         setPhysicsRotationDp(objectId, orientation);
@@ -1068,6 +1072,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     public void setPhysicsRotationDp(Quatd orientation) {
         Validate.nonNull(orientation, "orientation");
+        if (getCollisionShape() instanceof HeightfieldCollisionShape
+                && !orientation.isRotationIdentity()) {
+            throw new IllegalArgumentException("No rotation of heightfields.");
+        }
 
         long objectId = nativeId();
         setPhysicsRotationDp(objectId, orientation);
