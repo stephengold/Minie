@@ -321,7 +321,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#findInstance(long)" class="member-name-link">findInstance</a><wbr>(long&nbsp;pcoId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Find the PhysicCollisionObject with the specified ID.</div>
+<div class="block">Find the collision object with the specified ID.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActivationState()" class="member-name-link">getActivationState</a>()</code></div>
@@ -683,7 +683,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIgnoreList(long%5B%5D)" class="member-name-link">setIgnoreList</a><wbr>(long[]&nbsp;idList)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the ignore list.</div>
+<div class="block">Replace the ignore list.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLocationAndBasis(com.jme3.math.Vector3f,com.jme3.math.Matrix3f)" class="member-name-link">setLocationAndBasis</a><wbr>(com.jme3.math.Vector3f&nbsp;centerLocation,
@@ -1074,7 +1074,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
  ignore list doesn't affect them.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>otherPco</code> - the other collision object (not null, not this, modified)</dd>
+<dd><code>otherPco</code> - the other collision object (not null, not <code>this</code>,
+ modified)</dd>
 </dl>
 </section>
 </li>
@@ -1193,7 +1194,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="findInstance(long)">
 <h3>findInstance</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></span>&nbsp;<span class="element-name">findInstance</span><wbr><span class="parameters">(long&nbsp;pcoId)</span></div>
-<div class="block">Find the PhysicCollisionObject with the specified ID. Native method.</div>
+<div class="block">Find the collision object with the specified ID. Native method.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>pcoId</code> - the native identifier (not zero)</dd>
@@ -2021,7 +2022,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setIgnoreList(long[])">
 <h3>setIgnoreList</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIgnoreList</span><wbr><span class="parameters">(long[]&nbsp;idList)</span></div>
-<div class="block">Alter the ignore list.</div>
+<div class="block">Replace the ignore list.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>idList</code> - the collision-object IDs to ignore (not null, may be empty,
@@ -2219,7 +2220,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIgnoreCollisionCheck</span><wbr><span class="parameters">(long&nbsp;object1Id,
  long&nbsp;object2Id,
  boolean&nbsp;setting)</span></div>
-<div class="block">Alter the ignore list for collisions.</div>
+<div class="block">Alter the ignore list for collisions. TODO privatize</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>object1Id</code> - the ID of the first btCollisionObject (not zero)</dd>
