@@ -351,8 +351,8 @@ public class TestDefaults {
         float suspensionRestLength = 0.1f;
         float wheelRadius = 1f;
         boolean isFrontWheel = true;
-        VehicleWheel wheel = vehicle.addWheel(null,
-                connectionPoint, direction, axle, suspensionRestLength,
+        VehicleWheel wheel = vehicle.addWheel(
+                null, connectionPoint, direction, axle, suspensionRestLength,
                 wheelRadius, isFrontWheel);
         Assert.assertEquals(0f, wheel.getBrake(), 0f);
         Assert.assertEquals(0f, wheel.getEngineForce(), 0f);
@@ -376,8 +376,8 @@ public class TestDefaults {
         Assert.assertNotNull(space);
         Assert.assertTrue(space.isEmpty());
         Assert.assertEquals(0, space.countCollisionObjects());
-        Assert.assertEquals(RayTestFlag.SubSimplexRaytest,
-                space.getRayTestFlags());
+        Assert.assertEquals(
+                RayTestFlag.SubSimplexRaytest, space.getRayTestFlags());
         Assert.assertTrue(space.isForceUpdateAllAabbs());
         Assert.assertFalse(space.isUsingDeterministicDispatch());
     }
@@ -390,8 +390,8 @@ public class TestDefaults {
 
         float simdInf = NativeLibrary.isDoublePrecision()
                 ? Float.POSITIVE_INFINITY : Float.MAX_VALUE;
-        Assert.assertEquals(simdInf, constraint.getBreakingImpulseThreshold(),
-                0f);
+        Assert.assertEquals(
+                simdInf, constraint.getBreakingImpulseThreshold(), 0f);
         Assert.assertTrue(constraint.isCollisionBetweenLinkedBodies());
         Assert.assertTrue(constraint.isEnabled());
     }
@@ -405,24 +405,24 @@ public class TestDefaults {
                 new Vector3f(1f, 0f, 0f));
         testGear(gear, 2);
 
-        HingeJoint seHinge = new HingeJoint(rigidA,
-                new Vector3f(), new Vector3f(),
+        HingeJoint seHinge = new HingeJoint(
+                rigidA, new Vector3f(), new Vector3f(),
                 new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f), JointEnd.A);
         testHinge(seHinge, 1);
 
-        HingeJoint deHinge = new HingeJoint(rigidA, rigidB,
-                new Vector3f(), new Vector3f(),
+        HingeJoint deHinge = new HingeJoint(
+                rigidA, rigidB, new Vector3f(), new Vector3f(),
                 new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f));
         testHinge(deHinge, 2);
 
-        New6Dof seNew6Dof = new New6Dof(rigidB,
-                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
-                RotationOrder.ZYX);
+        New6Dof seNew6Dof = new New6Dof(
+                rigidB, new Vector3f(), new Vector3f(), new Matrix3f(),
+                new Matrix3f(), RotationOrder.ZYX);
         testNew6Dof(seNew6Dof, 1);
 
-        New6Dof deNew6Dof = new New6Dof(rigidA, rigidB,
-                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
-                RotationOrder.XYZ);
+        New6Dof deNew6Dof = new New6Dof(
+                rigidA, rigidB, new Vector3f(), new Vector3f(), new Matrix3f(),
+                new Matrix3f(), RotationOrder.XYZ);
         testNew6Dof(deNew6Dof, 2);
 
         NewHinge newHinge = new NewHinge(rigidA, rigidB, Vector3f.ZERO,
@@ -432,12 +432,12 @@ public class TestDefaults {
         Point2PointJoint sep2p = new Point2PointJoint(rigidA, new Vector3f());
         testP2P(sep2p, 1);
 
-        Point2PointJoint dep2p = new Point2PointJoint(rigidA, rigidB,
-                new Vector3f(), new Vector3f());
+        Point2PointJoint dep2p = new Point2PointJoint(
+                rigidA, rigidB, new Vector3f(), new Vector3f());
         testP2P(dep2p, 2);
 
-        SixDofJoint deSix = new SixDofJoint(rigidA, rigidB, new Vector3f(),
-                new Vector3f(), false);
+        SixDofJoint deSix = new SixDofJoint(
+                rigidA, rigidB, new Vector3f(), new Vector3f(), false);
         testSixDof(deSix, 2);
 
         SixDofSpringJoint deSpring = new SixDofSpringJoint(rigidA, rigidB,
@@ -702,16 +702,16 @@ public class TestDefaults {
         Assert.assertEquals(0.1f, pco.getContactDamping(), 0f);
 
         float largeFloat = NativeLibrary.isDoublePrecision() ? 1e30f : 1e18f;
-        Assert.assertEquals(largeFloat,
-                pco.getContactProcessingThreshold(), 0f);
+        Assert.assertEquals(
+                largeFloat, pco.getContactProcessingThreshold(), 0f);
         Assert.assertEquals(largeFloat, pco.getContactStiffness(), 0f);
 
         Assert.assertEquals(0f, pco.getDeactivationTime(), 0f);
         Assert.assertNull(pco.getDebugMaterial());
         Assert.assertNull(pco.debugMeshInitListener());
         Assert.assertSame(MeshNormals.None, pco.debugMeshNormals());
-        Assert.assertEquals(DebugShapeFactory.lowResolution,
-                pco.debugMeshResolution());
+        Assert.assertEquals(
+                DebugShapeFactory.lowResolution, pco.debugMeshResolution());
         Assert.assertEquals(1, pco.debugNumSides());
         Assert.assertEquals(0.5f, pco.getFriction(), 0f);
 
