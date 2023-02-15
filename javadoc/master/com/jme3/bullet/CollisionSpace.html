@@ -271,82 +271,96 @@ loadScripts(document, 'script');</script>
 <div class="block">Test whether this space is empty.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isUsingDeterministicDispatch()" class="member-name-link">isUsingDeterministicDispatch</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isForceUpdateAllAabbs()" class="member-name-link">isForceUpdateAllAabbs</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Test whether the bounding boxes of inactive collision objects should be
+ recomputed during each <code>update()</code> (native field:
+ m_forceUpdateAllAabbs).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isUsingDeterministicDispatch()" class="member-name-link">isUsingDeterministicDispatch</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the "deterministic overlapping pairs" option is enabled in
  the collision dispatcher (native field: m_deterministicOverlappingPairs).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jniEnvId()" class="member-name-link">jniEnvId</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jniEnvId()" class="member-name-link">jniEnvId</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Return the address of the JNIEnv that this space uses for callbacks.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#needsCollision(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">needsCollision</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#needsCollision(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">needsCollision</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
  <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Callback to determine whether the specified objects should be allowed to
  collide.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pairTest(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">pairTest</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pairTest(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">pairTest</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
  <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
  <a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Perform a pair test.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">rayTest</a><wbr>(com.jme3.math.Vector3f&nbsp;from,
- com.jme3.math.Vector3f&nbsp;to)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Perform a ray-collision test (raycast) and sort the results by ascending
- hitFraction.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)" class="member-name-link">rayTest</a><wbr>(com.jme3.math.Vector3f&nbsp;from,
- com.jme3.math.Vector3f&nbsp;to,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;&nbsp;results)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">rayTest</a><wbr>(com.jme3.math.Vector3f&nbsp;from,
+ com.jme3.math.Vector3f&nbsp;to)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Perform a ray-collision test (raycast) and sort the results by ascending
  hitFraction.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTestDp(com.simsilica.mathd.Vec3d,com.simsilica.mathd.Vec3d,java.util.List)" class="member-name-link">rayTestDp</a><wbr>(com.simsilica.mathd.Vec3d&nbsp;from,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)" class="member-name-link">rayTest</a><wbr>(com.jme3.math.Vector3f&nbsp;from,
+ com.jme3.math.Vector3f&nbsp;to,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;&nbsp;results)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Perform a ray-collision test (raycast) and sort the results by ascending
+ hitFraction.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTestDp(com.simsilica.mathd.Vec3d,com.simsilica.mathd.Vec3d,java.util.List)" class="member-name-link">rayTestDp</a><wbr>(com.simsilica.mathd.Vec3d&nbsp;from,
  com.simsilica.mathd.Vec3d&nbsp;to,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;&nbsp;results)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Perform a ray-collision test (raycast) and sort the results by ascending
  hitFraction.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">rayTestRaw</a><wbr>(com.jme3.math.Vector3f&nbsp;from,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">rayTestRaw</a><wbr>(com.jme3.math.Vector3f&nbsp;from,
  com.jme3.math.Vector3f&nbsp;to)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Perform a ray-collision test (raycast) and return the results in
  arbitrary order.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)" class="member-name-link">rayTestRaw</a><wbr>(com.jme3.math.Vector3f&nbsp;from,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)" class="member-name-link">rayTestRaw</a><wbr>(com.jme3.math.Vector3f&nbsp;from,
  com.jme3.math.Vector3f&nbsp;to,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsRayTestResult.html" title="class in com.jme3.bullet.collision">PhysicsRayTestResult</a>&gt;&nbsp;results)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Perform a ray-collision test (raycast) and return the results in
  arbitrary order.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(java.lang.Object)" class="member-name-link">remove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(java.lang.Object)" class="member-name-link">remove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove the specified object from this space.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionGroupListener(int)" class="member-name-link">removeCollisionGroupListener</a><wbr>(int&nbsp;collisionGroup)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionGroupListener(int)" class="member-name-link">removeCollisionGroupListener</a><wbr>(int&nbsp;collisionGroup)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-register the specified collision-group listener.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">removeCollisionObject</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">removeCollisionObject</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove the specified collision object from this space.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setForceUpdateAllAabbs(boolean)" class="member-name-link">setForceUpdateAllAabbs</a><wbr>(boolean&nbsp;desiredSetting)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter whether the bounding boxes of inactive collision objects should be
+ recomputed during each <code>update()</code> (native field:
+ m_forceUpdateAllAabbs).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRayTestFlags(int)" class="member-name-link">setRayTestFlags</a><wbr>(int&nbsp;flags)</code></div>
@@ -725,6 +739,19 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="isForceUpdateAllAabbs()">
+<h3>isForceUpdateAllAabbs</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isForceUpdateAllAabbs</span>()</div>
+<div class="block">Test whether the bounding boxes of inactive collision objects should be
+ recomputed during each <code>update()</code> (native field:
+ m_forceUpdateAllAabbs).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true to recompute all AABBs, false to skip inactive objects</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="isUsingDeterministicDispatch()">
 <h3>isUsingDeterministicDispatch</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isUsingDeterministicDispatch</span>()</div>
@@ -920,6 +947,20 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>pco</code> - the collision object to remove (not null, modified)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setForceUpdateAllAabbs(boolean)">
+<h3>setForceUpdateAllAabbs</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setForceUpdateAllAabbs</span><wbr><span class="parameters">(boolean&nbsp;desiredSetting)</span></div>
+<div class="block">Alter whether the bounding boxes of inactive collision objects should be
+ recomputed during each <code>update()</code> (native field:
+ m_forceUpdateAllAabbs).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>desiredSetting</code> - true &rarr; recompute all AABBs, false &rarr; skip
+ inactive objects (default=true)</dd>
 </dl>
 </section>
 </li>
