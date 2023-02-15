@@ -1458,16 +1458,18 @@ abstract public class PhysicsCollisionObject
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
         assert !doneCloningIgnores;
 
-        for (PhysicsCollisionObject oldPco : old.ignoreList) {
-            /*
-             * We want to ignore only new PCOs, not old ones,
-             * so if the other PCO hasn't cloned its list yet,
-             * wait and let *that* PCO invoke addToIgnoreList().
-             */
-            if (cloner.isCloned(oldPco)) {
-                PhysicsCollisionObject newPco = cloner.clone(oldPco);
-                if (newPco.doneCloningIgnores) {
-                    addToIgnoreList(newPco);
+        if (old.ignoreList != null) {
+            for (PhysicsCollisionObject oldPco : old.ignoreList) {
+                /*
+                 * We want to ignore only new PCOs, not old ones,
+                 * so if the other PCO hasn't cloned its list yet,
+                 * wait and let *that* PCO invoke addToIgnoreList().
+                 */
+                if (cloner.isCloned(oldPco)) {
+                    PhysicsCollisionObject newPco = cloner.clone(oldPco);
+                    if (newPco.doneCloningIgnores) {
+                        addToIgnoreList(newPco);
+                    }
                 }
             }
         }
