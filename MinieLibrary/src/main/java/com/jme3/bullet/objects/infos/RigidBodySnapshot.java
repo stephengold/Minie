@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 jMonkeyEngine
+ * Copyright (c) 2022-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@ package com.jme3.bullet.objects.infos;
 
 import com.jme3.bullet.collision.AfMode;
 import com.jme3.bullet.collision.CollisionFlag;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
@@ -134,9 +135,9 @@ public class RigidBodySnapshot {
      */
     final private int anisotropicFrictionModes;
     /**
-     * native IDs of all collision objects in the ignore list
+     * collision objects in the ignore list
      */
-    final private long[] ignoreList;
+    final private PhysicsCollisionObject[] ignoreList;
     /**
      * basis of the local coordinate system (in physics-space coordinates)
      */
@@ -219,7 +220,7 @@ public class RigidBodySnapshot {
         }
         this.anisotropicFrictionModes = afMode;
 
-        this.ignoreList = body.listIgnoredIds();
+        this.ignoreList = body.listIgnoredPcos();
         this.rotationMatrix = body.getPhysicsRotationMatrix(null);
 
         // Vec3d

@@ -1457,12 +1457,9 @@ abstract public class PhysicsCollisionObject
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
         assert !doneCloningIgnores;
 
-        long[] ignoredIds = old.listIgnoredIds();
-        for (long oldPcoId : ignoredIds) {
-            PhysicsCollisionObject oldPco = findInstance(oldPcoId);
-            assert oldPco != null;
+        for (PhysicsCollisionObject oldPco : old.ignoreList) {
             /*
-             * We want to ignore only new IDs, not old ones,
+             * We want to ignore only new PCOs, not old ones,
              * so if the other PCO hasn't cloned its list yet,
              * wait and let *that* PCO invoke addToIgnoreList().
              */
@@ -1541,9 +1538,9 @@ abstract public class PhysicsCollisionObject
             setAnisotropicFriction(components, mode);
         }
 
-        Savable[] ignoreList = capsule.readSavableArray(tagIgnoreList, null);
-        if (ignoreList != null) {
-            for (Savable savable : ignoreList) {
+        Savable[] tmpArray = capsule.readSavableArray(tagIgnoreList, null);
+        if (tmpArray != null) {
+            for (Savable savable : tmpArray) {
                 PhysicsCollisionObject pco = (PhysicsCollisionObject) savable;
                 addToIgnoreList(pco);
             }
@@ -1737,14 +1734,14 @@ abstract public class PhysicsCollisionObject
             capsule.write(components, tagAnisotropicFrictionComponents, null);
         }
 
-        long[] ignoredIds = listIgnoredIds();
-        int numIgnored = ignoredIds.length;
-        Savable[] ignoreList = new Savable[numIgnored];
-        for (int index = 0; index < numIgnored; ++index) {
-            long pcoId = ignoredIds[index];
-            ignoreList[index] = findInstance(pcoId);
+        int numIgnored = ignoreList.size();
+        Savable[] tmpArray = new Savable[numIgnored];
+        int index = 0;
+        for (PhysicsCollisionObject pco : ignoreList) {
+            tmpArray[index] = pco;
+            ++index;
         }
-        capsule.write(ignoreList, tagIgnoreList, null);
+        capsule.write(tmpArray, tagIgnoreList, null);
     }
     // *************************************************************************
     // NativePhysicsObject methods

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -1432,13 +1432,11 @@ public class PhysicsDumper extends Dumper {
      */
     private void dumpIgnores(PhysicsCollisionObject pco, String indent) {
         stream.print(':');
-        long[] idList = pco.listIgnoredIds();
+        PhysicsCollisionObject[] ignoreList = pco.listIgnoredPcos();
         String moreIndent = indent + indentIncrement();
-        for (long otherId : idList) {
+        for (PhysicsCollisionObject otherPco : ignoreList) {
             addLine(moreIndent);
             PhysicsDescriber describer = getDescriber();
-            PhysicsCollisionObject otherPco
-                    = PhysicsCollisionObject.findInstance(otherId);
             String desc = describer.describePco(otherPco, dumpNativeIDs);
             stream.print(desc);
         }
