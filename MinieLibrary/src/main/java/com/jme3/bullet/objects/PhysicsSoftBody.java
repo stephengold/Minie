@@ -1563,7 +1563,7 @@ public class PhysicsSoftBody extends PhysicsBody {
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
-     * storeResult or a new instance, not null)
+     * storeResult or a new instance, not null, finite)
      */
     @Override
     public Vec3d getPhysicsLocationDp(Vec3d storeResult) {
@@ -1572,6 +1572,7 @@ public class PhysicsSoftBody extends PhysicsBody {
         long objectId = nativeId();
         getPhysicsLocationDp(objectId, result);
 
+        assert result.isFinite() : result;
         return result;
     }
 
