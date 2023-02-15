@@ -450,6 +450,18 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
+     * Test whether the bounding boxes of inactive collision objects should be
+     * recomputed during each {@code update()} (native field:
+     * m_forceUpdateAllAabbs).
+     *
+     * @return true to recompute all AABBs, false to skip inactive objects
+     */
+    public boolean isForceUpdateAllAabbs() {
+        long spaceId = nativeId();
+        return isForceUpdateAllAabbs(spaceId);
+    }
+
+    /**
      * Test whether the "deterministic overlapping pairs" option is enabled in
      * the collision dispatcher (native field: m_deterministicOverlappingPairs).
      *
@@ -672,6 +684,19 @@ public class CollisionSpace extends NativePhysicsObject {
             String msg = "Unknown type of collision object: " + typeName;
             throw new IllegalArgumentException(msg);
         }
+    }
+
+    /**
+     * Alter whether the bounding boxes of inactive collision objects should be
+     * recomputed during each {@code update()} (native field:
+     * m_forceUpdateAllAabbs).
+     *
+     * @param desiredSetting true &rarr; recompute all AABBs, false &rarr; skip
+     * inactive objects (default=true)
+     */
+    public void setForceUpdateAllAabbs(boolean desiredSetting) {
+        long spaceId = nativeId();
+        setForceUpdateAllAabbs(spaceId, desiredSetting);
     }
 
     /**
@@ -900,6 +925,8 @@ public class CollisionSpace extends NativePhysicsObject {
     native private static boolean
             hasContact(long spaceId, int shape0Type, int shape1Type);
 
+    native private static boolean isForceUpdateAllAabbs(long spaceId);
+
     native private static int pairTest(long spaceId, long aId, long bId,
             PhysicsCollisionListener listener);
 
@@ -915,6 +942,9 @@ public class CollisionSpace extends NativePhysicsObject {
 
     native private static void setDeterministicOverlappingPairs(
             long spaceId, boolean desiredSetting);
+
+    native private static void
+            setForceUpdateAllAabbs(long spaceId, boolean desiredSetting);
 
     native private static void sweepTestNative(long shapeId, Transform from,
             Transform to, long spaceId, List<PhysicsSweepTestResult> addToList,
