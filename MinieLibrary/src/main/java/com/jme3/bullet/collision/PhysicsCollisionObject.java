@@ -1003,6 +1003,31 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Enumerate all collision objects in this object's ignore list.
+     *
+     * @return a new array (not null, may be empty)
+     * @see #addToIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject)
+     */
+    public PhysicsCollisionObject[] listIgnoredPcos() {
+        PhysicsCollisionObject[] result;
+        if (ignoreList == null) {
+            result = new PhysicsCollisionObject[0];
+
+        } else {
+            int count = ignoreList.size();
+            result = new PhysicsCollisionObject[count];
+
+            int index = 0;
+            for (PhysicsCollisionObject otherPco : ignoreList) {
+                result[index] = otherPco;
+                ++index;
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Return the collision group of this object's broadphase proxy. A proxy is
      * created when the object is added to a space, and its group is 32 for a
      * PhysicsCharacter, 2 for a static object, or 1 for anything else.
@@ -1315,6 +1340,30 @@ abstract public class PhysicsCollisionObject
         for (long otherId : idList) {
             PhysicsCollisionObject otherPco = findInstance(otherId);
             addToIgnoreList(otherPco);
+        }
+    }
+
+    /**
+     * Replace the ignore list.
+     *
+     * @param desiredList collision objects to ignore (not null, may be empty,
+     * may contain nulls or duplicates or {@code this}, unaffected)
+     */
+    public void setIgnoreList(PhysicsCollisionObject[] desiredList) {
+        Validate.nonNull(desiredList, "desired list");
+
+        clearIgnoreList();
+        if (desiredList.length > 0) {
+            if (ignoreList == null) {
+                this.ignoreList = new TreeSet<>();
+            }
+
+            for (PhysicsCollisionObject otherPco : desiredList) {
+                if (otherPco != null && otherPco != this
+                        && !ignoreList.contains(otherPco)) {
+                    addToIgnoreList(otherPco);
+                }
+            }
         }
     }
 
