@@ -1351,7 +1351,8 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  boolean&nbsp;doEnded,
  boolean&nbsp;doProcessed,
  boolean&nbsp;doStarted)</span></div>
-<div class="block">Update this space.</div>
+<div class="block">Update this space. This method should be invoked from the thread that
+ created the space.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>timeInterval</code> - the time interval to simulate (in seconds, &ge;0)</dd>
