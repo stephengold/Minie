@@ -375,9 +375,13 @@ public class TestDefaults {
     private static void testCollisionSpace(CollisionSpace space) {
         Assert.assertNotNull(space);
         Assert.assertTrue(space.isEmpty());
+        Assert.assertEquals(0, space.countCollisionGroupListeners());
         Assert.assertEquals(0, space.countCollisionObjects());
         Assert.assertEquals(
                 RayTestFlag.SubSimplexRaytest, space.getRayTestFlags());
+        Assert.assertTrue(space.getGhostObjectList().isEmpty());
+        Assert.assertTrue(space.getPcoList().isEmpty());
+        Assert.assertNotEquals(0L, space.getSpaceId());
         Assert.assertTrue(space.isForceUpdateAllAabbs());
         Assert.assertFalse(space.isUsingDeterministicDispatch());
     }
