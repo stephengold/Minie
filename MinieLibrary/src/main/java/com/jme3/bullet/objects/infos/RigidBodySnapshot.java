@@ -135,13 +135,13 @@ public class RigidBodySnapshot {
      */
     final private int anisotropicFrictionModes;
     /**
-     * collision objects in the ignore list
-     */
-    final private PhysicsCollisionObject[] ignoreList;
-    /**
      * basis of the local coordinate system (in physics-space coordinates)
      */
     final private Matrix3f rotationMatrix;
+    /**
+     * collision objects in the ignore list
+     */
+    final private PhysicsCollisionObject[] ignoreList;
     /**
      * angular velocity (in physics-space coordinates)
      */
