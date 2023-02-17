@@ -522,10 +522,28 @@ class TestMode extends InputMode {
                 MyString.quote(torsoName), configIndex);
         stream.print(code);
 
-        // Configure each linked bone in the ragdoll.
+        writeConfigureBoneLinks(dac, "super", configs, stream);
+        stream.printf("    }%n}%n");
+    }
+
+    /**
+     * Write code to configure each linked bone in the ragdoll.
+     *
+     * @param dac a configured control to reproduce (not null, unaffected)
+     * @param configs map from unique link configurations to indices (not null,
+     * unaffected)
+     * @param stream the output stream (not null)
+     */
+    private static void writeConfigureBoneLinks(
+            DacConfiguration dac, String varName,
+            Map<LinkConfig, Integer> configs, PrintStream stream) {
+        String[] lbNames = dac.listLinkedBoneNames();
+
         for (String lbName : lbNames) {
-            config = dac.config(lbName);
-            configIndex = configs.get(config);
+            LinkConfig config = dac.config(lbName);
+            int configIndex = configs.get(config);
+            stream.printf("        %s.link(%s, config%d,%n",
+                    varName, MyString.quote(lbName), configIndex);
 
             RangeOfMotion range = dac.getJointLimits(lbName);
 
@@ -549,14 +567,8 @@ class TestMode extends InputMode {
                     maxXString, minXString,
                     maxYString, minYString,
                     maxZString, minZString);
-
-            code = String.format("        super.link(%s, config%d,%n"
-                    + "                %s);%n",
-                    MyString.quote(lbName), configIndex, newRange);
-            stream.print(code);
+            stream.printf("                %s);%n", newRange);
         }
-
-        stream.printf("    }%n}%n");
     }
 
     /**
