@@ -411,13 +411,13 @@ class TestMode extends InputMode {
     private static void setMargin() {
         float oldValue = CollisionShape.getDefaultMargin();
         String defaultValue = Float.toString(oldValue);
-        FloatDialog controller = new FloatDialog("Set", Float.MIN_VALUE,
-                Float.MAX_VALUE, AllowNull.No);
+        FloatDialog controller = new FloatDialog(
+                "Set", Float.MIN_VALUE, Float.MAX_VALUE, AllowNull.No);
 
         TestScreen screen = DacWizard.findAppState(TestScreen.class);
         screen.closeAllPopups();
-        screen.showTextEntryDialog("Enter new margin:",
-                defaultValue, Action.setMargin + " ", controller);
+        screen.showTextEntryDialog("Enter new margin:", defaultValue,
+                Action.setMargin + " ", controller);
     }
 
     /**
