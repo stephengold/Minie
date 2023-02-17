@@ -527,6 +527,23 @@ class TestMode extends InputMode {
     }
 
     /**
+     * Write a LinkConfig definition to a stream, as Java source code.
+     *
+     * @param config a LinkConfig to use as a model (not null)
+     * @param configIndex the index into unique link configurations (&gt;0)
+     * @param stream the output stream (not null)
+     */
+    private static void writeConfig(
+            LinkConfig config, int configIndex, PrintStream stream) {
+        assert config != null;
+        assert configIndex > 0 : configIndex;
+
+        String newValue = format(config);
+        stream.printf(
+                "        LinkConfig config%d = %s;%n", configIndex, newValue);
+    }
+
+    /**
      * Write code to configure each linked bone in the ragdoll.
      *
      * @param dac a configured control to reproduce (not null, unaffected)
@@ -569,22 +586,5 @@ class TestMode extends InputMode {
                     maxZString, minZString);
             stream.printf("                %s);%n", newRange);
         }
-    }
-
-    /**
-     * Write a LinkConfig definition to a stream, as Java source code.
-     *
-     * @param config a LinkConfig to use as a model (not null)
-     * @param configIndex the index into unique link configurations (&gt;0)
-     * @param stream the output stream (not null)
-     */
-    private static void writeConfig(
-            LinkConfig config, int configIndex, PrintStream stream) {
-        assert config != null;
-        assert configIndex > 0 : configIndex;
-
-        String newValue = format(config);
-        stream.printf(
-                "        LinkConfig config%d = %s;%n", configIndex, newValue);
     }
 }
