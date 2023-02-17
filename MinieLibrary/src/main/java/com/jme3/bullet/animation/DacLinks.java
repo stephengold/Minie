@@ -308,7 +308,7 @@ public class DacLinks
      *
      * @return the pre-existing spatial, or null
      */
-    Spatial getTransformer() {
+    public Spatial getTransformer() {
         return transformer;
     }
 
