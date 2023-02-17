@@ -383,7 +383,7 @@ class TestMode extends InputMode {
     private void saveJava() {
         String hhmmss = hhmmss();
         String className = "Dac" + hhmmss;
-        String fileName = String.format("%s.java", className);
+        String fileName = className + ".java";
 
         DacWizard wizard = DacWizard.getApplication();
         DynamicAnimControl dac = wizard.findDac();
