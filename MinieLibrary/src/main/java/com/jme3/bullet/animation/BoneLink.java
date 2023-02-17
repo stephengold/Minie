@@ -202,9 +202,9 @@ public class BoneLink extends PhysicsLink {
         Spatial transformer = getControl().getTransformer();
         Vector3f pivotMesh;
         Bone bone = getBone();
-        if (bone != null) {
+        if (bone != null) { // old animation system
             pivotMesh = bone.getModelSpacePosition();
-        } else {
+        } else { // new animation system
             Joint armatureJoint = getArmatureJoint();
             pivotMesh = armatureJoint.getModelTransform().getTranslation();
         }
@@ -239,10 +239,10 @@ public class BoneLink extends PhysicsLink {
         assert managedBones == null;
         assert managedArmatureJoints == null;
         int numManaged;
-        if (bone != null) {
+        if (bone != null) { // old animation system
             this.managedBones = getControl().listManagedBones(name);
             numManaged = managedBones.length;
-        } else {
+        } else { // new animation system
             this.managedArmatureJoints
                     = getControl().listManagedArmatureJoints(name);
             numManaged = managedArmatureJoints.length;
@@ -301,11 +301,11 @@ public class BoneLink extends PhysicsLink {
         Validate.inRange(managedIndex, "managed index", 0, numManaged - 1);
 
         int result;
-        if (managedBones != null) {
+        if (managedBones != null) { // old animation system
             Bone managed = managedBones[managedIndex];
             Skeleton skeleton = getControl().getSkeleton();
             result = skeleton.getBoneIndex(managed);
-        } else {
+        } else { // new animation system
             Joint managed = managedArmatureJoints[managedIndex];
             result = managed.getId();
         }

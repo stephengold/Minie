@@ -432,9 +432,9 @@ public class AttachmentLink extends PhysicsLink {
 
         // Convert to mesh coordinates.
         Bone bone = getBone();
-        if (bone != null) {
+        if (bone != null) { // old animation system
             tmp = MySkeleton.copyMeshTransform(bone, null);
-        } else {
+        } else { // new animation system
             Joint armatureJoint = getArmatureJoint();
             tmp = armatureJoint.getModelTransform().clone();
         }
@@ -550,9 +550,9 @@ public class AttachmentLink extends PhysicsLink {
         // Convert to bone local coordinates.
         Transform boneToMesh;
         Bone bone = getBone();
-        if (bone != null) {
+        if (bone != null) { // old animation system
             boneToMesh = MySkeleton.copyMeshTransform(bone, null);
-        } else {
+        } else { // new animation system
             Joint armatureJoint = getArmatureJoint();
             boneToMesh = armatureJoint.getModelTransform();
         }

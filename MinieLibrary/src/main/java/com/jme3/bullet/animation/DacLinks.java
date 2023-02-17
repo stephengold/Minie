@@ -915,7 +915,7 @@ public class DacLinks
             }
         }
 
-        if (skinningControl == null) {
+        if (skinningControl == null) { // old animation system
             skeletonControl.setHardwareSkinningPreferred(saveHwSkinning);
 
             // Restore the skeleton's pose.
@@ -926,7 +926,7 @@ public class DacLinks
             }
             skeleton.updateWorldVectors();
 
-        } else {
+        } else { // new animation system
             skinningControl.setHardwareSkinningPreferred(saveHwSkinning);
 
             // Restore the armature's pose.
@@ -1082,7 +1082,7 @@ public class DacLinks
             this.preComposer = null;
         }
         this.armature = null;
-        if (skeleton != null) {
+        if (skeleton != null) { // old animation system
             MySkeleton.setUserControl(skeleton, false);
             this.skeleton = null;
         }
@@ -1108,13 +1108,13 @@ public class DacLinks
         AttachmentLink link = attachmentLinks.get(boneName);
         if (link != null) {
             Spatial spatial = getSpatial();
-            if (skeleton != null) {
+            if (skeleton != null) { // old animation system
                 SkeletonControl skeletonControl
                         = spatial.getControl(SkeletonControl.class);
                 String[] managerMap = managerMap(skeleton);
                 createAttachmentLink(boneName, skeletonControl, managerMap);
 
-            } else {
+            } else { // new animation system
                 SkinningControl skinningControl
                         = spatial.getControl(SkinningControl.class);
                 String[] managerMap = managerMap(armature);
@@ -1560,8 +1560,8 @@ public class DacLinks
         CollisionShape shape = linkConfig
                 .createShape(transformIdentity, center, vertexLocations);
 
-        AttachmentLink link = new AttachmentLink(this, joint, manager,
-                attachModel, shape, linkConfig, center);
+        AttachmentLink link = new AttachmentLink(
+                this, joint, manager, attachModel, shape, linkConfig, center);
         attachmentLinks.put(jointName, link);
     }
 
@@ -1582,10 +1582,10 @@ public class DacLinks
         Bone bone = null;
         Joint armatureJoint = null;
         Transform boneToMesh;
-        if (skeleton != null) {
+        if (skeleton != null) { // old animation system
             bone = findBone(boneName);
             boneToMesh = MySkeleton.copyMeshTransform(bone, null);
-        } else {
+        } else { // new animation system
             armatureJoint = findArmatureJoint(boneName);
             boneToMesh = armatureJoint.getModelTransform();
         }
@@ -1608,9 +1608,9 @@ public class DacLinks
         Vector3f offset = meshToBone.transformVector(center, null);
 
         BoneLink link;
-        if (skeleton != null) {
+        if (skeleton != null) { // old animation system
             link = new BoneLink(this, bone, shape, linkConfig, offset);
-        } else {
+        } else { // new animation system
             link = new BoneLink(this, armatureJoint, shape, linkConfig, offset);
         }
         boneLinks.put(boneName, link);
@@ -1634,8 +1634,8 @@ public class DacLinks
         Joint armatureJoint = null;
         String mainBoneName = mainBoneName();
         Transform boneToMesh;
-        if (skeleton != null) {
-            if (mainBoneName == null) {
+        if (skeleton != null) { // old animation system
+            if (mainBoneName == null) { // default main bone
                 bone = RagUtils.findMainBone(skeleton, meshes);
                 assert bone.getParent() == null;
                 mainBoneName = bone.getName();
@@ -1649,8 +1649,8 @@ public class DacLinks
             }
             boneToMesh = MySkeleton.copyMeshTransform(bone, null);
 
-        } else {
-            if (mainBoneName == null) {
+        } else { // new animation system
+            if (mainBoneName == null) { // default main bone
                 armatureJoint = RagUtils.findMainJoint(armature, meshes);
                 assert armatureJoint.getParent() == null;
                 mainBoneName = armatureJoint.getName();
@@ -1684,14 +1684,14 @@ public class DacLinks
             Transform modelToMesh
                     = RagUtils.relativeTransform(transformer, (Node) cgm, null);
             meshToModel = modelToMesh.invert();
-        } else {
+        } else { // cgm instanceof Geometry
             meshToModel = transformIdentity;
         }
 
-        if (skeleton != null) {
+        if (skeleton != null) { // old animation system
             this.torsoLink = new TorsoLink(
                     this, bone, shape, linkConfig, meshToModel, offset);
-        } else {
+        } else { // new animation system
             this.torsoLink = new TorsoLink(this, armatureJoint, shape,
                     linkConfig, meshToModel, offset);
         }

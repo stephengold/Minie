@@ -260,9 +260,9 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      */
     public String boneName() {
         String name;
-        if (bone != null) {
+        if (bone != null) { // old animation system
             name = bone.getName();
-        } else {
+        } else { // new animation system
             name = armatureJoint.getName();
         }
 
@@ -821,9 +821,9 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
      * Update the kinematic physics transform.
      */
     private void updateKPTransform() {
-        if (bone != null) {
+        if (bone != null) { // old animation system
             control.physicsTransform(bone, localOffset, kpTransform);
-        } else {
+        } else { // new animation system
             control.physicsTransform(armatureJoint, localOffset, kpTransform);
         }
     }
