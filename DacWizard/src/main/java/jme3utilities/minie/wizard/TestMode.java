@@ -382,7 +382,8 @@ class TestMode extends InputMode {
      */
     private void saveJava() {
         String hhmmss = hhmmss();
-        String fileName = String.format("configure%s.java", hhmmss);
+        String className = "Dac" + hhmmss;
+        String fileName = String.format("%s.java", className);
 
         DacWizard wizard = DacWizard.getApplication();
         DynamicAnimControl dac = wizard.findDac();
@@ -391,7 +392,7 @@ class TestMode extends InputMode {
         String path = ActionApplication.filePath(fileName);
         File file = new File(path);
         try (PrintStream stream = new PrintStream(file)) {
-            write(dac, stream);
+            write(dac, className, stream);
         } catch (FileNotFoundException exception) {
             screen.showInfoDialog("Exception", exception.toString());
             return;
@@ -474,10 +475,12 @@ class TestMode extends InputMode {
     /**
      * Write the control configuration to a stream, as Java source code.
      *
-     * @param dac a configured control to use as a model (not null, unaffected)
+     * @param dac a configured control to reproduce (not null, unaffected)
+     * @param className name for the Java class (not null, not empty)
      * @param stream the output stream (not null)
      */
-    private static void write(DynamicAnimControl dac, PrintStream stream) {
+    private static void write(
+            DacConfiguration dac, String className, PrintStream stream) {
         stream.printf("import com.jme3.bullet.RotationOrder;%n"
                 + "import com.jme3.bullet.animation.CenterHeuristic;%n"
                 + "import com.jme3.bullet.animation.DynamicAnimControl;%n"
@@ -486,17 +489,15 @@ class TestMode extends InputMode {
                 + "import com.jme3.bullet.animation.RangeOfMotion;%n"
                 + "import com.jme3.bullet.animation.ShapeHeuristic;%n"
                 + "import com.jme3.math.Vector3f;%n%n");
-        stream.printf("public class WControl extends DynamicAnimControl {%n%n"
-                + "    public WControl() {%n"
-                + "        super();%n");
-
-        String[] lbNames = dac.listLinkedBoneNames();
-        String torsoName = DacConfiguration.torsoName;
+        stream.printf("public class %s extends DynamicAnimControl ", className);
+        stream.printf("{%n%n    public %s() {%n", className);
+        stream.println("        super();");
 
         // Write each unique LinkConfig.
         int nextConfigIndex = 1;
         Map<LinkConfig, Integer> configs = new TreeMap<>();
 
+        String torsoName = DacConfiguration.torsoName;
         LinkConfig config = dac.config(torsoName);
         if (!configs.containsKey(config)) {
             configs.put(config, nextConfigIndex);
@@ -504,6 +505,7 @@ class TestMode extends InputMode {
             ++nextConfigIndex;
         }
 
+        String[] lbNames = dac.listLinkedBoneNames();
         for (String lbName : lbNames) {
             config = dac.config(lbName);
             if (!configs.containsKey(config)) {
