@@ -494,29 +494,11 @@ class TestMode extends InputMode {
         stream.println("        super();");
 
         // Write each unique LinkConfig.
-        int nextConfigIndex = 1;
-        Map<LinkConfig, Integer> configs = new TreeMap<>();
-
-        String torsoName = DacConfiguration.torsoName;
-        LinkConfig config = dac.config(torsoName);
-        if (!configs.containsKey(config)) {
-            configs.put(config, nextConfigIndex);
-            writeConfig(config, nextConfigIndex, stream);
-            ++nextConfigIndex;
-        }
-
-        String[] lbNames = dac.listLinkedBoneNames();
-        for (String lbName : lbNames) {
-            config = dac.config(lbName);
-            if (!configs.containsKey(config)) {
-                configs.put(config, nextConfigIndex);
-                writeConfig(config, nextConfigIndex, stream);
-                ++nextConfigIndex;
-            }
-        }
+        Map<LinkConfig, Integer> configs = writeLinkConfigs(dac, stream);
 
         // Configure the torso of the ragdoll.
-        config = dac.config(torsoName);
+        String torsoName = DacConfiguration.torsoName;
+        LinkConfig config = dac.config(torsoName);
         int configIndex = configs.get(config);
         String code = String.format("        super.setConfig(%s, config%d);%n",
                 MyString.quote(torsoName), configIndex);
@@ -547,6 +529,8 @@ class TestMode extends InputMode {
      * Write code to configure each linked bone in the ragdoll.
      *
      * @param dac a configured control to reproduce (not null, unaffected)
+     * @param varName the name of the Java variable to configure (not null, not
+     * empty)
      * @param configs map from unique link configurations to indices (not null,
      * unaffected)
      * @param stream the output stream (not null)
@@ -586,5 +570,38 @@ class TestMode extends InputMode {
                     maxZString, minZString);
             stream.printf("                %s);%n", newRange);
         }
+    }
+
+    /**
+     * Assign an index to each unique link configuration in the specified
+     * control and write generative Java code to the specified stream.
+     *
+     * @param dac the control to analyze
+     * @param stream the output stream (not null)
+     * @return a new map from link configurations to indices (not null)
+     */
+    private static Map<LinkConfig, Integer> writeLinkConfigs(
+            DacConfiguration dac, PrintStream stream) {
+        int nextConfigIndex = 1;
+        Map<LinkConfig, Integer> result = new TreeMap<>();
+
+        LinkConfig config = dac.config(DacConfiguration.torsoName);
+        if (!result.containsKey(config)) {
+            result.put(config, nextConfigIndex);
+            writeConfig(config, nextConfigIndex, stream);
+            ++nextConfigIndex;
+        }
+
+        String[] lbNames = dac.listLinkedBoneNames();
+        for (String lbName : lbNames) {
+            config = dac.config(lbName);
+            if (!result.containsKey(config)) {
+                result.put(config, nextConfigIndex);
+                writeConfig(config, nextConfigIndex, stream);
+                ++nextConfigIndex;
+            }
+        }
+
+        return result;
     }
 }
