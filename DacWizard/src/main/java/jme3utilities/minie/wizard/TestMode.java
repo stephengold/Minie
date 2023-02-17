@@ -483,6 +483,7 @@ class TestMode extends InputMode {
             DacConfiguration dac, String className, PrintStream stream) {
         stream.printf("import com.jme3.bullet.RotationOrder;%n"
                 + "import com.jme3.bullet.animation.CenterHeuristic;%n"
+                + "import com.jme3.bullet.animation.DacConfiguration;%n"
                 + "import com.jme3.bullet.animation.DynamicAnimControl;%n"
                 + "import com.jme3.bullet.animation.LinkConfig;%n"
                 + "import com.jme3.bullet.animation.MassHeuristic;%n"
@@ -505,6 +506,22 @@ class TestMode extends InputMode {
         stream.print(code);
 
         writeConfigureBoneLinks(dac, "super", configs, stream);
+        stream.printf("    }%n%n");
+
+        stream.println(
+                "    public static void configure(DacConfiguration dac) {");
+
+        // Write each unique LinkConfig.
+        configs = writeLinkConfigs(dac, stream);
+
+        // Configure the torso of the ragdoll.
+        config = dac.config(torsoName);
+        configIndex = configs.get(config);
+        code = String.format("        dac.setConfig(%s, config%d);%n",
+                MyString.quote(torsoName), configIndex);
+        stream.print(code);
+
+        writeConfigureBoneLinks(dac, "dac", configs, stream);
         stream.printf("    }%n}%n");
     }
 
