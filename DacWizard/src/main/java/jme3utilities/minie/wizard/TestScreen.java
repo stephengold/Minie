@@ -276,9 +276,7 @@ class TestScreen extends GuiScreenController {
             axesVisualizer.setEnabled(false);
 
         } else {
-            /*
-             * Align the visualizer axes with the PhysicsJoint.
-             */
+            // Align the visualizer axes with the PhysicsJoint.
             DynamicAnimControl dac = wizard.findDac();
             PhysicsLink selectedLink = dac.findBoneLink(btName);
             Constraint constraint = (Constraint) selectedLink.getJoint();

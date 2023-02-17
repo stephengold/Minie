@@ -369,9 +369,8 @@ class TestMode extends InputMode {
             screen.showInfoDialog("Exception", exception.toString());
             return;
         }
-        /*
-         * Display a confirmation dialog.
-         */
+
+        // Display a confirmation dialog.
         String message = String.format(
                 "The model and configured control have been written to%n%s.",
                 MyString.quote(outputFilePath));
@@ -397,9 +396,8 @@ class TestMode extends InputMode {
             screen.showInfoDialog("Exception", exception.toString());
             return;
         }
-        /*
-         * Display a confirmation dialog.
-         */
+
+        // Display a confirmation dialog.
         String message = String.format(
                 "The configuration has been written to%n%s.",
                 MyString.quote(path));
@@ -494,9 +492,8 @@ class TestMode extends InputMode {
 
         String[] lbNames = dac.listLinkedBoneNames();
         String torsoName = DacConfiguration.torsoName;
-        /*
-         * Write each unique LinkConfig.
-         */
+
+        // Write each unique LinkConfig.
         int nextConfigIndex = 1;
         Map<LinkConfig, Integer> configs = new TreeMap<>();
 
@@ -515,17 +512,15 @@ class TestMode extends InputMode {
                 ++nextConfigIndex;
             }
         }
-        /*
-         * Configure the torso of the ragdoll.
-         */
+
+        // Configure the torso of the ragdoll.
         config = dac.config(torsoName);
         int configIndex = configs.get(config);
         String code = String.format("        super.setConfig(%s, config%d);%n",
                 MyString.quote(torsoName), configIndex);
         stream.print(code);
-        /*
-         * Configure each linked bone in the ragdoll.
-         */
+
+        // Configure each linked bone in the ragdoll.
         for (String lbName : lbNames) {
             config = dac.config(lbName);
             configIndex = configs.get(config);
