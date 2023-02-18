@@ -190,8 +190,7 @@ public class PhysicsSpace
     /**
      * first-in/first-out (FIFO) queue of physics tasks
      */
-    final private Queue<AppTask<?>> pQueue
-            = new ConcurrentLinkedQueue<>();
+    final private Queue<AppTask<?>> pQueue = new ConcurrentLinkedQueue<>();
     /**
      * parameters used by the contact-and-constraint solver
      */

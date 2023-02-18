@@ -242,7 +242,6 @@ public class ForceDemo
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-
         // Check UI signals and apply forces/torques accordingly.
         Signals signals = getSignals();
 
