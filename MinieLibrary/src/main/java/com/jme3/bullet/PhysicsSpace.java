@@ -1429,15 +1429,16 @@ public class PhysicsSpace
     private void preTick(float timeStep) {
         assert NativeLibrary.jniEnvId() == jniEnvId() : "wrong thread";
 
-        AppTask task;
-        while ((task = pQueue.poll()) != null) {
-            if (task.isCancelled()) {
-                continue;
-            }
-            try {
-                task.invoke();
-            } catch (RuntimeException exception) {
-                logger.log(Level.SEVERE, null, exception);
+        while (true) {
+            AppTask task = pQueue.poll();
+            if (task == null) {
+                break;
+            } else if (!task.isCancelled()) {
+                try {
+                    task.invoke();
+                } catch (RuntimeException exception) {
+                    logger.log(Level.SEVERE, null, exception);
+                }
             }
         }
 
