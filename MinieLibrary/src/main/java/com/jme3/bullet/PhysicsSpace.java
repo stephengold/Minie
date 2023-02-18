@@ -203,7 +203,7 @@ public class PhysicsSpace
      * first-in/first-out (FIFO) queue of physics tasks for each thread
      */
     final protected static ThreadLocal<Queue<AppTask<?>>> pQueueTL
-            = new ThreadLocal<Queue<AppTask<?>>>() {
+            = new ThreadLocal<Queue<AppTask<?>>>() { // TODO privatize
         @Override
         protected ConcurrentLinkedQueue<AppTask<?>> initialValue() {
             return new ConcurrentLinkedQueue<>();
@@ -1431,6 +1431,9 @@ public class PhysicsSpace
 
         while (true) {
             AppTask task = pQueue.poll();
+            if (task == null) {
+                task = pQueueTL.get().poll();
+            }
             if (task == null) {
                 break;
             } else if (!task.isCancelled()) {
