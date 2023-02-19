@@ -222,12 +222,12 @@ class Model {
 
         String result;
         Skeleton skeleton = findSkeleton();
-        if (skeleton == null) {
+        if (skeleton == null) { // new animation system
             Armature armature = findArmature();
             Joint joint = armature.getJoint(boneIndex);
             result = joint.getName();
 
-        } else {
+        } else { // old animation system
             Bone bone = skeleton.getBone(boneIndex);
             result = bone.getName();
         }
@@ -286,9 +286,9 @@ class Model {
 
         int count = 0;
         Skeleton skeleton = findSkeleton();
-        if (skeleton != null) {
+        if (skeleton != null) { // old animation system
             count = skeleton.getBoneCount();
-        } else {
+        } else { // new animation system
             Armature armature = findArmature();
             if (armature != null) {
                 count = armature.getJointCount();
@@ -327,7 +327,7 @@ class Model {
         int count = 0;
 
         Skeleton skeleton = findSkeleton();
-        if (skeleton == null) {
+        if (skeleton == null) { // new animation system
             Armature armature = findArmature();
             int numJoints = armature.getJointCount();
             for (int boneIndex = 0; boneIndex < numJoints; ++boneIndex) {
@@ -338,7 +338,7 @@ class Model {
                 }
             }
 
-        } else {
+        } else { // old animation system
             int numBones = skeleton.getBoneCount();
             for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
                 Bone bone = skeleton.getBone(boneIndex);
@@ -555,7 +555,7 @@ class Model {
 
         String name;
         Skeleton skeleton = findSkeleton();
-        if (skeleton == null) {
+        if (skeleton == null) { // new animation system
             Armature armature = findArmature();
             Joint child = armature.getJoint(childName);
             Joint parent = child.getParent();
@@ -565,7 +565,7 @@ class Model {
                 name = findManager(parent, armature);
             }
 
-        } else {
+        } else { // old animation system
             Bone child = skeleton.getBone(childName);
             Bone parent = child.getParent();
             if (parent == null) { // the named Bone was a root bone
@@ -698,7 +698,7 @@ class Model {
 
         int result;
         Skeleton skeleton = findSkeleton();
-        if (skeleton == null) {
+        if (skeleton == null) { // new animation system
             Armature armature = findArmature();
             Joint joint = armature.getJoint(boneIndex);
             Joint parent = joint.getParent();
@@ -709,7 +709,7 @@ class Model {
                 result = armature.getJointIndex(parent);
             }
 
-        } else {
+        } else { // old animation system
             Bone bone = skeleton.getBone(boneIndex);
             Bone parent = bone.getParent();
 
@@ -866,14 +866,14 @@ class Model {
             String[] managerMap = new String[numBones];
 
             Skeleton skeleton = findSkeleton();
-            if (skeleton == null) {
+            if (skeleton == null) { // new animation system
                 Armature armature = findArmature();
                 for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
                     Joint joint = armature.getJoint(jointIndex);
                     managerMap[jointIndex] = findManager(joint, armature);
                 }
 
-            } else {
+            } else { // old animation system
                 for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
                     Bone bone = skeleton.getBone(boneIndex);
                     managerMap[boneIndex] = findManager(bone, skeleton);
@@ -966,7 +966,7 @@ class Model {
 
         String result = "";
         Skeleton skeleton = findSkeleton();
-        if (skeleton == null) {
+        if (skeleton == null) { // new animation system
             Armature armature = findArmature();
             try {
                 RagUtils.validate(rootSpatial);
@@ -975,7 +975,7 @@ class Model {
                 result = exception.getMessage();
             }
 
-        } else {
+        } else { // old animation system
             try {
                 RagUtils.validate(rootSpatial);
                 RagUtils.validate(skeleton);
@@ -1075,14 +1075,14 @@ class Model {
      */
     private void recalculateInfluence() {
         Skeleton skeleton = findSkeleton();
-        if (skeleton == null) {
+        if (skeleton == null) { // new animation system
             Armature armature = findArmature();
             if (armature != null) {
                 this.anyInfluenceBones = InfluenceUtil.addAllInfluencers(
                         rootSpatial, armature);
                 armature.applyBindPose();
             }
-        } else {
+        } else { // old animation system
             this.anyInfluenceBones = InfluenceUtil.addAllInfluencers(
                     rootSpatial, skeleton);
         }

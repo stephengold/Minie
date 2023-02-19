@@ -102,9 +102,9 @@ class LoadScreen extends GuiScreenController {
                     "The model has %d skinning/skeleton controls.",
                     numSkeletonControls);
         } else if (model.countBones() < 1) {
-            if (model.findSkeleton() == null) {
+            if (model.findSkeleton() == null) { // new animation system
                 result = "The model's Armature lacks joints.";
-            } else {
+            } else { // old animation system
                 result = "The model's Skeleton lacks bones.";
             }
         } else if (numDacs > 1) {

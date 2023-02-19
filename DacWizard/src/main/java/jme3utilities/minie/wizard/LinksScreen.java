@@ -411,7 +411,7 @@ public class LinksScreen extends GuiScreenController {
             String parentName = model.linkedBoneParentName(childName);
             if (parentName.equals(DacConfiguration.torsoName)) {
                 torsoItem.addTreeItem(childItem);
-            } else {
+            } else { // parent is a BoneLink
                 TreeItem<LinkValue> parentItem
                         = findLinkedBoneItem(parentName, lbItems);
                 parentItem.addTreeItem(childItem);
@@ -424,7 +424,7 @@ public class LinksScreen extends GuiScreenController {
         String selected = model.selectedLink();
         if (selected.equals(DacConfiguration.torsoName)) {
             treeBox.selectItem(torsoItem);
-        } else {
+        } else { // a BoneLink is selected
             TreeItem<LinkValue> item = findLinkedBoneItem(selected, lbItems);
             treeBox.selectItem(item);
         }
@@ -449,7 +449,7 @@ public class LinksScreen extends GuiScreenController {
         String boneName;
         if (selectedLinks.isEmpty()) {
             boneName = model.selectedLink();
-        } else {
+        } else { // an item is selected
             assert selectedLinks.size() == 1 : selectedLinks.size();
             TreeItem<LinkValue> selectedItem = selectedLinks.get(0);
             LinkValue value = selectedItem.getValue();
@@ -467,7 +467,7 @@ public class LinksScreen extends GuiScreenController {
             setSliderEnabled("maxY", false);
             setSliderEnabled("minZ", false);
             setSliderEnabled("maxZ", false);
-        } else {
+        } else { // a BoneLink is selected
             RangeOfMotion rom = model.rom(boneName);
             xRangeStatus = describe(rom, PhysicsSpace.AXIS_X);
             yRangeStatus = describe(rom, PhysicsSpace.AXIS_Y);

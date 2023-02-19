@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -200,7 +200,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
                 }
             }
 
-        } else {
+        } else { // old animation system
             Skeleton skeleton = ((SkeletonControl) sControl).getSkeleton();
             tempDac = new DynamicAnimControl() {
                 @Override
