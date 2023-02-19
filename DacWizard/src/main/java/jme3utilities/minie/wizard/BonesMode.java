@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ class BonesMode extends InputMode {
     // constructors
 
     /**
-     * Instantiate a disabled, uninitialized mode.
+     * Instantiate a disabled, uninitialized input mode.
      */
     BonesMode() {
         super("bones");
@@ -174,7 +174,7 @@ class BonesMode extends InputMode {
     }
 
     /**
-     * Go back to the LoadScreen.
+     * Go back to the "load" screen.
      */
     private void previousScreen() {
         setEnabled(false);

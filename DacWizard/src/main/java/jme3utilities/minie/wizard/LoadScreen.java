@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ class LoadScreen extends GuiScreenController {
     // fields
 
     /**
-     * element of GUI button to proceed to the next Screen
+     * element of GUI button to proceed to the "bones" screen
      */
     private Element nextElement;
     /**

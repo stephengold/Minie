@@ -232,7 +232,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * used internally
+     * Used internally.
      */
     public void applyWheelTransforms() {
         if (wheels != null) {
@@ -459,7 +459,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * used internally
+     * Used internally.
      *
      * @return the unique identifier (not zero)
      */
@@ -757,7 +757,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * used internally
+     * Used internally.
      */
     public void updateWheels() {
         if (controller != null) {

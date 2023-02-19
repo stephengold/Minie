@@ -700,7 +700,7 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * Used internally
+     * Used internally.
      *
      * @param space which space to simulate on the current thread
      */

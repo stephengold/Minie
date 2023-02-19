@@ -64,7 +64,7 @@ class LinksMode extends InputMode {
     // constructors
 
     /**
-     * Instantiate a disabled, uninitialized mode.
+     * Instantiate a disabled, uninitialized input mode.
      */
     LinksMode() {
         super("links");
@@ -188,7 +188,7 @@ class LinksMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the TestScreen if possible.
+     * Advance to the "test" screen if possible.
      */
     private void nextScreen() {
         String feedback = LinksScreen.feedback();
@@ -200,7 +200,7 @@ class LinksMode extends InputMode {
     }
 
     /**
-     * Go back to the BonesScreen.
+     * Go back to the "bones" screen.
      */
     private void previousScreen() {
         setEnabled(false);

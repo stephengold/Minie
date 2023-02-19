@@ -187,7 +187,8 @@ abstract public class PhysicsCollisionObject
      */
     private boolean doneCloningIgnores = false;
     /**
-     * other objects with which collisions are ignored, or null for none
+     * copy of the list of specific objects with which collisions are ignored,
+     * or null for none
      */
     private Collection<PhysicsCollisionObject> ignoreList;
     /**

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ class BonesScreen extends GuiScreenController {
      */
     private Element nextElement;
     /**
-     * TreeBox to display bones in the skeleton
+     * TreeBox to display all bones in the skeleton
      */
     private TreeBox<BoneValue> treeBox;
     // *************************************************************************

@@ -99,7 +99,7 @@ class TestMode extends InputMode {
     // constructors
 
     /**
-     * Instantiate a disabled, uninitialized mode.
+     * Instantiate a disabled, uninitialized input mode.
      */
     TestMode() {
         super("test");
@@ -328,7 +328,7 @@ class TestMode extends InputMode {
     }
 
     /**
-     * Go back to the previous screen.
+     * Go back to the "links" screen.
      */
     private void previousScreen() {
         setEnabled(false);

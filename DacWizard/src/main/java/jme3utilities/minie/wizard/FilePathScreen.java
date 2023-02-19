@@ -63,7 +63,7 @@ class FilePathScreen extends GuiScreenController {
     // fields
 
     /**
-     * element of GUI button to proceed to the next Screen
+     * element of GUI button to proceed to the "load" screen
      */
     private Element nextElement;
     // *************************************************************************

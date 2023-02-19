@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ class LoadMode extends InputMode {
     // constructors
 
     /**
-     * Instantiate a disabled, uninitialized mode.
+     * Instantiate a disabled, uninitialized input mode.
      */
     LoadMode() {
         super("load");
@@ -170,7 +170,7 @@ class LoadMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the BonesScreen if possible.
+     * Advance to the "bones" screen if possible.
      */
     private void nextScreen() {
         String feedback = LoadScreen.feedback();
@@ -182,7 +182,7 @@ class LoadMode extends InputMode {
     }
 
     /**
-     * Go back to the FilePathScreen.
+     * Go back to the "filePath" screen.
      */
     private void previousScreen() {
         setEnabled(false);

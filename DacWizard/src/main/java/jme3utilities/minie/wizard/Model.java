@@ -725,7 +725,7 @@ class Model {
 
     /**
      * If the range-of-motion task is done, instantiate the DynamicAnimControl
-     * and proceed to LinksScreen.
+     * and proceed to the "links" screen.
      */
     void pollForTaskCompletion() {
         if (romTask == null || !romTask.isDone()) {
@@ -852,7 +852,7 @@ class Model {
     /**
      * Alter which bones will be linked. A C-G model must be loaded.
      *
-     * @param linkedBones the desired set of linked bones
+     * @param linkedBones the desired set of linked bones (not null)
      */
     void setLinkedBones(BitSet linkedBones) {
         assert linkedBones != null;
