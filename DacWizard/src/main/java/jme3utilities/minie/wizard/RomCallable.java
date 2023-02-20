@@ -171,7 +171,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
             Collection<String> names = composer.getAnimClipsNames();
             for (String clipName : names) {
                 AnimClip clip = composer.getAnimClip(clipName);
-                // TODO normalizeQuaternions(clip, 0.00005f);
+                AnimationEdit.normalizeQuaternions(clip, 0.00005f);
             }
         }
         /*
