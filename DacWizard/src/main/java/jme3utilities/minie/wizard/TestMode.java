@@ -508,6 +508,7 @@ class TestMode extends InputMode {
         String code = String.format("        super.setConfig(%s, config%d);%n",
                 MyString.quote(torsoName), configIndex);
         stream.print(code);
+        writeConfigureMainBone(dac, "super", stream);
 
         writeConfigureBoneLinks(dac, "super", configs, stream);
         stream.printf("    }%n%n");
@@ -524,6 +525,7 @@ class TestMode extends InputMode {
         code = String.format("        dac.setConfig(%s, config%d);%n",
                 MyString.quote(torsoName), configIndex);
         stream.print(code);
+        writeConfigureMainBone(dac, "dac", stream);
 
         writeConfigureBoneLinks(dac, "dac", configs, stream);
         stream.printf("    }%n}%n");
@@ -591,6 +593,21 @@ class TestMode extends InputMode {
                     maxZString, minZString);
             stream.printf("                %s);%n", newRange);
         }
+    }
+
+    /**
+     * Write code to configure the torso's main bone.
+     *
+     * @param dac a configured control to reproduce (not null, unaffected)
+     * @param varName the name of the Java variable to configure (not null, not
+     * empty)
+     * @param stream the output stream (not null)
+     */
+    private static void writeConfigureMainBone(
+            DacConfiguration dac, String varName, PrintStream stream) {
+        String mbName = dac.mainBoneName();
+        stream.printf("        %s.setMainBoneName(%s);%n", varName,
+                MyString.quote(mbName));
     }
 
     /**
