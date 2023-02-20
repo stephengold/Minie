@@ -106,81 +106,87 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Find the main root bone of a Skeleton, based on its total mesh weight.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#findManager(com.jme3.scene.Mesh,int,int%5B%5D,float%5B%5D,java.lang.String%5B%5D)" class="member-name-link">findManager</a><wbr>(com.jme3.scene.Mesh&nbsp;mesh,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.jme3.anim.Joint</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#findMainJoint(com.jme3.anim.Armature,com.jme3.scene.Mesh%5B%5D)" class="member-name-link">findMainJoint</a><wbr>(com.jme3.anim.Armature&nbsp;armature,
+ com.jme3.scene.Mesh[]&nbsp;targetMeshes)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Find the main root joint of an Armature, based on its total mesh weight.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#findManager(com.jme3.scene.Mesh,int,int%5B%5D,float%5B%5D,java.lang.String%5B%5D)" class="member-name-link">findManager</a><wbr>(com.jme3.scene.Mesh&nbsp;mesh,
  int&nbsp;vertexIndex,
  int[]&nbsp;iArray,
  float[]&nbsp;wArray,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;managerMap)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Determine which physics link should manage the specified mesh vertex.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.jme3.scene.control.AbstractControl</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#findSControl(com.jme3.scene.Spatial)" class="member-name-link">findSControl</a><wbr>(com.jme3.scene.Spatial&nbsp;subtree)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.jme3.scene.control.AbstractControl</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#findSControl(com.jme3.scene.Spatial)" class="member-name-link">findSControl</a><wbr>(com.jme3.scene.Spatial&nbsp;subtree)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Access the SkeletonControl or SkinningControl in the specified subtree,
  assuming it doesn't contain more than one.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;com.jme3.scene.Mesh&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#listDacMeshes(com.jme3.scene.Spatial,java.util.List)" class="member-name-link">listDacMeshes</a><wbr>(com.jme3.scene.Spatial&nbsp;subtree,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;com.jme3.scene.Mesh&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#listDacMeshes(com.jme3.scene.Spatial,java.util.List)" class="member-name-link">listDacMeshes</a><wbr>(com.jme3.scene.Spatial&nbsp;subtree,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;com.jme3.scene.Mesh&gt;&nbsp;storeResult)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Enumerate all animated meshes in the specified subtree of a scene graph,
  skipping spatials tagged with "JmePhysicsIgnore".</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#listInternalJoints(com.jme3.bullet.objects.PhysicsBody...)" class="member-name-link">listInternalJoints</a><wbr>(<a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>...&nbsp;bodies)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#listInternalJoints(com.jme3.bullet.objects.PhysicsBody...)" class="member-name-link">listInternalJoints</a><wbr>(<a href="../objects/PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a>...&nbsp;bodies)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Enumerate all physics joints that connect bodies in the specified array.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#makeCylinder(jme3utilities.math.VectorSet,com.jme3.math.Vector3f)" class="member-name-link">makeCylinder</a><wbr>(jme3utilities.math.VectorSet&nbsp;vectorSet,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#makeCylinder(jme3utilities.math.VectorSet,com.jme3.math.Vector3f)" class="member-name-link">makeCylinder</a><wbr>(jme3utilities.math.VectorSet&nbsp;vectorSet,
  com.jme3.math.Vector3f&nbsp;scaleFactors)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Create a transformed CylinderCollisionShape that bounds the locations in
  the specified VectorSet.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static jme3utilities.math.RectangularSolid</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#makeRectangularSolid(jme3utilities.math.VectorSet,com.jme3.math.Vector3f)" class="member-name-link">makeRectangularSolid</a><wbr>(jme3utilities.math.VectorSet&nbsp;vectorSet,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static jme3utilities.math.RectangularSolid</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#makeRectangularSolid(jme3utilities.math.VectorSet,com.jme3.math.Vector3f)" class="member-name-link">makeRectangularSolid</a><wbr>(jme3utilities.math.VectorSet&nbsp;vectorSet,
  com.jme3.math.Vector3f&nbsp;scaleFactors)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Instantiate a compact RectangularSolid that bounds the sample locations
  contained in a VectorSet.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#meshToLocal(com.jme3.animation.Bone,com.jme3.math.Transform)" class="member-name-link">meshToLocal</a><wbr>(com.jme3.animation.Bone&nbsp;parentBone,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#meshToLocal(com.jme3.animation.Bone,com.jme3.math.Transform)" class="member-name-link">meshToLocal</a><wbr>(com.jme3.animation.Bone&nbsp;parentBone,
  com.jme3.math.Transform&nbsp;transform)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Convert a transform from the mesh coordinate system to the local
  coordinate system of the specified bone.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.jme3.math.Transform[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#readTransformArray(com.jme3.export.InputCapsule,java.lang.String)" class="member-name-link">readTransformArray</a><wbr>(com.jme3.export.InputCapsule&nbsp;capsule,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.jme3.math.Transform[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#readTransformArray(com.jme3.export.InputCapsule,java.lang.String)" class="member-name-link">readTransformArray</a><wbr>(com.jme3.export.InputCapsule&nbsp;capsule,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Read an array of transforms from an input capsule.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.jme3.math.Transform</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#relativeTransform(com.jme3.scene.Spatial,com.jme3.scene.Node,com.jme3.math.Transform)" class="member-name-link">relativeTransform</a><wbr>(com.jme3.scene.Spatial&nbsp;startSpatial,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.jme3.math.Transform</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#relativeTransform(com.jme3.scene.Spatial,com.jme3.scene.Node,com.jme3.math.Transform)" class="member-name-link">relativeTransform</a><wbr>(com.jme3.scene.Spatial&nbsp;startSpatial,
  com.jme3.scene.Node&nbsp;ancestorNode,
  com.jme3.math.Transform&nbsp;storeResult)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Calculate a coordinate transform for the specified Spatial relative to a
  specified ancestor node.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#validate(com.jme3.anim.Armature)" class="member-name-link">validate</a><wbr>(com.jme3.anim.Armature&nbsp;armature)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#validate(com.jme3.anim.Armature)" class="member-name-link">validate</a><wbr>(com.jme3.anim.Armature&nbsp;armature)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Validate an Armature for use with DynamicAnimControl.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#validate(com.jme3.animation.Skeleton)" class="member-name-link">validate</a><wbr>(com.jme3.animation.Skeleton&nbsp;skeleton)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#validate(com.jme3.animation.Skeleton)" class="member-name-link">validate</a><wbr>(com.jme3.animation.Skeleton&nbsp;skeleton)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Validate a Skeleton for use with DynamicAnimControl.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#validate(com.jme3.scene.Spatial)" class="member-name-link">validate</a><wbr>(com.jme3.scene.Spatial&nbsp;model)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#validate(com.jme3.scene.Spatial)" class="member-name-link">validate</a><wbr>(com.jme3.scene.Spatial&nbsp;model)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Validate a model for use with DynamicAnimControl.</div>
 </div>
 </div>
@@ -233,6 +239,22 @@ loadScripts(document, 'script');</script>
  (not null)</dd>
 <dt>Returns:</dt>
 <dd>a root bone, or null if none found</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="findMainJoint(com.jme3.anim.Armature,com.jme3.scene.Mesh[])">
+<h3>findMainJoint</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.jme3.anim.Joint</span>&nbsp;<span class="element-name">findMainJoint</span><wbr><span class="parameters">(com.jme3.anim.Armature&nbsp;armature,
+ com.jme3.scene.Mesh[]&nbsp;targetMeshes)</span></div>
+<div class="block">Find the main root joint of an Armature, based on its total mesh weight.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>armature</code> - the Armature (not null, unaffected)</dd>
+<dd><code>targetMeshes</code> - an array of animated meshes to provide weights (not
+ null)</dd>
+<dt>Returns:</dt>
+<dd>a root joint, or null if none found</dd>
 </dl>
 </section>
 </li>
