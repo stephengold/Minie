@@ -136,22 +136,34 @@ class TorsoScreen extends GuiScreenController {
             boneItems[managedIndex].setExpanded(true);
         }
 
+        // Generate a map from bone indices to managed-bone indices.
+        int numBones = model.countBones();
+        int[] mbiArray = new int[numBones];
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+            mbiArray[boneIndex] = -1;
+        }
+        for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
+            int boneIndex = managedBones[managedIndex];
+            mbiArray[boneIndex] = managedIndex;
+        }
+
         // Parent each item.
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
             TreeItem<BoneValue> childItem = boneItems[managedIndex];
-            int parentIndex = model.parentIndex(managedIndex);
+            int boneIndex = managedBones[managedIndex];
+            int parentIndex = model.parentIndex(boneIndex);
             if (parentIndex == -1) {
                 rootItem.addTreeItem(childItem);
             } else {
-                boneItems[parentIndex].addTreeItem(childItem);
+                int parentMbi = mbiArray[parentIndex];
+                boneItems[parentMbi].addTreeItem(childItem);
             }
         }
         treeBox.setTree(rootItem);
 
         // Pre-select the item for the main bone.
         int mainBoneIndex = model.mainBoneIndex();
-        TreeItem<BoneValue> item = boneItems[mainBoneIndex];
-        treeBox.selectItem(item);
+        selectItem(mainBoneIndex);
     }
 
     /**
@@ -168,15 +180,19 @@ class TorsoScreen extends GuiScreenController {
             return;
         }
 
-        // Update the main-bone index.
+        Model model = DacWizard.getModel();
         List<TreeItem<BoneValue>> selectedItems = treeBox.getSelection();
         int numSelected = selectedItems.size();
-        assert numSelected == 1 : numSelected;
-        TreeItem<BoneValue> mbItem = selectedItems.get(0);
-        BoneValue mbValue = mbItem.getValue();
-        int mbIndex = mbValue.boneIndex();
-        Model model = DacWizard.getModel();
-        model.setMainBoneIndex(mbIndex);
+        if (numSelected == 1) { // Update the main-bone index in the model.
+            TreeItem<BoneValue> mbItem = selectedItems.get(0);
+            BoneValue mbValue = mbItem.getValue();
+            int mbIndex = mbValue.boneIndex();
+            model.setMainBoneIndex(mbIndex);
+
+        } else { // empty selection:  re-select the main bone
+            int mainBoneIndex = model.mainBoneIndex();
+            selectItem(mainBoneIndex);
+        }
         /*
          * If there's a ragdoll already configured, allow the user to
          * bypass range-of-motion estimation.
@@ -186,6 +202,26 @@ class TorsoScreen extends GuiScreenController {
             linksElement.show();
         } else {
             linksElement.hide();
+        }
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Select the tree item corresponding to the indexed bone.
+     *
+     * @param boneIndex the index of the bone to select (&ge;0)
+     */
+    private void selectItem(int boneIndex) {
+        assert boneIndex >= 0 : boneIndex;
+
+        List<TreeItem<BoneValue>> itemList = treeBox.getItems();
+        for (TreeItem<BoneValue> item : itemList) {
+            BoneValue value = item.getValue();
+            if (value.boneIndex() == boneIndex) {
+                treeBox.selectItem(item);
+                break;
+            }
         }
     }
 }
