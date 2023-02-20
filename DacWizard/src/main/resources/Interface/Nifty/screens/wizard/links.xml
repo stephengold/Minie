@@ -35,7 +35,7 @@ Nifty XML to lay out the GUI for the "links" screen of DacWizard.
                backgroundColor="#aaaf">
             <panel childLayout="horizontal" height="28px">
                 <panel/>
-                <control name="label" text="Step 4:  Configure the physics links"
+                <control name="label" text="Step 5:  Configure the physics links"
                          color="#000f"/>
                 <panel/>
             </panel>

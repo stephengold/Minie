@@ -30,7 +30,6 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.input.KeyInput;
 import java.util.logging.Level;
@@ -124,11 +123,6 @@ class BonesMode extends InputMode {
         boolean handled = false;
         if (ongoing) {
             switch (actionString) {
-                case Action.editLinks:
-                    goLinks();
-                    handled = true;
-                    break;
-
                 case Action.nextScreen:
                     nextScreen();
                     handled = true;
@@ -150,26 +144,14 @@ class BonesMode extends InputMode {
     // private methods
 
     /**
-     * Bypass RoM estimation and go directly to the "links" screen.
-     */
-    private void goLinks() {
-        setEnabled(false);
-        Model model = DacWizard.getModel();
-        model.selectLink(DacConfiguration.torsoName);
-        InputMode links = InputMode.findMode("links");
-        links.setEnabled(true);
-    }
-
-    /**
-     * If possible, initiate range-of-motion estimation before advancing to the
-     * LinksScreen.
+     * Advance to the "torso" screen if possible.
      */
     private void nextScreen() {
         String feedback = BonesScreen.feedback();
         if (feedback.isEmpty()) {
             setEnabled(false);
-            Model model = DacWizard.getModel();
-            model.startRomTask();
+            InputMode load = InputMode.findMode("torso");
+            load.setEnabled(true);
         }
     }
 

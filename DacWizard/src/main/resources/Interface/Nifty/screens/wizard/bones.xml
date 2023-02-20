@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2019-2020, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -62,14 +62,9 @@ Nifty XML to lay out the GUI for the "bones" screen of DacWizard.
                          color="#800f"
                          width="*"/>
                 <control name="button" id="nextButton"
-                         label="Estimate RoMs >"
-                         width="130px">
+                         label="Next >"
+                         width="60px">
                     <interact onRelease="perform(next screen)"/>
-                </control>
-                <control name="button" id="linksButton"
-                         label="Edit links >"
-                         width="100px">
-                    <interact onRelease="perform(edit links)"/>
                 </control>
                 <control name="label" text="  "/>
             </panel>

@@ -200,11 +200,11 @@ class LinksMode extends InputMode {
     }
 
     /**
-     * Go back to the "bones" screen.
+     * Go back to the "torso" screen.
      */
     private void previousScreen() {
         setEnabled(false);
-        InputMode bones = InputMode.findMode("bones");
+        InputMode bones = InputMode.findMode("torso");
         bones.setEnabled(true);
     }
 
