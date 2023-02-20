@@ -122,12 +122,12 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
      * @param subjectModel the model to analyze (not null)
      */
     RomCallable(Model subjectModel) {
-        model = subjectModel;
+        this.model = subjectModel;
 
         // Initialize accumulators for maximum and minimum rotation angles.
         int numBones = model.countBones();
-        maxima = new Vector3f[numBones];
-        minima = new Vector3f[numBones];
+        this.maxima = new Vector3f[numBones];
+        this.minima = new Vector3f[numBones];
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
             if (model.isBoneLinked(boneIndex)) {
                 maxima[boneIndex] = new Vector3f(0f, 0f, 0f);
@@ -138,7 +138,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         // Temporarily enable physics-debug visualization.
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);
-        wasDebugEnabled = bulletAppState.isDebugEnabled();
+        this.wasDebugEnabled = bulletAppState.isDebugEnabled();
         if (!wasDebugEnabled) {
             bulletAppState.setDebugEnabled(true);
         }
@@ -148,7 +148,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          */
         DacWizard.getApplication().clearScene();
         Spatial cgModel = model.getRootSpatial();
-        tempModelRoot = Heart.deepCopy(cgModel);
+        this.tempModelRoot = Heart.deepCopy(cgModel);
         Transform initTransform = model.copyInitTransform(null);
         tempModelRoot.setLocalTransform(initTransform);
         DacWizard.getApplication().makeScene(tempModelRoot);
@@ -184,7 +184,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         AbstractControl sControl = RagUtils.findSControl(tempModelRoot);
         if (sControl instanceof SkinningControl) { // new animation system
             Armature armature = ((SkinningControl) sControl).getArmature();
-            tempDac = new DynamicAnimControl() {
+            this.tempDac = new DynamicAnimControl() {
                 @Override
                 public void update(float tpf) {
                     applyRandomPose();
@@ -201,7 +201,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
 
         } else { // old animation system
             Skeleton skeleton = ((SkeletonControl) sControl).getSkeleton();
-            tempDac = new DynamicAnimControl() {
+            this.tempDac = new DynamicAnimControl() {
                 @Override
                 public void update(float tpf) {
                     applyRandomPose();
