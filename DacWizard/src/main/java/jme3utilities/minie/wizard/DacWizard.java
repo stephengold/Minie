@@ -524,6 +524,14 @@ public class DacWizard extends GuiApplication {
         assert success;
         /*
          * Create and attach an input mode and screen controller
+         * for the "torso" screen.
+         */
+        success = stateManager.attach(new TorsoMode());
+        assert success;
+        success = stateManager.attach(new TorsoScreen());
+        assert success;
+        /*
+         * Create and attach an input mode and screen controller
          * for the "links" screen.
          */
         success = stateManager.attach(new LinksMode());
