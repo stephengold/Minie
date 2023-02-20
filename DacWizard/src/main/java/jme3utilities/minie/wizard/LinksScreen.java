@@ -584,7 +584,6 @@ public class LinksScreen extends GuiScreenController {
         assert !boneName.isEmpty();
 
         TreeItem<LinkValue> result;
-        int numLinkedBones = linkedBoneItems.length;
         for (TreeItem<LinkValue> linkedBoneItem : linkedBoneItems) {
             result = linkedBoneItem;
             LinkValue value = result.getValue();

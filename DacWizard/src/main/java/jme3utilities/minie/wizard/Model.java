@@ -706,7 +706,7 @@ class Model {
             if (parent == null) {
                 result = -1;
             } else {
-                result = armature.getJointIndex(parent);
+                result = parent.getId();
             }
 
         } else { // old animation system
