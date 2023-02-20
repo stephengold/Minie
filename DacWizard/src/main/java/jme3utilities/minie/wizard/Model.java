@@ -126,6 +126,10 @@ class Model {
      */
     private FutureTask<RangeOfMotion[]> romTask;
     /**
+     * index of the torso's main bone, or -1 for the default
+     */
+    private int mainBoneIndex;
+    /**
      * number of components in the filesystem path to the asset root
      */
     private int numComponentsInRoot;
@@ -604,6 +608,33 @@ class Model {
     }
 
     /**
+     * Enumerate the indices of all bones managed by the torso. A C-G model must
+     * be loaded.
+     *
+     * @return a new array of indices (not null)
+     */
+    int[] listTorsoManagedBones() {
+        if (rootSpatial == null) {
+            throw new RuntimeException("No model loaded.");
+        }
+
+        int numManaged = countManagedBones(DacConfiguration.torsoName);
+        int[] result = new int[numManaged];
+
+        int managedIndex = 0;
+        int numBones = countBones();
+        for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+            String managerName = findManager(boneIndex);
+            if (managerName.equals(DacConfiguration.torsoName)) {
+                result[managedIndex] = boneIndex;
+                ++managedIndex;
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Attempt to load a C-G model. The filesystem path must have been
      * previously set. If successful, rootSpatial and linkedBones are
      * initialized. Otherwise, {@code rootSpatial==null} and loadException is
@@ -639,6 +670,13 @@ class Model {
             recalculateInitTransform();
             recalculateInfluence();
 
+            int mbIndex = -1;
+            if (ragdoll != null) {
+                String mbName = ragdoll.mainBoneName();
+                mbIndex = findBoneIndex(mbName);
+            }
+            setMainBoneIndex(mbIndex);
+
             int numBones = countBones();
             BitSet bitset = new BitSet(numBones); // empty set
             if (ragdoll != null) {
@@ -664,6 +702,34 @@ class Model {
             result = loadException.toString();
         }
 
+        return result;
+    }
+
+    /**
+     * Return the index of the torso's main bone.
+     *
+     * @return the bone index (&ge;0)
+     */
+    int mainBoneIndex() {
+        int result = mainBoneIndex;
+        if (mainBoneIndex == -1) {
+            List<Mesh> targetList = RagUtils.listDacMeshes(rootSpatial, null);
+            Mesh[] meshes = new Mesh[targetList.size()];
+            targetList.toArray(meshes);
+
+            Skeleton skeleton = findSkeleton();
+            if (skeleton != null) { // old animation system
+                Bone bone = RagUtils.findMainBone(skeleton, meshes);
+                result = skeleton.getBoneIndex(bone);
+
+            } else { // new animation system
+                Armature armature = findArmature();
+                Joint armatureJoint = RagUtils.findMainJoint(armature, meshes);
+                result = armatureJoint.getId();
+            }
+        }
+
+        assert result >= 0 : result;
         return result;
     }
 
@@ -750,6 +816,10 @@ class Model {
                 new Vector3f(1f, 1f, 1f), CenterHeuristic.Mean);
 
         ragdoll.setConfig(DacConfiguration.torsoName, linkConfig);
+
+        int mbIndex = mainBoneIndex();
+        String mbName = boneName(mbIndex);
+        ragdoll.setMainBoneName(mbName);
 
         int numBones = countBones();
         for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
@@ -890,6 +960,15 @@ class Model {
     }
 
     /**
+     * Alter the index for the main bone in the torso.
+     *
+     * @param desiredIndex the desired index
+     */
+    void setMainBoneIndex(int desiredIndex) {
+        this.mainBoneIndex = desiredIndex;
+    }
+
+    /**
      * Replace the RangeOfMotion of the named BoneLink.
      *
      * @param boneName the name of the bone (not null, not empty)
@@ -950,6 +1029,7 @@ class Model {
      * Unload the loaded C-G model, if any.
      */
     void unload() {
+        this.mainBoneIndex = -1;
         this.rootSpatial = null;
         this.ragdoll = null;
     }
@@ -1013,7 +1093,51 @@ class Model {
     }
 
     /**
-     * Find the manager of the specified Bone.
+     * Return the index of the named bone. A C-G model must be loaded.
+     *
+     * @param boneName the name of the bone to find
+     * @return the index (&ge;0) or -1 if not found
+     */
+    private int findBoneIndex(String boneName) {
+        int result;
+
+        Skeleton skeleton = findSkeleton();
+        if (skeleton == null) { // new animation system
+            Armature armature = findArmature();
+            result = armature.getJointIndex(boneName);
+
+        } else { // old animation system
+            result = skeleton.getBoneIndex(boneName);
+        }
+
+        return result;
+    }
+
+    /**
+     * Find the manager of the indexed bone.
+     *
+     * @param startBoneIndex the index of the bone to analyze (&ge;0)
+     * @return the bone/torso name (not null)
+     */
+    private String findManager(int startBoneIndex) {
+        String result;
+
+        Skeleton skeleton = findSkeleton();
+        if (skeleton == null) { // new animation system
+            Armature armature = findArmature();
+            Joint startJoint = armature.getJoint(startBoneIndex);
+            result = findManager(startJoint);
+
+        } else { // old animation system
+            Bone startBone = skeleton.getBone(startBoneIndex);
+            result = findManager(startBone, skeleton);
+        }
+
+        return result;
+    }
+
+    /**
+     * Find the link that manages the specified Bone.
      *
      * @param startBone which Bone to analyze (not null, unaffected)
      * @param skeleton the Skeleton containing the Bone
