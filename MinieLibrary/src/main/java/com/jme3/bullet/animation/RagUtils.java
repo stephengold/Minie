@@ -187,7 +187,7 @@ final public class RagUtils {
      * null)
      * @return a root joint, or null if none found
      */
-    static Joint findMainJoint(Armature armature, Mesh[] targetMeshes) {
+    public static Joint findMainJoint(Armature armature, Mesh[] targetMeshes) {
         Validate.nonNull(targetMeshes, "target meshes");
 
         Joint[] roots = armature.getRoots();
