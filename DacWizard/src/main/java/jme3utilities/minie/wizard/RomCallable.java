@@ -156,8 +156,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          * Normalize all quaternions in the copy's animations,
          * since Pose.applyTo() is sensitive to such flaws.
          */
-        List<AnimControl> animControls = MySpatial.listControls(tempModelRoot,
-                AnimControl.class, null);
+        List<AnimControl> animControls = MySpatial.listControls(
+                tempModelRoot, AnimControl.class, null);
         for (AnimControl animControl : animControls) {
             Collection<String> names = animControl.getAnimationNames();
             for (String animationName : names) {
@@ -165,8 +165,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
                 AnimationEdit.normalizeQuaternions(anim, 0.00005f);
             }
         }
-        List<AnimComposer> composers = MySpatial.listControls(tempModelRoot,
-                AnimComposer.class, null);
+        List<AnimComposer> composers = MySpatial.listControls(
+                tempModelRoot, AnimComposer.class, null);
         for (AnimComposer composer : composers) {
             Collection<String> names = composer.getAnimClipsNames();
             for (String clipName : names) {
@@ -181,9 +181,8 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          */
         float mass = 1f;
         RangeOfMotion stiffRom = new RangeOfMotion();
-        AbstractControl sControl
-                = RagUtils.findSControl(tempModelRoot);
-        if (sControl instanceof SkinningControl) {
+        AbstractControl sControl = RagUtils.findSControl(tempModelRoot);
+        if (sControl instanceof SkinningControl) { // new animation system
             Armature armature = ((SkinningControl) sControl).getArmature();
             tempDac = new DynamicAnimControl() {
                 @Override

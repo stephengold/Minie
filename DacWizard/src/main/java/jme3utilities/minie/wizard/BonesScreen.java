@@ -102,8 +102,7 @@ class BonesScreen extends GuiScreenController {
                 if (model.isBoneLinked(i)) {
                     String name = model.boneName(i);
                     if (model.countVertices(name) == 0) {
-                        result = "No mesh vertices for "
-                                + MyString.quote(name);
+                        result = "No mesh vertices for " + MyString.quote(name);
                     }
                 }
             }
