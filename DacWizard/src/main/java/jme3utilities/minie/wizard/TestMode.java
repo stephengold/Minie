@@ -32,6 +32,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DacConfiguration;
 import com.jme3.bullet.animation.DynamicAnimControl;
@@ -266,15 +267,18 @@ class TestMode extends InputMode {
         float massP = config.massParameter();
         String massPString = MyString.describe(massP);
 
+        RotationOrder ro = config.rotationOrder();
+        String orderString = (ro == null) ? "null" : "RotationOrder." + ro;
+
         String code = String.format(
                 "new LinkConfig(%sf, MassHeuristic.%s,%n"
                 + "                ShapeHeuristic.%s, "
                 + "new Vector3f(%sf, %sf, %sf),%n"
-                + "                CenterHeuristic.%s, RotationOrder.%s)",
+                + "                CenterHeuristic.%s, %s)",
                 massPString, config.massHeuristic(),
                 config.shapeHeuristic(),
                 scaleXString, scaleYString, scaleZString,
-                config.centerHeuristic(), config.rotationOrder());
+                config.centerHeuristic(), orderString);
 
         return code;
     }
