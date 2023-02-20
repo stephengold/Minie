@@ -332,7 +332,7 @@ class Model {
             int numJoints = armature.getJointCount();
             for (int boneIndex = 0; boneIndex < numJoints; ++boneIndex) {
                 Joint joint = armature.getJoint(boneIndex);
-                String name = findManager(joint, armature);
+                String name = findManager(joint);
                 if (managerName.equals(name)) {
                     ++count;
                 }
@@ -562,7 +562,7 @@ class Model {
             if (parent == null) { // the named Joint was a root joint
                 name = DacConfiguration.torsoName;
             } else {
-                name = findManager(parent, armature);
+                name = findManager(parent);
             }
 
         } else { // old animation system
@@ -870,7 +870,7 @@ class Model {
                 Armature armature = findArmature();
                 for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
                     Joint joint = armature.getJoint(jointIndex);
-                    managerMap[jointIndex] = findManager(joint, armature);
+                    managerMap[jointIndex] = findManager(joint);
                 }
 
             } else { // old animation system
@@ -1045,16 +1045,15 @@ class Model {
      * Find the manager of the specified Joint.
      *
      * @param startJoint which Joint to analyze (not null, unaffected)
-     * @param skeleton the Armature containing the Joint
      * @return a bone/torso name (not null)
      */
-    private String findManager(Joint startJoint, Armature skeleton) {
+    private String findManager(Joint startJoint) {
         assert startJoint != null;
 
         String managerName;
         Joint joint = startJoint;
         while (true) {
-            int jointIndex = skeleton.getJointIndex(joint);
+            int jointIndex = joint.getId();
             if (linkedBones.get(jointIndex)) {
                 managerName = joint.getName();
                 break;
