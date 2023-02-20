@@ -256,7 +256,7 @@ class TestMode extends InputMode {
      * Format a LinkConfig as Java source code.
      *
      * @param config (not null, unaffected)
-     * @return the formatted text (not null, not empty)
+     * @return formatted text (not null, not empty)
      */
     private static String format(LinkConfig config) {
         Vector3f scale = config.shapeScale(null);

@@ -76,7 +76,7 @@ public class LinksScreen extends GuiScreenController {
     // fields
 
     /**
-     * element of GUI button to proceed to the next Screen
+     * element of GUI button to proceed to the "test" screen
      */
     private Element nextElement;
     /**

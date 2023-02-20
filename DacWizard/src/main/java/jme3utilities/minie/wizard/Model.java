@@ -214,7 +214,7 @@ class Model {
     }
 
     /**
-     * Read the name of the indexed bone. A C-G model must be loaded.
+     * Return the name of the indexed bone. A C-G model must be loaded.
      *
      * @param boneIndex which bone (&ge;0)
      * @return the name (may be null)
@@ -240,7 +240,7 @@ class Model {
     }
 
     /**
-     * Read the configuration of the named bone/torso link.
+     * Return the configuration of the named bone/torso link.
      *
      * @param boneName the name of the bone/torso (not null)
      * @return the pre-existing configuration (not null)
@@ -692,7 +692,7 @@ class Model {
     }
 
     /**
-     * Read the exception that occurred during the most recent load attempt.
+     * Return the exception that occurred during the most recent load attempt.
      *
      * @return the exception message, or "" if none
      */
@@ -835,7 +835,7 @@ class Model {
     }
 
     /**
-     * Read the joint limits of the named BoneLink.
+     * Access the joint limits of the named BoneLink.
      *
      * @param boneName the name of the bone (not null, not empty)
      * @return the pre-existing limits (not null)
@@ -1166,7 +1166,7 @@ class Model {
     }
 
     /**
-     * Find the manager of the specified Joint.
+     * Find the link that manages the specified armature joint.
      *
      * @param startJoint which Joint to analyze (not null, unaffected)
      * @return a bone/torso name (not null)

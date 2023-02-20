@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -135,7 +135,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      */
     private Map<String, Spatial> attachModelMap = new HashMap<>(5);
     /**
-     * name of the main bone, or null if it hasn't been determined yet
+     * name of the torso's main bone, or null if it hasn't been determined yet
      */
     private String mainBoneName = null;
     /**
