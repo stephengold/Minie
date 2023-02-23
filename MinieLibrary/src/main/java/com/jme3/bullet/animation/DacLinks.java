@@ -830,7 +830,7 @@ public class DacLinks
             skinningControl.setHardwareSkinningPreferred(false);
 
             // Analyze the model's Armature.
-            armature = skinningControl.getArmature();
+            this.armature = skinningControl.getArmature();
             validateArmature();
             tempManagerMap = managerMap(armature);
             int numArmatureJoints = armature.getJointCount();
