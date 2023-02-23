@@ -115,11 +115,11 @@ public class DacWizard extends GuiApplication {
     /**
      * node controlled by the AxesVisualizer
      */
-    private Node axesNode = null;
+    private static Node axesNode = null;
     /**
      * parent of the loaded C-G model in the scene
      */
-    private Node cgmParent = null;
+    private static Node cgmParent = null;
     /**
      * dump debugging information to {@code System.out}
      */
@@ -162,10 +162,10 @@ public class DacWizard extends GuiApplication {
         }
 
         if (axesNode != null) {
-            this.axesNode = null;
+            axesNode = null;
         }
         if (cgmParent != null) {
-            this.cgmParent = null;
+            cgmParent = null;
         }
     }
 
@@ -313,7 +313,7 @@ public class DacWizard extends GuiApplication {
         assert cgmParent == null;
 
         // Add a disabled visualizer for axes, with its own controlled Node.
-        this.axesNode = new Node("axesNode");
+        axesNode = new Node("axesNode");
         rootNode.attachChild(axesNode);
         float arrowLength = 0.2f * Model.cgmHeight;
         AxesVisualizer axes = new AxesVisualizer(assetManager, arrowLength);
@@ -321,7 +321,7 @@ public class DacWizard extends GuiApplication {
         axesNode.addControl(axes);
 
         // Add the C-G model, with its own parent Node.
-        this.cgmParent = new Node("cgmParent");
+        cgmParent = new Node("cgmParent");
         if (model.isShowingMeshes()) {
             cgmParent.setCullHint(Spatial.CullHint.Never);
         } else {
