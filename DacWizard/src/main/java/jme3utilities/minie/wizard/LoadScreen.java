@@ -176,6 +176,7 @@ class LoadScreen extends GuiScreenController {
         updatePath();
         updateToggleButton();
 
+        // Update the 3-D scene.
         Model model = DacWizard.getModel();
         Spatial nextSpatial = model.getRootSpatial();
         if (nextSpatial != viewedSpatial) {

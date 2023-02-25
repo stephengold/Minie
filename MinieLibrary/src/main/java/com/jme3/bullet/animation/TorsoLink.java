@@ -252,11 +252,11 @@ public class TorsoLink extends PhysicsLink {
         Validate.inRange(managedIndex, "managed index", 0, numManaged - 1);
 
         int result;
-        if (managedBones != null) {
+        if (managedBones != null) { // old animation system
             Bone managed = managedBones[managedIndex];
             Skeleton skeleton = getControl().getSkeleton();
             result = skeleton.getBoneIndex(managed);
-        } else {
+        } else { // new animation system
             Joint managed = managedArmatureJoints[managedIndex];
             result = managed.getId();
         }

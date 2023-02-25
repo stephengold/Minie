@@ -91,6 +91,9 @@ class TestMode extends InputMode {
      * asset path to the cursor for this mode
      */
     final private static String assetPath = "Textures/cursors/default.cur";
+    // *************************************************************************
+    // fields
+
     /**
      * local transform of the controlled spatial when entering/exiting ragdoll
      * mode
@@ -460,12 +463,13 @@ class TestMode extends InputMode {
         DynamicAnimControl dac = wizard.findDac();
         TorsoLink torso = dac.getTorsoLink();
         if (torso.isKinematic()) {
+            // Save the local transform of the controlled spatial.
             Spatial controlledSpatial = dac.getSpatial();
-            Transform local = controlledSpatial.getLocalTransform();
+            Transform local = controlledSpatial.getLocalTransform(); // alias
             resetTransform.set(local);
             dac.setRagdollMode();
 
-        } else { // reset to bind pose
+        } else { // Gradually blend to the saved local transform and pose.
             KinematicSubmode bindPose = KinematicSubmode.Bound;
             float blendInterval = 1f; // in seconds
             torso.blendToKinematicMode(bindPose, blendInterval, resetTransform);
