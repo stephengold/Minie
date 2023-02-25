@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -243,11 +243,32 @@ public class DynamicAnimControl
         Validate.nonNegative(blendInterval, "blend interval");
         verifyAddedToSpatial("change modes");
 
-        getTorsoLink().blendToKinematicMode(
+        blendToKinematicMode(
                 KinematicSubmode.Animated, blendInterval, endModelTransform);
+    }
+
+    /**
+     * Begin blending all links to purely kinematic mode.
+     * <p>
+     * Allowed only when the Control IS added to a Spatial.
+     *
+     * @param submode enum value (not null)
+     * @param blendInterval the duration of the blend interval (in seconds,
+     * &ge;0)
+     * @param endModelTransform the desired local transform for the controlled
+     * spatial when the blend completes (alias created) or null for no change to
+     * the local transform
+     */
+    public void blendToKinematicMode(KinematicSubmode submode,
+            float blendInterval, Transform endModelTransform) {
+        Validate.nonNull(submode, "submode");
+        Validate.nonNegative(blendInterval, "blend interval");
+        verifyAddedToSpatial("change modes");
+
+        getTorsoLink().blendToKinematicMode(
+                submode, blendInterval, endModelTransform);
         for (BoneLink boneLink : getBoneLinks()) {
-            boneLink.blendToKinematicMode(
-                    KinematicSubmode.Animated, blendInterval);
+            boneLink.blendToKinematicMode(submode, blendInterval);
         }
         for (AttachmentLink link : listAttachmentLinks()) {
             if (!link.isReleased()) {
