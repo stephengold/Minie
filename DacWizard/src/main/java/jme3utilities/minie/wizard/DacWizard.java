@@ -26,7 +26,11 @@
  */
 package jme3utilities.minie.wizard;
 
+import com.jme3.anim.AnimClip;
+import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.Animation;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.state.AppState;
@@ -47,6 +51,7 @@ import com.jme3.scene.control.Control;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeVersion;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,6 +74,7 @@ import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.DisplaySettings;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.ShowDialog;
+import jme3utilities.wes.AnimationEdit;
 
 /**
  * A GuiApplication to configure a DynamicAnimControl for a C-G model. The
@@ -329,6 +335,17 @@ public class DacWizard extends GuiApplication {
         }
         rootNode.attachChild(cgmParent);
         cgmParent.attachChild(cgModel);
+        /*
+         * Normalize all quaternions in the model's animations,
+         * since Pose.applyTo() is sensitive to such flaws.
+         */
+        List<AnimControl> animControls = MySpatial
+                .listControls(cgmParent, AnimControl.class, null);
+        normalizeAnimControls(animControls);
+
+        List<AnimComposer> composers = MySpatial
+                .listControls(cgmParent, AnimComposer.class, null);
+        normalizeComposers(composers);
 
         AbstractControl sc = RagUtils.findSControl(cgModel);
         if (sc != null && findSkeletonVisualizer() == null) {
@@ -556,6 +573,36 @@ public class DacWizard extends GuiApplication {
         dumper.setEnabled(DumpFlags.JointsInBodies, true);
         dumper.setEnabled(DumpFlags.JointsInSpaces, true);
         dumper.setEnabled(DumpFlags.Transforms, true);
+    }
+
+    /**
+     * Normalize all quaternions in the specified animation controls.
+     *
+     * @param animControls the controls to modify (not null)
+     */
+    private static void normalizeAnimControls(List<AnimControl> animControls) {
+        for (AnimControl animControl : animControls) {
+            Collection<String> names = animControl.getAnimationNames();
+            for (String name : names) {
+                Animation animation = animControl.getAnim(name);
+                AnimationEdit.normalizeQuaternions(animation, 0.00005f);
+            }
+        }
+    }
+
+    /**
+     * Normalize all quaternions in the specified anim composers.
+     *
+     * @param composers the anim composers to modify (not null)
+     */
+    private static void normalizeComposers(List<AnimComposer> composers) {
+        for (AnimComposer composer : composers) {
+            Collection<String> names = composer.getAnimClipsNames();
+            for (String clipName : names) {
+                AnimClip animClip = composer.getAnimClip(clipName);
+                AnimationEdit.normalizeQuaternions(animClip, 0.00005f);
+            }
+        }
     }
 
     /**
