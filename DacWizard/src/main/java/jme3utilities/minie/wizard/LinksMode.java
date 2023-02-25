@@ -125,56 +125,48 @@ class LinksMode extends InputMode {
             });
         }
 
-        boolean handled = false;
+        boolean handled = true;
         if (ongoing) {
             LinksScreen screen = DacWizard.findAppState(LinksScreen.class);
             switch (actionString) {
                 case Action.nextMassHeuristic:
                     screen.nextMassHeuristic();
-                    handled = true;
                     break;
 
                 case Action.nextScreen:
                     nextScreen();
-                    handled = true;
                     break;
 
                 case Action.previousScreen:
                     previousScreen();
-                    handled = true;
                     break;
 
                 case Action.selectCenterHeuristic:
                     screen.selectCenterHeuristic();
-                    handled = true;
                     break;
 
                 case Action.selectRotationOrder:
                     screen.selectRotationOrder();
-                    handled = true;
                     break;
 
                 case Action.selectShapeHeuristic:
                     screen.selectShapeHeuristic();
-                    handled = true;
                     break;
 
                 case Action.setMassParameter:
                     screen.setMassParameter();
-                    handled = true;
                     break;
 
                 case Action.setShapeScale:
                     screen.setShapeScale();
-                    handled = true;
                     break;
 
                 case Action.toggleAngleMode:
                     DacWizard.getModel().toggleAngleMode();
-                    handled = true;
                     break;
 
                 default:
+                    handled = false;
             }
             if (!handled) {
                 handled = testForPrefixes(actionString);
