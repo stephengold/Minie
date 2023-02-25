@@ -216,6 +216,11 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
                 }
             }
         }
+
+        int mbIndex = model.mainBoneIndex();
+        String mbName = model.boneName(mbIndex);
+        tempDac.setMainBoneName(mbName);
+
         Spatial controlledSpatial = sControl.getSpatial();
         controlledSpatial.addControl(tempDac);
 
