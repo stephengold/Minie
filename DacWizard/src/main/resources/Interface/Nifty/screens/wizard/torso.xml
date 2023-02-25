@@ -35,7 +35,7 @@ Nifty XML to lay out the GUI for the "torso" screen of DacWizard.
                backgroundColor="#aaaf">
             <panel childLayout="horizontal" height="28px">
                 <panel/>
-                <control name="label" text="Step 4:  Select main bone for the torso"
+                <control name="label" text="Step 4 of 6:  Select main bone for the torso"
                          color="#000f"/>
                 <panel/>
             </panel>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@ Nifty XML to lay out the GUI for the "filePath" screen of DacWizard.
                backgroundColor="#aaaf">
             <panel childLayout="horizontal" height="28px">
                 <panel/>
-                <control name="label" text="Step 1:  Locate the model in the file system"
+                <control name="label" text="Step 1 of 6:  Locate the model in the file system"
                          color="#000f"/>
                 <panel/>
             </panel>

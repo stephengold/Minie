@@ -34,7 +34,7 @@ Nifty XML to lay out the GUI for the "test" screen of DacWizard.
         <layer childLayout="vertical">
             <panel childLayout="horizontal" backgroundColor="#aaaf" height="28px">
                 <panel/>
-                <control name="label" text="Step 6:  Test the ragdoll and save the configuration"
+                <control name="label" text="Step 6 of 6:  Test the ragdoll and save the configuration"
                          color="#000f"/>
                 <panel/>
             </panel>
