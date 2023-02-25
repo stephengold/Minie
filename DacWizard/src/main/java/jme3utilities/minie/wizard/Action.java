@@ -99,34 +99,32 @@ final class Action {
      * @return true if the action has been handled, otherwise false
      */
     static boolean processOngoing(String actionString) {
-        boolean handled = false;
+        boolean handled = true;
+
+        Model model = DacWizard.getModel();
         switch (actionString) {
             case dumpAppStates:
                 dumpAppStates();
-                handled = true;
                 break;
 
             case dumpPhysicsSpace:
                 dumpPhysicsSpace();
-                handled = true;
                 break;
 
             case dumpRenderer:
                 dumpRenderer();
-                handled = true;
                 break;
 
             case editBindings:
                 editBindings();
-                handled = true;
                 break;
 
             case editDisplaySettings:
                 editDisplaySettings();
-                handled = true;
                 break;
 
             default:
+                handled = false;
         }
 
         return handled;
