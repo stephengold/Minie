@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.wizard;
 
+import com.jme3.animation.Skeleton;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
