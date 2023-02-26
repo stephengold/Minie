@@ -74,6 +74,7 @@ public class TorsoLink extends PhysicsLink {
     /**
      * field names for serialization
      */
+    final private static String tagEndBoneTransforms = "endBoneTransforms";
     final private static String tagEndModelTransform = "endModelTransform";
     final private static String tagManagedArmatureJoints
             = "managedArmatureJoints";
@@ -114,6 +115,11 @@ public class TorsoLink extends PhysicsLink {
      * most recent blend interval
      */
     private Transform startModelTransform = new Transform();
+    /**
+     * local transform for each managed bone at the end of a blend to
+     * {@code Reset} submode, or null if not specified
+     */
+    private Transform[] endBoneTransforms = null;
     /**
      * local transform of each managed bone from the previous update
      */
@@ -283,6 +289,22 @@ public class TorsoLink extends PhysicsLink {
     }
 
     /**
+     * Alter the local transform for each managed bone at the end of a blend
+     * interval, for use with the {@code Reset} kinematic submode.
+     *
+     * @param transforms (not null, one element for each managed bone, no null
+     * elements, alias created)
+     */
+    public void setEndBoneTransforms(Transform[] transforms) {
+        Validate.nonNull(transforms, "transforms");
+        int numManaged = countManaged();
+        Validate.require(transforms.length == numManaged,
+                "one element for each managed bone");
+
+        this.endBoneTransforms = transforms;
+    }
+
+    /**
      * Alter the local transform of the indexed managed bone. Use this method to
      * animate managed bones. Effective only once the link has been updated.
      *
@@ -317,6 +339,7 @@ public class TorsoLink extends PhysicsLink {
         this.managedArmatureJoints = cloner.clone(managedArmatureJoints);
         this.endModelTransform = cloner.clone(endModelTransform);
         this.meshToModel = cloner.clone(meshToModel);
+        this.endBoneTransforms = cloner.clone(endBoneTransforms);
         this.prevBoneTransforms = cloner.clone(prevBoneTransforms);
         this.startBoneTransforms = cloner.clone(startBoneTransforms);
         this.startModelTransform = cloner.clone(startModelTransform);
@@ -426,6 +449,9 @@ public class TorsoLink extends PhysicsLink {
                     break;
                 case Frozen:
                     transform.set(prevBoneTransforms[managedIndex]);
+                    break;
+                case Reset:
+                    transform.set(endBoneTransforms[managedIndex]);
                     break;
                 default:
                     throw new IllegalStateException(submode.toString());
@@ -540,6 +566,8 @@ public class TorsoLink extends PhysicsLink {
                 .readSavable(tagMeshToModel, new Transform());
         this.startModelTransform = (Transform) capsule
                 .readSavable(tagStartModelTransform, new Transform());
+        this.endBoneTransforms
+                = RagUtils.readTransformArray(capsule, tagEndBoneTransforms);
         this.prevBoneTransforms
                 = RagUtils.readTransformArray(capsule, tagPrevBoneTransforms);
         this.startBoneTransforms
@@ -629,6 +657,7 @@ public class TorsoLink extends PhysicsLink {
         capsule.write(meshToModel, tagMeshToModel, new Transform());
         capsule.write(
                 startModelTransform, tagStartModelTransform, new Transform());
+        capsule.write(endBoneTransforms, tagEndBoneTransforms, null);
         capsule.write(
                 prevBoneTransforms, tagPrevBoneTransforms, new Transform[0]);
         capsule.write(

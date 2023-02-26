@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,5 +52,9 @@ public enum KinematicSubmode {
     /**
      * frozen in the transform it had when blending started
      */
-    Frozen
+    Frozen,
+    /**
+     * forced to the pose defined by {@code setEndBoneTransforms()}
+     */
+    Reset
 }

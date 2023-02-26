@@ -84,6 +84,7 @@ public class BoneLink extends PhysicsLink {
     /**
      * field names for serialization
      */
+    final private static String tagEndBoneTransforms = "endBoneTransforms";
     final private static String tagManagedArmatureJoints
             = "managedArmatureJoints";
     final private static String tagManagedBones = "managedBones";
@@ -117,6 +118,11 @@ public class BoneLink extends PhysicsLink {
      * reusable temporary storage for a 3x3 matrix
      */
     private Matrix3f tmpMatrix = new Matrix3f();
+    /**
+     * local transform for each managed bone at the end of a blend to
+     * {@code Reset} submode, or null if not specified
+     */
+    private Transform[] endBoneTransforms = null;
     /**
      * local transform of each managed bone from the previous update
      */
@@ -441,6 +447,22 @@ public class BoneLink extends PhysicsLink {
     }
 
     /**
+     * Alter the local transform for each managed bone at the end of a blend to
+     * {@code Reset} submode.
+     *
+     * @param transforms (not null, one element for each managed bone, no null
+     * elements, alias created)
+     */
+    public void setEndBoneTransforms(Transform[] transforms) {
+        Validate.nonNull(transforms, "transforms");
+        int numManaged = countManaged();
+        Validate.require(transforms.length == numManaged,
+                "one element for each managed bone");
+
+        this.endBoneTransforms = transforms;
+    }
+
+    /**
      * Alter the local transform of the indexed managed bone. Use this method to
      * animate managed bones other than the linked one. Effective only once the
      * link has been updated.
@@ -475,6 +497,7 @@ public class BoneLink extends PhysicsLink {
         this.managedBones = cloner.clone(managedBones);
         this.managedArmatureJoints = cloner.clone(managedArmatureJoints);
         this.tmpMatrix = cloner.clone(tmpMatrix);
+        this.endBoneTransforms = cloner.clone(endBoneTransforms);
         this.prevBoneTransforms = cloner.clone(prevBoneTransforms);
         this.startBoneTransforms = cloner.clone(startBoneTransforms);
     }
@@ -553,6 +576,9 @@ public class BoneLink extends PhysicsLink {
                 case Frozen:
                     transform.set(prevBoneTransforms[managedIndex]);
                     break;
+                case Reset:
+                    transform.set(endBoneTransforms[managedIndex]);
+                    break;
                 default:
                     throw new IllegalStateException(submode.toString());
             }
@@ -623,6 +649,8 @@ public class BoneLink extends PhysicsLink {
 
         this.submode = capsule.readEnum(
                 tagSubmode, KinematicSubmode.class, KinematicSubmode.Animated);
+        this.endBoneTransforms
+                = RagUtils.readTransformArray(capsule, tagEndBoneTransforms);
         this.prevBoneTransforms
                 = RagUtils.readTransformArray(capsule, tagPrevBoneTransforms);
         this.startBoneTransforms
@@ -709,6 +737,7 @@ public class BoneLink extends PhysicsLink {
         capsule.write(managedBones, tagManagedBones, null);
         capsule.write(submode, tagSubmode, KinematicSubmode.Animated);
         // tmpMatrix is never written.
+        capsule.write(endBoneTransforms, tagEndBoneTransforms, null);
         capsule.write(
                 prevBoneTransforms, tagPrevBoneTransforms, new Transform[0]);
         capsule.write(
