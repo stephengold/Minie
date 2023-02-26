@@ -86,7 +86,7 @@ class TestScreen extends GuiScreenController {
      */
     private PhysicsRigidBody groundPlane = null;
     /**
-     * root spatial of the C-G model being previewed
+     * root spatial of the C-G model being viewed, or null for none
      */
     private Spatial viewedSpatial = null;
     // *************************************************************************

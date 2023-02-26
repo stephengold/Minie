@@ -93,7 +93,7 @@ public class PreComposer extends AbstractControl {
 
     /**
      * Instantiate an enabled PreComposer to help the specified
-     * DynamicAnimControl hide its Armature modifications from SceneComposer.
+     * DynamicAnimControl hide its Armature modifications from AnimComposer.
      *
      * @param dac the DynamicAnimControl to be helped (not null)
      */
@@ -105,7 +105,7 @@ public class PreComposer extends AbstractControl {
     // new methods exposed
 
     /**
-     * Save the Armature data that DynamicAnimComposer might modify: currently
+     * Save the Armature data that DynamicAnimControl might modify: currently
      * just the joint transforms.
      */
     void saveArmature() {

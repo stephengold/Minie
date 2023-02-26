@@ -57,7 +57,7 @@ class LoadScreen extends GuiScreenController {
     // fields
 
     /**
-     * element of GUI button to proceed to the "bones" screen
+     * element of the GUI button to proceed to the "bones" screen
      */
     private Element nextElement;
     /**

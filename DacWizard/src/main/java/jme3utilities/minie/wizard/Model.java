@@ -106,11 +106,11 @@ class Model {
      */
     private BitSet linkedBones;
     /**
-     * whether to show PhysicsJoint axes in the TestScreen
+     * whether to visualize PhysicsJoint axes in the TestScreen
      */
     private boolean isShowingAxes = false;
     /**
-     * whether to render model meshes
+     * whether to render model meshes in the TestScreen
      */
     private boolean isShowingMeshes = true;
     /**
@@ -530,9 +530,9 @@ class Model {
     }
 
     /**
-     * Test whether the PhysicsJoint axes will be rendered.
+     * Test whether the PhysicsJoint axes will be visualized.
      *
-     * @return true if rendered, otherwise false
+     * @return true if visualized, otherwise false
      */
     boolean isShowingAxes() {
         return isShowingAxes;
@@ -975,7 +975,7 @@ class Model {
     /**
      * Alter the index for the main bone in the torso.
      *
-     * @param desiredIndex the desired index
+     * @param desiredIndex the desired index (&ge;0) or -1 to use the default
      */
     void setMainBoneIndex(int desiredIndex) {
         this.mainBoneIndex = desiredIndex;

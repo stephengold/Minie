@@ -144,7 +144,7 @@ class BonesMode extends InputMode {
     // private methods
 
     /**
-     * Advance to the "torso" screen if possible.
+     * Proceed to the "torso" screen if possible.
      */
     private void nextScreen() {
         String feedback = BonesScreen.feedback();
