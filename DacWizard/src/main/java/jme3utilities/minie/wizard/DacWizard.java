@@ -681,10 +681,16 @@ public class DacWizard extends GuiApplication {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(20f);
 
-        cam.setLocation(new Vector3f(0f, 9f, 25f));
+        Vector3f location = new Vector3f(0f, 0.93f, 2.7f);
+        location.multLocal(Model.cgmHeight);
+        cam.setLocation(location);
+
         cam.setName("cam");
-        cam.setRotation(new Quaternion(0f, 0.9985813f, -0.05f, 0.0175f));
-        MyCamera.setNearFar(cam, 0.1f, 250f);
+        cam.setRotation(new Quaternion(0f, 0.995268f, -0.094f, 0.0253f));
+
+        float near = 0.01f * Model.cgmHeight;
+        float far = 25f * Model.cgmHeight;
+        MyCamera.setNearFar(cam, near, far);
     }
 
     /**
