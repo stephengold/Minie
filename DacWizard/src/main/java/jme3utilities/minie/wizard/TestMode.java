@@ -177,6 +177,7 @@ class TestMode extends InputMode {
         if (ongoing) {
             handled = true;
             DacWizard app = DacWizard.getApplication();
+            Model model = DacWizard.getModel();
             switch (actionString) {
                 case Action.pickLink:
                     pickLink();
@@ -199,7 +200,6 @@ class TestMode extends InputMode {
                     break;
 
                 case Action.toggleAxes:
-                    Model model = DacWizard.getModel();
                     model.toggleShowingAxes();
                     break;
 
