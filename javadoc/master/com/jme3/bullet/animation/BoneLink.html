@@ -215,19 +215,25 @@ loadScripts(document, 'script');</script>
  the specified rotation.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLocalTransform(int,com.jme3.math.Transform)" class="member-name-link">setLocalTransform</a><wbr>(int&nbsp;mbIndex,
- com.jme3.math.Transform&nbsp;localTransform)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEndBoneTransforms(com.jme3.math.Transform%5B%5D)" class="member-name-link">setEndBoneTransforms</a><wbr>(com.jme3.math.Transform[]&nbsp;transforms)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the local transform of the indexed managed bone.</div>
+<div class="block">Alter the local transform for each managed bone at the end of a blend to
+ <code>Reset</code> submode.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRagdollMode()" class="member-name-link">setRagdollMode</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLocalTransform(int,com.jme3.math.Transform)" class="member-name-link">setLocalTransform</a><wbr>(int&nbsp;mbIndex,
+ com.jme3.math.Transform&nbsp;localTransform)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Immediately put this link into ragdoll mode.</div>
+<div class="block">Alter the local transform of the indexed managed bone.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRagdollMode()" class="member-name-link">setRagdollMode</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Immediately put this link into ragdoll mode.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this link to the specified exporter, for example when saving to
  a J3O file.</div>
 </div>
@@ -365,6 +371,19 @@ loadScripts(document, 'script');</script>
  physics-space coordinates, not null, unaffected)</dd>
 <dd><code>userRotation</code> - the desired rotation relative to the bind rotation of
  the linked bone (not null, unaffected)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setEndBoneTransforms(com.jme3.math.Transform[])">
+<h3>setEndBoneTransforms</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEndBoneTransforms</span><wbr><span class="parameters">(com.jme3.math.Transform[]&nbsp;transforms)</span></div>
+<div class="block">Alter the local transform for each managed bone at the end of a blend to
+ <code>Reset</code> submode.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>transforms</code> - (not null, one element for each managed bone, no null
+ elements, alias created)</dd>
 </dl>
 </section>
 </li>
