@@ -649,10 +649,10 @@ public class TorsoLink extends PhysicsLink {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
 
-        if (managedBones != null) {
+        if (managedBones != null) { // old animation system
             Bone managed = managedBones[managedIndex];
             MySkeleton.copyLocalTransform(managed, result);
-        } else {
+        } else { // new animation system
             Joint managed = managedArmatureJoints[managedIndex];
             Transform local = managed.getLocalTransform(); // alias
             result.set(local);
@@ -686,12 +686,12 @@ public class TorsoLink extends PhysicsLink {
          * Convert to the bone's local coordinate system by factoring out the
          * parent bone's transform, if any.
          */
-        if (managedBones != null) {
+        if (managedBones != null) { // old animation system
             Bone parent = getBone().getParent();
             if (parent != null) {
                 RagUtils.meshToLocal(parent, result);
             }
-        } else {
+        } else { // new animation system
             Joint parent = getArmatureJoint().getParent();
             if (parent != null) {
                 RagUtils.meshToLocal(parent, result);
@@ -714,11 +714,11 @@ public class TorsoLink extends PhysicsLink {
      * @param transform the desired Transform (not null, unaffected)
      */
     private void setManagedTransform(int managedIndex, Transform transform) {
-        if (managedBones != null) {
+        if (managedBones != null) { // old animation system
             Bone managed = managedBones[managedIndex];
             MySkeleton.setLocalTransform(managed, transform);
             managed.updateModelTransforms();
-        } else {
+        } else { // new animation system
             Joint managed = managedArmatureJoints[managedIndex];
             managed.setLocalTransform(transform);
             managed.updateModelTransforms();
@@ -731,7 +731,7 @@ public class TorsoLink extends PhysicsLink {
      * @param wantUserControl the desired setting
      */
     private void setUserControl(boolean wantUserControl) {
-        if (managedBones != null) {
+        if (managedBones != null) { // old animation system
             for (Bone managed : managedBones) {
                 managed.setUserControl(wantUserControl);
             }

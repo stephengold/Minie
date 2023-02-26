@@ -352,9 +352,9 @@ public class DacWizard extends GuiApplication {
             // Add a SkeletonVisualizer.
             SkeletonVisualizer sv = new SkeletonVisualizer(assetManager, sc);
             sv.setLineColor(ColorRGBA.Yellow);
-            if (sc instanceof SkeletonControl) {
+            if (sc instanceof SkeletonControl) { // old animation system
                 InfluenceUtil.hideNonInfluencers(sv, (SkeletonControl) sc);
-            } else {
+            } else { // new animation system
                 InfluenceUtil.hideNonInfluencers(sv, (SkinningControl) sc);
             }
             rootNode.addControl(sv);

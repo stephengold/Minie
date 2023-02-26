@@ -864,7 +864,7 @@ public class DacLinks
             } else {
                 int composerIndex = MyControl.findIndex(composer, spatial);
                 this.preComposer = new PreComposer(this);
-                MyControl.insertAt(spatial, composerIndex, preComposer);
+                MyControl.insertAt(spatial, composerIndex, preComposer); // TODO
             }
         }
         /*
