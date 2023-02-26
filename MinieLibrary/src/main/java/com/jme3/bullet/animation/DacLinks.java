@@ -825,24 +825,28 @@ public class DacLinks
             }
 
         } else { // spatial has a SkinningControl
-            sortControls(skinningControl);
-            saveHwSkinning = skinningControl.isHardwareSkinningPreferred();
-            skinningControl.setHardwareSkinningPreferred(false);
-
-            // Analyze the model's Armature.
             this.armature = skinningControl.getArmature();
-            validateArmature();
-            tempManagerMap = managerMap(armature);
+
             int numArmatureJoints = armature.getJointCount();
-            /*
-             * Temporarily set all armature joints' local translations
-             * and rotations to bind.
-             */
             savedTransforms = new Transform[numArmatureJoints];
             for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
                 Joint armatureJoint = armature.getJoint(jointI);
                 savedTransforms[jointI]
                         = armatureJoint.getLocalTransform().clone();
+            }
+
+            sortControls(skinningControl); // This resets the armature!
+
+            saveHwSkinning = skinningControl.isHardwareSkinningPreferred();
+            skinningControl.setHardwareSkinningPreferred(false);
+
+            // Analyze the model's Armature.
+            validateArmature();
+            tempManagerMap = managerMap(armature);
+
+            // Temporarily put the armature into bind pose.
+            for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
+                Joint armatureJoint = armature.getJoint(jointI);
                 armatureJoint.applyBindPose(); // TODO adjust the scale?
             }
             armature.update();
