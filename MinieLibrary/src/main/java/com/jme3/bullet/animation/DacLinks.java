@@ -787,7 +787,11 @@ public class DacLinks
                         + "a SkeletonControl. Make sure the Control is there "
                         + "and not on some other Spatial.");
             }
+
+            // spatial has a SkeletonControl
             sortControls(skeletonControl);
+
+            // Temporarily disable hardware skinning.
             saveHwSkinning = skeletonControl.isHardwareSkinningPreferred();
             skeletonControl.setHardwareSkinningPreferred(false);
 
@@ -796,10 +800,8 @@ public class DacLinks
             validateSkeleton();
             tempManagerMap = managerMap(skeleton);
             int numBones = skeleton.getBoneCount();
-            /*
-             * Temporarily set all bones' local translations
-             * and rotations to bind.
-             */
+
+            // Temporarily put the skeleton into bind pose.
             MySkeleton.setUserControl(skeleton, true);
             savedTransforms = new Transform[numBones];
             Vector3f userScale = new Vector3f();
@@ -837,6 +839,7 @@ public class DacLinks
 
             sortControls(skinningControl); // This resets the armature!
 
+            // Temporarily disable hardware skinning.
             saveHwSkinning = skinningControl.isHardwareSkinningPreferred();
             skinningControl.setHardwareSkinningPreferred(false);
 
