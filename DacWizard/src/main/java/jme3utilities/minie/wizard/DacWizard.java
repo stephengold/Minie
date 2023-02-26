@@ -62,6 +62,8 @@ import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
+import jme3utilities.math.MyMath;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectSizeLimits;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
@@ -348,6 +350,10 @@ public class DacWizard extends GuiApplication {
         normalizeComposers(composers);
 
         AbstractControl sc = RagUtils.findSControl(cgModel);
+
+        // Translate and scale the C-G model.
+        setParentTransform(Model.cgmHeight);
+
         if (sc != null && findSkeletonVisualizer() == null) {
             // Add a SkeletonVisualizer.
             SkeletonVisualizer sv = new SkeletonVisualizer(assetManager, sc);
@@ -679,6 +685,35 @@ public class DacWizard extends GuiApplication {
         cam.setName("cam");
         cam.setRotation(new Quaternion(0f, 0.9985813f, -0.05f, 0.0175f));
         MyCamera.setNearFar(cam, 0.1f, 250f);
+    }
+
+    /**
+     * Configure the parent transform so that the C-G model has the specified
+     * size and the center of its base is located at the world origin.
+     *
+     * @param desiredSize the desired size (in world units, &gt;0)
+     */
+    private static void setParentTransform(float desiredSize) {
+        assert desiredSize > 0f : desiredSize;
+
+        // Scale the model uniformly to the desired size.
+        Vector3f[] minMax = MySpatial.findMinMaxCoords(cgmParent);
+        Vector3f min = minMax[0]; // alias
+        Vector3f max = minMax[1]; // alias
+        Vector3f dimensions = max.subtract(min);
+        float oldSize = MyMath.max(dimensions.x, dimensions.y, dimensions.z);
+        if (oldSize > 0f) {
+            cgmParent.scale(desiredSize / oldSize);
+        }
+        /*
+         * Translate the model so that its base rests on the X-Z plane and its
+         * center lies on the Y axis.
+         */
+        minMax = MySpatial.findMinMaxCoords(cgmParent);
+        min = minMax[0]; // alias
+        max = minMax[1]; // alias
+        Vector3f center = MyVector3f.midpoint(min, max, null);
+        cgmParent.move(-center.x, -min.y, -center.z);
     }
 
     /**

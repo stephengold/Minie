@@ -181,8 +181,6 @@ class TestScreen extends GuiScreenController {
             viewedSpatial = nextSpatial;
             if (nextSpatial != null) {
                 Spatial cgModel = Heart.deepCopy(nextSpatial);
-                Transform initTransform = model.copyInitTransform(null);
-                cgModel.setLocalTransform(initTransform);
                 wizard.makeScene(cgModel);
                 addGroundPlane();
 
