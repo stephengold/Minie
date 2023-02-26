@@ -48,6 +48,7 @@ import com.jme3.bullet.animation.ShapeHeuristic;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Collection;
@@ -1268,8 +1269,5 @@ class Model {
                 animationNames.add(name);
             }
         }
-
-        this.animationIndex = bindPoseIndex;
-        this.animationTime = 0f;
     }
 }
