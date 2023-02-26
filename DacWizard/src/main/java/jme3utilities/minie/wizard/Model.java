@@ -969,6 +969,7 @@ class Model {
      * @param desiredIndex the desired index (&ge;0) or -1 to use the default
      */
     void setMainBoneIndex(int desiredIndex) {
+        assert desiredIndex >= -1 : desiredIndex;
         this.mainBoneIndex = desiredIndex;
     }
 
