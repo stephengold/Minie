@@ -136,6 +136,10 @@ class Model {
      */
     private int numComponentsInRoot;
     /**
+     * list of all clip/animation names in the loaded C-G model
+     */
+    final private List<String> animationNames = new ArrayList<>(32);
+    /**
      * map manager names to sets of vertices
      */
     private Map<String, VectorSet> coordsMap;
@@ -255,6 +259,16 @@ class Model {
     DynamicAnimControl copyRagdoll() {
         DynamicAnimControl clone = Heart.deepCopy(ragdoll);
         return clone;
+    }
+
+    /**
+     * Count how many clip/animations are in the loaded C-G model.
+     *
+     * @return the count (&ge;0)
+     */
+    int countAnimations() {
+        int result = animationNames.size();
+        return result;
     }
 
     /**
@@ -624,9 +638,9 @@ class Model {
 
     /**
      * Attempt to load a C-G model. The filesystem path must have been
-     * previously set. If successful, rootSpatial and linkedBones are
-     * initialized. Otherwise, {@code rootSpatial==null} and loadException is
-     * set.
+     * previously set. If successful, rootSpatial, animNames, ragdoll,
+     * mainBoneIndex, and linkedBones are initialized. Otherwise,
+     * {@code rootSpatial==null} and loadException is set.
      */
     void load() {
         int numComponents = filePathComponents.length;
@@ -653,9 +667,11 @@ class Model {
         }
         Locators.restore();
 
+        animationNames.clear();
         if (rootSpatial != null) {
             this.ragdoll = removeDac();
             recalculateInfluence();
+            updateAnimationNames();
 
             int mbIndex = -1;
             if (ragdoll != null) {
@@ -1023,6 +1039,7 @@ class Model {
      * Unload the loaded C-G model, if any.
      */
     void unload() {
+        animationNames.clear();
         this.mainBoneIndex = -1;
         this.rootSpatial = null;
         this.ragdoll = null;
@@ -1226,5 +1243,33 @@ class Model {
         }
 
         return result;
+    }
+
+    /**
+     * Update the list of all clips/animations in the loaded C-G model.
+     */
+    private void updateAnimationNames() {
+        animationNames.clear();
+
+        List<AnimControl> animControls = MySpatial
+                .listControls(rootSpatial, AnimControl.class, null);
+        for (AnimControl animControl : animControls) {
+            Collection<String> names = animControl.getAnimationNames();
+            for (String name : names) {
+                animationNames.add(name);
+            }
+        }
+
+        List<AnimComposer> composers = MySpatial
+                .listControls(rootSpatial, AnimComposer.class, null);
+        for (AnimComposer composer : composers) {
+            Collection<String> names = composer.getAnimClipsNames();
+            for (String name : names) {
+                animationNames.add(name);
+            }
+        }
+
+        this.animationIndex = bindPoseIndex;
+        this.animationTime = 0f;
     }
 }
