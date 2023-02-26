@@ -255,7 +255,7 @@ class TestScreen extends GuiScreenController {
                     = DacWizard.findAppState(BulletAppState.class);
             PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
             physicsSpace.removeCollisionObject(groundPlane);
-            groundPlane = null;
+            this.groundPlane = null;
         }
     }
 
