@@ -216,7 +216,7 @@ class TestMode extends InputMode {
                     break;
 
                 case Action.toggleSkeleton:
-                    DacWizard.toggleSkeletonVisualizer();
+                    model.toggleShowingSkeleton();
                     break;
 
                 default:

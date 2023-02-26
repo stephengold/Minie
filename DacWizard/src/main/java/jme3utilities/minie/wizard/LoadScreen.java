@@ -255,10 +255,12 @@ class LoadScreen extends GuiScreenController {
         Model model = DacWizard.getModel();
         Spatial root = model.getRootSpatial();
         if (sv != null && root != null) {
+            boolean isShown = model.isShowingSkeleton();
+            sv.setEnabled(isShown);
+
             Skeleton skeleton = model.findSkeleton();
             String armature = (skeleton == null) ? "armature" : "skeleton";
-
-            if (sv.isEnabled()) {
+            if (isShown) {
                 buttonText = "Hide " + armature;
             } else {
                 buttonText = "Show " + armature;

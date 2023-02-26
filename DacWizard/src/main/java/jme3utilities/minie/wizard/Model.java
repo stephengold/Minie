@@ -114,6 +114,10 @@ class Model {
      */
     private boolean isShowingMeshes = true;
     /**
+     * whether to visualize the skeleton/armature
+     */
+    private boolean isShowingSkeleton = true;
+    /**
      * PhysicsControl that will be added to the C-G model
      */
     private DynamicAnimControl ragdoll;
@@ -541,6 +545,15 @@ class Model {
      */
     boolean isShowingMeshes() {
         return isShowingMeshes;
+    }
+
+    /**
+     * Test whether the skeleton/armature will be visualized.
+     *
+     * @return true if visualized, otherwise false
+     */
+    boolean isShowingSkeleton() {
+        return isShowingSkeleton;
     }
 
     /**
@@ -1023,6 +1036,13 @@ class Model {
      */
     void toggleShowingAxes() {
         this.isShowingAxes = !isShowingAxes;
+    }
+
+    /**
+     * Toggle the visibility of the skeleton.
+     */
+    void toggleShowingSkeleton() {
+        this.isShowingSkeleton = !isShowingSkeleton;
     }
 
     /**

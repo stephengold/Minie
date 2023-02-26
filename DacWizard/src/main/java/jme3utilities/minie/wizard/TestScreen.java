@@ -381,11 +381,17 @@ class TestScreen extends GuiScreenController {
         String skeletonText = "";
         DacWizard app = DacWizard.getApplication();
         SkeletonVisualizer sv = app.findSkeletonVisualizer();
-        if (sv != null) {
-            if (sv.isEnabled()) {
-                skeletonText = "Hide skeleton";
+        Spatial root = model.getRootSpatial();
+        if (sv != null && root != null) {
+            boolean isShown = model.isShowingSkeleton();
+            sv.setEnabled(isShown);
+
+            Skeleton skeleton = model.findSkeleton();
+            String armature = (skeleton == null) ? "armature" : "skeleton";
+            if (isShown) {
+                skeletonText = "Hide " + armature;
             } else {
-                skeletonText = "Show skeleton";
+                skeletonText = "Show " + armature;
             }
         }
         setButtonText("skeleton", skeletonText);
