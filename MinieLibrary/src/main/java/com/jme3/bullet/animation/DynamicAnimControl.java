@@ -757,6 +757,62 @@ public class DynamicAnimControl
     }
 
     /**
+     * Record the current bone transforms for use in a kinematic reset.
+     */
+    public void saveCurrentPose() {
+        List<BoneLink> boneLinks = getBoneLinks();
+        TorsoLink torso = getTorsoLink();
+        int numManaged = torso.countManaged();
+        Transform[] resetTransforms = new Transform[numManaged];
+
+        Skeleton skeleton = getSkeleton();
+        if (skeleton == null) { // new animation system
+            Armature armature = getArmature();
+
+            for (int mbIndex = 0; mbIndex < numManaged; ++mbIndex) {
+                int jointIndex = torso.boneIndex(mbIndex);
+                Joint joint = armature.getJoint(jointIndex);
+                resetTransforms[mbIndex]
+                        = joint.getLocalTransform().clone();
+            }
+            torso.setEndBoneTransforms(resetTransforms);
+
+            for (BoneLink boneLink : boneLinks) {
+                numManaged = boneLink.countManaged();
+                resetTransforms = new Transform[numManaged];
+                for (int mbIndex = 0; mbIndex < numManaged; ++mbIndex) {
+                    int jointIndex = boneLink.boneIndex(mbIndex);
+                    Joint joint = armature.getJoint(jointIndex);
+                    resetTransforms[mbIndex]
+                            = joint.getLocalTransform().clone();
+                }
+                boneLink.setEndBoneTransforms(resetTransforms);
+            }
+
+        } else { // old animation system
+            for (int mbIndex = 0; mbIndex < numManaged; ++mbIndex) {
+                int boneIndex = torso.boneIndex(mbIndex);
+                Bone bone = skeleton.getBone(boneIndex);
+                resetTransforms[mbIndex]
+                        = MySkeleton.copyLocalTransform(bone, null);
+            }
+            torso.setEndBoneTransforms(resetTransforms);
+
+            for (BoneLink boneLink : boneLinks) {
+                numManaged = boneLink.countManaged();
+                resetTransforms = new Transform[numManaged];
+                for (int mbIndex = 0; mbIndex < numManaged; ++mbIndex) {
+                    int boneIndex = boneLink.boneIndex(mbIndex);
+                    Bone bone = skeleton.getBone(boneIndex);
+                    resetTransforms[mbIndex]
+                            = MySkeleton.copyLocalTransform(bone, null);
+                }
+                boneLink.setEndBoneTransforms(resetTransforms);
+            }
+        }
+    }
+
+    /**
      * Replace the current blend listener. Note that the listener is
      * automatically removed after each invocation, so typically this method is
      * re-invoked before each blend.
