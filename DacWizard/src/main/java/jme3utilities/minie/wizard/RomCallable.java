@@ -47,7 +47,6 @@ import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.joints.SixDofJoint;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.FastMath;
-import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
@@ -145,12 +144,13 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
          * Create a temporary copy of the C-G model and attach it
          * to the scene graph.
          */
-        DacWizard.getApplication().clearScene();
         Spatial cgModel = model.getRootSpatial();
+
+        DacWizard wizard = DacWizard.getApplication();
+        wizard.clearScene();
+
         this.tempModelRoot = Heart.deepCopy(cgModel);
-        Transform initTransform = model.copyInitTransform(null);
-        tempModelRoot.setLocalTransform(initTransform);
-        DacWizard.getApplication().makeScene(tempModelRoot);
+        wizard.makeScene(tempModelRoot);
         /*
          * Add a DynamicAnimControl to the copy.  Since the control will
          * stay in kinematic mode, its masses and ranges of motion
