@@ -153,13 +153,13 @@ public class DacLinks
      */
     private Spatial transformer = null;
     /**
-     * saved bind transform for each armature joint or skeleton bone
-     */
-    private Transform[] bindTransforms = null;
-    /**
      * torso link for this control
      */
     private TorsoLink torsoLink = null;
+    /**
+     * saved bind transform for each armature joint or skeleton bone
+     */
+    private Transform[] bindTransforms = null;
     // *************************************************************************
     // constructors
 
