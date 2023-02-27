@@ -112,7 +112,8 @@ public class BetterCharacterControl
      */
     private boolean wantToUnDuck = false;
     /**
-     * relative height when ducked (&gt;0, &le;1, 1=full height)
+     * relative height of the collision shape when ducked (as a fraction of its
+     * initial height, &gt;0, &le;1)
      */
     private float duckedFactor = 0.6f;
     /**
@@ -221,9 +222,10 @@ public class BetterCharacterControl
     // new methods exposed
 
     /**
-     * Read the height multiplier for ducking.
+     * Return the collision-shape height multiplier for ducking.
      *
-     * @return the factor (&ge;0, &le;1)
+     * @return the factor by which the initial height will be multiplied (&gt;0,
+     * &le;1)
      */
     public float getDuckedFactor() {
         return duckedFactor;
@@ -427,10 +429,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the height multiplier for ducking.
+     * Alter the collision-shape height multiplier for ducking.
      *
-     * @param factor the factor by which the height should be multiplied when
-     * ducking (&ge;0, &le;1)
+     * @param factor the factor by which the initial height will be multiplied
+     * (&gt;0, &le;1, default=0.6)
      */
     public void setDuckedFactor(float factor) {
         this.duckedFactor = factor;
