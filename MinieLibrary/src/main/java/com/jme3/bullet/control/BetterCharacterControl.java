@@ -95,14 +95,30 @@ public class BetterCharacterControl
     // *************************************************************************
     // fields
 
+    /**
+     * true when the character is ducked (its height scaled by duckedFactor)
+     */
     private boolean ducked = false;
+    /**
+     * true when jump impulse will be applied during the next simulation step
+     */
     private boolean jump = false;
+    /**
+     * true when a collision object is directly below the character
+     */
     private boolean onGround = false;
+    /**
+     * true when un-ducking is requested
+     */
     private boolean wantToUnDuck = false;
     /**
      * relative height when ducked (&gt;0, &le;1, 1=full height)
      */
     private float duckedFactor = 0.6f;
+    /**
+     * initial height of the collision shape (in physics-space units, includes
+     * both hemispheres and the cylindrical part)
+     */
     private float height;
     /**
      * mass of this character (&gt;0)
@@ -112,6 +128,9 @@ public class BetterCharacterControl
      * X-Z motion attenuation factor (0&rarr;no damping, 1=no external forces)
      */
     private float physicsDamping = 0.9f;
+    /**
+     * initial radius of the collision shape (in physics-space units, &gt;0)
+     */
     private float radius;
     /**
      * underlying rigid body
@@ -129,6 +148,9 @@ public class BetterCharacterControl
      * @see #rotatedViewDirection
      */
     private Quaternion rotation = new Quaternion(Quaternion.DIRECTION_Z);
+    /**
+     * impulse applied at the start of a jump (in local coordinates)
+     */
     private Vector3f jumpForce = new Vector3f();
     /**
      * Local absolute z-forward direction, derived from gravity and UNIT_Z,
@@ -148,12 +170,22 @@ public class BetterCharacterControl
      */
     private Vector3f location = new Vector3f();
     private Vector3f rotatedViewDirection = new Vector3f(0f, 0f, 1f);
+    /**
+     * scale factors applied when generating the collision shape (the X
+     * component is ignored)
+     */
     private Vector3f scale = new Vector3f(1f, 1f, 1f);
+    /**
+     * linear velocity of the rigid body (in physics-space coordinates)
+     */
     private Vector3f velocity = new Vector3f();
     /**
      * a Z-forward vector based on the view direction and the local X-Z plane.
      */
     private Vector3f viewDirection = new Vector3f(0f, 0f, 1f);
+    /**
+     * requested walk velocity (in physics-space coordinates)
+     */
     private Vector3f walkDirection = new Vector3f();
     // *************************************************************************
     // constructors
