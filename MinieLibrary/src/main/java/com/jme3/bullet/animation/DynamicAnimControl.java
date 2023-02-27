@@ -930,16 +930,16 @@ public class DynamicAnimControl
     }
 
     /**
-     * Immediately put all links into purely kinematic mode. The model's
-     * Transform is unaffected.
+     * Immediately put all links into purely kinematic mode. The transform of
+     * the controlled spatial is unaffected.
      * <p>
      * Allowed only when the Control IS added to a Spatial.
      */
     public void setKinematicMode() {
         verifyAddedToSpatial("set kinematic mode");
 
-        Transform localTransform = getSpatial().getLocalTransform();
-        blendToKinematicMode(0f, localTransform);
+        float blendInterval = 0f; // in seconds
+        blendToKinematicMode(KinematicSubmode.Animated, blendInterval, null);
     }
 
     /**
