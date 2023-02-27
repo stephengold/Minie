@@ -359,18 +359,23 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 <div class="block">Immediately put all links into purely kinematic mode.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRagdollMode()" class="member-name-link">setRagdollMode</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKinematicMode(com.jme3.bullet.animation.KinematicSubmode)" class="member-name-link">setKinematicMode</a><wbr>(<a href="KinematicSubmode.html" title="enum class in com.jme3.bullet.animation">KinematicSubmode</a>&nbsp;submode)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Immediately put all links and IK joints into ragdoll mode.</div>
+<div class="block">Immediately put all links into purely kinematic mode.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;tpf)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRagdollMode()" class="member-name-link">setRagdollMode</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Update this Control.</div>
+<div class="block">Immediately put all links and IK joints into ragdoll mode.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;tpf)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update this Control.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this Control to the specified exporter, for example when saving
  to a J3O file.</div>
 </div>
@@ -861,10 +866,24 @@ implements <a href="../collision/PhysicsCollisionListener.html" title="interface
 <section class="detail" id="setKinematicMode()">
 <h3>setKinematicMode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKinematicMode</span>()</div>
-<div class="block">Immediately put all links into purely kinematic mode. The model's
- Transform is unaffected.
+<div class="block">Immediately put all links into purely kinematic mode. The transform of
+ the controlled spatial is unaffected.
  <p>
  Allowed only when the Control IS added to a Spatial.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setKinematicMode(com.jme3.bullet.animation.KinematicSubmode)">
+<h3>setKinematicMode</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKinematicMode</span><wbr><span class="parameters">(<a href="KinematicSubmode.html" title="enum class in com.jme3.bullet.animation">KinematicSubmode</a>&nbsp;submode)</span></div>
+<div class="block">Immediately put all links into purely kinematic mode. The transform of
+ the controlled spatial is unaffected.
+ <p>
+ Allowed only when the Control IS added to a Spatial.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>submode</code> - enum value (not null)</dd>
+</dl>
 </section>
 </li>
 <li>
