@@ -943,6 +943,22 @@ public class DynamicAnimControl
     }
 
     /**
+     * Immediately put all links into purely kinematic mode. The transform of
+     * the controlled spatial is unaffected.
+     * <p>
+     * Allowed only when the Control IS added to a Spatial.
+     *
+     * @param submode enum value (not null)
+     */
+    public void setKinematicMode(KinematicSubmode submode) {
+        Validate.nonNull(submode, "submode");
+        verifyAddedToSpatial("set kinematic mode");
+
+        float blendInterval = 0f; // in seconds
+        blendToKinematicMode(submode, blendInterval, null);
+    }
+
+    /**
      * Immediately put all links and IK joints into ragdoll mode.
      * <p>
      * Allowed only when the Control IS added to a Spatial and all links are
