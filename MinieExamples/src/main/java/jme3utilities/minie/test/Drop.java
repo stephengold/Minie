@@ -716,7 +716,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
         AbstractControl sControl = RagUtils.findSControl(cgModel);
         Spatial controlledSpatial = sControl.getSpatial();
-        dac = control;
+        this.dac = control;
 
         PhysicsRigidBody[] bodies = dac.listRigidBodies();
         for (PhysicsRigidBody body : bodies) {
@@ -878,7 +878,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
             Vector3f inertia = new Vector3f();
             Transform transform = result.principalAxes(masses, null, inertia);
-            inverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
+            this.inverseInertia = Vector3f.UNIT_XYZ.divide(inertia);
             result.correctAxes(transform);
         }
 

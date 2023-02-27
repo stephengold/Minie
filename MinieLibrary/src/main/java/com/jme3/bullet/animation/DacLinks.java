@@ -822,7 +822,7 @@ public class DacLinks
             this.bindTransforms = new Transform[numBones];
             for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
                 Bone bone = skeleton.getBone(jointIndex);
-                bindTransforms[jointIndex]
+                this.bindTransforms[jointIndex]
                         = MySkeleton.copyBindTransform(bone, null);
             }
 
@@ -858,7 +858,7 @@ public class DacLinks
             this.bindTransforms = new Transform[numArmatureJoints];
             for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
                 Joint armatureJoint = armature.getJoint(jointI);
-                bindTransforms[jointI]
+                this.bindTransforms[jointI]
                         = armatureJoint.getLocalTransform().clone();
             }
             /*
