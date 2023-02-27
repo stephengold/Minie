@@ -207,7 +207,8 @@ public class BetterCharacterControl
      */
     public BetterCharacterControl(float radius, float height, float mass) {
         Validate.positive(radius, "radius");
-        assert height > 2f * radius : height;
+        Validate.require(
+                height > 2f * radius, "height more than 2x the radius");
         Validate.positive(mass, "mass");
 
         this.radius = radius;
@@ -436,6 +437,7 @@ public class BetterCharacterControl
      * (&gt;0, &le;1, default=0.6)
      */
     public void setDuckedFactor(float factor) {
+        Validate.fraction(factor, "factor");
         this.duckedFactor = factor;
     }
 
@@ -448,6 +450,8 @@ public class BetterCharacterControl
      * @param gravity an acceleration vector (not null, unaffected)
      */
     public void setGravity(Vector3f gravity) {
+        Validate.finite(gravity, "gravity");
+
         rigidBody.setGravity(gravity);
         localUp.set(gravity).normalizeLocal().negateLocal();
         updateLocalCoordinateSystem();
@@ -473,6 +477,7 @@ public class BetterCharacterControl
      * 1=horizontal forces have no effect, &ge;0, &le;1, default=0.9)
      */
     public void setPhysicsDamping(float physicsDamping) {
+        Validate.fraction(physicsDamping, "physics damping");
         this.physicsDamping = physicsDamping;
     }
 
