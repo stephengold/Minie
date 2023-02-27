@@ -195,7 +195,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDuckedFactor()" class="member-name-link">getDuckedFactor</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the collision-shape height multiplier for ducking.</div>
+<div class="block">Read the height multiplier for ducking.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFinalHeight()" class="member-name-link">getFinalHeight</a>()</code></div>
@@ -215,12 +215,12 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getJumpForce(com.jme3.math.Vector3f)" class="member-name-link">getJumpForce</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the impulse applied at the start of each jump.</div>
+<div class="block">Copy the character's jump force.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsDamping()" class="member-name-link">getPhysicsDamping</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return how rapidly horizontal motion is damped.</div>
+<div class="block">Read how much motion in the local X-Z plane is damped.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRigidBody()" class="member-name-link">getRigidBody</a>()</code></div>
@@ -271,7 +271,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jump()" class="member-name-link">jump</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Apply a jump impulse during the next simulation step.</div>
+<div class="block">Makes the character jump with the set jump force.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#physicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">physicsTick</a><wbr>(<a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
@@ -314,7 +314,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDuckedFactor(float)" class="member-name-link">setDuckedFactor</a><wbr>(float&nbsp;factor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the collision-shape height multiplier for ducking.</div>
+<div class="block">Alter the height multiplier for ducking.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGravity(com.jme3.math.Vector3f)" class="member-name-link">setGravity</a><wbr>(com.jme3.math.Vector3f&nbsp;gravity)</code></div>
@@ -329,12 +329,12 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setJumpForce(com.jme3.math.Vector3f)" class="member-name-link">setJumpForce</a><wbr>(com.jme3.math.Vector3f&nbsp;jumpForce)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the impulse applied at the start of each jump.</div>
+<div class="block">Alter the jump force.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsDamping(float)" class="member-name-link">setPhysicsDamping</a><wbr>(float&nbsp;physicsDamping)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter how rapidly horizontal motion is damped.</div>
+<div class="block">Alter how much motion in the local X-Z plane is damped.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">setPhysicsLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;location)</code></div>
@@ -436,7 +436,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
  float&nbsp;mass)</span></div>
 <div class="block">Instantiate an enabled Control with the specified properties.
  <p>
- The height must exceed 2x the radius, even when ducked.</div>
+ The final height when ducking must be larger than 2x radius. The
+ jumpForce will be set to an upward force of 5x mass.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>radius</code> - the radius of the character's CollisionShape (&gt;0)</dd>
@@ -457,11 +458,10 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getDuckedFactor()">
 <h3>getDuckedFactor</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getDuckedFactor</span>()</div>
-<div class="block">Return the collision-shape height multiplier for ducking.</div>
+<div class="block">Read the height multiplier for ducking.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the factor by which the initial height will be multiplied (&gt;0,
- &le;1)</dd>
+<dd>the factor (&ge;0, &le;1)</dd>
 </dl>
 </section>
 </li>
@@ -483,13 +483,13 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getJumpForce(com.jme3.math.Vector3f)">
 <h3>getJumpForce</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getJumpForce</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Copy the impulse applied at the start of each jump.</div>
+<div class="block">Copy the character's jump force.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>an impulse vector in local coordinates (either the provided
- storage or a new vector, not null)</dd>
+<dd>a force vector (either the provided storage or a new vector, not
+ null)</dd>
 </dl>
 </section>
 </li>
@@ -497,12 +497,10 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getPhysicsDamping()">
 <h3>getPhysicsDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getPhysicsDamping</span>()</div>
-<div class="block">Return how rapidly horizontal motion is damped.</div>
+<div class="block">Read how much motion in the local X-Z plane is damped.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the multiplier for motion in the local X-Z plane (applied during
- each simulation step, 0&rarr;no damping, 1=horizontal forces have no
- effect, &ge;0, &le;1)</dd>
+<dd>the damping factor (0&rarr;no damping, 1=no external forces)</dd>
 </dl>
 </section>
 </li>
@@ -612,7 +610,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="jump()">
 <h3>jump</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">jump</span>()</div>
-<div class="block">Apply a jump impulse during the next simulation step.</div>
+<div class="block">Makes the character jump with the set jump force.</div>
 </section>
 </li>
 <li>
@@ -652,11 +650,11 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setDuckedFactor(float)">
 <h3>setDuckedFactor</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDuckedFactor</span><wbr><span class="parameters">(float&nbsp;factor)</span></div>
-<div class="block">Alter the collision-shape height multiplier for ducking.</div>
+<div class="block">Alter the height multiplier for ducking.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>factor</code> - the factor by which the initial height will be multiplied
- (&gt;0, &le;1, default=0.6)</dd>
+<dd><code>factor</code> - the factor by which the height should be multiplied when
+ ducking (&ge;0, &le;1)</dd>
 </dl>
 </section>
 </li>
@@ -678,11 +676,13 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setJumpForce(com.jme3.math.Vector3f)">
 <h3>setJumpForce</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setJumpForce</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;jumpForce)</span></div>
-<div class="block">Alter the impulse applied at the start of each jump.</div>
+<div class="block">Alter the jump force. The jump force is local to the character's
+ coordinate system, which normally is always z-forward (in world
+ coordinates, parent coordinates when set to applyLocalPhysics)</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>jumpForce</code> - the desired impulse (in local coordinates, not null,
- finite, unaffected, default=5*mass in +Y direction)</dd>
+<dd><code>jumpForce</code> - the desired jump force (not null, finite, unaffected,
+ default=5*mass in +Y direction)</dd>
 </dl>
 </section>
 </li>
@@ -690,12 +690,11 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setPhysicsDamping(float)">
 <h3>setPhysicsDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPhysicsDamping</span><wbr><span class="parameters">(float&nbsp;physicsDamping)</span></div>
-<div class="block">Alter how rapidly horizontal motion is damped.</div>
+<div class="block">Alter how much motion in the local X-Z plane is damped.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>physicsDamping</code> - the desired multiplier for motion in the local X-Z
- plane (applied during each simulation step, 0&rarr;no damping,
- 1=horizontal forces have no effect, &ge;0, &le;1, default=0.9)</dd>
+<dd><code>physicsDamping</code> - the desired damping factor (0&rarr;no damping, 1=no
+ external forces, default=0.9)</dd>
 </dl>
 </section>
 </li>
@@ -1001,8 +1000,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="block">Alter the height of the CollisionShape.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>percent</code> - the desired height, as a fraction of the initial height
- (default=1)</dd>
+<dd><code>percent</code> - the desired height, as a percentage of the full height</dd>
 </dl>
 </section>
 </li>
