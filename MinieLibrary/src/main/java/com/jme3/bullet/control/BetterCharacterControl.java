@@ -126,7 +126,7 @@ public class BetterCharacterControl
      */
     private float mass;
     /**
-     * X-Z motion attenuation factor (0&rarr;no damping, 1=no external forces)
+     * multiplier for horizontal motion, applied during each simulation step
      */
     private float physicsDamping = 0.9f;
     /**
@@ -257,9 +257,11 @@ public class BetterCharacterControl
     }
 
     /**
-     * Read how much motion in the local X-Z plane is damped.
+     * Return how rapidly horizontal motion is damped.
      *
-     * @return the damping factor (0&rarr;no damping, 1=no external forces)
+     * @return the multiplier for motion in the local X-Z plane (applied during
+     * each simulation step, 0&rarr;no damping, 1=horizontal forces have no
+     * effect, &ge;0, &le;1)
      */
     public float getPhysicsDamping() {
         return physicsDamping;
@@ -464,10 +466,11 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter how much motion in the local X-Z plane is damped.
+     * Alter how rapidly horizontal motion is damped.
      *
-     * @param physicsDamping the desired damping factor (0&rarr;no damping, 1=no
-     * external forces, default=0.9)
+     * @param physicsDamping the desired multiplier for motion in the local X-Z
+     * plane (applied during each simulation step, 0&rarr;no damping,
+     * 1=horizontal forces have no effect, &ge;0, &le;1, default=0.9)
      */
     public void setPhysicsDamping(float physicsDamping) {
         this.physicsDamping = physicsDamping;
