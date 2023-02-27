@@ -101,6 +101,10 @@ public class DacWizard extends GuiApplication {
      */
     final private static String applicationName
             = DacWizard.class.getSimpleName();
+    /**
+     * magic clip/animation name used to denote a C-G model's bind pose
+     */
+    final public static String bindPoseName = "( bind pose )";
     // *************************************************************************
     // fields
 

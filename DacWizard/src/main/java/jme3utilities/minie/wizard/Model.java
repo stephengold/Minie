@@ -63,6 +63,7 @@ import jme3utilities.InfluenceUtil;
 import jme3utilities.MyAnimation;
 import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
+import jme3utilities.MyString;
 import jme3utilities.math.VectorSet;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Locators;
@@ -80,6 +81,10 @@ class Model {
      * desired height of the C-G model (for visualization, in world units)
      */
     final static float cgmHeight = 10f;
+    /**
+     * magic clip/animation index used to denote bind pose
+     */
+    final private static int bindPoseIndex = -1;
     /**
      * message logger for this class
      */
@@ -125,9 +130,18 @@ class Model {
      */
     private Exception loadException;
     /**
+     * animation time for the selected pose (in seconds, &ge;0)
+     */
+    private float animationTime = 0f;
+    /**
      * task for estimating ranges of motion
      */
     private FutureTask<RangeOfMotion[]> romTask;
+    /**
+     * index of the selected clip/animation, or {@link #bindPoseIndex} for bind
+     * pose
+     */
+    private int animationIndex = bindPoseIndex;
     /**
      * index of the torso's main bone, or -1 for the default
      */
@@ -171,6 +185,85 @@ class Model {
     AngleMode angleMode() {
         assert angleMode != null;
         return angleMode;
+    }
+
+    /**
+     * Return the duration of the selected clip/animation.
+     *
+     * @return the duration (in seconds, &ge;0)
+     */
+    float animationDuration() {
+        float result;
+        if (animationIndex == bindPoseIndex) {
+            result = 0f;
+
+        } else {
+            result = Float.NaN;
+            String name = animationNames.get(animationIndex);
+            int skipNames = animationIndex;
+
+            List<AnimControl> animControls = MySpatial
+                    .listControls(rootSpatial, AnimControl.class, null);
+            for (AnimControl animControl : animControls) {
+                Collection<String> names = animControl.getAnimationNames();
+                if (skipNames < names.size()) {
+                    Animation animation = animControl.getAnim(name);
+                    result = animation.getLength();
+                    break;
+                } else {
+                    skipNames -= names.size();
+                }
+            }
+
+            List<AnimComposer> composers = MySpatial
+                    .listControls(rootSpatial, AnimComposer.class, null);
+            for (AnimComposer composer : composers) {
+                Collection<String> names = composer.getAnimClipsNames();
+                if (skipNames < names.size()) {
+                    AnimClip animClip = composer.getAnimClip(name);
+                    result = (float) animClip.getLength();
+                    break;
+                } else {
+                    skipNames -= names.size();
+                }
+            }
+
+            if (Float.isNaN(result)) {
+                throw new RuntimeException(
+                        "clip/animation not found: " + MyString.quote(name));
+            }
+        }
+
+        assert result >= 0f : result;
+        return result;
+    }
+
+    /**
+     * Return the clip/animation name for the selected pose.
+     *
+     * @return the name of the clip/animation or {@code bindPoseName} for bind
+     * pose (not null)
+     */
+    String animationName() {
+        String result;
+        if (animationIndex == bindPoseIndex) {
+            result = DacWizard.bindPoseName;
+        } else {
+            result = animationNames.get(animationIndex);
+        }
+
+        assert result != null;
+        return result;
+    }
+
+    /**
+     * Return the animation time for the selected pose.
+     *
+     * @return the animation time (in seconds, &ge;0)
+     */
+    float animationTime() {
+        assert animationTime >= 0f : animationTime;
+        return animationTime;
     }
 
     /**
@@ -756,6 +849,20 @@ class Model {
     }
 
     /**
+     * Select the next clip/animation in the loaded C-G model.
+     */
+    void nextAnimation() {
+        int numAnimations = countAnimations();
+        if (animationIndex < numAnimations - 1) {
+            ++animationIndex;
+        } else {
+            this.animationIndex = bindPoseIndex;
+        }
+
+        this.animationTime = 0f;
+    }
+
+    /**
      * Determine the index of the parent of the indexed bone.
      *
      * @param boneIndex which bone (&ge;0)
@@ -839,6 +946,20 @@ class Model {
     }
 
     /**
+     * Select the previous clip/animation in the loaded C-G model.
+     */
+    void previousAnimation() {
+        int numAnimations = countAnimations();
+        if (animationIndex == bindPoseIndex) {
+            this.animationIndex = numAnimations - 1;
+        } else {
+            --animationIndex;
+        }
+
+        this.animationTime = 0f;
+    }
+
+    /**
      * Access the joint limits of the named BoneLink.
      *
      * @param boneName the name of the bone (not null, not empty)
@@ -869,6 +990,18 @@ class Model {
     void selectLink(String boneName) {
         assert boneName != null;
         this.selectedLink = boneName;
+    }
+
+    /**
+     * Alter the animation time for the selected pose.
+     *
+     * @param time the desired animation time (&ge;0, &le;duration)
+     */
+    void setAnimationTime(float time) {
+        assert time >= 0f : time;
+        assert time <= animationDuration() : time;
+
+        this.animationTime = time;
     }
 
     /**
@@ -1041,7 +1174,9 @@ class Model {
      * Unload the loaded C-G model, if any.
      */
     void unload() {
+        this.animationIndex = bindPoseIndex;
         animationNames.clear();
+        this.animationTime = 0f;
         this.mainBoneIndex = -1;
         this.rootSpatial = null;
         this.ragdoll = null;
@@ -1270,5 +1405,8 @@ class Model {
                 animationNames.add(name);
             }
         }
+
+        this.animationIndex = bindPoseIndex;
+        this.animationTime = 0f;
     }
 }
