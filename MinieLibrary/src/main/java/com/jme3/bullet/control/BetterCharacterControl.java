@@ -139,15 +139,14 @@ public class BetterCharacterControl
     /**
      * Local z-forward Quaternion for the "local absolute" z-forward direction.
      */
-    private Quaternion localForwardRotation
-            = new Quaternion(Quaternion.DIRECTION_Z);
+    private Quaternion localForwardRotation = new Quaternion();
     /**
      * spatial rotation, a Z-forward rotation based on the view direction and
      * local X-Z plane.
      *
      * @see #rotatedViewDirection
      */
-    private Quaternion rotation = new Quaternion(Quaternion.DIRECTION_Z);
+    private Quaternion rotation = new Quaternion();
     /**
      * impulse applied at the start of a jump (in local coordinates)
      */
