@@ -566,7 +566,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         float boxHalfWidth = boxWidth / 2f;
         float halfThickness = thickness / 2f;
         CollisionShape boxShape = new BoxCollisionShape(
-                        boxHalfWidth, height / 2f, halfThickness);
+                boxHalfWidth, height / 2f, halfThickness);
 
         float boxMass = totalMass / 2f;
 
@@ -706,7 +706,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * @param control a configured DynamicAnimControl to use (not null)
      */
     private void createRagdoll(
-                 String assetPath, float scale, DynamicAnimControl control) {
+            String assetPath, float scale, DynamicAnimControl control) {
         assert scale > 0f : scale;
 
         AssetManager assetManager = appInstance.getAssetManager();
