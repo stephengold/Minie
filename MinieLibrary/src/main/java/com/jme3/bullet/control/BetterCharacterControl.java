@@ -891,7 +891,8 @@ public class BetterCharacterControl
     /**
      * Alter the height of the CollisionShape.
      *
-     * @param percent the desired height, as a percentage of the full height
+     * @param percent the desired height, as a fraction of the initial height
+     * (default=1)
      */
     protected void setHeightPercent(float percent) {
         scale.setY(percent);
