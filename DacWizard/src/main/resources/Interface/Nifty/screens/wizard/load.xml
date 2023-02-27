@@ -80,7 +80,29 @@ Nifty XML to lay out the GUI for the "load" screen of DacWizard.
                     <interact onRelease="perform(load)"/>
                 </control>
             </panel>
-            <panel backgroundColor="#aaaf" height="15px"/>
+            <panel backgroundColor="#aaaf" height="8px"/>
+            <panel childLayout="horizontal" backgroundColor="#aaaf" height="28px">
+                <control name="label" text="  "/>
+                <control name="button" id="previousAnimationButton"
+                         width="20px">
+                    <interact onRelease="perform(previous animation)"/>
+                </control>
+                <control name="label" id="animationName"
+                         backgroundColor="#ffff"
+                         color="#000f"
+                         textHAlign="center"
+                         width="*"/>
+                <control name="button" id="nextAnimationButton"
+                         width="20px">
+                    <interact onRelease="perform(next animation)"/>
+                </control>
+                <control name="label" text="  "/>
+                <control name="button" id="animationTimeButton"
+                         width="200px">
+                    <interact onRelease="perform(set animationTime)"/>
+                </control>
+                <control name="label" text="  "/>
+            </panel>
             <panel childLayout="horizontal" backgroundColor="#aaaf" height="28px">
                 <control name="label" text="  "/>
                 <control name="button" label="&lt; Back"

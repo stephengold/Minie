@@ -28,9 +28,11 @@ package jme3utilities.minie.wizard;
 
 import com.jme3.anim.AnimClip;
 import com.jme3.anim.AnimComposer;
+import com.jme3.anim.Armature;
 import com.jme3.anim.SkinningControl;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.Animation;
+import com.jme3.animation.Skeleton;
 import com.jme3.animation.SkeletonControl;
 import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.state.AppState;
@@ -58,6 +60,7 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.InfluenceUtil;
 import jme3utilities.MyCamera;
+import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.debug.AxesVisualizer;
@@ -77,6 +80,8 @@ import jme3utilities.ui.DisplaySettings;
 import jme3utilities.ui.InputMode;
 import jme3utilities.ui.ShowDialog;
 import jme3utilities.wes.AnimationEdit;
+import jme3utilities.wes.Pose;
+import jme3utilities.wes.TweenTransforms;
 
 /**
  * A GuiApplication to configure a DynamicAnimControl for a C-G model. The
@@ -315,12 +320,19 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Add a C-G model to the (cleared) scene and reset the camera.
+     * Add a C-G model to the (cleared) scene, pose the model, transform the
+     * model, and reset the camera.
      *
-     * @param cgModel (not null, alias created)
+     * @param cgModel the root spatial of model to add (not null, alias created)
+     * @param animationName the clip/animation name for the desired pose or
+     * {@link #bindPoseName} (not null)
+     * @param animationTime the animation time for the desired pose (in seconds,
+     * &ge;0)
      */
-    void makeScene(Spatial cgModel) {
+    void makeScene(Spatial cgModel, String animationName, float animationTime) {
         assert cgModel != null;
+        assert animationName != null;
+        assert animationTime >= 0f : animationTime;
         assert axesNode == null;
         assert cgmParent == null;
 
@@ -353,7 +365,22 @@ public class DacWizard extends GuiApplication {
                 .listControls(cgmParent, AnimComposer.class, null);
         normalizeComposers(composers);
 
+        // Apply the specified animation pose.
         AbstractControl sc = RagUtils.findSControl(cgModel);
+        if (sc instanceof SkeletonControl && animControls.size() == 1) {
+            // old animation system
+            SkeletonControl skeletonControl = (SkeletonControl) sc;
+            Skeleton skeleton = skeletonControl.getSkeleton();
+            AnimControl animControl = animControls.get(0);
+            poseSkeleton(skeleton, animControl, animationName, animationTime);
+
+        } else if (sc instanceof SkinningControl && composers.size() == 1) {
+            // new animation system
+            SkinningControl skinningControl = (SkinningControl) sc;
+            Armature armature = skinningControl.getArmature();
+            AnimComposer composer = composers.get(0);
+            poseArmature(armature, composer, animationName, animationTime);
+        }
 
         // Translate and scale the C-G model.
         setParentTransform(Model.cgmHeight);
@@ -676,6 +703,51 @@ public class DacWizard extends GuiApplication {
             application.start();
             // ... and onward to DacWizard.guiInitializeApplication()!
         }
+    }
+
+    /**
+     * Apply the specified animation pose to the specified Armature.
+     *
+     * @param armature the armature to modify (not null)
+     * @param composer the composer containing the named clip, unless it's
+     * {@link #bindPoseName}
+     * @param clipName the name of the clip containing the desired pose, or
+     * {@link #bindPoseName}
+     * @param animationTime the animation time of the desired pose in the clip
+     * (in seconds, &ge;0)
+     */
+    private static void poseArmature(Armature armature, AnimComposer composer,
+            String clipName, float animationTime) {
+        Pose pose = new Pose(armature);
+        if (!clipName.equals(bindPoseName)) {
+            AnimClip clip = composer.getAnimClip(clipName);
+            pose.setToClip(clip, animationTime);
+        }
+        pose.applyTo(armature);
+        armature.update();
+    }
+
+    /**
+     * Apply the specified animation pose to the specified Skeleton.
+     *
+     * @param skeleton the skeleton to modify (not null)
+     * @param animControl the control containing the named animation, unless
+     * it's {@link #bindPoseName}
+     * @param animationName the name of the animation containing the desired
+     * pose, or {@link #bindPoseName}
+     * @param time the animation time of the desired pose in the animation (in
+     * seconds, &ge;0)
+     */
+    private static void poseSkeleton(Skeleton skeleton, AnimControl animControl,
+            String animationName, float time) {
+        MySkeleton.setUserControl(skeleton, true);
+        Pose pose = new Pose(skeleton);
+        if (!animationName.equals(bindPoseName)) {
+            Animation animation = animControl.getAnim(animationName);
+            pose.setToAnimation(animation, time, new TweenTransforms());
+        }
+        pose.applyTo(skeleton);
+        skeleton.updateWorldVectors();
     }
 
     /**

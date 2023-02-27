@@ -35,6 +35,7 @@ import de.lessvoid.nifty.elements.Element;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.InitialState;
+import jme3utilities.MyString;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
@@ -60,9 +61,17 @@ class LoadScreen extends GuiScreenController {
      */
     private Element nextElement;
     /**
-     * root spatial of the C-G model being previewed
+     * animation time of the pose being viewed (in seconds)
+     */
+    private float viewedAnimationTime;
+    /**
+     * root spatial of the C-G model being viewed, or null for none
      */
     private Spatial viewedSpatial;
+    /**
+     * clip/animation name of the pose being viewed
+     */
+    private String viewedAnimationName;
     // *************************************************************************
     // constructors
 
@@ -152,6 +161,8 @@ class LoadScreen extends GuiScreenController {
         DacWizard wizard = DacWizard.getApplication();
         wizard.clearScene();
         this.viewedSpatial = null;
+        this.viewedAnimationName = null;
+        this.viewedAnimationTime = Float.NaN;
 
         Model model = DacWizard.getModel();
         model.setShowingMeshes(true);
@@ -178,16 +189,25 @@ class LoadScreen extends GuiScreenController {
         // Update the 3-D scene.
         Model model = DacWizard.getModel();
         Spatial nextSpatial = model.getRootSpatial();
-        if (nextSpatial != viewedSpatial) {
+        String nextAnimationName = model.animationName();
+        float nextAnimationTime = model.animationTime();
+        if (nextSpatial != viewedSpatial
+                || !nextAnimationName.equals(viewedAnimationName)
+                || nextAnimationTime != viewedAnimationTime) {
             DacWizard wizard = DacWizard.getApplication();
             wizard.clearScene();
 
             this.viewedSpatial = nextSpatial;
+            this.viewedAnimationName = nextAnimationName;
+            this.viewedAnimationTime = nextAnimationTime;
+
             if (nextSpatial != null) {
                 Spatial cgModel = Heart.deepCopy(nextSpatial);
-                wizard.makeScene(cgModel);
+                wizard.makeScene(cgModel, nextAnimationName, nextAnimationTime);
             }
         }
+
+        updatePosingControls();
     }
     // *************************************************************************
     // private methods
@@ -213,6 +233,40 @@ class LoadScreen extends GuiScreenController {
         } else {
             nextElement.hide();
         }
+    }
+
+    /**
+     * Update the posing controls.
+     */
+    private void updatePosingControls() {
+        String anText = "";
+        String atText = "";
+        String naText = "";
+        String paText = "";
+
+        if (viewedSpatial != null) {
+            Model model = DacWizard.getModel();
+            int numAnimations = model.countAnimations();
+            if (numAnimations > 0) {
+                paText = "-";
+                naText = "+";
+            }
+
+            float duration = model.animationDuration();
+            if (duration > 0f) {
+                atText = Float.toString(viewedAnimationTime) + " seconds";
+            }
+
+            anText = viewedAnimationName;
+            if (!anText.equals(DacWizard.bindPoseName)) {
+                anText = MyString.quote(anText);
+            }
+        }
+
+        setStatusText("animationName", anText);
+        setButtonText("animationTime", atText);
+        setButtonText("nextAnimation", naText);
+        setButtonText("previousAnimation", paText);
     }
 
     /**

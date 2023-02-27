@@ -61,15 +61,18 @@ final class Action {
     final static String load = "load";
     final static String morePath = "more path";
     final static String moreRoot = "more root";
+    final static String nextAnimation = "next animation";
     final static String nextMassHeuristic = "next massHeuristic";
     final static String nextScreen = "next screen";
     final static String pickLink = "pick link";
+    final static String previousAnimation = "previous animation";
     final static String previousScreen = "previous screen";
     final static String save = "save";
     final static String saveJ3o = "saveJ3o";
     final static String selectCenterHeuristic = "select centerHeuristic";
     final static String selectRotationOrder = "select rotationOrder";
     final static String selectShapeHeuristic = "select shapeHeuristic";
+    final static String setAnimationTime = "set animationTime";
     final static String setMargin = "set margin";
     final static String setMassParameter = "set massParameter";
     final static String setShapeScale = "set shapeScale";
@@ -121,6 +124,14 @@ final class Action {
 
             case editDisplaySettings:
                 editDisplaySettings();
+                break;
+
+            case nextAnimation:
+                model.nextAnimation();
+                break;
+
+            case previousAnimation:
+                model.previousAnimation();
                 break;
 
             default:

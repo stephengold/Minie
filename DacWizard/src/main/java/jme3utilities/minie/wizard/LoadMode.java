@@ -37,6 +37,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.nifty.dialog.AllowNull;
+import jme3utilities.nifty.dialog.DialogController;
+import jme3utilities.nifty.dialog.FloatDialog;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -145,13 +148,25 @@ class LoadMode extends InputMode {
                     model.moreRoot();
                     break;
 
+                case Action.nextAnimation:
+                    model.nextAnimation();
+                    break;
+
                 case Action.nextScreen:
                     nextScreen();
+                    break;
+
+                case Action.previousAnimation:
+                    model.previousAnimation();
                     break;
 
                 case Action.previousScreen:
                     model.unload();
                     previousScreen();
+                    break;
+
+                case Action.setAnimationTime:
+                    setAnimationTime();
                     break;
 
                 case Action.toggleSkeleton:
@@ -161,7 +176,16 @@ class LoadMode extends InputMode {
                 default:
                     handled = false;
             }
+
+            String prefix = Action.setAnimationTime + " ";
+            if (!handled && actionString.startsWith(prefix)) {
+                String argument = MyString.remainder(actionString, prefix);
+                float time = Float.parseFloat(argument);
+                model.setAnimationTime(time);
+                handled = true;
+            }
         }
+
         if (!handled) {
             getActionApplication().onAction(actionString, ongoing, tpf);
         }
@@ -188,5 +212,24 @@ class LoadMode extends InputMode {
         setEnabled(false);
         InputMode filePath = InputMode.findMode("filePath");
         filePath.setEnabled(true);
+    }
+
+    /**
+     * Process a "set animationTime" action: display a dialog to enter a new
+     * animation time.
+     */
+    private static void setAnimationTime() {
+        Model model = DacWizard.getModel();
+        float duration = model.animationDuration();
+        DialogController controller
+                = new FloatDialog("Set", 0f, duration, AllowNull.No);
+
+        float oldTime = model.animationTime();
+        String defaultText = Float.toString(oldTime);
+
+        LoadScreen screen = DacWizard.findAppState(LoadScreen.class);
+        screen.closeAllPopups();
+        screen.showTextEntryDialog("Enter the animation time (in seconds):",
+                defaultText, Action.setAnimationTime + " ", controller);
     }
 }

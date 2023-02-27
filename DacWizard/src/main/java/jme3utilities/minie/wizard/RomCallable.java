@@ -150,7 +150,9 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
         wizard.clearScene();
 
         this.tempModelRoot = Heart.deepCopy(cgModel);
-        wizard.makeScene(tempModelRoot);
+        String animationName = model.animationName();
+        float animationTime = model.animationTime();
+        wizard.makeScene(tempModelRoot, animationName, animationTime);
         /*
          * Add a DynamicAnimControl to the copy.  Since the control will
          * stay in kinematic mode, its masses and ranges of motion

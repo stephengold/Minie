@@ -182,7 +182,7 @@ class TestScreen extends GuiScreenController {
             viewedSpatial = nextSpatial;
             if (nextSpatial != null) {
                 Spatial cgModel = Heart.deepCopy(nextSpatial);
-                wizard.makeScene(cgModel);
+                wizard.makeScene(cgModel, DacWizard.bindPoseName, 0f);
                 addGroundPlane();
 
                 AbstractControl sControl = RagUtils.findSControl(cgModel);
