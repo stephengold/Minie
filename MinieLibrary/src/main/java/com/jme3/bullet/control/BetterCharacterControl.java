@@ -149,7 +149,7 @@ public class BetterCharacterControl
      */
     private Quaternion rotation = new Quaternion();
     /**
-     * impulse applied at the start of a jump (in local coordinates)
+     * impulse applied at the start of each jump (in local coordinates)
      */
     private Vector3f jumpForce = new Vector3f();
     /**
@@ -199,8 +199,7 @@ public class BetterCharacterControl
     /**
      * Instantiate an enabled Control with the specified properties.
      * <p>
-     * The final height when ducking must be larger than 2x radius. The
-     * jumpForce will be set to an upward force of 5x mass.
+     * The height must exceed 2x the radius, even when ducked.
      *
      * @param radius the radius of the character's CollisionShape (&gt;0)
      * @param height the height of the character's CollisionShape (&gt;2*radius)
@@ -243,11 +242,11 @@ public class BetterCharacterControl
     }
 
     /**
-     * Copy the character's jump force.
+     * Copy the impulse applied at the start of each jump.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a force vector (either the provided storage or a new vector, not
-     * null)
+     * @return an impulse vector in local coordinates (either the provided
+     * storage or a new vector, not null)
      */
     public Vector3f getJumpForce(Vector3f storeResult) {
         if (storeResult == null) {
@@ -373,7 +372,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Makes the character jump with the set jump force.
+     * Apply a jump impulse during the next simulation step.
      */
     public void jump() {
         // TODO: debounce over some frames
@@ -453,12 +452,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the jump force. The jump force is local to the character's
-     * coordinate system, which normally is always z-forward (in world
-     * coordinates, parent coordinates when set to applyLocalPhysics)
+     * Alter the impulse applied at the start of each jump.
      *
-     * @param jumpForce the desired jump force (not null, finite, unaffected,
-     * default=5*mass in +Y direction)
+     * @param jumpForce the desired impulse (in local coordinates, not null,
+     * finite, unaffected, default=5*mass in +Y direction)
      */
     public void setJumpForce(Vector3f jumpForce) {
         Validate.finite(jumpForce, "jump force");
