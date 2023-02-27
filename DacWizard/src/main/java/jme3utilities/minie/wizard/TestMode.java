@@ -71,6 +71,7 @@ import jme3utilities.Heart;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.nifty.dialog.AllowNull;
+import jme3utilities.nifty.dialog.DialogController;
 import jme3utilities.nifty.dialog.FloatDialog;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
@@ -196,6 +197,10 @@ class TestMode extends InputMode {
                     saveJ3o();
                     break;
 
+                case Action.setAnimationTime:
+                    setAnimationTime();
+                    break;
+
                 case Action.setMargin:
                     setMargin();
                     break;
@@ -223,16 +228,24 @@ class TestMode extends InputMode {
                 default:
                     handled = false;
             }
-        }
-        if (!handled) {
-            if (actionString.startsWith(Action.setMargin + " ")) {
-                String arg = MyString
-                        .remainder(actionString, Action.setMargin + " ");
+
+            String prefix = Action.setAnimationTime + " ";
+            if (!handled && actionString.startsWith(prefix)) {
+                String argument = MyString.remainder(actionString, prefix);
+                float time = Float.parseFloat(argument);
+                model.setAnimationTime(time);
+                handled = true;
+            }
+
+            prefix = Action.setMargin + " ";
+            if (!handled && actionString.startsWith(prefix)) {
+                String arg = MyString.remainder(actionString, prefix);
                 float newMargin = Float.parseFloat(arg);
                 setMargin(newMargin);
                 handled = true;
             }
         }
+
         if (!handled) {
             getActionApplication().onAction(actionString, ongoing, tpf);
         }
@@ -413,7 +426,27 @@ class TestMode extends InputMode {
     }
 
     /**
-     * Open a dialog box to change the collision margin.
+     * Process a "set animationTime" action: display a dialog to enter a new
+     * animation time.
+     */
+    private static void setAnimationTime() {
+        Model model = DacWizard.getModel();
+        float duration = model.animationDuration();
+        DialogController controller
+                = new FloatDialog("Set", 0f, duration, AllowNull.No);
+
+        float oldTime = model.animationTime();
+        String defaultText = Float.toString(oldTime);
+
+        TestScreen screen = DacWizard.findAppState(TestScreen.class);
+        screen.closeAllPopups();
+        screen.showTextEntryDialog("Enter the animation time (in seconds):",
+                defaultText, Action.setAnimationTime + " ", controller);
+    }
+
+    /**
+     * Process a "set margin" action: display a dialog to enter the a collision
+     * margin.
      */
     private static void setMargin() {
         float oldValue = CollisionShape.getDefaultMargin();
@@ -467,16 +500,13 @@ class TestMode extends InputMode {
             Spatial controlledSpatial = dac.getSpatial();
             Transform local = controlledSpatial.getLocalTransform(); // alias
             resetTransform.set(local);
+            dac.saveCurrentPose();
             dac.setRagdollMode();
 
         } else { // Gradually blend to the saved local transform and pose.
-            KinematicSubmode bindPose = KinematicSubmode.Bound;
             float blendInterval = 1f; // in seconds
-            torso.blendToKinematicMode(bindPose, blendInterval, resetTransform);
-            Collection<BoneLink> boneLinks = dac.listLinks(BoneLink.class);
-            for (BoneLink boneLink : boneLinks) {
-                boneLink.blendToKinematicMode(bindPose, blendInterval);
-            }
+            dac.blendToKinematicMode(
+                    KinematicSubmode.Reset, blendInterval, resetTransform);
         }
     }
 

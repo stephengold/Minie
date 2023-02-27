@@ -57,6 +57,7 @@ import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.InitialState;
 import jme3utilities.MyAsset;
+import jme3utilities.MyString;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
 import jme3utilities.nifty.GuiScreenController;
@@ -79,6 +80,10 @@ class TestScreen extends GuiScreenController {
     // fields
 
     /**
+     * animation time of the pose being viewed (in seconds)
+     */
+    private float viewedAnimationTime;
+    /**
      * debug material for the selected PhysicsLink
      */
     private Material selectMaterial;
@@ -90,6 +95,10 @@ class TestScreen extends GuiScreenController {
      * root spatial of the C-G model being viewed, or null for none
      */
     private Spatial viewedSpatial = null;
+    /**
+     * clip/animation name of the pose being viewed
+     */
+    private String viewedAnimationName;
     // *************************************************************************
     // constructors
 
@@ -146,6 +155,8 @@ class TestScreen extends GuiScreenController {
         DacWizard wizard = DacWizard.getApplication();
         wizard.clearScene();
         this.viewedSpatial = null;
+        this.viewedAnimationName = null;
+        this.viewedAnimationTime = Float.NaN;
 
         BulletAppState bulletAppState
                 = DacWizard.findAppState(BulletAppState.class);
@@ -173,16 +184,23 @@ class TestScreen extends GuiScreenController {
         // Update the 3-D scene.
         Model model = DacWizard.getModel();
         Spatial nextSpatial = model.getRootSpatial();
-        if (nextSpatial != viewedSpatial) {
+        String nextAnimationName = model.animationName();
+        float nextAnimationTime = model.animationTime();
+        if (nextSpatial != viewedSpatial
+                || !nextAnimationName.equals(viewedAnimationName)
+                || nextAnimationTime != viewedAnimationTime) {
             DacWizard wizard = DacWizard.getApplication();
 
             removeGroundPlane();
             wizard.clearScene();
 
-            viewedSpatial = nextSpatial;
+            this.viewedSpatial = nextSpatial;
+            this.viewedAnimationName = nextAnimationName;
+            this.viewedAnimationTime = nextAnimationTime;
+
             if (nextSpatial != null) {
                 Spatial cgModel = Heart.deepCopy(nextSpatial);
-                wizard.makeScene(cgModel, DacWizard.bindPoseName, 0f);
+                wizard.makeScene(cgModel, nextAnimationName, nextAnimationTime);
                 addGroundPlane();
 
                 AbstractControl sControl = RagUtils.findSControl(cgModel);
@@ -198,6 +216,7 @@ class TestScreen extends GuiScreenController {
         }
 
         updateAxes();
+        updatePosingControls();
         updateSelectedLink();
     }
     // *************************************************************************
@@ -293,6 +312,40 @@ class TestScreen extends GuiScreenController {
         float margin = CollisionShape.getDefaultMargin();
         String marginButton = Float.toString(margin);
         setButtonText("margin", marginButton);
+    }
+
+    /**
+     * Update the posing controls.
+     */
+    private void updatePosingControls() {
+        String anText = "";
+        String atText = "";
+        String naText = "";
+        String paText = "";
+
+        if (viewedSpatial != null) {
+            Model model = DacWizard.getModel();
+            int numAnimations = model.countAnimations();
+            if (numAnimations > 0) {
+                paText = "-";
+                naText = "+";
+            }
+
+            float duration = model.animationDuration();
+            if (duration > 0f) {
+                atText = Float.toString(viewedAnimationTime) + " seconds";
+            }
+
+            anText = viewedAnimationName;
+            if (!anText.equals(DacWizard.bindPoseName)) {
+                anText = MyString.quote(anText);
+            }
+        }
+
+        setStatusText("animationName", anText);
+        setButtonText("animationTime", atText);
+        setButtonText("nextAnimation", naText);
+        setButtonText("previousAnimation", paText);
     }
 
     /**
