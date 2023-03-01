@@ -631,7 +631,7 @@ public class BetterCharacterControl
         Validate.finite(location, "location");
 
         rigidBody.setPhysicsLocation(location);
-        location.set(location);
+        this.location.set(location);
     }
 
     /**
