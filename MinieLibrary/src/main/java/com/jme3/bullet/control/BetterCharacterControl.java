@@ -58,12 +58,12 @@ import jme3utilities.math.MyVector3f;
 /**
  * This class is intended to replace the CharacterControl class.
  * <p>
- * A rigid body with CapsuleCollisionShape is used and its velocity is set
- * continuously. A ray test is used to test whether the character is on the
- * ground.
+ * A rigid body with an offset CapsuleCollisionShape is used. Its linear
+ * velocity is updated continuously. A ray test is used to determine whether the
+ * character is on the ground.
  * <p>
- * The character keeps their own local coordinate system which adapts based on
- * the gravity working on the character, so they will always stand upright.
+ * The character maintains a local coordinate system in which gravity determines
+ * the Y axis.
  * <p>
  * Motion in the local X-Z plane is damped.
  *
@@ -122,7 +122,7 @@ public class BetterCharacterControl
      */
     private float height;
     /**
-     * mass of this character (&gt;0)
+     * mass of the rigid body (&gt;0)
      */
     private float mass;
     /**
@@ -138,7 +138,7 @@ public class BetterCharacterControl
      */
     private PhysicsRigidBody rigidBody;
     /**
-     * Local z-forward Quaternion for the "local absolute" z-forward direction.
+     * orientation of the character (in physics-space coordinates)
      */
     private Quaternion localForwardRotation = new Quaternion();
     /**
@@ -153,20 +153,19 @@ public class BetterCharacterControl
      */
     private Vector3f jumpForce = new Vector3f();
     /**
-     * Local absolute z-forward direction, derived from gravity and UNIT_Z,
-     * updated continuously when gravity changes.
+     * local +Z direction (unit vector in physics-space coordinates)
      */
     private Vector3f localForward = new Vector3f(0f, 0f, 1f);
     /**
-     * Local left direction, derived from up and forward.
+     * local +X direction (unit vector in physics-space coordinates)
      */
     private Vector3f localLeft = new Vector3f(1f, 0f, 0f);
     /**
-     * local up direction, derived from gravity
+     * local +Y direction (unit vector in physics-space coordinates)
      */
     private Vector3f localUp = new Vector3f(0f, 1f, 0f);
     /**
-     * spatial location, corresponds to RigidBody location.
+     * rigid-body location (in physics-space coordinates)
      */
     private Vector3f location = new Vector3f();
     private Vector3f rotatedViewDirection = new Vector3f(0f, 0f, 1f);
@@ -180,7 +179,7 @@ public class BetterCharacterControl
      */
     private Vector3f velocity = new Vector3f();
     /**
-     * a Z-forward vector based on the view direction and the local X-Z plane.
+     * view direction (in local coordinates)
      */
     private Vector3f viewDirection = new Vector3f(0f, 0f, 1f);
     /**
@@ -201,8 +200,10 @@ public class BetterCharacterControl
      * <p>
      * The height must exceed 2x the radius, even when ducked.
      *
-     * @param radius the radius of the character's CollisionShape (&gt;0)
-     * @param height the height of the character's CollisionShape (&gt;2*radius)
+     * @param radius the initial radius for the collision shape (in
+     * physics-space coordinates, &gt;0)
+     * @param height the initial height for the character's CollisionShape (in
+     * physics-space coordinates, &gt;2*radius)
      * @param mass the character's mass (&ge;0)
      */
     public BetterCharacterControl(float radius, float height, float mass) {
@@ -235,8 +236,8 @@ public class BetterCharacterControl
      * Copy the character's gravity vector.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return an acceleration vector (either the provided storage or a new
-     * vector, not null)
+     * @return an acceleration vector in physics-space coordinates (either the
+     * provided storage or a new vector, not null)
      */
     public Vector3f getGravity(Vector3f storeResult) {
         return rigidBody.getGravity(storeResult);
@@ -336,10 +337,10 @@ public class BetterCharacterControl
 
     /**
      * Copy the character's walk velocity. The length of the vector defines the
-     * speed.
+     * requested speed.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a velocity vector (in physics-space units per second, either the
+     * @return a velocity vector (in physics-space coordinates, either the
      * provided storage or a new vector, not null)
      */
     public Vector3f getWalkDirection(Vector3f storeResult) {
@@ -447,7 +448,8 @@ public class BetterCharacterControl
      * in gravity direction are possible while maintaining a sensible control
      * over the character.
      *
-     * @param gravity an acceleration vector (not null, unaffected)
+     * @param gravity the desired acceleration vector (in physics-space
+     * coordinates, not null, finite, unaffected)
      */
     public void setGravity(Vector3f gravity) {
         Validate.finite(gravity, "gravity");
@@ -482,7 +484,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the character's view direction. Note this only defines the
+     * Alter the character's view direction. Note this only affects its
      * orientation in the local X-Z plane.
      *
      * @param vec a direction vector (not null, unaffected)
@@ -493,21 +495,21 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the character's walk velocity, which will be applied on every
-     * simulation step.
+     * Alter the character's walk velocity. The length of the vector determines
+     * the requested speed, in physics-space units per second.
      *
-     * @param vec the desired velocity (in physics-space units per second)
+     * @param vec the requested velocity vector (in physics-space coordinates,
+     * not null, unaffected)
      */
     public void setWalkDirection(Vector3f vec) {
         walkDirection.set(vec);
     }
 
     /**
-     * Move the character somewhere. Note the character also warps to the
-     * location of the Spatial when the Control is added.
+     * Translate the character to the specified location.
      *
-     * @param vec the desired character location (in physics-space coordinates,
-     * not null, finite, unaffected)
+     * @param vec the desired location (in physics-space coordinates, not null,
+     * finite, unaffected)
      */
     public void warp(Vector3f vec) {
         Validate.finite(vec, "vec");
@@ -859,18 +861,19 @@ public class BetterCharacterControl
     }
 
     /**
-     * Calculate the character's scaled height.
+     * Return the scaled height of the collision shape, including both
+     * hemispheres and the cylindrical part.
      *
-     * @return the height
+     * @return the height (in physics-space units, &gt;0)
      */
     protected float getFinalHeight() {
         return height * scale.getY();
     }
 
     /**
-     * Calculate the character's scaled radius.
+     * Return the scaled radius of the collision shape.
      *
-     * @return the radius
+     * @return the radius (in physics-space units, &gt;0)
      */
     protected float getFinalRadius() {
         return radius * scale.getZ();
@@ -896,7 +899,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the height of the CollisionShape.
+     * Alter the height of the collision shape.
      *
      * @param percent the desired height, as a fraction of the initial height
      * (default=1)
