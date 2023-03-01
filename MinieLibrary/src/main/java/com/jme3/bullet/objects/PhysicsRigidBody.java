@@ -1351,11 +1351,11 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @see #setGravityDp(com.simsilica.mathd.Vec3d)
      *
      * @param acceleration the desired acceleration vector (in physics-space
-     * coordinates, not null, unaffected, default=(0,0,0))
+     * coordinates, not null, finite, unaffected, default=(0,0,0))
      */
     @Override
     public void setGravity(Vector3f acceleration) {
-        Validate.nonNull(acceleration, "acceleration");
+        Validate.finite(acceleration, "acceleration");
         if (!isInWorld() && !isGravityProtected()) {
             logger2.warning(
                     "The body isn't in any PhysicsSpace, and its gravity isn't"
