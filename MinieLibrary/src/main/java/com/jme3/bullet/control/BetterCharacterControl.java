@@ -737,11 +737,9 @@ public class BetterCharacterControl
         float requestedSpeed = walkDirection.length();
         if (requestedSpeed > 0f) {
             Vector3f localWalkDirection = vars.vect1.set(walkDirection);
-            // normalize walk direction
             localWalkDirection.normalizeLocal();
-            // check for the existing velocity in the desired direction
+            // calculate current velocity component in the desired direction
             float speed = velocity.dot(localWalkDirection);
-            // calculate the final velocity in the desired direction
             float additionalSpeed = requestedSpeed - speed;
             localWalkDirection.multLocal(additionalSpeed);
             // add resulting vector to existing velocity
@@ -751,7 +749,6 @@ public class BetterCharacterControl
             rigidBody.setLinearVelocity(velocity);
         }
         if (jump) {
-            // TODO: precalculate jump force
             Vector3f rotatedJumpForce = vars.vect1;
             rotatedJumpForce.set(jumpForce);
             rigidBody.applyCentralImpulse(
@@ -930,7 +927,7 @@ public class BetterCharacterControl
      * Quaternion for the Spatial.
      */
     protected void updateLocalViewDirection() {
-        //update local rotation Quaternion to use for view rotation
+        // update local rotation Quaternion to use for view rotation
         localForwardRotation.multLocal(rotatedViewDirection.set(viewDirection));
         calculateNewForward(rotation, rotatedViewDirection, localUp);
     }
