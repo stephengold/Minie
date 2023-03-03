@@ -133,7 +133,8 @@ abstract public class NativePhysicsObject
     }
 
     /**
-     * Read the ID of the assigned native object, assuming that one is assigned.
+     * Return the ID of the assigned native object, assuming that one is
+     * assigned.
      *
      * @return the native identifier (not zero)
      */
