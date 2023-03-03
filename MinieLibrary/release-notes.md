@@ -1,5 +1,49 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.3.0+for36 released on TBD
+
++ Fixed bugs:
+  + ignored collision objects may be garbage-collected prematurely
+  + adding a `DynamicAnimControl` to a spatial resets its armature
+  + `PhysicsCollisionObject.cloneIgnoreList()` throws a `NullPointerException`
+  + `BetterCharacterControl.setPhysicsLocation()` never updates the field
+  + tasks passed to `PhysicsSpace.enqueueOnThisThread()` never execute
+  + `TestAttachDriver` example doesn't reset properly (JME issue 1975)
++ Added the `JointedBodyControl` class.
++ Added 7 methods to the library:
+  + `CollisionSpace.isForceUpdateAllAabbs()`
+  + `CollisionSpace.setForceUpdateAllAabbs()`
+  + `DynamicAnimControl.blendToKinematicMode(KinematicSubmode, float, Transform)`
+  + `DynamicAnimControl.saveCurrentPose()`
+  + `DynamicAnimControl.setKinematicMode(KinematicSubmode)`
+  + `PhysicsCollisionObject.listIgnoredPcos()`
+  + `PhysicsCollisionObject.setIgnoreList(PhysicsCollisionObject[])`
++ Added the "reset" kinematic submode to `DynamicAnimControl`.
++ Publicized 3 library methods:
+  + a constructor for the `IndexedMesh` class
+  + `DacLinks.getTransformer()`
+  + `RagUtils.findMainJoint()`
++ Deprecated 2 library methods:
+  + `PhysicsCollisionObject.listIgnoredIds()`
+  + `PhysicsCollisionObject.setIgnoreList(long[])`
++ Added some runtime checks and strengthened others.
++ Made improvements to the DacWizard application:
+  + added the "torso" screen to select the torso's main bone
+  + added posing capability to the "load" and "test" screens
+  + fixed a bug that caused generation of syntactially incorrect Java code
+  + fixed a bug where the wrong main bone was used to estimate ranges of motion
+  + when generating Java code, provide a `configure()` method
+  + generate practical classnames for Java code
++ Based on:
+  + v3.6.0-beta3 of JMonkeyEngine,
+  + v1.6.0 of the SimMath library,
+  + v8.3.1+for36 of the Heart library,
+  + v0.9.18+for36 of the Acorus library,
+  + v0.7.3+for36 of the Wes library, and
+  + v0.9.34+for36 of the jme3-utilities-nifty library.
++ Built using Gradle v8.0.2 .
++ Updated the native libraries to v18.1.0 of Libbulletjme.
+
 ## Version 7.2.0 released on 24 January 2023
 
 + Bugfix: `PhysicsCollisionObject.findInstance()`
@@ -8,7 +52,7 @@
   the control is added to a `Spatial`
 + Bugfix: weak global references in `PhysicsCollisionObject` and `MultiBody`
   can never be deleted
-+ Added 2 new methods:
++ Added 2 methods to the library:
   + `CollisionSpace.jniEnvId()`
   + `NativeLibrary.jniEnvId()`
 + Updated the native libraries to v17.5.4 of Libbulletjme.
