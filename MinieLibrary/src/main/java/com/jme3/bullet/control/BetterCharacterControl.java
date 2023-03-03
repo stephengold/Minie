@@ -735,10 +735,10 @@ public class BetterCharacterControl
         velocity.addLocal(counter);
 
         float requestedSpeed = walkDirection.length();
-        if (requestedSpeed > 0) {
-            Vector3f localWalkDirection = vars.vect1;
+        if (requestedSpeed > 0f) {
+            Vector3f localWalkDirection = vars.vect1.set(walkDirection);
             // normalize walk direction
-            localWalkDirection.set(walkDirection).normalizeLocal();
+            localWalkDirection.normalizeLocal();
             // check for the existing velocity in the desired direction
             float speed = velocity.dot(localWalkDirection);
             // calculate the final velocity in the desired direction
