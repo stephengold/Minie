@@ -734,16 +734,16 @@ public class BetterCharacterControl
         localForwardRotation.multLocal(counter);
         velocity.addLocal(counter);
 
-        float designatedVelocity = walkDirection.length();
-        if (designatedVelocity > 0) {
+        float requestedSpeed = walkDirection.length();
+        if (requestedSpeed > 0) {
             Vector3f localWalkDirection = vars.vect1;
             // normalize walk direction
             localWalkDirection.set(walkDirection).normalizeLocal();
             // check for the existing velocity in the desired direction
-            float existingVelocity = velocity.dot(localWalkDirection);
+            float speed = velocity.dot(localWalkDirection);
             // calculate the final velocity in the desired direction
-            float finalVelocity = designatedVelocity - existingVelocity;
-            localWalkDirection.multLocal(finalVelocity);
+            float additionalSpeed = requestedSpeed - speed;
+            localWalkDirection.multLocal(additionalSpeed);
             // add resulting vector to existing velocity
             velocity.addLocal(localWalkDirection);
         }
