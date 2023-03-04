@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.3.0+for36 released on TBD
+## Version 7.3.0+for36 released on 3 March 2023
 
 + Fixed bugs:
   + ignored collision objects may be garbage-collected prematurely
