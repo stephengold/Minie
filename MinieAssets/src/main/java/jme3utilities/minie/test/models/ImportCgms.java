@@ -163,16 +163,14 @@ public class ImportCgms extends SimpleApplication {
                 = assetManager.loadModel("Models/MhGame/MhGame.mesh.xml");
         writeToJ3O(mhGame, "Models/MhGame/MhGame.j3o");
         writeTextures(mhGame);
-        /*
-         * Import the MonkeyHead model from jme3-testdata-3.1.0-stable.jar:
-         */
+
+        // Import the MonkeyHead model from jme3-testdata-3.1.0-stable.jar:
         Spatial monkeyHead = assetManager.loadModel(
                 "Models/MonkeyHead/MonkeyHead.mesh.xml");
         writeToJ3O(monkeyHead, "Models/MonkeyHead/MonkeyHead.j3o");
         writeTextures(monkeyHead);
-        /*
-         * Import the Ninja model from jme3-testdata-3.1.0-stable.jar:
-         */
+
+        // Import the Ninja model from jme3-testdata-3.1.0-stable.jar:
         Spatial ninja = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
         writeToJ3O(ninja, "Models/Ninja/Ninja.j3o");
         writeTextures(ninja);

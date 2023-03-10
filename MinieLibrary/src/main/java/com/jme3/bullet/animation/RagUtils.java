@@ -540,7 +540,7 @@ final public class RagUtils {
 
         Vector3f location = transform.getTranslation(); // alias
         Quaternion orientation = transform.getRotation(); // alias
-        Vector3f scale = transform.getScale();
+        Vector3f scale = transform.getScale(); // alias
 
         Vector3f pmTranslate = parentBone.getModelSpacePosition();
         Quaternion pmRotInv = msr.inverse(); // TODO garbage
@@ -629,7 +629,7 @@ final public class RagUtils {
         result.loadIdentity();
         Spatial loopSpatial = startSpatial;
         while (loopSpatial != ancestorNode) {
-            Transform localTransform = loopSpatial.getLocalTransform();
+            Transform localTransform = loopSpatial.getLocalTransform(); // alias
             result.combineWithParent(localTransform);
             loopSpatial = loopSpatial.getParent();
         }

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -76,15 +76,8 @@ final public class MakeGreenTile {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class and also for writeImage().
-         */
-        //logger.setLevel(Level.INFO);
-        //Logger.getLogger(Heart.class.getName()).setLevel(Level.INFO);
 
         // Log the working directory.
         String userDir = System.getProperty("user.dir");
@@ -101,9 +94,7 @@ final public class MakeGreenTile {
      * Generate an image map for a green square with a dark border.
      */
     private static void makeGreenTile() {
-        /*
-         * Create a blank, color, buffered image for the texture map.
-         */
+        // Create a blank, color, buffered image for the texture map.
         BufferedImage image = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = image.createGraphics();
@@ -116,9 +107,8 @@ final public class MakeGreenTile {
         Color green = new Color(0f, 0.4f, 0f, opacity);
         graphics.setColor(green);
         graphics.fillRect(4, 4, textureSize - 8, textureSize - 8);
-        /*
-         * Write the image to the asset file.
-         */
+
+        // Write the image to the asset file.
         String assetPath = "Textures/greenTile.png";
         String filePath = String.format("%s/%s", assetDirPath, assetPath);
         try {

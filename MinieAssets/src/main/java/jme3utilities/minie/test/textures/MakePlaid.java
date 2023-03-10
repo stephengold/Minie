@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -76,18 +76,10 @@ final public class MakePlaid {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class and also for writeImage().
-         */
-        //logger.setLevel(Level.INFO);
-        //Logger.getLogger(Heart.class.getName()).setLevel(Level.INFO);
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
@@ -102,9 +94,7 @@ final public class MakePlaid {
      * Generate an image map for a simple red-and-white plaid.
      */
     private static void makePlaid() {
-        /*
-         * Create a blank, color buffered image for the texture map.
-         */
+        // Create a blank, color buffered image for the texture map.
         BufferedImage image = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = image.createGraphics();
@@ -124,9 +114,8 @@ final public class MakePlaid {
         graphics.fillRect(0, halfSize, halfSize, halfSize);
         graphics.setColor(red);
         graphics.fillRect(halfSize, halfSize, halfSize, halfSize);
-        /*
-         * Write the image to the asset file.
-         */
+
+        // Write the image to the asset file.
         String assetPath = "Textures/plaid.png";
         String filePath = String.format("%s/%s", assetDirPath, assetPath);
         try {

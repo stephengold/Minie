@@ -125,8 +125,8 @@ class ConstraintDebugControl extends AbstractPhysicsDebugControl {
     @Override
     protected void controlUpdate(float tpf) {
         if (constraint.isEnabled()) {
-            Vector3f vector = tmpTransform.getTranslation(); // note: alias
-            Quaternion rotation = tmpTransform.getRotation(); // note: alias
+            Vector3f vector = tmpTransform.getTranslation(); // alias
+            Quaternion rotation = tmpTransform.getRotation(); // alias
 
             PhysicsRigidBody bodyA = constraint.getBodyA();
             if (bodyA == null) {

@@ -266,7 +266,7 @@ public class AttachmentLink extends PhysicsLink {
 
         // Save initial transform for blending.
         if (endModelTransform != null) {
-            Transform current = attachedModel.getLocalTransform();
+            Transform current = attachedModel.getLocalTransform(); // alias
             startModelTransform.set(current);
         }
     }
@@ -382,8 +382,8 @@ public class AttachmentLink extends PhysicsLink {
              * For a smooth transition, blend the saved model transform
              * (from the start of the blend interval) into the goal transform.
              */
-            Quaternion startQuat = startModelTransform.getRotation();
-            Quaternion endQuat = endModelTransform.getRotation();
+            Quaternion startQuat = startModelTransform.getRotation(); // alias
+            Quaternion endQuat = endModelTransform.getRotation(); // alias
             if (startQuat.dot(endQuat) < 0f) {
                 endQuat.multLocal(-1f);
             }
@@ -427,7 +427,7 @@ public class AttachmentLink extends PhysicsLink {
         result.setScale(1f);
 
         // Convert to bone local coordinates.
-        Transform tmp = attachedModel.getLocalTransform();
+        Transform tmp = attachedModel.getLocalTransform(); // alias
         result.combineWithParent(tmp);
 
         // Convert to mesh coordinates.
@@ -536,9 +536,9 @@ public class AttachmentLink extends PhysicsLink {
     private Transform localModelTransform(Transform storeResult) {
         Transform result
                 = (storeResult == null) ? new Transform() : storeResult;
-        Vector3f location = result.getTranslation();
-        Quaternion orientation = result.getRotation();
-        Vector3f scale = result.getScale();
+        Vector3f location = result.getTranslation(); // alias
+        Quaternion orientation = result.getRotation(); // alias
+        Vector3f scale = result.getScale(); // alias
 
         // Start with the rigid body's Transform in physics/world coordinates.
         getRigidBody().getTransform(result);

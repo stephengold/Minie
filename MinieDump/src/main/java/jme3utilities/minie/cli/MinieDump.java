@@ -87,9 +87,8 @@ final public class MinieDump {
     public static void main(String[] arguments) {
         setupAssetManager();
         setupNativeLibrary();
-        /*
-         * Process the command-line arguments.
-         */
+
+        // Process the command-line arguments.
         for (String argument : arguments) {
             if (argument.equals("--verbose") || argument.equals("-v")) {
                 dumper.setEnabled(DumpFlags.ChildShapes, true);
@@ -148,15 +147,12 @@ final public class MinieDump {
      * Configure the AssetManager.
      */
     private static void setupAssetManager() {
-        /*
-         * Register loaders.
-         */
+        // Register loaders.
         assetManager.registerLoader(AWTLoader.class, "jpg", "png");
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
-        /*
-         * Register locators.
-         */
+
+        // Register locators.
         assetManager.registerLocator(".", FileLocator.class);
         assetManager.registerLocator(null, ClasspathLocator.class);
     }
@@ -165,9 +161,7 @@ final public class MinieDump {
      * Load and configure the native library for this platform.
      */
     private static void setupNativeLibrary() {
-        /*
-         * Don't extract to the working directory!
-         */
+        // Don't extract to the working directory!
         NativeLibraryLoader.setCustomExtractionFolder("/tmp");
 
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);

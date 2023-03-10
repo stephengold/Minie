@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -122,24 +122,15 @@ final public class MakePoolBalls {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class and also for writeImage().
-         */
-        //logger.setLevel(Level.INFO);
-        //Logger.getLogger(Heart.class.getName()).setLevel(Level.INFO);
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate color image maps.
-         */
+
+        // Generate color image maps.
         for (int ballId = 1; ballId <= 15; ++ballId) {
             makePoolBall(ballId);
         }
@@ -207,9 +198,7 @@ final public class MakePoolBalls {
      * @param ballId which ball (8=eight ball, &ge;1, &le;15)
      */
     private static void makePoolBall(int ballId) {
-        /*
-         * Create a blank, color buffered image for the texture map.
-         */
+        // Create a blank, color buffered image for the texture map.
         BufferedImage image = new BufferedImage(textureWidth, textureHeight,
                 BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = image.createGraphics();
@@ -243,9 +232,8 @@ final public class MakePoolBalls {
             default:
                 throw new IllegalArgumentException("ballId = " + ballId);
         }
-        /*
-         * Draw the texture, one pixel at a time.
-         */
+
+        // Draw the texture, one pixel at a time.
         for (int x = 0; x < textureWidth; ++x) {
             for (int y = 0; y < textureHeight; ++y) {
                 if (inSpotRegion(x, y)) {
@@ -265,9 +253,8 @@ final public class MakePoolBalls {
                 graphics.fillRect(x, y, 1, 1);
             }
         }
-        /*
-         * Write the image to the asset file.
-         */
+
+        // Write the image to the asset file.
         String ballName = ballName(ballId);
         String assetPath = "Textures/poolBalls/" + ballName + ".png";
         String filePath = String.format("%s/%s", assetDirPath, assetPath);

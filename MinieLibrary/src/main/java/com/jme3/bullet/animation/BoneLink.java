@@ -212,7 +212,8 @@ public class BoneLink extends PhysicsLink {
             pivotMesh = bone.getModelSpacePosition();
         } else { // new animation system
             Joint armatureJoint = getArmatureJoint();
-            pivotMesh = armatureJoint.getModelTransform().getTranslation();
+            Transform t = armatureJoint.getModelTransform();
+            pivotMesh = t.getTranslation(); // alias
         }
         Vector3f pivotWorld = transformer.localToWorld(pivotMesh, null);
 

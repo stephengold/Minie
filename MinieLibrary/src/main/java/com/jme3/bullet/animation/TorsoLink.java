@@ -224,7 +224,8 @@ public class TorsoLink extends PhysicsLink {
 
         // Save initial transforms for blending.
         if (endModelTransform != null) {
-            Transform current = getControl().getSpatial().getLocalTransform();
+            Transform current
+                    = getControl().getSpatial().getLocalTransform(); // alias
             startModelTransform.set(current);
         }
         int numManaged = countManaged();
