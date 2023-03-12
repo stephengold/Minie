@@ -65,6 +65,9 @@ tasks.withType(JavaExec) { // Java runtime options:
     //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
 }
 
+configurations.all {
+   resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of SNAPSHOTs
+}
 repositories {
     //mavenLocal() // to find local SNAPSHOTs of libraries
     mavenCentral()
