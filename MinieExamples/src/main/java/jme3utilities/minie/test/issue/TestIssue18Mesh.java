@@ -204,6 +204,7 @@ final public class TestIssue18Mesh
         ground.rotate(-FastMath.HALF_PI, 0f, 0f);
 
         CollisionShape shape = CollisionShapeFactory.createMeshShape(ground);
+//        shape.setContactFilterEnabled(false); // to make the test fail
         RigidBodyControl rbc
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);
         rbc.setPhysicsSpace(physicsSpace);

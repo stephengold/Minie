@@ -198,6 +198,7 @@ final public class TestIssue18Heightfield
         float[] heightmap = {0f, 0f, 0f, 0f};
         Vector3f scale = new Vector3f(1000f, 1f, 1000f);
         CollisionShape shape = new HeightfieldCollisionShape(heightmap, scale);
+//        shape.setContactFilterEnabled(false); // to make the test fail
 
         RigidBodyControl rbc
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);
