@@ -43,6 +43,7 @@ import com.jme3.scene.Geometry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.debug.AxesVisualizer;
@@ -94,6 +95,8 @@ final public class TestIssue13 extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
+        PhysicsRigidBody.logger2.setLevel(Level.WARNING);
+
         cam.setLocation(new Vector3f(39f, 64f, 172f));
         cam.setRotation(new Quaternion(-0.013f, 0.98608f, -0.1254f, -0.1084f));
         flyCam.setMoveSpeed(100f);
