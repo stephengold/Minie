@@ -49,8 +49,17 @@ public class TestIssue1058
     // *************************************************************************
     // fields
 
+    /**
+     * changes from false to true once the physics is stepped
+     */
     private static volatile boolean hasStepped = false;
+    /**
+     * body to be removed
+     */
     private static PhysicsRigidBody body1;
+    /**
+     * space for physics simulation
+     */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // constructors

@@ -70,8 +70,17 @@ final public class TestIssue3 extends SimpleApplication
     // *************************************************************************
     // fields
 
+    /**
+     * count of physics timesteps simulated
+     */
     private static int tickCount = 0;
+    /**
+     * jumping character to be tested
+     */
     private static PhysicsCharacter character;
+    /**
+     * space for physics simulation
+     */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // constructors
