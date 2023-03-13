@@ -201,9 +201,6 @@ final public class TestIssue18Heightfield
 
         RigidBodyControl rbc
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);
-        Quaternion rotation = new Quaternion();
-        rotation.fromAngles(-FastMath.HALF_PI, 0f, 0f);
-        rbc.setPhysicsRotation(rotation);
         rbc.setPhysicsSpace(physicsSpace);
         new Node().addControl(rbc);
     }
