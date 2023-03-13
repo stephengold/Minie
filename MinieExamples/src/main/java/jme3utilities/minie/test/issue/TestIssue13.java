@@ -66,7 +66,7 @@ final public class TestIssue13 extends SimpleApplication {
     // *************************************************************************
     // fields
 
-    final private Random random = new Random();
+    final static private Random random = new Random();
     // *************************************************************************
     // constructors
 

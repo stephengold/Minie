@@ -49,9 +49,9 @@ public class TestIssue1058
     // *************************************************************************
     // fields
 
-    private volatile boolean hasStepped = false;
-    private PhysicsRigidBody body1;
-    private PhysicsSpace physicsSpace;
+    private static volatile boolean hasStepped = false;
+    private static PhysicsRigidBody body1;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // constructors
 

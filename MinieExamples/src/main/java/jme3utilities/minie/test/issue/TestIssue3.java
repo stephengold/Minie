@@ -70,9 +70,9 @@ final public class TestIssue3 extends SimpleApplication
     // *************************************************************************
     // fields
 
-    private int tickCount = 0;
-    private PhysicsCharacter character;
-    private PhysicsSpace physicsSpace;
+    private static int tickCount = 0;
+    private static PhysicsCharacter character;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // constructors
 
@@ -107,7 +107,7 @@ final public class TestIssue3 extends SimpleApplication
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true);
-        this.physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace = bulletAppState.getPhysicsSpace();
 
         assert NativeLibrary.isDebug() : "This test requires a Debug library.";
 

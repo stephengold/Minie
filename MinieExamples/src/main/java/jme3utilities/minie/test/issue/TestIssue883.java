@@ -51,10 +51,10 @@ public class TestIssue883 extends SimpleApplication {
     // *************************************************************************
     // fields
 
-    private boolean firstPrint = true;
-    private float timeToNextPrint = 1f; // in seconds
-    private double frameTime; // in seconds
-    private double physicsTime; // in seconds
+    private static boolean firstPrint = true;
+    private static float timeToNextPrint = 1f; // in seconds
+    private static double frameTime; // in seconds
+    private static double physicsTime; // in seconds
     // *************************************************************************
     // constructors
 

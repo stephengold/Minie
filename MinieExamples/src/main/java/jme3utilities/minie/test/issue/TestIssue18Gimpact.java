@@ -69,19 +69,19 @@ final public class TestIssue18Gimpact
     /**
      * control under test
      */
-    private BetterCharacterControl bcc;
+    private static BetterCharacterControl bcc;
     /**
      * true if character will move toward +X, false if it will move toward -X
      */
-    private boolean increasingX;
+    private static boolean increasingX;
     /**
      * largest Y value seen so far: anything larger than 0.05 is an issue
      */
-    private float maxElevation = 0.05f;
+    private static float maxElevation = 0.05f;
     /**
      * count of physics timesteps simulated
      */
-    private int tickCount = 0;
+    private static int tickCount = 0;
     // *************************************************************************
     // constructors
 

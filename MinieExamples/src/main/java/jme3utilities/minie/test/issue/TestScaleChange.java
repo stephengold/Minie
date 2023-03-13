@@ -55,19 +55,19 @@ public class TestScaleChange extends SimpleApplication {
     /**
      * shape being tested
      */
-    private CollisionShape box;
+    private static CollisionShape box;
     /**
      * copy of the scale factors
      */
-    private float scale = 1f;
+    private static float scale = 1f;
     /**
      * control being tested
      */
-    private GhostControl gc;
+    private static GhostControl gc;
     /**
      * space for physics simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // constructors
 
@@ -99,7 +99,7 @@ public class TestScaleChange extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
-        this.physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace = bulletAppState.getPhysicsSpace();
 
         box = new BoxCollisionShape(1f);
         box.setScale(new Vector3f(scale, scale, scale));

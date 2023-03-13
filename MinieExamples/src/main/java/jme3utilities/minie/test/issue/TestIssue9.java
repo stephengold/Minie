@@ -67,7 +67,7 @@ final public class TestIssue9 extends SimpleApplication {
     /**
      * wire mesh for generating soft bodies
      */
-    final private Mesh wireBox = new WireBox();
+    final static private Mesh wireBox = new WireBox();
     // *************************************************************************
     // constructors
 

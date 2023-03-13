@@ -86,19 +86,19 @@ public class TestIssue1283 extends SimpleApplication {
     /**
      * Material to visualize projectiles
      */
-    private Material projectileMaterial;
+    private static Material projectileMaterial;
     /**
      * Material to visualize the wall
      */
-    private Material wallMaterial;
+    private static Material wallMaterial;
     /**
      * dump debugging information to {@code System.out}
      */
-    final private PhysicsDumper dumper = new PhysicsDumper();
+    final static private PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // constructors
 
@@ -225,12 +225,12 @@ public class TestIssue1283 extends SimpleApplication {
      * Configure materials during startup.
      */
     private void configureMaterials() {
-        this.wallMaterial = new Material(
+        wallMaterial = new Material(
                 assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         wallMaterial.setColor("Color", ColorRGBA.White.clone());
         wallMaterial.getAdditionalRenderState().setWireframe(true);
 
-        this.projectileMaterial = new Material(
+        projectileMaterial = new Material(
                 assetManager, "Common/MatDefs/Light/Lighting.j3md");
         projectileMaterial.setBoolean("UseMaterialColors", true);
         projectileMaterial.setColor("Ambient", ColorRGBA.Red.clone());
@@ -244,7 +244,7 @@ public class TestIssue1283 extends SimpleApplication {
     private void configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        this.physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace = bulletAppState.getPhysicsSpace();
         Vector3f gravityVector = new Vector3f(0f, -30f, 0f);
         physicsSpace.setGravity(gravityVector);
     }

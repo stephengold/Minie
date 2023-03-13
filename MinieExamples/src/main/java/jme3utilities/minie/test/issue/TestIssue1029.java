@@ -65,7 +65,7 @@ public class TestIssue1029
     /**
      * track elapsed time (in seconds) for the timeout
      */
-    private double elapsedSeconds = 0.0;
+    private static double elapsedSeconds = 0.0;
     // *************************************************************************
     // constructors
 
