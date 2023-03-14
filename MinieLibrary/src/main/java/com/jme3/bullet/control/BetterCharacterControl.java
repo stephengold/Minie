@@ -844,16 +844,16 @@ public class BetterCharacterControl
         Vector3f startLocation = castBegin.getTranslation(); // alias
         startLocation.set(location);
         float currentHeight = getFinalHeight();
-        float radius = getFinalRadius();
+        float bodyRadius = getFinalRadius();
         MyVector3f.accumulateScaled(
-                startLocation, localUp, currentHeight - radius);
+                startLocation, localUp, currentHeight - bodyRadius);
 
         Vector3f endLocation = castEnd.getTranslation(); // alias
         endLocation.set(location);
-        MyVector3f.accumulateScaled(endLocation, localUp, height - radius);
+        MyVector3f.accumulateScaled(endLocation, localUp, height - bodyRadius);
 
-        if (sweepShape == null || sweepShape.getRadius() != radius) {
-            this.sweepShape = new SphereCollisionShape(radius);
+        if (sweepShape == null || sweepShape.getRadius() != bodyRadius) {
+            this.sweepShape = new SphereCollisionShape(bodyRadius);
         }
         PhysicsSpace space = getPhysicsSpace();
         List<PhysicsSweepTestResult> results
@@ -934,15 +934,15 @@ public class BetterCharacterControl
      */
     protected CollisionShape getShape() {
         // TODO: cleanup size mess
-        CapsuleCollisionShape capsuleCollisionShape
+        CapsuleCollisionShape capsule
                 = new CapsuleCollisionShape(getFinalRadius(),
                         (getFinalHeight() - (2f * getFinalRadius())));
-        CompoundCollisionShape compoundCollisionShape
-                = new CompoundCollisionShape(1);
-        compoundCollisionShape.addChildShape(
-                capsuleCollisionShape, 0f, getFinalHeight() / 2f, 0f);
 
-        return compoundCollisionShape;
+        CompoundCollisionShape result = new CompoundCollisionShape(1);
+        result.addChildShape(
+                capsule, 0f, getFinalHeight() / 2f, 0f);
+
+        return result;
     }
 
     /**
