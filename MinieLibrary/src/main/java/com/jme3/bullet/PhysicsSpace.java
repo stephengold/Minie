@@ -1264,6 +1264,7 @@ public class PhysicsSpace
 
         PhysicsCollisionEvent event
                 = new PhysicsCollisionEvent(pcoA, pcoB, pointId);
+
         // Queue the event to be handled later by distributeEvents().
         contactProcessedEvents.add(event);
     }

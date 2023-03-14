@@ -200,8 +200,8 @@ public class CollisionSpace extends NativePhysicsObject {
             PhysicsCollisionGroupListener listener, int collisionGroup) {
         Validate.nonNull(listener, "listener");
         assert !cgListeners.containsKey(collisionGroup);
-        Validate.require(Integer.bitCount(collisionGroup) == 1,
-                "exactly one bit set");
+        Validate.require(
+                Integer.bitCount(collisionGroup) == 1, "exactly one bit set");
 
         cgListeners.put(collisionGroup, listener);
     }
@@ -664,8 +664,8 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     public void removeCollisionGroupListener(int collisionGroup) {
         assert cgListeners.containsKey(collisionGroup);
-        Validate.require(Integer.bitCount(collisionGroup) == 1,
-                "exactly one bit set");
+        Validate.require(
+                Integer.bitCount(collisionGroup) == 1, "exactly one bit set");
 
         cgListeners.remove(collisionGroup);
     }
@@ -727,8 +727,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param end the ending physics-space transform (not null, unaffected)
      * @return a new list of results
      */
-    public List<PhysicsSweepTestResult> sweepTest(ConvexShape shape,
-            Transform start, Transform end) {
+    public List<PhysicsSweepTestResult> sweepTest(
+            ConvexShape shape, Transform start, Transform end) {
         List<PhysicsSweepTestResult> results = new LinkedList<>();
         sweepTest(shape, start, end, results);
         return results;
@@ -743,8 +743,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param results the list to hold results (not null, modified)
      * @return results
      */
-    public List<PhysicsSweepTestResult> sweepTest(ConvexShape shape,
-            Transform start, Transform end,
+    public List<PhysicsSweepTestResult> sweepTest(
+            ConvexShape shape, Transform start, Transform end,
             List<PhysicsSweepTestResult> results) {
         List<PhysicsSweepTestResult> result
                 = sweepTest(shape, start, end, results, 0f);

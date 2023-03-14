@@ -191,8 +191,8 @@ final public class DebugShapeFactory {
      * @param meshResolution (0=low, 1=high)
      * @return a new array of corner locations (in world coordinates)
      */
-    public static Vector3f[] footprint(CollisionShape shape,
-            Transform shapeToWorld, int meshResolution) {
+    public static Vector3f[] footprint(
+            CollisionShape shape, Transform shapeToWorld, int meshResolution) {
         assert !(shape instanceof CompoundCollisionShape);
         assert !(shape instanceof PlaneCollisionShape);
         Validate.nonNull(shapeToWorld, "shape-to-world");
