@@ -33,10 +33,13 @@ package com.jme3.bullet.control;
 
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
+import com.jme3.bullet.collision.PhysicsSweepTestResult;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
+import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -44,6 +47,7 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.util.TempVars;
@@ -148,6 +152,18 @@ public class BetterCharacterControl
      * @see #rotatedViewDirection
      */
     private Quaternion rotation = new Quaternion();
+    /**
+     * cached collision shape for sweep casts
+     */
+    private SphereCollisionShape sweepShape;
+    /**
+     * temporary starting transform for ray/sweep casts
+     */
+    private Transform castBegin = new Transform();
+    /**
+     * temporary ending transform for ray/sweep casts
+     */
+    private Transform castEnd = new Transform();
     /**
      * impulse applied at the start of each jump (in local coordinates)
      */
@@ -544,6 +560,9 @@ public class BetterCharacterControl
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
+        this.sweepShape = null;
+        this.castEnd = cloner.clone(castEnd);
+        this.castBegin = cloner.clone(castBegin);
         this.jumpForce = cloner.clone(jumpForce);
         this.localForward = cloner.clone(localForward);
         this.localForwardRotation = cloner.clone(localForwardRotation);
@@ -597,6 +616,7 @@ public class BetterCharacterControl
 
         Spatial controlled = getSpatial();
         rigidBody.setUserObject(controlled);
+        // sweepShape, castBegin, and castEnd are not read
     }
 
     /**
@@ -691,6 +711,7 @@ public class BetterCharacterControl
         capsule.write(viewDirection, tagViewDirection, null);
         capsule.write(walkDirection, tagWalkDirection, null);
         capsule.write(rigidBody, tagBody, null);
+        // sweepShape, castBegin, and castEnd are not written
     }
     // *************************************************************************
     // PhysicsTickListener methods
@@ -810,28 +831,45 @@ public class BetterCharacterControl
     }
 
     /**
-     * This checks if the character can go from ducked to unducked state by
-     * doing a ray test.
+     * Determine whether the character can emerge from the ducked state at its
+     * current location.
      *
      * @return true if able to unduck, otherwise false
      */
     protected boolean checkCanUnDuck() {
-        TempVars vars = TempVars.get();
-        Vector3f loc = vars.vect1;
-        Vector3f rayVector = vars.vect2;
-        loc.set(localUp).multLocal(FastMath.ZERO_TOLERANCE)
-                .addLocal(this.location);
-        rayVector.set(localUp)
-                .multLocal(height + FastMath.ZERO_TOLERANCE).addLocal(loc);
-        List<PhysicsRayTestResult> results
-                = getPhysicsSpace().rayTestRaw(loc, rayVector);
-        vars.release();
-        for (PhysicsRayTestResult physicsRayTestResult : results) {
-            if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
-                return false;
+        /*
+         * Cast a sphere upward, from the current location
+         * of the upper hemisphere to its desired location.
+         */
+        Vector3f startLocation = castBegin.getTranslation(); // alias
+        startLocation.set(location);
+        float currentHeight = getFinalHeight();
+        float radius = getFinalRadius();
+        MyVector3f.accumulateScaled(
+                startLocation, localUp, currentHeight - radius);
+
+        Vector3f endLocation = castEnd.getTranslation(); // alias
+        endLocation.set(location);
+        MyVector3f.accumulateScaled(endLocation, localUp, height - radius);
+
+        if (sweepShape == null || sweepShape.getRadius() != radius) {
+            this.sweepShape = new SphereCollisionShape(radius);
+        }
+        PhysicsSpace space = getPhysicsSpace();
+        List<PhysicsSweepTestResult> results
+                = space.sweepTest(sweepShape, castBegin, castEnd);
+
+        // Search for a collision object other than the character's body.
+        boolean isObstructed = false;
+        for (PhysicsSweepTestResult result : results) {
+            PhysicsCollisionObject object = result.getCollisionObject();
+            if (!object.equals(rigidBody)) {
+                isObstructed = true;
+                break;
             }
         }
-        return true;
+
+        return !isObstructed;
     }
 
     /**
