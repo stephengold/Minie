@@ -279,7 +279,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @return a new location vector (in physics-space coordinates, not null)
      */
@@ -302,7 +302,7 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @return a new unit vector (in physics-space coordinates, not null)
      */
@@ -379,7 +379,8 @@ public class VehicleWheel implements JmeCloneable, Savable {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library. The jme3-jbullet version
+     * returns a pre-existing vector instead of a new one.
      *
      * @return a new location vector (in physics-space coordinates, not null)
      */

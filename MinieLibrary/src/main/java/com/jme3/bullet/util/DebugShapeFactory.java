@@ -208,7 +208,7 @@ final public class DebugShapeFactory {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @param shape the shape to visualize (not null, not compound, not plane,
      * unaffected)
@@ -226,7 +226,7 @@ final public class DebugShapeFactory {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @param shape the shape to visualize (may be null, unaffected)
      * @return a new Spatial or null

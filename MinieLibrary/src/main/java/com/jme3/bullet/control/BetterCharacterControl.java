@@ -296,7 +296,8 @@ public class BetterCharacterControl
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library. The jme3-jbullet version
+     * returns a pre-existing vector instead of a new one.
      *
      * @return a new velocity vector
      */
@@ -324,7 +325,8 @@ public class BetterCharacterControl
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library. The jme3-jbullet version
+     * returns a pre-existing vector instead of a new one.
      *
      * @return a new direction vector (in physics-space coordinates)
      */

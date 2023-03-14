@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 
 /**
  * Debugging aids. This class exists solely for compatibility with the
- * jme3-bullet library.
+ * jme3-jbullet library.
  *
  * @author normenhansen
  */

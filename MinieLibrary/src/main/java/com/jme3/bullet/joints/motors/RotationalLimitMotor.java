@@ -164,8 +164,7 @@ public class RotationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read the ID of the btRotationalLimitMotor. For compatibility with the
-     * jme3-bullet library.
+     * Return the ID of the native object {@code btRotationalLimitMotor}.
      *
      * @return the identifier (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}

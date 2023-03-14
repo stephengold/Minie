@@ -265,8 +265,7 @@ abstract public class CollisionShape
     }
 
     /**
-     * Return the native ID of the btCollisionShape. For compatibility with the
-     * jme3-bullet library.
+     * Return the ID of the native object ({@code btCollisionShape}).
      *
      * @return the identifier (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}

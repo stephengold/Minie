@@ -401,7 +401,7 @@ public class BulletDebugAppState extends BaseAppState {
 
     /**
      * Alter which physics objects are visualized. For compatibility with the
-     * jme3-bullet library.
+     * jme3-jbullet library.
      *
      * @param filter the desired filter, or null to visualize all objects
      */

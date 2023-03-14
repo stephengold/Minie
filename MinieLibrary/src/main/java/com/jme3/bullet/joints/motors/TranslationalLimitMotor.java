@@ -157,8 +157,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read the ID of the btTranslationalLimitMotor. For compatibility with the
-     * jme3-bullet library.
+     * Return the ID of the native object ({@code btTranslationalLimitMotor}).
      *
      * @return the identifier (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}

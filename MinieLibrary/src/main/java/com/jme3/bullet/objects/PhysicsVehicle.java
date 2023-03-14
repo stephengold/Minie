@@ -206,7 +206,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @param connectionPoint the location where the suspension connects to the
      * chassis (in chassis coordinates, not null, unaffected)

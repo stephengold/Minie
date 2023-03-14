@@ -105,7 +105,8 @@ final public class PhysicsRayTestResult {
     }
 
     /**
-     * For compatibility with jme3-bullet.
+     * For compatibility with jme3-jbullet. The jme3-jbullet version returns a
+     * pre-existing vector instead of a new one.
      *
      * @return a new unit vector
      */

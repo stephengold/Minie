@@ -88,7 +88,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
 
     /**
      * Access the user object of collision object A, provided it's a Spatial.
-     * For compatibility with jme3-bullet.
+     * For compatibility with jme3-jbullet.
      *
      * @return the pre-existing Spatial, or null if none
      */
@@ -104,7 +104,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
 
     /**
      * Access the user object of collision object B, provided it's a Spatial.
-     * For compatibility with jme3-bullet.
+     * For compatibility with jme3-jbullet.
      *
      * @return the pre-existing Spatial, or null if none
      */
@@ -383,7 +383,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * For compatibility with jme3-bullet.
+     * For compatibility with jme3-jbullet.
      *
      * @return a new direction vector
      */
@@ -451,7 +451,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * For compatibility with jme3-bullet.
+     * For compatibility with jme3-jbullet.
      *
      * @return a new location vector
      */
@@ -477,7 +477,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * For compatibility with jme3-bullet.
+     * For compatibility with jme3-jbullet.
      *
      * @return a new location vector
      */

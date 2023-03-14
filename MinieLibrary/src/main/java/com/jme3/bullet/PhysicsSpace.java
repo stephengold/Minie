@@ -313,7 +313,7 @@ public class PhysicsSpace
     /**
      * Add all physics controls in the specified subtree of the scene graph to
      * this space (e.g. after loading from disk). For compatibility with the
-     * jme3-bullet library.
+     * jme3-jbullet library.
      * <p>
      * Does not add any joints.
      * <p>
@@ -642,7 +642,7 @@ public class PhysicsSpace
 
     /**
      * Read the number of iterations used by the contact-and-constraint solver,
-     * for compatibility with the jme3-bullet library.
+     * for compatibility with the jme3-jbullet library.
      *
      * @return the number of iterations used (&ge;1)
      */
@@ -742,7 +742,7 @@ public class PhysicsSpace
     /**
      * Remove all physics controls in the specified subtree of the scene graph
      * from this space (e.g. before saving to disk). For compatibility with the
-     * jme3-bullet library.
+     * jme3-jbullet library.
      * <p>
      * Does not remove any joints.
      * <p>
@@ -918,7 +918,7 @@ public class PhysicsSpace
 
     /**
      * Alter the number of iterations used by the contact-and-constraint solver,
-     * for compatibility with the jme3-bullet library.
+     * for compatibility with the jme3-jbullet library.
      * <p>
      * Use 4 for low quality, 20 for high quality.
      *
@@ -1051,7 +1051,7 @@ public class PhysicsSpace
 
     /**
      * Add the specified object to this space. For compatibility with the
-     * jme3-bullet library.
+     * jme3-jbullet library.
      *
      * @param object the PhysicsControl, Spatial-with-PhysicsControl, collision
      * object, or PhysicsJoint to add (not null)
@@ -1185,7 +1185,7 @@ public class PhysicsSpace
 
     /**
      * Remove the specified object from this space. For compatibility with the
-     * jme3-bullet library.
+     * jme3-jbullet library.
      *
      * @param object the PhysicsControl, Spatial-with-PhysicsControl, collision
      * object, or PhysicsJoint to remove, or null

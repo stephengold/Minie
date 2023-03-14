@@ -186,7 +186,7 @@ public class CollisionSpace extends NativePhysicsObject {
 
     /**
      * Register the specified collision-group listener with the specified
-     * collision group of this space. For compatibility with the jme3-bullet
+     * collision group of this space. For compatibility with the jme3-jbullet
      * library.
      * <p>
      * Such a listener can disable collisions when they occur. There can be only
@@ -359,8 +359,7 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * Return the identifier of the native object. For compatibility with the
-     * jme3-bullet library.
+     * Return the ID of the native object.
      *
      * @return the ID (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}
@@ -656,7 +655,7 @@ public class CollisionSpace extends NativePhysicsObject {
 
     /**
      * De-register the specified collision-group listener. For compatibility
-     * with the jme3-bullet library.
+     * with the jme3-jbullet library.
      *
      * @see #addCollisionGroupListener(
      * com.jme3.bullet.collision.PhysicsCollisionGroupListener, int)
@@ -721,7 +720,7 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @param shape the shape to sweep (not null, convex, unaffected)
      * @param start the starting physics-space transform (not null, unaffected)
@@ -736,7 +735,7 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @param shape the shape to sweep (not null, convex, unaffected)
      * @param start the starting physics-space transform (not null, unaffected)

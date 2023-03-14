@@ -310,7 +310,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @return the angular factor
      */
@@ -348,7 +348,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @return a new velocity vector (radians per second in physics-space
      * coordinates, not null)
@@ -505,7 +505,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @return a new velocity vector (physics-space units per second in
      * physics-space coordinates, not null)
@@ -561,7 +561,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @return a new Quaternion (relative to physics-space coordinates, not
      * null)

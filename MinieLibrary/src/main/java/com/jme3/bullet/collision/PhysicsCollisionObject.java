@@ -686,8 +686,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the ID of the btCollisionObject. For compatibility with the
-     * jme3-bullet library.
+     * Return the ID of the native object ({@code btCollisionObject}).
      *
      * @return the native identifier (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}
@@ -698,7 +697,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * For compatibility with the jme3-bullet library.
+     * For compatibility with the jme3-jbullet library.
      *
      * @return a new location vector (in physics-space coordinates, not null)
      */

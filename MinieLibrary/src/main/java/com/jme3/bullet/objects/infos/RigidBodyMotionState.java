@@ -175,8 +175,7 @@ public class RigidBodyMotionState
     }
 
     /**
-     * Read the ID of the native object. For compatibility with the jme3-bullet
-     * library.
+     * Return the ID of the native object.
      *
      * @return the native ID (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}
