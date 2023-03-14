@@ -68,7 +68,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     // new methods exposed
 
     /**
-     * Copy the accumulated impulse (m_accumulatedImpulse).
+     * Copy the accumulated impulse (native field: m_accumulatedImpulse).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a new vector (not null)
@@ -83,7 +83,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read this motor's damping (m_damping).
+     * Return this motor's damping (native field: m_damping).
      *
      * @return the viscous damping ratio (0&rarr;no damping, 1&rarr;critically
      * damped)
@@ -96,7 +96,8 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Copy this motor's error-reduction parameters at the limits (m_stopERP).
+     * Copy this motor's error-reduction parameters at the limits (native field:
+     * m_stopERP).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the error-reduction parameter for each axis (either storeResult
@@ -112,7 +113,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read this motor's limit softness (m_limitSoftness).
+     * Return this motor's limit softness (native field: m_limitSoftness).
      *
      * @return the limit softness (or relaxation factor)
      */
@@ -124,7 +125,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Copy this motor's constraint lower limits (m_lowerLimit).
+     * Copy this motor's constraint lower limits (native field: m_lowerLimit).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the lower limit for each axis (either storeResult or a new
@@ -140,8 +141,8 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Copy this motor's maximum motor forces for normal conditions
-     * (m_maxMotorForce).
+     * Copy this motor's maximum motor forces for normal conditions (native
+     * field: m_maxMotorForce).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the maximum force for each axis (either storeResult or a new
@@ -159,7 +160,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     /**
      * Return the ID of the native object ({@code btTranslationalLimitMotor}).
      *
-     * @return the identifier (not zero)
+     * @return the native identifier (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}
      */
     @Deprecated
@@ -170,7 +171,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
 
     /**
      * Copy this motor's constraint-force mixing parameters for normal
-     * conditions (m_normalCFM).
+     * conditions (native field: m_normalCFM).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the mixing parameter for each axis (either storeResult or a new
@@ -186,7 +187,8 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read the offset of the constraint frames (m_currentLinearDiff).
+     * Return the offset of the constraint frames (native field:
+     * m_currentLinearDiff).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the offset (either storeResult or a new instance)
@@ -201,7 +203,8 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Read this motor's restitution at the limits (m_restitution).
+     * Return this motor's restitution at the limits (native field:
+     * m_restitution).
      *
      * @return the restitution (bounce) factor
      */
@@ -214,7 +217,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
 
     /**
      * Copy this motor's constraint-force mixing parameters at the limits
-     * (m_stopCFM).
+     * (native field: m_stopCFM).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the mixing parameter for each axis (either storeResult or a new
@@ -230,7 +233,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Copy this motor's target velocity (m_targetVelocity).
+     * Copy this motor's target velocity (native field: m_targetVelocity).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the target velocity vector (either storeResult or a new instance)
@@ -245,7 +248,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Copy this motor's constraint upper limits (m_upperLimit).
+     * Copy this motor's constraint upper limits (native field: m_upperLimit).
      *
      * @param storeResult storage for the result (modified if not null)
      * @return the upper limit for each axis (either storeResult or a new
@@ -261,7 +264,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Test whether the indexed axis is enabled (m_enableMotor).
+     * Test whether the indexed axis is enabled (native field: m_enableMotor).
      *
      * @param axisIndex which axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      * @return true if enabled, otherwise false
@@ -276,7 +279,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter the accumulated impulse (m_accumulatedImpulse).
+     * Alter the accumulated impulse (native field: m_accumulatedImpulse).
      *
      * @param accumulatedImpulse the desired vector (not null, unaffected,
      * default=(0,0,0))
@@ -287,7 +290,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter this motor's damping (m_damping).
+     * Alter this motor's damping (native field: m_damping).
      *
      * @param damping the desired viscous damping ratio (0&rarr;no damping,
      * 1&rarr;critically damped, default=1)
@@ -298,7 +301,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Enable or disable the indexed axis (m_enableMotor).
+     * Enable or disable the indexed axis (native field: m_enableMotor).
      *
      * @param axisIndex which axis: 0&rarr;X, 1&rarr;Y, 2&rarr;Z
      * @param enableMotor true&rarr;enable, false&rarr;disable (default=false)
@@ -311,7 +314,8 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter this motor's error-reduction parameters at the limits (m_stopERP).
+     * Alter this motor's error-reduction parameters at the limits (native
+     * field: m_stopERP).
      *
      * @param erp the desired error-reduction parameter parameter for each axis
      * (not null, unaffected, default=(0.2,0.2,0.2))
@@ -322,7 +326,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter the limit softness (m_limitSoftness).
+     * Alter the limit softness (native field: m_limitSoftness).
      *
      * @param limitSoftness the desired limit softness (default=0.7)
      */
@@ -332,7 +336,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter this motor's constraint lower limits (m_lowerLimit).
+     * Alter this motor's constraint lower limits (native field: m_lowerLimit).
      *
      * @param lowerLimit the desired limit value for each axis (unaffected, not
      * null, default=(0,0,0))
@@ -343,7 +347,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter this motor's maximum forces (m_maxMotorForce).
+     * Alter this motor's maximum forces (native field: m_maxMotorForce).
      *
      * @param maxForce the desired maximum force for each axis (not null,
      * unaffected, default=(0,0,0))
@@ -355,7 +359,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
 
     /**
      * Alter this motor's constraint-force mixing parameters for normal
-     * conditions (m_normalCFM).
+     * conditions (native field: m_normalCFM).
      *
      * @param cfm the desired mixing parameter for each axis (not null,
      * unaffected, default=(0,0,0))
@@ -366,7 +370,8 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter this motor's restitution at the limits (m_restitution).
+     * Alter this motor's restitution at the limits (native field:
+     * m_restitution).
      *
      * @param restitution the desired restitution (bounce) factor (default=0.5)
      */
@@ -377,7 +382,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
 
     /**
      * Alter this motor's constraint-force mixing parameters at the limits
-     * (m_stopCFM).
+     * (native field: m_stopCFM).
      *
      * @param cfm the desired mixing parameter for each axis (not null,
      * unaffected, default=(0,0,0))
@@ -388,7 +393,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter this motor's target velocity (m_targetVelocity).
+     * Alter this motor's target velocity (native field: m_targetVelocity).
      *
      * @param velocity the desired velocity vector (not null, unaffected,
      * default=(0,0,0))
@@ -399,7 +404,7 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Alter this motor's constraint upper limits (m_upperLimit).
+     * Alter this motor's constraint upper limits (native field: m_upperLimit).
      *
      * @param upperLimit the desired limit value for each axis (unaffected, not
      * null, default=(0,0,0))

@@ -181,7 +181,7 @@ public class BetterCharacterControl
      */
     private Vector3f localUp = new Vector3f(0f, 1f, 0f);
     /**
-     * rigid-body location (in physics-space coordinates)
+     * rigid-body base location (in physics-space coordinates)
      */
     private Vector3f location = new Vector3f();
     private Vector3f rotatedViewDirection = new Vector3f(0f, 0f, 1f);
@@ -252,8 +252,8 @@ public class BetterCharacterControl
      * Copy the character's gravity vector.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return an acceleration vector in physics-space coordinates (either the
-     * provided storage or a new vector, not null)
+     * @return an acceleration vector in physics-space coordinates (either
+     * {@code storeResult} or a new vector, not null)
      */
     public Vector3f getGravity(Vector3f storeResult) {
         return rigidBody.getGravity(storeResult);
@@ -263,8 +263,8 @@ public class BetterCharacterControl
      * Copy the impulse applied at the start of each jump.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return an impulse vector in local coordinates (either the provided
-     * storage or a new vector, not null)
+     * @return an impulse vector in local coordinates (either
+     * {@code storeResult} or a new vector, not null)
      */
     public Vector3f getJumpForce(Vector3f storeResult) {
         if (storeResult == null) {
@@ -275,7 +275,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Return how rapidly horizontal motion is damped.
+     * Return the multiplier for horizontal motion.
      *
      * @return the multiplier for motion in the local X-Z plane (applied during
      * each simulation step, 0&rarr;no damping, 1=horizontal forces have no
@@ -310,7 +310,7 @@ public class BetterCharacterControl
      * Copy the character's linear velocity.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a velocity vector (either the provided storage or a new vector,
+     * @return a velocity vector (either {@code storeResult} or a new vector,
      * not null)
      */
     public Vector3f getVelocity(Vector3f storeResult) {
@@ -339,8 +339,8 @@ public class BetterCharacterControl
      * spatial's forward direction.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a direction vector (in physics-space coordinates, either the
-     * provided storage or a new vector, not null)
+     * @return a direction vector (in physics-space coordinates, either
+     * {@code storeResult} or a new vector, not null)
      */
     public Vector3f getViewDirection(Vector3f storeResult) {
         Vector3f result;
@@ -358,8 +358,8 @@ public class BetterCharacterControl
      * requested speed.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a velocity vector (in physics-space coordinates, either the
-     * provided storage or a new vector, not null)
+     * @return a velocity vector (in physics-space coordinates, either
+     * {@code storeResult} or a new vector, not null)
      */
     public Vector3f getWalkDirection(Vector3f storeResult) {
         Vector3f result;
@@ -373,8 +373,8 @@ public class BetterCharacterControl
     }
 
     /**
-     * Check if the character is ducking, either due to user input or due to
-     * unducking being impossible at the moment (obstacle above).
+     * Determine whether the character is in a ducked state, either due to user
+     * input or because an overhead obstacle prevents it from unducking.
      *
      * @return true if ducking, otherwise false
      */
@@ -394,7 +394,8 @@ public class BetterCharacterControl
     }
 
     /**
-     * Apply a jump impulse during the next simulation step.
+     * Apply a jump impulse during the next simulation step if the character is
+     * on ground.
      */
     public void jump() {
         // TODO: debounce over some frames
@@ -490,7 +491,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter how rapidly horizontal motion is damped.
+     * Alter the damping multiplier for horizontal motion.
      *
      * @param physicsDamping the desired multiplier for motion in the local X-Z
      * plane (applied during each simulation step, 0&rarr;no damping,
@@ -929,10 +930,9 @@ public class BetterCharacterControl
     }
 
     /**
-     * Create a CollisionShape based on the scale parameter. The new shape is a
-     * compound shape containing a capsule.
+     * Create a CollisionShape based on the {@code scale} parameter.
      *
-     * @return a new compound shape (not null)
+     * @return a new compound shape containing a capsule (not null)
      */
     protected CollisionShape getShape() {
         // TODO: cleanup size mess
@@ -959,7 +959,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Updates the local coordinate system from the localForward and localUp
+     * Update the local coordinate system from the localForward and localUp
      * vectors, adapts localForward, sets localForwardRotation to local
      * Z-forward rotation.
      */
@@ -975,7 +975,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Updates the local X-Z view direction and the corresponding rotation
+     * Update the local X-Z view direction and the corresponding rotation
      * Quaternion for the Spatial.
      */
     protected void updateLocalViewDirection() {

@@ -384,8 +384,8 @@ public class DebugConfiguration {
     /**
      * Alter which physics objects are included in the visualization.
      *
-     * @param filter the desired filter, or null to visualize all objects
-     * (default=null)
+     * @param filter the desired filter (alias created) or null to visualize all
+     * objects (default=null)
      */
     public void setFilter(BulletDebugAppState.DebugAppStateFilter filter) {
         this.filter = filter;
@@ -394,8 +394,8 @@ public class DebugConfiguration {
     /**
      * Alter which gravity vectors are included in the visualization.
      *
-     * @param filter the desired filter, or null to visualize no gravity vectors
-     * (default=null)
+     * @param filter the desired filter (alias created) or null to visualize no
+     * gravity vectors (default=null)
      */
     public void setGravityVectorFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {

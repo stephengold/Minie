@@ -361,7 +361,7 @@ public class CollisionSpace extends NativePhysicsObject {
     /**
      * Return the ID of the native object.
      *
-     * @return the ID (not zero)
+     * @return the native identifier (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}
      */
     @Deprecated

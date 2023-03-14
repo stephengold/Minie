@@ -267,7 +267,7 @@ abstract public class CollisionShape
     /**
      * Return the ID of the native object ({@code btCollisionShape}).
      *
-     * @return the identifier (not zero)
+     * @return the native identifier (not zero)
      * @deprecated use {@link NativePhysicsObject#nativeId()}
      */
     @Deprecated

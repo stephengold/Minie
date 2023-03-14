@@ -403,7 +403,8 @@ public class BulletDebugAppState extends BaseAppState {
      * Alter which physics objects are visualized. For compatibility with the
      * jme3-jbullet library.
      *
-     * @param filter the desired filter, or null to visualize all objects
+     * @param filter the desired filter (alias created) or null to visualize all
+     * objects
      */
     public void setFilter(DebugAppStateFilter filter) {
         configuration.setFilter(filter);
@@ -412,7 +413,8 @@ public class BulletDebugAppState extends BaseAppState {
     /**
      * Alter which gravity vectors are visualized. For internal use only.
      *
-     * @param filter the desired filter, or null to visualize no gravity vectors
+     * @param filter the desired filter (alias created) or null to visualize no
+     * gravity vectors
      */
     public void setGravityVectorFilter(DebugAppStateFilter filter) {
         configuration.setGravityVectorFilter(filter);
