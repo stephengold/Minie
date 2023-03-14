@@ -221,7 +221,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsDamping()" class="member-name-link">getPhysicsDamping</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return how rapidly horizontal motion is damped.</div>
+<div class="block">Return the multiplier for horizontal motion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRigidBody()" class="member-name-link">getRigidBody</a>()</code></div>
@@ -231,7 +231,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShape()" class="member-name-link">getShape</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Create a CollisionShape based on the scale parameter.</div>
+<div class="block">Create a CollisionShape based on the <code>scale</code> parameter.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocity()" class="member-name-link">getVelocity</a>()</code></div>
@@ -261,8 +261,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDucked()" class="member-name-link">isDucked</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Check if the character is ducking, either due to user input or due to
- unducking being impossible at the moment (obstacle above).</div>
+<div class="block">Determine whether the character is in a ducked state, either due to user
+ input or because an overhead obstacle prevents it from unducking.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isOnGround()" class="member-name-link">isOnGround</a>()</code></div>
@@ -272,7 +272,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jump()" class="member-name-link">jump</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Apply a jump impulse during the next simulation step.</div>
+<div class="block">Apply a jump impulse during the next simulation step if the character is
+ on ground.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#physicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">physicsTick</a><wbr>(<a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
@@ -335,7 +336,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsDamping(float)" class="member-name-link">setPhysicsDamping</a><wbr>(float&nbsp;physicsDamping)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter how rapidly horizontal motion is damped.</div>
+<div class="block">Alter the damping multiplier for horizontal motion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">setPhysicsLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;location)</code></div>
@@ -365,14 +366,14 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateLocalCoordinateSystem()" class="member-name-link">updateLocalCoordinateSystem</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates the local coordinate system from the localForward and localUp
+<div class="block">Update the local coordinate system from the localForward and localUp
  vectors, adapts localForward, sets localForwardRotation to local
  Z-forward rotation.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateLocalViewDirection()" class="member-name-link">updateLocalViewDirection</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates the local X-Z view direction and the corresponding rotation
+<div class="block">Update the local X-Z view direction and the corresponding rotation
  Quaternion for the Spatial.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -476,8 +477,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>an acceleration vector in physics-space coordinates (either the
- provided storage or a new vector, not null)</dd>
+<dd>an acceleration vector in physics-space coordinates (either
+ <code>storeResult</code> or a new vector, not null)</dd>
 </dl>
 </section>
 </li>
@@ -490,8 +491,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>an impulse vector in local coordinates (either the provided
- storage or a new vector, not null)</dd>
+<dd>an impulse vector in local coordinates (either
+ <code>storeResult</code> or a new vector, not null)</dd>
 </dl>
 </section>
 </li>
@@ -499,7 +500,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getPhysicsDamping()">
 <h3>getPhysicsDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getPhysicsDamping</span>()</div>
-<div class="block">Return how rapidly horizontal motion is damped.</div>
+<div class="block">Return the multiplier for horizontal motion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the multiplier for motion in the local X-Z plane (applied during
@@ -540,7 +541,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a velocity vector (either the provided storage or a new vector,
+<dd>a velocity vector (either <code>storeResult</code> or a new vector,
  not null)</dd>
 </dl>
 </section>
@@ -567,8 +568,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a direction vector (in physics-space coordinates, either the
- provided storage or a new vector, not null)</dd>
+<dd>a direction vector (in physics-space coordinates, either
+ <code>storeResult</code> or a new vector, not null)</dd>
 </dl>
 </section>
 </li>
@@ -582,8 +583,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a velocity vector (in physics-space coordinates, either the
- provided storage or a new vector, not null)</dd>
+<dd>a velocity vector (in physics-space coordinates, either
+ <code>storeResult</code> or a new vector, not null)</dd>
 </dl>
 </section>
 </li>
@@ -591,8 +592,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="isDucked()">
 <h3>isDucked</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDucked</span>()</div>
-<div class="block">Check if the character is ducking, either due to user input or due to
- unducking being impossible at the moment (obstacle above).</div>
+<div class="block">Determine whether the character is in a ducked state, either due to user
+ input or because an overhead obstacle prevents it from unducking.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if ducking, otherwise false</dd>
@@ -616,7 +617,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="jump()">
 <h3>jump</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">jump</span>()</div>
-<div class="block">Apply a jump impulse during the next simulation step.</div>
+<div class="block">Apply a jump impulse during the next simulation step if the character is
+ on ground.</div>
 </section>
 </li>
 <li>
@@ -695,7 +697,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setPhysicsDamping(float)">
 <h3>setPhysicsDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPhysicsDamping</span><wbr><span class="parameters">(float&nbsp;physicsDamping)</span></div>
-<div class="block">Alter how rapidly horizontal motion is damped.</div>
+<div class="block">Alter the damping multiplier for horizontal motion.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>physicsDamping</code> - the desired multiplier for motion in the local X-Z
@@ -992,11 +994,10 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getShape()">
 <h3>getShape</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="element-name">getShape</span>()</div>
-<div class="block">Create a CollisionShape based on the scale parameter. The new shape is a
- compound shape containing a capsule.</div>
+<div class="block">Create a CollisionShape based on the <code>scale</code> parameter.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>a new compound shape (not null)</dd>
+<dd>a new compound shape containing a capsule (not null)</dd>
 </dl>
 </section>
 </li>
@@ -1016,7 +1017,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="updateLocalCoordinateSystem()">
 <h3>updateLocalCoordinateSystem</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateLocalCoordinateSystem</span>()</div>
-<div class="block">Updates the local coordinate system from the localForward and localUp
+<div class="block">Update the local coordinate system from the localForward and localUp
  vectors, adapts localForward, sets localForwardRotation to local
  Z-forward rotation.</div>
 </section>
@@ -1025,7 +1026,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="updateLocalViewDirection()">
 <h3>updateLocalViewDirection</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateLocalViewDirection</span>()</div>
-<div class="block">Updates the local X-Z view direction and the corresponding rotation
+<div class="block">Update the local X-Z view direction and the corresponding rotation
  Quaternion for the Spatial.</div>
 </section>
 </li>
