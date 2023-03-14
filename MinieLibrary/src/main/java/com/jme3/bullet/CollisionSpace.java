@@ -363,7 +363,9 @@ public class CollisionSpace extends NativePhysicsObject {
      * jme3-bullet library.
      *
      * @return the ID (not zero)
+     * @deprecated use {@link NativePhysicsObject#nativeId()}
      */
+    @Deprecated
     final public long getSpaceId() {
         long spaceId = nativeId();
         return spaceId;

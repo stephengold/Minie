@@ -203,7 +203,9 @@ abstract public class PhysicsJoint
      * btSoftBody::Joint. For compatibility with the jme3-bullet library.
      *
      * @return the identifier (not zero)
+     * @deprecated use {@link NativePhysicsObject#nativeId()}
      */
+    @Deprecated
     final public long getObjectId() {
         long jointId = nativeId();
         return jointId;

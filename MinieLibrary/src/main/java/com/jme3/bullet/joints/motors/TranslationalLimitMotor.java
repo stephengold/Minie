@@ -161,7 +161,9 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
      * jme3-bullet library.
      *
      * @return the identifier (not zero)
+     * @deprecated use {@link NativePhysicsObject#nativeId()}
      */
+    @Deprecated
     public long getMotor() {
         long motorId = nativeId();
         return motorId;

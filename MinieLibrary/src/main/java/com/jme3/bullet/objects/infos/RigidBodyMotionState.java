@@ -179,7 +179,9 @@ public class RigidBodyMotionState
      * library.
      *
      * @return the native ID (not zero)
+     * @deprecated use {@link NativePhysicsObject#nativeId()}
      */
+    @Deprecated
     public long getObjectId() {
         long motionStateId = nativeId();
         return motionStateId;
