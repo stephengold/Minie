@@ -873,26 +873,38 @@ public class BetterCharacterControl
     }
 
     /**
-     * Test whether the character is on the ground, by means of a ray test.
+     * Update the internal {@code onGround} status.
      */
     protected void checkOnGround() {
-        TempVars vars = TempVars.get();
-        Vector3f loc = vars.vect1;
-        Vector3f rayVector = vars.vect2;
+        /*
+         * Cast a ray downward, from the peak of the rigid body
+         * to 0.1 physics-space unit below its base.
+         */
+        Vector3f startLocation = castBegin.getTranslation(); // alias
+        startLocation.set(location);
         float scaledHeight = getFinalHeight();
-        loc.set(localUp).multLocal(scaledHeight).addLocal(location);
-        rayVector.set(localUp).multLocal(-scaledHeight - 0.1f).addLocal(loc);
-        List<PhysicsRayTestResult> results
-                = getPhysicsSpace().rayTestRaw(loc, rayVector);
-        vars.release();
+        MyVector3f.accumulateScaled(startLocation, localUp, scaledHeight);
 
-        for (PhysicsRayTestResult physicsRayTestResult : results) {
-            if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
-                this.onGround = true;
-                return;
+        Vector3f endLocation = castEnd.getTranslation(); // alias
+        endLocation.set(location);
+        MyVector3f.accumulateScaled(endLocation, localUp, -0.1f);
+
+        PhysicsSpace space = getPhysicsSpace();
+        List<PhysicsRayTestResult> results
+                = space.rayTestRaw(startLocation, endLocation);
+
+        // Search for a collision object other than the character's body.
+        boolean isRayObstructed = false;
+        for (PhysicsRayTestResult result : results) {
+            PhysicsCollisionObject object = result.getCollisionObject();
+            if (!object.equals(rigidBody)) {
+                isRayObstructed = true;
+                break;
             }
         }
-        this.onGround = false;
+
+        // Update the status.
+        this.onGround = isRayObstructed;
     }
 
     /**
