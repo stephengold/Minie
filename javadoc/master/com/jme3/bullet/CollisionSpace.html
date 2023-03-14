@@ -374,7 +374,7 @@ loadScripts(document, 'script');</script>
  com.jme3.math.Transform&nbsp;start,
  com.jme3.math.Transform&nbsp;end)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)" class="member-name-link">sweepTest</a><wbr>(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
@@ -382,7 +382,7 @@ loadScripts(document, 'script');</script>
  com.jme3.math.Transform&nbsp;end,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;&nbsp;results)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)" class="member-name-link">sweepTest</a><wbr>(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
@@ -498,7 +498,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addCollisionGroupListener</span><wbr><span class="parameters">(<a href="collision/PhysicsCollisionGroupListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionGroupListener</a>&nbsp;listener,
  int&nbsp;collisionGroup)</span></div>
 <div class="block">Register the specified collision-group listener with the specified
- collision group of this space. For compatibility with the jme3-bullet
+ collision group of this space. For compatibility with the jme3-jbullet
  library.
  <p>
  Such a listener can disable collisions when they occur. There can be only
@@ -665,8 +665,7 @@ loadScripts(document, 'script');</script>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">use <a href="NativePhysicsObject.html#nativeId()"><code>NativePhysicsObject.nativeId()</code></a></div>
 </div>
-<div class="block">Return the identifier of the native object. For compatibility with the
- jme3-bullet library.</div>
+<div class="block">Return the ID of the native object.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the ID (not zero)</dd>
@@ -931,7 +930,7 @@ loadScripts(document, 'script');</script>
 <h3>removeCollisionGroupListener</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeCollisionGroupListener</span><wbr><span class="parameters">(int&nbsp;collisionGroup)</span></div>
 <div class="block">De-register the specified collision-group listener. For compatibility
- with the jme3-bullet library.</div>
+ with the jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>collisionGroup</code> - the group of the listener to de-register (bitmask
@@ -993,7 +992,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</span>&nbsp;<span class="element-name">sweepTest</span><wbr><span class="parameters">(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
  com.jme3.math.Transform&nbsp;start,
  com.jme3.math.Transform&nbsp;end)</span></div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - the shape to sweep (not null, convex, unaffected)</dd>
@@ -1011,7 +1010,7 @@ loadScripts(document, 'script');</script>
  com.jme3.math.Transform&nbsp;start,
  com.jme3.math.Transform&nbsp;end,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;&nbsp;results)</span></div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - the shape to sweep (not null, convex, unaffected)</dd>

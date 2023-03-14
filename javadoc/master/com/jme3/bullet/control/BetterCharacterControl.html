@@ -236,7 +236,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocity()" class="member-name-link">getVelocity</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocity(com.jme3.math.Vector3f)" class="member-name-link">getVelocity</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -246,7 +246,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getViewDirection()" class="member-name-link">getViewDirection</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getViewDirection(com.jme3.math.Vector3f)" class="member-name-link">getViewDirection</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -523,7 +523,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getVelocity()">
 <h3>getVelocity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getVelocity</span>()</div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library. The jme3-jbullet version
+ returns a pre-existing vector instead of a new one.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new velocity vector</dd>
@@ -548,7 +549,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getViewDirection()">
 <h3>getViewDirection</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getViewDirection</span>()</div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library. The jme3-jbullet version
+ returns a pre-existing vector instead of a new one.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new direction vector (in physics-space coordinates)</dd>

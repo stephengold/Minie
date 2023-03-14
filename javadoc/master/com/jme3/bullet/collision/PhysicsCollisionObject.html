@@ -424,7 +424,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsLocation()" class="member-name-link">getPhysicsLocation</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">getPhysicsLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -1447,8 +1447,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">use <a href="../NativePhysicsObject.html#nativeId()"><code>NativePhysicsObject.nativeId()</code></a></div>
 </div>
-<div class="block">Return the ID of the btCollisionObject. For compatibility with the
- jme3-bullet library.</div>
+<div class="block">Return the ID of the native object (<code>btCollisionObject</code>).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the native identifier (not zero)</dd>
@@ -1459,7 +1458,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getPhysicsLocation()">
 <h3>getPhysicsLocation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getPhysicsLocation</span>()</div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new location vector (in physics-space coordinates, not null)</dd>

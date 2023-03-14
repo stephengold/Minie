@@ -369,7 +369,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSolverNumIterations()" class="member-name-link">getSolverNumIterations</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Read the number of iterations used by the contact-and-constraint solver,
- for compatibility with the jme3-bullet library.</div>
+ for compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SolverType.html" title="enum class in com.jme3.bullet">SolverType</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSolverType()" class="member-name-link">getSolverType</a>()</code></div>
@@ -513,7 +513,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSolverNumIterations(int)" class="member-name-link">setSolverNumIterations</a><wbr>(int&nbsp;numIterations)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the number of iterations used by the contact-and-constraint solver,
- for compatibility with the jme3-bullet library.</div>
+ for compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval)</code></div>
@@ -751,7 +751,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addAll</span><wbr><span class="parameters">(com.jme3.scene.Spatial&nbsp;spatial)</span></div>
 <div class="block">Add all physics controls in the specified subtree of the scene graph to
  this space (e.g. after loading from disk). For compatibility with the
- jme3-bullet library.
+ jme3-jbullet library.
  <p>
  Does not add any joints.
  <p>
@@ -1031,7 +1031,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <h3>getSolverNumIterations</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getSolverNumIterations</span>()</div>
 <div class="block">Read the number of iterations used by the contact-and-constraint solver,
- for compatibility with the jme3-bullet library.</div>
+ for compatibility with the jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the number of iterations used (&ge;1)</dd>
@@ -1132,7 +1132,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeAll</span><wbr><span class="parameters">(com.jme3.scene.Spatial&nbsp;spatial)</span></div>
 <div class="block">Remove all physics controls in the specified subtree of the scene graph
  from this space (e.g. before saving to disk). For compatibility with the
- jme3-bullet library.
+ jme3-jbullet library.
  <p>
  Does not remove any joints.
  <p>
@@ -1303,7 +1303,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <h3>setSolverNumIterations</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSolverNumIterations</span><wbr><span class="parameters">(int&nbsp;numIterations)</span></div>
 <div class="block">Alter the number of iterations used by the contact-and-constraint solver,
- for compatibility with the jme3-bullet library.
+ for compatibility with the jme3-jbullet library.
  <p>
  Use 4 for low quality, 20 for high quality.</div>
 <dl class="notes">
@@ -1424,7 +1424,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <h3>add</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Add the specified object to this space. For compatibility with the
- jme3-bullet library.</div>
+ jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionSpace.html#add(java.lang.Object)">add</a></code>&nbsp;in class&nbsp;<code><a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></dd>
@@ -1516,7 +1516,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <h3>remove</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Remove the specified object from this space. For compatibility with the
- jme3-bullet library.</div>
+ jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionSpace.html#remove(java.lang.Object)">remove</a></code>&nbsp;in class&nbsp;<code><a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></dd>

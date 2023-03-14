@@ -171,7 +171,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCollisionLocation()" class="member-name-link">getCollisionLocation</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCollisionLocation(com.jme3.math.Vector3f)" class="member-name-link">getCollisionLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -181,7 +181,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCollisionNormal()" class="member-name-link">getCollisionNormal</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCollisionNormal(com.jme3.math.Vector3f)" class="member-name-link">getCollisionNormal</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -217,7 +217,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLocation()" class="member-name-link">getLocation</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLocation(com.jme3.math.Vector3f)" class="member-name-link">getLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -540,7 +540,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getCollisionLocation()">
 <h3>getCollisionLocation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getCollisionLocation</span>()</div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new location vector (in physics-space coordinates, not null)</dd>
@@ -565,7 +565,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getCollisionNormal()">
 <h3>getCollisionNormal</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getCollisionNormal</span>()</div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new unit vector (in physics-space coordinates, not null)</dd>
@@ -649,7 +649,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getLocation()">
 <h3>getLocation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getLocation</span>()</div>
-<div class="block">For compatibility with the jme3-bullet library.</div>
+<div class="block">For compatibility with the jme3-jbullet library. The jme3-jbullet version
+ returns a pre-existing vector instead of a new one.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new location vector (in physics-space coordinates, not null)</dd>
