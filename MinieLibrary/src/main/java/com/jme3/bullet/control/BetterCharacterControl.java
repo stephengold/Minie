@@ -429,10 +429,10 @@ public class BetterCharacterControl
      * only if there's room above its head. You can test the state using
      * {@link #isDucked()}.
      *
-     * @param enabled true&rarr;duck, false&rarr;unduck
+     * @param newState true&rarr;duck, false&rarr;unduck
      */
-    public void setDucked(boolean enabled) {
-        if (enabled) {
+    public void setDucked(boolean newState) {
+        if (newState) {
             setHeightPercent(duckedFactor);
             this.isDucked = true;
             this.wantToUnDuck = false;
@@ -463,51 +463,51 @@ public class BetterCharacterControl
      * in gravity direction are possible while maintaining a sensible control
      * over the character.
      *
-     * @param gravity the desired acceleration vector (in physics-space
+     * @param newGravity the desired acceleration vector (in physics-space
      * coordinates, not null, finite, unaffected)
      */
-    public void setGravity(Vector3f gravity) {
-        Validate.finite(gravity, "gravity");
+    public void setGravity(Vector3f newGravity) {
+        Validate.finite(newGravity, "new gravity");
 
-        rigidBody.setGravity(gravity);
-        localUp.set(gravity).normalizeLocal().negateLocal();
+        rigidBody.setGravity(newGravity);
+        localUp.set(newGravity).normalizeLocal().negateLocal();
         updateLocalCoordinateSystem();
     }
 
     /**
      * Alter the impulse applied at the start of each jump.
      *
-     * @param jumpForce the desired impulse (in local coordinates, not null,
+     * @param newImpulse the desired impulse (in local coordinates, not null,
      * finite, unaffected, default=5*mass in +Y direction)
      */
-    public void setJumpForce(Vector3f jumpForce) {
-        Validate.finite(jumpForce, "jump force");
-        jumpImpulse.set(jumpForce);
+    public void setJumpForce(Vector3f newImpulse) {
+        Validate.finite(newImpulse, "new impulse");
+        jumpImpulse.set(newImpulse);
     }
 
     /**
      * Alter the damping factor for horizontal motion.
      *
-     * @param physicsDamping the desired damping factor for motion in the local
-     * X-Z plane (applied before each simulation step, 0&rarr;no damping,
+     * @param newFactor the desired damping factor for motion in the local X-Z
+     * plane (applied before each simulation step, 0&rarr;no damping,
      * 1=horizontal forces have no effect, &ge;0, &le;1, default=0.9)
      */
-    public void setPhysicsDamping(float physicsDamping) {
-        Validate.fraction(physicsDamping, "physics damping");
-        this.dampingFactor = physicsDamping;
+    public void setPhysicsDamping(float newFactor) {
+        Validate.fraction(newFactor, "new factor");
+        this.dampingFactor = newFactor;
     }
 
     /**
      * Alter the character's view direction. Note this doesn't affect the
      * orientation of its body.
      *
-     * @param vec a direction vector in local coordinates (not null, not zero,
-     * unaffected)
+     * @param newDirection a direction vector in local coordinates (not null,
+     * not zero, unaffected)
      */
-    public void setViewDirection(Vector3f vec) {
-        assert Validate.nonZero(vec, "vec");
+    public void setViewDirection(Vector3f newDirection) {
+        assert Validate.nonZero(newDirection, "new direction");
 
-        viewDirection.set(vec);
+        viewDirection.set(newDirection);
         updateLocalViewDirection();
     }
 
@@ -515,22 +515,22 @@ public class BetterCharacterControl
      * Alter the character's walk velocity. The length of the vector determines
      * the requested speed, in physics-space units per second.
      *
-     * @param vec the requested velocity (in physics-space coordinates, not
-     * null, unaffected)
+     * @param newVelocity the requested velocity (in physics-space coordinates,
+     * not null, unaffected)
      */
-    public void setWalkDirection(Vector3f vec) {
-        walkVelocity.set(vec);
+    public void setWalkDirection(Vector3f newVelocity) {
+        walkVelocity.set(newVelocity);
     }
 
     /**
      * Translate the character instantly to the specified location.
      *
-     * @param vec the desired location of the base (in physics-space
+     * @param newLocation the desired location of the base (in physics-space
      * coordinates, not null, finite, unaffected)
      */
-    public void warp(Vector3f vec) {
-        Validate.finite(vec, "vec");
-        setPhysicsLocation(vec);
+    public void warp(Vector3f newLocation) {
+        Validate.finite(newLocation, "new location");
+        setPhysicsLocation(newLocation);
     }
     // *************************************************************************
     // AbstractPhysicsControl methods
@@ -647,15 +647,15 @@ public class BetterCharacterControl
     /**
      * Translate the character instantly to the specified location.
      *
-     * @param location the desired location of the base (in physics-space
+     * @param newLocation the desired location of the base (in physics-space
      * coordinates, not null, finite, unaffected)
      */
     @Override
-    protected void setPhysicsLocation(Vector3f location) {
-        Validate.finite(location, "location");
+    protected void setPhysicsLocation(Vector3f newLocation) {
+        Validate.finite(newLocation, "new location");
 
-        rigidBody.setPhysicsLocation(location);
-        baseLocation.set(location);
+        rigidBody.setPhysicsLocation(newLocation);
+        baseLocation.set(newLocation);
     }
 
     /**
@@ -664,14 +664,14 @@ public class BetterCharacterControl
      * We don't set the body orientation here, but the view rotation, which
      * might be changed by the calculateNewForward() method.
      *
-     * @param orientation the desired orientation (in physics-space coordinates,
-     * not null, not zero, unaffected)
+     * @param newOrientation the desired orientation (in physics-space
+     * coordinates, not null, not zero, unaffected)
      */
     @Override
-    protected void setPhysicsRotation(Quaternion orientation) {
-        Validate.nonZero(orientation, "orientation");
+    protected void setPhysicsRotation(Quaternion newOrientation) {
+        Validate.nonZero(newOrientation, "new orientation");
 
-        viewToWorld.set(orientation);
+        viewToWorld.set(newOrientation);
         viewDirInWorld.set(viewDirection);
         viewToWorld.multLocal(viewDirInWorld);
         updateLocalViewDirection();
