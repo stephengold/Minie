@@ -542,7 +542,10 @@ public class BetterCharacterControl
     @Override
     protected void addPhysics() {
         PhysicsSpace space = getPhysicsSpace();
-        space.getGravity(localUp).normalizeLocal().negateLocal();
+
+        space.getGravity(localUp);
+        localUp.normalizeLocal();
+        localUp.negateLocal();
         updateLocalCoordinateSystem();
 
         space.addCollisionObject(rigidBody);
@@ -670,7 +673,8 @@ public class BetterCharacterControl
         Validate.nonZero(orientation, "orientation");
 
         rotation.set(orientation);
-        rotation.multLocal(rotatedViewDirection.set(viewDirection));
+        rotatedViewDirection.set(viewDirection);
+        rotation.multLocal(rotatedViewDirection);
         updateLocalViewDirection();
     }
 
@@ -750,16 +754,17 @@ public class BetterCharacterControl
         // Attenuate any horizontal motion with a counteracting delta V.
         float existingLeftVelocity = velocity.dot(localLeft);
         float existingForwardVelocity = velocity.dot(localForward);
-        Vector3f counter = vars.vect1;
         existingLeftVelocity *= physicsDamping;
         existingForwardVelocity *= physicsDamping;
+        Vector3f counter = vars.vect1; // alias
         counter.set(-existingLeftVelocity, 0, -existingForwardVelocity);
         localForwardRotation.multLocal(counter);
         velocity.addLocal(counter);
 
         float requestedSpeed = walkDirection.length();
         if (requestedSpeed > 0f) {
-            Vector3f localWalkDirection = vars.vect1.set(walkDirection);
+            Vector3f localWalkDirection = vars.vect1; // alias
+            localWalkDirection.set(walkDirection);
             localWalkDirection.normalizeLocal();
 
             // Calculate current velocity component in the desired direction.
