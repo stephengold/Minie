@@ -753,7 +753,8 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  this space (e.g. after loading from disk). For compatibility with the
  jme3-jbullet library.
  <p>
- Does not add any joints.
+ Does not add joints unless they are managed by a PhysicsControl; the
+ jme3-jbullet version attempts to add ALL joints.
  <p>
  Note: recursive!</div>
 <dl class="notes">
@@ -1134,7 +1135,8 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  from this space (e.g. before saving to disk). For compatibility with the
  jme3-jbullet library.
  <p>
- Does not remove any joints.
+ Does not remove joints unless they are managed by a PhysicsControl; the
+ jme3-jbullet version attempts to remove ALL joints.
  <p>
  Note: recursive!</div>
 <dl class="notes">
@@ -1424,7 +1426,9 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <h3>add</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Add the specified object to this space. For compatibility with the
- jme3-jbullet library.</div>
+ jme3-jbullet library.
+ <p>
+ The jme3-jbullet version allows the argument to be null.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionSpace.html#add(java.lang.Object)">add</a></code>&nbsp;in class&nbsp;<code><a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></dd>
@@ -1516,7 +1520,9 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <h3>remove</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Remove the specified object from this space. For compatibility with the
- jme3-jbullet library.</div>
+ jme3-jbullet library.
+ <p>
+ The jme3-jbullet version allows the argument to be null.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionSpace.html#remove(java.lang.Object)">remove</a></code>&nbsp;in class&nbsp;<code><a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></dd>
