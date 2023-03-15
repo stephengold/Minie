@@ -747,7 +747,7 @@ public class BetterCharacterControl
 
         Vector3f currentVelocity = vars.vect2.set(velocity);
 
-        // Attenuate any existing X-Z motion.
+        // Attenuate any horizontal motion with a counteracting delta V.
         float existingLeftVelocity = velocity.dot(localLeft);
         float existingForwardVelocity = velocity.dot(localForward);
         Vector3f counter = vars.vect1;
@@ -761,11 +761,13 @@ public class BetterCharacterControl
         if (requestedSpeed > 0f) {
             Vector3f localWalkDirection = vars.vect1.set(walkDirection);
             localWalkDirection.normalizeLocal();
-            // calculate current velocity component in the desired direction
+
+            // Calculate current velocity component in the desired direction.
             float speed = velocity.dot(localWalkDirection);
+
+            // Adjust the linear velocity.
             float additionalSpeed = requestedSpeed - speed;
             localWalkDirection.multLocal(additionalSpeed);
-            // add resulting vector to existing velocity
             velocity.addLocal(localWalkDirection);
         }
         if (currentVelocity.distance(velocity) > FastMath.ZERO_TOLERANCE) {
@@ -979,8 +981,8 @@ public class BetterCharacterControl
      */
     protected void updateLocalCoordinateSystem() {
         /*
-         * gravity vector has possibly changed,
-         * calculate new world forward (UNIT_Z)
+         * The gravity vector may have changed,
+         * so update localForwardRotation and localForward.
          */
         calculateNewForward(localForwardRotation, localForward, localUp);
         localLeft.set(localUp);
@@ -993,9 +995,12 @@ public class BetterCharacterControl
      * Update the character's viewpoint.
      */
     protected void updateLocalViewDirection() {
-        // update local rotation Quaternion to use for view rotation
         rotatedViewDirection.set(viewDirection);
         localForwardRotation.multLocal(rotatedViewDirection);
+        /*
+         * The gravity vector may have changed,
+         * so update rotation and rotatedViewDirection.
+         */
         calculateNewForward(rotation, rotatedViewDirection, localUp);
     }
 }

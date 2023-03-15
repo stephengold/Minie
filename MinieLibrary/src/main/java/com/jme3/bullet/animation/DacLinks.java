@@ -1745,8 +1745,7 @@ public class DacLinks
         if (dacIndex > otherIndex) {
             /*
              * Remove the other Control and re-add it to make sure it will get
-             * updated *after* this control.
-             * TODO also arrange with AnimComposer/AnimControl
+             * updated AFTER this control.
              */
             spatial.removeControl(otherSgc);
             spatial.addControl(otherSgc);

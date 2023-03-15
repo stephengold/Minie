@@ -324,7 +324,7 @@ public class PhysicsSpace
      */
     public void addAll(Spatial spatial) {
         add(spatial);
-        // recursion
+
         if (spatial instanceof Node) {
             List<Spatial> children = ((Node) spatial).getChildren();
             for (Spatial child : children) {
@@ -754,7 +754,7 @@ public class PhysicsSpace
      */
     public void removeAll(Spatial spatial) {
         remove(spatial);
-        // recursion
+
         if (spatial instanceof Node) {
             List<Spatial> children = ((Node) spatial).getChildren();
             for (Spatial child : children) {
