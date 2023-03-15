@@ -104,7 +104,7 @@ public class BetterCharacterControl
      */
     private boolean ducked = false;
     /**
-     * true when jump impulse will be applied during the next simulation step
+     * true when a jump has been requested for the next simulation step
      */
     private boolean jump = false;
     /**
@@ -398,10 +398,6 @@ public class BetterCharacterControl
      * on ground.
      */
     public void jump() {
-        // TODO: debounce over some frames
-        if (!onGround) {
-            return;
-        }
         this.jump = true;
     }
 
@@ -772,13 +768,15 @@ public class BetterCharacterControl
         if (currentVelocity.distance(velocity) > FastMath.ZERO_TOLERANCE) {
             rigidBody.setLinearVelocity(velocity);
         }
-        if (jump) {
+
+        if (jump && onGround) {
             Vector3f rotatedJumpForce = vars.vect1;
             rotatedJumpForce.set(jumpForce);
             rigidBody.applyCentralImpulse(
                     localForwardRotation.multLocal(rotatedJumpForce));
-            this.jump = false;
         }
+        this.jump = false;
+
         vars.release();
     }
     // *************************************************************************
