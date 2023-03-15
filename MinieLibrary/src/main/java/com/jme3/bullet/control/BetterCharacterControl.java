@@ -130,7 +130,7 @@ public class BetterCharacterControl
      */
     private float mass;
     /**
-     * multiplier for horizontal motion, applied during each simulation step
+     * damping factor for horizontal motion, applied before each simulation step
      */
     private float physicsDamping = 0.9f;
     /**
@@ -217,9 +217,9 @@ public class BetterCharacterControl
      * The height must exceed 2x the radius, even when ducked.
      *
      * @param radius the initial radius for the collision shape (in
-     * physics-space coordinates, &gt;0)
+     * physics-space units, &gt;0)
      * @param height the initial height for the character's CollisionShape (in
-     * physics-space coordinates, &gt;2*radius)
+     * physics-space units, &gt;2*radius)
      * @param mass the character's mass (&ge;0)
      */
     public BetterCharacterControl(float radius, float height, float mass) {
@@ -281,11 +281,11 @@ public class BetterCharacterControl
     }
 
     /**
-     * Return the multiplier for horizontal motion.
+     * Return the damping factor for horizontal motion.
      *
-     * @return the multiplier for motion in the local X-Z plane (applied during
-     * each simulation step, 0&rarr;no damping, 1=horizontal forces have no
-     * effect, &ge;0, &le;1)
+     * @return the damping factor for motion in the local X-Z plane (applied
+     * before each simulation step, 0&rarr;no damping, 1=horizontal forces have
+     * no effect, &ge;0, &le;1)
      */
     public float getPhysicsDamping() {
         return physicsDamping;
@@ -425,8 +425,8 @@ public class BetterCharacterControl
     /**
      * Alter the character's ducking state. When ducked, the character's
      * collision-shape height is scaled by duckedFactor to make it shorter.
-     * Before unducking, the character performs a ray test; it grows taller only
-     * if there's room above its head. You can test the state using
+     * Before unducking, the character performs a sweep test; it grows taller
+     * only if there's room above its head. You can test the state using
      * {@link #isDucked()}.
      *
      * @param enabled true&rarr;duck, false&rarr;unduck
@@ -487,10 +487,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the damping multiplier for horizontal motion.
+     * Alter the damping factor for horizontal motion.
      *
-     * @param physicsDamping the desired multiplier for motion in the local X-Z
-     * plane (applied during each simulation step, 0&rarr;no damping,
+     * @param physicsDamping the desired damping factor for motion in the local
+     * X-Z plane (applied before each simulation step, 0&rarr;no damping,
      * 1=horizontal forces have no effect, &ge;0, &le;1, default=0.9)
      */
     public void setPhysicsDamping(float physicsDamping) {
@@ -516,18 +516,18 @@ public class BetterCharacterControl
      * Alter the character's walk velocity. The length of the vector determines
      * the requested speed, in physics-space units per second.
      *
-     * @param vec the requested velocity vector (in physics-space coordinates,
-     * not null, unaffected)
+     * @param vec the requested velocity (in physics-space coordinates, not
+     * null, unaffected)
      */
     public void setWalkDirection(Vector3f vec) {
         walkDirection.set(vec);
     }
 
     /**
-     * Translate the character to the specified location.
+     * Translate the character instantly to the specified location.
      *
-     * @param vec the desired location (in physics-space coordinates, not null,
-     * finite, unaffected)
+     * @param vec the desired location of the base (in physics-space
+     * coordinates, not null, finite, unaffected)
      */
     public void warp(Vector3f vec) {
         Validate.finite(vec, "vec");
@@ -646,10 +646,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Translate the character to the specified location.
+     * Translate the character instantly to the specified location.
      *
-     * @param location the desired location (in physics-space coordinates, not
-     * null, finite, unaffected)
+     * @param location the desired location of the base (in physics-space
+     * coordinates, not null, finite, unaffected)
      */
     @Override
     protected void setPhysicsLocation(Vector3f location) {
