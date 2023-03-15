@@ -141,9 +141,7 @@ public class HelloLocalPhysics extends SimpleApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        /*
-         * Cause the node to orbit the origin.
-         */
+        // Cause the node to orbit the origin.
         float orbitalPeriod = 0.8f; // seconds
         float phaseAngle = elapsedTime * FastMath.TWO_PI / orbitalPeriod;
 

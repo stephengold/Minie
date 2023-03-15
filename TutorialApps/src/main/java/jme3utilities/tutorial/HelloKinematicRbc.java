@@ -137,9 +137,7 @@ public class HelloKinematicRbc extends SimpleApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        /*
-         * Cause the kinematic ball to orbit the origin.
-         */
+        // Cause the kinematic ball to orbit the origin.
         float orbitalPeriod = 0.8f; // seconds
         float phaseAngle = elapsedTime * FastMath.TWO_PI / orbitalPeriod;
 

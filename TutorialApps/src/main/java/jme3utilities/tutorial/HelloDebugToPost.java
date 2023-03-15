@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -77,9 +77,8 @@ public class HelloDebugToPost extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         configureCamera();
-        /*
-         * Set up Bullet physics (with debug enabled).
-         */
+
+        // Set up Bullet physics (with debug enabled).
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);

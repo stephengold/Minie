@@ -398,9 +398,8 @@ public class HelloPoi
             MyVector3f.accumulateScaled(velocity, gravity, timeStep);
             List<PhysicsRayTestResult> rayTest
                     = physicsSpace.rayTestRaw(previousLocation, location);
-            /*
-             * Find the closest contact with the terrain.
-             */
+
+            // Find the closest contact with the terrain.
             float closestFraction = 9f;
             for (PhysicsRayTestResult hit : rayTest) {
                 if (hit.getCollisionObject() == terrain) {

@@ -145,9 +145,8 @@ public class HelloServo extends SimpleApplication {
                 if (!ongoing) {
                     return; // ignore key release
                 }
-                /*
-                 * Swing the door to the requested position.
-                 */
+
+                // Swing the door to the requested position.
                 switch (action) {
                     case "pos1":
                         motor.set(MotorParam.ServoTarget, 1.2f);

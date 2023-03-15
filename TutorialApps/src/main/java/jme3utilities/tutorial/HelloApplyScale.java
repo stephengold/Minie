@@ -123,9 +123,7 @@ public class HelloApplyScale extends SimpleApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        /*
-         * Vary the scale of the Geometry with time.
-         */
+        // Vary the scale of the Geometry with time.
         float cycleTime = 3f; // seconds
         float phaseAngle = elapsedTime * FastMath.TWO_PI / cycleTime;
 

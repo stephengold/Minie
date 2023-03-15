@@ -691,7 +691,7 @@ public class BetterCharacterControl
         }
 
         rigidBody.getPhysicsLocation(baseLocation);
-        // rotation has been set through viewDirection
+        // physics rotation has been set by updateLocalCoordinateSystem()
         applyPhysicsTransform(baseLocation, viewToWorld);
     }
 
@@ -855,7 +855,7 @@ public class BetterCharacterControl
     protected boolean checkCanUnDuck() {
         /*
          * Cast a sphere upward, from the current location
-         * of the upper hemisphere to its desired location.
+         * of the upper hemisphere to its (hypothetical) unducked location.
          */
         Vector3f startLocation = castBegin.getTranslation(); // alias
         startLocation.set(baseLocation);

@@ -180,9 +180,7 @@ public class HelloDoor
      */
     @Override
     public void simpleUpdate(float tpf) {
-        /*
-         * Calculate the ground location (if any) selected by the mouse cursor.
-         */
+        // Calculate the ground location (if any) selected by the mouse cursor.
         Vector2f screenXY = inputManager.getCursorPosition();
         float nearZ = 0f;
         Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
