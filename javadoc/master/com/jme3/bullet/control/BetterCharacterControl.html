@@ -163,10 +163,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
  com.jme3.math.Vector3f&nbsp;direction,
  com.jme3.math.Vector3f&nbsp;worldUpVector)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">This method works similar to Camera.lookAt but where lookAt sets the
- priority on the direction, this method sets the priority on the up vector
- so that the result direction vector and rotation is guaranteed to be
- perpendicular to the up vector.</div>
+<div class="block">Adjust the specified direction vector so it is perpendicular to the
+ specified local "up" direction.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkCanUnDuck()" class="member-name-link">checkCanUnDuck</a>()</code></div>
@@ -306,7 +304,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetForward(com.jme3.math.Vector3f)" class="member-name-link">resetForward</a><wbr>(com.jme3.math.Vector3f&nbsp;vec)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Realign the local forward vector to given direction vector.</div>
+<div class="block">Alter the character's forward (+Z) direction.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDucked(boolean)" class="member-name-link">setDucked</a><wbr>(boolean&nbsp;enabled)</code></div>
@@ -346,7 +344,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation</a><wbr>(com.jme3.math.Quaternion&nbsp;orientation)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Rotate the character to the specified orientation.</div>
+<div class="block">Rotate the character's viewpoint to the specified orientation.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setViewDirection(com.jme3.math.Vector3f)" class="member-name-link">setViewDirection</a><wbr>(com.jme3.math.Vector3f&nbsp;vec)</code></div>
@@ -373,8 +371,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateLocalViewDirection()" class="member-name-link">updateLocalViewDirection</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Update the local X-Z view direction and the corresponding rotation
- Quaternion for the Spatial.</div>
+<div class="block">Update the character's viewpoint.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#warp(com.jme3.math.Vector3f)" class="member-name-link">warp</a><wbr>(com.jme3.math.Vector3f&nbsp;vec)</code></div>
@@ -568,7 +565,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a direction vector (in physics-space coordinates, either
+<dd>a direction vector (in local coordinates, either
  <code>storeResult</code> or a new vector, not null)</dd>
 </dl>
 </section>
@@ -625,17 +622,11 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="resetForward(com.jme3.math.Vector3f)">
 <h3>resetForward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetForward</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;vec)</span></div>
-<div class="block">Realign the local forward vector to given direction vector. If null is
- supplied, Vector3f.UNIT_Z is used. The input vector must be perpendicular
- to gravity vector. This normally only needs to be invoked when the
- gravity direction changed continuously and the local forward vector is
- off due to drift. E.g. after walking around on a sphere "planet" for a
- while and then going back to a Y-up coordinate system the local Z-forward
- might not be 100% aligned with the Z axis.</div>
+<div class="block">Alter the character's forward (+Z) direction.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>vec</code> - the desired forward vector (perpendicular to the gravity
- vector, may be null, default=(0,0,1))</dd>
+<dd><code>vec</code> - the desired direction (in physics-space coordinates) or null
+ for (0,0,1)</dd>
 </dl>
 </section>
 </li>
@@ -710,11 +701,12 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setViewDirection(com.jme3.math.Vector3f)">
 <h3>setViewDirection</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setViewDirection</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;vec)</span></div>
-<div class="block">Alter the character's view direction. Note this only affects its
- orientation in the local X-Z plane.</div>
+<div class="block">Alter the character's view direction. Note this doesn't affect the
+ orientation of its body.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>vec</code> - a direction vector (not null, unaffected)</dd>
+<dd><code>vec</code> - a direction vector in local coordinates (not null, not zero,
+ unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -850,10 +842,10 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setPhysicsRotation(com.jme3.math.Quaternion)">
 <h3>setPhysicsRotation</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPhysicsRotation</span><wbr><span class="parameters">(com.jme3.math.Quaternion&nbsp;orientation)</span></div>
-<div class="block">Rotate the character to the specified orientation.
+<div class="block">Rotate the character's viewpoint to the specified orientation.
  <p>
- We don't set the actual physics rotation but the view rotation here. It
- might actually be altered by the calculateNewForward method.</div>
+ We don't set the body orientation here, but the view rotation, which
+ might be changed by the calculateNewForward() method.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="AbstractPhysicsControl.html#setPhysicsRotation(com.jme3.math.Quaternion)">setPhysicsRotation</a></code>&nbsp;in class&nbsp;<code><a href="AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></code></dd>
@@ -933,18 +925,16 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">calculateNewForward</span><wbr><span class="parameters">(com.jme3.math.Quaternion&nbsp;rotation,
  com.jme3.math.Vector3f&nbsp;direction,
  com.jme3.math.Vector3f&nbsp;worldUpVector)</span></div>
-<div class="block">This method works similar to Camera.lookAt but where lookAt sets the
- priority on the direction, this method sets the priority on the up vector
- so that the result direction vector and rotation is guaranteed to be
- perpendicular to the up vector.</div>
+<div class="block">Adjust the specified direction vector so it is perpendicular to the
+ specified local "up" direction.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>rotation</code> - The rotation to set the result on or null to create a new
- Quaternion, this will be set to the new "z-forward" rotation if not null</dd>
-<dd><code>direction</code> - The direction to base the new look direction on, will be
- set to the new direction</dd>
-<dd><code>worldUpVector</code> - The up vector to use, the result direction will be
- perpendicular to this</dd>
+<dd><code>rotation</code> - storage for an orientation in which <code>worldUpVector</code>
+ is +Y and <code>direction</code> is +Z (modified if not null)</dd>
+<dd><code>direction</code> - the direction in physics-space coordinates (modified if
+ not null)</dd>
+<dd><code>worldUpVector</code> - the local "up" direction in physics-space
+ coordinates (not null, not zero, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -1026,8 +1016,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="updateLocalViewDirection()">
 <h3>updateLocalViewDirection</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateLocalViewDirection</span>()</div>
-<div class="block">Update the local X-Z view direction and the corresponding rotation
- Quaternion for the Spatial.</div>
+<div class="block">Update the character's viewpoint.</div>
 </section>
 </li>
 </ul>

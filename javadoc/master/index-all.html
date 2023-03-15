@@ -1010,10 +1010,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#calculateNewForward(com.jme3.math.Quaternion,com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">calculateNewForward(Quaternion, Vector3f, Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
-<div class="block">This method works similar to Camera.lookAt but where lookAt sets the
- priority on the direction, this method sets the priority on the up vector
- so that the result direction vector and rotation is guaranteed to be
- perpendicular to the up vector.</div>
+<div class="block">Adjust the specified direction vector so it is perpendicular to the
+ specified local "up" direction.</div>
 </dd>
 <dt><a href="jme3utilities/minie/MyControlP.html#canApplyPhysicsLocal(com.jme3.scene.control.Control)" class="member-name-link">canApplyPhysicsLocal(Control)</a> - Static method in class jme3utilities.minie.<a href="jme3utilities/minie/MyControlP.html" title="class in jme3utilities.minie">MyControlP</a></dt>
 <dd>
@@ -9364,7 +9362,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#resetForward(com.jme3.math.Vector3f)" class="member-name-link">resetForward(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
-<div class="block">Realign the local forward vector to given direction vector.</div>
+<div class="block">Alter the character's forward (+Z) direction.</div>
 </dd>
 <dt><a href="com/jme3/bullet/util/NativeLibrary.html#resetQuickprof()" class="member-name-link">resetQuickprof()</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
 <dd>
@@ -11126,7 +11124,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation(Quaternion)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
-<div class="block">Rotate the character to the specified orientation.</div>
+<div class="block">Rotate the character's viewpoint to the specified orientation.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/CharacterControl.html#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation(Quaternion)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>
@@ -12640,8 +12638,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#updateLocalViewDirection()" class="member-name-link">updateLocalViewDirection()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
-<div class="block">Update the local X-Z view direction and the corresponding rotation
- Quaternion for the Spatial.</div>
+<div class="block">Update the character's viewpoint.</div>
 </dd>
 <dt><a href="com/jme3/bullet/util/NativeSoftBodyUtil.html#updateMesh(com.jme3.bullet.objects.PhysicsSoftBody,java.nio.IntBuffer,com.jme3.scene.Mesh,boolean,boolean,com.jme3.math.Transform)" class="member-name-link">updateMesh(PhysicsSoftBody, IntBuffer, Mesh, boolean, boolean, Transform)</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeSoftBodyUtil.html" title="class in com.jme3.bullet.util">NativeSoftBodyUtil</a></dt>
 <dd>
