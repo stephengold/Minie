@@ -112,7 +112,7 @@ public class BetterCharacterControl
      */
     private boolean wantToJump = false;
     /**
-     * true when un-ducking is requested
+     * true when un-ducking has been requested for the next simulation step
      */
     private boolean wantToUnDuck = false;
     /**
@@ -437,12 +437,7 @@ public class BetterCharacterControl
             this.isDucked = true;
             this.wantToUnDuck = false;
         } else {
-            if (checkCanUnDuck()) {
-                setHeightPercent(1f);
-                this.isDucked = false;
-            } else {
-                this.wantToUnDuck = true;
-            }
+            this.wantToUnDuck = true;
         }
     }
 
