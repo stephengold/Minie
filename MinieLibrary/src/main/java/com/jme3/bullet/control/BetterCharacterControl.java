@@ -104,17 +104,21 @@ public class BetterCharacterControl
      */
     private boolean isDucked = false;
     /**
-     * true when a jump has been requested for the next simulation step
-     */
-    private boolean wantToJump = false;
-    /**
      * true when a collision object is directly below the character
      */
     private boolean onGround = false;
     /**
+     * true when a jump has been requested for the next simulation step
+     */
+    private boolean wantToJump = false;
+    /**
      * true when un-ducking is requested
      */
     private boolean wantToUnDuck = false;
+    /**
+     * damping factor for horizontal motion, applied before each simulation step
+     */
+    private float dampingFactor = 0.9f;
     /**
      * relative height of the collision shape when ducked (as a fraction of its
      * initial height, &gt;0, &le;1)
@@ -126,17 +130,13 @@ public class BetterCharacterControl
      */
     private float initialHeight;
     /**
-     * mass of the rigid body (&gt;0)
-     */
-    private float mass;
-    /**
-     * damping factor for horizontal motion, applied before each simulation step
-     */
-    private float dampingFactor = 0.9f;
-    /**
      * initial radius of the collision shape (in physics-space units, &gt;0)
      */
     private float initialRadius;
+    /**
+     * mass of the rigid body (&gt;0)
+     */
+    private float mass;
     /**
      * underlying rigid body
      */
@@ -162,6 +162,10 @@ public class BetterCharacterControl
      */
     private Transform castEnd = new Transform();
     /**
+     * rigid-body base location (in physics-space coordinates)
+     */
+    private Vector3f baseLocation = new Vector3f();
+    /**
      * impulse applied at the start of each jump (in local coordinates)
      */
     private Vector3f jumpImpulse = new Vector3f();
@@ -178,14 +182,6 @@ public class BetterCharacterControl
      */
     private Vector3f localUp = new Vector3f(0f, 1f, 0f);
     /**
-     * rigid-body base location (in physics-space coordinates)
-     */
-    private Vector3f baseLocation = new Vector3f();
-    /**
-     * view direction (in physics-space coordinates)
-     */
-    private Vector3f viewDirInWorld = new Vector3f(0f, 0f, 1f);
-    /**
      * scale factors applied when generating the collision shape (the X
      * component is ignored)
      */
@@ -198,6 +194,10 @@ public class BetterCharacterControl
      * view direction (in local coordinates)
      */
     private Vector3f viewDirection = new Vector3f(0f, 0f, 1f);
+    /**
+     * view direction (in physics-space coordinates)
+     */
+    private Vector3f viewDirInWorld = new Vector3f(0f, 0f, 1f);
     /**
      * requested walk velocity (in physics-space coordinates)
      */
