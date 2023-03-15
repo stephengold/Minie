@@ -506,6 +506,8 @@ public class BetterCharacterControl
      * unaffected)
      */
     public void setViewDirection(Vector3f vec) {
+        assert Validate.nonZero(vec, "vec");
+
         viewDirection.set(vec);
         updateLocalViewDirection();
     }
@@ -922,6 +924,8 @@ public class BetterCharacterControl
      */
     protected float getFinalHeight() {
         float result = height * scale.y;
+
+        assert result > 0f : result;
         return result;
     }
 
@@ -932,6 +936,8 @@ public class BetterCharacterControl
      */
     protected float getFinalRadius() {
         float result = radius * scale.z;
+
+        assert result > 0f : result;
         return result;
     }
 
