@@ -315,7 +315,8 @@ public class PhysicsSpace
      * this space (e.g. after loading from disk). For compatibility with the
      * jme3-jbullet library.
      * <p>
-     * Does not add any joints.
+     * Does not add joints unless they are managed by a PhysicsControl; the
+     * jme3-jbullet version attempts to add ALL joints.
      * <p>
      * Note: recursive!
      *
@@ -744,7 +745,8 @@ public class PhysicsSpace
      * from this space (e.g. before saving to disk). For compatibility with the
      * jme3-jbullet library.
      * <p>
-     * Does not remove any joints.
+     * Does not remove joints unless they are managed by a PhysicsControl; the
+     * jme3-jbullet version attempts to remove ALL joints.
      * <p>
      * Note: recursive!
      *
@@ -1052,6 +1054,8 @@ public class PhysicsSpace
     /**
      * Add the specified object to this space. For compatibility with the
      * jme3-jbullet library.
+     * <p>
+     * The jme3-jbullet version allows the argument to be null.
      *
      * @param object the PhysicsControl, Spatial-with-PhysicsControl, collision
      * object, or PhysicsJoint to add (not null)
@@ -1186,6 +1190,8 @@ public class PhysicsSpace
     /**
      * Remove the specified object from this space. For compatibility with the
      * jme3-jbullet library.
+     * <p>
+     * The jme3-jbullet version allows the argument to be null.
      *
      * @param object the PhysicsControl, Spatial-with-PhysicsControl, collision
      * object, or PhysicsJoint to remove, or null
