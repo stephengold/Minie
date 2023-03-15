@@ -142,14 +142,11 @@ public class BetterCharacterControl
      */
     private PhysicsRigidBody rigidBody;
     /**
-     * orientation of the character (in physics-space coordinates)
+     * orientation of the character's body (in physics-space coordinates)
      */
     private Quaternion localForwardRotation = new Quaternion();
     /**
-     * spatial rotation, a Z-forward rotation based on the view direction and
-     * local X-Z plane.
-     *
-     * @see #rotatedViewDirection
+     * orientation of the character's viewpoint (in physics-space coordinates)
      */
     private Quaternion rotation = new Quaternion();
     /**
@@ -184,6 +181,9 @@ public class BetterCharacterControl
      * rigid-body base location (in physics-space coordinates)
      */
     private Vector3f location = new Vector3f();
+    /**
+     * view direction (in physics-space coordinates)
+     */
     private Vector3f rotatedViewDirection = new Vector3f(0f, 0f, 1f);
     /**
      * scale factors applied when generating the collision shape (the X
@@ -345,7 +345,7 @@ public class BetterCharacterControl
      * spatial's forward direction.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a direction vector (in physics-space coordinates, either
+     * @return a direction vector (in local coordinates, either
      * {@code storeResult} or a new vector, not null)
      */
     public Vector3f getViewDirection(Vector3f storeResult) {
@@ -408,16 +408,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Realign the local forward vector to given direction vector. If null is
-     * supplied, Vector3f.UNIT_Z is used. The input vector must be perpendicular
-     * to gravity vector. This normally only needs to be invoked when the
-     * gravity direction changed continuously and the local forward vector is
-     * off due to drift. E.g. after walking around on a sphere "planet" for a
-     * while and then going back to a Y-up coordinate system the local Z-forward
-     * might not be 100% aligned with the Z axis.
+     * Alter the character's forward (+Z) direction.
      *
-     * @param vec the desired forward vector (perpendicular to the gravity
-     * vector, may be null, default=(0,0,1))
+     * @param vec the desired direction (in physics-space coordinates) or null
+     * for (0,0,1)
      */
     public void resetForward(Vector3f vec) {
         if (vec == null) {
@@ -505,10 +499,11 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the character's view direction. Note this only affects its
-     * orientation in the local X-Z plane.
+     * Alter the character's view direction. Note this doesn't affect the
+     * orientation of its body.
      *
-     * @param vec a direction vector (not null, unaffected)
+     * @param vec a direction vector in local coordinates (not null, not zero,
+     * unaffected)
      */
     public void setViewDirection(Vector3f vec) {
         viewDirection.set(vec);
@@ -660,10 +655,10 @@ public class BetterCharacterControl
     }
 
     /**
-     * Rotate the character to the specified orientation.
+     * Rotate the character's viewpoint to the specified orientation.
      * <p>
-     * We don't set the actual physics rotation but the view rotation here. It
-     * might actually be altered by the calculateNewForward method.
+     * We don't set the body orientation here, but the view rotation, which
+     * might be changed by the calculateNewForward() method.
      *
      * @param orientation the desired orientation (in physics-space coordinates,
      * not null, not zero, unaffected)
@@ -789,17 +784,15 @@ public class BetterCharacterControl
     // new protected methods
 
     /**
-     * This method works similar to Camera.lookAt but where lookAt sets the
-     * priority on the direction, this method sets the priority on the up vector
-     * so that the result direction vector and rotation is guaranteed to be
-     * perpendicular to the up vector.
+     * Adjust the specified direction vector so it is perpendicular to the
+     * specified local "up" direction.
      *
-     * @param rotation The rotation to set the result on or null to create a new
-     * Quaternion, this will be set to the new "z-forward" rotation if not null
-     * @param direction The direction to base the new look direction on, will be
-     * set to the new direction
-     * @param worldUpVector The up vector to use, the result direction will be
-     * perpendicular to this
+     * @param rotation storage for an orientation in which {@code worldUpVector}
+     * is +Y and {@code direction} is +Z (modified if not null)
+     * @param direction the direction in physics-space coordinates (modified if
+     * not null)
+     * @param worldUpVector the local "up" direction in physics-space
+     * coordinates (not null, not zero, unaffected)
      */
     protected void calculateNewForward(Quaternion rotation,
             Vector3f direction, Vector3f worldUpVector) {
@@ -991,8 +984,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Update the local X-Z view direction and the corresponding rotation
-     * Quaternion for the Spatial.
+     * Update the character's viewpoint.
      */
     protected void updateLocalViewDirection() {
         // update local rotation Quaternion to use for view rotation
