@@ -145,8 +145,8 @@ public class HelloDoubleEnded
         Vector3f pivotInPaddle = new Vector3f(0f, 3f, 0f);
         Matrix3f rotInBall = Matrix3f.IDENTITY;
         Matrix3f rotInPaddle = Matrix3f.IDENTITY;
-        New6Dof joint = new New6Dof(ballBody, paddleBody,
-                pivotInBall, pivotInPaddle,
+        New6Dof joint = new New6Dof(
+                ballBody, paddleBody, pivotInBall, pivotInPaddle,
                 rotInBall, rotInPaddle, RotationOrder.XYZ);
         physicsSpace.addJoint(joint);
     }
@@ -167,8 +167,8 @@ public class HelloDoubleEnded
         if (nearLocation.y > groundY && farLocation.y < groundY) {
             float dy = nearLocation.y - farLocation.y;
             float t = (nearLocation.y - groundY) / dy;
-            FastMath.interpolateLinear(t, nearLocation, farLocation,
-                    mouseLocation);
+            FastMath.interpolateLinear(
+                    t, nearLocation, farLocation, mouseLocation);
         }
     }
     // *************************************************************************
@@ -246,8 +246,8 @@ public class HelloDoubleEnded
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager,
-                        shadowMapSize, numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, shadowMapSize, numSplits);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);

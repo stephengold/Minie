@@ -256,8 +256,8 @@ public class HelloGhost
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager,
-                        shadowMapSize, numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, shadowMapSize, numSplits);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);
@@ -357,8 +357,8 @@ public class HelloGhost
                 }
             }
         };
-        inputManager.addListener(input,
-                "backward", "forward", "jump", "left", "right");
+        inputManager.addListener(
+                input, "backward", "forward", "jump", "left", "right");
     }
 
     /**

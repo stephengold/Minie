@@ -150,8 +150,8 @@ public class HelloWalkOtoBcc
         float characterRadius = 3f;
         float characterHeight = 10f;
         float characterMass = 70f;
-        character = new BetterCharacterControl(characterRadius, characterHeight,
-                characterMass);
+        character = new BetterCharacterControl(
+                characterRadius, characterHeight, characterMass);
         character.setJumpForce(new Vector3f(0f, 700f, 0f));
         translationNode.addControl(character);
         physicsSpace.add(character);
@@ -281,8 +281,8 @@ public class HelloWalkOtoBcc
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager,
-                        shadowMapSize, numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, shadowMapSize, numSplits);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);

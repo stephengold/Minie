@@ -191,8 +191,8 @@ public class HelloDoor
         if (nearLocation.y > groundY && farLocation.y < groundY) {
             float dy = nearLocation.y - farLocation.y;
             float t = (nearLocation.y - groundY) / dy;
-            FastMath.interpolateLinear(t, nearLocation, farLocation,
-                    mouseLocation);
+            FastMath.interpolateLinear(
+                    t, nearLocation, farLocation, mouseLocation);
         }
     }
     // *************************************************************************
@@ -249,8 +249,8 @@ public class HelloDoor
      * Create a dynamic body with a box shape and add it to the space.
      */
     private void addDoor() {
-        BoxCollisionShape shape = new BoxCollisionShape(doorHalfWidth,
-                doorHalfHeight, halfThickness);
+        BoxCollisionShape shape = new BoxCollisionShape(
+                doorHalfWidth, doorHalfHeight, halfThickness);
         float mass = 1f;
         doorBody = new PhysicsRigidBody(shape, mass);
         physicsSpace.addCollisionObject(doorBody);
@@ -268,18 +268,18 @@ public class HelloDoor
      */
     private void addDoorFrame() {
         float frameHalfWidth = 0.5f;
-        BoxCollisionShape jambShape = new BoxCollisionShape(frameHalfWidth,
-                doorHalfHeight, halfThickness);
+        BoxCollisionShape jambShape = new BoxCollisionShape(
+                frameHalfWidth, doorHalfHeight, halfThickness);
 
         float lintelLength = doorHalfWidth + 2 * frameHalfWidth;
-        BoxCollisionShape lintelShape = new BoxCollisionShape(lintelLength,
-                frameHalfWidth, halfThickness);
+        BoxCollisionShape lintelShape = new BoxCollisionShape(
+                lintelLength, frameHalfWidth, halfThickness);
 
         CompoundCollisionShape shape = new CompoundCollisionShape();
         shape.addChildShape(jambShape, doorHalfWidth + frameHalfWidth, 0f, 0f);
         shape.addChildShape(jambShape, -doorHalfWidth - frameHalfWidth, 0f, 0f);
-        shape.addChildShape(lintelShape,
-                0f, doorHalfHeight + frameHalfWidth, 0f);
+        shape.addChildShape(
+                lintelShape, 0f, doorHalfHeight + frameHalfWidth, 0f);
 
         doorFrameBody = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
@@ -312,8 +312,8 @@ public class HelloDoor
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager,
-                        shadowMapSize, numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, shadowMapSize, numSplits);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);

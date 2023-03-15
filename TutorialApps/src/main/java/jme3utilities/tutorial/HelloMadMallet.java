@@ -105,8 +105,8 @@ public class HelloMadMallet extends SimpleApplication {
         // Create a static disc and add it to the space.
         float discRadius = 5f;
         float discThickness = 0.5f;
-        CollisionShape discShape = new CylinderCollisionShape(discRadius,
-                discThickness, PhysicsSpace.AXIS_Y);
+        CollisionShape discShape = new CylinderCollisionShape(
+                discRadius, discThickness, PhysicsSpace.AXIS_Y);
         PhysicsRigidBody disc
                 = new PhysicsRigidBody(discShape, PhysicsBody.massForStatic);
         physicsSpace.addCollisionObject(disc);

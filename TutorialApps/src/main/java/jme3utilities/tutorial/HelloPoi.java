@@ -143,8 +143,8 @@ public class HelloPoi
 
         // Add an indicator for the predicted point of impact.
         int indicatorSize = 15; // in pixels
-        poiIndicator = new PointVisualizer(assetManager, indicatorSize,
-                ColorRGBA.Yellow, "cross");
+        poiIndicator = new PointVisualizer(
+                assetManager, indicatorSize, ColorRGBA.Yellow, "cross");
         rootNode.attachChild(poiIndicator);
         poiIndicator.setDepthTest(true);
 
@@ -237,8 +237,8 @@ public class HelloPoi
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager,
-                        shadowMapSize, numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, shadowMapSize, numSplits);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);
@@ -384,8 +384,8 @@ public class HelloPoi
      * @return a new location vector (in physics-space coordinates) or null for
      * no prediction
      */
-    private Vector3f predictPoi(Vector3f launchLocation,
-            Vector3f launchVelocity) {
+    private Vector3f predictPoi(
+            Vector3f launchLocation, Vector3f launchVelocity) {
         Vector3f gravity = physicsSpace.getGravity(null);
         Vector3f velocity = launchVelocity.clone();
         Vector3f location = launchLocation.clone();
@@ -413,8 +413,8 @@ public class HelloPoi
             }
 
             if (closestFraction <= 1f) {
-                Vector3f result = MyVector3f.lerp(closestFraction,
-                        previousLocation, location, null);
+                Vector3f result = MyVector3f.lerp(
+                        closestFraction, previousLocation, location, null);
                 return result;
             }
         }

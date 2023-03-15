@@ -741,6 +741,7 @@ public class BetterCharacterControl
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         checkOnGround();
+
         if (wantToUnDuck && checkCanUnDuck()) {
             setHeightPercent(1f);
             this.wantToUnDuck = false;
@@ -802,8 +803,8 @@ public class BetterCharacterControl
      * @param worldUpVector the local "up" direction in physics-space
      * coordinates (not null, not zero, unaffected)
      */
-    protected void calculateNewForward(Quaternion rotation,
-            Vector3f direction, Vector3f worldUpVector) {
+    protected void calculateNewForward(
+            Quaternion rotation, Vector3f direction, Vector3f worldUpVector) {
         if (direction == null) {
             return;
         }

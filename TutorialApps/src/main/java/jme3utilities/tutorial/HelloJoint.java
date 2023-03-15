@@ -168,8 +168,8 @@ public class HelloJoint
         if (nearLocation.y > groundY && farLocation.y < groundY) {
             float dy = nearLocation.y - farLocation.y;
             float t = (nearLocation.y - groundY) / dy;
-            FastMath.interpolateLinear(t, nearLocation, farLocation,
-                    mouseLocation);
+            FastMath.interpolateLinear(
+                    t, nearLocation, farLocation, mouseLocation);
         }
     }
     // *************************************************************************
@@ -247,8 +247,8 @@ public class HelloJoint
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
         DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(assetManager,
-                        shadowMapSize, numSplits);
+                = new DirectionalLightShadowRenderer(
+                        assetManager, shadowMapSize, numSplits);
         dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
         dlsr.setEdgesThickness(5);
         dlsr.setLight(sun);
