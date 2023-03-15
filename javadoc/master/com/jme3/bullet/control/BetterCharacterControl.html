@@ -219,7 +219,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsDamping()" class="member-name-link">getPhysicsDamping</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the multiplier for horizontal motion.</div>
+<div class="block">Return the damping factor for horizontal motion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRigidBody()" class="member-name-link">getRigidBody</a>()</code></div>
@@ -334,12 +334,12 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsDamping(float)" class="member-name-link">setPhysicsDamping</a><wbr>(float&nbsp;physicsDamping)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the damping multiplier for horizontal motion.</div>
+<div class="block">Alter the damping factor for horizontal motion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">setPhysicsLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;location)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Translate the character to the specified location.</div>
+<div class="block">Translate the character instantly to the specified location.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">setPhysicsRotation</a><wbr>(com.jme3.math.Quaternion&nbsp;orientation)</code></div>
@@ -376,7 +376,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#warp(com.jme3.math.Vector3f)" class="member-name-link">warp</a><wbr>(com.jme3.math.Vector3f&nbsp;vec)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Translate the character to the specified location.</div>
+<div class="block">Translate the character instantly to the specified location.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -438,9 +438,9 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>radius</code> - the initial radius for the collision shape (in
- physics-space coordinates, &gt;0)</dd>
+ physics-space units, &gt;0)</dd>
 <dd><code>height</code> - the initial height for the character's CollisionShape (in
- physics-space coordinates, &gt;2*radius)</dd>
+ physics-space units, &gt;2*radius)</dd>
 <dd><code>mass</code> - the character's mass (&ge;0)</dd>
 </dl>
 </section>
@@ -497,12 +497,12 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getPhysicsDamping()">
 <h3>getPhysicsDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getPhysicsDamping</span>()</div>
-<div class="block">Return the multiplier for horizontal motion.</div>
+<div class="block">Return the damping factor for horizontal motion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the multiplier for motion in the local X-Z plane (applied during
- each simulation step, 0&rarr;no damping, 1=horizontal forces have no
- effect, &ge;0, &le;1)</dd>
+<dd>the damping factor for motion in the local X-Z plane (applied
+ before each simulation step, 0&rarr;no damping, 1=horizontal forces have
+ no effect, &ge;0, &le;1)</dd>
 </dl>
 </section>
 </li>
@@ -636,8 +636,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDucked</span><wbr><span class="parameters">(boolean&nbsp;enabled)</span></div>
 <div class="block">Alter the character's ducking state. When ducked, the character's
  collision-shape height is scaled by duckedFactor to make it shorter.
- Before unducking, the character performs a ray test; it grows taller only
- if there's room above its head. You can test the state using
+ Before unducking, the character performs a sweep test; it grows taller
+ only if there's room above its head. You can test the state using
  <a href="#isDucked()"><code>isDucked()</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -688,11 +688,11 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setPhysicsDamping(float)">
 <h3>setPhysicsDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPhysicsDamping</span><wbr><span class="parameters">(float&nbsp;physicsDamping)</span></div>
-<div class="block">Alter the damping multiplier for horizontal motion.</div>
+<div class="block">Alter the damping factor for horizontal motion.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>physicsDamping</code> - the desired multiplier for motion in the local X-Z
- plane (applied during each simulation step, 0&rarr;no damping,
+<dd><code>physicsDamping</code> - the desired damping factor for motion in the local
+ X-Z plane (applied before each simulation step, 0&rarr;no damping,
  1=horizontal forces have no effect, &ge;0, &le;1, default=0.9)</dd>
 </dl>
 </section>
@@ -718,8 +718,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
  the requested speed, in physics-space units per second.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>vec</code> - the requested velocity vector (in physics-space coordinates,
- not null, unaffected)</dd>
+<dd><code>vec</code> - the requested velocity (in physics-space coordinates, not
+ null, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -727,11 +727,11 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="warp(com.jme3.math.Vector3f)">
 <h3>warp</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">warp</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;vec)</span></div>
-<div class="block">Translate the character to the specified location.</div>
+<div class="block">Translate the character instantly to the specified location.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>vec</code> - the desired location (in physics-space coordinates, not null,
- finite, unaffected)</dd>
+<dd><code>vec</code> - the desired location of the base (in physics-space
+ coordinates, not null, finite, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -828,13 +828,13 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setPhysicsLocation(com.jme3.math.Vector3f)">
 <h3>setPhysicsLocation</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPhysicsLocation</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;location)</span></div>
-<div class="block">Translate the character to the specified location.</div>
+<div class="block">Translate the character instantly to the specified location.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="AbstractPhysicsControl.html#setPhysicsLocation(com.jme3.math.Vector3f)">setPhysicsLocation</a></code>&nbsp;in class&nbsp;<code><a href="AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>location</code> - the desired location (in physics-space coordinates, not
- null, finite, unaffected)</dd>
+<dd><code>location</code> - the desired location of the base (in physics-space
+ coordinates, not null, finite, unaffected)</dd>
 </dl>
 </section>
 </li>
