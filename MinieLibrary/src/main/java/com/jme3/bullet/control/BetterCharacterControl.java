@@ -231,8 +231,13 @@ public class BetterCharacterControl
         this.radius = radius;
         this.height = height;
         this.mass = mass;
-        this.rigidBody = new PhysicsRigidBody(getShape(), mass);
-        this.jumpForce = new Vector3f(0f, mass * 5f, 0f);
+
+        CollisionShape shape = getShape();
+        this.rigidBody = new PhysicsRigidBody(shape, mass);
+
+        float upwardImpulse = 5f * mass;
+        this.jumpForce = new Vector3f(0f, upwardImpulse, 0f);
+
         this.rigidBody.setAngularFactor(0f);
     }
     // *************************************************************************
@@ -256,7 +261,8 @@ public class BetterCharacterControl
      * {@code storeResult} or a new vector, not null)
      */
     public Vector3f getGravity(Vector3f storeResult) {
-        return rigidBody.getGravity(storeResult);
+        Vector3f result = rigidBody.getGravity(storeResult);
+        return result;
     }
 
     /**
@@ -438,7 +444,7 @@ public class BetterCharacterControl
             this.wantToUnDuck = false;
         } else {
             if (checkCanUnDuck()) {
-                setHeightPercent(1);
+                setHeightPercent(1f);
                 this.ducked = false;
             } else {
                 this.wantToUnDuck = true;
@@ -736,7 +742,7 @@ public class BetterCharacterControl
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         checkOnGround();
         if (wantToUnDuck && checkCanUnDuck()) {
-            setHeightPercent(1);
+            setHeightPercent(1f);
             this.wantToUnDuck = false;
             this.ducked = false;
         }
@@ -770,10 +776,10 @@ public class BetterCharacterControl
         }
 
         if (jump && onGround) {
-            Vector3f rotatedJumpForce = vars.vect1;
-            rotatedJumpForce.set(jumpForce);
-            rigidBody.applyCentralImpulse(
-                    localForwardRotation.multLocal(rotatedJumpForce));
+            Vector3f impulseInWorld = vars.vect1; // alias
+            impulseInWorld.set(jumpForce);
+            localForwardRotation.multLocal(impulseInWorld);
+            rigidBody.applyCentralImpulse(impulseInWorld);
         }
         this.jump = false;
 
@@ -801,23 +807,30 @@ public class BetterCharacterControl
             return;
         }
         TempVars vars = TempVars.get();
-        Vector3f newLeft = vars.vect1;
-        Vector3f newLeftNegate = vars.vect2;
+        Vector3f newLeft = vars.vect1; // alias
+        Vector3f newLeftNegate = vars.vect2; // alias
 
-        newLeft.set(worldUpVector).crossLocal(direction).normalizeLocal();
+        newLeft.set(worldUpVector);
+        newLeft.crossLocal(direction);
+        newLeft.normalizeLocal();
         if (MyVector3f.isZero(newLeft)) {
             if (direction.x != 0) {
-                newLeft.set(direction.y, -direction.x, 0f).normalizeLocal();
+                newLeft.set(direction.y, -direction.x, 0f);
+                newLeft.normalizeLocal();
             } else {
-                newLeft.set(0f, direction.z, -direction.y).normalizeLocal();
+                newLeft.set(0f, direction.z, -direction.y);
+                newLeft.normalizeLocal();
             }
             if (logger2.isLoggable(Level.INFO)) {
                 logger2.log(Level.INFO, "Zero left for direction {0}, up {1}",
                         new Object[]{direction, worldUpVector});
             }
         }
-        newLeftNegate.set(newLeft).negateLocal();
-        direction.set(worldUpVector).crossLocal(newLeftNegate).normalizeLocal();
+        newLeftNegate.set(newLeft);
+        newLeftNegate.negateLocal();
+        direction.set(worldUpVector);
+        direction.crossLocal(newLeftNegate);
+        direction.normalizeLocal();
         if (MyVector3f.isZero(direction)) {
             direction.set(0f, 0f, 1f);
             if (logger2.isLoggable(Level.INFO)) {
@@ -915,7 +928,8 @@ public class BetterCharacterControl
      * @return the height (in physics-space units, &gt;0)
      */
     protected float getFinalHeight() {
-        return height * scale.getY();
+        float result = height * scale.y;
+        return result;
     }
 
     /**
@@ -924,7 +938,8 @@ public class BetterCharacterControl
      * @return the radius (in physics-space units, &gt;0)
      */
     protected float getFinalRadius() {
-        return radius * scale.getZ();
+        float result = radius * scale.z;
+        return result;
     }
 
     /**
@@ -933,14 +948,15 @@ public class BetterCharacterControl
      * @return a new compound shape containing a capsule (not null)
      */
     protected CollisionShape getShape() {
-        // TODO: cleanup size mess
+        float scaledRadius = getFinalRadius();
+        float totalHeight = getFinalHeight();
+        float cylinderHeight = totalHeight - 2f * scaledRadius;
         CapsuleCollisionShape capsule
-                = new CapsuleCollisionShape(getFinalRadius(),
-                        (getFinalHeight() - (2f * getFinalRadius())));
+                = new CapsuleCollisionShape(scaledRadius, cylinderHeight);
 
         CompoundCollisionShape result = new CompoundCollisionShape(1);
-        result.addChildShape(
-                capsule, 0f, getFinalHeight() / 2f, 0f);
+        float yOffset = totalHeight / 2f;
+        result.addChildShape(capsule, 0f, yOffset, 0f);
 
         return result;
     }
@@ -948,12 +964,13 @@ public class BetterCharacterControl
     /**
      * Alter the height of the collision shape.
      *
-     * @param percent the desired height, as a fraction of the initial height
+     * @param fraction the desired height, as a fraction of the initial height
      * (default=1)
      */
-    protected void setHeightPercent(float percent) {
-        scale.setY(percent);
-        rigidBody.setCollisionShape(getShape());
+    protected void setHeightPercent(float fraction) {
+        scale.setY(fraction);
+        CollisionShape newShape = getShape();
+        rigidBody.setCollisionShape(newShape);
     }
 
     /**
@@ -967,7 +984,8 @@ public class BetterCharacterControl
          * calculate new world forward (UNIT_Z)
          */
         calculateNewForward(localForwardRotation, localForward, localUp);
-        localLeft.set(localUp).crossLocal(localForward);
+        localLeft.set(localUp);
+        localLeft.crossLocal(localForward);
         rigidBody.setPhysicsRotation(localForwardRotation);
         updateLocalViewDirection();
     }
@@ -978,7 +996,8 @@ public class BetterCharacterControl
      */
     protected void updateLocalViewDirection() {
         // update local rotation Quaternion to use for view rotation
-        localForwardRotation.multLocal(rotatedViewDirection.set(viewDirection));
+        rotatedViewDirection.set(viewDirection);
+        localForwardRotation.multLocal(rotatedViewDirection);
         calculateNewForward(rotation, rotatedViewDirection, localUp);
     }
 }
