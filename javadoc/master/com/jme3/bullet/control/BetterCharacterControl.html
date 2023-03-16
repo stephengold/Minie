@@ -263,73 +263,85 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
  input or because an overhead obstacle prevents it from unducking.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isOnGround()" class="member-name-link">isOnGround</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isKinematic()" class="member-name-link">isKinematic</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Test whether the character is in kinematic mode.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isOnGround()" class="member-name-link">isOnGround</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the character is supported.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jump()" class="member-name-link">jump</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Apply a jump impulse during the next simulation step if the character is
- on ground.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#physicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">physicsTick</a><wbr>(<a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
- float&nbsp;timeStep)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jump()" class="member-name-link">jump</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Apply a jump impulse during the next simulation step if the character is
+ on ground and not in kinematic mode.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#physicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">physicsTick</a><wbr>(<a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
+ float&nbsp;timeStep)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Callback from Bullet, invoked just after the physics has been stepped.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">prePhysicsTick</a><wbr>(<a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">prePhysicsTick</a><wbr>(<a href="../PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Callback from Bullet, invoked just before the physics is stepped.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-serialize this Control from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removePhysics()" class="member-name-link">removePhysics</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removePhysics()" class="member-name-link">removePhysics</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove all managed physics objects from the PhysicsSpace.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeSpatialData(com.jme3.scene.Spatial)" class="member-name-link">removeSpatialData</a><wbr>(com.jme3.scene.Spatial&nbsp;spatial)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeSpatialData(com.jme3.scene.Spatial)" class="member-name-link">removeSpatialData</a><wbr>(com.jme3.scene.Spatial&nbsp;spatial)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Destroy spatial-dependent data.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetForward(com.jme3.math.Vector3f)" class="member-name-link">resetForward</a><wbr>(com.jme3.math.Vector3f&nbsp;vec)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the character's forward (+Z) direction.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDucked(boolean)" class="member-name-link">setDucked</a><wbr>(boolean&nbsp;newState)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetForward(com.jme3.math.Vector3f)" class="member-name-link">resetForward</a><wbr>(com.jme3.math.Vector3f&nbsp;vec)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the character's forward (+Z) direction, provided it's in dynamic
+ mode.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDucked(boolean)" class="member-name-link">setDucked</a><wbr>(boolean&nbsp;newState)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the character's ducking state.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDuckedFactor(float)" class="member-name-link">setDuckedFactor</a><wbr>(float&nbsp;factor)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDuckedFactor(float)" class="member-name-link">setDuckedFactor</a><wbr>(float&nbsp;factor)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the collision-shape height multiplier for ducking.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGravity(com.jme3.math.Vector3f)" class="member-name-link">setGravity</a><wbr>(com.jme3.math.Vector3f&nbsp;newGravity)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGravity(com.jme3.math.Vector3f)" class="member-name-link">setGravity</a><wbr>(com.jme3.math.Vector3f&nbsp;newGravity)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the gravity acting on this character.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHeightPercent(float)" class="member-name-link">setHeightPercent</a><wbr>(float&nbsp;fraction)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHeightPercent(float)" class="member-name-link">setHeightPercent</a><wbr>(float&nbsp;fraction)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the height of the collision shape.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setJumpForce(com.jme3.math.Vector3f)" class="member-name-link">setJumpForce</a><wbr>(com.jme3.math.Vector3f&nbsp;newImpulse)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setJumpForce(com.jme3.math.Vector3f)" class="member-name-link">setJumpForce</a><wbr>(com.jme3.math.Vector3f&nbsp;newImpulse)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the impulse applied at the start of each jump.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKinematic(boolean)" class="member-name-link">setKinematic</a><wbr>(boolean&nbsp;newSetting)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Transition the character from kinematic mode to dynamic mode or vice
+ versa.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsDamping(float)" class="member-name-link">setPhysicsDamping</a><wbr>(float&nbsp;newFactor)</code></div>
@@ -349,7 +361,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setViewDirection(com.jme3.math.Vector3f)" class="member-name-link">setViewDirection</a><wbr>(com.jme3.math.Vector3f&nbsp;newDirection)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the character's view direction.</div>
+<div class="block">Alter the character's view direction, provided it's in dynamic mode.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWalkDirection(com.jme3.math.Vector3f)" class="member-name-link">setWalkDirection</a><wbr>(com.jme3.math.Vector3f&nbsp;newVelocity)</code></div>
@@ -376,7 +388,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#warp(com.jme3.math.Vector3f)" class="member-name-link">warp</a><wbr>(com.jme3.math.Vector3f&nbsp;newLocation)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Translate the character instantly to the specified location.</div>
+<div class="block">Translate the character instantly to the specified location, provided
+ it's in dynamic mode.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -598,12 +611,21 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 </section>
 </li>
 <li>
+<section class="detail" id="isKinematic()">
+<h3>isKinematic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isKinematic</span>()</div>
+<div class="block">Test whether the character is in kinematic mode.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true if in kinematic mode, otherwise false (in dynamic mode)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="isOnGround()">
 <h3>isOnGround</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isOnGround</span>()</div>
-<div class="block">Test whether the character is supported. Uses a ray test from the center
- of the character and might return false even if the character is not
- falling yet.</div>
+<div class="block">Test whether the character is supported. Uses a raycast.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if supported, otherwise false</dd>
@@ -615,14 +637,15 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <h3>jump</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">jump</span>()</div>
 <div class="block">Apply a jump impulse during the next simulation step if the character is
- on ground.</div>
+ on ground and not in kinematic mode.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="resetForward(com.jme3.math.Vector3f)">
 <h3>resetForward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetForward</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;vec)</span></div>
-<div class="block">Alter the character's forward (+Z) direction.</div>
+<div class="block">Alter the character's forward (+Z) direction, provided it's in dynamic
+ mode.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>vec</code> - the desired direction (in physics-space coordinates) or null
@@ -685,6 +708,19 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 </section>
 </li>
 <li>
+<section class="detail" id="setKinematic(boolean)">
+<h3>setKinematic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKinematic</span><wbr><span class="parameters">(boolean&nbsp;newSetting)</span></div>
+<div class="block">Transition the character from kinematic mode to dynamic mode or vice
+ versa.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>newSetting</code> - true&rarr;set kinematic mode, false&rarr;set dynamic
+ mode (default=false)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="setPhysicsDamping(float)">
 <h3>setPhysicsDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPhysicsDamping</span><wbr><span class="parameters">(float&nbsp;newFactor)</span></div>
@@ -701,8 +737,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setViewDirection(com.jme3.math.Vector3f)">
 <h3>setViewDirection</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setViewDirection</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;newDirection)</span></div>
-<div class="block">Alter the character's view direction. Note this doesn't affect the
- orientation of its body.</div>
+<div class="block">Alter the character's view direction, provided it's in dynamic mode. Note
+ this doesn't affect the orientation of its body.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>newDirection</code> - a direction vector in local coordinates (not null,
@@ -727,7 +763,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="warp(com.jme3.math.Vector3f)">
 <h3>warp</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">warp</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;newLocation)</span></div>
-<div class="block">Translate the character instantly to the specified location.</div>
+<div class="block">Translate the character instantly to the specified location, provided
+ it's in dynamic mode.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>newLocation</code> - the desired location of the base (in physics-space

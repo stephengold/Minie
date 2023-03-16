@@ -6385,6 +6385,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Test whether the link is in kinematic mode.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#isKinematic()" class="member-name-link">isKinematic()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
+<dd>
+<div class="block">Test whether the character is in kinematic mode.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsRigidBody.html#isKinematic()" class="member-name-link">isKinematic()</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></dt>
 <dd>
 <div class="block">Test whether this body is in kinematic mode.</div>
@@ -6711,7 +6715,7 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#jump()" class="member-name-link">jump()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
 <div class="block">Apply a jump impulse during the next simulation step if the character is
- on ground.</div>
+ on ground and not in kinematic mode.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/CharacterControl.html#jump()" class="member-name-link">jump()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>
@@ -9362,7 +9366,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#resetForward(com.jme3.math.Vector3f)" class="member-name-link">resetForward(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
-<div class="block">Alter the character's forward (+Z) direction.</div>
+<div class="block">Alter the character's forward (+Z) direction, provided it's in dynamic
+ mode.</div>
 </dd>
 <dt><a href="com/jme3/bullet/util/NativeLibrary.html#resetQuickprof()" class="member-name-link">resetQuickprof()</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
 <dd>
@@ -10625,6 +10630,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Alter this character's jump speed.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#setKinematic(boolean)" class="member-name-link">setKinematic(boolean)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
+<dd>
+<div class="block">Transition the character from kinematic mode to dynamic mode or vice
+ versa.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsRigidBody.html#setKinematic(boolean)" class="member-name-link">setKinematic(boolean)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsRigidBody.html" title="class in com.jme3.bullet.objects">PhysicsRigidBody</a></dt>
 <dd>
 <div class="block">Put this body into kinematic mode or take it out of kinematic mode.</div>
@@ -11793,7 +11803,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#setViewDirection(com.jme3.math.Vector3f)" class="member-name-link">setViewDirection(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
-<div class="block">Alter the character's view direction.</div>
+<div class="block">Alter the character's view direction, provided it's in dynamic mode.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/CharacterControl.html#setViewDirection(com.jme3.math.Vector3f)" class="member-name-link">setViewDirection(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/CharacterControl.html" title="class in com.jme3.bullet.control">CharacterControl</a></dt>
 <dd>
@@ -13112,7 +13122,8 @@ the order they are declared.</div>
 </dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#warp(com.jme3.math.Vector3f)" class="member-name-link">warp(Vector3f)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
-<div class="block">Translate the character instantly to the specified location.</div>
+<div class="block">Translate the character instantly to the specified location, provided
+ it's in dynamic mode.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/CharacterController.html#warp(com.jme3.math.Vector3f)" class="member-name-link">warp(Vector3f)</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/CharacterController.html" title="class in com.jme3.bullet.objects.infos">CharacterController</a></dt>
 <dd>
