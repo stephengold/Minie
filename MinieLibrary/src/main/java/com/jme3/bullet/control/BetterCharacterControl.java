@@ -149,7 +149,7 @@ public class BetterCharacterControl
      */
     private Quaternion viewToWorld = new Quaternion();
     /**
-     * cached collision shape for sweep casts
+     * cached collision shape for sweep tests
      */
     private SphereCollisionShape sweepShape;
     /**
@@ -851,7 +851,7 @@ public class BetterCharacterControl
      */
     protected boolean checkCanUnDuck() {
         /*
-         * Cast a sphere upward, from the current location
+         * Sweep a sphere upward, from the current location
          * of the upper hemisphere to its (hypothetical) unducked location.
          */
         Vector3f startLocation = sweepBegin.getTranslation(); // alias
@@ -984,8 +984,7 @@ public class BetterCharacterControl
 
     /**
      * Update the local coordinate system from the localForward and localUp
-     * vectors, adapts localForward, sets localToWorld to local Z-forward
-     * rotation.
+     * vectors, adapts localForward and localToWorld.
      */
     protected void updateLocalCoordinateSystem() {
         /*
