@@ -155,11 +155,11 @@ public class BetterCharacterControl
     /**
      * temporary starting transform for sweep tests
      */
-    private Transform castBegin = new Transform();
+    private Transform sweepBegin = new Transform();
     /**
      * temporary ending transform for sweep tests
      */
-    private Transform castEnd = new Transform();
+    private Transform sweepEnd = new Transform();
     /**
      * rigid-body base location (in physics-space coordinates)
      */
@@ -587,8 +587,8 @@ public class BetterCharacterControl
         super.cloneFields(cloner, original);
 
         this.sweepShape = null;
-        this.castEnd = cloner.clone(castEnd);
-        this.castBegin = cloner.clone(castBegin);
+        this.sweepEnd = cloner.clone(sweepEnd);
+        this.sweepBegin = cloner.clone(sweepBegin);
         this.jumpImpulse = cloner.clone(jumpImpulse);
         this.localForward = cloner.clone(localForward);
         this.localToWorld = cloner.clone(localToWorld);
@@ -854,14 +854,14 @@ public class BetterCharacterControl
          * Cast a sphere upward, from the current location
          * of the upper hemisphere to its (hypothetical) unducked location.
          */
-        Vector3f startLocation = castBegin.getTranslation(); // alias
+        Vector3f startLocation = sweepBegin.getTranslation(); // alias
         startLocation.set(baseLocation);
         float currentHeight = getFinalHeight();
         float bodyRadius = getFinalRadius();
         MyVector3f.accumulateScaled(
                 startLocation, localUp, currentHeight - bodyRadius);
 
-        Vector3f endLocation = castEnd.getTranslation(); // alias
+        Vector3f endLocation = sweepEnd.getTranslation(); // alias
         endLocation.set(baseLocation);
         MyVector3f.accumulateScaled(
                 endLocation, localUp, initialHeight - bodyRadius);
@@ -871,7 +871,7 @@ public class BetterCharacterControl
         }
         PhysicsSpace space = getPhysicsSpace();
         List<PhysicsSweepTestResult> results
-                = space.sweepTest(sweepShape, castBegin, castEnd);
+                = space.sweepTest(sweepShape, sweepBegin, sweepEnd);
 
         // Search for a collision object other than the character's body.
         boolean isObstructed = false;
@@ -894,12 +894,12 @@ public class BetterCharacterControl
          * Sweep a sphere downward, from the center of the capsule
          * to one collision margin below the center of its lower hemisphere.
          */
-        Vector3f startLocation = castBegin.getTranslation(); // alias
+        Vector3f startLocation = sweepBegin.getTranslation(); // alias
         startLocation.set(baseLocation);
         float scaledHeight = getFinalHeight();
         MyVector3f.accumulateScaled(startLocation, localUp, scaledHeight / 2f);
 
-        Vector3f endLocation = castEnd.getTranslation(); // alias
+        Vector3f endLocation = sweepEnd.getTranslation(); // alias
         endLocation.set(baseLocation);
         float bodyRadius = getFinalRadius();
         float margin = rigidBody.getCollisionShape().getMargin();
@@ -910,7 +910,7 @@ public class BetterCharacterControl
         }
         PhysicsSpace space = getPhysicsSpace();
         List<PhysicsSweepTestResult> results
-                = space.sweepTest(sweepShape, castBegin, castEnd);
+                = space.sweepTest(sweepShape, sweepBegin, sweepEnd);
 
         // Search for a collision object other than the character's body.
         boolean isSupported = false;
