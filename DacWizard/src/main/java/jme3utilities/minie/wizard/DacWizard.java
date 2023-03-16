@@ -98,6 +98,10 @@ public class DacWizard extends GuiApplication {
     // constants and loggers
 
     /**
+     * desired height of the C-G model (for visualization, in world units)
+     */
+    final static float cgmHeight = 10f;
+    /**
      * message logger for this class
      */
     final static Logger logger = Logger.getLogger(DacWizard.class.getName());
@@ -339,7 +343,7 @@ public class DacWizard extends GuiApplication {
         // Add a disabled visualizer for axes, with its own controlled Node.
         axesNode = new Node("axesNode");
         rootNode.attachChild(axesNode);
-        float arrowLength = 0.2f * Model.cgmHeight;
+        float arrowLength = 0.2f * cgmHeight;
         AxesVisualizer axes = new AxesVisualizer(assetManager, arrowLength);
         axes.setLineWidth(0f); // solid arrows
         axesNode.addControl(axes);
@@ -383,7 +387,7 @@ public class DacWizard extends GuiApplication {
         }
 
         // Translate and scale the C-G model.
-        setParentTransform(Model.cgmHeight);
+        setParentTransform(cgmHeight);
 
         if (sc != null && findSkeletonVisualizer() == null) {
             // Add a SkeletonVisualizer.
@@ -399,7 +403,7 @@ public class DacWizard extends GuiApplication {
 
         DynamicAnimControl dac = findDac();
         if (dac != null) { // Configure the DAC.
-            float gravity = 6f * Model.cgmHeight;
+            float gravity = 6f * cgmHeight;
             Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
             dac.setGravity(gravityVector);
         }
@@ -758,14 +762,14 @@ public class DacWizard extends GuiApplication {
         flyCam.setMoveSpeed(20f);
 
         Vector3f location = new Vector3f(0f, 0.93f, 2.7f);
-        location.multLocal(Model.cgmHeight);
+        location.multLocal(cgmHeight);
         cam.setLocation(location);
 
         cam.setName("cam");
         cam.setRotation(new Quaternion(0f, 0.995268f, -0.094f, 0.0253f));
 
-        float near = 0.01f * Model.cgmHeight;
-        float far = 25f * Model.cgmHeight;
+        float near = 0.01f * cgmHeight;
+        float far = 25f * cgmHeight;
         MyCamera.setNearFar(cam, near, far);
     }
 

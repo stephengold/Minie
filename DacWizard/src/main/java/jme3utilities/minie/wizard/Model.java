@@ -78,10 +78,6 @@ class Model {
     // constants and loggers
 
     /**
-     * desired height of the C-G model (for visualization, in world units)
-     */
-    final static float cgmHeight = 10f;
-    /**
      * magic clip/animation index used to denote bind pose
      */
     final private static int bindPoseIndex = -1;
