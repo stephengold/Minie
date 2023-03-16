@@ -50,7 +50,7 @@ import jme3utilities.Validate;
 
 /**
  * A custom PhysicsControl for a dynamic rigid body that can be joined to other
- * bodies. When the control is removed from a space, all its joints are
+ * bodies. When the Control is removed from a space, all its joints are
  * automatically destroyed.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -112,7 +112,7 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
     /**
      * Access the rigid body managed by this Control.
      *
-     * @return the pre-existing instance (not null)
+     * @return the pre-existing rigid body (not null)
      */
     public PhysicsRigidBody getRigidBody() {
         return rigidBody;
@@ -200,7 +200,7 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Translate the body to the specified location.
+     * Translate the body instantly to the specified location.
      *
      * @param newLocation the desired location (in physics-space coordinates,
      * not null, finite, unaffected)
@@ -212,7 +212,7 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Rotate the body to the specified orientation.
+     * Rotate the body instantly to the specified orientation.
      *
      * @param newOrientation the desired orientation (in physics-space
      * coordinates, not null, not zero, unaffected)
