@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -83,15 +83,15 @@ public class HelloSoftSoft extends SimpleApplication {
          */
         int numRefinementIterations = 3;
         float radius = 1f;
-        Mesh icosphere = new Icosphere(numRefinementIterations, radius);
+        Mesh sphere = new Icosphere(numRefinementIterations, radius);
 
         // Create 2 squishy balls and add them to the physics space.
         PhysicsSoftBody ball1 = new PhysicsSoftBody();
-        NativeSoftBodyUtil.appendFromTriMesh(icosphere, ball1);
+        NativeSoftBodyUtil.appendFromTriMesh(sphere, ball1);
         physicsSpace.addCollisionObject(ball1);
 
         PhysicsSoftBody ball2 = new PhysicsSoftBody();
-        NativeSoftBodyUtil.appendFromTriMesh(icosphere, ball2);
+        NativeSoftBodyUtil.appendFromTriMesh(sphere, ball2);
         physicsSpace.addCollisionObject(ball2);
         /*
          * Set each ball's default frame pose:  if deformed,

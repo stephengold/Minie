@@ -181,11 +181,11 @@ public class HelloDoor
     @Override
     public void simpleUpdate(float tpf) {
         // Calculate the ground location (if any) selected by the mouse cursor.
-        Vector2f screenXY = inputManager.getCursorPosition();
+        Vector2f screenXy = inputManager.getCursorPosition();
         float nearZ = 0f;
-        Vector3f nearLocation = cam.getWorldCoordinates(screenXY, nearZ);
+        Vector3f nearLocation = cam.getWorldCoordinates(screenXy, nearZ);
         float farZ = 1f;
-        Vector3f farLocation = cam.getWorldCoordinates(screenXY, farZ);
+        Vector3f farLocation = cam.getWorldCoordinates(screenXy, farZ);
         if (nearLocation.y > groundY && farLocation.y < groundY) {
             float dy = nearLocation.y - farLocation.y;
             float t = (nearLocation.y - groundY) / dy;
