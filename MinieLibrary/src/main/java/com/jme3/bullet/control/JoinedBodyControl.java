@@ -202,25 +202,25 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
     /**
      * Translate the body to the specified location.
      *
-     * @param location the desired location (in physics-space coordinates, not
-     * null, finite, unaffected)
+     * @param newLocation the desired location (in physics-space coordinates,
+     * not null, finite, unaffected)
      */
     @Override
-    public void setPhysicsLocation(Vector3f location) {
-        Validate.finite(location, "location");
-        rigidBody.setPhysicsLocation(location);
+    public void setPhysicsLocation(Vector3f newLocation) {
+        Validate.finite(newLocation, "new location");
+        rigidBody.setPhysicsLocation(newLocation);
     }
 
     /**
      * Rotate the body to the specified orientation.
      *
-     * @param orientation the desired orientation (in physics-space coordinates,
-     * not null, not zero, unaffected)
+     * @param newOrientation the desired orientation (in physics-space
+     * coordinates, not null, not zero, unaffected)
      */
     @Override
-    protected void setPhysicsRotation(Quaternion orientation) {
-        Validate.nonZero(orientation, "orientation");
-        rigidBody.setPhysicsRotation(orientation);
+    protected void setPhysicsRotation(Quaternion newOrientation) {
+        Validate.nonZero(newOrientation, "new orientation");
+        rigidBody.setPhysicsRotation(newOrientation);
     }
 
     /**
