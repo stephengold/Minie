@@ -155,7 +155,7 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
      */
     @Override
     protected void createSpatialData(Spatial spatial) {
-        // do nothing
+        rigidBody.setUserObject(spatial);
     }
 
     /**
@@ -196,7 +196,7 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
      */
     @Override
     protected void removeSpatialData(Spatial spatial) {
-        // do nothing
+        rigidBody.setUserObject(null);
     }
 
     /**
