@@ -34,7 +34,6 @@ package com.jme3.bullet.control;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
-import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.PhysicsSweepTestResult;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -63,8 +62,8 @@ import jme3utilities.math.MyVector3f;
  * This class is intended to replace the CharacterControl class.
  * <p>
  * A rigid body with an offset CapsuleCollisionShape is used. Its linear
- * velocity is updated continuously. A ray test is used to determine whether the
- * character is on the ground.
+ * velocity is updated continuously. A sweep test is used to determine whether
+ * the character is on the ground.
  * <p>
  * The character maintains a local coordinate system in which gravity determines
  * the Y axis.
@@ -154,11 +153,11 @@ public class BetterCharacterControl
      */
     private SphereCollisionShape sweepShape;
     /**
-     * temporary starting transform for ray/sweep casts
+     * temporary starting transform for sweep tests
      */
     private Transform castBegin = new Transform();
     /**
-     * temporary ending transform for ray/sweep casts
+     * temporary ending transform for sweep tests
      */
     private Transform castEnd = new Transform();
     /**
@@ -399,7 +398,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Test whether the character is supported. Uses a raycast.
+     * Test whether the character is supported by another collision object.
      *
      * @return true if supported, otherwise false
      */
@@ -892,34 +891,39 @@ public class BetterCharacterControl
      */
     protected void checkOnGround() {
         /*
-         * Cast a ray downward, from the peak of the rigid body
-         * to 0.1 physics-space unit below its base.
+         * Sweep a sphere downward, from the center of the capsule
+         * to one collision margin below the center of its lower hemisphere.
          */
         Vector3f startLocation = castBegin.getTranslation(); // alias
         startLocation.set(baseLocation);
         float scaledHeight = getFinalHeight();
-        MyVector3f.accumulateScaled(startLocation, localUp, scaledHeight);
+        MyVector3f.accumulateScaled(startLocation, localUp, scaledHeight / 2f);
 
         Vector3f endLocation = castEnd.getTranslation(); // alias
         endLocation.set(baseLocation);
-        MyVector3f.accumulateScaled(endLocation, localUp, -0.1f);
+        float bodyRadius = getFinalRadius();
+        float margin = rigidBody.getCollisionShape().getMargin();
+        MyVector3f.accumulateScaled(endLocation, localUp, bodyRadius - margin);
 
+        if (sweepShape == null || sweepShape.getRadius() != bodyRadius) {
+            this.sweepShape = new SphereCollisionShape(bodyRadius);
+        }
         PhysicsSpace space = getPhysicsSpace();
-        List<PhysicsRayTestResult> results
-                = space.rayTestRaw(startLocation, endLocation);
+        List<PhysicsSweepTestResult> results
+                = space.sweepTest(sweepShape, castBegin, castEnd);
 
         // Search for a collision object other than the character's body.
-        boolean isRayObstructed = false;
-        for (PhysicsRayTestResult result : results) {
+        boolean isSupported = false;
+        for (PhysicsSweepTestResult result : results) {
             PhysicsCollisionObject object = result.getCollisionObject();
             if (!object.equals(rigidBody)) {
-                isRayObstructed = true;
+                isSupported = true;
                 break;
             }
         }
 
         // Update the status.
-        this.onGround = isRayObstructed;
+        this.onGround = isSupported;
     }
 
     /**
