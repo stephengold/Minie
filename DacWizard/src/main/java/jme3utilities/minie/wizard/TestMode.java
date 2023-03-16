@@ -400,7 +400,7 @@ class TestMode extends InputMode {
     /**
      * Write the control configuration to a file.
      */
-    private void saveJava() {
+    private static void saveJava() {
         String hhmmss = hhmmss();
         String className = "Dac" + hhmmss;
         String fileName = className + ".java";

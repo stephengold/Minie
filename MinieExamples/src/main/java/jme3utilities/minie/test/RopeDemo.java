@@ -724,7 +724,7 @@ public class RopeDemo extends PhysicsDemo {
      * @param branchIndex which branch (&ge;0)
      * @return a new array of 3 vertex specifiers
      */
-    private String[] capSpecs(int branchIndex) {
+    private static String[] capSpecs(int branchIndex) {
         int capVertex0 = capVertex0(branchIndex);
         String geometryName = dacs.peekLast().getSpatial().getName();
         String[] result = new String[3];

@@ -211,7 +211,7 @@ public class DacWizard extends GuiApplication {
      *
      * @return the pre-existing Control, or null if none/multiple
      */
-    AxesVisualizer findAxesVisualizer() {
+    static AxesVisualizer findAxesVisualizer() {
         AxesVisualizer result = null;
         if (axesNode != null) {
             List<AxesVisualizer> controls = MySpatial.listControls(
@@ -229,7 +229,7 @@ public class DacWizard extends GuiApplication {
      *
      * @return the pre-existing Control, or null if none/multiple
      */
-    DynamicAnimControl findDac() {
+    static DynamicAnimControl findDac() {
         DynamicAnimControl result = null;
         if (cgmParent != null) {
             List<DynamicAnimControl> controls = MySpatial.listControls(
@@ -414,7 +414,7 @@ public class DacWizard extends GuiApplication {
     /**
      * Toggle rendering of C-G model meshes on/off.
      */
-    void toggleMesh() {
+    static void toggleMesh() {
         boolean oldShow = model.isShowingMeshes();
         boolean newShow = !oldShow;
         model.setShowingMeshes(newShow);

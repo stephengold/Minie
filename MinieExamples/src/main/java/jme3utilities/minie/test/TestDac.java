@@ -803,7 +803,7 @@ public class TestDac extends PhysicsDemo {
      * Put all physics links into zero-g dynamic mode, fix the torso, and enable
      * pose matching.
      */
-    private void goAnimPose() {
+    private static void goAnimPose() {
         TorsoLink torsoLink = dac.getTorsoLink();
         torsoLink.setDynamic(Vector3f.ZERO);
         boolean disableForRagdoll = true;

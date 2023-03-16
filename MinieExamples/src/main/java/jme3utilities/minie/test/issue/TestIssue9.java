@@ -156,7 +156,7 @@ final public class TestIssue9 extends SimpleApplication {
         BinaryExporter.saveAndLoad(assetManager, bodyClone);
     }
 
-    private void setParameters(PhysicsBody pco, float b) {
+    private static void setParameters(PhysicsBody pco, float b) {
         if (pco instanceof PhysicsSoftBody) {
             setSoft((PhysicsSoftBody) pco, b);
         } else {

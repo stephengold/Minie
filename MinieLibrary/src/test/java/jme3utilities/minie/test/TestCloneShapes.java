@@ -113,7 +113,7 @@ public class TestCloneShapes {
     // *************************************************************************
     // private methods
 
-    private void cloneShapesConcave() {
+    private static void cloneShapesConcave() {
         // EmptyShape
         CollisionShape empty = new EmptyShape(true);
         setParameters(empty, 0f);
@@ -186,7 +186,7 @@ public class TestCloneShapes {
         assert pcsClone.getMargin() == 0.04f;
     }
 
-    private void cloneShapesConvex() {
+    private static void cloneShapesConvex() {
         // Box2dShape
         CollisionShape box2d = new Box2dShape(1f, 2f);
         setParameters(box2d, 0f);
