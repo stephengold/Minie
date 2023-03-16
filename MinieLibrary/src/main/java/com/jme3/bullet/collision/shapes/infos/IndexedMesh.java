@@ -266,7 +266,6 @@ public class IndexedMesh
 
     /**
      * Instantiate an IndexedMesh based on the specified positions and indices.
-     * For internal use.
      *
      * @param positionBuffer (not null, not flipped, length a multiple of 3,
      * alias created)

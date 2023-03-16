@@ -408,7 +408,7 @@ public class DacWizard extends GuiApplication {
     }
 
     /**
-     * Toggle mesh rendering on/off.
+     * Toggle rendering of C-G model meshes on/off.
      */
     void toggleMesh() {
         boolean oldShow = model.isShowingMeshes();

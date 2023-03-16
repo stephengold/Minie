@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -220,7 +220,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
     native public static void setDeactivationEnabled(boolean newSetting);
 
     /**
-     * Alter this body's gravitational acceleration. TODO scalar alternative
+     * Alter this body's gravitational acceleration.
      * <p>
      * Invoke this method <em>after</em> adding the body to a PhysicsSpace.
      * Adding a body to a PhysicsSpace overrides its gravity.
