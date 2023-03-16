@@ -138,7 +138,7 @@ public class HelloSpring
         // Add a mouse-controlled kinematic paddle.
         addPaddle();
 
-        // Add a dynamic yellow ball.
+        // Add a dynamic ball.
         PhysicsRigidBody ballBody = addBall();
 
         // Add a single-ended physics joint to constrain the ball's center.

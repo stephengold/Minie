@@ -172,7 +172,7 @@ public class HelloWind
                 .fromAngles(FastMath.HALF_PI, 0f, 0f);
         flag.applyRotation(rotation);
 
-        // Initialize the wind velocity;
+        // Initialize the wind velocity.
         tmpVelocity.x = windSpeed * FastMath.cos(windAzimuth);
         tmpVelocity.z = windSpeed * FastMath.sin(windAzimuth);
         flag.setWindVelocity(tmpVelocity);

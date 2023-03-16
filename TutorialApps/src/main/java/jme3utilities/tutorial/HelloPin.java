@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -93,11 +93,12 @@ public class HelloPin extends SimpleApplication {
         physicsSpace.addCollisionObject(cloth);
 
         // Pin one of the corner nodes by setting its mass to zero.
-        int nodeIndex = 0;
+        int nodeIndex = 0; // upper left corner
         cloth.setNodeMass(nodeIndex, PhysicsBody.massForStatic);
-
-        // Make the cloth flexible by altering the angular stiffness
-        // of its material.
+        /*
+         * Make the cloth flexible by reducing the angular stiffness
+         * of its material.
+         */
         SoftBodyMaterial mat = cloth.getSoftMaterial();
         mat.setAngularStiffness(0f); // default=1
 

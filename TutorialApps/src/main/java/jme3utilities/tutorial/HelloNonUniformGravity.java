@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -105,7 +105,7 @@ public class HelloNonUniformGravity
         planet.setPhysicsLocation(new Vector3f(2f, 0f, 0f));
         planet.applyCentralImpulse(new Vector3f(0f, -1f, 0f));
 
-        // Add axes to indicate the black hole's location.
+        // Visualize axes to indicate the black hole's location.
         float axisLength = 1f;
         AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
         axes.setLineWidth(AxesVisualizer.widthForSolid);
