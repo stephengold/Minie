@@ -389,9 +389,17 @@ public class BetterCharacterControl
     }
 
     /**
-     * Test whether the character is supported. Uses a ray test from the center
-     * of the character and might return false even if the character is not
-     * falling yet.
+     * Test whether the character is in kinematic mode.
+     *
+     * @return true if in kinematic mode, otherwise false (in dynamic mode)
+     */
+    public boolean isKinematic() {
+        boolean result = !rigidBody.isDynamic();
+        return result;
+    }
+
+    /**
+     * Test whether the character is supported. Uses a raycast.
      *
      * @return true if supported, otherwise false
      */
@@ -401,19 +409,24 @@ public class BetterCharacterControl
 
     /**
      * Apply a jump impulse during the next simulation step if the character is
-     * on ground.
+     * on ground and not in kinematic mode.
      */
     public void jump() {
         this.wantToJump = true;
     }
 
     /**
-     * Alter the character's forward (+Z) direction.
+     * Alter the character's forward (+Z) direction, provided it's in dynamic
+     * mode.
      *
      * @param vec the desired direction (in physics-space coordinates) or null
      * for (0,0,1)
      */
     public void resetForward(Vector3f vec) {
+        if (!rigidBody.isDynamic()) {
+            return;
+        }
+
         if (vec == null) {
             localForward.set(0f, 0f, 1f);
         } else {
@@ -481,6 +494,17 @@ public class BetterCharacterControl
     }
 
     /**
+     * Transition the character from kinematic mode to dynamic mode or vice
+     * versa.
+     *
+     * @param newSetting true&rarr;set kinematic mode, false&rarr;set dynamic
+     * mode (default=false)
+     */
+    public void setKinematic(boolean newSetting) {
+        rigidBody.setKinematic(newSetting);
+    }
+
+    /**
      * Alter the damping factor for horizontal motion.
      *
      * @param newFactor the desired damping factor for motion in the local X-Z
@@ -493,17 +517,18 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the character's view direction. Note this doesn't affect the
-     * orientation of its body.
+     * Alter the character's view direction, provided it's in dynamic mode. Note
+     * this doesn't affect the orientation of its body.
      *
      * @param newDirection a direction vector in local coordinates (not null,
      * not zero, unaffected)
      */
     public void setViewDirection(Vector3f newDirection) {
         assert Validate.nonZero(newDirection, "new direction");
-
-        viewDirection.set(newDirection);
-        updateLocalViewDirection();
+        if (rigidBody.isDynamic()) {
+            viewDirection.set(newDirection);
+            updateLocalViewDirection();
+        }
     }
 
     /**
@@ -518,14 +543,17 @@ public class BetterCharacterControl
     }
 
     /**
-     * Translate the character instantly to the specified location.
+     * Translate the character instantly to the specified location, provided
+     * it's in dynamic mode.
      *
      * @param newLocation the desired location of the base (in physics-space
      * coordinates, not null, finite, unaffected)
      */
     public void warp(Vector3f newLocation) {
         Validate.finite(newLocation, "new location");
-        setPhysicsLocation(newLocation);
+        if (rigidBody.isDynamic()) {
+            setPhysicsLocation(newLocation);
+        }
     }
     // *************************************************************************
     // AbstractPhysicsControl methods
@@ -685,9 +713,16 @@ public class BetterCharacterControl
             return;
         }
 
-        rigidBody.getPhysicsLocation(baseLocation);
-        // physics rotation has been set by updateLocalCoordinateSystem()
-        applyPhysicsTransform(baseLocation, viewToWorld);
+        if (rigidBody.isDynamic()) {
+            rigidBody.getPhysicsLocation(baseLocation);
+            // viewToWorld has been set by updateLocalCoordinateSystem()
+            applyPhysicsTransform(baseLocation, viewToWorld);
+        } else {
+            baseLocation.set(getSpatialTranslation());
+            setPhysicsLocation(baseLocation);
+            viewToWorld.set(getSpatialRotation());
+            setPhysicsRotation(viewToWorld);
+        }
     }
 
     /**
@@ -724,7 +759,11 @@ public class BetterCharacterControl
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
-        rigidBody.getLinearVelocity(velocity);
+        if (rigidBody.isDynamic()) {
+            rigidBody.getLinearVelocity(velocity);
+        } else {
+            velocity.zero();
+        }
     }
 
     /**
@@ -743,7 +782,9 @@ public class BetterCharacterControl
             this.isDucked = false;
         }
 
-        dynamicPreTick();
+        if (rigidBody.isDynamic()) {
+            dynamicPreTick();
+        }
         this.wantToJump = false;
     }
     // *************************************************************************
