@@ -30,7 +30,7 @@
 + Made improvements to the DacWizard application:
   + added the "torso" screen to select the torso's main bone
   + added posing capability to the "load" and "test" screens
-  + fixed a bug that caused generation of syntactially incorrect Java code
+  + fixed a bug that caused generation of syntactically incorrect Java code
   + fixed a bug where the wrong main bone was used to estimate ranges of motion
   + when generating Java code, provide a `configure()` method
   + generate practical classnames for Java code
