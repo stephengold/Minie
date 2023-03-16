@@ -128,7 +128,7 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.bullet.collision.shapes.CollisionShape,float)" class="member-name-link">JoinedBodyControl</a><wbr>(<a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;bodyShape,
  float&nbsp;mass)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Instantiate an enabled Control.</div>
+<div class="block">Instantiate an enabled Control in dynamic mode.</div>
 </div>
 </div>
 </section>
@@ -167,21 +167,31 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Access the rigid body managed by this Control.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isKinematic()" class="member-name-link">isKinematic</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Test whether the body is in kinematic mode.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-serialize this Control from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removePhysics()" class="member-name-link">removePhysics</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removePhysics()" class="member-name-link">removePhysics</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove all managed physics objects from the PhysicsSpace.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeSpatialData(com.jme3.scene.Spatial)" class="member-name-link">removeSpatialData</a><wbr>(com.jme3.scene.Spatial&nbsp;spatial)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeSpatialData(com.jme3.scene.Spatial)" class="member-name-link">removeSpatialData</a><wbr>(com.jme3.scene.Spatial&nbsp;spatial)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Destroy spatial-dependent data.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKinematic(boolean)" class="member-name-link">setKinematic</a><wbr>(boolean&nbsp;newSetting)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Transition the body from kinematic mode to dynamic mode or vice versa.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">setPhysicsLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;newLocation)</code></div>
@@ -251,7 +261,7 @@ loadScripts(document, 'script');</script>
 <h3>JoinedBodyControl</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">JoinedBodyControl</span><wbr><span class="parameters">(<a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;bodyShape,
  float&nbsp;mass)</span></div>
-<div class="block">Instantiate an enabled Control.</div>
+<div class="block">Instantiate an enabled Control in dynamic mode.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>bodyShape</code> - the desired shape for the rigid body (not null, alias
@@ -276,6 +286,29 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the pre-existing rigid body (not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isKinematic()">
+<h3>isKinematic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isKinematic</span>()</div>
+<div class="block">Test whether the body is in kinematic mode.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true if in kinematic mode, otherwise false (in dynamic mode)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setKinematic(boolean)">
+<h3>setKinematic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKinematic</span><wbr><span class="parameters">(boolean&nbsp;newSetting)</span></div>
+<div class="block">Transition the body from kinematic mode to dynamic mode or vice versa.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>newSetting</code> - true&rarr;set kinematic mode, false&rarr;set dynamic
+ mode (default=false)</dd>
 </dl>
 </section>
 </li>
