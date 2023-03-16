@@ -80,8 +80,8 @@ public class TestEmptyShape {
         buffer.flip();
 
         Mesh jmeMesh = new Mesh();
-        jmeMesh.setBuffer(VertexBuffer.Type.Position, MyVector3f.numAxes,
-                buffer);
+        jmeMesh.setBuffer(
+                VertexBuffer.Type.Position, MyVector3f.numAxes, buffer);
         jmeMesh.updateBound();
         IndexedMesh indexedMesh = new IndexedMesh(jmeMesh);
         /*

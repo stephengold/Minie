@@ -140,8 +140,8 @@ public class TestCloneShapes {
         assert gimpactClone.getMargin() == 0.04f;
 
         // HeightfieldCollisionShape
-        Texture heightTexture = MyAsset.loadTexture(assetManager,
-                "Textures/BumpMapTest/Simple_height.png", false);
+        Texture heightTexture = MyAsset.loadTexture(
+                assetManager, "Textures/BumpMapTest/Simple_height.png", false);
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
         HeightMap heightMap = new ImageBasedHeightMap(heightImage, heightScale);

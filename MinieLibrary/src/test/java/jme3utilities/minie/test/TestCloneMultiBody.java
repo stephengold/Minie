@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -183,8 +183,8 @@ public class TestCloneMultiBody {
     private static void verifyParameters(MultiBody multiBody, float b) {
         Assert.assertEquals(Float.floatToIntBits(b) & 0xFFFF,
                 multiBody.collideWithGroups());
-        Assert.assertEquals(1 << Math.round(b / 0.3f),
-                multiBody.collisionGroup());
+        Assert.assertEquals(
+                1 << Math.round(b / 0.3f), multiBody.collisionGroup());
 
         List<MultiBodyCollider> colliders = multiBody.listColliders();
         int numColliders = colliders.size();

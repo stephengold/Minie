@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -174,9 +174,9 @@ public class TestCloneJoints {
      * New6Dof: single- and double-ended and NewHinge
      */
     private static void cloneNew6Dof() {
-        New6Dof deNew6 = new New6Dof(rigidA, rigidB, va, vb,
-                qa.toRotationMatrix(), qb.toRotationMatrix(),
-                RotationOrder.XYZ);
+        New6Dof deNew6 = new New6Dof(
+                rigidA, rigidB, va, vb, qa.toRotationMatrix(),
+                qb.toRotationMatrix(), RotationOrder.XYZ);
         setParameters(deNew6, 0f);
         verifyParameters(deNew6, 0f);
         New6Dof deNew6Clone = Heart.deepCopy(deNew6);
