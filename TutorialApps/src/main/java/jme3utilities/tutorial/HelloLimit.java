@@ -305,8 +305,8 @@ public class HelloLimit
         physicsSpace.addCollisionObject(result);
 
         // Rotate it 90 degrees to a horizontal orientation.
-        Quaternion rotate90 = new Quaternion()
-                .fromAngles(-FastMath.HALF_PI, 0f, 0f);
+        Quaternion rotate90 = new Quaternion();
+        rotate90.fromAngles(-FastMath.HALF_PI, 0f, 0f);
         result.setPhysicsRotation(rotate90);
 
         // Translate it to the desired elevation.

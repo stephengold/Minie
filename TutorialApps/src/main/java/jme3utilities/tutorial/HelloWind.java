@@ -168,8 +168,8 @@ public class HelloWind
          */
         config.setPositionIterations(3);
 
-        Quaternion rotation = new Quaternion()
-                .fromAngles(FastMath.HALF_PI, 0f, 0f);
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
         flag.applyRotation(rotation);
 
         // Initialize the wind velocity.
