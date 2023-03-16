@@ -93,7 +93,7 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
     }
 
     /**
-     * Instantiate an enabled Control.
+     * Instantiate an enabled Control in dynamic mode.
      *
      * @param bodyShape the desired shape for the rigid body (not null, alias
      * created)
@@ -116,6 +116,26 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
      */
     public PhysicsRigidBody getRigidBody() {
         return rigidBody;
+    }
+
+    /**
+     * Test whether the body is in kinematic mode.
+     *
+     * @return true if in kinematic mode, otherwise false (in dynamic mode)
+     */
+    public boolean isKinematic() {
+        boolean result = !rigidBody.isDynamic();
+        return result;
+    }
+
+    /**
+     * Transition the body from kinematic mode to dynamic mode or vice versa.
+     *
+     * @param newSetting true&rarr;set kinematic mode, false&rarr;set dynamic
+     * mode (default=false)
+     */
+    public void setKinematic(boolean newSetting) {
+        rigidBody.setKinematic(newSetting);
     }
     // *************************************************************************
     // AbstractPhysicsControl methods
@@ -236,10 +256,17 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
             return;
         }
 
-        RigidBodyMotionState motionState = rigidBody.getMotionState();
-        motionState.getLocation(tmpUpdateLocation);
-        motionState.getOrientation(tmpUpdateOrientation);
-        applyPhysicsTransform(tmpUpdateLocation, tmpUpdateOrientation);
+        if (rigidBody.isDynamic()) {
+            RigidBodyMotionState motionState = rigidBody.getMotionState();
+            motionState.getLocation(tmpUpdateLocation);
+            motionState.getOrientation(tmpUpdateOrientation);
+            applyPhysicsTransform(tmpUpdateLocation, tmpUpdateOrientation);
+        } else {
+            tmpUpdateLocation.set(getSpatialTranslation());
+            setPhysicsLocation(tmpUpdateLocation);
+            tmpUpdateOrientation.set(getSpatialRotation());
+            setPhysicsRotation(tmpUpdateOrientation);
+        }
     }
 
     /**
