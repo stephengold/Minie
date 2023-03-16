@@ -238,7 +238,7 @@ public class BetterCharacterControl
         float upwardImpulse = 5f * mass;
         this.jumpImpulse = new Vector3f(0f, upwardImpulse, 0f);
 
-        this.rigidBody.setAngularFactor(0f);
+        rigidBody.setAngularFactor(0f);
     }
     // *************************************************************************
     // new methods exposed
@@ -742,47 +742,9 @@ public class BetterCharacterControl
             this.wantToUnDuck = false;
             this.isDucked = false;
         }
-        TempVars vars = TempVars.get();
 
-        Vector3f currentVelocity = vars.vect2.set(velocity);
-
-        // Attenuate any horizontal motion with a counteracting delta V.
-        float existingLeftVelocity = velocity.dot(localLeft);
-        float existingForwardVelocity = velocity.dot(localForward);
-        existingLeftVelocity *= dampingFactor;
-        existingForwardVelocity *= dampingFactor;
-        Vector3f counter = vars.vect1; // alias
-        counter.set(-existingLeftVelocity, 0f, -existingForwardVelocity);
-        localToWorld.multLocal(counter);
-        velocity.addLocal(counter);
-
-        float requestedSpeed = walkVelocity.length();
-        if (requestedSpeed > 0f) {
-            Vector3f localWalkDirection = vars.vect1; // alias
-            localWalkDirection.set(walkVelocity);
-            localWalkDirection.normalizeLocal();
-
-            // Calculate current velocity component in the desired direction.
-            float speed = velocity.dot(localWalkDirection);
-
-            // Adjust the linear velocity.
-            float additionalSpeed = requestedSpeed - speed;
-            localWalkDirection.multLocal(additionalSpeed);
-            velocity.addLocal(localWalkDirection);
-        }
-        if (currentVelocity.distance(velocity) > FastMath.ZERO_TOLERANCE) {
-            rigidBody.setLinearVelocity(velocity);
-        }
-
-        if (wantToJump && onGround) {
-            Vector3f impulseInWorld = vars.vect1; // alias
-            impulseInWorld.set(jumpImpulse);
-            localToWorld.multLocal(impulseInWorld);
-            rigidBody.applyCentralImpulse(impulseInWorld);
-        }
+        dynamicPreTick();
         this.wantToJump = false;
-
-        vars.release();
     }
     // *************************************************************************
     // new protected methods
@@ -1004,5 +966,51 @@ public class BetterCharacterControl
          * so update viewToWorld and viewDirInWorld.
          */
         calculateNewForward(viewToWorld, viewDirInWorld, localUp);
+    }
+    // *************************************************************************
+    // private methods
+
+    /**
+     * Apply impulses and delta Vs to the dynamic rigid body. Invoked just
+     * before the physics is stepped.
+     */
+    private void dynamicPreTick() {
+        TempVars vars = TempVars.get();
+        Vector3f currentVelocity = vars.vect2; // alias
+        currentVelocity.set(velocity);
+
+        // Attenuate any horizontal motion with a counteracting delta V.
+        float left = velocity.dot(localLeft) * dampingFactor;
+        float forward = velocity.dot(localForward) * dampingFactor;
+        Vector3f counter = vars.vect1; // alias
+        counter.set(-left, 0f, -forward);
+        localToWorld.multLocal(counter);
+        velocity.addLocal(counter);
+
+        float requestedSpeed = walkVelocity.length();
+        if (requestedSpeed > 0f) {
+            Vector3f localWalkDirection = vars.vect1; // alias
+            localWalkDirection.set(walkVelocity);
+            localWalkDirection.normalizeLocal();
+
+            // Calculate current velocity component in the desired direction.
+            float speed = velocity.dot(localWalkDirection);
+
+            // Adjust the linear velocity.
+            float additionalSpeed = requestedSpeed - speed;
+            localWalkDirection.multLocal(additionalSpeed);
+            velocity.addLocal(localWalkDirection);
+        }
+        if (currentVelocity.distance(velocity) > FastMath.ZERO_TOLERANCE) {
+            rigidBody.setLinearVelocity(velocity);
+        }
+
+        if (wantToJump && onGround) {
+            Vector3f impulseInWorld = vars.vect1; // alias
+            impulseInWorld.set(jumpImpulse);
+            localToWorld.multLocal(impulseInWorld);
+            rigidBody.applyCentralImpulse(impulseInWorld);
+        }
+        vars.release();
     }
 }
