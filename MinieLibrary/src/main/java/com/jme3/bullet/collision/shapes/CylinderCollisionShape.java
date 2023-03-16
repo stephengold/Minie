@@ -316,8 +316,8 @@ public class CylinderCollisionShape extends ConvexShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        Vector3f he = (Vector3f) capsule.readSavable(tagHalfExtents,
-                new Vector3f(0.5f, 0.5f, 0.5f));
+        Vector3f he = (Vector3f) capsule.readSavable(
+                tagHalfExtents, new Vector3f(0.5f, 0.5f, 0.5f));
         halfExtents.set(he);
         this.axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();

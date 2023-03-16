@@ -263,6 +263,7 @@ public class HelloDoubleEnded
                 = new BoxCollisionShape(0.3f, paddleHalfHeight, 1f);
         this.paddleBody = new PhysicsRigidBody(shape);
         paddleBody.setKinematic(true);
+
         physicsSpace.addCollisionObject(paddleBody);
 
         Material redMaterial = createLitMaterial(1f, 0.1f, 0.1f);
