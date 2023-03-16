@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2022 jMonkeyEngine
+ * Copyright (c) 2009-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,6 +57,7 @@ import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 import jme3utilities.Heart;
 import jme3utilities.math.MyMath;
 
@@ -76,6 +77,11 @@ public class TowerPerformance
     final private static float radius = 3f;
     final private static int brickLayers = 30;
     final private static int bricksPerLayer = 8;
+    /**
+     * message logger for this class
+     */
+    final private static Logger logger
+            = Logger.getLogger(TowerPerformance.class.getName());
     // *************************************************************************
     // fields
 

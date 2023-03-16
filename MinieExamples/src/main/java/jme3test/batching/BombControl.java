@@ -53,6 +53,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  * @author normenhansen
@@ -67,6 +68,10 @@ class BombControl
     final private static float forceFactor = 1f;
     final private static float fxTime = 0.5f;
     final private static float maxTime = 4f;
+    /**
+     * message logger for this class
+     */
+    final static Logger logger4 = Logger.getLogger(BombControl.class.getName());
     // *************************************************************************
     // fields
 
