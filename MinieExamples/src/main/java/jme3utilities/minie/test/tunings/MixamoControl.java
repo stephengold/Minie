@@ -55,6 +55,10 @@ public class MixamoControl
     final public static Logger logger4
             = Logger.getLogger(MixamoControl.class.getName());
     /**
+     * common prefix of all bone names in the skeleton
+     */
+    final private static String prefix = "mixamorig:";
+    /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_XYZ}
      */
     final private static Vector3f scaleIdentity = new Vector3f(1f, 1f, 1f);
@@ -87,51 +91,51 @@ public class MixamoControl
 
         // trunk, neck, and head
         super.setConfig(torsoName, fourSphere);
-        super.link("mixamorig:Spine", cylinder,
+        super.link(prefix + "Spine", cylinder,
                 new RangeOfMotion(0.2f, -1f, 0.1f, -0.1f, 0.1f, -0.1f));
-        super.link("mixamorig:Spine1", vertexHull,
+        super.link(prefix + "Spine1", vertexHull,
                 new RangeOfMotion(0.2f, 0.3f, 0.3f));
-        super.link("mixamorig:Spine2", vertexHull,
+        super.link(prefix + "Spine2", vertexHull,
                 new RangeOfMotion(0.4f, 0.6f, 0.5f));
-        super.link("mixamorig:Neck", fourSphere,
+        super.link(prefix + "Neck", fourSphere,
                 new RangeOfMotion(0.6f, -0.3f, 0.6f, -0.6f, 0.4f, -0.4f));
-        super.link("mixamorig:Head", fourSphere,
+        super.link(prefix + "Head", fourSphere,
                 new RangeOfMotion(0.6f, -0.3f, 0.6f, -0.6f, 0.7f, -0.7f));
 
         // left arm
-        super.link("mixamorig:LeftShoulder", vertexHull,
+        super.link(prefix + "LeftShoulder", vertexHull,
                 new RangeOfMotion(0.4f, -0.2f, 0f, 0f, 0.6f, -0.3f));
-        super.link("mixamorig:LeftArm", vertexHull,
+        super.link(prefix + "LeftArm", vertexHull,
                 new RangeOfMotion(0.2f, -1.5f, 0.5f, -0.5f, 1f, -1.6f));
-        super.link("mixamorig:LeftForeArm", twoSphere,
+        super.link(prefix + "LeftForeArm", twoSphere,
                 new RangeOfMotion(0f, -2f, 1f, -1f, 0f, 0f));
-        super.link("mixamorig:LeftHand", fourSphere,
+        super.link(prefix + "LeftHand", fourSphere,
                 new RangeOfMotion(0.9f, 0f, 0.3f));
 
         // right arm
-        super.link("mixamorig:RightShoulder", vertexHull,
+        super.link(prefix + "RightShoulder", vertexHull,
                 new RangeOfMotion(0.4f, -0.2f, 0f, 0f, 0.6f, -0.3f));
-        super.link("mixamorig:RightArm", vertexHull,
+        super.link(prefix + "RightArm", vertexHull,
                 new RangeOfMotion(0.2f, -1.5f, 0.5f, -0.5f, 1.6f, -1f));
-        super.link("mixamorig:RightForeArm", twoSphere,
+        super.link(prefix + "RightForeArm", twoSphere,
                 new RangeOfMotion(0f, -2f, 1f, -1f, 0f, 0f));
-        super.link("mixamorig:RightHand", fourSphere,
+        super.link(prefix + "RightHand", fourSphere,
                 new RangeOfMotion(0.9f, 0f, 0.3f));
 
         // left leg
-        super.link("mixamorig:LeftUpLeg", twoSphere,
+        super.link(prefix + "LeftUpLeg", twoSphere,
                 new RangeOfMotion(0.2f, -1.1f, 0.4f, -0.4f, 0.2f, -0.4f));
-        super.link("mixamorig:LeftLeg", fourSphere,
+        super.link(prefix + "LeftLeg", fourSphere,
                 new RangeOfMotion(2f, 0f, 0.1f, -0.1f, 0f, 0f));
-        super.link("mixamorig:LeftFoot", vertexHull,
+        super.link(prefix + "LeftFoot", vertexHull,
                 new RangeOfMotion(0.6f, -0.4f, 0.4f, -0.4f, 0.4f, -0.4f));
 
         // right leg
-        super.link("mixamorig:RightUpLeg", twoSphere,
+        super.link(prefix + "RightUpLeg", twoSphere,
                 new RangeOfMotion(0.2f, -1.1f, 0.4f, -0.4f, 0.4f, -0.2f));
-        super.link("mixamorig:RightLeg", fourSphere,
+        super.link(prefix + "RightLeg", fourSphere,
                 new RangeOfMotion(2f, 0f, 0.1f, -0.1f, 0f, 0f));
-        super.link("mixamorig:RightFoot", vertexHull,
+        super.link(prefix + "RightFoot", vertexHull,
                 new RangeOfMotion(0.6f, -0.4f, 0.4f, -0.4f, 0.4f, -0.4f));
     }
     // *************************************************************************
@@ -144,7 +148,7 @@ public class MixamoControl
      */
     @Override
     public BoneLink getLeftFoot() {
-        BoneLink result = findBoneLink("mixamorig:LeftFoot");
+        BoneLink result = findBoneLink(prefix + "LeftFoot");
         return result;
     }
 
@@ -155,7 +159,7 @@ public class MixamoControl
      */
     @Override
     public BoneLink getRightFoot() {
-        BoneLink result = findBoneLink("mixamorig:RightFoot");
+        BoneLink result = findBoneLink(prefix + "RightFoot");
         return result;
     }
 }
