@@ -100,7 +100,7 @@ public class DacWizard extends GuiApplication {
     /**
      * desired height of the C-G model (for visualization, in world units)
      */
-    final static float cgmHeight = 10f;
+    final private static float cgmHeight = 10f;
     /**
      * message logger for this class
      */
