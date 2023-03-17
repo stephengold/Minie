@@ -405,8 +405,7 @@ class TestMode extends InputMode {
         String className = "Dac" + hhmmss;
         String fileName = className + ".java";
 
-        DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findDac();
+        DynamicAnimControl dac = DacWizard.findDac();
         TestScreen screen = DacWizard.findAppState(TestScreen.class);
 
         String path = ActionApplication.filePath(fileName);

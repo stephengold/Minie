@@ -905,10 +905,9 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         this.jointMap = cloner.clone(jointMap);
 
         this.attachModelMap = new HashMap<>(5);
-        DacConfiguration originalCdac
-                = (DacConfiguration) original;
+        DacConfiguration originalDc = (DacConfiguration) original;
         for (Map.Entry<String, Spatial> entry
-                : originalCdac.attachModelMap.entrySet()) {
+                : originalDc.attachModelMap.entrySet()) {
             String boneName = entry.getKey();
             Spatial spatial = entry.getValue();
             Spatial copySpatial = cloner.clone(spatial);

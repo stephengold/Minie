@@ -215,18 +215,18 @@ public class TowerPerformance
     // private methods
 
     private void addBrick(Vector3f ori) {
-        Geometry reBoxg = new Geometry("brick", brick);
-        reBoxg.setMaterial(mat);
-        reBoxg.setLocalTranslation(ori);
-        reBoxg.rotate(0f, MyMath.toRadians(angleDegrees), 0f);
-        reBoxg.addControl(new RigidBodyControl(1.5f));
-        reBoxg.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-        reBoxg.getControl(RigidBodyControl.class).setFriction(1.6f);
-        reBoxg.getControl(RigidBodyControl.class)
+        Geometry brickGeometry = new Geometry("brick", brick);
+        brickGeometry.setMaterial(mat);
+        brickGeometry.setLocalTranslation(ori);
+        brickGeometry.rotate(0f, MyMath.toRadians(angleDegrees), 0f);
+        brickGeometry.addControl(new RigidBodyControl(1.5f));
+        brickGeometry.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        brickGeometry.getControl(RigidBodyControl.class).setFriction(1.6f);
+        brickGeometry.getControl(RigidBodyControl.class)
                 .setLinearSleepingThreshold(0f);
 
-        batchNode.attachChild(reBoxg);
-        getPhysicsSpace().add(reBoxg);
+        batchNode.attachChild(brickGeometry);
+        getPhysicsSpace().add(brickGeometry);
     }
 
     private PhysicsSpace getPhysicsSpace() {

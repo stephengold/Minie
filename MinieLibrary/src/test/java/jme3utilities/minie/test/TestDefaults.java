@@ -109,6 +109,7 @@ import com.simsilica.mathd.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 import jme3utilities.MeshNormals;
+import jme3utilities.math.MyMath;
 import org.junit.Assert;
 import org.junit.Test;
 import vhacd.ACDMode;
@@ -189,13 +190,13 @@ public class TestDefaults {
         RigidBodyMotionState motion = new RigidBodyMotionState();
         testMotionState(motion);
 
-        SoftBodyWorldInfo sbwi = new SoftBodyWorldInfo();
-        Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
-        Utils.assertEquals(0f, -10f, 0f, sbwi.copyGravity(null), 0f);
-        Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
-        Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
-        Utils.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
-        Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
+        SoftBodyWorldInfo worldInfo = new SoftBodyWorldInfo();
+        Assert.assertEquals(1.2f, worldInfo.airDensity(), 0f);
+        Utils.assertEquals(0f, -10f, 0f, worldInfo.copyGravity(null), 0f);
+        Assert.assertEquals(1000f, worldInfo.maxDisplacement(), 0f);
+        Assert.assertEquals(0f, worldInfo.waterDensity(), 0f);
+        Utils.assertEquals(0f, 0f, 0f, worldInfo.copyWaterNormal(null), 0f);
+        Assert.assertEquals(0f, worldInfo.waterOffset(), 0f);
 
         VehicleTuning tuning = new VehicleTuning();
         Assert.assertEquals(10.5f, tuning.getFrictionSlip(), 0f);
@@ -381,7 +382,7 @@ public class TestDefaults {
                 RayTestFlag.SubSimplexRaytest, space.getRayTestFlags());
         Assert.assertTrue(space.getGhostObjectList().isEmpty());
         Assert.assertTrue(space.getPcoList().isEmpty());
-        Assert.assertNotEquals(0L, space.getSpaceId());
+        Assert.assertNotEquals(0L, space.nativeId());
         Assert.assertTrue(space.isForceUpdateAllAabbs());
         Assert.assertFalse(space.isUsingDeterministicDispatch());
     }
@@ -558,7 +559,7 @@ public class TestDefaults {
         Assert.assertFalse(motion.isApplyPhysicsLocal());
 
         Transform t = motion.physicsTransform(null);
-        Assert.assertTrue(t.equals(Transform.IDENTITY));
+        Assert.assertTrue(MyMath.isIdentity(t));
     }
 
     private static void testNew6Dof(New6Dof constraint, int numEnds) {

@@ -165,14 +165,14 @@ public class TestCloneShapes {
         assert mcsClone.getMargin() == 0.04f;
 
         // MeshCollisionShape without compression
-        CollisionShape mcsq = new MeshCollisionShape(mesh, false);
-        setParameters(mcsq, 0f);
-        verifyParameters(mcsq, 0f);
-        CollisionShape mcsqClone = Heart.deepCopy(mcsq);
-        cloneTest(mcsq, mcsqClone);
-        assert mcsqClone.getMargin() == 0.04f;
-        mcsq.setMargin(0.191f);
-        assert mcsqClone.getMargin() == 0.04f;
+        CollisionShape uncompressed = new MeshCollisionShape(mesh, false);
+        setParameters(uncompressed, 0f);
+        verifyParameters(uncompressed, 0f);
+        CollisionShape uncompressedClone = Heart.deepCopy(uncompressed);
+        cloneTest(uncompressed, uncompressedClone);
+        assert uncompressedClone.getMargin() == 0.04f;
+        uncompressed.setMargin(0.191f);
+        assert uncompressedClone.getMargin() == 0.04f;
 
         // PlaneCollisionShape
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);

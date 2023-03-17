@@ -1100,15 +1100,14 @@ public class PhysicsDescriber extends Describer {
 
             if (forceId) {
                 desc = pco.toString();
-                builder.append(desc);
             } else {
                 desc = pco.getClass().getSimpleName();
                 desc = desc.replace("Body", "");
                 desc = desc.replace("Control", "C");
                 desc = desc.replace("Physics", "");
                 desc = desc.replace("Object", "");
-                builder.append(desc);
             }
+            builder.append(desc);
 
             desc = describeApplicationData(pco);
             builder.append(desc);

@@ -1451,8 +1451,8 @@ public class PhysicsDumper extends Dumper {
      * @param filter determines which physics objects are dumped, or null to
      * dump all (unaffected)
      */
-    private void dumpJoints(Collection<PhysicsJoint> joints, String indent,
-            BulletDebugAppState.DebugAppStateFilter filter) {
+    private void dumpJoints(Collection<? extends PhysicsJoint> joints,
+            String indent, BulletDebugAppState.DebugAppStateFilter filter) {
         for (PhysicsJoint joint : joints) {
             if (filter == null || filter.displayObject(joint)) {
                 dump(joint, indent);

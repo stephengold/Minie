@@ -815,11 +815,10 @@ public class BetterCharacterControl
         if (MyVector3f.isZero(newLeft)) {
             if (direction.x != 0) {
                 newLeft.set(direction.y, -direction.x, 0f);
-                newLeft.normalizeLocal();
             } else {
                 newLeft.set(0f, direction.z, -direction.y);
-                newLeft.normalizeLocal();
             }
+            newLeft.normalizeLocal();
             if (logger2.isLoggable(Level.INFO)) {
                 logger2.log(Level.INFO, "Zero left for direction {0}, up {1}",
                         new Object[]{direction, worldUpVector});

@@ -198,8 +198,8 @@ public class ForceDemo
         dim.bindSignal("imp+Y@+X", KeyInput.KEY_F9);
         dim.bindSignal("orbitLeft", KeyInput.KEY_LEFT);
         dim.bindSignal("orbitRight", KeyInput.KEY_RIGHT);
-        dim.bindSignal("torq+Y", KeyInput.KEY_F1);
-        dim.bindSignal("torq-Y", KeyInput.KEY_F2);
+        dim.bindSignal("torque+Y", KeyInput.KEY_F1);
+        dim.bindSignal("torque-Y", KeyInput.KEY_F2);
 
         dim.bind(asToggleAabbs, KeyInput.KEY_APOSTROPHE);
         dim.bind(asToggleHelp, KeyInput.KEY_H);
@@ -265,10 +265,10 @@ public class ForceDemo
             cube.applyImpulse(
                     new Vector3f(0f, 0.1f, 0f), new Vector3f(1f, 0f, 0f));
         }
-        if (signals.test("torq+Y")) {
+        if (signals.test("torque+Y")) {
             cube.applyTorque(new Vector3f(0f, 1f, 0f));
         }
-        if (signals.test("torq-Y")) {
+        if (signals.test("torque-Y")) {
             cube.applyTorque(new Vector3f(0f, -1f, 0f));
         }
     }

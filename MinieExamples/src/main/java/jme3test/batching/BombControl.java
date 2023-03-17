@@ -119,8 +119,8 @@ class BombControl
     @Override
     public void physicsTick(PhysicsSpace space, float f) {
         //get all overlapping objects and apply impulse to them
-        for (Iterator<PhysicsCollisionObject> it = ghostObject.getOverlappingObjects().iterator(); it.hasNext();) {
-            PhysicsCollisionObject physicsCollisionObject = it.next();
+        for (PhysicsCollisionObject physicsCollisionObject
+                : ghostObject.getOverlappingObjects()) {
             if (physicsCollisionObject instanceof PhysicsRigidBody) {
                 PhysicsRigidBody rBody = (PhysicsRigidBody) physicsCollisionObject;
                 rBody.getPhysicsLocation(vector2);

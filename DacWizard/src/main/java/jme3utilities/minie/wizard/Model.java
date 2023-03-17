@@ -482,8 +482,8 @@ class Model {
         List<AnimControl> animControls
                 = MySpatial.listControls(rootSpatial, AnimControl.class, null);
         for (AnimControl animControl : animControls) {
-            Collection<String> animationNames = animControl.getAnimationNames();
-            for (String animName : animationNames) {
+            Collection<String> names = animControl.getAnimationNames();
+            for (String animName : names) {
                 Animation animation = animControl.getAnim(animName);
                 if (MyAnimation.hasTrackForBone(animation, boneIndex)) {
                     ++count;
@@ -1388,18 +1388,14 @@ class Model {
                 .listControls(rootSpatial, AnimControl.class, null);
         for (AnimControl animControl : animControls) {
             Collection<String> names = animControl.getAnimationNames();
-            for (String name : names) {
-                animationNames.add(name);
-            }
+            animationNames.addAll(names);
         }
 
         List<AnimComposer> composers = MySpatial
                 .listControls(rootSpatial, AnimComposer.class, null);
         for (AnimComposer composer : composers) {
             Collection<String> names = composer.getAnimClipsNames();
-            for (String name : names) {
-                animationNames.add(name);
-            }
+            animationNames.addAll(names);
         }
 
         this.animationIndex = bindPoseIndex;

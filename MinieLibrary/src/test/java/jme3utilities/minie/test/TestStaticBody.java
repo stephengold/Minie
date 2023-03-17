@@ -172,9 +172,10 @@ public class TestStaticBody {
         space.addCollisionObject(mcsBody);
 
         // MeshCollisionShape without compression
-        CollisionShape mcsq = new MeshCollisionShape(mesh, false);
-        PhysicsRigidBody mcsqBody = new PhysicsRigidBody(mcsq, 0f);
-        space.addCollisionObject(mcsqBody);
+        CollisionShape uncompressed = new MeshCollisionShape(mesh, false);
+        PhysicsRigidBody uncompressedBody
+                = new PhysicsRigidBody(uncompressed, 0f);
+        space.addCollisionObject(uncompressedBody);
 
         // MultiSphere
         List<Float> radii = new ArrayList<>(3);
