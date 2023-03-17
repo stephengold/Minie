@@ -618,7 +618,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return true if in kinematic mode, otherwise false (dynamic/static mode)
      */
     final public boolean isKinematic() {
-        assert checkKinematicFlag() : kinematic;
+        assert checkKinematicFlag() : "copy of flag = " + kinematic;
         return kinematic;
     }
 
@@ -930,7 +930,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         long objectId = nativeId();
         setKinematic(objectId, kinematic);
 
-        assert isKinematic() == kinematic : kinematic;
+        assert isKinematic() == kinematic : "copy of flag = " + kinematic;
     }
 
     /**

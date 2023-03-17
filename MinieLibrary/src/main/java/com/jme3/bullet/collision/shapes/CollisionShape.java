@@ -346,7 +346,7 @@ abstract public class CollisionShape
      */
     public boolean isContactFilterEnabled() {
         assert enableContactFilter == isContactFilterEnabled(nativeId()) :
-                enableContactFilter;
+                "copy of flag = " + enableContactFilter;
         return enableContactFilter;
     }
 
