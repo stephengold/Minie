@@ -571,8 +571,7 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="getViewDirection(com.jme3.math.Vector3f)">
 <h3>getViewDirection</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getViewDirection</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Copy the character's view direction. This need not agree with the
- spatial's forward direction.</div>
+<div class="block">Copy the character's view direction.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
@@ -736,8 +735,8 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <section class="detail" id="setViewDirection(com.jme3.math.Vector3f)">
 <h3>setViewDirection</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setViewDirection</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;newDirection)</span></div>
-<div class="block">Alter the character's view direction, provided it's in dynamic mode. Note
- this doesn't affect the orientation of its body.</div>
+<div class="block">Alter the character's view direction, provided it's in dynamic mode. View
+ direction is used to orient the rigid body.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>newDirection</code> - a direction vector in local coordinates (not null,
