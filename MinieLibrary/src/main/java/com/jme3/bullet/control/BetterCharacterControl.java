@@ -340,8 +340,7 @@ public class BetterCharacterControl
     }
 
     /**
-     * Copy the character's view direction. This need not agree with the
-     * spatial's forward direction.
+     * Copy the character's view direction.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a direction vector (in local coordinates, either
@@ -516,14 +515,15 @@ public class BetterCharacterControl
     }
 
     /**
-     * Alter the character's view direction, provided it's in dynamic mode. Note
-     * this doesn't affect the orientation of its body.
+     * Alter the character's view direction, provided it's in dynamic mode. View
+     * direction is used to orient the rigid body.
      *
      * @param newDirection a direction vector in local coordinates (not null,
      * not zero, unaffected)
      */
     public void setViewDirection(Vector3f newDirection) {
         assert Validate.nonZero(newDirection, "new direction");
+
         if (rigidBody.isDynamic()) {
             viewDirection.set(newDirection);
             updateLocalViewDirection();
@@ -1014,7 +1014,7 @@ public class BetterCharacterControl
     // private methods
 
     /**
-     * Apply impulses and delta Vs to the dynamic rigid body. Invoked just
+     * Apply impulses and delta vees to the dynamic rigid body. Invoked just
      * before the physics is stepped.
      */
     private void dynamicPreTick() {
