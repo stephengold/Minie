@@ -716,7 +716,7 @@ public class BetterCharacterControl
             rigidBody.getPhysicsLocation(baseLocation);
             // viewToWorld has been set by updateLocalCoordinateSystem()
             applyPhysicsTransform(baseLocation, viewToWorld);
-        } else {
+        } else { // kinematic
             baseLocation.set(getSpatialTranslation());
             setPhysicsLocation(baseLocation);
             viewToWorld.set(getSpatialRotation());
@@ -760,7 +760,7 @@ public class BetterCharacterControl
     public void physicsTick(PhysicsSpace space, float timeStep) {
         if (rigidBody.isDynamic()) {
             rigidBody.getLinearVelocity(velocity);
-        } else {
+        } else { // kinematic
             velocity.zero();
         }
     }

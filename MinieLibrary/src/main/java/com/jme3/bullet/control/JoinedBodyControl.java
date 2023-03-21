@@ -261,7 +261,7 @@ public class JoinedBodyControl extends AbstractPhysicsControl {
             motionState.getLocation(tmpUpdateLocation);
             motionState.getOrientation(tmpUpdateOrientation);
             applyPhysicsTransform(tmpUpdateLocation, tmpUpdateOrientation);
-        } else {
+        } else { // kinematic
             tmpUpdateLocation.set(getSpatialTranslation());
             setPhysicsLocation(tmpUpdateLocation);
             tmpUpdateOrientation.set(getSpatialRotation());
