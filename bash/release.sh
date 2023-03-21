@@ -2,7 +2,7 @@
 
 set -e
 
-export JAVA_HOME=/usr/lib/jvm/Temurin/jdk-17.0.4+8
+export JAVA_HOME=/usr/lib/jvm/Temurin/jdk-17.0.6+10
 
 V=7.3.0+for36
 D=/home/sgold/Releases/Minie/$V
