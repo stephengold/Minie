@@ -4,22 +4,22 @@ apply plugin: 'checkstyle'
 apply plugin: 'java'
 
 ext {
-    jmeTarget = '+for36' // distinguish non-JME libraries built for specific JME releases
+    jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
 
     // current version of the JMonkeyEngine libraries:
     jme3Version = '3.6.0-stable'
 
     // module coordinates of external dependencies:
-    acorusCoordinates = 'com.github.stephengold:Acorus:0.9.18' + jmeTarget
+    acorusCoordinates = 'com.github.stephengold:Acorus:0.9.18+for36' + jmeTarget
     desktopCoordinates = 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    heartCoordinates = 'com.github.stephengold:Heart:8.3.1' + jmeTarget
+    heartCoordinates = 'com.github.stephengold:Heart:8.3.2' + jmeTarget
     joggCoordinates = 'org.jmonkeyengine:jme3-jogg:' + jme3Version
     junitCoordinates = 'junit:junit:4.13.2'
-    niftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.34' + jmeTarget
+    niftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.34+for36' + jmeTarget
     pluginsCoordinates = 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     styleCoordinates = 'com.github.nifty-gui:nifty-style-black:1.4.3'
     testdataCoordinates = 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
-    wesCoordinates = 'com.github.stephengold:Wes:0.7.4' + jmeTarget
+    wesCoordinates = 'com.github.stephengold:Wes:0.7.4+for36' + jmeTarget
 
     // select one version of LWJGL:
     //lwjglCoordinates =  'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
