@@ -70,7 +70,7 @@ tasks.withType(JavaExec) { // Java runtime options:
 }
 
 configurations.all {
-   resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of SNAPSHOTs
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of SNAPSHOTs
 }
 repositories {
     //mavenLocal() // to find local SNAPSHOTs of libraries
