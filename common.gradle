@@ -33,6 +33,10 @@ ext {
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_8
 
+checkstyle {
+    toolVersion '9.3'
+}
+
 tasks.withType(JavaCompile) { // Java compile-time options:
     options.compilerArgs << '-Xdiags:verbose'
     if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
