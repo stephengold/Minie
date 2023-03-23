@@ -19,7 +19,7 @@ ext {
     pluginsCoordinates = 'org.jmonkeyengine:jme3-plugins:' + jme3Version
     styleCoordinates = 'com.github.nifty-gui:nifty-style-black:1.4.3'
     testdataCoordinates = 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
-    wesCoordinates = 'com.github.stephengold:Wes:0.7.4+for36' + jmeTarget
+    wesCoordinates = 'com.github.stephengold:Wes:0.7.5' + jmeTarget
 
     // select one version of LWJGL:
     //lwjglCoordinates =  'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
