@@ -13,13 +13,13 @@
         <property name="fileNamePattern" value="jme3test"/>
     </module>
 
-    <!-- Checks for whitespace                            -->
-    <!-- See http://checkstyle.org/config_whitespace.html -->
+    <!-- Checks for whitespace                             -->
+    <!-- See https://checkstyle.org/config_whitespace.html -->
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
 
-    <!-- Checks that a package-info.java file exists for each package. -->
+    <!-- Checks that a package-info.java file exists for each package  -->
     <!-- See https://checkstyle.org/config_javadoc.html#JavadocPackage -->
     <module name="JavadocPackage"/>
 
@@ -30,7 +30,7 @@
         <property name="message" value="Line has trailing whitespace."/>
     </module>
 
-    <!-- Checks for size violations.                  -->
+    <!-- Checks for size violations                   -->
     <!-- See https://checkstyle.org/config_sizes.html -->
     <module name="FileLength">
         <property name="max" value="2200"/>
@@ -183,7 +183,7 @@
             <property name="option" value="nl"/>
         </module>
 
-        <!-- Checks for naming conventions.                -->
+        <!-- Checks for naming conventions                 -->
         <!-- See https://checkstyle.org/config_naming.html -->
         <module name="PackageName">
             <property name="format" value="^[a-z][a-z3.]*[a-z4]$"/>
@@ -314,7 +314,7 @@
         </module>
         <module name="NonEmptyAtclauseDescription"/>
 
-        <!-- Checks for Javadoc comments.                   -->
+        <!-- Checks for Javadoc comments                    -->
         <!-- See https://checkstyle.org/config_javadoc.html -->
         <module name="InvalidJavadocPosition"/>
         <module name="JavadocTagContinuationIndentation">
@@ -370,7 +370,7 @@
             <property name="tokens" value="BLOCK_COMMENT_BEGIN"/>
         </module>
 
-        <!-- Checks for size violations.                  -->
+        <!-- Checks for size violations                   -->
         <!-- See https://checkstyle.org/config_sizes.html -->
         <module name="MethodLength">
             <property name="max" value="220"/>
