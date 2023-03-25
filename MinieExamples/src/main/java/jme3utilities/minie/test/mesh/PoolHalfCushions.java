@@ -136,8 +136,6 @@ public class PoolHalfCushions extends Mesh {
      */
     private static void putQuadPair(FloatBuffer buffer, float x0, float x1,
             float y0, float y1, float z0, float z1) {
-//        System.out.printf("x0=%f x1=%f z0=%f z1=%f\n", x0, x1, z0, z1);
-
         buffer.put(x0).put(y0).put(z0);
         buffer.put(x0).put(y1).put(z0);
         buffer.put(x1).put(y0).put(z1);

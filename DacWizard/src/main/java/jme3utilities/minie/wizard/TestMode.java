@@ -259,7 +259,7 @@ class TestMode extends InputMode {
      * @param fValue the value to describe
      * @return a description (not null, not empty)
      */
-    private static String describeAngle(float fValue) { // TODO move to MyString
+    private static String describeAngle(float fValue) { // TODO use MyString
         String raw = String.format(Locale.US, "%.2f", fValue);
         String result = MyString.trimFloat(raw);
 

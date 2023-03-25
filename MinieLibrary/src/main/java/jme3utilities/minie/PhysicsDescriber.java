@@ -936,12 +936,12 @@ public class PhysicsDescriber extends Describer {
     }
 
     /**
-     * Generate a textual description of a Matrix3f value. TODO move to MyMath
+     * Generate a textual description of a Matrix3f value.
      *
      * @param matrix the value to describe (may be null, unaffected)
      * @return a description (not null, not empty)
      */
-    static String describeMatrix(Matrix3f matrix) {
+    static String describeMatrix(Matrix3f matrix) { // TODO use MyString
         if (matrix == null) {
             return "null";
         }
