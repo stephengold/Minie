@@ -488,9 +488,8 @@ public class DacWizard extends GuiApplication {
     @Override
     public void onAction(String actionString, boolean ongoing, float tpf) {
         if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, "Got action {0} ongoing={1}", new Object[]{
-                MyString.quote(actionString), ongoing
-            });
+            logger.log(Level.INFO, "Got action {0} ongoing={1}",
+                    new Object[]{MyString.quote(actionString), ongoing});
         }
 
         boolean handled = false;

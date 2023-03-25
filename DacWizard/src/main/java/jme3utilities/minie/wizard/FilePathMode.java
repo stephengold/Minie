@@ -116,9 +116,8 @@ class FilePathMode extends InputMode {
     public void onAction(String actionString, boolean ongoing, float tpf) {
         Validate.nonNull(actionString, "action string");
         if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, "Got action {0} ongoing={1}", new Object[]{
-                MyString.quote(actionString), ongoing
-            });
+            logger.log(Level.INFO, "Got action {0} ongoing={1}",
+                    new Object[]{MyString.quote(actionString), ongoing});
         }
 
         boolean handled = false;
