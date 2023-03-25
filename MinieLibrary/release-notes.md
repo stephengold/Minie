@@ -1,11 +1,11 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.4.0 released on TBD
+## Version 7.4.0 released on 24 March 2023
 
 + Fixed bugs:
   + `BetterCharacterControl` oscillates while unducking near an overhang
   + `BetterCharacterController.isOnGround()` is unreliable
-  + `TestIssue18Heightfield` app throws `IllegalArgumentException`
+  + `TestIssue18Heightfield` application throws an `IllegalArgumentException`
   + excessive logging from the `TestIssue13` application
 + Implemented kinematic modes for `BetterCharacterControl`
   and `JoinedBodyControl`.
