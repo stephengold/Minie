@@ -6,17 +6,15 @@ plugins {
     id 'application'
 }
 
+application {
+    mainClass = 'jme3utilities.minie.test.DropTest'
+}
+
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 tasks.withType(JavaCompile) { // Java compile-time options:
     options.deprecation = true
 }
-
-mainClassName = 'jme3utilities.minie.test.DropTest'
-if (!hasProperty('mainClass')) {
-    ext.mainClass = mainClassName
-}
-jar.manifest.attributes('Main-Class': mainClassName)
 
 dependencies {
     implementation acorusCoordinates
