@@ -1,5 +1,30 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.4.0 released on TBD
+
++ Fixed bugs:
+  + `BetterCharacterControl` oscillates while unducking near an overhang
+  + `BetterCharacterController.isOnGround()` is unreliable
+  + `TestIssue18Heightfield` app throws `IllegalArgumentException`
+  + excessive logging from the `TestIssue13` application
++ Implemented kinematic modes for `BetterCharacterControl`
+  and `JoinedBodyControl`.
++ Deprecated 7 library methods for obtaining native IDs:
+  + `CollisionShape.getObjectId()`
+  + `CollisionSpace.getSpaceId()`
+  + `PhysicsCollisionObject.getObjectId()`
+  + `PhysicsJoint.getObjectId()`
+  + `RigidBodyMotionState.getObjectId()`
+  + `RotationalLimitMotor.getMotor()`
+  + `TranslationalLimitMotor.getMotor()`
++ Based on:
+  + v3.6.0-stable of JMonkeyEngine,
+  + v3.0.0 of the jME-TTF library,
+  + v8.3.2 of the Heart library,
+  + v1.0.0 of the Acorus library,
+  + v0.7.5 of the Wes library, and
+  + v0.9.35 of the jme3-utilities-nifty library.
+
 ## Version 7.3.0+for36 released on 3 March 2023
 
 + Fixed bugs:
