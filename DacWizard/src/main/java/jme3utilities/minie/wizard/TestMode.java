@@ -59,7 +59,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -301,21 +300,6 @@ class TestMode extends InputMode {
     }
 
     /**
-     * Generate a timestamp.
-     *
-     * @return the timestamp value
-     */
-    private static String hhmmss() {
-        Calendar rightNow = Calendar.getInstance();
-        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
-        int minutes = rightNow.get(Calendar.MINUTE);
-        int seconds = rightNow.get(Calendar.SECOND);
-        String result = String.format("%02d%02d%02d", hours, minutes, seconds);
-
-        return result;
-    }
-
-    /**
      * Cast a physics ray from the mouse pointer. If the nearest hit is a
      * PhysicsLink, select that link.
      */
@@ -369,7 +353,7 @@ class TestMode extends InputMode {
         if (modelName.endsWith(".j3o")) {
             modelName = MyString.removeSuffix(modelName, ".j3o");
         }
-        String hhmmss = hhmmss();
+        String hhmmss = ActionApplication.hhmmss();
         String outputFileName = String.format("%s-%s.j3o", modelName, hhmmss);
         String outputFilePath = ActionApplication.filePath(outputFileName);
 
@@ -401,7 +385,7 @@ class TestMode extends InputMode {
      * Write the control configuration to a file.
      */
     private static void saveJava() {
-        String hhmmss = hhmmss();
+        String hhmmss = ActionApplication.hhmmss();
         String className = "Dac" + hhmmss;
         String fileName = className + ".java";
 

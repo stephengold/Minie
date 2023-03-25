@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -160,21 +159,6 @@ class SaveMode extends InputMode {
     // private methods
 
     /**
-     * Generate a timestamp.
-     *
-     * @return the timestamp value
-     */
-    private static String hhmmss() {
-        Calendar rightNow = Calendar.getInstance();
-        int hours = rightNow.get(Calendar.HOUR_OF_DAY);
-        int minutes = rightNow.get(Calendar.MINUTE);
-        int seconds = rightNow.get(Calendar.SECOND);
-        String result = String.format("%02d%02d%02d", hours, minutes, seconds);
-
-        return result;
-    }
-
-    /**
      * Go back to the TestScreen.
      */
     private void previousScreen() {
@@ -203,7 +187,7 @@ class SaveMode extends InputMode {
             modelName = MyString.removeSuffix(modelName, ".gltf");
         }
 
-        String hhmmss = hhmmss();
+        String hhmmss = ActionApplication.hhmmss();
         String outputFileName = String.format("%s-%s.j3o", modelName, hhmmss);
         String outputFilePath = ActionApplication.filePath(outputFileName);
 
@@ -237,7 +221,7 @@ class SaveMode extends InputMode {
         Model model = VhacdTuner.getModel();
         DecompositionTest best = model.findRankedTest(0);
 
-        String hhmmss = hhmmss();
+        String hhmmss = ActionApplication.hhmmss();
         String fileName = String.format("configure%s.java", hhmmss);
 
         SaveScreen screen = VhacdTuner.findAppState(SaveScreen.class);
