@@ -131,7 +131,6 @@ class SaveMode extends InputMode {
 
         boolean handled = false;
         if (ongoing) {
-            Model model = VhacdTuner.getModel();
             handled = true;
             switch (actionString) {
                 case Action.previousScreen:
