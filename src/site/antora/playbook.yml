@@ -1,5 +1,5 @@
 ---
-# configure Antora for local testing with the published bundle
+# configure Antora for a local test using the published UI bundle
 
 site:
   title: The Minie project (local test using the published bundle)
