@@ -68,9 +68,9 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 
 == Add libraries to the classpath
 
-Minie comes pre-built as a single library that includes both Java classes
+{Project} comes pre-built as a single library that includes both Java classes
 and native libraries.
-The Minie library depends on:
+The {Project} library depends on:
 
 * the standard jme3-terrain library,
 * https://github.com/Simsilica/SimMath[Simsilica's SimMath library], and
@@ -79,7 +79,7 @@ The Minie library depends on:
 and those libraries depend on other JVM libraries.
 
 For projects built using Gradle or Maven, it's usually sufficient to specify the
-dependency on the Minie Library.  Build tools should automatically
+dependency on the {Project} Library.  Build tools should automatically
 resolve the remaining dependencies.
 
 === Gradle-built projects
@@ -123,10 +123,10 @@ Add to the project's "pom.xml" file:
 
 https://ant.apache.org[Ant] doesn't know about transitive dependencies,
 so you'll need to resolve them manually.
-Furthermore, in order to use the latest Minie release,
+Furthermore, in order to use the latest {Project} release,
 you'll need version 3.6.0 JMonkeyEngine libraries.
 (You can still use a JME 3.2 or 3.3 SDK, however.)
-For more information about the libraries Minie depends on,
+For more information about the libraries {Project} depends on,
 see xref:ROOT:depends.adoc[the Library version dependencies page].
 
 Download the {Project} library and its dependencies
