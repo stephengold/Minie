@@ -230,7 +230,7 @@ bulletAppState.setDebugEnabled(true); // default=false
 
 Other {url-api}/BulletAppState.html[`BulletAppState`] parameters,
 used to customize debug visualization,
-are described on xref:debug.adoc[the debugging page].
+are described on xref:debug.adoc[the troubleshooting page].
 
 Techniques to simulate physics without using
 {url-api}/BulletAppState.html[`BulletAppState`]

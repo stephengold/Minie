@@ -4,7 +4,7 @@
 ** xref:minie-library-tutorials:rigidbody.adoc[Rigid bodies]
 ** xref:minie-library-tutorials:shape.adoc[Collision shapes]
 ** xref:minie-library-tutorials:rbc.adoc[RigidBodyControl]
-** xref:minie-library-tutorials:debug.adoc[Debug aids]
+** xref:minie-library-tutorials:debug.adoc[Troubleshooting]
 ** xref:minie-library-tutorials:character.adoc[Characters]
 ** xref:minie-library-tutorials:vehicle.adoc[Vehicles]
 ** xref:minie-library-tutorials:new6dof.adoc[New6Dof constraints]

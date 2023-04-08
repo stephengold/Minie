@@ -1,4 +1,4 @@
-= Debugging physics issues
+= Troubleshooting physics issues
 :Project: Minie
 :page-pagination:
 :page-toclevels: 3
