@@ -24,7 +24,7 @@
 ** https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md[Release log]
 ** https://github.com/stephengold/Minie/commits/master[Recent commits]
 ** https://github.com/stephengold/Minie/issues[Issue tracker]
-** https://github.com/stephengold/Minie/issues/new[File an issue]
+** https://github.com/stephengold/Minie/issues/new[Report an issue]
 * Library APIs (javadoc)
 ** https://stephengold.github.io/Minie/javadoc/master[Master branch]
 ** https://stephengold.github.io/Minie/javadoc/v7-1[Version 7.1]
