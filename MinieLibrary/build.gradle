@@ -419,7 +419,7 @@ publishing {
                 }
                 url = 'https://stephengold.github.io/Minie'
             }
-            version project.ext.version + project.ext.minieSnapshot
+            version project.ext.version + rootProject.ext.minieSnapshot
         }
     }
     // Staging to OSSRH relies on the existence of 2 properties
