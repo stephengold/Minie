@@ -120,8 +120,8 @@ Each time step consists of 4 _phases_:
 Collisions are reported to listeners registered at the space.
 For fast-moving objects,
 {Project} offers optional continuous collision detection (CCD)
-using swept spheres;
-collisions detected by CCD are reported to those same listeners.
+using swept spheres.
+Collisions detected by CCD are reported to those same listeners.
 
 == App states
 

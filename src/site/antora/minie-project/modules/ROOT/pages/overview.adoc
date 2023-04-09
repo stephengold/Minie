@@ -41,7 +41,7 @@ nor for scientific research.
 For 2-D physics, consider using http://www.dyn4j.org/[dyn4j] instead.
 
 In order to use the latest {Project} release,
-you'll need version 3.6.0 JMonkeyEngine libraries.
+you'll need version 3.6 JMonkeyEngine libraries.
 For more information about the libraries Minie depends on,
 see xref:depends.adoc[the Library version dependencies page].
 
@@ -56,14 +56,14 @@ While an understanding of classical mechanics is assumed,
 many of its technical terms are linked (at first use)
 to the relevant article in the English Wikipedia.
 
-https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[Minie's BSD-style license]
+https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[The project's BSD-style license]
 disclaims liability for defects.
 Please don't use this software in safety-critical applications.
 
 == Getting help
 
 For self-help, make use of
-xref:minie-library-tutorials:add.adoc[the tutorials],
+xref:minie-library-tutorials:add.adoc[the tutorial pages],
 https://stephengold.github.io/Minie/javadoc/master[the javadoc], and
 https://github.com/stephengold/Minie[the source code].
 
@@ -79,7 +79,7 @@ on https://stephengold.github.io/[my homepage] and in the source code.
 
 == The name
 
-The Minie project is named after
+The project is named after
 {url-enwiki}/Claude-%C3%89tienne_Mini%C3%A9[_Claude-Étienne Minié_],
 who in 1846 developed an improved bullet for rifles.
 It's a play on words, not intended to denigrate the man, nor glorify him.
