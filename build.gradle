@@ -41,7 +41,7 @@ tasks.register('checkstyle') {
         ':MinieExamples:checkstyleMain', ':MinieLibrary:checkstyleMain', \
         ':MinieLibrary:checkstyleTest', ':TutorialApps:checkstyleMain', \
         ':VhacdTuner:checkstyleMain'
-    description 'Runs the checkstyle tool on all sourcecode.'
+    description 'Checks the style of all Java sourcecode.'
 }
 
 // cleanup tasks:
