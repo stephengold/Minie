@@ -335,7 +335,7 @@ a library in the [jMonkeyEngine Game Engine][jme].
 From January to November 2018, Minie was a sub-project of
 [the Jme3-utilities Project][utilities].
 
-Since November 2018, Minie has been a separate project at
+Since November 2018, Minie has been a separate project, hosted at
 [GitHub][minie].
 
 [Jump to table of contents](#toc)
