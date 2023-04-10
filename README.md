@@ -264,8 +264,6 @@ preferably early in the development process.
 
 + [the Minie Physics Library page](https://library.jmonkeyengine.org/#!entry=11511%2F38308161-c3cf-4e23-8754-528ca8387c11)
   in [the JmonkeyEngine Library][library]
-+ [The Minie Physics Library page](https://store.jmonkeyengine.org/38308161-c3cf-4e23-8754-528ca8387c11)
-  at [the JmonkeyStore][store]
 + [The Bullet Physics SDK Manual](https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf)
 + [The physics section of the jMonkeyEngine Wiki](https://wiki.jmonkeyengine.org/jme3/advanced/physics.html)
 + [Alan Chou's game-physics tutorial](http://allenchou.net/game-physics-series/)
@@ -451,7 +449,6 @@ correct the situation: sgold@sonic.net
 [project]: https://stephengold.github.io/Minie "Minie Project"
 [simMath]: https://github.com/Simsilica/SimMath "SimMath Library"
 [sonatype]: https://www.sonatype.com "Sonatype"
-[store]: https://store.jmonkeyengine.org "JmonkeyStore"
 [travis]: https://travis-ci.com "Travis CI"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [vegdahl]: https://www.cessen.com "Nathan Vegdahl"
