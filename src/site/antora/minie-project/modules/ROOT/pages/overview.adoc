@@ -31,6 +31,7 @@ https://pybullet.org/wordpress[_Bullet_], a mature real-time physics simulator.
 But although Bullet is written in {url-enwiki}/C%2B%2B[C&#43;&#43;],
 you won't need any knowledge of C&#43;&#43; to use {Project}.
 
+
 == Caveats
 
 {Project}'s focus is on simulating
@@ -60,6 +61,7 @@ https://raw.githubusercontent.com/stephengold/Minie/master/LICENSE[The project's
 disclaims liability for defects.
 Please don't use this software in safety-critical applications.
 
+
 == Getting help
 
 For self-help, make use of
@@ -77,6 +79,7 @@ For issues that are best handled privately, contact me by e-mail.
 My personal e-mail address appears
 on https://stephengold.github.io/[my homepage] and in the source code.
 
+
 == The name
 
 The project is named after
@@ -86,6 +89,7 @@ It's a play on words, not intended to denigrate the man, nor glorify him.
 
 The preferred English pronunciation is roughly "min-YAY",
 but "MIN-ee" is also acceptable.
+
 
 == Next steps
 
