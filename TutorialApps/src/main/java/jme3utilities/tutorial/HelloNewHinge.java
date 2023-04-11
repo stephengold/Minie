@@ -64,9 +64,18 @@ public class HelloNewHinge
     // *************************************************************************
     // fields
 
+    /**
+     * wheels for steering
+     */
     final private static List<RotationMotor> steer = new ArrayList<>(2);
+    /**
+     * drive wheels
+     */
     final private static List<PhysicsRigidBody> drive = new ArrayList<>(2);
     private static PhysicsRigidBody chassis;
+    /**
+     * PhysicsSpace for simulation
+     */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed

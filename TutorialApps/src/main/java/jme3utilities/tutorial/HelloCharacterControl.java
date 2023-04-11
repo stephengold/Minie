@@ -53,7 +53,7 @@ import com.jme3.system.AppSettings;
 
 /**
  * A simple example of a CharacterControl.
- *
+ * <p>
  * Builds upon HelloCharacter.
  *
  * @author Stephen Gold sgold@sonic.net

@@ -47,7 +47,7 @@ import com.jme3.math.Vector3f;
  * the blue (static) box no longer exerts any contact force on the ball. Gravity
  * takes over, and the ball falls through.
  * <p>
- * Builds on HelloStaticBody.
+ * Builds upon HelloStaticBody.
  *
  * @author Stephen Gold sgold@sonic.net
  */

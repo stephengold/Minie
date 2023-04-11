@@ -53,6 +53,9 @@ public class HelloUpdate extends SimpleApplication {
     // *************************************************************************
     // fields
 
+    /**
+     * PhysicsSpace for simulation
+     */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
