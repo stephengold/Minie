@@ -236,6 +236,7 @@ public class HelloCharacterControl
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
+        //bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
         // To enable the callbacks, register the application as a tick listener.

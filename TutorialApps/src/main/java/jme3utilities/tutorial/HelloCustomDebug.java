@@ -146,7 +146,7 @@ public class HelloCustomDebug extends SimpleApplication {
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugEnabled(true); // for debug visualization
 
         // Add lighting to the debug scene.
         bulletAppState.setDebugInitListener(new DebugInitListener() {

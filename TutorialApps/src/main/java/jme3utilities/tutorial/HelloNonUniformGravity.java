@@ -82,10 +82,11 @@ public class HelloNonUniformGravity
 
         // Reduce the time step for better accuracy.
         physicsSpace.setAccuracy(0.005f);
-
-        // Enable debug visualization
-        // (including gravity-vector visualization)
-        // to reveal what occurs in physics space.
+        /*
+         * Enable debug visualization
+         * (including gravity-vector visualization)
+         * to reveal what occurs in physics space.
+         */
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugGravityVectorFilter(new FilterAll(true));
 

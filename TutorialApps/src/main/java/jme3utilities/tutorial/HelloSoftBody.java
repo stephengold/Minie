@@ -84,6 +84,7 @@ public class HelloSoftBody extends SimpleApplication {
         // Set up Bullet physics.
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         stateManager.attach(bulletAppState);
+        //bulletAppState.setDebugEnabled(true); // for debug visualization
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Add a box to the scene and relocate the camera.

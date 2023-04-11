@@ -179,6 +179,7 @@ public class HelloKinematicRbc extends SimpleApplication {
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
+        //bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
         // Reduce the time step for better accuracy.
