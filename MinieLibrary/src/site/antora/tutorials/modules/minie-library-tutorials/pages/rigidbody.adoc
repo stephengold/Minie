@@ -86,6 +86,8 @@ Unlike a dynamic body,
 a static one is unaffected by forces, torques, and impulses,
 as if its mass were infinite.
 
+NOTE: Java's `static` keyword is completely unrelated to physics.
+
 {url-tutorial}/HelloStaticBody.java[HelloStaticBody] is a simple application
 that combines static and dynamic rigid bodies.
 Things to notice while running the app:
