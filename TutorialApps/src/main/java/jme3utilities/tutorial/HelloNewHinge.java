@@ -88,7 +88,7 @@ public class HelloNewHinge
      */
     @Override
     public void simpleInitApp() {
-        configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Create a wedge-shaped vehicle with a low center of gravity.
         // The local forward direction is +Z.
@@ -257,14 +257,18 @@ public class HelloNewHinge
 
     /**
      * Configure physics during startup.
+     *
+     * @return a new instance (not null)
      */
-    private void configurePhysics() {
+    private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        bulletAppState.setDebugEnabled(true);
-        physicsSpace = bulletAppState.getPhysicsSpace();
+        bulletAppState.setDebugEnabled(true); // for debug visualization
+        PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
         // To enable the callbacks, register the application as a tick listener.
-        physicsSpace.addTickListener(this);
+        result.addTickListener(this);
+
+        return result;
     }
 }
