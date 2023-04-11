@@ -407,7 +407,8 @@ abstract public class PhysicsCollisionObject
     public int countIgnored() {
         int result = (ignoreList == null) ? 0 : ignoreList.size();
 
-        assert result == getNumObjectsWithoutCollision(nativeId());
+        assert result == getNumObjectsWithoutCollision(nativeId()) :
+                result + " != " + getNumObjectsWithoutCollision(nativeId());
         assert result >= 0 : result;
         return result;
     }
