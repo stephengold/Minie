@@ -81,35 +81,35 @@ public class HelloGhost
     /**
      * text displayed in the upper-left corner of the GUI node
      */
-    private BitmapText statusText;
+    private static BitmapText statusText;
     /**
      * true when the spacebar is pressed, otherwise false
      */
-    private volatile boolean jumpRequested;
+    private static volatile boolean jumpRequested;
     /**
      * true when the DOWN key is pressed, otherwise false
      */
-    private volatile boolean walkBackward;
+    private static volatile boolean walkBackward;
     /**
      * true when the UP key is pressed, otherwise false
      */
-    private volatile boolean walkForward;
+    private static volatile boolean walkForward;
     /**
      * true when the LEFT key is pressed, otherwise false
      */
-    private volatile boolean walkLeft;
+    private static volatile boolean walkLeft;
     /**
      * true when the RIGHT key is pressed, otherwise false
      */
-    private volatile boolean walkRight;
+    private static volatile boolean walkRight;
 
-    private BulletAppState bulletAppState;
-    private PhysicsCharacter character;
-    private PhysicsGhostObject ghost;
+    private static BulletAppState bulletAppState;
+    private static PhysicsCharacter character;
+    private static PhysicsGhostObject ghost;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -139,7 +139,7 @@ public class HelloGhost
     public void simpleInitApp() {
         configureCamera();
         configureInput();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Add the status text to the GUI.
         statusText = new BitmapText(guiFont);
@@ -150,7 +150,7 @@ public class HelloGhost
         float sphereRadius = 10f;
         SphereCollisionShape sphereShape
                 = new SphereCollisionShape(sphereRadius);
-        this.ghost = new PhysicsGhostObject(sphereShape);
+        ghost = new PhysicsGhostObject(sphereShape);
         ghost.setPhysicsLocation(new Vector3f(15f, 0f, -13f));
         physicsSpace.addCollisionObject(ghost);
 
@@ -367,7 +367,7 @@ public class HelloGhost
      * @return a new instance (not null)
      */
     private PhysicsSpace configurePhysics() {
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
         // Enable debug visualization to reveal what occurs in physics space.

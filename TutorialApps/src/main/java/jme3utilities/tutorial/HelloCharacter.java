@@ -66,11 +66,11 @@ public class HelloCharacter
     // *************************************************************************
     // fields
 
-    private PhysicsCharacter character;
+    private static PhysicsCharacter character;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -98,7 +98,7 @@ public class HelloCharacter
      */
     @Override
     public void simpleInitApp() {
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Create a character with a capsule shape and add it to the space.
         float capsuleRadius = 0.5f;

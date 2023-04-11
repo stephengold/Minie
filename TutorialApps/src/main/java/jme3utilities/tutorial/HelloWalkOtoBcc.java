@@ -73,36 +73,36 @@ public class HelloWalkOtoBcc
     // *************************************************************************
     // fields
 
-    private Action standAction;
-    private Action walkAction;
-    private AnimComposer composer;
-    private BetterCharacterControl character;
+    private static Action standAction;
+    private static Action walkAction;
+    private static AnimComposer composer;
+    private static BetterCharacterControl character;
     /**
      * true when the spacebar is pressed, otherwise false
      */
-    private volatile boolean jumpRequested;
+    private static volatile boolean jumpRequested;
     /**
      * true when the U key is pressed, otherwise false
      */
-    private volatile boolean walkAway;
+    private static volatile boolean walkAway;
     /**
      * true when the H key is pressed, otherwise false
      */
-    private volatile boolean walkLeft;
+    private static volatile boolean walkLeft;
     /**
      * true when the K key is pressed, otherwise false
      */
-    private volatile boolean walkRight;
+    private static volatile boolean walkRight;
     /**
      * true when the J key is pressed, otherwise false
      */
-    private volatile boolean walkToward;
+    private static volatile boolean walkToward;
 
-    final private Node translationNode = new Node("translation node");
+    final private static Node translationNode = new Node("translation node");
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -133,7 +133,7 @@ public class HelloWalkOtoBcc
         addLighting(rootNode);
         configureCamera();
         configureInput();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Load the Oto model and find its animation actions.
         Spatial oto = assetManager.loadModel("Models/Oto/Oto.mesh.xml");

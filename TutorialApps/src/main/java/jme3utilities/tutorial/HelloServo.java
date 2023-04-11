@@ -70,7 +70,7 @@ public class HelloServo extends SimpleApplication {
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -99,7 +99,7 @@ public class HelloServo extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         configureCamera();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Add a dynamic, green frame.
         PhysicsRigidBody frameBody = addFrame();

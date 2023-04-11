@@ -90,23 +90,23 @@ public class HelloPoi
     /**
      * true when a launch has been requested, but it hasn't occurred yet
      */
-    private boolean launchRequested = false;
+    private static boolean launchRequested = false;
     /**
      * Material to visualize missiles
      */
-    private Material redMaterial;
+    private static Material redMaterial;
     /**
      * body to model the terrain
      */
-    private PhysicsRigidBody terrain;
+    private static PhysicsRigidBody terrain;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     /**
      * visualize the predicted point-of-impact
      */
-    private PointVisualizer poiIndicator;
+    private static PointVisualizer poiIndicator;
     // *************************************************************************
     // new methods exposed
 
@@ -136,7 +136,7 @@ public class HelloPoi
     public void simpleInitApp() {
         configureCamera();
         configureInput();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         redMaterial = new Material(assetManager, Materials.UNSHADED);
         redMaterial.setColor("Color", ColorRGBA.Red.clone());

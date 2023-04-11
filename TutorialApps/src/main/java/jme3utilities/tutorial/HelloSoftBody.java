@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ public class HelloSoftBody extends SimpleApplication {
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSoftSpace physicsSpace;
+    private static PhysicsSoftSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -84,7 +84,7 @@ public class HelloSoftBody extends SimpleApplication {
         // Set up Bullet physics.
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         stateManager.attach(bulletAppState);
-        this.physicsSpace = bulletAppState.getPhysicsSoftSpace();
+        physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Add a box to the scene and relocate the camera.
         addBox();

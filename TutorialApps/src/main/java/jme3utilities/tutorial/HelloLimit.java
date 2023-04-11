@@ -84,15 +84,15 @@ public class HelloLimit
     /**
      * mouse-controlled kinematic paddle
      */
-    private PhysicsRigidBody paddleBody;
+    private static PhysicsRigidBody paddleBody;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     /**
      * latest ground location indicated by the mouse cursor
      */
-    private final Vector3f mouseLocation = new Vector3f();
+    final private static Vector3f mouseLocation = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
@@ -125,7 +125,7 @@ public class HelloLimit
     @Override
     public void simpleInitApp() {
         configureCamera();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Add a static, green square to represent the ground.
         float halfExtent = 3f;

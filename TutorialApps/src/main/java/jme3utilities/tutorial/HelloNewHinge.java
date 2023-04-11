@@ -64,10 +64,10 @@ public class HelloNewHinge
     // *************************************************************************
     // fields
 
-    final private List<RotationMotor> steer = new ArrayList<>(2);
-    final private List<PhysicsRigidBody> drive = new ArrayList<>(2);
-    private PhysicsRigidBody chassis;
-    private PhysicsSpace physicsSpace;
+    final private static List<RotationMotor> steer = new ArrayList<>(2);
+    final private static List<PhysicsRigidBody> drive = new ArrayList<>(2);
+    private static PhysicsRigidBody chassis;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -262,7 +262,7 @@ public class HelloNewHinge
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true);
-        this.physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace = bulletAppState.getPhysicsSpace();
 
         // To enable the callbacks, register the application as a tick listener.
         physicsSpace.addTickListener(this);

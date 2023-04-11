@@ -88,15 +88,15 @@ public class HelloDoubleEnded
     /**
      * mouse-controlled kinematic paddle
      */
-    private PhysicsRigidBody paddleBody;
+    private static PhysicsRigidBody paddleBody;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     /**
      * latest ground location indicated by the mouse cursor
      */
-    private final Vector3f mouseLocation = new Vector3f();
+    final private static Vector3f mouseLocation = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
@@ -129,7 +129,7 @@ public class HelloDoubleEnded
     @Override
     public void simpleInitApp() {
         configureCamera();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Add a static plane to represent the ground.
         addPlane(groundY);
@@ -261,7 +261,7 @@ public class HelloDoubleEnded
     private void addPaddle() {
         BoxCollisionShape shape
                 = new BoxCollisionShape(0.3f, paddleHalfHeight, 1f);
-        this.paddleBody = new PhysicsRigidBody(shape);
+        paddleBody = new PhysicsRigidBody(shape);
         paddleBody.setKinematic(true);
 
         physicsSpace.addCollisionObject(paddleBody);

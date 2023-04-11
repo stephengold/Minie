@@ -64,11 +64,11 @@ public class HelloCharacterControl
     // *************************************************************************
     // fields
 
-    private CharacterControl characterControl;
+    private static CharacterControl characterControl;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -96,7 +96,7 @@ public class HelloCharacterControl
      */
     @Override
     public void simpleInitApp() {
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Load the Jaime model from jme3-testdata-3.1.0-stable.jar
         Spatial jaime = assetManager.loadModel("Models/Jaime/Jaime.j3o");

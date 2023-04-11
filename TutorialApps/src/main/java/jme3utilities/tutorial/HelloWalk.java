@@ -78,16 +78,16 @@ public class HelloWalk
     /**
      * true when the spacebar is pressed, otherwise false
      */
-    private volatile boolean jumpRequested;
+    private static volatile boolean jumpRequested;
     /**
      * true when the W key is pressed, otherwise false
      */
-    private volatile boolean walkRequested;
-    private PhysicsCharacter character;
+    private static volatile boolean walkRequested;
+    private static PhysicsCharacter character;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -117,7 +117,7 @@ public class HelloWalk
     public void simpleInitApp() {
         configureCamera();
         configureInput();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Create a character with a capsule shape and add it to the space.
         float capsuleRadius = 3f;

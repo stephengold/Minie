@@ -96,23 +96,23 @@ public class HelloDoor
     /**
      * mouse-controlled kinematic ball
      */
-    private PhysicsRigidBody ballBody;
+    private static PhysicsRigidBody ballBody;
     /**
      * dynamic swinging door
      */
-    private PhysicsRigidBody doorBody;
+    private static PhysicsRigidBody doorBody;
     /**
      * static door frame
      */
-    private PhysicsRigidBody doorFrameBody;
+    private static PhysicsRigidBody doorFrameBody;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     /**
      * latest ground location indicated by the mouse cursor
      */
-    private final Vector3f mouseLocation = new Vector3f();
+    final private static Vector3f mouseLocation = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
@@ -145,7 +145,7 @@ public class HelloDoor
     @Override
     public void simpleInitApp() {
         configureCamera();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Add a static plane to represent the floor.
         addPlane(groundY);

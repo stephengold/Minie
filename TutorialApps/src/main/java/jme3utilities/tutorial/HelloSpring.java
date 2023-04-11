@@ -89,15 +89,15 @@ public class HelloSpring
     /**
      * mouse-controlled kinematic paddle
      */
-    private PhysicsRigidBody paddleBody;
+    private static PhysicsRigidBody paddleBody;
     /**
      * PhysicsSpace for simulation
      */
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     /**
      * latest ground location indicated by the mouse cursor
      */
-    private final Vector3f mouseLocation = new Vector3f();
+    final private static Vector3f mouseLocation = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
@@ -130,7 +130,7 @@ public class HelloSpring
     @Override
     public void simpleInitApp() {
         configureCamera();
-        this.physicsSpace = configurePhysics();
+        physicsSpace = configurePhysics();
 
         // Add a static plane to represent the ground.
         addPlane(groundY);

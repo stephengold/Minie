@@ -53,7 +53,7 @@ public class HelloUpdate extends SimpleApplication {
     // *************************************************************************
     // fields
 
-    private PhysicsSpace physicsSpace;
+    private static PhysicsSpace physicsSpace;
     // *************************************************************************
     // new methods exposed
 
@@ -82,7 +82,7 @@ public class HelloUpdate extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         // Create the physics space.
-        this.physicsSpace = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
+        physicsSpace = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
 
         // Create a material and a mesh for balls.
         float ballRadius = 1f;

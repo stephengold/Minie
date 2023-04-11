@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -74,21 +74,21 @@ public class HelloWind
     /**
      * true when the left-arrow key is pressed, otherwise false
      */
-    private volatile boolean turnLeft;
+    private static volatile boolean turnLeft;
     /**
      * true when the right-arrow key is pressed, otherwise false
      */
-    private volatile boolean turnRight;
+    private static volatile boolean turnRight;
     /**
      * wind direction (in radians from +X)
      */
-    private float windAzimuth = -0.8f;
+    private static float windAzimuth = -0.8f;
     /**
      * collision object for the flag
      */
-    private PhysicsSoftBody flag;
+    private static PhysicsSoftBody flag;
 
-    final private Vector3f tmpVelocity = new Vector3f();
+    final private static Vector3f tmpVelocity = new Vector3f();
     // *************************************************************************
     // new methods exposed
 
@@ -139,7 +139,7 @@ public class HelloWind
         Mesh mesh = new ClothGrid(xLines, zLines, lineSpacing);
 
         // Create a soft rectangle for the flag.
-        this.flag = new PhysicsSoftBody();
+        flag = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(mesh, flag);
         flag.setMargin(0.1f);
         flag.setMass(1f);
