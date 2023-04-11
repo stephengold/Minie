@@ -87,8 +87,8 @@ public class HelloBoneLink extends SimpleApplication {
     public void simpleInitApp() {
         // Set up Bullet physics (with debug enabled).
         BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true); // default = false
         stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(true); // for debug visualization
         physicsSpace = bulletAppState.getPhysicsSpace();
 
         // Add a box to the scene and relocate the camera.

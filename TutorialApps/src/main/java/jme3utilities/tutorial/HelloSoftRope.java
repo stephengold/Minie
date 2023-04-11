@@ -66,8 +66,8 @@ public class HelloSoftRope extends SimpleApplication {
     public void simpleInitApp() {
         // Set up Bullet physics (with debug enabled).
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
-        bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         // Relocate the camera.

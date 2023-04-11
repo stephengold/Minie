@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -66,8 +66,8 @@ public class HelloMadMallet extends SimpleApplication {
     public void simpleInitApp() {
         // Set up Bullet physics and create a physics space.
         BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
         physicsSpace.setGravity(new Vector3f(0f, -50f, 0f));

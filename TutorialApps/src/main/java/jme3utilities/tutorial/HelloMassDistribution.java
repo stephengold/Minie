@@ -70,8 +70,8 @@ public class HelloMassDistribution extends SimpleApplication {
     public void simpleInitApp() {
         // Set up Bullet physics and create a physics space.
         BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
         physicsSpace.setGravity(new Vector3f(0f, -50f, 0f));

@@ -80,8 +80,8 @@ public class HelloDebugToPost extends SimpleApplication {
 
         // Set up Bullet physics (with debug enabled).
         BulletAppState bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(true); // for debug visualization
         physicsSpace = bulletAppState.getPhysicsSpace();
         /*
          * Direct debug visuals to a post ViewPort that clears the depth buffer.

@@ -118,9 +118,9 @@ public class HelloWind
 
         // Set up Bullet physics (with debug enabled).
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
-        bulletAppState.setDebugEnabled(true);
-        bulletAppState.setWindVelocityFilter(new FilterAll(true));
         stateManager.attach(bulletAppState);
+        bulletAppState.setDebugEnabled(true); // for debug visualization
+        bulletAppState.setWindVelocityFilter(new FilterAll(true));
         PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
         physicsSpace.setAccuracy(0.01f); // 10-msec timestep
