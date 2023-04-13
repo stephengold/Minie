@@ -244,11 +244,11 @@ public class RigidBodySnapshot {
     // new methods exposed
 
     /**
-     * Apply the properties to the specified body.
+     * Apply all properties (except the ignore list) to the specified body.
      *
      * @param body the target body (not null, modified)
      */
-    public void applyTo(PhysicsRigidBody body) {
+    public void applyAllExceptIgnoreListTo(PhysicsRigidBody body) {
         // boolean
         body.setContactResponse(contactResponse);
         body.setProtectGravity(protectGravity);
@@ -275,7 +275,6 @@ public class RigidBodySnapshot {
 
         body.setAnisotropicFriction(
                 anisotropicFrictionComponents, anisotropicFrictionModes);
-        body.setIgnoreList(ignoreList);
         body.setPhysicsRotation(rotationMatrix);
         body.setPhysicsLocationDp(location);
         body.clearForces();
@@ -296,5 +295,15 @@ public class RigidBodySnapshot {
             body.setLinearVelocityDp(linearVelocity);
         }
         body.setDeactivationTime(deactivationTime);
+    }
+
+    /**
+     * Apply the properties to the specified body.
+     *
+     * @param body the target body (not null, modified)
+     */
+    public void applyTo(PhysicsRigidBody body) {
+        applyAllExceptIgnoreListTo(body);
+        body.setIgnoreList(ignoreList);
     }
 }
