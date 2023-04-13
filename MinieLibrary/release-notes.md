@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.5.0 released on TBD
+## Version 7.5.0 released on 13 April 2023
 
 + Bugfix:  during cloning, Bullet's ignore list
   gets out-of-synch with the JVM list
