@@ -1459,6 +1459,9 @@ abstract public class PhysicsCollisionObject
      */
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
         assert !doneCloningIgnores;
+        assert countIgnored() == 0 : "count = " + countIgnored();
+        assert checkIgnoreList();
+        assert old.checkIgnoreList();
 
         if (old.ignoreList != null) {
             for (PhysicsCollisionObject oldPco : old.ignoreList) {
@@ -1468,14 +1471,19 @@ abstract public class PhysicsCollisionObject
                  * wait and let *that* PCO invoke addToIgnoreList().
                  */
                 if (cloner.isCloned(oldPco)) {
+                    assert oldPco.checkIgnoreList();
                     PhysicsCollisionObject newPco = cloner.clone(oldPco);
                     if (newPco.doneCloningIgnores) {
+                        assert newPco.checkIgnoreList();
                         addToIgnoreList(newPco);
                     }
                 }
             }
         }
         this.doneCloningIgnores = true;
+
+        assert checkIgnoreList();
+        assert old.checkIgnoreList();
     }
 
     /**
