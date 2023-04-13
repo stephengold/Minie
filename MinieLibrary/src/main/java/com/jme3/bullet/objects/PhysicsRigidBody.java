@@ -1241,12 +1241,11 @@ public class PhysicsRigidBody extends PhysicsBody {
             setKinematic(kinematic);
         }
         postRebuild();
-        snapshot.applyTo(this);
+        snapshot.applyAllExceptIgnoreListTo(this);
 
         Vector3f tmpVector = new Vector3f(); // TODO garbage
         setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
 
-        clearIgnoreList();
         cloneIgnoreList(cloner, old);
 
         cloneJoints(cloner, old);
