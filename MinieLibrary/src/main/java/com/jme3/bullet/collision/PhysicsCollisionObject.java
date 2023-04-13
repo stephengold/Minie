@@ -1628,7 +1628,9 @@ abstract public class PhysicsCollisionObject
 
         this.collisionShape = cloner.clone(collisionShape);
         this.debugMaterial = cloner.clone(debugMaterial);
-        this.ignoreList = null;
+        if (!hasAssignedNativeObject()) {
+            this.ignoreList = null;
+        }
         /*
          * The caller should unassign the old native object and invoke
          * cloneIgnoreList() and copyPcoProperties().
