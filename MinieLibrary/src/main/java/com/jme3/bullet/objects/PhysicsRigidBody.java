@@ -1236,7 +1236,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         setNativeId(objectId);
         assert getInternalType(objectId) == PcoType.rigid :
                 getInternalType(objectId);
-        logger2.log(Level.INFO, "Created " + Long.toHexString(objectId));
+        logger2.log(Level.INFO, "Created {0}", Long.toHexString(objectId));
         if (mass != massForStatic) {
             setKinematic(kinematic);
         }
