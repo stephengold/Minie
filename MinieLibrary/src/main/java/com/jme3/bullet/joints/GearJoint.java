@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 jMonkeyEngine
+ * Copyright (c) 2022-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -317,7 +317,7 @@ public class GearJoint extends Constraint {
     // Java private methods
 
     /**
-     * Test whether the local copy of the A body's axis matches the native
+     * Test whether the JVM copy of the A body's axis matches the native
      * value.
      *
      * @return true for an exact match, otherwise false
@@ -332,7 +332,7 @@ public class GearJoint extends Constraint {
     }
 
     /**
-     * Test whether the local copy of the A body's axis matches the native
+     * Test whether the JVM copy of the A body's axis matches the native
      * value.
      *
      * @return true for an exact match, otherwise false

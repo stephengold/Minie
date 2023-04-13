@@ -381,7 +381,7 @@ public class CompoundMesh
     // Java private methods
 
     /**
-     * Compare Bullet's scale factors to the local copy.
+     * Compare Bullet's scale factors to the JVM copy.
      *
      * @param tempVector caller-allocated temporary storage (not null)
      * @return true if scale factors are exactly equal, otherwise false

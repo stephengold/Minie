@@ -1400,7 +1400,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Compare Bullet's gravity vector to the local copy.
+     * Compare Bullet's gravity vector to the JVM copy.
      *
      * @param storeVector caller-allocated temporary storage (not null)
      * @return true if scale factors are exactly equal, otherwise false

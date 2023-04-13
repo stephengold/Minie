@@ -258,7 +258,7 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Compare Bullet's rotation order to the local copy.
+     * Compare Bullet's rotation order to the JVM copy.
      *
      * @return true if rotation orders are identical, otherwise false
      */

@@ -113,12 +113,12 @@ public class PhysicsRigidBody extends PhysicsBody {
     // fields
 
     /**
-     * copy of kinematic flag: true&rarr;set kinematic mode,
+     * JVM copy of kinematic flag: true&rarr;set kinematic mode,
      * false&rarr;dynamic/static mode
      */
     private boolean kinematic = false;
     /**
-     * copy of the mass (&gt;0) of a dynamic body, or 0 for a static body
+     * JVM copy of the mass (&gt;0) of a dynamic body, or 0 for a static body
      */
     protected float mass = 1f;
     /**
@@ -1464,7 +1464,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     // Java private methods
 
     /**
-     * Compare Bullet's mass to the local copy.
+     * Compare Bullet's mass to the JVM copy.
      *
      * @return true if the masses are approximately equal, otherwise false
      */
@@ -1477,7 +1477,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Compare Bullet's kinematic flag to the local copy.
+     * Compare Bullet's kinematic flag to the JVM copy.
      *
      * @return true if the flags are equal, otherwise false
      */

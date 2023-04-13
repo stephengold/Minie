@@ -853,7 +853,7 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     // private methods
 
     /**
-     * Compare Bullet's wheel count to the local copy.
+     * Compare Bullet's wheel count to the JVM copy.
      *
      * @return true if the counts are exactly equal, otherwise false
      */

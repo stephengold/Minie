@@ -665,7 +665,7 @@ abstract public class CollisionShape
      * Compare Bullet's scale factors to the local copies.
      *
      * @param storeVector caller-allocated temporary storage (not null)
-     * @return true if Bullet and the local copy match exactly, otherwise false
+     * @return true if Bullet and the JVM copy match exactly, otherwise false
      */
     private boolean checkScale(Vector3f storeVector) {
         assert storeVector != null;
