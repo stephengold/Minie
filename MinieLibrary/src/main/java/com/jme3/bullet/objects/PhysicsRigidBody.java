@@ -1222,6 +1222,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         assert old.hasAssignedNativeObject();
 
         RigidBodySnapshot snapshot = new RigidBodySnapshot(old);
+
         super.cloneFields(cloner, original);
         if (hasAssignedNativeObject()) {
             return;
@@ -1244,10 +1245,10 @@ public class PhysicsRigidBody extends PhysicsBody {
         snapshot.applyAllExceptIgnoreListTo(this);
 
         Vector3f tmpVector = new Vector3f(); // TODO garbage
-        setInverseInertiaLocal(old.getInverseInertiaLocal(tmpVector));
+        old.getInverseInertiaLocal(tmpVector);
+        setInverseInertiaLocal(tmpVector);
 
         cloneIgnoreList(cloner, old);
-
         cloneJoints(cloner, old);
     }
 
