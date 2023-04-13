@@ -1,5 +1,14 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.5.0 released on TBD
+
++ Bugfix:  during cloning, Bullet's ignore list
+  gets out-of-synch with the JVM list
++ Added the `applyAllExceptIgnoreListTo()` method
+  to the `RigidBodySnapshot` class.
++ Made private fields `static` in the tutorial apps.
++ Built using Gradle v8.1.0 .
+
 ## Version 7.4.0 released on 24 March 2023
 
 + Fixed bugs:
