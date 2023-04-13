@@ -87,23 +87,6 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java18-Windows:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: windows-2022
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 18
-      - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
-        shell: bash
-      - if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: crash-log
-          path: 'MinieLibrary/*.log'
-
   Java19-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-20.04
@@ -135,3 +118,20 @@ jobs:
         with:
           name: test-report
           path: 'build/reports/tests/test/index.html'
+
+  Java20-Windows:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 20
+      - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
+        shell: bash
+      - if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
