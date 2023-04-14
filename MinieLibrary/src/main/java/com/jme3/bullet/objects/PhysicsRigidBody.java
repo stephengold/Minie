@@ -1221,16 +1221,12 @@ public class PhysicsRigidBody extends PhysicsBody {
         assert old != this;
         assert old.hasAssignedNativeObject();
 
-        RigidBodySnapshot snapshot = new RigidBodySnapshot(old);
-
         super.cloneFields(cloner, original);
         if (hasAssignedNativeObject()) {
             return;
         }
 
         this.motionState = cloner.clone(motionState);
-        assert !hasAssignedNativeObject();
-
         CollisionShape shape = getCollisionShape();
         long objectId = createRigidBody(
                 mass, motionState.nativeId(), shape.nativeId());
@@ -1238,18 +1234,20 @@ public class PhysicsRigidBody extends PhysicsBody {
         assert getInternalType(objectId) == PcoType.rigid :
                 getInternalType(objectId);
         logger2.log(Level.INFO, "Created {0}", Long.toHexString(objectId));
+
+        RigidBodySnapshot snapshot = new RigidBodySnapshot(old);
+        snapshot.applyAllExceptIgnoreListTo(this);
+
         if (mass != massForStatic) {
             setKinematic(kinematic);
         }
-        postRebuild();
-        snapshot.applyAllExceptIgnoreListTo(this);
 
-        Vector3f tmpVector = new Vector3f(); // TODO garbage
-        old.getInverseInertiaLocal(tmpVector);
+        Vector3f tmpVector = old.getInverseInertiaLocal(null); // garbage
         setInverseInertiaLocal(tmpVector);
 
         cloneIgnoreList(cloner, old);
         cloneJoints(cloner, old);
+        postRebuild();
     }
 
     /**
