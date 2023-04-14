@@ -1,4 +1,4 @@
-= Project overview
+= Minie project overview
 :Project: Minie
 :url-enwiki: https://en.wikipedia.org/wiki
 
