@@ -869,7 +869,7 @@ public class PhysicsDescriber extends Describer {
             New6Dof sixDof = (New6Dof) joint;
             result.append(" rot[");
             Matrix3f rot = sixDof.getRotationMatrix(end, null);
-            result.append(describeMatrix(rot));
+            result.append(MyString.describeMatrix(rot));
             result.append(']');
         } else if (joint instanceof SoftAngularJoint) {
             SoftAngularJoint saj = (SoftAngularJoint) joint;
@@ -931,36 +931,6 @@ public class PhysicsDescriber extends Describer {
         Vector3f hi = joint.getLinearUpperLimit(new Vector3f());
         result.append(MyVector3f.describe(hi));
         result.append(']');
-
-        return result.toString();
-    }
-
-    /**
-     * Generate a textual description of a Matrix3f value.
-     *
-     * @param matrix the value to describe (may be null, unaffected)
-     * @return a description (not null, not empty)
-     */
-    static String describeMatrix(Matrix3f matrix) { // TODO use MyString
-        if (matrix == null) {
-            return "null";
-        }
-
-        StringBuilder result = new StringBuilder(80);
-        for (int row = 0; row < 3; ++row) {
-            for (int column = 0; column < 3; ++column) {
-                float element = matrix.get(row, column);
-                String desc = MyString.describe(element);
-                result.append(desc);
-
-                if (row < 2 || column < 2) {
-                    result.append(' ');
-                }
-            }
-            if (row < 2) { // Add an extra space between rows.
-                result.append(' ');
-            }
-        }
 
         return result.toString();
     }

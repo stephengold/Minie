@@ -484,9 +484,9 @@ public class PhysicsDumper extends Dumper {
             desc = sixDof.getRotationOrder().toString();
             stream.printf(" ro=%s", desc);
             Matrix3f basA = sixDof.calculatedBasisA(null);
-            stream.printf(" basA[%s]", PhysicsDescriber.describeMatrix(basA));
+            stream.printf(" basA[%s]", MyString.describeMatrix(basA));
             Matrix3f basB = sixDof.calculatedBasisB(null);
-            stream.printf(" basB[%s]", PhysicsDescriber.describeMatrix(basB));
+            stream.printf(" basB[%s]", MyString.describeMatrix(basB));
 
             if (dumpMotors) {
                 for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
