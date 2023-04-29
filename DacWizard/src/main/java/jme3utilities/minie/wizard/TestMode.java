@@ -61,7 +61,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -250,22 +249,6 @@ class TestMode extends InputMode {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Generate a textual description of a single-precision floating-point value
-     * using at most 2 decimal places.
-     *
-     * @param fValue the value to describe
-     * @return a description (not null, not empty)
-     */
-    private static String describeAngle(float fValue) { // TODO use MyString
-        String raw = String.format(Locale.US, "%.2f", fValue);
-        String result = MyString.trimFloat(raw);
-
-        assert result != null;
-        assert !result.isEmpty();
-        return result;
-    }
 
     /**
      * Format a LinkConfig as Java source code.
@@ -588,19 +571,19 @@ class TestMode extends InputMode {
             RangeOfMotion range = dac.getJointLimits(lbName);
 
             float maxX = range.getMaxRotation(PhysicsSpace.AXIS_X);
-            String maxXString = describeAngle(maxX);
+            String maxXString = MyString.describeAngle(maxX);
             float minX = range.getMinRotation(PhysicsSpace.AXIS_X);
-            String minXString = describeAngle(minX);
+            String minXString = MyString.describeAngle(minX);
 
             float maxY = range.getMaxRotation(PhysicsSpace.AXIS_Y);
-            String maxYString = describeAngle(maxY);
+            String maxYString = MyString.describeAngle(maxY);
             float minY = range.getMinRotation(PhysicsSpace.AXIS_Y);
-            String minYString = describeAngle(minY);
+            String minYString = MyString.describeAngle(minY);
 
             float maxZ = range.getMaxRotation(PhysicsSpace.AXIS_Z);
-            String maxZString = describeAngle(maxZ);
+            String maxZString = MyString.describeAngle(maxZ);
             float minZ = range.getMinRotation(PhysicsSpace.AXIS_Z);
-            String minZString = describeAngle(minZ);
+            String minZString = MyString.describeAngle(minZ);
 
             String newRange = String.format("new RangeOfMotion("
                     + "%sf, %sf, %sf, %sf, %sf, %sf)",
