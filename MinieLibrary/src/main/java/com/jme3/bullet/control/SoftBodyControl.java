@@ -370,7 +370,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         }
 
         if (mergeVertices) {
-            indexMap = NativeSoftBodyUtil.generateIndexMap(positions);
+            this.indexMap = NativeSoftBodyUtil.generateIndexMap(positions);
             positions
                     = NativeSoftBodyUtil.mapVertexData(indexMap, positions, 3);
             if (links != null) {
@@ -380,7 +380,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
                 faces = NativeSoftBodyUtil.mapIndices(indexMap, faces, null);
             }
         } else {
-            indexMap = null;
+            this.indexMap = null;
         }
 
         body.appendNodes(positions);
