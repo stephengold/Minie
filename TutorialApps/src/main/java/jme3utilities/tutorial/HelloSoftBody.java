@@ -112,7 +112,7 @@ public class HelloSoftBody extends SimpleApplication {
         body.applyRotation(new Quaternion().fromAngles(0.4f, 0f, 1f));
         body.applyTranslation(new Vector3f(0f, 3f, 0f));
         /*
-         * Set the ball's default frame pose:  if deformed,
+         * Set the body's default frame pose:  if deformed,
          * it will tend to return to its current shape.
          */
         boolean setVolumePose = false;
