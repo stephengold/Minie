@@ -452,6 +452,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      * @param indexList the IndexBuffer to convert (not null, size a multiple of
      * 3, unaffected)
      * @param numVertices the number of vertices in the mesh (&gt;0)
+     * @return a new buffer
      */
     private static IndexBuffer trianglesToLines(
             IndexBuffer indexList, int numVertices) {
