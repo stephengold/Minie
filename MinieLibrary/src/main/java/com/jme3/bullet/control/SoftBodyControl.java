@@ -225,7 +225,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     @Override
     protected void createSpatialData(Spatial spatial) {
         this.body = new PhysicsSoftBody();
-        this.body.setUserObject(spatial); // link from collision object
+        body.setUserObject(spatial); // link from collision object
 
         List<Geometry> geometries = MySpatial.listGeometries(spatial);
         this.geometry = geometries.get(0); // TODO use name
@@ -394,6 +394,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
             case LineStrip:
                 links = mesh.getIndicesAsList();
                 break;
+
             case Triangles:
             case TriangleFan:
             case TriangleStrip:
@@ -403,6 +404,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
                     links = trianglesToLines(faces, numVertices);
                 }
                 break;
+
             default:
                 throw new IllegalStateException(mesh.getMode().name());
         }
