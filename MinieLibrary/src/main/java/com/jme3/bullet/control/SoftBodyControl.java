@@ -50,12 +50,17 @@ import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
+import jme3utilities.math.IntPair;
 
 /**
  * A PhysicsControl to link a PhysicsSoftBody to a Spatial.
@@ -74,6 +79,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     /**
      * field names for serialization
      */
+    final private static String tagAddLinksForTris = "addLinksForTris";
     final private static String tagBody = "body";
     final private static String tagGeometry = "geometry";
     final private static String tagMergeVertices = "mergeVertices";
@@ -81,6 +87,11 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     // *************************************************************************
     // fields
 
+    /**
+     * true&rarr;add links for every triangle, false&rarr;don't add links for
+     * triangles
+     */
+    private boolean addLinksForTris = false;
     /**
      * true&rarr;merge duplicate vertices in the soft body, false&rarr;don't
      * merge duplicate vertices
@@ -129,9 +140,30 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      */
     public SoftBodyControl(boolean localPhysics, boolean updateNormals,
             boolean mergeVertices) {
+        this(localPhysics, updateNormals, mergeVertices, false);
+    }
+
+    /**
+     * Instantiate an enabled Control for a soft body based on a single
+     * Geometry.
+     *
+     * @param localPhysics true &rarr; match physics-space coordinates to the
+     * spatial's local coordinates, false &rarr; match physics-space coordinates
+     * to world coordinates
+     * @param updateNormals true&rarr;update mesh normals if present,
+     * false&rarr;never update mesh normals (default=true)
+     * @param mergeVertices true&rarr;merge duplicate vertices in the soft body,
+     * false&rarr;don't merge duplicate vertices (default=true), see
+     * {@link com.jme3.bullet.util.NativeSoftBodyUtil#generateIndexMap}
+     * @param addLinksForTris true&rarr;add links for every triangle,
+     * false&rarr;don't add links for triangles (default=false)
+     */
+    public SoftBodyControl(boolean localPhysics, boolean updateNormals,
+            boolean mergeVertices, boolean addLinksForTris) {
         super.setApplyPhysicsLocal(localPhysics);
         this.mergeVertices = mergeVertices;
         this.updateNormals = updateNormals;
+        this.addLinksForTris = addLinksForTris;
     }
     // *************************************************************************
     // new methods exposed
@@ -216,6 +248,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
+        this.addLinksForTris = capsule.readBoolean(tagAddLinksForTris, false);
         this.body = (PhysicsSoftBody) capsule.readSavable(tagBody, null);
         this.geometry = (Geometry) capsule.readSavable(tagGeometry, null);
         this.mergeVertices = capsule.readBoolean(tagMergeVertices, false);
@@ -335,6 +368,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
+        capsule.write(addLinksForTris, tagAddLinksForTris, false);
         capsule.write(body, tagBody, null);
         capsule.write(geometry, tagGeometry, null);
         capsule.write(mergeVertices, tagMergeVertices, false);
@@ -364,6 +398,10 @@ public class SoftBodyControl extends AbstractPhysicsControl {
             case TriangleFan:
             case TriangleStrip:
                 faces = mesh.getIndicesAsList();
+                if (addLinksForTris) {
+                    int numVertices = mesh.getVertexCount();
+                    links = trianglesToLines(faces, numVertices);
+                }
                 break;
             default:
                 throw new IllegalStateException(mesh.getMode().name());
@@ -404,5 +442,46 @@ public class SoftBodyControl extends AbstractPhysicsControl {
             meshToPhysics = meshToWorld; // alias
         }
         body.applyTransform(meshToPhysics);
+    }
+
+    /**
+     * Convert IndexBuffer triangles to lines. TODO move to the MyMesh class
+     *
+     * @param indexList the IndexBuffer to convert (not null, size a multiple of
+     * 3, unaffected)
+     * @param numVertices the number of vertices in the mesh (&gt;0)
+     */
+    private static IndexBuffer trianglesToLines(
+            IndexBuffer indexList, int numVertices) {
+        Validate.nonNull(indexList, "index list");
+        Validate.require(
+                (indexList.size() % MyMesh.vpt) == 0, "size a multiple of 3");
+        Validate.positive(numVertices, "number of vertices");
+
+        int numTriangles = indexList.size() / MyMesh.vpt;
+        Set<IntPair> edgeSet = new HashSet<>(MyMesh.vpt * numTriangles);
+        for (int triIndex = 0; triIndex < numTriangles; ++triIndex) {
+            int intOffset = MyMesh.vpt * triIndex;
+            int ti0 = indexList.get(intOffset);
+            int ti1 = indexList.get(intOffset + 1);
+            int ti2 = indexList.get(intOffset + 2);
+
+            edgeSet.add(new IntPair(ti0, ti1));
+            edgeSet.add(new IntPair(ti0, ti2));
+            edgeSet.add(new IntPair(ti1, ti2));
+        }
+        int numEdges = edgeSet.size();
+        int numIndices = MyMesh.vpe * numEdges;
+
+        IndexBuffer result
+                = IndexBuffer.createIndexBuffer(numVertices, numIndices);
+        for (IntPair edge : edgeSet) {
+            result.put(edge.smaller());
+            result.put(edge.larger());
+        }
+        Buffer ibData = result.getBuffer();
+        ibData.flip();
+
+        return result;
     }
 }
