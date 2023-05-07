@@ -128,6 +128,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate an enabled Control for a soft body based on a single
  Geometry.</div>
 </div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(boolean,boolean,boolean,boolean)" class="member-name-link">SoftBodyControl</a><wbr>(boolean&nbsp;localPhysics,
+ boolean&nbsp;updateNormals,
+ boolean&nbsp;mergeVertices,
+ boolean&nbsp;addLinksForTris)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Instantiate an enabled Control for a soft body based on a single
+ Geometry.</div>
+</div>
 </div>
 </section>
 </li>
@@ -266,10 +274,34 @@ loadScripts(document, 'script');</script>
  spatial's local coordinates, false &rarr; match physics-space coordinates
  to world coordinates</dd>
 <dd><code>updateNormals</code> - true&rarr;update mesh normals if present,
- false&rarr;never update mesh normals</dd>
+ false&rarr;never update mesh normals (default=true)</dd>
 <dd><code>mergeVertices</code> - true&rarr;merge duplicate vertices in the soft body,
- false&rarr;don't merge duplicate vertices, see
+ false&rarr;don't merge duplicate vertices (default=true), see
  <a href="../util/NativeSoftBodyUtil.html#generateIndexMap(java.nio.FloatBuffer)"><code>NativeSoftBodyUtil.generateIndexMap(java.nio.FloatBuffer)</code></a></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(boolean,boolean,boolean,boolean)">
+<h3>SoftBodyControl</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SoftBodyControl</span><wbr><span class="parameters">(boolean&nbsp;localPhysics,
+ boolean&nbsp;updateNormals,
+ boolean&nbsp;mergeVertices,
+ boolean&nbsp;addLinksForTris)</span></div>
+<div class="block">Instantiate an enabled Control for a soft body based on a single
+ Geometry.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>localPhysics</code> - true &rarr; match physics-space coordinates to the
+ spatial's local coordinates, false &rarr; match physics-space coordinates
+ to world coordinates</dd>
+<dd><code>updateNormals</code> - true&rarr;update mesh normals if present,
+ false&rarr;never update mesh normals (default=true)</dd>
+<dd><code>mergeVertices</code> - true&rarr;merge duplicate vertices in the soft body,
+ false&rarr;don't merge duplicate vertices (default=true), see
+ <a href="../util/NativeSoftBodyUtil.html#generateIndexMap(java.nio.FloatBuffer)"><code>NativeSoftBodyUtil.generateIndexMap(java.nio.FloatBuffer)</code></a></dd>
+<dd><code>addLinksForTris</code> - true&rarr;add links for every triangle,
+ false&rarr;don't add links for triangles (default=false)</dd>
 </dl>
 </section>
 </li>
