@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,8 @@ final public class ConfigFlag {
     final public static int SDF_RD = 0x4;
     /**
      * enable the Node-versus-Face handler for soft-versus-soft collisions
+     * <p>
+     * If set, all nodes in the soft body must be connected by links!
      */
     final public static int VF_SS = 0x10;
     /**
