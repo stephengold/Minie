@@ -81,10 +81,6 @@ public class TestCloneBody {
      */
     final private static Mesh wireBox = new WireBox();
     /**
-     * body added to ignore lists
-     */
-    private static PhysicsRigidBody ignoreBuddy;
-    /**
      * container for bodies
      */
     private static PhysicsSoftSpace space;
@@ -99,7 +95,6 @@ public class TestCloneBody {
     public void testCloneBody() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
         shape = new SphereCollisionShape(1f);
-        ignoreBuddy = new PhysicsRigidBody(shape);
         space = new PhysicsSoftSpace(PhysicsSpace.BroadphaseType.DBVT);
 
         for (int iteration = 0; iteration < 9; ++iteration) {
@@ -124,6 +119,7 @@ public class TestCloneBody {
         verifyParameters(body0, 0f);
         PhysicsRigidBody body0Clone = Heart.deepCopy(body0);
         Assert.assertTrue(body0Clone.isStatic());
+        Assert.assertEquals(0, body0Clone.countIgnored());
         cloneTest(body0, body0Clone);
 
         // dynamic with mass=1
@@ -133,6 +129,7 @@ public class TestCloneBody {
         PhysicsRigidBody bodyClone = Heart.deepCopy(body);
         Assert.assertTrue(bodyClone.isDynamic());
         Assert.assertEquals(1f, bodyClone.getMass(), 0f);
+        Assert.assertEquals(0, bodyClone.countIgnored());
         cloneTest(body, bodyClone);
 
         // kinematic with mass=2
@@ -143,6 +140,7 @@ public class TestCloneBody {
         PhysicsRigidBody body2Clone = Heart.deepCopy(body2);
         Assert.assertTrue(body2Clone.isKinematic());
         Assert.assertEquals(2f, body2Clone.getMass(), 0f);
+        Assert.assertEquals(0, body2Clone.countIgnored());
         cloneTest(body2, body2Clone);
     }
 
@@ -300,8 +298,6 @@ public class TestCloneBody {
 
             space.removeCollisionObject(body);
         }
-
-        ignoreBuddy.clearIgnoreList();
     }
 
     /**
@@ -330,11 +326,6 @@ public class TestCloneBody {
         boolean flag = (b > 0.15f && b < 0.45f);
         body.setContactResponse(flag);
         body.setProtectGravity(!flag);
-
-        body.clearIgnoreList();
-        if (flag) {
-            body.addToIgnoreList(ignoreBuddy);
-        }
 
         int afMode = Math.round(b / 0.3f);
         body.setAnisotropicFriction(
@@ -443,7 +434,6 @@ public class TestCloneBody {
         boolean flag = (b > 0.15f && b < 0.45f);
         Assert.assertEquals(flag, body.isContactResponse());
         Assert.assertEquals(!flag, body.isGravityProtected());
-        Assert.assertEquals((flag ? 1 : 0), body.countIgnored());
 
         int index = Math.round(b / 0.3f);
         if (index == 0) {
