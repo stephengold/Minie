@@ -183,10 +183,6 @@ abstract public class PhysicsCollisionObject
     // fields
 
     /**
-     * make cloneFields() progress visible
-     */
-    private boolean doneCloningIgnores = false;
-    /**
      * copy of the list of specific objects with which collisions are ignored,
      * or null for none
      */
@@ -1458,7 +1454,6 @@ abstract public class PhysicsCollisionObject
      * null, unaffected)
      */
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
-        assert !doneCloningIgnores;
         assert countIgnored() == 0 : "count = " + countIgnored();
         assert checkIgnoreList();
         assert old.checkIgnoreList();
@@ -1478,7 +1473,6 @@ abstract public class PhysicsCollisionObject
                 }
             }
         }
-        this.doneCloningIgnores = true;
 
         assert checkIgnoreList();
         assert old.checkIgnoreList();
@@ -1652,7 +1646,6 @@ abstract public class PhysicsCollisionObject
     public PhysicsCollisionObject jmeClone() {
         try {
             PhysicsCollisionObject clone = (PhysicsCollisionObject) clone();
-            clone.doneCloningIgnores = false;
             clone.unassignNativeObject();
             return clone;
 
