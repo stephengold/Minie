@@ -3412,6 +3412,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Face normals are flipped to match velocity.</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/UseTriangles.html#FacesAndLinks" class="member-name-link">FacesAndLinks</a> - Enum constant in enum class com.jme3.bullet.control.<a href="com/jme3/bullet/control/UseTriangles.html" title="enum class in com.jme3.bullet.control">UseTriangles</a></dt>
+<dd>
+<div class="block">use triangle indices to generate soft-body faces and links</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/UseTriangles.html#FacesOnly" class="member-name-link">FacesOnly</a> - Enum constant in enum class com.jme3.bullet.control.<a href="com/jme3/bullet/control/UseTriangles.html" title="enum class in com.jme3.bullet.control">UseTriangles</a></dt>
+<dd>
+<div class="block">use triangle indices to generate soft-body faces only</div>
+</dd>
 <dt><a href="com/jme3/bullet/util/NativeLibrary.html#fail()" class="member-name-link">fail()</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/NativeLibrary.html" title="class in com.jme3.bullet.util">NativeLibrary</a></dt>
 <dd>
 <div class="block">Execute btAssert(0).</div>
@@ -5988,6 +5996,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:I">I</h2>
 <dl class="index">
+<dt><a href="com/jme3/bullet/control/UseTriangles.html#Ignore" class="member-name-link">Ignore</a> - Enum constant in enum class com.jme3.bullet.control.<a href="com/jme3/bullet/control/UseTriangles.html" title="enum class in com.jme3.bullet.control">UseTriangles</a></dt>
+<dd>
+<div class="block">ignore triangle indices</div>
+</dd>
 <dt><a href="com/jme3/bullet/animation/DacConfiguration.html#ignoredHops()" class="member-name-link">ignoredHops()</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DacConfiguration.html" title="class in com.jme3.bullet.animation">DacConfiguration</a></dt>
 <dd>
 <div class="block">Determine the maximum number of physics-joint hops across which bodies
@@ -6868,6 +6880,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/objects/MultiBodyCollider.html#linkIndex()" class="member-name-link">linkIndex()</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/MultiBodyCollider.html" title="class in com.jme3.bullet.objects">MultiBodyCollider</a></dt>
 <dd>
 <div class="block">Determine the index of the corresponding MultiBodyLink.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/UseTriangles.html#LinksOnly" class="member-name-link">LinksOnly</a> - Enum constant in enum class com.jme3.bullet.control.<a href="com/jme3/bullet/control/UseTriangles.html" title="enum class in com.jme3.bullet.control">UseTriangles</a></dt>
+<dd>
+<div class="block">use triangle indices to generate soft-body links only</div>
 </dd>
 <dt><a href="com/jme3/bullet/animation/DacConfiguration.html#listAttachmentBoneNames()" class="member-name-link">listAttachmentBoneNames()</a> - Method in class com.jme3.bullet.animation.<a href="com/jme3/bullet/animation/DacConfiguration.html" title="class in com.jme3.bullet.animation">DacConfiguration</a></dt>
 <dd>
@@ -12107,7 +12123,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate an enabled Control for a soft body based on a single
  Geometry.</div>
 </dd>
-<dt><a href="com/jme3/bullet/control/SoftBodyControl.html#%3Cinit%3E(boolean,boolean,boolean,boolean)" class="member-name-link">SoftBodyControl(boolean, boolean, boolean, boolean)</a> - Constructor for class com.jme3.bullet.control.<a href="com/jme3/bullet/control/SoftBodyControl.html" title="class in com.jme3.bullet.control">SoftBodyControl</a></dt>
+<dt><a href="com/jme3/bullet/control/SoftBodyControl.html#%3Cinit%3E(boolean,boolean,boolean,com.jme3.bullet.control.UseTriangles)" class="member-name-link">SoftBodyControl(boolean, boolean, boolean, UseTriangles)</a> - Constructor for class com.jme3.bullet.control.<a href="com/jme3/bullet/control/SoftBodyControl.html" title="class in com.jme3.bullet.control">SoftBodyControl</a></dt>
 <dd>
 <div class="block">Instantiate an enabled Control for a soft body based on a single
  Geometry.</div>
@@ -12773,6 +12789,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Alter whether this space uses Speculative Contact Restitution (native
  field: m_applySpeculativeContactRestitution).</div>
 </dd>
+<dt><a href="com/jme3/bullet/control/UseTriangles.html" class="type-name-link" title="enum class in com.jme3.bullet.control">UseTriangles</a> - Enum Class in <a href="com/jme3/bullet/control/package-summary.html">com.jme3.bullet.control</a></dt>
+<dd>
+<div class="block">Enumerate uses for triangle indices when constructing a SoftBody from a Mesh.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:V">V</h2>
 <dl class="index">
@@ -12821,6 +12841,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
 <dt><a href="com/jme3/bullet/BulletAppState.ThreadingType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.ThreadingType.html" title="enum class in com.jme3.bullet">BulletAppState.ThreadingType</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/UseTriangles.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class com.jme3.bullet.control.<a href="com/jme3/bullet/control/UseTriangles.html" title="enum class in com.jme3.bullet.control">UseTriangles</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
@@ -12893,6 +12917,11 @@ the order they are declared.</div>
 the order they are declared.</div>
 </dd>
 <dt><a href="com/jme3/bullet/BulletAppState.ThreadingType.html#values()" class="member-name-link">values()</a> - Static method in enum class com.jme3.bullet.<a href="com/jme3/bullet/BulletAppState.ThreadingType.html" title="enum class in com.jme3.bullet">BulletAppState.ThreadingType</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="com/jme3/bullet/control/UseTriangles.html#values()" class="member-name-link">values()</a> - Static method in enum class com.jme3.bullet.control.<a href="com/jme3/bullet/control/UseTriangles.html" title="enum class in com.jme3.bullet.control">UseTriangles</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
