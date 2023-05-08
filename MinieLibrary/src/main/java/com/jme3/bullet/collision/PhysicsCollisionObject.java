@@ -1470,13 +1470,11 @@ abstract public class PhysicsCollisionObject
                  * so if the other PCO hasn't assigned a native object yet,
                  * wait and let *that* PCO add this PCO to *its* ignore list.
                  */
-                if (cloner.isCloned(oldPco)) {
-                    assert oldPco.checkIgnoreList();
-                    PhysicsCollisionObject newPco = cloner.clone(oldPco);
-                    if (newPco.doneCloningIgnores) {
-                        assert newPco.checkIgnoreList();
-                        addToIgnoreList(newPco);
-                    }
+                assert oldPco.checkIgnoreList();
+                PhysicsCollisionObject newPco = cloner.clone(oldPco);
+                if (newPco.hasAssignedNativeObject()) {
+                    assert newPco.checkIgnoreList();
+                    addToIgnoreList(newPco);
                 }
             }
         }
@@ -1648,13 +1646,14 @@ abstract public class PhysicsCollisionObject
      * Create a shallow clone for the JME cloner. Note that the cloned object
      * won't be added to any space, even if the original was.
      *
-     * @return a new instance
+     * @return a new instance without a native object assigned
      */
     @Override
     public PhysicsCollisionObject jmeClone() {
         try {
             PhysicsCollisionObject clone = (PhysicsCollisionObject) clone();
             clone.doneCloningIgnores = false;
+            clone.unassignNativeObject();
             return clone;
 
         } catch (CloneNotSupportedException exception) {

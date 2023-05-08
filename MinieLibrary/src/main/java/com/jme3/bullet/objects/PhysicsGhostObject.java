@@ -243,17 +243,25 @@ public class PhysicsGhostObject extends PhysicsCollisionObject {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        PhysicsGhostObject old = (PhysicsGhostObject) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
-        unassignNativeObject();
+        if (hasAssignedNativeObject()) {
+            return;
+        }
+
         this.overlappingObjects = cloner.clone(overlappingObjects);
         buildObject();
 
-        PhysicsGhostObject old = (PhysicsGhostObject) original;
-        cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
 
         setPhysicsLocation(old.getPhysicsLocation(null));
         setPhysicsRotation(old.getPhysicsRotationMatrix(null));
+
+        cloneIgnoreList(cloner, old);
     }
 
     /**

@@ -569,19 +569,26 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
+        assert !hasAssignedNativeObject();
+        PhysicsCharacter old = (PhysicsCharacter) original;
+        assert old != this;
+        assert old.hasAssignedNativeObject();
+
         super.cloneFields(cloner, original);
-        unassignNativeObject();
+        if (hasAssignedNativeObject()) {
+            return;
+        }
 
         this.controller = null;
         buildObject();
+        controller.copyAll(old.controller);
 
-        PhysicsCharacter old = (PhysicsCharacter) original;
-        cloneIgnoreList(cloner, old);
         copyPcoProperties(old);
+
         setContactResponse(old.isContactResponse());
         setPhysicsLocation(old.getPhysicsLocation(null));
 
-        controller.copyAll(old.controller);
+        cloneIgnoreList(cloner, old);
     }
 
     /**
