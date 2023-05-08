@@ -79,19 +79,14 @@ public class SoftBodyControl extends AbstractPhysicsControl {
     /**
      * field names for serialization
      */
-    final private static String tagAddLinksForTris = "addLinksForTris";
     final private static String tagBody = "body";
     final private static String tagGeometry = "geometry";
     final private static String tagMergeVertices = "mergeVertices";
     final private static String tagUpdateNormals = "updateNormals";
+    final private static String tagUseTriangles = "useTriangles";
     // *************************************************************************
     // fields
 
-    /**
-     * true&rarr;add links for every triangle, false&rarr;don't add links for
-     * triangles
-     */
-    private boolean addLinksForTris = false;
     /**
      * true&rarr;merge duplicate vertices in the soft body, false&rarr;don't
      * merge duplicate vertices
@@ -113,6 +108,11 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      * underlying collision object
      */
     private PhysicsSoftBody body = null;
+    /**
+     * how to use triangle indices during SoftBody construction - ignored if the
+     * mesh doesn't contain triangles
+     */
+    private UseTriangles useTriangles = UseTriangles.FacesOnly;
     // *************************************************************************
     // constructors
 
@@ -140,7 +140,8 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      */
     public SoftBodyControl(boolean localPhysics, boolean updateNormals,
             boolean mergeVertices) {
-        this(localPhysics, updateNormals, mergeVertices, false);
+        this(localPhysics, updateNormals, mergeVertices,
+                UseTriangles.FacesOnly);
     }
 
     /**
@@ -155,15 +156,17 @@ public class SoftBodyControl extends AbstractPhysicsControl {
      * @param mergeVertices true&rarr;merge duplicate vertices in the soft body,
      * false&rarr;don't merge duplicate vertices (default=true), see
      * {@link com.jme3.bullet.util.NativeSoftBodyUtil#generateIndexMap}
-     * @param addLinksForTris true&rarr;add links for every triangle,
-     * false&rarr;don't add links for triangles (default=false)
+     * @param useTriangles how to use triangle indices (not null,
+     * default=FacesOnly)
      */
     public SoftBodyControl(boolean localPhysics, boolean updateNormals,
-            boolean mergeVertices, boolean addLinksForTris) {
+            boolean mergeVertices, UseTriangles useTriangles) {
+        Validate.nonNull(useTriangles, "use triangles");
         super.setApplyPhysicsLocal(localPhysics);
+
         this.mergeVertices = mergeVertices;
         this.updateNormals = updateNormals;
-        this.addLinksForTris = addLinksForTris;
+        this.useTriangles = useTriangles;
     }
     // *************************************************************************
     // new methods exposed
@@ -248,11 +251,12 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        this.addLinksForTris = capsule.readBoolean(tagAddLinksForTris, false);
         this.body = (PhysicsSoftBody) capsule.readSavable(tagBody, null);
         this.geometry = (Geometry) capsule.readSavable(tagGeometry, null);
         this.mergeVertices = capsule.readBoolean(tagMergeVertices, false);
         this.updateNormals = capsule.readBoolean(tagUpdateNormals, false);
+        this.useTriangles = capsule.readEnum(
+                tagUseTriangles, UseTriangles.class, UseTriangles.FacesOnly);
 
         if (body != null) {
             Spatial controlled = getSpatial();
@@ -368,11 +372,11 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(addLinksForTris, tagAddLinksForTris, false);
         capsule.write(body, tagBody, null);
         capsule.write(geometry, tagGeometry, null);
         capsule.write(mergeVertices, tagMergeVertices, false);
         capsule.write(updateNormals, tagUpdateNormals, false);
+        capsule.write(useTriangles, tagUseTriangles, UseTriangles.FacesOnly);
     }
     // *************************************************************************
     // private methods
@@ -386,6 +390,8 @@ public class SoftBodyControl extends AbstractPhysicsControl {
 
         Mesh mesh = geometry.getMesh();
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
+        int numVertices = mesh.getVertexCount();
+
         IndexBuffer links = null;
         IndexBuffer faces = null;
         switch (mesh.getMode()) {
@@ -398,10 +404,24 @@ public class SoftBodyControl extends AbstractPhysicsControl {
             case Triangles:
             case TriangleFan:
             case TriangleStrip:
-                faces = mesh.getIndicesAsList();
-                if (addLinksForTris) {
-                    int numVertices = mesh.getVertexCount();
-                    links = trianglesToLines(faces, numVertices);
+                switch (useTriangles) {
+                    case FacesAndLinks:
+                        faces = mesh.getIndicesAsList();
+                        links = trianglesToLines(faces, numVertices);
+                        break;
+                    case FacesOnly:
+                        faces = mesh.getIndicesAsList();
+                        break;
+                    case Ignore:
+                        break;
+                    case LinksOnly:
+                        faces = mesh.getIndicesAsList();
+                        links = trianglesToLines(faces, numVertices);
+                        faces = null;
+                        break;
+                    default:
+                        throw new IllegalStateException(
+                                "useTriangles = " + useTriangles);
                 }
                 break;
 
