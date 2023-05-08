@@ -108,7 +108,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
                 PhysicsBody otherBodyNew = cloner.clone(otherBodyOld);
                 /*
                  * We want to join new bodies, not old ones,
-                 * so if the other body hasn't assigned a native object yet,
+                 * so if the other body doesn't have a native object yet,
                  * wait and let *that* body clone the joint.
                  */
                 if (otherBodyNew.hasAssignedNativeObject()) {

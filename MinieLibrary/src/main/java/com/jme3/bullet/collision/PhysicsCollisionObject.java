@@ -1466,9 +1466,9 @@ abstract public class PhysicsCollisionObject
         if (old.ignoreList != null) {
             for (PhysicsCollisionObject oldPco : old.ignoreList) {
                 /*
-                 * We want to ignore only new PCOs, not old ones,
-                 * so if the other PCO hasn't cloned its list yet,
-                 * wait and let *that* PCO invoke addToIgnoreList().
+                 * We want the new PCO to ignore only new PCOs, not old ones,
+                 * so if the other PCO hasn't assigned a native object yet,
+                 * wait and let *that* PCO add this PCO to *its* ignore list.
                  */
                 if (cloner.isCloned(oldPco)) {
                     assert oldPco.checkIgnoreList();
@@ -1656,6 +1656,7 @@ abstract public class PhysicsCollisionObject
             PhysicsCollisionObject clone = (PhysicsCollisionObject) clone();
             clone.doneCloningIgnores = false;
             return clone;
+
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
         }
