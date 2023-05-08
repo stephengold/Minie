@@ -79,8 +79,9 @@ public class TestCloneCharacter {
 
     private static void cloneTest(
             PhysicsCharacter ch, PhysicsCharacter chClone) {
-        assert chClone.nativeId() != ch.nativeId();
-        assert chClone.getControllerId() != ch.getControllerId();
+        Assert.assertTrue(ch != chClone);
+        Assert.assertNotEquals(ch.nativeId(), chClone.nativeId());
+        Assert.assertNotEquals(ch.getControllerId(), chClone.getControllerId());
 
         verifyParameters(ch, 0f);
         verifyParameters(chClone, 0f);

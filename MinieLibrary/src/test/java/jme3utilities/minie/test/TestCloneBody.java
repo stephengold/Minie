@@ -124,6 +124,7 @@ public class TestCloneBody {
         verifyParameters(body0, 0f);
         PhysicsRigidBody body0Clone = Heart.deepCopy(body0);
         Assert.assertTrue(body0Clone.isStatic());
+        Assert.assertEquals(0f, body0Clone.getMass(), 0f);
         Assert.assertEquals(0, body0Clone.countIgnored());
         cloneTest(body0, body0Clone);
 
@@ -357,6 +358,7 @@ public class TestCloneBody {
     }
 
     private static void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
+        Assert.assertTrue(body != bodyClone);
         Assert.assertNotEquals(bodyClone.nativeId(), body.nativeId());
 
         if (body instanceof PhysicsRigidBody) {
