@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -110,7 +110,8 @@ public class TestClonePhysicsControls {
         DynamicAnimControl dacClone = Heart.deepCopy(dac);
         cloneTest(dac, dacClone);
         /*
-         * Note: RigidBodyControl is tested in TestCloneBody.
+         * GhostControl is tested in TestCloneGhost.
+         * RigidBodyControl and VehicleControl are tested in TestCloneBody.
          *
          * SoftBodyControl
          */
@@ -144,7 +145,7 @@ public class TestClonePhysicsControls {
         Spatial newJaimeClone = Heart.deepCopy(newJaime);
         cloneTest(newJaime, newJaimeClone);
 
-        // TODO more types
+        // TODO more types: JoinedBodyControl
     }
     // *************************************************************************
     // private methods
