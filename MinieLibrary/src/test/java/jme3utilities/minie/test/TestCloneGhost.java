@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,9 @@ package jme3utilities.minie.test;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.collision.AfMode;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.objects.PhysicsGhostObject;
@@ -40,6 +42,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
 import jme3utilities.math.MyQuaternion;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -80,6 +83,8 @@ public class TestCloneGhost {
         verifyParameters(gc, 0f);
         GhostControl gcClone = Heart.deepCopy(gc);
         cloneTest(gc, gcClone);
+
+        testCloneGhostPair();
     }
     // *************************************************************************
     // private methods
@@ -139,6 +144,33 @@ public class TestCloneGhost {
 
         pgo.setRollingFriction(b + 0.25f);
         pgo.setSpinningFriction(b + 0.26f);
+    }
+
+    /**
+     * Clone connected pairs of ghost objects.
+     */
+    private static void testCloneGhostPair() {
+        CollisionShape shape = new MultiSphere(0.2f);
+
+        // 2 PGOs that ignore each another
+        PhysicsGhostObject pgo1 = new PhysicsGhostObject(shape);
+        setParameters(pgo1, 0.3f);
+        PhysicsGhostObject pgo2 = new PhysicsGhostObject(shape);
+        setParameters(pgo2, 0.6f);
+        pgo1.addToIgnoreList(pgo2);
+
+        PhysicsGhostObject pgo1Clone = Heart.deepCopy(pgo1);
+        Assert.assertTrue(pgo1 != pgo1Clone);
+        Assert.assertNotEquals(pgo1.nativeId(), pgo1Clone.nativeId());
+        Assert.assertEquals(1, pgo1Clone.countIgnored());
+        verifyParameters(pgo1Clone, 0.3f);
+
+        PhysicsCollisionObject[] ignoresClone = pgo1Clone.listIgnoredPcos();
+        PhysicsGhostObject pgo2Clone = (PhysicsGhostObject) ignoresClone[0];
+        Assert.assertTrue(pgo2 != pgo2Clone);
+        Assert.assertNotEquals(pgo2.nativeId(), pgo2Clone.nativeId());
+        Assert.assertEquals(1, pgo2Clone.countIgnored());
+        verifyParameters(pgo2Clone, 0.6f);
     }
 
     /**

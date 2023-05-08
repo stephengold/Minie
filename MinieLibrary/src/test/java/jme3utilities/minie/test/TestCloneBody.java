@@ -30,13 +30,18 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.PhysicsSoftSpace;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.collision.AfMode;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.control.SoftBodyControl;
 import com.jme3.bullet.control.VehicleControl;
+import com.jme3.bullet.joints.New6Dof;
+import com.jme3.bullet.joints.PhysicsJoint;
+import com.jme3.bullet.joints.Point2PointJoint;
 import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.bullet.objects.PhysicsSoftBody;
@@ -142,6 +147,100 @@ public class TestCloneBody {
         Assert.assertEquals(2f, body2Clone.getMass(), 0f);
         Assert.assertEquals(0, body2Clone.countIgnored());
         cloneTest(body2, body2Clone);
+
+        clonePrbPair();
+    }
+
+    /**
+     * Clone connected pairs of rigid bodies.
+     */
+    private static void clonePrbPair() {
+        // 2 joined dynamic bodies that ignore each another
+        PhysicsRigidBody body7 = new PhysicsRigidBody(shape, 7f);
+        setParameters(body7, 0f);
+        PhysicsRigidBody body8 = new PhysicsRigidBody(shape, 8f);
+        setParameters(body8, 0.3f);
+        PhysicsJoint p2p = new Point2PointJoint(
+                body7, body8, new Vector3f(), new Vector3f());
+        body8.addToIgnoreList(body7);
+
+        PhysicsRigidBody body7Clone = Heart.deepCopy(body7);
+        Assert.assertTrue(body7 != body7Clone);
+        Assert.assertNotEquals(body7.nativeId(), body7Clone.nativeId());
+        Assert.assertTrue(body7Clone.isDynamic());
+        Assert.assertEquals(7f, body7Clone.getMass(), 0f);
+        Assert.assertEquals(1, body7Clone.countIgnored());
+        verifyParameters(body7Clone, 0f);
+
+        PhysicsJoint[] joints7Clone = body7Clone.listJoints();
+        Assert.assertEquals(1, joints7Clone.length);
+        PhysicsJoint p2pClone = joints7Clone[0];
+        Assert.assertTrue(p2p != p2pClone);
+        Assert.assertNotEquals(p2p.nativeId(), p2pClone.nativeId());
+
+        PhysicsRigidBody body8Clone
+                = (PhysicsRigidBody) p2pClone.findOtherBody(body7Clone);
+        Assert.assertTrue(body8 != body8Clone);
+        Assert.assertNotEquals(body8.nativeId(), body8Clone.nativeId());
+        Assert.assertTrue(body8Clone.isDynamic());
+        Assert.assertEquals(8f, body8Clone.getMass(), 0f);
+        Assert.assertEquals(1, body8Clone.countIgnored());
+        verifyParameters(body8Clone, 0.3f);
+
+        // 2 joined bodies that don't ignore each another
+        PhysicsRigidBody body5 = new PhysicsRigidBody(shape, 5f);
+        setParameters(body5, 0.6f);
+        PhysicsRigidBody body6 = new PhysicsRigidBody(shape, 6f);
+        setParameters(body6, 0f);
+        PhysicsJoint six = New6Dof.newInstance(body5, body6, new Vector3f(),
+                new Quaternion(), RotationOrder.XYZ);
+
+        PhysicsRigidBody body5Clone = Heart.deepCopy(body5);
+        Assert.assertTrue(body5 != body5Clone);
+        Assert.assertNotEquals(body5.nativeId(), body5Clone.nativeId());
+        Assert.assertTrue(body5Clone.isDynamic());
+        Assert.assertEquals(5f, body5Clone.getMass(), 0f);
+        Assert.assertEquals(0, body5Clone.countIgnored());
+        verifyParameters(body5Clone, 0.6f);
+
+        PhysicsJoint[] joints5Clone = body5Clone.listJoints();
+        Assert.assertEquals(1, joints5Clone.length);
+        PhysicsJoint sixClone = joints5Clone[0];
+        Assert.assertTrue(six != sixClone);
+        Assert.assertNotEquals(six.nativeId(), sixClone.nativeId());
+
+        PhysicsRigidBody body6Clone
+                = (PhysicsRigidBody) sixClone.findOtherBody(body5Clone);
+        Assert.assertTrue(body6 != body6Clone);
+        Assert.assertNotEquals(body6.nativeId(), body6Clone.nativeId());
+        Assert.assertTrue(body6Clone.isDynamic());
+        Assert.assertEquals(6f, body6Clone.getMass(), 0f);
+        Assert.assertEquals(0, body6Clone.countIgnored());
+        verifyParameters(body6Clone, 0f);
+
+        // 2 bodies that ignore each another but are not joined
+        PhysicsRigidBody body3 = new PhysicsRigidBody(shape, 3f);
+        setParameters(body3, 0.3f);
+        PhysicsRigidBody body4 = new PhysicsRigidBody(shape, 4f);
+        setParameters(body4, 0.6f);
+        body3.addToIgnoreList(body4);
+
+        PhysicsRigidBody body3Clone = Heart.deepCopy(body3);
+        Assert.assertTrue(body3 != body3Clone);
+        Assert.assertNotEquals(body3.nativeId(), body3Clone.nativeId());
+        Assert.assertTrue(body3Clone.isDynamic());
+        Assert.assertEquals(3f, body3Clone.getMass(), 0f);
+        Assert.assertEquals(1, body3Clone.countIgnored());
+        verifyParameters(body3Clone, 0.3f);
+
+        PhysicsCollisionObject[] ignoresClone = body3Clone.listIgnoredPcos();
+        PhysicsRigidBody body4Clone = (PhysicsRigidBody) ignoresClone[0];
+        Assert.assertTrue(body4 != body4Clone);
+        Assert.assertNotEquals(body4.nativeId(), body4Clone.nativeId());
+        Assert.assertTrue(body4Clone.isDynamic());
+        Assert.assertEquals(4f, body4Clone.getMass(), 0f);
+        Assert.assertEquals(1, body4Clone.countIgnored());
+        verifyParameters(body4Clone, 0.6f);
     }
 
     /**
@@ -162,6 +261,35 @@ public class TestCloneBody {
         verifyParameters(soft2, 0f);
         PhysicsSoftBody soft2Clone = Heart.deepCopy(soft2);
         cloneTest(soft2, soft2Clone);
+
+        clonePsbPair();
+    }
+
+    /**
+     * Clone connected pairs of soft bodies.
+     */
+    private static void clonePsbPair() {
+        // 2 bodies that ignore each another but are not joined
+        PhysicsSoftBody soft3 = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft3);
+        setParameters(soft3, 0.3f);
+        PhysicsSoftBody soft4 = new PhysicsSoftBody();
+        NativeSoftBodyUtil.appendFromLineMesh(wireBox, soft4);
+        setParameters(soft4, 0.6f);
+        soft3.addToIgnoreList(soft4);
+
+        PhysicsSoftBody soft3Clone = Heart.deepCopy(soft3);
+        Assert.assertTrue(soft3 != soft3Clone);
+        Assert.assertNotEquals(soft3.nativeId(), soft3Clone.nativeId());
+        Assert.assertEquals(1, soft3Clone.countIgnored());
+        verifyParameters(soft3Clone, 0.3f);
+
+        PhysicsCollisionObject[] ignoresClone = soft3Clone.listIgnoredPcos();
+        PhysicsSoftBody soft4Clone = (PhysicsSoftBody) ignoresClone[0];
+        Assert.assertTrue(soft4 != soft4Clone);
+        Assert.assertNotEquals(soft4.nativeId(), soft4Clone.nativeId());
+        Assert.assertEquals(1, soft4Clone.countIgnored());
+        verifyParameters(soft4Clone, 0.6f);
     }
 
     /**

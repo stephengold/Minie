@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -29,12 +29,16 @@ package jme3utilities.minie.test;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.bullet.collision.AfMode;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.jme3.bullet.collision.shapes.ConvexShape;
+import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Vector3f;
 import com.jme3.system.NativeLibraryLoader;
 import jme3utilities.Heart;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -67,6 +71,8 @@ public class TestCloneCharacter {
 
         PhysicsCharacter chClone = Heart.deepCopy(ch);
         cloneTest(ch, chClone);
+
+        testCloneCharacterPair();
     }
     // *************************************************************************
     // private methods
@@ -142,6 +148,33 @@ public class TestCloneCharacter {
         ch.setSweepTest(!flag);
         ch.setUp(up);
         ch.setWalkDirection(walkOffset);
+    }
+
+    /**
+     * Clone connected pairs of character.
+     */
+    private static void testCloneCharacterPair() {
+        ConvexShape shape = new MultiSphere(0.2f);
+
+        // 2 characters that ignore each another
+        PhysicsCharacter ch1 = new PhysicsCharacter(shape, 1f);
+        setParameters(ch1, 0.3f);
+        PhysicsCharacter ch2 = new PhysicsCharacter(shape, 2f);
+        setParameters(ch2, 0.6f);
+        ch1.addToIgnoreList(ch2);
+
+        PhysicsCharacter ch1Clone = Heart.deepCopy(ch1);
+        Assert.assertTrue(ch1 != ch1Clone);
+        Assert.assertNotEquals(ch1.nativeId(), ch1Clone.nativeId());
+        Assert.assertEquals(1, ch1Clone.countIgnored());
+        verifyParameters(ch1Clone, 0.3f);
+
+        PhysicsCollisionObject[] ignoresClone = ch1Clone.listIgnoredPcos();
+        PhysicsCharacter ch2Clone = (PhysicsCharacter) ignoresClone[0];
+        Assert.assertTrue(ch2 != ch2Clone);
+        Assert.assertNotEquals(ch2.nativeId(), ch2Clone.nativeId());
+        Assert.assertEquals(1, ch2Clone.countIgnored());
+        verifyParameters(ch2Clone, 0.6f);
     }
 
     /**
