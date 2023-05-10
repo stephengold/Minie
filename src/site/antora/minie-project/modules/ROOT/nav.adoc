@@ -57,6 +57,7 @@
 * Projects using Minie
 ** https://www.indiedb.com/games/the-afflicted-forests[The Afflicted Forests]
 ** https://github.com/rvandoosselaer/Blocks[Blocks]
+** https://play.google.com/store/apps/details?id=com.tharg.boxer[Boxer]
 ** https://github.com/stephengold/Garrett[Garrett]
 ** https://store.steampowered.com/app/2244540/Marvelous_Marbles[Marvelous Marbles]
 ** https://github.com/stephengold/jme-vehicles[More Advanced Vehicles]
