@@ -600,8 +600,8 @@ public class TestDac extends PhysicsDemo {
         if (rotateAngle != 0f) {
             rotateAngle /= speed;
             Quaternion orientation = MySpatial.worldOrientation(cgModel, null);
-            Quaternion rotate = new Quaternion();
-            rotate.fromAngles(0f, rotateAngle, 0f);
+            Quaternion rotate
+                    = new Quaternion().fromAngles(0f, rotateAngle, 0f);
             rotate.mult(orientation, orientation);
             MySpatial.setWorldOrientation(cgModel, orientation);
         }

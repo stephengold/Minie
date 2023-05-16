@@ -807,8 +807,8 @@ public class TargetDemo
         body.setDebugMeshNormals(MeshNormals.Smooth);
         body.setPhysicsLocation(location);
 
-        Quaternion rotation = new Quaternion();
-        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
+        Quaternion rotation
+                = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
         body.setPhysicsRotation(rotation);
 
         setUpTarget(body);

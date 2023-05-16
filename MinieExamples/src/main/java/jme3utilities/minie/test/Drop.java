@@ -530,8 +530,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         CompoundCollisionShape shape
                 = CompoundTestShapes.makeLink(linkIhh, linkIhw, halfThickness);
 
-        Quaternion rotationStep = new Quaternion();
-        rotationStep.fromAngles(0f, angleStep, 0f);
+        Quaternion rotationStep
+                = new Quaternion().fromAngles(0f, angleStep, 0f);
 
         float y0 = -yStep * (numLinks - 1) / 2f;
         Vector3f startOffset = new Vector3f(0f, y0, 0f);

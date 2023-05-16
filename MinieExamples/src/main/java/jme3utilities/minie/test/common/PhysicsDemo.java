@@ -704,8 +704,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
          * Rotate the cone 180 degrees around the X axis
          * so that it points downward instead of upward.
          */
-        Quaternion orientation = new Quaternion();
-        orientation.fromAngles(FastMath.PI, 0f, 0f);
+        Quaternion orientation
+                = new Quaternion().fromAngles(FastMath.PI, 0f, 0f);
         body.setPhysicsRotation(orientation);
 
         addPlatform(body);
@@ -799,8 +799,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         body.setDebugMeshNormals(MeshNormals.Facet);
-        Quaternion rotation = new Quaternion();
-        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
+        Quaternion rotation
+                = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
         body.setPhysicsRotation(rotation);
         body.setPhysicsLocation(new Vector3f(0f, topY, 0f));
 
@@ -827,8 +827,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
 
         body.setDebugMeshNormals(MeshNormals.Facet);
         body.setPhysicsLocation(new Vector3f(0f, topY, 0f));
-        Quaternion rotation = new Quaternion();
-        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
+        Quaternion rotation
+                = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
         body.setPhysicsRotation(rotation);
         body.setPhysicsLocation(new Vector3f(0f, topY, 0f));
 

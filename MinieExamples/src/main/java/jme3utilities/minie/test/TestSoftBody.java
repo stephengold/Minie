@@ -618,8 +618,8 @@ public class TestSoftBody
         flagPsb.setDebugMeshInitListener(flagDmiListener);
         flagPsb.setDebugMeshNormals(MeshNormals.Smooth);
 
-        Quaternion rotation = new Quaternion();
-        rotation.fromAngles(FastMath.HALF_PI, 0f, 0f);
+        Quaternion rotation
+                = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
         flagPsb.applyRotation(rotation);
         flagPsb.setPhysicsLocation(new Vector3f(1f, 1.5f, 0f));
 
