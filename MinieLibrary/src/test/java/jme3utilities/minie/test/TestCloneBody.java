@@ -443,6 +443,8 @@ public class TestCloneBody {
     }
 
     private static void setParameters(PhysicsBody pco, float b) {
+        pco.setGravity(new Vector3f(b + 0.031f, b + 0.032f, b + 0.033f));
+
         if (pco instanceof PhysicsRigidBody) {
             setRigid((PhysicsRigidBody) pco, b);
         } else if (pco instanceof PhysicsSoftBody) {
@@ -521,7 +523,6 @@ public class TestCloneBody {
 
         SoftBodyWorldInfo info = body.getWorldInfo();
         info.setAirDensity(b + 0.03f);
-        info.setGravity(new Vector3f(b + 0.031f, b + 0.032f, b + 0.033f));
         info.setMaxDisplacement(b + 0.034f);
         info.setWaterDensity(b + 0.035f);
         info.setWaterOffset(b + 0.036f);
@@ -551,6 +552,9 @@ public class TestCloneBody {
 
     private static void verifyParameters(PhysicsBody pco, float b) {
         Assert.assertNotNull(pco);
+        Utils.assertEquals(
+                b + 0.031f, b + 0.032f, b + 0.033f, pco.getGravity(null), 0f);
+
         if (pco instanceof PhysicsRigidBody) {
             verifyRigid((PhysicsRigidBody) pco, b);
         } else if (pco instanceof PhysicsSoftBody) {
