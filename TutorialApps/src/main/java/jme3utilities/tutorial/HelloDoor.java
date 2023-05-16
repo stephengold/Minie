@@ -77,19 +77,19 @@ public class HelloDoor
     /**
      * half the height of the door (in physics-space units)
      */
-    private final static float doorHalfHeight = 4f;
+    final private static float doorHalfHeight = 4f;
     /**
      * half the width of the door (in physics-space units)
      */
-    private final static float doorHalfWidth = 2f;
+    final private static float doorHalfWidth = 2f;
     /**
      * physics-space Y coordinate of the ground plane
      */
-    private final static float groundY = -4f;
+    final private static float groundY = -4f;
     /**
      * half the thickness of the door and door frame (in physics-space units)
      */
-    private final static float halfThickness = 0.3f;
+    final private static float halfThickness = 0.3f;
     // *************************************************************************
     // fields
 
