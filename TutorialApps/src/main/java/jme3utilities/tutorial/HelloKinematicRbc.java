@@ -61,7 +61,7 @@ public class HelloKinematicRbc extends SimpleApplication {
     /**
      * kinematic ball, orbiting the origin
      */
-    private Geometry kine;
+    private static Geometry kine;
     // *************************************************************************
     // new methods exposed
 

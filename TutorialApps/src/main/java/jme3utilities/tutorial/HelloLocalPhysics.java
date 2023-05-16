@@ -59,11 +59,11 @@ public class HelloLocalPhysics extends SimpleApplication {
     /**
      * physics-simulation time (in seconds, &ge;0)
      */
-    private float elapsedTime = 0f;
+    private static float elapsedTime = 0f;
     /**
      * node orbiting the origin
      */
-    private Node orbitingNode;
+    private static Node orbitingNode;
     // *************************************************************************
     // new methods exposed
 

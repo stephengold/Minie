@@ -59,11 +59,11 @@ public class HelloApplyScale extends SimpleApplication {
     /**
      * physics-simulation time (in seconds, &ge;0)
      */
-    private float elapsedTime = 0f;
+    private static float elapsedTime = 0f;
     /**
      * cube geometry, varying in size
      */
-    private Geometry cubeGeometry;
+    private static Geometry cubeGeometry;
     // *************************************************************************
     // new methods exposed
 
