@@ -89,6 +89,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     final private static String tagAppliedForce = "appliedForce";
     final private static String tagAppliedTorque = "appliedTorque";
     final private static String tagContactResponse = "contactResponse";
+    final private static String tagGravity = "gravity";
     final private static String tagInverseInertia = "inverseInertia";
     final private static String tagKinematic = "kinematic";
     final private static String tagLinearDamping = "linearDamping";
@@ -671,6 +672,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         long oldId = 0L;
         PhysicsSpace removedFrom = null;
         RigidBodySnapshot snapshot = null;
+        Vector3f gravity = null;
 
         if (hasAssignedNativeObject()) {
             // Gather information regarding the existing native object.
@@ -680,6 +682,7 @@ public class PhysicsRigidBody extends PhysicsBody {
                 removedFrom.removeCollisionObject(this);
             }
             snapshot = new RigidBodySnapshot(this);
+            gravity = getGravity(null);
 
             logger2.log(Level.INFO, "Clearing {0}.", this);
             clearIgnoreList();
@@ -718,6 +721,9 @@ public class PhysicsRigidBody extends PhysicsBody {
         }
         if (snapshot != null) {
             snapshot.applyTo(this);
+        }
+        if (gravity != null) {
+            setGravity(gravity);
         }
         // TODO physics joints
     }
@@ -1245,6 +1251,9 @@ public class PhysicsRigidBody extends PhysicsBody {
         Vector3f tmpVector = old.getInverseInertiaLocal(null); // garbage
         setInverseInertiaLocal(tmpVector);
 
+        old.getGravity(tmpVector);
+        setGravity(tmpVector);
+
         cloneIgnoreList(cloner, old);
         cloneJoints(cloner, old);
         postRebuild();
@@ -1321,6 +1330,8 @@ public class PhysicsRigidBody extends PhysicsBody {
                 .readSavable(tagInverseInertia, scaleIdentity));
         setAngularFactor((Vector3f) capsule
                 .readSavable(tagAngularFactor, scaleIdentity));
+        setGravity((Vector3f) capsule
+                .readSavable(tagGravity, translateIdentity));
         setLinearFactor((Vector3f) capsule
                 .readSavable(tagLinearFactor, scaleIdentity));
         setDamping(capsule.readFloat(tagLinearDamping, 0f),
@@ -1434,6 +1445,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         capsule.write(getMass(), tagMass, 1f);
         capsule.write(isContactResponse(), tagContactResponse, true);
         capsule.write(getAngularFactor(null), tagAngularFactor, null);
+        capsule.write(getGravity(null), tagGravity, null);
         capsule.write(getLinearFactor(null), tagLinearFactor, null);
         capsule.write(kinematic, tagKinematic, false);
         capsule.write(motionState, tagMotionState, null);
