@@ -176,6 +176,7 @@ class ColliderDebugControl extends CollisionShapeDebugControl {
                 material = debugAppState.getInactiveMaterial(numSides);
             }
         }
+        assert material != null;
         debugSpatial.setMaterial(material);
     }
 }

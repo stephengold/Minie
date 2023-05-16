@@ -267,6 +267,7 @@ public class BulletDebugAppState extends BaseAppState {
         int materialIndex = MyMath.modulo(childIndex, childMaterials.length);
         Material result = childMaterials[materialIndex];
 
+        assert result != null;
         return result;
     }
 
