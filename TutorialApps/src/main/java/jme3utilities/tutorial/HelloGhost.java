@@ -104,7 +104,13 @@ public class HelloGhost
     private static volatile boolean walkRight;
 
     private static BulletAppState bulletAppState;
+    /**
+     * collision object to trigger the ghost
+     */
     private static PhysicsCharacter character;
+    /**
+     * ghost object being tested
+     */
     private static PhysicsGhostObject ghost;
     /**
      * PhysicsSpace for simulation

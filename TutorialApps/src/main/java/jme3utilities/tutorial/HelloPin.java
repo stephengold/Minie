@@ -42,6 +42,8 @@ import jme3utilities.mesh.ClothGrid;
 
 /**
  * A simple cloth simulation with a pinned node.
+ * <p>
+ * Builds upon HelloCloth.
  *
  * @author Stephen Gold sgold@sonic.net
  */

@@ -66,6 +66,9 @@ public class HelloCharacter
     // *************************************************************************
     // fields
 
+    /**
+     * character being tested
+     */
     private static PhysicsCharacter character;
     /**
      * PhysicsSpace for simulation

@@ -50,7 +50,13 @@ public class HelloNonUniformGravity
     // *************************************************************************
     // fields
 
+    /**
+     * dynamic body subjected to non-uniform gravity
+     */
     private static PhysicsRigidBody planet;
+    /**
+     * temporary storage for vectors
+     */
     final private static Vector3f tmpVector = new Vector3f();
     // *************************************************************************
     // new methods exposed

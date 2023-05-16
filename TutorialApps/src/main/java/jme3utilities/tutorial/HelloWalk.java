@@ -83,6 +83,9 @@ public class HelloWalk
      * true when the W key is pressed, otherwise false
      */
     private static volatile boolean walkRequested;
+    /**
+     * character being tested
+     */
     private static PhysicsCharacter character;
     /**
      * PhysicsSpace for simulation
