@@ -102,6 +102,7 @@ public class TestCloneBody {
         shape = new SphereCollisionShape(1f);
         space = new PhysicsSoftSpace(PhysicsSpace.BroadphaseType.DBVT);
 
+        // Iterate in the hope of exercising the garbage collector.
         for (int iteration = 0; iteration < 9; ++iteration) {
             clonePrb();
             cloneRbc();
