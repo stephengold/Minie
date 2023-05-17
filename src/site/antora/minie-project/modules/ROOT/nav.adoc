@@ -60,6 +60,7 @@
 ** https://play.google.com/store/apps/details?id=com.tharg.boxer[Boxer]
 ** https://github.com/stephengold/Garrett[Garrett]
 ** https://store.steampowered.com/app/2244540/Marvelous_Marbles[Marvelous Marbles]
+** https://github.com/stephengold/Maud[Maud editor]
 ** https://github.com/stephengold/jme-vehicles[More Advanced Vehicles]
 ** https://myworldvw.com[MyWorld]
 ** https://github.com/tlf30/PhysicsSync[PhysicsSync]
