@@ -1570,13 +1570,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setMass(float)">
 <h3>setMass</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMass</span><wbr><span class="parameters">(float&nbsp;mass)</span></div>
-<div class="block">Alter this body's mass. Bodies with mass=0 are static. For dynamic
- bodies, it is best to keep the mass on the order of 1.</div>
+<div class="block">Alter this body's mass. Static bodies have mass=0. For dynamic bodies, it
+ is best to keep the mass on the order of 1.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="PhysicsBody.html#setMass(float)">setMass</a></code>&nbsp;in class&nbsp;<code><a href="PhysicsBody.html" title="class in com.jme3.bullet.objects">PhysicsBody</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>mass</code> - the desired mass (&gt;0) or 0 for a static body (default=1)</dd>
+<dd><code>mass</code> - the desired mass (&ge;0, default=1)</dd>
 </dl>
 </section>
 </li>
