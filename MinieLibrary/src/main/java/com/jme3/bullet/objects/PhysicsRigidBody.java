@@ -710,9 +710,7 @@ public class PhysicsRigidBody extends PhysicsBody {
             }
         }
 
-        if (mass != massForStatic) {
-            setKinematic(kinematic);
-        }
+        setKinematic(kinematic);
 
         postRebuild();
 
@@ -926,12 +924,6 @@ public class PhysicsRigidBody extends PhysicsBody {
      * (default=false)
      */
     public void setKinematic(boolean kinematic) {
-        if (mass == massForStatic) {
-            throw new IllegalStateException(
-                    "Cannot set/clear kinematic mode on a static body!");
-        }
-        assert !isStatic();
-
         this.kinematic = kinematic;
         long objectId = nativeId();
         setKinematic(objectId, kinematic);
@@ -1191,7 +1183,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      */
     protected void postRebuild() {
         int flags = collisionFlags();
-        if (mass == massForStatic) {
+        if (mass == massForStatic && !kinematic) {
             flags |= CollisionFlag.STATIC_OBJECT;
         } else {
             flags &= ~CollisionFlag.STATIC_OBJECT;
@@ -1244,9 +1236,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         RigidBodySnapshot snapshot = new RigidBodySnapshot(old);
         snapshot.applyAllExceptIgnoreListTo(this);
 
-        if (mass != massForStatic) {
-            setKinematic(kinematic);
-        }
+        setKinematic(kinematic);
 
         Vector3f tmpVector = old.getInverseInertiaLocal(null); // garbage
         setInverseInertiaLocal(tmpVector);
@@ -1379,17 +1369,17 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Alter this body's mass. Bodies with mass=0 are static. For dynamic
-     * bodies, it is best to keep the mass on the order of 1.
+     * Alter this body's mass. Static bodies have mass=0. For dynamic bodies, it
+     * is best to keep the mass on the order of 1.
      *
-     * @param mass the desired mass (&gt;0) or 0 for a static body (default=1)
+     * @param mass the desired mass (&ge;0, default=1)
      */
     @Override
     public void setMass(float mass) {
         Validate.nonNegative(mass, "mass");
         CollisionShape shape = getCollisionShape();
         assert shape != null;
-        if (mass != massForStatic) {
+        if (mass > massForStatic && !kinematic) {
             validateDynamicShape(shape);
         }
         assert hasAssignedNativeObject();
@@ -1409,7 +1399,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         updateMassProps(objectId, shape.nativeId(), mass);
 
         int flags = collisionFlags();
-        if (mass == massForStatic) {
+        if (mass == massForStatic && !kinematic) {
             flags |= CollisionFlag.STATIC_OBJECT;
         } else {
             flags &= ~CollisionFlag.STATIC_OBJECT;
@@ -1480,10 +1470,6 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @return true if the flags are equal, otherwise false
      */
     private boolean checkKinematicFlag() {
-        if (mass == massForStatic) {
-            return true; // TODO
-        }
-
         int flags = collisionFlags();
         boolean nativeKinematicFlag
                 = (flags & CollisionFlag.KINEMATIC_OBJECT) != 0x0;
