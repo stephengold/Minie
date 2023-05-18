@@ -1252,7 +1252,7 @@ public class PhysicsRigidBody extends PhysicsBody {
         setInverseInertiaLocal(tmpVector);
 
         Vec3d gravity = new Vec3d(); // garbage
-        getGravityDp(objectId, gravity);
+        getGravityDp(old.nativeId(), gravity);
         setGravityDp(gravity);
 
         cloneIgnoreList(cloner, old);
