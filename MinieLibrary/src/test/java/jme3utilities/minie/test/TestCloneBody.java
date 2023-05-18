@@ -129,6 +129,17 @@ public class TestCloneBody {
         Assert.assertEquals(0, body0Clone.countIgnored());
         cloneTest(body0, body0Clone);
 
+        // kinematic with mass=0
+        PhysicsRigidBody k0 = new PhysicsRigidBody(shape, 0f);
+        k0.setKinematic(true);
+        setParameters(k0, 0f);
+        verifyParameters(k0, 0f);
+        PhysicsRigidBody k0Clone = Heart.deepCopy(k0);
+        Assert.assertTrue(k0Clone.isKinematic());
+        Assert.assertEquals(0f, k0Clone.getMass(), 0f);
+        Assert.assertEquals(0, k0Clone.countIgnored());
+        cloneTest(k0, k0Clone);
+
         // dynamic with mass=1
         PhysicsRigidBody body = new PhysicsRigidBody(shape, 1f);
         setParameters(body, 0f);
@@ -317,6 +328,16 @@ public class TestCloneBody {
         RigidBodyControl rbc0Clone = Heart.deepCopy(rbc0);
         Assert.assertTrue(rbc0Clone.isStatic());
         cloneTest(rbc0, rbc0Clone);
+
+        // kinematic with mass=0
+        RigidBodyControl k0 = new RigidBodyControl(shape, 0f);
+        k0.setKinematic(true);
+        setParameters(k0, 0f);
+        verifyParameters(k0, 0f);
+        RigidBodyControl k0Clone = Heart.deepCopy(k0);
+        Assert.assertTrue(k0Clone.isKinematic());
+        Assert.assertEquals(0f, k0Clone.getMass(), 0f);
+        cloneTest(k0, k0Clone);
 
         // dynamic with mass=1
         RigidBodyControl rbc = new RigidBodyControl(shape, 1f);
