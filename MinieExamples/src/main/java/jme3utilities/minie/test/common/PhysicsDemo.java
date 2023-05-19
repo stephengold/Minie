@@ -404,21 +404,6 @@ abstract public class PhysicsDemo extends AcorusDemo {
     }
 
     /**
-     * Initialize the library of named materials. Invoke during startup.
-     */
-    public void generateMaterials() {
-        super.generateMaterials();
-
-        Texture texture = MyAsset
-                .loadTexture(assetManager, "Textures/greenTile.png", true);
-        texture.setMinFilter(Texture.MinFilter.Trilinear);
-        texture.setWrap(Texture.WrapMode.Repeat);
-        Material greenTile
-                = MyAsset.createShadedMaterial(assetManager, texture);
-        registerMaterial("greenTile", greenTile);
-    }
-
-    /**
      * Initialize the library of named collision shapes. Invoke during startup.
      */
     public void generateShapes() {
@@ -597,6 +582,22 @@ abstract public class PhysicsDemo extends AcorusDemo {
     abstract protected float maxArrowLength();
     // *************************************************************************
     // AcorusDemo methods
+
+    /**
+     * Initialize the library of named materials. Invoke during startup.
+     */
+    @Override
+    public void generateMaterials() {
+        super.generateMaterials();
+
+        Texture texture = MyAsset
+                .loadTexture(assetManager, "Textures/greenTile.png", true);
+        texture.setMinFilter(Texture.MinFilter.Trilinear);
+        texture.setWrap(Texture.WrapMode.Repeat);
+        Material greenTile
+                = MyAsset.createShadedMaterial(assetManager, texture);
+        registerMaterial("greenTile", greenTile);
+    }
 
     /**
      * Process an action that wasn't handled by the active InputMode.
