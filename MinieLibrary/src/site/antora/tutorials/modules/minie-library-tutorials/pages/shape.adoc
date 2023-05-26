@@ -169,8 +169,11 @@ to be combined into a single _compound shape_.
 ====
 Due to limitations of Bullet, collisions between `HeightfieldCollisionShape`,
 `MeshCollisionShape`, and `PlaneCollisionShape` objects are never detected.
-However, such objects *will* collide with objects having compound, convex,
-or GImpact shapes.
+However, such objects *will* collide with objects
+having compound or convex shapes.
+
+Similarly, collisions between `GImpactCollisionShape` and `PlaneCollisionShape`
+objects are never detected.
 ====
 
 == Convex versus concave
