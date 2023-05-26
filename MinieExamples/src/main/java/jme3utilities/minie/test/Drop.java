@@ -353,6 +353,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "sword":
             case "table":
             case "teapot":
+            case "teapotGi":
             case "thumbTack":
                 shape = appInstance.findShape(typeName);
                 createRigidBody(

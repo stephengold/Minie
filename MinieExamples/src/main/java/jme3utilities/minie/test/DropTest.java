@@ -423,6 +423,12 @@ public class DropTest
         shape.setScale(3f);
         registerShape("teapot", shape);
 
+        // "teapot" using GImpact
+        String teapotGiPath = "CollisionShapes/teapotGi.j3o";
+        shape = (CollisionShape) assetManager.loadAsset(teapotGiPath);
+        shape.setScale(3f);
+        registerShape("teapotGi", shape);
+
         // letter shapes
         for (char character = 'A'; character <= 'Z'; ++character) {
             char[] array = {character};
