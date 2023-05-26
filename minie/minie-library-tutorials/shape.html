@@ -531,8 +531,12 @@ to be combined into a single <em>compound shape</em>.</p>
 <div class="paragraph">
 <p>Due to limitations of Bullet, collisions between <code>HeightfieldCollisionShape</code>,
 <code>MeshCollisionShape</code>, and <code>PlaneCollisionShape</code> objects are never detected.
-However, such objects <strong>will</strong> collide with objects having compound, convex,
-or GImpact shapes.</p>
+However, such objects <strong>will</strong> collide with objects
+having compound or convex shapes.</p>
+</div>
+<div class="paragraph">
+<p>Similarly, collisions between <code>GImpactCollisionShape</code> and <code>PlaneCollisionShape</code>
+objects are never detected.</p>
 </div>
 </td>
 </tr>
