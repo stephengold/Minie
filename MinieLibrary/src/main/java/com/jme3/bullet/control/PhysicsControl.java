@@ -70,7 +70,7 @@ public interface PhysicsControl extends Control {
 
     /**
      * If this control is enabled, add its physics objects to the specified
-     * PhysicsSpace. In not enabled, alter where the objects would be added. The
+     * PhysicsSpace. If not enabled, alter where the objects would be added. The
      * objects are removed from any other space they're currently in.
      *
      * @param space where to add, or null to simply remove

@@ -364,7 +364,7 @@ public class RigidBodyControl
     }
 
     /**
-     * If enabled, add this control's body to the specified PhysicsSpace. In not
+     * If enabled, add this control's body to the specified PhysicsSpace. If not
      * enabled, alter where the body would be added. The body is removed from
      * any other space it's currently in.
      *

@@ -250,7 +250,7 @@ public class VehicleControl
 
     /**
      * If enabled, add this control's physics object to the specified
-     * PhysicsSpace. In not enabled, alter where the object would be added. The
+     * PhysicsSpace. If not enabled, alter where the object would be added. The
      * object is removed from any other space it's currently in.
      *
      * @param newSpace where to add, or null to simply remove
