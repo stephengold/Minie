@@ -408,7 +408,7 @@ public class RigidBodyControl
             return;
         }
 
-        spatial = controlledSpatial;
+        this.spatial = controlledSpatial;
         setUserObject(controlledSpatial); // link from collision object
 
         if (controlledSpatial != null) {
