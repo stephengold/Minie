@@ -430,7 +430,7 @@ correct the situation: sgold@sonic.net
 [imgur]: https://imgur.com/ "Imgur"
 [java]: https://java.com "Java"
 [jfrog]: https://www.jfrog.com "JFrog"
-[jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
+[jme]: https://jmonkeyengine.org "jMonkeyEngine Project"
 [jme-ttf]: https://1337atr.weebly.com/jttf.html "jME-TTF Rendering System"
 [library]: https://library.jmonkeyengine.org "jMonkeyEngine Library"
 [license]: https://github.com/stephengold/Minie/blob/master/LICENSE "Minie license"
