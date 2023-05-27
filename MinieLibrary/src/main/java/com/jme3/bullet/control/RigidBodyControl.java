@@ -436,7 +436,7 @@ public class RigidBodyControl
 
         if (isKinematic() && kinematicSpatial) {
             setPhysicsLocation(getSpatialTranslation());
-            setPhysicsRotation(getSpatialRotation()); // TODO garbage
+            setPhysicsRotation(getSpatialRotation());
             if (applyScale) {
                 CollisionShape shape = getCollisionShape();
                 Vector3f newScale = copySpatialScale(null);
