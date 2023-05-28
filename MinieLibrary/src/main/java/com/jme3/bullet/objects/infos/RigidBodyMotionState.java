@@ -114,8 +114,8 @@ public class RigidBodyMotionState
         long motionStateId = nativeId();
         Vector3f localLocation = spatial.getLocalTranslation(); // alias
         Quaternion localRotationQuat = spatial.getLocalRotation(); // alias
-        boolean physicsLocationDirty = applyTransform(motionStateId,
-                localLocation, localRotationQuat);
+        boolean physicsLocationDirty = applyTransform(
+                motionStateId, localLocation, localRotationQuat);
         if (!physicsLocationDirty) {
             return false;
         }
