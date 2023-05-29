@@ -42,6 +42,7 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
@@ -120,11 +121,15 @@ public class RigidBodyMotionState
             return false;
         }
         if (!applyPhysicsLocal && spatial.getParent() != null) {
-            localLocation.subtractLocal(
-                    spatial.getParent().getWorldTranslation());
-            localLocation.divideLocal(spatial.getParent().getWorldScale());
-            tmpInverseWorldRotation.set(spatial.getParent().getWorldRotation())
-                    .inverseLocal().multLocal(localLocation);
+            Node parent = spatial.getParent();
+            tmpInverseWorldRotation.set(parent.getWorldRotation());
+            tmpInverseWorldRotation.inverseLocal();
+            Vector3f pwScale = parent.getWorldScale(); // alias
+            Vector3f pwTranslation = parent.getWorldTranslation(); // alias
+
+            localLocation.subtractLocal(pwTranslation);
+            localLocation.divideLocal(pwScale);
+            tmpInverseWorldRotation.multLocal(localLocation);
             tmpInverseWorldRotation.mult(localRotationQuat, localRotationQuat);
 
             spatial.setLocalTranslation(localLocation);
