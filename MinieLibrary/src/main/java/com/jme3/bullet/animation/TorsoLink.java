@@ -145,7 +145,7 @@ public class TorsoLink extends PhysicsLink {
      *
      * @param control the Control that will manage this link (not null, alias
      * created)
-     * @param mainRootBone the main bone, or if not configured then then root
+     * @param mainRootBone the main bone, or if not configured then the root
      * bone with the most animation weight (not null, alias created)
      * @param collisionShape the desired shape (not null, alias created)
      * @param linkConfig the link configuration (not null)

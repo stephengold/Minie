@@ -394,8 +394,8 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Copy the the orientation of the constraint in the specified end's
-     * coordinate system.
+     * Copy the orientation of the constraint in the specified end's coordinate
+     * system.
      *
      * @see com.jme3.bullet.joints.Constraint#getPivot(
      * com.jme3.bullet.joints.JointEnd, com.jme3.math.Vector3f)
