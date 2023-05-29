@@ -34,6 +34,7 @@ import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+import java.util.logging.Logger;
 
 /**
  * Test case for JME issue #1058: native Bullet crash while removing a rigid
@@ -46,6 +47,14 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 public class TestIssue1058
         extends SimpleApplication
         implements PhysicsTickListener {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final private static Logger logger
+            = Logger.getLogger(TestIssue1058.class.getName());
     // *************************************************************************
     // fields
 

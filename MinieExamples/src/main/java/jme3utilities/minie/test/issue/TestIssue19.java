@@ -35,6 +35,7 @@ import com.jme3.bullet.objects.PhysicsBody;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import java.util.logging.Logger;
 
 /**
  * Test for Minie issue #19 (JRE crash with zero-thickness mesh shape).
@@ -42,6 +43,14 @@ import com.jme3.scene.shape.Box;
  * Based on "App.java" provided by Koteinik.
  */
 final public class TestIssue19 extends SimpleApplication {
+    // *************************************************************************
+    // constants and loggers
+
+    /**
+     * message logger for this class
+     */
+    final private static Logger logger
+            = Logger.getLogger(TestIssue19.class.getName());
     // *************************************************************************
     // constructors
 
