@@ -79,7 +79,7 @@ public class TestCloneCharacter {
 
     private static void cloneTest(
             PhysicsCharacter ch, PhysicsCharacter chClone) {
-        Assert.assertTrue(ch != chClone);
+        Assert.assertNotSame(ch, chClone);
         Assert.assertNotEquals(ch.nativeId(), chClone.nativeId());
         Assert.assertNotEquals(ch.getControllerId(), chClone.getControllerId());
 
@@ -165,14 +165,14 @@ public class TestCloneCharacter {
         ch1.addToIgnoreList(ch2);
 
         PhysicsCharacter ch1Clone = Heart.deepCopy(ch1);
-        Assert.assertTrue(ch1 != ch1Clone);
+        Assert.assertNotSame(ch1, ch1Clone);
         Assert.assertNotEquals(ch1.nativeId(), ch1Clone.nativeId());
         Assert.assertEquals(1, ch1Clone.countIgnored());
         verifyParameters(ch1Clone, 0.3f);
 
         PhysicsCollisionObject[] ignoresClone = ch1Clone.listIgnoredPcos();
         PhysicsCharacter ch2Clone = (PhysicsCharacter) ignoresClone[0];
-        Assert.assertTrue(ch2 != ch2Clone);
+        Assert.assertNotSame(ch2, ch2Clone);
         Assert.assertNotEquals(ch2.nativeId(), ch2Clone.nativeId());
         Assert.assertEquals(1, ch2Clone.countIgnored());
         verifyParameters(ch2Clone, 0.6f);

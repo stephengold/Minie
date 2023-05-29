@@ -178,7 +178,7 @@ public class TestCloneBody {
         body8.addToIgnoreList(body7);
 
         PhysicsRigidBody body7Clone = Heart.deepCopy(body7);
-        Assert.assertTrue(body7 != body7Clone);
+        Assert.assertNotSame(body7, body7Clone);
         Assert.assertNotEquals(body7.nativeId(), body7Clone.nativeId());
         Assert.assertTrue(body7Clone.isDynamic());
         Assert.assertEquals(7f, body7Clone.getMass(), 0f);
@@ -188,12 +188,12 @@ public class TestCloneBody {
         PhysicsJoint[] joints7Clone = body7Clone.listJoints();
         Assert.assertEquals(1, joints7Clone.length);
         PhysicsJoint p2pClone = joints7Clone[0];
-        Assert.assertTrue(p2p != p2pClone);
+        Assert.assertNotSame(p2p, p2pClone);
         Assert.assertNotEquals(p2p.nativeId(), p2pClone.nativeId());
 
         PhysicsRigidBody body8Clone
                 = (PhysicsRigidBody) p2pClone.findOtherBody(body7Clone);
-        Assert.assertTrue(body8 != body8Clone);
+        Assert.assertNotSame(body8, body8Clone);
         Assert.assertNotEquals(body8.nativeId(), body8Clone.nativeId());
         Assert.assertTrue(body8Clone.isDynamic());
         Assert.assertEquals(8f, body8Clone.getMass(), 0f);
@@ -209,7 +209,7 @@ public class TestCloneBody {
                 new Quaternion(), RotationOrder.XYZ);
 
         PhysicsRigidBody body5Clone = Heart.deepCopy(body5);
-        Assert.assertTrue(body5 != body5Clone);
+        Assert.assertNotSame(body5, body5Clone);
         Assert.assertNotEquals(body5.nativeId(), body5Clone.nativeId());
         Assert.assertTrue(body5Clone.isDynamic());
         Assert.assertEquals(5f, body5Clone.getMass(), 0f);
@@ -219,12 +219,12 @@ public class TestCloneBody {
         PhysicsJoint[] joints5Clone = body5Clone.listJoints();
         Assert.assertEquals(1, joints5Clone.length);
         PhysicsJoint sixClone = joints5Clone[0];
-        Assert.assertTrue(six != sixClone);
+        Assert.assertNotSame(six, sixClone);
         Assert.assertNotEquals(six.nativeId(), sixClone.nativeId());
 
         PhysicsRigidBody body6Clone
                 = (PhysicsRigidBody) sixClone.findOtherBody(body5Clone);
-        Assert.assertTrue(body6 != body6Clone);
+        Assert.assertNotSame(body6, body6Clone);
         Assert.assertNotEquals(body6.nativeId(), body6Clone.nativeId());
         Assert.assertTrue(body6Clone.isDynamic());
         Assert.assertEquals(6f, body6Clone.getMass(), 0f);
@@ -239,7 +239,7 @@ public class TestCloneBody {
         body3.addToIgnoreList(body4);
 
         PhysicsRigidBody body3Clone = Heart.deepCopy(body3);
-        Assert.assertTrue(body3 != body3Clone);
+        Assert.assertNotSame(body3, body3Clone);
         Assert.assertNotEquals(body3.nativeId(), body3Clone.nativeId());
         Assert.assertTrue(body3Clone.isDynamic());
         Assert.assertEquals(3f, body3Clone.getMass(), 0f);
@@ -248,7 +248,7 @@ public class TestCloneBody {
 
         PhysicsCollisionObject[] ignoresClone = body3Clone.listIgnoredPcos();
         PhysicsRigidBody body4Clone = (PhysicsRigidBody) ignoresClone[0];
-        Assert.assertTrue(body4 != body4Clone);
+        Assert.assertNotSame(body4, body4Clone);
         Assert.assertNotEquals(body4.nativeId(), body4Clone.nativeId());
         Assert.assertTrue(body4Clone.isDynamic());
         Assert.assertEquals(4f, body4Clone.getMass(), 0f);
@@ -292,14 +292,14 @@ public class TestCloneBody {
         soft3.addToIgnoreList(soft4);
 
         PhysicsSoftBody soft3Clone = Heart.deepCopy(soft3);
-        Assert.assertTrue(soft3 != soft3Clone);
+        Assert.assertNotSame(soft3, soft3Clone);
         Assert.assertNotEquals(soft3.nativeId(), soft3Clone.nativeId());
         Assert.assertEquals(1, soft3Clone.countIgnored());
         verifyParameters(soft3Clone, 0.3f);
 
         PhysicsCollisionObject[] ignoresClone = soft3Clone.listIgnoredPcos();
         PhysicsSoftBody soft4Clone = (PhysicsSoftBody) ignoresClone[0];
-        Assert.assertTrue(soft4 != soft4Clone);
+        Assert.assertNotSame(soft4, soft4Clone);
         Assert.assertNotEquals(soft4.nativeId(), soft4Clone.nativeId());
         Assert.assertEquals(1, soft4Clone.countIgnored());
         verifyParameters(soft4Clone, 0.6f);
@@ -380,7 +380,7 @@ public class TestCloneBody {
     }
 
     private static void cloneTest(PhysicsBody body, PhysicsBody bodyClone) {
-        Assert.assertTrue(body != bodyClone);
+        Assert.assertNotSame(body, bodyClone);
         Assert.assertNotEquals(bodyClone.nativeId(), body.nativeId());
 
         if (body instanceof PhysicsRigidBody) {
