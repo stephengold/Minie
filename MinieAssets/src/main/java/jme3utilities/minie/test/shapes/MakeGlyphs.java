@@ -146,7 +146,7 @@ final public class MakeGlyphs {
         int pointSize = 9;
         TrueTypeKeyMesh assetKey
                 = new TrueTypeKeyMesh(fontAssetPath, style, pointSize);
-        TrueTypeFont result = (TrueTypeFont) assetManager.loadAsset(assetKey);
+        TrueTypeFont result = assetManager.loadAsset(assetKey);
 
         return result;
     }
