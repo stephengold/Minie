@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ final public class MyControlP {
     /**
      * Check whether a scene-graph control implements applyPhysicsLocal().
      *
-     * @param sgc the control to test (may be null, unaffected)
+     * @param sgc the Control to test (may be null, unaffected)
      * @return true if it's implemented, otherwise false
      */
     public static boolean canApplyPhysicsLocal(Control sgc) {
@@ -91,7 +91,7 @@ final public class MyControlP {
      * Check whether a scene-graph control implements isEnabled() and
      * setEnabled().
      *
-     * @param sgc control to test (may be null, unaffected)
+     * @param sgc the Control to test (may be null, unaffected)
      * @return true if it's implemented, otherwise false
      */
     public static boolean canDisable(Control sgc) {

@@ -1447,7 +1447,7 @@ abstract public class PhysicsCollisionObject
             attachCollisionShape(long objectId, long collisionShapeId);
 
     /**
-     * Clone an ignore list.
+     * Clone the ignore list.
      *
      * @param cloner the Cloner that's cloning this object (not null, modified)
      * @param old the instance from which this object was shallow-cloned (not
