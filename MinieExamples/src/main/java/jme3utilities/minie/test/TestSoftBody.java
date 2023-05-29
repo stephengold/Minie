@@ -849,7 +849,7 @@ public class TestSoftBody
      * Generate a Mesh for Puppet's skirt.
      *
      * @param puppetDac the model's physics control (not null)
-     * @param numSubdiv the number of mesh squares between successive anchors
+     * @param zStep the number of mesh squares between successive anchors
      * (&ge;1)
      * @param skirtLength the desired length (in physics-space units, &get;0)
      * @param local storage for waist locations in local coordinates (not null,
@@ -857,7 +857,7 @@ public class TestSoftBody
      * @return a new Mesh, fitted to the model in her bone's local coordinates
      */
     private static Mesh createSkirtMesh(DynamicAnimControl puppetDac,
-            int numSubdiv, float skirtLength, Vector3f[] local) {
+            int zStep, float skirtLength, Vector3f[] local) {
         int numWaistVerts = waistlineVertices.length;
         int numXLines = local.length;
 
@@ -871,8 +871,8 @@ public class TestSoftBody
         float raiseWaistline = 0.04f;
         String vSpec = puppetVSpec(0);
         PhysicsLink link0 = puppetDac.findManagerForVertex(vSpec, null, null);
-        for (int zIndex = 0; zIndex < numXLines; zIndex += numSubdiv) {
-            int waistVertI = (zIndex / numSubdiv) % numWaistVerts;
+        for (int zIndex = 0; zIndex < numXLines; zIndex += zStep) {
+            int waistVertI = (zIndex / zStep) % numWaistVerts;
             vSpec = puppetVSpec(waistVertI);
             Vector3f location = local[zIndex];
             PhysicsLink link
@@ -890,7 +890,7 @@ public class TestSoftBody
         float raiseApex = 0.5f; // 0 = full-circle skirt, 0.5 = not very full
         apex.z -= raiseApex;
         float maxRadius = 0f;
-        for (int zIndex = 0; zIndex < numXLines; zIndex += numSubdiv) {
+        for (int zIndex = 0; zIndex < numXLines; zIndex += zStep) {
             float radius = local[zIndex].distance(apex);
             float expandedRadius = radius + margin;
             local[zIndex].multLocal(expandedRadius / radius);
@@ -898,18 +898,18 @@ public class TestSoftBody
             maxRadius = Math.max(expandedRadius, maxRadius);
         }
         /*
-         * Subdivide the waistline, interpolating numSubdiv-1 soft-body nodes
+         * Subdivide the waistline, interpolating zStep-1 soft-body nodes
          * between each pair of successive Puppet vertices.
          * Also, calculate its circumference.
          */
         float circumference = 0f;
-        for (int zIndex = numSubdiv; zIndex < numXLines; zIndex += numSubdiv) {
-            int prevZi = zIndex - numSubdiv;
+        for (int zIndex = zStep; zIndex < numXLines; zIndex += zStep) {
+            int prevZi = zIndex - zStep;
             float vSpacing = local[zIndex].distance(local[prevZi]);
             circumference += vSpacing;
 
             for (int zi = prevZi + 1; zi < zIndex; ++zi) {
-                float t = ((float) (zi - prevZi)) / numSubdiv;
+                float t = ((float) (zi - prevZi)) / zStep;
                 MyVector3f.lerp(t, local[prevZi], local[zIndex], local[zi]);
             }
         }
