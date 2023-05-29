@@ -160,7 +160,7 @@ abstract public class NativePhysicsObject
     /**
      * Assign a tracked native object to this instance, unassigning (but not
      * freeing) any previously assigned one. Typically invoked while cloning a
-     * subclass. Typically invoked while cloning a subclass.
+     * subclass.
      *
      * @param nativeId the identifier of the native object to assign (not zero)
      */

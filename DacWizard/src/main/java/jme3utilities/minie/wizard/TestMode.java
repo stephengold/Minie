@@ -410,7 +410,7 @@ class TestMode extends InputMode {
     }
 
     /**
-     * Process a "set margin" action: display a dialog to enter the a collision
+     * Process a "set margin" action: display a dialog to enter a new collision
      * margin.
      */
     private static void setMargin() {

@@ -160,7 +160,7 @@ final public class CollisionShapeFactory {
     }
 
     /**
-     * Create a mesh-accurate shape for an movable object, based on its model.
+     * Create a mesh-accurate shape for a movable object, based on its model.
      * Terrain is ignored.
      *
      * @param modelRoot the model on which to base the shape (not null,

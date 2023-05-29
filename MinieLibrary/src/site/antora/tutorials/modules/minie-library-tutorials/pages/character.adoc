@@ -235,7 +235,7 @@ For example:
   another CharacterControl without colliding,
   whereas a BCC can detect collisions with other characters.
 . A BCC has mass and can be configured for kinematic motion,
-  whereas a CharcterControl has no mass and cannot be made kinematic.
+  whereas a CharacterControl has no mass and cannot be made kinematic.
 . BCC is more customizable than CharacterControl.
 
 {url-tutorial}/HelloWalkOtoBcc.java[HelloWalkOtoBcc] is a simple application

@@ -123,11 +123,11 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      */
     private Map<String, LinkConfig> alConfigMap = new HashMap<>(5);
     /**
-     * map linked bone names to configuration data
+     * map linked-bone names to configuration data
      */
     private Map<String, LinkConfig> blConfigMap = new HashMap<>(50);
     /**
-     * map linked bone names to ranges of motion for createSpatialData()
+     * map linked-bone names to ranges of motion for createSpatialData()
      */
     private Map<String, RangeOfMotion> jointMap = new HashMap<>(50);
     /**
