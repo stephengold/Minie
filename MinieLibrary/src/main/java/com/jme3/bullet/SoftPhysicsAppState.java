@@ -142,8 +142,8 @@ public class SoftPhysicsAppState extends BulletAppState {
      * @return a new instance (not null)
      */
     @Override
-    protected PhysicsSpace createPhysicsSpace(Vector3f min, Vector3f max,
-            PhysicsSpace.BroadphaseType type) {
+    protected PhysicsSpace createPhysicsSpace(
+            Vector3f min, Vector3f max, PhysicsSpace.BroadphaseType type) {
         PhysicsSpace result = new PhysicsSoftSpace(min, max, type);
         return result;
     }
