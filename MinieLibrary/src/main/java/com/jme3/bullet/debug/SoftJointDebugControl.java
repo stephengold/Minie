@@ -174,8 +174,8 @@ class SoftJointDebugControl extends AbstractPhysicsDebugControl {
         Geometry result = new Geometry(joint.toString(), mesh);
         result.setShadowMode(RenderQueue.ShadowMode.Off);
 
-        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-        Material material = sdas.getAnchorMaterial();
+        SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
+        Material material = sda.getAnchorMaterial();
         result.setMaterial(material);
 
         return result;

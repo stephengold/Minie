@@ -94,9 +94,9 @@ public class SoftPhysicsAppState extends BulletAppState {
      */
     public void setDebugClusterFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        SoftDebugAppState sdas = (SoftDebugAppState) getDebugAppState();
-        if (sdas != null) {
-            sdas.setClusterFilter(filter);
+        SoftDebugAppState sda = (SoftDebugAppState) getDebugAppState();
+        if (sda != null) {
+            sda.setClusterFilter(filter);
         }
         clusterFilter = filter;
     }
@@ -109,9 +109,9 @@ public class SoftPhysicsAppState extends BulletAppState {
      */
     public void setWindVelocityFilter(
             BulletDebugAppState.DebugAppStateFilter filter) {
-        SoftDebugAppState sdas = (SoftDebugAppState) getDebugAppState();
-        if (sdas != null) {
-            sdas.setWindVelocityFilter(filter);
+        SoftDebugAppState sda = (SoftDebugAppState) getDebugAppState();
+        if (sda != null) {
+            sda.setWindVelocityFilter(filter);
         }
         this.windVelocityFilter = filter;
     }

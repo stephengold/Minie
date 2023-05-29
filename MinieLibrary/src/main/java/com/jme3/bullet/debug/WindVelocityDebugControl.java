@@ -98,8 +98,8 @@ class WindVelocityDebugControl extends AbstractPhysicsDebugControl {
         softBody.getPhysicsLocation(tmpCenter);
         geom.setLocalTranslation(tmpCenter);
 
-        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-        Material material = sdas.getWindVelocityMaterial();
+        SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
+        Material material = sda.getWindVelocityMaterial();
         geom.setMaterial(material);
         geom.setShadowMode(RenderQueue.ShadowMode.Off);
     }

@@ -229,8 +229,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             Material material = body.getDebugMaterial();
             if (material == null) { // apply one of the default materials
                 int numSides = body.debugNumSides();
-                SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-                material = sdas.getFaceMaterial(numSides);
+                SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
+                material = sda.getFaceMaterial(numSides);
             }
             facesGeometry.setMaterial(material);
         }
@@ -341,9 +341,9 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      * @return the count (&ge;0)
      */
     private int countClustersToVisualize() {
-        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+        SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
         BulletDebugAppState.DebugAppStateFilter filter
-                = sdas.getClusterFilter();
+                = sda.getClusterFilter();
 
         int result = 0;
         if (filter != null && filter.displayObject(body)) {
@@ -376,9 +376,9 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
      * @return the count (&ge;0)
      */
     private int countVelocitiesToVisualize() {
-        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+        SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
         BulletDebugAppState.DebugAppStateFilter filter
-                = sdas.getConfiguration().getVelocityVectorFilter();
+                = sda.getConfiguration().getVelocityVectorFilter();
 
         int result = 0;
         if (filter != null && filter.displayObject(body)) {
@@ -420,8 +420,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             result = new Geometry(body + " clusters", mesh);
             result.setShadowMode(RenderQueue.ShadowMode.Off);
 
-            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-            Material material = sdas.getClusterMaterial();
+            SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
+            Material material = sda.getClusterMaterial();
             result.setMaterial(material);
         }
 
@@ -442,9 +442,9 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
 
             Material material = body.getDebugMaterial();
             if (material == null) { // use one of the default materials
-                SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
+                SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
                 int numSides = body.debugNumSides();
-                material = sdas.getFaceMaterial(numSides);
+                material = sda.getFaceMaterial(numSides);
             }
             result.setMaterial(material);
         }
@@ -509,8 +509,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             Mesh mesh = createLinksMesh();
             result = new Geometry(body + " links", mesh);
 
-            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-            Material material = sdas.getLinkMaterial();
+            SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
+            Material material = sda.getLinkMaterial();
             result.setMaterial(material);
         }
 
@@ -550,8 +550,8 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             result = new Geometry(body + " pins", mesh);
             result.setShadowMode(RenderQueue.ShadowMode.Off);
 
-            SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-            Material material = sdas.getPinMaterial();
+            SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
+            Material material = sda.getPinMaterial();
             result.setMaterial(material);
         }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -168,8 +168,8 @@ class AnchorDebugControl extends AbstractPhysicsDebugControl {
         Geometry result = new Geometry(anchor.toString(), mesh);
         result.setShadowMode(RenderQueue.ShadowMode.Off);
 
-        SoftDebugAppState sdas = (SoftDebugAppState) debugAppState;
-        Material material = sdas.getAnchorMaterial();
+        SoftDebugAppState sda = (SoftDebugAppState) debugAppState;
+        Material material = sda.getAnchorMaterial();
         result.setMaterial(material);
 
         return result;

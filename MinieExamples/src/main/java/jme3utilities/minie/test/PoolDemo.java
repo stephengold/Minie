@@ -394,14 +394,14 @@ public class PoolDemo extends PhysicsDemo {
 
         viewPort.clearProcessors();
         int mapSize = 2_048; // in pixels
-        PointLightShadowRenderer plsr
+        PointLightShadowRenderer shadowRenderer
                 = new PointLightShadowRenderer(assetManager, mapSize);
-        viewPort.addProcessor(plsr);
+        viewPort.addProcessor(shadowRenderer);
 
-        plsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
-        plsr.setEdgesThickness(7);
-        plsr.setLight(lamp);
-        plsr.setShadowIntensity(0.7f);
+        shadowRenderer.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
+        shadowRenderer.setEdgesThickness(7);
+        shadowRenderer.setLight(lamp);
+        shadowRenderer.setShadowIntensity(0.7f);
     }
 
     /**

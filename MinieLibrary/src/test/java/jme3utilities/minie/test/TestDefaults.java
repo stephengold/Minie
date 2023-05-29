@@ -785,26 +785,26 @@ public class TestDefaults {
                 DeformableSpace dSpace = (DeformableSpace) space;
                 Assert.assertEquals(0, dSpace.countSoftBodies());
 
-                SoftBodyWorldInfo sbwi = dSpace.getWorldInfo();
-                Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
-                Utils.assertEquals(0f, -9.81f, 0f, sbwi.copyGravity(null), 0f);
-                Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
-                Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
-                Utils.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
-                Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
+                SoftBodyWorldInfo wInfo = dSpace.getWorldInfo();
+                Assert.assertEquals(1.2f, wInfo.airDensity(), 0f);
+                Utils.assertEquals(0f, -9.81f, 0f, wInfo.copyGravity(null), 0f);
+                Assert.assertEquals(1000f, wInfo.maxDisplacement(), 0f);
+                Assert.assertEquals(0f, wInfo.waterDensity(), 0f);
+                Utils.assertEquals(0f, 0f, 0f, wInfo.copyWaterNormal(null), 0f);
+                Assert.assertEquals(0f, wInfo.waterOffset(), 0f);
             }
 
         } else if (space instanceof PhysicsSoftSpace) {
             PhysicsSoftSpace softSpace = (PhysicsSoftSpace) space;
             Assert.assertEquals(0, softSpace.countSoftBodies());
 
-            SoftBodyWorldInfo sbwi = softSpace.getWorldInfo();
-            Assert.assertEquals(1.2f, sbwi.airDensity(), 0f);
-            Utils.assertEquals(0f, -9.81f, 0f, sbwi.copyGravity(null), 0f);
-            Assert.assertEquals(1000f, sbwi.maxDisplacement(), 0f);
-            Assert.assertEquals(0f, sbwi.waterDensity(), 0f);
-            Utils.assertEquals(0f, 0f, 0f, sbwi.copyWaterNormal(null), 0f);
-            Assert.assertEquals(0f, sbwi.waterOffset(), 0f);
+            SoftBodyWorldInfo wInfo = softSpace.getWorldInfo();
+            Assert.assertEquals(1.2f, wInfo.airDensity(), 0f);
+            Utils.assertEquals(0f, -9.81f, 0f, wInfo.copyGravity(null), 0f);
+            Assert.assertEquals(1000f, wInfo.maxDisplacement(), 0f);
+            Assert.assertEquals(0f, wInfo.waterDensity(), 0f);
+            Utils.assertEquals(0f, 0f, 0f, wInfo.copyWaterNormal(null), 0f);
+            Assert.assertEquals(0f, wInfo.waterOffset(), 0f);
         }
     }
 
