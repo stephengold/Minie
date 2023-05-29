@@ -382,7 +382,7 @@ public class MeshCollisionShape extends CollisionShape {
         setNativeId(shapeId);
 
         if (buildBvh) {
-            bvh = new BoundingValueHierarchy(this);
+            this.bvh = new BoundingValueHierarchy(this);
         } else {
             long bvhId = bvh.nativeId();
             setOptimizedBvh(shapeId, bvhId);

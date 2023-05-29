@@ -98,7 +98,7 @@ public class SoftPhysicsAppState extends BulletAppState {
         if (sda != null) {
             sda.setClusterFilter(filter);
         }
-        clusterFilter = filter;
+        this.clusterFilter = filter;
     }
 
     /**

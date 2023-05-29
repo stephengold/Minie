@@ -195,7 +195,7 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
                     node.detachChild(geometry);
                 }
             }
-            velocityGeometries = createVelocityGeometries();
+            this.velocityGeometries = createVelocityGeometries();
             assert areVelocitiesSized();
             if (velocityGeometries != null) {
                 for (Geometry geometry : velocityGeometries) {
@@ -246,11 +246,11 @@ class SoftBodyDebugControl extends AbstractPhysicsDebugControl {
             int numFloats = MyVector3f.numAxes * numArrows;
             if (tmpLocations == null
                     || numFloats > tmpLocations.capacity()) {
-                tmpLocations = BufferUtils.createFloatBuffer(numFloats);
+                this.tmpLocations = BufferUtils.createFloatBuffer(numFloats);
             }
             if (tmpVelocities == null
                     || numFloats > tmpVelocities.capacity()) {
-                tmpVelocities = BufferUtils.createFloatBuffer(numFloats);
+                this.tmpVelocities = BufferUtils.createFloatBuffer(numFloats);
             }
 
             if (countClustersToVisualize() > 0) { // cluster velocities
