@@ -281,8 +281,7 @@ class TestScreen extends GuiScreenController {
      * Update the AxesVisualizer.
      */
     private void updateAxes() {
-        DacWizard wizard = DacWizard.getApplication();
-        AxesVisualizer axesVisualizer = wizard.findAxesVisualizer();
+        AxesVisualizer axesVisualizer = DacWizard.findAxesVisualizer();
 
         Model model = DacWizard.getModel();
         boolean showingAxes = model.isShowingAxes();
@@ -295,7 +294,7 @@ class TestScreen extends GuiScreenController {
 
         } else {
             // Align the visualizer axes with the PhysicsJoint.
-            DynamicAnimControl dac = wizard.findDac();
+            DynamicAnimControl dac = DacWizard.findDac();
             PhysicsLink selectedLink = dac.findBoneLink(btName);
             Constraint constraint = (Constraint) selectedLink.getJoint();
             Spatial axesNode = axesVisualizer.getSpatial();

@@ -207,7 +207,7 @@ class TestMode extends InputMode {
                     break;
 
                 case Action.toggleMesh:
-                    app.toggleMesh();
+                    DacWizard.toggleMesh();
                     break;
 
                 case Action.togglePhysicsDebug:
@@ -457,8 +457,7 @@ class TestMode extends InputMode {
      * Toggle ragdoll mode.
      */
     private void toggleRagdoll() {
-        DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findDac();
+        DynamicAnimControl dac = DacWizard.findDac();
         TorsoLink torso = dac.getTorsoLink();
         if (torso.isKinematic()) {
             // Save the local transform of the controlled spatial.
