@@ -341,10 +341,5 @@ final public class MakeHeart {
         float y = (float) yy;
         float z = (float) zz;
         sampleBuffer.put(x).put(y).put(z);
-
-        //double error = plug(x, y, z);
-        //double r = MyMath.hypotenuse(xx, yy, zz);
-        //System.out.printf("x=%.3f y=%.3f z=%.3f   r=%.4f    error=%s%n",
-        //        x, y, z, r, error);
     }
 }
