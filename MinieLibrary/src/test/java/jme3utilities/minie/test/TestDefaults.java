@@ -104,6 +104,7 @@ import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.shape.Quad;
 import com.jme3.scene.shape.Torus;
 import com.jme3.system.NativeLibraryLoader;
+import com.simsilica.mathd.Matrix3d;
 import com.simsilica.mathd.Quatd;
 import com.simsilica.mathd.Vec3d;
 import java.util.ArrayList;
@@ -550,9 +551,8 @@ public class TestDefaults {
         motion.getOrientation(q);
         Utils.assertEquals(0f, 0f, 0f, 1f, q, 0f);
 
-        // TODO when Matrix3d.isIdentity() is available:
-        //Matrix3d mm = motion.getOrientationMatrixDp(null);
-        //Assert.assertTrue(mm.isIdentity());
+        Matrix3d mm = motion.getOrientationMatrixDp(null);
+        Assert.assertTrue(mm.isIdentity());
         Quatd qq = motion.getOrientationQuaternionDp(null);
         Utils.assertEquals(0., 0., 0., 1., qq, 0.);
 
