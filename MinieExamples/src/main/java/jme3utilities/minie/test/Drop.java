@@ -70,6 +70,7 @@ import jme3utilities.MeshNormals;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.noise.Generator;
 import jme3utilities.mesh.ClothGrid;
@@ -486,14 +487,14 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         Transform tmpPosition = new Transform();
         tmpPosition.getTranslation().y = pieceLength / 2;
         Vector3f pivotInA = tmpPosition.getTranslation().negate();
-        tmpPosition.combineWithParent(startPosition);
+        MyMath.combine(tmpPosition, startPosition, tmpPosition);
         PhysicsRigidBody a = createRigidBody(
                 pieceShape, pieceMass, MeshNormals.Smooth, tmpPosition);
 
         tmpPosition.loadIdentity();
         tmpPosition.getTranslation().y = -pieceLength / 2;
         Vector3f pivotInB = tmpPosition.getTranslation().negate();
-        tmpPosition.combineWithParent(startPosition);
+        MyMath.combine(tmpPosition, startPosition, tmpPosition);
         PhysicsRigidBody b = createRigidBody(
                 pieceShape, pieceMass, MeshNormals.Smooth, tmpPosition);
 
@@ -543,7 +544,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         Transform tmpPosition = new Transform();
         for (int linkIndex = 0; linkIndex < numLinks; ++linkIndex) {
             tmpPosition.set(transform);
-            tmpPosition.combineWithParent(startPosition);
+            MyMath.combine(tmpPosition, startPosition, tmpPosition);
             createRigidBody(
                     shape, linkMass, MeshNormals.Smooth, tmpPosition);
 
@@ -571,7 +572,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         Vector3f pivotInA = new Vector3f(boxHalfWidth, 0f, halfThickness);
         Transform aPosition = new Transform();
         aPosition.setTranslation(pivotInA.negate());
-        aPosition.combineWithParent(startPosition);
+        MyMath.combine(aPosition, startPosition, aPosition);
 
         PhysicsRigidBody a = createRigidBody(
                 boxShape, boxMass, MeshNormals.Facet, aPosition);
@@ -579,7 +580,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         Vector3f pivotInB = new Vector3f(-boxHalfWidth, 0f, halfThickness);
         Transform bPosition = new Transform();
         bPosition.setTranslation(pivotInB.negate());
-        bPosition.combineWithParent(startPosition);
+        MyMath.combine(bPosition, startPosition, bPosition);
 
         PhysicsRigidBody b = createRigidBody(
                 boxShape, boxMass, MeshNormals.Facet, bPosition);
@@ -624,7 +625,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         Vector3f pivotInA = new Vector3f(0f, 3f * radius + aLength / 2f, 0f);
         Transform aPosition = new Transform();
         aPosition.setTranslation(pivotInA.negate());
-        aPosition.combineWithParent(startPosition);
+        MyMath.combine(aPosition, startPosition, aPosition);
 
         PhysicsRigidBody a = createRigidBody(
                 aShape, aMass, MeshNormals.Smooth, aPosition);
@@ -636,7 +637,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         Vector3f pivotInB = new Vector3f(0f, -3f * radius - bLength / 2f, 0f);
         Transform bPosition = new Transform();
         bPosition.setTranslation(pivotInB.negate());
-        bPosition.combineWithParent(startPosition);
+        MyMath.combine(bPosition, startPosition, bPosition);
 
         PhysicsRigidBody b = createRigidBody(
                 bShape, bMass, MeshNormals.Smooth, bPosition);
