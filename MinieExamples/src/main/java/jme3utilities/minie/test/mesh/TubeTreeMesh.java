@@ -50,6 +50,7 @@ import jme3utilities.MyMesh;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -521,15 +522,15 @@ public class TubeTreeMesh extends Mesh {
     private static void putTransformedTriangle(
             FloatBuffer buffer, Vector3f offset, Quaternion rotation,
             Vector3f v1, Vector3f v2, Vector3f v3) {
-        rotation.mult(v1, v1);
+        MyQuaternion.rotate(rotation, v1, v1);
         v1.addLocal(offset);
         buffer.put(v1.x).put(v1.y).put(v1.z);
 
-        rotation.mult(v2, v2);
+        MyQuaternion.rotate(rotation, v2, v2);
         v2.addLocal(offset);
         buffer.put(v2.x).put(v2.y).put(v2.z);
 
-        rotation.mult(v3, v3);
+        MyQuaternion.rotate(rotation, v3, v3);
         v3.addLocal(offset);
         buffer.put(v3.x).put(v3.y).put(v3.z);
     }

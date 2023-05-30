@@ -40,6 +40,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -177,7 +178,8 @@ public class UprightController extends IKController {
 
         // Convert the body's "up" direction to physics-space coordinates.
         Transform localToWorld = link.physicsTransform(null);
-        Vector3f actual = localToWorld.getRotation().mult(directionInLinkBody);
+        Vector3f actual = MyQuaternion.rotate(
+                localToWorld.getRotation(), directionInLinkBody, null);
 
         // error = actual X desired
         Vector3f error = actual.cross(unitY);

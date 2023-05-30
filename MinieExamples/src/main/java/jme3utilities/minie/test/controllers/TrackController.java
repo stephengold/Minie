@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -194,8 +195,8 @@ public class TrackController extends IKController {
         localToWorld.setScale(1f);
 
         // Calculate the actual direction in physics-space coordinates.
-        Vector3f actual
-                = localToWorld.getRotation().mult(directionInLinkBody, null);
+        Vector3f actual = MyQuaternion.rotate(
+                localToWorld.getRotation(), directionInLinkBody, null);
         assert actual.isUnitVector();
 
         // Calculate the desired direction in physics-space coordinates.
