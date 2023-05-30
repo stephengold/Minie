@@ -60,6 +60,7 @@ import jme3utilities.MyAsset;
 import jme3utilities.MyString;
 import jme3utilities.debug.AxesVisualizer;
 import jme3utilities.debug.SkeletonVisualizer;
+import jme3utilities.math.MyMath;
 import jme3utilities.nifty.GuiScreenController;
 import jme3utilities.ui.InputMode;
 
@@ -259,7 +260,7 @@ class TestScreen extends GuiScreenController {
         PhysicsRigidBody bodyA = constraint.getBodyA();
         Transform bodyTransform = bodyA.getTransform(null);
         bodyTransform.setScale(1f);
-        frame.combineWithParent(bodyTransform);
+        MyMath.combine(frame, bodyTransform, frame);
 
         spatial.setLocalTransform(frame);
     }
