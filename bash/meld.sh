@@ -22,4 +22,7 @@ D5=$GitDir/Minie/src/site/antora/minie-project/modules/ROOT
 S6=$GitDir/Acorus/docs/en
 D6=$GitDir/Minie/src/site/antora/minie-project
 
-/usr/bin/meld --diff $S1 $D1 --diff $S2 $D2 --diff $S3 $D3 --diff $S4 $D4 --diff $S5 $D5 --diff $S6 $D6
+S7=$GitDir/Minie-site-it
+D7=$GitDir/Minie
+
+/usr/bin/meld --diff $S1 $D1 --diff $S2 $D2 --diff $S3 $D3 --diff $S4 $D4 --diff $S5 $D5 --diff $S6 $D6 --diff $S7 $D7
