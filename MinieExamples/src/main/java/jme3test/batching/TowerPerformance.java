@@ -85,18 +85,18 @@ public class TowerPerformance
     // *************************************************************************
     // fields
 
-    final private BatchNode batchNode = new BatchNode("batch Node");
-    private Box brick;
-    private BulletAppState bulletAppState;
-    private float angleDegrees;
-    private int numSteps;
-    private long physicsNs;
-    private long preTickNs;
-    private Material mat;
-    private Material mat2;
-    private Material mat3;
-    private Sphere bullet;
-    private SphereCollisionShape bulletCollisionShape;
+    final private static BatchNode batchNode = new BatchNode("batch Node");
+    private static Box brick;
+    private static BulletAppState bulletAppState;
+    private static float angleDegrees;
+    private static int numSteps;
+    private static long physicsNs;
+    private static long preTickNs;
+    private static Material mat;
+    private static Material mat2;
+    private static Material mat3;
+    private static Sphere bullet;
+    private static SphereCollisionShape bulletCollisionShape;
     // *************************************************************************
     // constructors
 
@@ -157,7 +157,7 @@ public class TowerPerformance
 
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        this.preTickNs = System.nanoTime();
+        preTickNs = System.nanoTime();
     }
     // *************************************************************************
     // SimpleApplication methods
@@ -171,15 +171,15 @@ public class TowerPerformance
             System.out.println("Warning: using a Debug native library.");
         }
 
-        this.bulletAppState = new BulletAppState();
+        bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         getPhysicsSpace().addTickListener(this);
 
-        this.bullet = new Sphere(32, 32, bulletRadius, true, false);
+        bullet = new Sphere(32, 32, bulletRadius, true, false);
         bullet.setTextureMode(Sphere.TextureMode.Projected);
         bulletCollisionShape = new SphereCollisionShape(bulletRadius);
 
-        this.brick = new Box(brickWidth, brickHeight, brickDepth);
+        brick = new Box(brickWidth, brickHeight, brickDepth);
         brick.scaleTextureCoordinates(new Vector2f(1f, 0.5f));
         initMaterial();
         initTower();
@@ -247,7 +247,7 @@ public class TowerPerformance
     }
 
     private void initMaterial() {
-        this.mat = new Material(
+        mat = new Material(
                 assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         TextureKey key
                 = new TextureKey("Textures/Terrain/BrickWall/BrickWall.jpg");
@@ -255,14 +255,14 @@ public class TowerPerformance
         Texture tex = assetManager.loadTexture(key);
         mat.setTexture("ColorMap", tex);
 
-        this.mat2 = new Material(
+        mat2 = new Material(
                 assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         TextureKey key2 = new TextureKey("Textures/Terrain/Rock/Rock.PNG");
         key2.setGenerateMips(true);
         Texture tex2 = assetManager.loadTexture(key2);
         mat2.setTexture("ColorMap", tex2);
 
-        this.mat3 = new Material(
+        mat3 = new Material(
                 assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         TextureKey key3 = new TextureKey("Textures/Terrain/Pond/Pond.jpg");
         key3.setGenerateMips(true);
@@ -275,7 +275,7 @@ public class TowerPerformance
         double tempX;
         double tempY = 0.0;
         double tempZ;
-        this.angleDegrees = 0f;
+        angleDegrees = 0f;
         for (int i = 0; i < brickLayers; i++) {
             // Increment rows
             if (i != 0) {
@@ -284,7 +284,7 @@ public class TowerPerformance
                 tempY = brickHeight;
             }
             // Alternate brick seams
-            this.angleDegrees = 360f / bricksPerLayer * i / 2f;
+            angleDegrees = 360f / bricksPerLayer * i / 2f;
             for (int j = 0; j < bricksPerLayer; j++) {
                 tempZ = Math.cos(Math.toRadians(angleDegrees)) * radius;
                 tempX = Math.sin(Math.toRadians(angleDegrees)) * radius;
@@ -298,7 +298,7 @@ public class TowerPerformance
                 } else { // Create main tower
                     addBrick(vt);
                 }
-                this.angleDegrees += 360f / bricksPerLayer;
+                angleDegrees += 360f / bricksPerLayer;
             }
         }
     }
