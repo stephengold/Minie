@@ -57,7 +57,6 @@ import jme3utilities.Heart;
 import jme3utilities.MySkeleton;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
-import jme3utilities.math.MyQuaternion;
 
 /**
  * Link an attachments node to a jointed rigid body in a ragdoll.
