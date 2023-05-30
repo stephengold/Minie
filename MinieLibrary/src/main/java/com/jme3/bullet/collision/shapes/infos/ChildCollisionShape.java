@@ -266,7 +266,7 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
         for (int i = 0; i < 2; ++i) {
             if (mp[i] != null) {
                 mp[i].copyTransform(tmpTransform);
-                tmpTransform.combineWithParent(c2pTransform);
+                MyMath.combine(tmpTransform, c2pTransform, tmpTransform);
                 Vector3f newOffset = tmpTransform.getTranslation(); // alias
                 CollisionShape base = mp[i].getShape();
                 result[i] = new ChildCollisionShape(newOffset, rotation, base);

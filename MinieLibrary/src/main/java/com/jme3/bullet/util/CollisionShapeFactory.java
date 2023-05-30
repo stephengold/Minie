@@ -59,6 +59,7 @@ import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import vhacd.VHACD;
 import vhacd.VHACDHull;
@@ -622,13 +623,13 @@ final public class CollisionShapeFactory {
         Transform result = new Transform();
         Spatial currentSpatial = spatial;
         while (currentSpatial != modelRoot) {
-            result.combineWithParent(currentSpatial.getLocalTransform());
+            MyMath.combine(result, currentSpatial.getLocalTransform(), result);
             currentSpatial = currentSpatial.getParent();
         }
         // Include the model root's scale but not its translation or rotation.
         Transform mrTransform = new Transform(); // TODO garbage
         mrTransform.setScale(modelRoot.getLocalScale());
-        result.combineWithParent(mrTransform);
+        MyMath.combine(result, mrTransform, result);
 
         return result;
     }

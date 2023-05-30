@@ -61,6 +61,7 @@ import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.IntPair;
+import jme3utilities.math.MyMath;
 
 /**
  * A PhysicsControl to link a PhysicsSoftBody to a Spatial.
@@ -345,9 +346,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
         Transform worldToMesh = meshToWorld.invert();
         if (isApplyPhysicsLocal()) {
             Transform localToWorld = spatial.getWorldTransform(); // alias
-            Transform localToMesh
-                    = localToWorld.clone().combineWithParent(worldToMesh);
-            physicsToMesh = localToMesh; // alias
+            physicsToMesh = MyMath.combine(localToWorld, worldToMesh, null);
         } else {
             physicsToMesh = worldToMesh; // alias
         }
@@ -457,9 +456,7 @@ public class SoftBodyControl extends AbstractPhysicsControl {
             Spatial spatial = getSpatial();
             Transform localToWorld = spatial.getWorldTransform(); // alias
             Transform worldToLocal = localToWorld.invert();
-            Transform meshToLocal
-                    = meshToWorld.clone().combineWithParent(worldToLocal);
-            meshToPhysics = meshToLocal; // alias
+            meshToPhysics = MyMath.combine(meshToWorld, worldToLocal, null);
         } else {
             meshToPhysics = meshToWorld; // alias
         }

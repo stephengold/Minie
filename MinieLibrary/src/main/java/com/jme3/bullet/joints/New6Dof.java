@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -559,7 +560,7 @@ public class New6Dof extends Constraint {
         tmpTransform.setScale(1f); // a2w
         tmpTransform = tmpTransform.invert();  // w2a
         Transform p2a = new Transform(pivotInWorld, rotInWorld);
-        p2a.combineWithParent(tmpTransform);
+        MyMath.combine(p2a, tmpTransform, p2a);
         Vector3f pivotInA = p2a.getTranslation(); // alias
         Matrix3f rotInA = p2a.getRotation().toRotationMatrix();
 
@@ -567,7 +568,7 @@ public class New6Dof extends Constraint {
         tmpTransform.setScale(1f); // b2w
         tmpTransform = tmpTransform.invert();  // w2b
         Transform p2b = new Transform(pivotInWorld, rotInWorld);
-        p2b.combineWithParent(tmpTransform);
+        MyMath.combine(p2b, tmpTransform, p2b);
         Vector3f pivotInB = p2b.getTranslation(); // alias
         Matrix3f rotInB = p2b.getRotation().toRotationMatrix();
 
@@ -910,7 +911,8 @@ public class New6Dof extends Constraint {
             jInB.getRotation().fromRotationMatrix(rotB);
             jInB.setTranslation(pivotB);
 
-            Transform bToWorld = jInB.invert().combineWithParent(jInWorld);
+            Transform bToWorld = jInB.invert();
+            MyMath.combine(bToWorld, jInWorld, bToWorld);
 
             Vector3f saveLocation = b.getPhysicsLocation(null);
             Quaternion saveRotation = b.getPhysicsRotation(null);

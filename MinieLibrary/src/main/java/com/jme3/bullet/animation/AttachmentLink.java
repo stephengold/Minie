@@ -57,6 +57,7 @@ import jme3utilities.Heart;
 import jme3utilities.MySkeleton;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * Link an attachments node to a jointed rigid body in a ragdoll.
@@ -149,8 +150,8 @@ public class AttachmentLink extends PhysicsLink {
         Transform worldToManager = managerToWorld.invert();
 
         Transform attachToWorld = physicsTransform(null);
-        Transform attachToManager = attachToWorld.clone();
-        attachToManager.combineWithParent(worldToManager);
+        Transform attachToManager
+                = MyMath.combine(attachToWorld, worldToManager, null);
 
         Vector3f pivotMesh = associatedBone.getModelSpacePosition();
         Spatial transformer = control.getTransformer();
@@ -211,8 +212,8 @@ public class AttachmentLink extends PhysicsLink {
         Transform worldToManager = managerToWorld.invert();
 
         Transform attachToWorld = physicsTransform(null);
-        Transform attachToManager = attachToWorld.clone();
-        attachToManager.combineWithParent(worldToManager);
+        Transform attachToManager
+                = MyMath.combine(attachToWorld, worldToManager, null);
 
         Vector3f pivotMesh
                 = associatedJoint.getModelTransform().getTranslation();
@@ -428,7 +429,7 @@ public class AttachmentLink extends PhysicsLink {
 
         // Convert to bone local coordinates.
         Transform tmp = attachedModel.getLocalTransform(); // alias
-        result.combineWithParent(tmp);
+        MyMath.combine(result, tmp, result);
 
         // Convert to mesh coordinates.
         Bone bone = getBone();
@@ -438,11 +439,11 @@ public class AttachmentLink extends PhysicsLink {
             Joint armatureJoint = getArmatureJoint();
             tmp = armatureJoint.getModelTransform().clone();
         }
-        result.combineWithParent(tmp);
+        MyMath.combine(result, tmp, result);
 
         // Convert to physics/world coordinates.
         getControl().meshTransform(tmp);
-        result.combineWithParent(tmp);
+        MyMath.combine(result, tmp, result);
 
         return result;
     }
@@ -545,7 +546,7 @@ public class AttachmentLink extends PhysicsLink {
 
         // Convert to mesh coordinates.
         Transform worldToMesh = getControl().meshTransform(null).invert();
-        result.combineWithParent(worldToMesh);
+        MyMath.combine(result, worldToMesh, result);
 
         // Convert to bone local coordinates.
         Transform boneToMesh;
@@ -557,7 +558,7 @@ public class AttachmentLink extends PhysicsLink {
             boneToMesh = armatureJoint.getModelTransform();
         }
         Transform meshToBone = boneToMesh.invert();
-        result.combineWithParent(meshToBone);
+        MyMath.combine(result, meshToBone, result);
 
         // Subtract the body's local offset, rotated and scaled.
         Vector3f modelOffset = localOffset(null);

@@ -630,7 +630,7 @@ final public class RagUtils {
         Spatial loopSpatial = startSpatial;
         while (loopSpatial != ancestorNode) {
             Transform localTransform = loopSpatial.getLocalTransform(); // alias
-            result.combineWithParent(localTransform);
+            MyMath.combine(result, localTransform, result);
             loopSpatial = loopSpatial.getParent();
         }
 

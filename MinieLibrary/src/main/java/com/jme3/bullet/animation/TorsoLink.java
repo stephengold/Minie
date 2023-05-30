@@ -367,10 +367,9 @@ public class TorsoLink extends PhysicsLink {
             worldToParent = parentToWorld.invert();
         }
 
-        Transform transform = meshToModel.clone(); // TODO garbage
         Transform shapeToWorld = getRigidBody().getTransform(null);
-        transform.combineWithParent(shapeToWorld);
-        transform.combineWithParent(worldToParent);
+        Transform transform = MyMath.combine(meshToModel, shapeToWorld, null);
+        MyMath.combine(transform, worldToParent, transform);
         spatial.setLocalTransform(transform);
 
         // Disable bone animations, if any.
@@ -711,7 +710,7 @@ public class TorsoLink extends PhysicsLink {
 
         // Convert to mesh coordinates.
         Transform worldToMesh = getControl().meshTransform(null).invert();
-        result.combineWithParent(worldToMesh);
+        MyMath.combine(result, worldToMesh, result);
         /*
          * Convert to the bone's local coordinate system by factoring out the
          * parent bone's transform, if any.

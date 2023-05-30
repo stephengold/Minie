@@ -72,6 +72,7 @@ import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.VectorSet;
 
 /**
@@ -492,11 +493,11 @@ public class DacLinks
 
         // Convert to mesh coordinates.
         Transform localToMesh = MySkeleton.copyMeshTransform(bone, null);
-        result.combineWithParent(localToMesh);
+        MyMath.combine(result, localToMesh, result);
 
         // Convert to world (physics-space) coordinates.
         Transform meshToWorld = meshTransform(null);
-        result.combineWithParent(meshToWorld);
+        MyMath.combine(result, meshToWorld, result);
 
         return result;
     }
@@ -525,11 +526,11 @@ public class DacLinks
 
         // Convert to mesh coordinates.
         Transform localToMesh = joint.getModelTransform();
-        result.combineWithParent(localToMesh);
+        MyMath.combine(result, localToMesh, result);
 
         // Convert to world (physics-space) coordinates.
         Transform meshToWorld = meshTransform(null);
-        result.combineWithParent(meshToWorld);
+        MyMath.combine(result, meshToWorld, result);
 
         return result;
     }

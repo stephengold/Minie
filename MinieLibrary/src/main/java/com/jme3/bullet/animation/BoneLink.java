@@ -202,8 +202,8 @@ public class BoneLink extends PhysicsLink {
         Transform childToWorld = physicsTransform(null);
         childToWorld.setScale(1f);
 
-        Transform childToParent = childToWorld.clone();
-        childToParent.combineWithParent(worldToParent);
+        Transform childToParent
+                = MyMath.combine(childToWorld, worldToParent, null);
 
         Spatial transformer = getControl().getTransformer();
         Vector3f pivotMesh;
@@ -791,7 +791,7 @@ public class BoneLink extends PhysicsLink {
 
         // Convert to mesh coordinates.
         Transform worldToMesh = getControl().meshTransform(null).invert();
-        result.combineWithParent(worldToMesh);
+        MyMath.combine(result, worldToMesh, result);
         /*
          * Convert to the bone's local coordinate system by factoring out the
          * parent bone's transform.
