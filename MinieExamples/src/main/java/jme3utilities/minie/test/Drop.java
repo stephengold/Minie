@@ -627,8 +627,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         aPosition.setTranslation(pivotInA.negate());
         MyMath.combine(aPosition, startPosition, aPosition);
 
-        PhysicsRigidBody a = createRigidBody(
-                aShape, aMass, MeshNormals.Smooth, aPosition);
+        PhysicsRigidBody a
+                = createRigidBody(aShape, aMass, MeshNormals.Smooth, aPosition);
 
         CollisionShape bShape = new CapsuleCollisionShape(
                 radius, bLength, PhysicsSpace.AXIS_Y);
@@ -639,8 +639,8 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         bPosition.setTranslation(pivotInB.negate());
         MyMath.combine(bPosition, startPosition, bPosition);
 
-        PhysicsRigidBody b = createRigidBody(
-                bShape, bMass, MeshNormals.Smooth, bPosition);
+        PhysicsRigidBody b
+                = createRigidBody(bShape, bMass, MeshNormals.Smooth, bPosition);
 
         Matrix3f rotInA = Matrix3f.IDENTITY;
         Matrix3f rotInB = Matrix3f.IDENTITY;

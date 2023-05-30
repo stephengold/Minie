@@ -604,8 +604,8 @@ public class PoolDemo extends PhysicsDemo {
 
         int numCushionArcEdges = 20;
         final float bumperHeight = 20f;
-        Mesh halfCushions = new PoolHalfCushions(legLength, pocketRadius,
-                numCushionArcEdges, bumperHeight);
+        Mesh halfCushions = new PoolHalfCushions(
+                legLength, pocketRadius, numCushionArcEdges, bumperHeight);
 
         for (int yRotIndex = 0; yRotIndex < 2; ++yRotIndex) {
             String name = "halfCushions." + yRotIndex;

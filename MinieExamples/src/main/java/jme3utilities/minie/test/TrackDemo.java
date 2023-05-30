@@ -668,9 +668,9 @@ public class TrackDemo extends PhysicsDemo {
             spatial.setShadowMode(RenderQueue.ShadowMode.Cast);
         }
 
-        LinkConfig swordConfig = new LinkConfig(5f, MassHeuristic.Density,
-                ShapeHeuristic.VertexHull, Vector3f.UNIT_XYZ,
-                CenterHeuristic.AABB);
+        LinkConfig swordConfig = new LinkConfig(
+                5f, MassHeuristic.Density, ShapeHeuristic.VertexHull,
+                Vector3f.UNIT_XYZ, CenterHeuristic.AABB);
         dac = new SinbadControl();
         dac.attach("Handle.R", swordConfig, sword);
 
