@@ -60,6 +60,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 import vhacd.VHACD;
 import vhacd.VHACDHull;
@@ -453,7 +454,8 @@ final public class CollisionShapeFactory {
                 } else {
                     childShape = createSingleBoxShape(
                             geometry, modelRoot, centerOffset);
-                    transform.getRotation().mult(centerOffset, centerOffset);
+                    MyQuaternion.rotate(transform.getRotation(), centerOffset,
+                            centerOffset);
                     transform.getTranslation().addLocal(centerOffset);
                 }
                 if (childShape != null) {

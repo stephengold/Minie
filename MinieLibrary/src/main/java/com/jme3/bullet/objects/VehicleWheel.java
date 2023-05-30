@@ -46,6 +46,7 @@ import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * Information about one wheel of a vehicle, based on Bullet's
@@ -208,8 +209,9 @@ public class VehicleWheel implements JmeCloneable, Savable {
             Quaternion parentRot = parent.getWorldRotation(); // alias
             localLocation.set(wheelWorldLocation).subtractLocal(parentOffset);
             localLocation.divideLocal(parent.getWorldScale());
-            tmpInverseWheelRotation.set(parentRot).inverseLocal()
-                    .multLocal(localLocation);
+            tmpInverseWheelRotation.set(parentRot).inverseLocal();
+            MyQuaternion.rotate(
+                    tmpInverseWheelRotation, localLocation, localLocation);
 
             localRotationQuat.set(wheelWorldRotation);
             tmpInverseWheelRotation.set(parentRot).inverseLocal()

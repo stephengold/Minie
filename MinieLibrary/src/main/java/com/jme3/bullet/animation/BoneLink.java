@@ -807,7 +807,7 @@ public class BoneLink extends PhysicsLink {
         // Subtract the body's local offset, rotated and scaled.
         Vector3f parentOffset = localOffset(null);
         parentOffset.multLocal(scale);
-        orientation.mult(parentOffset, parentOffset);
+        MyQuaternion.rotate(orientation, parentOffset, parentOffset);
         location.subtractLocal(parentOffset);
 
         return result;

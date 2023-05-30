@@ -75,6 +75,7 @@ import jme3utilities.MyString;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
@@ -421,7 +422,7 @@ final public class RagUtils {
         assert worldToLocal != null;
 
         // Convert heightDirection to world coordinates:
-        localToWorld.mult(heightDirection, heightDirection);
+        MyQuaternion.rotate(localToWorld, heightDirection, heightDirection);
 
         // Calculate minimum half height and squared radius for the cylinder.
         halfHeight = 0f;
@@ -505,7 +506,7 @@ final public class RagUtils {
             tempVector.x = buffer.get();
             tempVector.y = buffer.get();
             tempVector.z = buffer.get();
-            worldToLocal.mult(tempVector, tempVector);
+            MyQuaternion.rotate(worldToLocal, tempVector, tempVector);
             MyVector3f.accumulateMaxima(maxima, tempVector);
             MyVector3f.accumulateMinima(minima, tempVector);
         }
@@ -548,7 +549,7 @@ final public class RagUtils {
 
         location.subtractLocal(pmTranslate);
         location.divideLocal(pmScale);
-        pmRotInv.mult(location, location);
+        MyQuaternion.rotate(pmRotInv, location, location);
         scale.divideLocal(pmScale);
         pmRotInv.mult(orientation, orientation);
     }
@@ -575,7 +576,7 @@ final public class RagUtils {
 
         location.subtractLocal(pmTranslate);
         location.divideLocal(pmScale);
-        pmRotInv.mult(location, location);
+        MyQuaternion.rotate(pmRotInv, location, location);
         scale.divideLocal(pmScale);
         pmRotInv.mult(orientation, orientation);
     }

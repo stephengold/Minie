@@ -52,6 +52,7 @@ import com.simsilica.mathd.Vec3d;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * The motion state (transform) of a rigid body, with thread-safe access.
@@ -129,7 +130,8 @@ public class RigidBodyMotionState
 
             localLocation.subtractLocal(pwTranslation);
             localLocation.divideLocal(pwScale);
-            tmpInverseWorldRotation.multLocal(localLocation);
+            MyQuaternion.rotate(
+                    tmpInverseWorldRotation, localLocation, localLocation);
             tmpInverseWorldRotation.mult(localRotationQuat, localRotationQuat);
 
             spatial.setLocalTranslation(localLocation);

@@ -47,6 +47,7 @@ import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.MySpatial;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * Manage the lifecycle of a physics object linked to a Spatial in a scene
@@ -180,7 +181,9 @@ abstract public class AbstractPhysicsControl
                         controlledSpatial.getParent().getWorldScale());
                 tmpInverseWorldRotation
                         .set(controlledSpatial.getParent().getWorldRotation())
-                        .inverseLocal().multLocal(localLocation);
+                        .inverseLocal();
+                MyQuaternion.rotate(
+                        tmpInverseWorldRotation, localLocation, localLocation);
                 localRotationQuat.set(physicsOrientation);
                 tmpInverseWorldRotation
                         .set(controlledSpatial.getParent().getWorldRotation())

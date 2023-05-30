@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -695,7 +696,7 @@ public class BetterCharacterControl
 
         viewToWorld.set(newOrientation);
         viewDirInWorld.set(viewDirection);
-        viewToWorld.multLocal(viewDirInWorld);
+        MyQuaternion.rotate(viewToWorld, viewDirInWorld, viewDirInWorld);
         updateLocalViewDirection();
     }
 
@@ -1003,7 +1004,7 @@ public class BetterCharacterControl
      */
     protected void updateLocalViewDirection() {
         viewDirInWorld.set(viewDirection);
-        localToWorld.multLocal(viewDirInWorld);
+        MyQuaternion.rotate(localToWorld, viewDirInWorld, viewDirInWorld);
         /*
          * The gravity vector may have changed,
          * so update viewToWorld and viewDirInWorld.
@@ -1027,7 +1028,7 @@ public class BetterCharacterControl
         float forward = velocity.dot(localForward) * dampingFactor;
         Vector3f counter = vars.vect1; // alias
         counter.set(-left, 0f, -forward);
-        localToWorld.multLocal(counter);
+        MyQuaternion.rotate(localToWorld, counter, counter);
         velocity.addLocal(counter);
 
         float requestedSpeed = walkVelocity.length();
@@ -1051,7 +1052,7 @@ public class BetterCharacterControl
         if (wantToJump && onGround) {
             Vector3f impulseInWorld = vars.vect1; // alias
             impulseInWorld.set(jumpImpulse);
-            localToWorld.multLocal(impulseInWorld);
+            MyQuaternion.rotate(localToWorld, impulseInWorld, impulseInWorld);
             rigidBody.applyCentralImpulse(impulseInWorld);
         }
         vars.release();

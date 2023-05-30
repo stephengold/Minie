@@ -730,7 +730,7 @@ public class TorsoLink extends PhysicsLink {
         // Subtract the body's local offset, rotated and scaled.
         Vector3f meshOffset = localOffset(null);
         meshOffset.multLocal(scale);
-        orientation.mult(meshOffset, meshOffset);
+        MyQuaternion.rotate(orientation, meshOffset, meshOffset);
         location.subtractLocal(meshOffset);
 
         return result;

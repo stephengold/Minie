@@ -57,6 +57,7 @@ import jme3utilities.Heart;
 import jme3utilities.MySkeleton;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * Link an attachments node to a jointed rigid body in a ragdoll.
@@ -562,7 +563,7 @@ public class AttachmentLink extends PhysicsLink {
         // Subtract the body's local offset, rotated and scaled.
         Vector3f modelOffset = localOffset(null);
         modelOffset.multLocal(scale);
-        orientation.mult(modelOffset, modelOffset);
+        MyQuaternion.rotate(orientation, modelOffset, modelOffset);
         location.subtractLocal(modelOffset);
 
         return result;
