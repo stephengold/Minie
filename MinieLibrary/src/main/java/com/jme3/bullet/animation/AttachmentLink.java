@@ -226,7 +226,7 @@ public class AttachmentLink extends PhysicsLink {
         Vector3f pivot = attachToWorld.transformInverseVector(pivotWorld, null);
 
         Matrix3f rotManager = attachToManager.getRotation().toRotationMatrix();
-        Matrix3f rot = matrixIdentity;
+        Matrix3f rot = matrixIdentity; // alias
 
         Constraint constraint;
         RotationOrder rotationOrder = linkConfig.rotationOrder();
@@ -434,10 +434,10 @@ public class AttachmentLink extends PhysicsLink {
         // Convert to mesh coordinates.
         Bone bone = getBone();
         if (bone != null) { // old animation system
-            tmp = MySkeleton.copyMeshTransform(bone, null);
+            tmp = MySkeleton.copyMeshTransform(bone, null); // garbage
         } else { // new animation system
             Joint armatureJoint = getArmatureJoint();
-            tmp = armatureJoint.getModelTransform().clone();
+            tmp = armatureJoint.getModelTransform().clone(); // garbage
         }
         MyMath.combine(result, tmp, result);
 
@@ -557,7 +557,7 @@ public class AttachmentLink extends PhysicsLink {
             Joint armatureJoint = getArmatureJoint();
             boneToMesh = armatureJoint.getModelTransform();
         }
-        Transform meshToBone = boneToMesh.invert();
+        Transform meshToBone = boneToMesh.invert(); // garbage
         MyMath.combine(result, meshToBone, result);
 
         // Subtract the body's local offset, rotated and scaled.
