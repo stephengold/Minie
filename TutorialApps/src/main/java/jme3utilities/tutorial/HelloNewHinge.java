@@ -50,6 +50,7 @@ import com.jme3.texture.Texture;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * An example of vehicle physics using NewHinge.
@@ -162,7 +163,7 @@ public class HelloNewHinge
         // Apply a constant torque (to the rear wheels).
         for (PhysicsRigidBody wheel : drive) {
             Vector3f torque = new Vector3f(1f, 0f, 0f);
-            wheel.getPhysicsRotation().mult(torque, torque);
+            MyQuaternion.rotate(wheel.getPhysicsRotation(), torque, torque);
             wheel.applyTorque(torque);
         }
     }
