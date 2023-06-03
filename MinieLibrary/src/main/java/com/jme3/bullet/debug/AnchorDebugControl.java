@@ -47,6 +47,7 @@ import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 
 /**
  * A physics-debug control to visualize an Anchor.
@@ -116,7 +117,7 @@ class AnchorDebugControl extends AbstractPhysicsDebugControl {
         Vector3f pivotInB = anchor.copyPivot(null); // TODO garbage
         Transform t = rigidBodyB.getTransform(null); // TODO garbage
         t.getScale().set(1f, 1f, 1f);
-        Vector3f bLocation = t.transformVector(pivotInB, null);
+        Vector3f bLocation = MyMath.transform(t, pivotInB, null);
         positionBuffer.put(3, bLocation.x);
         positionBuffer.put(4, bLocation.y);
         positionBuffer.put(5, bLocation.z);

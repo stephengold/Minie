@@ -42,6 +42,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 
 /**
  * A 3 degree-of-freedom joint based on Bullet's btPoint2PointConstraint.
@@ -331,7 +332,7 @@ public class Point2PointJoint extends Constraint {
                 a.getPhysicsRotation(localToWorld.getRotation());
 
                 Vector3f pivotAWorld
-                        = localToWorld.transformVector(pivotA, null);
+                        = MyMath.transform(localToWorld, pivotA, null);
                 Vector3f worldOffset = pivotB.subtract(pivotAWorld);
                 Vector3f tempLocation = saveLocation.add(worldOffset);
                 a.setPhysicsLocation(tempLocation);

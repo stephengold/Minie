@@ -415,7 +415,7 @@ final public class CollisionShapeFactory {
         for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
             MyMesh.vertexVector3f(jmeMesh, VertexBuffer.Type.Position,
                     vertexIndex, tmpPosition);
-            transform.transformVector(tmpPosition, tmpPosition);
+            MyMath.transform(transform, tmpPosition, tmpPosition);
             addPositions.put(tmpPosition.x);
             addPositions.put(tmpPosition.y);
             addPositions.put(tmpPosition.z);

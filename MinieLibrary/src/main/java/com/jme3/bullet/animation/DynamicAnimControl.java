@@ -70,6 +70,7 @@ import jme3utilities.MySkeleton;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -439,7 +440,7 @@ public class DynamicAnimControl
             }
             assert manager != null;
             Transform meshToWorld = meshTransform(null);
-            meshToWorld.transformVector(pos, worldLocation);
+            MyMath.transform(meshToWorld, pos, worldLocation);
         }
 
         if (storeLocalLocation != null) {

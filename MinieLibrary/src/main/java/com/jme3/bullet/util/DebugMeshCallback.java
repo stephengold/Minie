@@ -40,6 +40,7 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 import jme3utilities.math.RectangularSolid;
@@ -201,7 +202,7 @@ class DebugMeshCallback {
         double maxSquaredDistance = 0.0;
         Vector3f tmpVector = new Vector3f(); // TODO garbage
         for (Vector3f vertex : list) {
-            meshToWorld.transformVector(vertex, tmpVector);
+            MyMath.transform(meshToWorld, vertex, tmpVector);
             double lengthSquared = MyVector3f.lengthSquared(tmpVector);
             if (lengthSquared > maxSquaredDistance) {
                 maxSquaredDistance = lengthSquared;

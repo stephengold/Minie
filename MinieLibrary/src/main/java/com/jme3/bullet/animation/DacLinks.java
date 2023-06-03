@@ -1613,7 +1613,7 @@ public class DacLinks
                 = linkConfig.createShape(meshToBone, center, vertexLocations);
 
         meshToBone.getTranslation().zero();
-        Vector3f offset = meshToBone.transformVector(center, null);
+        Vector3f offset = MyMath.transform(meshToBone, center, null);
 
         BoneLink link;
         if (skeleton != null) { // old animation system
@@ -1684,7 +1684,7 @@ public class DacLinks
                 = linkConfig.createShape(meshToBone, center, vertexLocations);
 
         meshToBone.getTranslation().zero();
-        Vector3f offset = meshToBone.transformVector(center, null);
+        Vector3f offset = MyMath.transform(meshToBone, center, null);
 
         Transform meshToModel;
         Spatial cgm = getSpatial();

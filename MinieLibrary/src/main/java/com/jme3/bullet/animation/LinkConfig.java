@@ -48,6 +48,7 @@ import java.nio.FloatBuffer;
 import java.util.Objects;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
 
@@ -263,7 +264,7 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
             tempLocation.subtractLocal(center);
 
             // Transform vertex coordinates to de-scaled shape coordinates.
-            vertexToShape.transformVector(tempLocation, tempLocation);
+            MyMath.transform(vertexToShape, tempLocation, tempLocation);
             switch (shapeHeuristic) {
                 case AABB:
                 case Sphere:

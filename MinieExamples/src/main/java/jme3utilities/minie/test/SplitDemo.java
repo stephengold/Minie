@@ -940,7 +940,7 @@ public class SplitDemo
                 signs[sideI] = 2 * sideI - 1;
 
                 Vector3f location = children[sideI].copyOffset(null);
-                shapeToWorld.transformVector(location, location);
+                MyMath.transform(shapeToWorld, location, location);
                 locations[sideI] = location;
             }
 
@@ -1005,7 +1005,7 @@ public class SplitDemo
                 Vector3f offset = location.negate();
                 shape.translate(offset);
                 shapeToWorld.setScale(1f);
-                shapeToWorld.transformVector(location, location);
+                MyMath.transform(shapeToWorld, location, location);
                 locations[groupI] = location;
             }
 
@@ -1027,7 +1027,7 @@ public class SplitDemo
                 signs[sideI] = 2 * sideI - 1;
 
                 Vector3f location = children[sideI].copyOffset(null);
-                shapeToWorld.transformVector(location, location);
+                MyMath.transform(shapeToWorld, location, location);
                 locations[sideI] = location;
             }
 

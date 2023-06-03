@@ -53,6 +53,7 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyCamera;
 import jme3utilities.MyString;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.RectangularSolid;
 import jme3utilities.math.VectorSet;
 import jme3utilities.math.VectorSetUsingBuffer;
@@ -332,7 +333,7 @@ public class TestRectangularSolid extends PhysicsDemo {
         Vector3f sampleLocation = new Vector3f();
         for (int sampleI = 0; sampleI < samplesPerTrial; ++sampleI) {
             random.nextUnitVector3f(sampleLocation);
-            transform.transformVector(sampleLocation, sampleLocation);
+            MyMath.transform(transform, sampleLocation, sampleLocation);
             samples.add(sampleLocation);
         }
 

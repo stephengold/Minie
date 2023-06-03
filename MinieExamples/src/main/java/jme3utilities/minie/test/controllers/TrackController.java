@@ -40,6 +40,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
@@ -202,7 +203,7 @@ public class TrackController extends IKController {
         // Calculate the desired direction in physics-space coordinates.
         Vector3f desired = targetBody.getPhysicsLocation(null);
         Vector3f pivotInWorld
-                = localToWorld.transformVector(pivotInLinkBody, null);
+                = MyMath.transform(localToWorld, pivotInLinkBody, null);
         desired.subtractLocal(pivotInWorld);
         MyVector3f.normalizeLocal(desired);
 

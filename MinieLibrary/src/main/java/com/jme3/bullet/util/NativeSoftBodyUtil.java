@@ -50,6 +50,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.IntPair;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
@@ -438,7 +439,7 @@ final public class NativeSoftBodyUtil {
                 tempVector.x = positionBuffer.get();
                 tempVector.y = positionBuffer.get();
                 tempVector.z = positionBuffer.get();
-                physicsToMesh.transformVector(tempVector, tempVector);
+                MyMath.transform(physicsToMesh, tempVector, tempVector);
 
                 positionBuffer.reset();
                 positionBuffer.put(tempVector.x);

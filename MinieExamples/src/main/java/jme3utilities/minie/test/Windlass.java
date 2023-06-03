@@ -536,7 +536,8 @@ public class Windlass
     private void addHook(PhysicsRigidBody endSegment, float cableRadius) {
         // Locate the final pivot.
         Transform endTransform = endSegment.getTransform(null);
-        Vector3f pivotLocation = endTransform.transformVector(localPivot, null);
+        Vector3f pivotLocation
+                = MyMath.transform(endTransform, localPivot, null);
         /*
          * Collision shape is composed of 11 overlapping 2-sphere shapes,
          * arranged in a circular arc.
@@ -677,7 +678,8 @@ public class Windlass
             PhysicsRigidBody newSegment, PhysicsRigidBody endSegment) {
         // Position the pivot.
         Transform endTransform = endSegment.getTransform(null);
-        Vector3f pivotLocation = endTransform.transformVector(localPivot, null);
+        Vector3f pivotLocation
+                = MyMath.transform(endTransform, localPivot, null);
 
         Quaternion pivotOrientation = endSegment.getPhysicsRotation(null);
         New6Dof joint = New6Dof.newInstance(newSegment, endSegment,

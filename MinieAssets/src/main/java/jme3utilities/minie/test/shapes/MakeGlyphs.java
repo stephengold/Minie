@@ -56,6 +56,7 @@ import jme3utilities.MyMesh;
 import jme3utilities.MySpatial;
 import jme3utilities.MyString;
 import jme3utilities.math.MyBuffer;
+import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -222,13 +223,13 @@ final public class MakeGlyphs {
             MyBuffer.get(positions, MyVector3f.numAxes * ti1, v1a);
             MyBuffer.get(positions, MyVector3f.numAxes * ti2, v2a);
 
-            transformB.transformVector(v0a, v0b);
-            transformB.transformVector(v1a, v1b);
-            transformB.transformVector(v2a, v2b);
+            MyMath.transform(transformB, v0a, v0b);
+            MyMath.transform(transformB, v1a, v1b);
+            MyMath.transform(transformB, v2a, v2b);
 
-            transformA.transformVector(v0a, v0a);
-            transformA.transformVector(v1a, v1a);
-            transformA.transformVector(v2a, v2a);
+            MyMath.transform(transformA, v0a, v0a);
+            MyMath.transform(transformA, v1a, v1a);
+            MyMath.transform(transformA, v2a, v2a);
 
             CollisionShape prism = new HullCollisionShape(prismVertices);
             compoundShape.addChildShape(prism);
