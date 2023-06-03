@@ -364,7 +364,7 @@ artists and software developers:
 + Pavly Gerges (aka "Pavl_G") for testing Minie on Raspberry Pi
 + Adam T. Ryder (aka "tryder") for creating and licensing
   the [jME-TTF] rendering system
-+ [Paul Speed (aka "pspeed42")][pspeed], for creating the [SimMath library][simMath]
++ [Paul Speed (aka "pspeed42")][pspeed], for creating the [SimMath library][simmath]
 + "oxplay2", for reporting a `PhysicsRigidBody` bug and helping me pin it down
 + "duncanj", for pull request #15
 + "qwq", for suggesting changes to how rigid-body contacts are managed
@@ -447,7 +447,7 @@ correct the situation: sgold@sonic.net
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
 [profont]: https://tobiasjung.name/profont "ProFont Project"
 [project]: https://stephengold.github.io/Minie "Minie Project"
-[simMath]: https://github.com/Simsilica/SimMath "SimMath Library"
+[simmath]: https://github.com/Simsilica/SimMath "SimMath Library"
 [sonatype]: https://www.sonatype.com "Sonatype"
 [travis]: https://travis-ci.com "Travis CI"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
