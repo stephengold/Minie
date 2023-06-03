@@ -446,8 +446,8 @@ public class DynamicAnimControl
         if (storeLocalLocation != null) {
             Transform localToWorld = manager.physicsTransform(null);
             localToWorld.setScale(1f);
-            localToWorld
-                    .transformInverseVector(worldLocation, storeLocalLocation);
+            MyMath.transformInverse(
+                    localToWorld, worldLocation, storeLocalLocation);
         }
 
         return manager;
@@ -747,7 +747,7 @@ public class DynamicAnimControl
         Transform localToWorld = link.physicsTransform(null);
         localToWorld.setScale(1f);
         Vector3f pivotInBody
-                = localToWorld.transformInverseVector(pivotInWorld, null);
+                = MyMath.transformInverse(localToWorld, pivotInWorld, null);
         Point2PointJoint newJoint = new Point2PointJoint(linkBody, pivotInBody);
         IKJoint ikJoint = new IKJoint(newJoint, true);
         ikJoints.add(ikJoint);

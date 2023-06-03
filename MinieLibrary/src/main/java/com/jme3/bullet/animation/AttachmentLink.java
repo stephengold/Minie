@@ -158,9 +158,10 @@ public class AttachmentLink extends PhysicsLink {
         Vector3f pivotWorld = transformer.localToWorld(pivotMesh, null);
         managerToWorld.setScale(1f);
         Vector3f pivotManager
-                = managerToWorld.transformInverseVector(pivotWorld, null);
+                = MyMath.transformInverse(managerToWorld, pivotWorld, null);
         attachToWorld.setScale(1f);
-        Vector3f pivot = attachToWorld.transformInverseVector(pivotWorld, null);
+        Vector3f pivot
+                = MyMath.transformInverse(attachToWorld, pivotWorld, null);
 
         Matrix3f rotManager = attachToManager.getRotation().toRotationMatrix();
         Matrix3f rot = matrixIdentity;
@@ -221,9 +222,10 @@ public class AttachmentLink extends PhysicsLink {
         Vector3f pivotWorld = transformer.localToWorld(pivotMesh, null);
         managerToWorld.setScale(1f);
         Vector3f pivotManager
-                = managerToWorld.transformInverseVector(pivotWorld, null);
+                = MyMath.transformInverse(managerToWorld, pivotWorld, null);
         attachToWorld.setScale(1f);
-        Vector3f pivot = attachToWorld.transformInverseVector(pivotWorld, null);
+        Vector3f pivot
+                = MyMath.transformInverse(attachToWorld, pivotWorld, null);
 
         Matrix3f rotManager = attachToManager.getRotation().toRotationMatrix();
         Matrix3f rot = matrixIdentity; // alias

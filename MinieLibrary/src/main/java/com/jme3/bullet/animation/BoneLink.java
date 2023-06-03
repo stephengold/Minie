@@ -220,9 +220,9 @@ public class BoneLink extends PhysicsLink {
         PhysicsRigidBody parentBody = parentLink.getRigidBody();
         PhysicsRigidBody childBody = getRigidBody();
         Vector3f pivotParent
-                = parentToWorld.transformInverseVector(pivotWorld, null);
+                = MyMath.transformInverse(parentToWorld, pivotWorld, null);
         Vector3f pivotChild
-                = childToWorld.transformInverseVector(pivotWorld, null);
+                = MyMath.transformInverse(childToWorld, pivotWorld, null);
         childToParent.getRotation().toRotationMatrix(tmpMatrix);
         Matrix3f rotParent = tmpMatrix; // alias
         Matrix3f rotChild = matrixIdentity; // alias
