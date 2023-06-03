@@ -1791,7 +1791,7 @@ abstract public class PhysicsCollisionObject
             return false;
         }
 
-        // TODO compare evert item in both lists
+        // TODO compare every item in both lists
         return true;
     }
 
