@@ -87,7 +87,6 @@ public class SoftBodyMaterial
      * @param body the body to which this material will apply (not null)
      */
     public SoftBodyMaterial(PhysicsSoftBody body) {
-        assert body != null;
         this.body = body;
 
         long softBodyId = body.nativeId();
