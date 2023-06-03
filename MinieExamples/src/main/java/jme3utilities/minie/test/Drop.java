@@ -31,6 +31,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DynamicAnimControl;
+import com.jme3.bullet.animation.RagUtils;
 import com.jme3.bullet.animation.TorsoLink;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -59,6 +60,7 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.scene.control.AbstractControl;
 import com.jme3.util.BufferUtils;
 import java.nio.FloatBuffer;
 import java.util.Collection;
@@ -714,6 +716,9 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
         cgModel.setLocalScale(scale);
 
         this.dac = control;
+
+        AbstractControl ac = RagUtils.findSControl(cgModel);
+        ac.getSpatial().addControl(control);
 
         PhysicsRigidBody[] bodies = dac.listRigidBodies();
         for (PhysicsRigidBody body : bodies) {
