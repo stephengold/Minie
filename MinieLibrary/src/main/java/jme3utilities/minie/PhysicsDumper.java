@@ -434,8 +434,7 @@ public class PhysicsDumper extends Dumper {
         String moreIndent = indent + indentIncrement();
         addLine(moreIndent);
         PhysicsDescriber describer = getDescriber();
-        String desc
-                = describer.describeJointInSpace(joint, dumpNativeIDs);
+        String desc = describer.describeJointInSpace(joint, dumpNativeIDs);
         stream.print(desc);
 
         String mmIndent = moreIndent + indentIncrement();
@@ -1520,7 +1519,6 @@ public class PhysicsDumper extends Dumper {
      */
     private void dumpMultiBody(MultiBody multibody, String indent,
             BulletDebugAppState.DebugAppStateFilter filter) {
-
         addLine(indent);
         stream.print("MultiBody");
         PhysicsDescriber describer = getDescriber();
