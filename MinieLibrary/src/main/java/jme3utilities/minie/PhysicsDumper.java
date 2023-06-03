@@ -1053,11 +1053,11 @@ public class PhysicsDumper extends Dumper {
                 break;
 
             case ChildShapes:
-                dumpChildShapes = newValue;
+                this.dumpChildShapes = newValue;
                 break;
 
             case ClustersInSofts:
-                dumpClustersInSofts = newValue;
+                this.dumpClustersInSofts = newValue;
                 break;
 
             case CullHints:
@@ -1065,15 +1065,15 @@ public class PhysicsDumper extends Dumper {
                 break;
 
             case Ignores:
-                dumpIgnores = newValue;
+                this.dumpIgnores = newValue;
                 break;
 
             case JointsInBodies:
-                dumpJointsInBodies = newValue;
+                this.dumpJointsInBodies = newValue;
                 break;
 
             case JointsInSpaces:
-                dumpJointsInSpaces = newValue;
+                this.dumpJointsInSpaces = newValue;
                 break;
 
             case MatParams:
@@ -1081,19 +1081,19 @@ public class PhysicsDumper extends Dumper {
                 break;
 
             case Motors:
-                dumpMotors = newValue;
+                this.dumpMotors = newValue;
                 break;
 
             case NativeIDs:
-                dumpNativeIDs = newValue;
+                this.dumpNativeIDs = newValue;
                 break;
 
             case NodesInClusters:
-                dumpNodesInClusters = newValue;
+                this.dumpNodesInClusters = newValue;
                 break;
 
             case NodesInSofts:
-                dumpNodesInSofts = newValue;
+                this.dumpNodesInSofts = newValue;
                 break;
 
             case Overrides:
@@ -1101,7 +1101,7 @@ public class PhysicsDumper extends Dumper {
                 break;
 
             case Pcos:
-                dumpPcos = newValue;
+                this.dumpPcos = newValue;
                 break;
 
             case ShadowModes:
