@@ -492,7 +492,6 @@ final public class RagUtils {
         Eigen3f eigen = new Eigen3f(covariance);
         Vector3f[] basis = eigen.getEigenVectors();
         Quaternion localToWorld = new Quaternion().fromAxes(basis);
-        Quaternion worldToLocal = localToWorld.inverse();
 
         // Calculate the min and max for each local axis.
         Vector3f maxima = new Vector3f(Float.NEGATIVE_INFINITY,
@@ -506,7 +505,7 @@ final public class RagUtils {
             tempVector.x = buffer.get();
             tempVector.y = buffer.get();
             tempVector.z = buffer.get();
-            MyQuaternion.rotate(worldToLocal, tempVector, tempVector);
+            MyQuaternion.rotateInverse(localToWorld, tempVector, tempVector);
             MyVector3f.accumulateMaxima(maxima, tempVector);
             MyVector3f.accumulateMinima(minima, tempVector);
         }
@@ -544,14 +543,13 @@ final public class RagUtils {
         Vector3f scale = transform.getScale(); // alias
 
         Vector3f pmTranslate = parentBone.getModelSpacePosition();
-        Quaternion pmRotInv = msr.inverse(); // TODO garbage
         Vector3f pmScale = parentBone.getModelSpaceScale();
 
         location.subtractLocal(pmTranslate);
         location.divideLocal(pmScale);
-        MyQuaternion.rotate(pmRotInv, location, location);
+        MyQuaternion.rotateInverse(msr, location, location);
         scale.divideLocal(pmScale);
-        pmRotInv.mult(orientation, orientation);
+        msr.inverse().mult(orientation, orientation);
     }
 
     /**
@@ -571,14 +569,14 @@ final public class RagUtils {
         Vector3f scale = transform.getScale(); // alias
 
         Vector3f pmTranslate = pm.getTranslation(); // alias
-        Quaternion pmRotInv = pm.getRotation().inverse(); // TODO garbage
+        Quaternion pmRotate = pm.getRotation(); // alias
         Vector3f pmScale = pm.getScale(); // alias
 
         location.subtractLocal(pmTranslate);
         location.divideLocal(pmScale);
-        MyQuaternion.rotate(pmRotInv, location, location);
+        MyQuaternion.rotateInverse(pmRotate, location, location);
         scale.divideLocal(pmScale);
-        pmRotInv.mult(orientation, orientation);
+        pmRotate.inverse().mult(orientation, orientation);
     }
 
     /**
