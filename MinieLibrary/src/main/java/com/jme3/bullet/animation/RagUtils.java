@@ -417,11 +417,8 @@ final public class RagUtils {
             heightDirection.set(0f, 0f, 1f);
         }
 
-        Quaternion localToWorld = solid.localToWorld(null);
-        Quaternion worldToLocal = localToWorld.inverse();
-        assert worldToLocal != null;
-
         // Convert heightDirection to world coordinates:
+        Quaternion localToWorld = solid.localToWorld(null);
         MyQuaternion.rotate(localToWorld, heightDirection, heightDirection);
 
         // Calculate minimum half height and squared radius for the cylinder.
