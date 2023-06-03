@@ -448,14 +448,14 @@ final public class NativeSoftBodyUtil {
             }
 
             if (normalBuffer != null) { // Rotate the normals.
+                Quaternion p2mr = physicsToMesh.getRotation(); // alias
                 normalBuffer.rewind();
                 while (normalBuffer.hasRemaining()) {
                     normalBuffer.mark();
                     tempVector.x = normalBuffer.get();
                     tempVector.y = normalBuffer.get();
                     tempVector.z = normalBuffer.get();
-                    MyQuaternion.rotate(physicsToMesh.getRotation(),
-                            tempVector, tempVector);
+                    MyQuaternion.rotate(p2mr, tempVector, tempVector);
 
                     normalBuffer.reset();
                     normalBuffer.put(tempVector.x);
