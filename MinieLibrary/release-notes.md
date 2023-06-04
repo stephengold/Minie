@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.6.0 released on TBD
+## Version 7.6.0 released on 3 June 2023
 
 + Bugfix:  the gravity of a rigid body isn't read/written/cloned
 + Bugfix:  ignore lists are never cloned for non-joined collision objects

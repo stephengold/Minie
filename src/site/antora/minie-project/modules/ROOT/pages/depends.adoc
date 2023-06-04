@@ -27,6 +27,11 @@ the Libbulletjme release that corresponds to each Minie release.
 |===
 |Minie release |Direct dependencies |Transitive dependencies |Native libraries
 
+|v7.6.0
+|Heart v8.6.0 / sim-math v1.6.0 / jme3-terrain v3.6.0-stable
+|jme3-core v3.6.0-stable / slf4j-api v1.7.32
+|v18.3.0
+
 |v7.5.0
 |Heart v8.3.2 / sim-math v1.6.0 / jme3-terrain v3.6.0-stable
 |jme3-core v3.6.0-stable / slf4j-api v1.7.32

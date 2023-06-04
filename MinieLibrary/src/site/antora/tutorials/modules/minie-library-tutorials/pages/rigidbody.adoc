@@ -143,18 +143,8 @@ In the presence of dynamic bodies, a kinematic body acts like
 an irresistible battering ram.
 
 There's no direct way to instantiate a kinematic rigid body.
-The usual way is to instantiate a dynamic body and then convert it
+The usual way is to instantiate a static or dynamic body and then convert it
 to kinematic using `rigidBody.setKinematic(true)`.
-
-Due to a design flaw, a kinematic rigid body must have positive mass.
-To convert a static rigid body into a kinematic one, set its mass
-to a positive value *before* setting its kinematic flag:
-
-[source,java]
-----
-rigidBody.setMass(1f);
-rigidBody.setKinematic(true);
-----
 
 {url-tutorial}/HelloKinematics.java[HelloKinematics] is a simple application
 that combines kinematic and dynamic rigid bodies.
@@ -566,7 +556,7 @@ a|Physics-controlled objects such as balls, bricks, and ragdolls
 
 a|How to configure
 a|`setMass(0f)` `setKinematic(false)`
-a|`setMass(positive)` `setKinematic(true)`
+a|`setKinematic(true)`
 a|`setMass(positive)` `setKinematic(false)`
 |===
 
