@@ -1,5 +1,16 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.6.0 released on TBD
+
++ Bugfix:  the gravity of a rigid body isn't read/written/cloned
++ Bugfix:  ignore lists are never cloned for non-joined collision objects
++ Bugfix:  `IllegalStateException` in `DropTest` while creating a ragdoll
++ Allow zero-mass kinematic rigid bodies.
++ Added the an "addLinksForTris" parameter to `SoftBodyControl`.
++ Based on v8.6.0 of the Heart library.
++ Built using Gradle v8.1.1 .
++ Updated the native libraries to v18.3.0 of Libbulletjme.
+
 ## Version 7.5.0 released on 13 April 2023
 
 + Bugfix:  during cloning, Bullet's ignore list
