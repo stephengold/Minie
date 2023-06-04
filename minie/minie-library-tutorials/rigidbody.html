@@ -595,19 +595,8 @@ an irresistible battering ram.</p>
 </div>
 <div class="paragraph">
 <p>There&#8217;s no direct way to instantiate a kinematic rigid body.
-The usual way is to instantiate a dynamic body and then convert it
+The usual way is to instantiate a static or dynamic body and then convert it
 to kinematic using <code>rigidBody.setKinematic(true)</code>.</p>
-</div>
-<div class="paragraph">
-<p>Due to a design flaw, a kinematic rigid body must have positive mass.
-To convert a static rigid body into a kinematic one, set its mass
-to a positive value <strong>before</strong> setting its kinematic flag:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">rigidBody.setMass(1f);
-rigidBody.setKinematic(true);</code></pre>
-</div>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloKinematics.java">HelloKinematics</a> is a simple application
@@ -1334,7 +1323,7 @@ by invoking <code>physicsSpace.setCcdWithStaticOnly(true)</code>.</p>
 <p><code>setMass(0f)</code> <code>setKinematic(false)</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>setMass(positive)</code> <code>setKinematic(true)</code></p>
+<p><code>setKinematic(true)</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>setMass(positive)</code> <code>setKinematic(false)</code></p>
