@@ -1242,7 +1242,7 @@ public class PhysicsRigidBody extends PhysicsBody {
 
         Vec3d gravity = new Vec3d(); // garbage
         getGravityDp(old.nativeId(), gravity);
-        setGravityDp(gravity);
+        setGravityDp(objectId, gravity);
 
         cloneIgnoreList(cloner, old);
         cloneJoints(cloner, old);
