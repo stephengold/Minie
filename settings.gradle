@@ -7,6 +7,7 @@ dependencyResolutionManagement {
         //mavenLocal() // to find local SNAPSHOTs of libraries
         mavenCentral()
         //maven { url 'https://s01.oss.sonatype.org/content/groups/staging' } // to find libraries staged but not yet released
+        //maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' } // to find public SNAPSHOTs of libraries
     }
 }
 
