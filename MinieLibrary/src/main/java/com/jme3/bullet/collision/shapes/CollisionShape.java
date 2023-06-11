@@ -260,7 +260,8 @@ abstract public class CollisionShape
      */
     public float getMargin() {
         assert margin > 0f : margin;
-        assert margin == getMargin(nativeId());
+        assert margin == getMargin(nativeId()) :
+                margin + " != " + getMargin(nativeId());
         return margin;
     }
 
