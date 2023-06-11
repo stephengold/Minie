@@ -85,6 +85,8 @@ public class Convex2dShape extends ConvexShape {
      * @param base the base shape (not null, convex, alias created)
      */
     public Convex2dShape(ConvexShape base) {
+        Validate.nonNull(base, "base");
+
         this.base = base;
         createShape();
     }
@@ -99,8 +101,9 @@ public class Convex2dShape extends ConvexShape {
     public Convex2dShape(FloatBuffer flippedBuffer) {
         Validate.nonNull(flippedBuffer, "flipped buffer");
         int numFloats = flippedBuffer.limit();
-        assert numFloats > 0 : numFloats;
-        assert numFloats % MyVector3f.numAxes == 0 : numFloats;
+        Validate.positive(numFloats, "buffer limit");
+        Validate.require(numFloats % MyVector3f.numAxes == 0,
+                "buffer limit a multiple of 3");
 
         this.base = new HullCollisionShape(flippedBuffer);
         createShape();
