@@ -113,7 +113,7 @@ public class Convex2dShape extends ConvexShape {
      *
      * @return the pre-existing shape (not null)
      */
-    public CollisionShape getBaseShape() {
+    public ConvexShape getBaseShape() {
         assert base != null;
         return base;
     }
