@@ -704,11 +704,11 @@ public class TestRbc
      * Add a right circular cone to the scene and PhysicsSpace.
      */
     private void addCone() {
-        boolean makePyramid = false;
+        boolean generatePyramid = false;
         float height = 3f;
         float radius = 2f;
         int circularSamples = 64;
-        Mesh mesh = new Cone(circularSamples, radius, height, makePyramid);
+        Mesh mesh = new Cone(circularSamples, radius, height, generatePyramid);
         testSpatial = new Geometry("cone", mesh);
 
         switch (testName) {
@@ -913,8 +913,8 @@ public class TestRbc
         int numSides = 5;
         float radius = 2.5f;
         float thickness = 1f;
-        boolean normals = true;
-        Mesh mesh = new Prism(numSides, radius, thickness, normals);
+        boolean generateNormals = true;
+        Mesh mesh = new Prism(numSides, radius, thickness, generateNormals);
         testSpatial = new Geometry("prism", mesh);
 
         testShape = CollisionShapeFactory.createDynamicMeshShape(testSpatial);
