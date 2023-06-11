@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -91,7 +91,7 @@ public class TestSetScale {
         Vector3f non = new Vector3f(9f, 9f, 1f);
         Vector3f non2 = new Vector3f(1f, 2f, 3f);
 
-        // Box2d
+        // Box2dShape
         CollisionShape box2d = new Box2dShape(2f);
         assert box2d.getScale(null).equals(ident);
         box2d.setScale(uni);
@@ -101,7 +101,7 @@ public class TestSetScale {
         box2d.setScale(non2);
         assert box2d.getScale(null).equals(non2);
 
-        // Box
+        // BoxCollisionShape
         CollisionShape box = new BoxCollisionShape(2f);
         assert box.getScale(null).equals(ident);
         box.setScale(uni);
@@ -111,13 +111,13 @@ public class TestSetScale {
         box.setScale(non2);
         assert box.getScale(null).equals(non2);
 
-        // Capsule
+        // CapsuleCollisionShape
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         assert capsule.getScale(null).equals(ident);
         capsule.setScale(uni);
         assert capsule.getScale(null).equals(uni);
 
-        // Compound of a Box
+        // CompoundCollisionShape of a box
         CollisionShape childBox = new BoxCollisionShape(1f);
         CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(childBox, 0f, 1f, 0f);
@@ -130,13 +130,13 @@ public class TestSetScale {
         assert compound.getScale(null).equals(non2);
         assert box.getScale(null).equals(non2);
 
-        // Cone
+        // ConeCollisionShape
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
         assert cone.getScale(null).equals(ident);
         cone.setScale(uni);
         assert cone.getScale(null).equals(uni);
 
-        // Convex2d of a Cylinder
+        // Convex2dShape of a cylinder
         float radius = 10f;
         float height = 0f;
         CylinderCollisionShape flatCylinder = new CylinderCollisionShape(radius,
@@ -149,7 +149,7 @@ public class TestSetScale {
         assert convex2d.getScale(null).equals(non);
         assert flatCylinder.getScale(null).equals(non);
 
-        // Cylinder
+        // CylinderCollisionShape
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(3f, 3f, 3f));
         assert cylinder.getScale(null).equals(ident);
@@ -158,7 +158,7 @@ public class TestSetScale {
         cylinder.setScale(non);
         assert cylinder.getScale(null).equals(non);
 
-        // Empty
+        // EmptyShape
         CollisionShape empty = new EmptyShape(true);
         assert empty.getScale(null).equals(ident);
         empty.setScale(uni);
@@ -168,7 +168,7 @@ public class TestSetScale {
         empty.setScale(non2);
         assert empty.getScale(null).equals(non2);
 
-        // GImpact
+        // GImpactCollisionShape
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
         Node model = (Node) assetManager.loadModel(key);
         Geometry geo = (Geometry) model.getChild(0);
@@ -182,8 +182,9 @@ public class TestSetScale {
         gimpact.setScale(non2);
         assert gimpact.getScale(null).equals(non2);
 
-        Texture heightTexture = MyAsset.loadTexture(assetManager,
-                "Textures/BumpMapTest/Simple_height.png", false);
+        // HeightfieldCollisionShape
+        Texture heightTexture = MyAsset.loadTexture(
+                assetManager, "Textures/BumpMapTest/Simple_height.png", false);
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
         HeightMap heightMap = new ImageBasedHeightMap(heightImage, heightScale);
@@ -196,6 +197,7 @@ public class TestSetScale {
         hcs.setScale(non2);
         assert hcs.getScale(null).equals(non2);
 
+        // HullCollisionShape
         CollisionShape hull = new HullCollisionShape(mesh);
         assert hull.getScale(null).equals(ident);
         hull.setScale(uni);
@@ -205,6 +207,7 @@ public class TestSetScale {
         hull.setScale(non2);
         assert hull.getScale(null).equals(non2);
 
+        // MeshCollisionShape
         CollisionShape mcs = new MeshCollisionShape(mesh);
         assert mcs.getScale(null).equals(ident);
         mcs.setScale(uni);
@@ -214,6 +217,7 @@ public class TestSetScale {
         mcs.setScale(non2);
         assert mcs.getScale(null).equals(non2);
 
+        // PlaneCollisionShape
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
         CollisionShape pcs = new PlaneCollisionShape(plane);
         assert pcs.getScale(null).equals(ident);
@@ -224,12 +228,14 @@ public class TestSetScale {
         pcs.setScale(non2);
         assert pcs.getScale(null).equals(non2);
 
+        // SimplexCollisionShape
         Vector3f p1 = new Vector3f(0f, 1f, 1f);
         Vector3f p2 = new Vector3f(1f, 0f, 1f);
         Vector3f p3 = new Vector3f(1f, 1f, 0f);
         CollisionShape simplex = new SimplexCollisionShape(p1, p2, p3);
         assert simplex.getScale(null).equals(ident);
 
+        // SphereCollisionShape
         CollisionShape sphere = new SphereCollisionShape(1f);
         assert sphere.getScale(null).equals(ident);
         sphere.setScale(uni);
