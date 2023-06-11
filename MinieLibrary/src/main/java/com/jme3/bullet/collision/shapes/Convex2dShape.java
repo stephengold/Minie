@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -179,7 +179,7 @@ public class Convex2dShape extends ConvexShape {
     public void setScale(Vector3f scale) {
         super.setScale(scale);
         /*
-         * Update the base to keep its copied scale factors
+         * Update the base shape to keep its copied scale factors
          * in synch with the native ones.
          */
         base.updateScale();
@@ -202,7 +202,7 @@ public class Convex2dShape extends ConvexShape {
     // Java private methods
 
     /**
-     * Instantiate an empty {@code btConvex2dShape}.
+     * Instantiate a {@code btConvex2dShape} based on {@code base}.
      */
     private void createShape() {
         long childId = base.nativeId();
