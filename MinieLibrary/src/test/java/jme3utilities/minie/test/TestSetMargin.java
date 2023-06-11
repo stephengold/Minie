@@ -56,7 +56,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.system.NativeLibraryLoader;
-import com.jme3.terrain.heightmap.AbstractHeightMap;
+import com.jme3.terrain.heightmap.HeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
@@ -156,8 +156,7 @@ public class TestSetMargin {
                 assetManager, "Textures/BumpMapTest/Simple_height.png", false);
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
-        AbstractHeightMap heightMap
-                = new ImageBasedHeightMap(heightImage, heightScale);
+        HeightMap heightMap = new ImageBasedHeightMap(heightImage, heightScale);
         CollisionShape hcs = new HeightfieldCollisionShape(heightMap);
         assert hcs.getMargin() == 0.04f;
         hcs.setMargin(0.17f);
