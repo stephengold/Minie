@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,14 +89,14 @@ class DebugMeshKey {
         assert !(shape instanceof CompoundCollisionShape);
 
         this.normals = normals;
-        margin = shape.getMargin();
+        this.margin = shape.getMargin();
         if (shape.isConvex()) {
             this.resolution = resolution;
         } else {
             this.resolution = DebugShapeFactory.lowResolution;
         }
-        shapeId = shape.nativeId();
-        scale = shape.getScale(null);
+        this.shapeId = shape.nativeId();
+        this.scale = shape.getScale(null);
     }
     // *************************************************************************
     // new methods exposed
