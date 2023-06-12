@@ -198,9 +198,10 @@ public class PhysicsDescriber extends Describer {
             MultiSphere multiSphere = (MultiSphere) shape;
             result.append(" r[");
             int numSpheres = multiSphere.countSpheres();
+            String ls = listSeparator();
             for (int sphereIndex = 0; sphereIndex < numSpheres; ++sphereIndex) {
                 if (sphereIndex > 0) {
-                    result.append(' '); // TODO listSeparator
+                    result.append(ls);
                 }
                 float radius = multiSphere.getRadius(sphereIndex);
                 result.append(MyString.describe(radius));
