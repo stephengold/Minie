@@ -47,6 +47,7 @@ import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
+import com.jme3.bullet.collision.shapes.MinkowskiSum;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
@@ -104,6 +105,7 @@ import jme3utilities.mesh.Tetrahedron;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 import jme3utilities.minie.test.common.PhysicsDemo;
+import jme3utilities.minie.test.mesh.SaucerMesh;
 import jme3utilities.minie.test.terrain.MinieTestTerrains;
 import jme3utilities.ui.CameraOrbitAppState;
 import jme3utilities.ui.InputMode;
@@ -139,11 +141,11 @@ public class TestRbc
         "ConeGImpact", "ConeHull", "ConeMesh", "Cylinder", "CylinderGImpact",
         "CylinderHull", "CylinderMesh", "FourSphere", "KissCapsule", "KissHull",
         "KissMesh", "KissMultiSphere", "KissSphere", "LargeTerrain",
-        "OneSphere", "Prism", "Simplex", "SmallTerrain", "Sphere",
-        "SphereCapsule", "SphereGImpact", "SphereHull", "SphereMesh", "Square",
-        "SquareBox", "SquareConvex2d", "SquareGImpact", "SquareHeightfield",
-        "SquareHull", "SquareMesh", "TetraGImpact", "TetraHull", "TetraMesh",
-        "TwoSphere"
+        "OneSphere", "Prism", "Saucer", "SaucerGImpact", "SaucerHull",
+        "SaucerMesh", "Simplex", "SmallTerrain", "Sphere", "SphereCapsule",
+        "SphereGImpact", "SphereHull", "SphereMesh", "Square", "SquareBox",
+        "SquareConvex2d", "SquareGImpact", "SquareHeightfield", "SquareHull",
+        "SquareMesh", "TetraGImpact", "TetraHull", "TetraMesh", "TwoSphere"
     };
     // *************************************************************************
     // fields
@@ -626,6 +628,13 @@ public class TestRbc
                 addPrism();
                 break;
 
+            case "Saucer":
+            case "SaucerGImpact":
+            case "SaucerHull":
+            case "SaucerMesh":
+                addSaucer();
+                break;
+
             case "SmallTerrain":
                 addTerrain(3);
                 break;
@@ -949,6 +958,42 @@ public class TestRbc
         rbc.setCcdSweptSphereRadius(0.04f);
 
         return rbc;
+    }
+
+    /**
+     * Add a flying-saucer shape to the scene and PhysicsSpace.
+     */
+    private void addSaucer() {
+        float coneRadius = 1f;
+        float coneHeight = 1f;
+        int numSides = 32;
+        Mesh mesh = new SaucerMesh(numSides, coneRadius, 2f * coneHeight);
+        testSpatial = new Geometry("saucer", mesh);
+
+        switch (testName) {
+            case "Saucer":
+                ConeCollisionShape coneShape
+                        = new ConeCollisionShape(coneRadius, coneHeight);
+                testShape = new MinkowskiSum(coneShape, coneShape);
+                break;
+
+            case "SaucerGImpact":
+                testShape = new GImpactCollisionShape(mesh);
+                break;
+
+            case "SaucerHull":
+                testShape = new HullCollisionShape(mesh);
+                break;
+
+            case "SaucerMesh":
+                testShape = new MeshCollisionShape(mesh);
+                break;
+
+            default:
+                throw new IllegalArgumentException(testName);
+        }
+
+        makeTestShape();
     }
 
     /**
