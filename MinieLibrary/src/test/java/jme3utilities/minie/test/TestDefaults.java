@@ -960,7 +960,7 @@ public class TestDefaults {
     }
 
     private static void testShapesConvex() {
-        // Box2d
+        // Box2dShape
         Box2dShape box2d = new Box2dShape(1f, 2f);
         testShape(box2d);
         Assert.assertEquals(0.04f, box2d.getMargin(), 0f);
@@ -970,7 +970,7 @@ public class TestDefaults {
         Assert.assertFalse(box2d.isNonMoving());
         Assert.assertFalse(box2d.isPolyhedral());
 
-        // Box
+        // BoxCollisionShape
         box = new BoxCollisionShape(1f);
         testShape(box);
         Assert.assertEquals(0.04f, box.getMargin(), 0f);
@@ -981,7 +981,7 @@ public class TestDefaults {
         Assert.assertTrue(box.isPolyhedral());
         Assert.assertEquals(8f, box.unscaledVolume(), 0f);
 
-        // Capsule
+        // CapsuleCollisionShape
         CapsuleCollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         testShape(capsule);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, capsule.getAxis());
@@ -995,7 +995,7 @@ public class TestDefaults {
         Assert.assertEquals(
                 7f * FastMath.PI / 3f, capsule.unscaledVolume(), 1e-4f);
 
-        // Cone
+        // ConeCollisionShape
         ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
         testShape(cone);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, cone.getAxis());
@@ -1009,7 +1009,7 @@ public class TestDefaults {
         Assert.assertEquals(
                 FastMath.PI / 3f, cone.unscaledVolume(), 1e-5f);
 
-        // Convex2d
+        // Convex2dShape of a cone
         ConeCollisionShape flatCone
                 = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
         Convex2dShape convex2d = new Convex2dShape(flatCone);
@@ -1021,7 +1021,7 @@ public class TestDefaults {
         Assert.assertFalse(convex2d.isNonMoving());
         Assert.assertFalse(convex2d.isPolyhedral());
 
-        // Cylinder
+        // CylinderCollisionShape
         CylinderCollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         testShape(cylinder);
@@ -1035,7 +1035,7 @@ public class TestDefaults {
         Assert.assertFalse(cylinder.isPolyhedral());
         Assert.assertEquals(FastMath.TWO_PI, cylinder.unscaledVolume(), 1e-4f);
 
-        // Hull
+        // HullCollisionShape
         List<Vector3f> prismVertices = new ArrayList<>(6);
         prismVertices.add(new Vector3f(1f, 1f, 1f));
         prismVertices.add(new Vector3f(1f, 1f, -1f));
@@ -1070,7 +1070,7 @@ public class TestDefaults {
         Assert.assertFalse(multiSphere.isNonMoving());
         Assert.assertFalse(multiSphere.isPolyhedral());
 
-        // Simplex of 1 vertex
+        // SimplexCollisionShape of 1 vertex
         SimplexCollisionShape simplex1
                 = new SimplexCollisionShape(new Vector3f(0f, 0f, 0f));
         testSimplexShape(simplex1);
@@ -1079,7 +1079,7 @@ public class TestDefaults {
         Utils.assertEquals(0f, 0f, 0f, simplex1.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex1.unscaledVolume(), 0f);
 
-        // Simplex of 2 vertices
+        // SimplexCollisionShape of 2 vertices
         SimplexCollisionShape simplex2 = new SimplexCollisionShape(
                 new Vector3f(1f, 0f, 0f), new Vector3f(-1, 0f, 0f));
         testSimplexShape(simplex2);
@@ -1089,7 +1089,7 @@ public class TestDefaults {
         Utils.assertEquals(1f, 0f, 0f, simplex2.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex2.unscaledVolume(), 0f);
 
-        // Simplex of 3 vertices
+        // SimplexCollisionShape of 3 vertices
         SimplexCollisionShape simplex3 = new SimplexCollisionShape(
                 new Vector3f(0f, 1f, 1f),
                 new Vector3f(1f, 1f, 0f),
@@ -1103,7 +1103,7 @@ public class TestDefaults {
         Utils.assertEquals(1f, 1f, 1f, simplex3.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex3.unscaledVolume(), 0f);
 
-        // Simplex of 4 vertices
+        // SimplexCollisionShape of 4 vertices
         SimplexCollisionShape simplex4 = new SimplexCollisionShape(
                 new Vector3f(0f, 1f, 1f),
                 new Vector3f(0f, 1f, -1f),
@@ -1119,7 +1119,7 @@ public class TestDefaults {
         Utils.assertEquals(1f, 1f, 1f, simplex4.getHalfExtents(null), 0f);
         Assert.assertEquals(4f / 3f, simplex4.unscaledVolume(), 1e-6f);
 
-        // Sphere
+        // SphereCollisionShape
         SphereCollisionShape sphere = new SphereCollisionShape(1f);
         testShape(sphere);
         Assert.assertEquals(0f, sphere.getMargin(), 0f);

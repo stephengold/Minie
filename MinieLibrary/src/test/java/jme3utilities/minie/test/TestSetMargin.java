@@ -80,7 +80,7 @@ public class TestSetMargin {
      * Test the setMargin() function on collision shapes of all types.
      */
     @Test
-    public void testSetMargin() {
+    public void testSetMargin() { // TODO split off testSetMarginConvex()
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
         AssetManager assetManager = new DesktopAssetManager();
@@ -195,7 +195,7 @@ public class TestSetMargin {
         pcs.setMargin(0.21f);
         assert pcs.getMargin() == 0.21f;
 
-        // SimplexCollisionShape
+        // SimplexCollisionShape of 3 vertices
         Vector3f p1 = new Vector3f(0f, 1f, 1f);
         Vector3f p2 = new Vector3f(1f, 0f, 1f);
         Vector3f p3 = new Vector3f(1f, 1f, 0f);

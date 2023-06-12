@@ -80,7 +80,7 @@ public class TestSetScale {
      * Test the setScale() function on collision shapes of all types.
      */
     @Test
-    public void testSetScale() {
+    public void testSetScale() { // TODO split off testSetScaleConvex()
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
         AssetManager assetManager = new DesktopAssetManager();
