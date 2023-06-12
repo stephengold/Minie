@@ -37,12 +37,14 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
+import com.jme3.bullet.collision.shapes.MinkowskiSum;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
@@ -261,6 +263,18 @@ public class TestCloneShapes {
         assert hullClone.getMargin() == 0.04f;
         hull.setMargin(0.18f);
         assert hullClone.getMargin() == 0.04f;
+
+        // MinkowskiSum of cone + box
+        ConvexShape cone1 = new ConeCollisionShape(1f, 1f);
+        ConvexShape box1 = new BoxCollisionShape(1f);
+        CollisionShape sum = new MinkowskiSum(cone1, box1);
+        setParameters(sum, 0f);
+        verifyParameters(sum, 0f);
+        CollisionShape sumClone = Heart.deepCopy(sum);
+        cloneTest(sum, sumClone);
+        assert sumClone.getMargin() == 0.08f;
+        cone1.setMargin(0.18f);
+        assert sumClone.getMargin() == 0.08f;
 
         // MultiSphere
         List<Float> radii = new ArrayList<>(3);

@@ -259,7 +259,7 @@ abstract public class CollisionShape
      * @return the margin distance (in physics-space units, &ge;0)
      */
     public float getMargin() {
-        assert margin > 0f : margin;
+        assert margin >= 0f : margin;
         assert margin == nativeMargin() : margin + " != " + nativeMargin();
         return margin;
     }

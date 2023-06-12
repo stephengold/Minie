@@ -38,12 +38,14 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
+import com.jme3.bullet.collision.shapes.MinkowskiSum;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
@@ -173,6 +175,28 @@ public class TestSetMargin {
         assert mcs.getMargin() == 0.04f;
         mcs.setMargin(0.19f);
         assert mcs.getMargin() == 0.19f;
+
+        // MinkowskiSum of cone + box
+        ConvexShape cone1 = new ConeCollisionShape(1f, 1f);
+        ConvexShape box1 = new BoxCollisionShape(1f);
+        CollisionShape sum = new MinkowskiSum(cone1, box1);
+        assert sum.getMargin() == 0.08f;
+        sum.setMargin(0.194f); // cannot directly alter margin
+        assert sum.getMargin() == 0.08f;
+
+        // MinkowskiSum of sphere + cone
+        ConvexShape sphere1 = new SphereCollisionShape(1f);
+        CollisionShape sum1 = new MinkowskiSum(sphere1, cone1);
+        assert sum1.getMargin() == 0.04f;
+        sum1.setMargin(0.195f); // cannot directly alter margin
+        assert sum1.getMargin() == 0.04f;
+
+        // MinkowskiSum of sphere + capsule
+        ConvexShape capsule1 = new CapsuleCollisionShape(1f, 1f);
+        CollisionShape sum2 = new MinkowskiSum(sphere1, capsule1);
+        assert sum2.getMargin() == 0f;
+        sum2.setMargin(0.196f); // cannot directly alter margin
+        assert sum2.getMargin() == 0f;
 
         // MultiSphere
         List<Float> radii = new ArrayList<>(3);

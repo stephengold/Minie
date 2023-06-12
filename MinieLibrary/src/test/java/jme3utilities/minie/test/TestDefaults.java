@@ -48,12 +48,14 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
+import com.jme3.bullet.collision.shapes.MinkowskiSum;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
@@ -1055,6 +1057,19 @@ public class TestDefaults {
         Assert.assertFalse(hull.isNonMoving());
         Assert.assertTrue(hull.isPolyhedral());
         Assert.assertEquals(4f, hull.scaledVolume(), 1f);
+
+        // MinkowskiSum of cone + box
+        ConvexShape cone1 = new ConeCollisionShape(1f, 1f);
+        ConvexShape box1 = new BoxCollisionShape(1f);
+        CollisionShape sum = new MinkowskiSum(cone1, box1);
+        testShape(sum);
+        Assert.assertEquals(0.08f, sum.getMargin(), 0f);
+        Assert.assertFalse(sum.isConcave());
+        Assert.assertTrue(sum.isConvex());
+        Assert.assertFalse(sum.isInfinite());
+        Assert.assertFalse(sum.isNonMoving());
+        Assert.assertFalse(sum.isPolyhedral());
+        Assert.assertEquals(39f, sum.scaledVolume(), 1f);
 
         // MultiSphere
         MultiSphere multiSphere = new MultiSphere(1f);

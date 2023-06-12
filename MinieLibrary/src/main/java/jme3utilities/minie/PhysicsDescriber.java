@@ -37,11 +37,13 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
+import com.jme3.bullet.collision.shapes.MinkowskiSum;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
@@ -193,6 +195,17 @@ public class PhysicsDescriber extends Describer {
             int numV = ((MeshCollisionShape) shape).countMeshVertices();
             desc = String.format("[%d]", numV);
             result.append(desc);
+
+        } else if (shape instanceof MinkowskiSum) {
+            result.append("[");
+            ConvexShape a = ((MinkowskiSum) shape).getShapeA();
+            desc = describe(a);
+            result.append(desc);
+            result.append("]+[");
+            ConvexShape b = ((MinkowskiSum) shape).getShapeB();
+            desc = describe(b);
+            result.append(desc);
+            result.append(']');
 
         } else if (shape instanceof MultiSphere) {
             MultiSphere multiSphere = (MultiSphere) shape;

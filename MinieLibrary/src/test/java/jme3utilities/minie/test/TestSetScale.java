@@ -38,12 +38,14 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
+import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
+import com.jme3.bullet.collision.shapes.MinkowskiSum;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
@@ -219,6 +221,12 @@ public class TestSetScale {
         assert mcs.getScale(null).equals(non);
         mcs.setScale(non2);
         assert mcs.getScale(null).equals(non2);
+
+        // MinkowskiSum of cone + box
+        ConvexShape cone1 = new ConeCollisionShape(1f, 1f);
+        ConvexShape box1 = new BoxCollisionShape(1f);
+        CollisionShape sum = new MinkowskiSum(cone1, box1);
+        assert sum.getScale(null).equals(ident);
 
         // MultiSphere
         List<Float> radii = new ArrayList<>(3);
