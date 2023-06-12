@@ -134,7 +134,6 @@ public class MinkowskiSum extends ConvexShape {
     public boolean canScale(Vector3f scale) {
         boolean canScale = super.canScale(scale)
                 && MyVector3f.isScaleIdentity(scale);
-
         return canScale;
     }
 
