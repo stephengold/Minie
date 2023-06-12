@@ -397,10 +397,13 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
 
             case "capsule":
             case "cone":
+            case "coneBox":
             case "cylinder":
             case "dome":
             case "football":
             case "multiSphere":
+            case "roundedDisc":
+            case "saucer":
             case "snowman":
             case "torus":
                 shape = random.nextShape(typeName);
