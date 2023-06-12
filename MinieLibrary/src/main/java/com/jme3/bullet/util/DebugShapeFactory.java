@@ -331,8 +331,8 @@ final public class DebugShapeFactory {
      * @param meshResolution (0=low, 1=high)
      * @return the maximum length of the transformed vertex locations (&ge;0)
      */
-    public static float maxDistance(CollisionShape shape, Transform transform,
-            int meshResolution) {
+    public static float maxDistance(
+            CollisionShape shape, Transform transform, int meshResolution) {
         assert !(shape instanceof CompoundCollisionShape);
         assert !(shape instanceof PlaneCollisionShape);
         Validate.nonNull(transform, "transform");
