@@ -1050,6 +1050,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Test whether the specified scale factors can be applied to this shape.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#canScale(com.jme3.math.Vector3f)" class="member-name-link">canScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
+<dd>
+<div class="block">Test whether the specified scale factors can be applied to this shape.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/SimplexCollisionShape.html#canScale(com.jme3.math.Vector3f)" class="member-name-link">canScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SimplexCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">SimplexCollisionShape</a></dt>
 <dd>
 <div class="block">Test whether the specified scale factors can be applied to this shape.</div>
@@ -1448,6 +1452,12 @@ loadScripts(document, 'script');</script>
  and original to resolve copied fields.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
+<dd>
+<div class="block">Callback from <code>Cloner</code> to convert this
+ shallow-cloned shape into a deep-cloned one, using the specified Cloner
+ and original to resolve copied fields.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
 <dd>
 <div class="block">Callback from <code>Cloner</code> to convert this
  shallow-cloned shape into a deep-cloned one, using the specified Cloner
@@ -4678,6 +4688,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Return the collision margin for this shape.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#getMargin()" class="member-name-link">getMargin()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
+<dd>
+<div class="block">Return the collision margin for this shape.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html#getMargin()" class="member-name-link">getMargin()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">SphereCollisionShape</a></dt>
 <dd>
 <div class="block">Return the collision margin for this shape.</div>
@@ -5351,6 +5365,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#getShape()" class="member-name-link">getShape()</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
 <div class="block">Create a CollisionShape based on the <code>scale</code> parameter.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#getShapeA()" class="member-name-link">getShapeA()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
+<dd>
+<div class="block">Access the first base shape.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#getShapeB()" class="member-name-link">getShapeB()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
+<dd>
+<div class="block">Access the 2nd base shape.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#getShapeType()" class="member-name-link">getShapeType()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
 <dd>
@@ -7324,6 +7346,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#logger2" class="member-name-link">logger2</a> - Static variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/MultiSphere.html#logger2" class="member-name-link">logger2</a> - Static variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MultiSphere.html" title="class in com.jme3.bullet.collision.shapes">MultiSphere</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
@@ -7797,6 +7823,19 @@ loadScripts(document, 'script');</script>
 <dt><a href="jme3utilities/minie/MinieVersion.html" class="type-name-link" title="class in jme3utilities.minie">MinieVersion</a> - Class in <a href="jme3utilities/minie/package-summary.html">jme3utilities.minie</a></dt>
 <dd>
 <div class="block">Version strings for the Minie library.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" class="type-name-link" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a> - Class in <a href="com/jme3/bullet/collision/shapes/package-summary.html">com.jme3.bullet.collision.shapes</a></dt>
+<dd>
+<div class="block">A convex collision shape to represent the Minkowki sum of 2 convex shapes,
+ based on Bullet's <code>btMinkowskiSumShape</code>.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#%3Cinit%3E()" class="member-name-link">MinkowskiSum()</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
+<dd>
+<div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#%3Cinit%3E(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.bullet.collision.shapes.ConvexShape)" class="member-name-link">MinkowskiSum(ConvexShape, ConvexShape)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
+<dd>
+<div class="block">Instantiate the Minkowki sum of the specified shapes.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/motors/MotorParam.html#minValue()" class="member-name-link">minValue()</a> - Method in enum class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/MotorParam.html" title="enum class in com.jme3.bullet.joints.motors">MotorParam</a></dt>
 <dd>
@@ -8902,6 +8941,11 @@ loadScripts(document, 'script');</script>
  loading from a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
+<dd>
+<div class="block">De-serialize this shape from the specified importer, for example when
+ loading from a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
 <dd>
 <div class="block">De-serialize this shape from the specified importer, for example when
  loading from a J3O file.</div>
@@ -10826,6 +10870,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Alter the collision margin of this shape.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CollisionShape.html#setMargin(float)" class="member-name-link">setMargin(float)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></dt>
+<dd>
+<div class="block">Alter the collision margin of this shape.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#setMargin(float)" class="member-name-link">setMargin(float)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
 <dd>
 <div class="block">Alter the collision margin of this shape.</div>
 </dd>
@@ -13353,6 +13401,11 @@ the order they are declared.</div>
  a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
+<dd>
+<div class="block">Serialize this shape to the specified exporter, for example when saving
+ to a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MinkowskiSum.html" title="class in com.jme3.bullet.collision.shapes">MinkowskiSum</a></dt>
 <dd>
 <div class="block">Serialize this shape to the specified exporter, for example when saving
  to a J3O file.</div>
