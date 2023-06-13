@@ -43,8 +43,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading of multibodies. TODO replace asserts with JUnit
- * Assert
+ * Test cloning/saving/loading of multibodies.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -74,7 +73,7 @@ public class TestCloneMultiBody {
         boolean canSleep = true;
         MultiBody mb1
                 = new MultiBody(numLinks, mass, inertia, fixedBase, canSleep);
-        assert mb1.listColliders().isEmpty();
+        Assert.assertTrue(mb1.listColliders().isEmpty());
 
         setParameters(mb1, 0f);
         verifyParameters(mb1, 0f);
@@ -86,7 +85,7 @@ public class TestCloneMultiBody {
                 = new MultiBody(numLinks, mass, inertia, fixedBase, canSleep);
         CollisionShape shape = new SphereCollisionShape(0.2f);
         mb2.addBaseCollider(shape);
-        assert mb2.listColliders().size() == 1;
+        Assert.assertEquals(1, mb2.listColliders().size());
 
         setParameters(mb2, 0f);
         verifyParameters(mb2, 0f);
@@ -105,7 +104,7 @@ public class TestCloneMultiBody {
                 Quaternion.IDENTITY, Vector3f.UNIT_Y, Vector3f.ZERO,
                 Vector3f.UNIT_Z, disableCollision);
         link.addCollider(shape);
-        assert mb3.listColliders().size() == 2;
+        Assert.assertEquals(2, mb3.listColliders().size());
 
         setParameters(mb3, 0f);
         verifyParameters(mb3, 0f);
@@ -118,7 +117,7 @@ public class TestCloneMultiBody {
     // private methods
 
     private static void cloneTest(MultiBody mb, MultiBody mbClone) {
-        assert mbClone.nativeId() != mb.nativeId();
+        Assert.assertNotEquals(mb.nativeId(), mbClone.nativeId());
 
         verifyParameters(mb, 0f);
         verifyParameters(mbClone, 0f);
@@ -132,7 +131,7 @@ public class TestCloneMultiBody {
         verifyParameters(mbClone, 0.6f);
 
         MultiBody mbCopy = BinaryExporter.saveAndLoad(assetManager, mb);
-        assert mbCopy != null;
+        Assert.assertNotNull(mbCopy);
         verifyParameters(mbCopy, 0.3f);
 
         MultiBody mbCloneCopy
