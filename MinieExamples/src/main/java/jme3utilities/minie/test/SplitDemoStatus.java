@@ -80,15 +80,16 @@ class SplitDemoStatus extends SimpleAppState {
      * "sieve" is omitted because plane shapes are not splittable.
      */
     final private static String[] shapeNames = {
-        "ankh", "banana", "barbell", "barrel", "bedOfNails", "box", "candyDish",
-        "capsule", "cone", "coneBox", "corner", "cylinder", "cylinderBox",
-        "digit", "dimples", "dome", "duck", "football", "frame", "halfPipe",
-        "heart", "horseshoe", "hull", "iBeam", "knucklebone", "ladder",
-        "letter", "lidlessBox", "link", "mallet", "multiSphere", "platonic",
-        "prism", "pyramid", "roundedDisc", "roundedRectangle", "saucer",
-        "smooth", "snowman", "sphere", "star", "sword", "table", "teapot",
-        "teapotGi", "tetrahedron", "thumbTack", "top", "torus", "tray",
-        "triangle", "triangularFrame", "trident", "washer"
+        "ankh", "banana", "barbell", "barrel", "bedOfNails", "bowl", "box",
+        "candyDish", "capsule", "chair", "cone", "coneBox", "corner",
+        "cylinder", "cylinderBox", "digit", "dimples", "dome", "duck",
+        "football", "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
+        "knucklebone", "ladder", "letter", "lidlessBox", "link", "mallet",
+        "multiSphere", "platonic", "prism", "pyramid", "roundedDisc",
+        "roundedRectangle", "saucer", "smooth", "snowman", "sphere", "star",
+        "sword", "table", "teapot", "teapotGi", "tetrahedron", "thumbTack",
+        "top", "torus", "tray", "triangle", "triangularFrame", "trident",
+        "washer"
     };
     // *************************************************************************
     // fields

@@ -819,6 +819,7 @@ public class SplitDemo
         CollisionShape shape;
         switch (shapeName) {
             case "ankh":
+            case "chair":
             case "duck":
             case "heart":
             case "horseshoe":
@@ -834,6 +835,7 @@ public class SplitDemo
             case "banana":
             case "barbell":
             case "barrel":
+            case "bowl":
             case "knucklebone":
             case "ladder":
             case "link":
