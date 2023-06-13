@@ -76,6 +76,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
 import jme3utilities.Heart;
 import jme3utilities.MeshNormals;
 import jme3utilities.MyAsset;
@@ -208,6 +209,11 @@ public class SplitDemo
 
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+        try {
+            settings.load(applicationName);
+        } catch (BackingStoreException exception) {
+            logger.warning("Failed to load AppSettings.");
+        }
         settings.setAudioRenderer(null);
         settings.setResizable(true);
         settings.setSamples(4); // anti-aliasing
