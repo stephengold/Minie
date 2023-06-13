@@ -67,8 +67,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading physics joints of all types. TODO replace asserts
- * with JUnit Assert
+ * Test cloning/saving/loading physics joints of all types.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -307,24 +306,24 @@ public class TestCloneJoints {
     }
 
     private static void cloneTest(PhysicsJoint joint, PhysicsJoint jointClone) {
-        assert jointClone.nativeId() != joint.nativeId();
+        Assert.assertNotEquals(joint.nativeId(), jointClone.nativeId());
 
         PhysicsBody a = joint.getBody(JointEnd.A);
         PhysicsBody aClone = jointClone.getBody(JointEnd.A);
         if (a == null) {
-            assert aClone == null;
+            Assert.assertNull(aClone);
         } else {
-            assert aClone != null;
-            assert a.nativeId() != aClone.nativeId();
+            Assert.assertNotNull(aClone);
+            Assert.assertNotEquals(a.nativeId(), aClone.nativeId());
         }
 
         PhysicsBody b = joint.getBody(JointEnd.B);
         PhysicsBody bClone = jointClone.getBody(JointEnd.B);
         if (b == null) {
-            assert bClone == null;
+            Assert.assertNull(bClone);
         } else {
-            assert bClone != null;
-            assert b.nativeId() != bClone.nativeId();
+            Assert.assertNotNull(bClone);
+            Assert.assertNotEquals(b.nativeId(), bClone.nativeId());
         }
 
         verifyParameters(joint, 0f);
@@ -580,7 +579,7 @@ public class TestCloneJoints {
      * @param b the key value
      */
     private static void verifyParameters(PhysicsJoint joint, float b) {
-        assert joint != null;
+        Assert.assertNotNull(joint);
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
 
@@ -624,23 +623,13 @@ public class TestCloneJoints {
 
     private static void verifyCone(ConeJoint cone, float b) {
         Transform ta = cone.getFrameTransform(JointEnd.A, null);
-        assert ta.getTranslation().x == va.x : ta;
-        assert ta.getTranslation().y == va.y : ta;
-        assert ta.getTranslation().z == va.z : ta;
-        assert ta.getRotation().getX() == qa.getX() : ta;
-        assert ta.getRotation().getY() == qa.getY() : ta;
-        assert ta.getRotation().getZ() == qa.getZ() : ta;
-        assert ta.getRotation().getW() == qa.getW() : ta;
+        Utils.assertEquals(va, ta.getTranslation(), 0f);
+        Assert.assertEquals(qa, ta.getRotation());
 
         if (cone.countEnds() == 2) {
             Transform tb = cone.getFrameTransform(JointEnd.B, null);
-            assert tb.getTranslation().x == vb.x : tb;
-            assert tb.getTranslation().y == vb.y : tb;
-            assert tb.getTranslation().z == vb.z : tb;
-            assert tb.getRotation().getX() == qb.getX() : tb;
-            assert tb.getRotation().getY() == qb.getY() : tb;
-            assert tb.getRotation().getZ() == qb.getZ() : tb;
-            assert tb.getRotation().getW() == qb.getW() : tb;
+            Utils.assertEquals(vb, tb.getTranslation(), 0f);
+            Assert.assertEquals(qb, tb.getRotation());
         }
 
         boolean flag = (b > 0.15f && b < 0.45f);
@@ -653,28 +642,20 @@ public class TestCloneJoints {
 
     private static void verifyGear(GearJoint gear, float b) {
         Vector3f axisA = gear.getAxisA(null);
-        assert axisA.x == vaNorm.x : axisA;
-        assert axisA.y == vaNorm.y : axisA;
-        assert axisA.z == vaNorm.z : axisA;
+        Utils.assertEquals(vaNorm, axisA, 0f);
 
         Vector3f axisB = gear.getAxisB(null);
-        assert axisB.x == vbNorm.x : axisB;
-        assert axisB.y == vbNorm.y : axisB;
-        assert axisB.z == vbNorm.z : axisB;
+        Utils.assertEquals(vbNorm, axisB, 0f);
 
         Assert.assertEquals(b + 0.01f, gear.getRatio(), 0f);
     }
 
     private static void verifyHinge(HingeJoint hinge, float b) {
         Transform ta = hinge.getFrameTransform(JointEnd.A, null);
-        assert ta.getTranslation().x == va.x : ta;
-        assert ta.getTranslation().y == va.y : ta;
-        assert ta.getTranslation().z == va.z : ta;
+        Utils.assertEquals(va, ta.getTranslation(), 0f);
 
         Transform tb = hinge.getFrameTransform(JointEnd.B, null);
-        assert tb.getTranslation().x == vb.x : tb;
-        assert tb.getTranslation().y == vb.y : tb;
-        assert tb.getTranslation().z == vb.z : tb;
+        Utils.assertEquals(vb, tb.getTranslation(), 0f);
 
         boolean flag = (b > 0.15f && b < 0.45f);
         Assert.assertEquals(!flag, hinge.isAngularOnly());
@@ -691,193 +672,168 @@ public class TestCloneJoints {
     private static void verifyNew6Dof(New6Dof constraint, float b) {
         if (!(constraint instanceof NewHinge)) {
             Transform ta = constraint.getFrameTransform(JointEnd.A, null);
-            assert ta.getTranslation().x == va.x : ta;
-            assert ta.getTranslation().y == va.y : ta;
-            assert ta.getTranslation().z == va.z : ta;
-            assert ta.getRotation().getX() == qa.getX() : ta;
-            assert ta.getRotation().getY() == qa.getY() : ta;
-            assert ta.getRotation().getZ() == qa.getZ() : ta;
-            assert ta.getRotation().getW() == qa.getW() : ta;
+            Utils.assertEquals(va, ta.getTranslation(), 0f);
+            Assert.assertEquals(qa, ta.getRotation());
 
             Transform tb = constraint.getFrameTransform(JointEnd.B, null);
-            assert tb.getTranslation().x == vb.x : tb;
-            assert tb.getTranslation().y == vb.y : tb;
-            assert tb.getTranslation().z == vb.z : tb;
-            assert tb.getRotation().getX() == qb.getX() : tb;
-            assert tb.getRotation().getY() == qb.getY() : tb;
-            assert tb.getRotation().getZ() == qb.getZ() : tb;
-            assert tb.getRotation().getW() == qb.getW() : tb;
+            Utils.assertEquals(vb, tb.getTranslation(), 0f);
+            Assert.assertEquals(qb, tb.getRotation());
         }
 
         boolean flag = (b > 0.15f && b < 0.45f);
 
         RotationMotor rMotor
                 = constraint.getRotationMotor(PhysicsSpace.AXIS_Z);
-        assert rMotor.isDampingLimited() == flag;
-        assert rMotor.isMotorEnabled() == flag;
-        assert rMotor.isServoEnabled() == !flag;
-        assert rMotor.isSpringEnabled() == flag;
-        assert rMotor.isStiffnessLimited() == !flag;
+        Assert.assertEquals(flag, rMotor.isDampingLimited());
+        Assert.assertEquals(flag, rMotor.isMotorEnabled());
+        Assert.assertEquals(!flag, rMotor.isServoEnabled());
+        Assert.assertEquals(flag, rMotor.isSpringEnabled());
+        Assert.assertEquals(!flag, rMotor.isStiffnessLimited());
 
         TranslationMotor tMotor = constraint.getTranslationMotor();
-        assert tMotor.isDampingLimited(PhysicsSpace.AXIS_Z) == flag;
-        assert tMotor.isMotorEnabled(PhysicsSpace.AXIS_Y) == flag;
-        assert tMotor.isServoEnabled(PhysicsSpace.AXIS_X) == !flag;
-        assert tMotor.isSpringEnabled(PhysicsSpace.AXIS_Y) == !flag;
-        assert tMotor.isStiffnessLimited(PhysicsSpace.AXIS_Z) == !flag;
+        Assert.assertEquals(flag, tMotor.isDampingLimited(PhysicsSpace.AXIS_Z));
+        Assert.assertEquals(flag, tMotor.isMotorEnabled(PhysicsSpace.AXIS_Y));
+        Assert.assertEquals(!flag, tMotor.isServoEnabled(PhysicsSpace.AXIS_X));
+        Assert.assertEquals(!flag, tMotor.isSpringEnabled(PhysicsSpace.AXIS_Y));
+        Assert.assertEquals(
+                !flag, tMotor.isStiffnessLimited(PhysicsSpace.AXIS_Z));
 
         for (MotorParam parameter : MotorParam.values()) {
             int parameterIndex = parameter.ordinal();
             for (int dofIndex = 0; dofIndex < 6; ++dofIndex) {
                 float value = b + dofIndex * 0.001f + parameterIndex * 0.007f;
-                assert constraint.get(parameter, dofIndex) == value;
+                Assert.assertEquals(
+                        value, constraint.get(parameter, dofIndex), 0f);
             }
         }
     }
 
     private static void verifyP2P(Point2PointJoint p2p, float b) {
-        assert p2p.getDamping() == b + 0.01f;
-        assert p2p.getImpulseClamp() == b + 0.02f;
-        assert p2p.getTau() == b + 0.03f;
+        Assert.assertEquals(b + 0.01f, p2p.getDamping(), 0f);
+        Assert.assertEquals(b + 0.02f, p2p.getImpulseClamp(), 0f);
+        Assert.assertEquals(b + 0.03f, p2p.getTau(), 0f);
     }
 
     private static void verifySix(SixDofJoint six, float b) {
         Transform ta = six.getFrameTransform(JointEnd.A, null);
-        assert ta.getTranslation().x == va.x : ta;
-        assert ta.getTranslation().y == va.y : ta;
-        assert ta.getTranslation().z == va.z : ta;
-        assert ta.getRotation().getX() == qa.getX() : ta;
-        assert ta.getRotation().getY() == qa.getY() : ta;
-        assert ta.getRotation().getZ() == qa.getZ() : ta;
-        assert ta.getRotation().getW() == qa.getW() : ta;
+        Utils.assertEquals(va, ta.getTranslation(), 0f);
+        Assert.assertEquals(qa, ta.getRotation());
 
         Transform tb = six.getFrameTransform(JointEnd.B, null);
-        assert tb.getTranslation().x == vb.x : tb;
-        assert tb.getTranslation().y == vb.y : tb;
-        assert tb.getTranslation().z == vb.z : tb;
-        assert tb.getRotation().getX() == qb.getX() : tb;
-        assert tb.getRotation().getY() == qb.getY() : tb;
-        assert tb.getRotation().getZ() == qb.getZ() : tb;
-        assert tb.getRotation().getW() == qb.getW() : tb;
+        Utils.assertEquals(vb, tb.getTranslation(), 0f);
+        Assert.assertEquals(qb, tb.getRotation());
 
         boolean flag = (b > 0.15f && b < 0.45f);
 
         RotationalLimitMotor rot
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_Z);
-        assert rot.isEnableMotor() == !flag;
-        assert rot.getAccumulatedImpulse() == 0.003f;
-        assert rot.getRestitution() == b + 0.01f;
-        assert rot.getDamping() == b + 0.02f;
-        assert rot.getERP() == b + 0.03f;
-        assert rot.getLowerLimit() == b + 0.04f;
-        assert rot.getUpperLimit() == b + 0.05f;
-        assert rot.getLimitSoftness() == b + 0.06f;
-        assert rot.getMaxLimitForce() == b + 0.07f;
-        assert rot.getMaxMotorForce() == b + 0.08f;
-        assert rot.getTargetVelocity() == b + 0.09f;
-        assert rot.getNormalCFM() == b + 0.091f;
-        assert rot.getStopCFM() == b + 0.092f;
+        Assert.assertEquals(!flag, rot.isEnableMotor());
+        Assert.assertEquals(0.003f, rot.getAccumulatedImpulse(), 0f); // TODO
+        Assert.assertEquals(b + 0.01f, rot.getRestitution(), 0f);
+        Assert.assertEquals(b + 0.02f, rot.getDamping(), 0f);
+        Assert.assertEquals(b + 0.03f, rot.getERP(), 0f);
+        Assert.assertEquals(b + 0.04f, rot.getLowerLimit(), 0f);
+        Assert.assertEquals(b + 0.05f, rot.getUpperLimit(), 0f);
+        Assert.assertEquals(b + 0.06f, rot.getLimitSoftness(), 0f);
+        Assert.assertEquals(b + 0.07f, rot.getMaxLimitForce(), 0f);
+        Assert.assertEquals(b + 0.08f, rot.getMaxMotorForce(), 0f);
+        Assert.assertEquals(b + 0.09f, rot.getTargetVelocity(), 0f);
+        Assert.assertEquals(b + 0.091f, rot.getNormalCFM(), 0f);
+        Assert.assertEquals(b + 0.092f, rot.getStopCFM(), 0f);
 
         TranslationalLimitMotor tra = six.getTranslationalLimitMotor();
-        assert tra.isEnabled(0) == flag;
-        assert tra.isEnabled(1) == flag;
-        assert tra.isEnabled(2) == !flag;
-        assert tra.getAccumulatedImpulse(null).x == b + 0.101f;
-        assert tra.getAccumulatedImpulse(null).y == b + 0.102f;
-        assert tra.getAccumulatedImpulse(null).z == b + 0.103f;
-        assert tra.getDamping() == b + 0.10f;
-        assert tra.getLimitSoftness() == b + 0.11f;
-        assert tra.getLowerLimit(null).x == b + 0.12f;
-        assert tra.getLowerLimit(null).y == b + 0.13f;
-        assert tra.getLowerLimit(null).z == b + 0.14f;
-        assert tra.getRestitution() == b + 0.15f;
-        assert tra.getUpperLimit(null).x == b + 0.16f;
-        assert tra.getUpperLimit(null).y == b + 0.17f;
-        assert tra.getUpperLimit(null).z == b + 0.18f;
-        assert tra.getERP(null).z == b + 0.19f;
-        assert tra.getMaxMotorForce(null).z == b + 0.20f;
-        assert tra.getNormalCFM(null).z == b + 0.22f;
-        assert tra.getStopCFM(null).z == b + 0.23f;
-        assert tra.getTargetVelocity(null).z == b + 0.24f;
+        Assert.assertEquals(flag, tra.isEnabled(0));
+        Assert.assertEquals(flag, tra.isEnabled(1));
+        Assert.assertEquals(!flag, tra.isEnabled(2));
+        Utils.assertEquals(b + 0.101f, b + 0.102f, b + 0.103f,
+                tra.getAccumulatedImpulse(null), 0f);
+        Assert.assertEquals(b + 0.10f, tra.getDamping(), 0f);
+        Assert.assertEquals(b + 0.11f, tra.getLimitSoftness(), 0f);
+        Utils.assertEquals(
+                b + 0.12f, b + 0.13f, b + 0.14f, tra.getLowerLimit(null), 0f);
+        Assert.assertEquals(b + 0.15f, tra.getRestitution(), 0f);
+        Utils.assertEquals(
+                b + 0.16f, b + 0.17f, b + 0.18f, tra.getUpperLimit(null), 0f);
+        Assert.assertEquals(b + 0.19f, tra.getERP(null).z, 0f);
+        Assert.assertEquals(b + 0.20f, tra.getMaxMotorForce(null).z, 0f);
+        Assert.assertEquals(b + 0.22f, tra.getNormalCFM(null).z, 0f);
+        Assert.assertEquals(b + 0.23f, tra.getStopCFM(null).z, 0f);
+        Assert.assertEquals(b + 0.24f, tra.getTargetVelocity(null).z, 0f);
     }
 
     private static void verifySlide(SliderJoint slide, float b) {
         Transform ta = slide.getFrameTransform(JointEnd.A, null);
-        assert ta.getTranslation().x == va.x : ta;
-        assert ta.getTranslation().y == va.y : ta;
-        assert ta.getTranslation().z == va.z : ta;
+        Utils.assertEquals(va, ta.getTranslation(), 0f);
 
         Transform tb = slide.getFrameTransform(JointEnd.B, null);
-        assert tb.getTranslation().x == vb.x : tb;
-        assert tb.getTranslation().y == vb.y : tb;
-        assert tb.getTranslation().z == vb.z : tb;
+        Utils.assertEquals(vb, tb.getTranslation(), 0f);
 
         boolean flag = (b > 0.15f && b < 0.45f);
 
-        assert slide.getDampingDirAng() == b + 0.01f;
-        assert slide.getDampingDirLin() == b + 0.02f;
-        assert slide.getDampingLimAng() == b + 0.03f;
-        assert slide.getDampingLimLin() == b + 0.04f;
-        assert slide.getDampingOrthoAng() == b + 0.05f;
-        assert slide.getDampingOrthoLin() == b + 0.06f;
+        Assert.assertEquals(b + 0.01f, slide.getDampingDirAng(), 0f);
+        Assert.assertEquals(b + 0.02f, slide.getDampingDirLin(), 0f);
+        Assert.assertEquals(b + 0.03f, slide.getDampingLimAng(), 0f);
+        Assert.assertEquals(b + 0.04f, slide.getDampingLimLin(), 0f);
+        Assert.assertEquals(b + 0.05f, slide.getDampingOrthoAng(), 0f);
+        Assert.assertEquals(b + 0.06f, slide.getDampingOrthoLin(), 0f);
 
-        assert slide.getLowerAngLimit() == b + 0.07f;
-        assert slide.getLowerLinLimit() == b + 0.08f;
+        Assert.assertEquals(b + 0.07f, slide.getLowerAngLimit(), 0f);
+        Assert.assertEquals(b + 0.08f, slide.getLowerLinLimit(), 0f);
 
-        assert slide.getMaxAngMotorForce() == b + 0.09f;
-        assert slide.getMaxLinMotorForce() == b + 0.10f;
+        Assert.assertEquals(b + 0.09f, slide.getMaxAngMotorForce(), 0f);
+        Assert.assertEquals(b + 0.10f, slide.getMaxLinMotorForce(), 0f);
 
-        assert slide.isPoweredAngMotor() == !flag;
-        assert slide.isPoweredLinMotor() == flag;
+        Assert.assertEquals(!flag, slide.isPoweredAngMotor());
+        Assert.assertEquals(flag, slide.isPoweredLinMotor());
 
-        assert slide.getRestitutionDirAng() == b + 0.11f;
-        assert slide.getRestitutionDirLin() == b + 0.12f;
-        assert slide.getRestitutionLimAng() == b + 0.13f;
-        assert slide.getRestitutionLimLin() == b + 0.14f;
-        assert slide.getRestitutionOrthoAng() == b + 0.15f;
-        assert slide.getRestitutionOrthoLin() == b + 0.16f;
+        Assert.assertEquals(b + 0.11f, slide.getRestitutionDirAng(), 0f);
+        Assert.assertEquals(b + 0.12f, slide.getRestitutionDirLin(), 0f);
+        Assert.assertEquals(b + 0.13f, slide.getRestitutionLimAng(), 0f);
+        Assert.assertEquals(b + 0.14f, slide.getRestitutionLimLin(), 0f);
+        Assert.assertEquals(b + 0.15f, slide.getRestitutionOrthoAng(), 0f);
+        Assert.assertEquals(b + 0.16f, slide.getRestitutionOrthoLin(), 0f);
 
-        assert slide.getSoftnessDirAng() == b + 0.17f;
-        assert slide.getSoftnessDirLin() == b + 0.18f;
-        assert slide.getSoftnessLimAng() == b + 0.19f;
-        assert slide.getSoftnessLimLin() == b + 0.20f;
-        assert slide.getSoftnessOrthoAng() == b + 0.21f;
-        assert slide.getSoftnessOrthoLin() == b + 0.22f;
+        Assert.assertEquals(b + 0.17f, slide.getSoftnessDirAng(), 0f);
+        Assert.assertEquals(b + 0.18f, slide.getSoftnessDirLin(), 0f);
+        Assert.assertEquals(b + 0.19f, slide.getSoftnessLimAng(), 0f);
+        Assert.assertEquals(b + 0.20f, slide.getSoftnessLimLin(), 0f);
+        Assert.assertEquals(b + 0.21f, slide.getSoftnessOrthoAng(), 0f);
+        Assert.assertEquals(b + 0.22f, slide.getSoftnessOrthoLin(), 0f);
 
-        assert slide.getTargetAngMotorVelocity() == b + 0.23f;
-        assert slide.getTargetLinMotorVelocity() == b + 0.24f;
+        Assert.assertEquals(b + 0.23f, slide.getTargetAngMotorVelocity(), 0f);
+        Assert.assertEquals(b + 0.24f, slide.getTargetLinMotorVelocity(), 0f);
 
-        assert slide.getUpperAngLimit() == b + 0.25f;
-        assert slide.getUpperLinLimit() == b + 0.26f;
+        Assert.assertEquals(b + 0.25f, slide.getUpperAngLimit(), 0f);
+        Assert.assertEquals(b + 0.26f, slide.getUpperLinLimit(), 0f);
     }
 
     private static void verifySoftAngular(SoftAngularJoint saj, float b) {
-        assert saj.getCFM() == b + 0.01f;
-        assert saj.getERP() == b + 0.02f;
-        assert saj.getSplit() == b + 0.03f;
+        Assert.assertEquals(b + 0.01f, saj.getCFM(), 0f);
+        Assert.assertEquals(b + 0.02f, saj.getERP(), 0f);
+        Assert.assertEquals(b + 0.03f, saj.getSplit(), 0f);
     }
 
     private static void verifySoftLinear(SoftLinearJoint slj, float b) {
-        assert slj.getCFM() == b + 0.02f;
-        assert slj.getERP() == b + 0.03f;
-        assert slj.getSplit() == b + 0.04f;
+        Assert.assertEquals(b + 0.02f, slj.getCFM(), 0f);
+        Assert.assertEquals(b + 0.03f, slj.getERP(), 0f);
+        Assert.assertEquals(b + 0.04f, slj.getSplit(), 0f);
     }
 
     private static void verifySpring(SixDofSpringJoint spring, float b) {
         verifySix(spring, b);
 
-        assert spring.getDamping(0) == b + 0.251f;
-        assert spring.getDamping(1) == b + 0.252f;
-        assert spring.getDamping(2) == b + 0.253f;
-        assert spring.getDamping(3) == b + 0.254f;
-        assert spring.getDamping(4) == b + 0.255f;
-        assert spring.getDamping(5) == b + 0.256f;
+        Assert.assertEquals(b + 0.251f, spring.getDamping(0), 0f);
+        Assert.assertEquals(b + 0.252f, spring.getDamping(1), 0f);
+        Assert.assertEquals(b + 0.253f, spring.getDamping(2), 0f);
+        Assert.assertEquals(b + 0.254f, spring.getDamping(3), 0f);
+        Assert.assertEquals(b + 0.255f, spring.getDamping(4), 0f);
+        Assert.assertEquals(b + 0.256f, spring.getDamping(5), 0f);
 
-        assert spring.getStiffness(0) == b + 0.261f;
-        assert spring.getStiffness(1) == b + 0.262f;
-        assert spring.getStiffness(2) == b + 0.263f;
-        assert spring.getStiffness(3) == b + 0.264f;
-        assert spring.getStiffness(4) == b + 0.265f;
-        assert spring.getStiffness(5) == b + 0.266f;
+        Assert.assertEquals(b + 0.261f, spring.getStiffness(0), 0f);
+        Assert.assertEquals(b + 0.262f, spring.getStiffness(1), 0f);
+        Assert.assertEquals(b + 0.263f, spring.getStiffness(2), 0f);
+        Assert.assertEquals(b + 0.264f, spring.getStiffness(3), 0f);
+        Assert.assertEquals(b + 0.265f, spring.getStiffness(4), 0f);
+        Assert.assertEquals(b + 0.266f, spring.getStiffness(5), 0f);
     }
 }
