@@ -357,7 +357,7 @@ public class TestClonePhysicsControls {
 
     private static void verifyCc(CharacterControl cc, float b) {
         Vector3f upDirection
-                = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalize();
+                = new Vector3f(b - 0.2f, b + 0.8f, b - 0.6f).normalizeLocal();
         Vector3f viewDirection
                 = new Vector3f(b + 0.1f, b + 0.5f, b + 0.7f).normalizeLocal();
 
