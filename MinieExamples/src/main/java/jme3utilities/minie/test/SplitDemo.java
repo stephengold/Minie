@@ -732,6 +732,26 @@ public class SplitDemo
     }
 
     /**
+     * Pseudo-randomly generate an asymmetrical compound shape consisting of 2
+     * cylinders, a head and a handle.
+     *
+     * @param correctAxes if true, correct the shape's center of mass and
+     * principal axes
+     * @return a new instance (not null)
+     */
+    private CollisionShape randomMallet() {
+        Generator random = getGenerator();
+        float handleR = 0.5f;
+        float headR = handleR + random.nextFloat();
+        float headHalfLength = headR + random.nextFloat();
+        float handleHalfLength = headHalfLength + random.nextFloat(0f, 2.5f);
+        CompoundCollisionShape result = CompoundTestShapes.makeMadMallet(
+                handleR, headR, handleHalfLength, headHalfLength);
+
+        return result;
+    }
+
+    /**
      * Restart the current scenario.
      */
     private void restartScenario() {
@@ -872,6 +892,11 @@ public class SplitDemo
                 shape = randomLetter();
                 shape.setScale(0.5f);
                 addRigidBody(shape, MeshNormals.Facet, randomMass);
+                break;
+
+            case "mallet":
+                shape = randomMallet();
+                addRigidBody(shape, MeshNormals.Smooth, randomMass);
                 break;
 
             case "sphere":
