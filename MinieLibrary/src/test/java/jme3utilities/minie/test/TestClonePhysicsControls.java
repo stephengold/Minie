@@ -57,8 +57,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading abstract physics controls. TODO replace asserts
- * with JUnit Assert
+ * Test cloning/saving/loading abstract physics controls.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -319,9 +318,9 @@ public class TestClonePhysicsControls {
             AbstractPhysicsControl control, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         if (!(control instanceof DynamicAnimControl)) {
-            assert control.isApplyPhysicsLocal() == !flag;
+            Assert.assertEquals(!flag, control.isApplyPhysicsLocal());
         }
-        assert control.isEnabled() == flag;
+        Assert.assertEquals(flag, control.isEnabled());
 
         if (control instanceof BetterCharacterControl) {
             verifyBcc((BetterCharacterControl) control, b);
@@ -344,10 +343,10 @@ public class TestClonePhysicsControls {
      * @param b the key value
      */
     private static void verifyBcc(BetterCharacterControl bcc, float b) {
-        assert bcc.getDuckedFactor() == b + 0.01f;
+        Assert.assertEquals(b + 0.01f, bcc.getDuckedFactor(), 0f);
         Utils.assertEquals(
                 b + 0.05f, b + 0.06f, b + 0.07f, bcc.getJumpForce(null), 0f);
-        assert bcc.getPhysicsDamping() == b + 0.08f;
+        Assert.assertEquals(b + 0.08f, bcc.getPhysicsDamping(), 0f);
         Utils.assertEquals(b + 0.10f, b + 0.11f, b + 0.12f,
                 bcc.getViewDirection(null), 0f);
         Utils.assertEquals(b + 0.13f, b + 0.14f, b + 0.15f,
@@ -395,8 +394,8 @@ public class TestClonePhysicsControls {
     }
 
     private static void verifyDac(DynamicAnimControl dac, float b) {
-        assert dac.damping() == b + 0.01f;
-        assert dac.eventDispatchImpulseThreshold() == b + 0.02f;
+        Assert.assertEquals(b + 0.01f, dac.damping(), 0f);
+        Assert.assertEquals(b + 0.02f, dac.eventDispatchImpulseThreshold(), 0f);
         Utils.assertEquals(
                 b + 0.03f, b + 0.04f, b + 0.05f, dac.gravity(null), 0f);
     }
