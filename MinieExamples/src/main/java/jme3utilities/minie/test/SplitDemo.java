@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
+import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
@@ -628,7 +629,9 @@ public class SplitDemo
         random.nextVector3f(tmpLocation);
         body.setPhysicsLocation(tmpLocation);
         random.nextQuaternion(tmpRotation);
-        body.setPhysicsRotation(tmpRotation);
+        if (!(shape instanceof HeightfieldCollisionShape)) {
+            body.setPhysicsRotation(tmpRotation);
+        }
 
         addCollisionObject(body);
     }
