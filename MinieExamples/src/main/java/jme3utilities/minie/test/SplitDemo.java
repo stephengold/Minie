@@ -466,6 +466,9 @@ public class SplitDemo
         dim.bind(asTogglePause, KeyInput.KEY_PAUSE, KeyInput.KEY_PERIOD);
         dim.bind(asTogglePcoAxes, KeyInput.KEY_SEMICOLON);
         dim.bind("toggle wireframe", KeyInput.KEY_SLASH);
+
+        dim.bind("value+7", KeyInput.KEY_NUMPAD9);
+        dim.bind("value-7", KeyInput.KEY_NUMPAD7);
     }
 
     /**
@@ -510,6 +513,13 @@ public class SplitDemo
                 case "toggle wireframe":
                     status.toggleWireframe();
                     setDebugMaterialsAll();
+                    return;
+
+                case "value+7":
+                    status.advanceValue(+7);
+                    return;
+                case "value-7":
+                    status.advanceValue(-7);
                     return;
 
                 default:
