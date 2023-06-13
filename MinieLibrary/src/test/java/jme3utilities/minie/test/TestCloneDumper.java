@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -28,10 +28,11 @@ package jme3utilities.minie.test;
 
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning a PhysicsDumper. TODO replace asserts with JUnit Assert
+ * Test cloning a PhysicsDumper.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -61,8 +62,8 @@ public class TestCloneDumper {
     // private methods
 
     private static void cloneTest(PhysicsDumper du, PhysicsDumper duClone) {
-        assert duClone != du;
-        assert duClone.getDescriber() != du.getDescriber();
+        Assert.assertNotSame(du, duClone);
+        Assert.assertNotSame(duClone.getDescriber(), du.getDescriber());
 
         verifyParameters(du, 0f);
         verifyParameters(duClone, 0f);
@@ -115,24 +116,25 @@ public class TestCloneDumper {
      */
     private static void verifyParameters(PhysicsDumper du, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
-        assert du.isEnabled(DumpFlags.Buckets) == flag : flag;
-        assert du.isEnabled(DumpFlags.ChildShapes) == !flag : flag;
-        assert du.isEnabled(DumpFlags.ClustersInSofts) == !flag : flag;
-        assert du.isEnabled(DumpFlags.CullHints) == flag : flag;
-        assert du.isEnabled(DumpFlags.JointsInBodies) == !flag : flag;
-        assert du.isEnabled(DumpFlags.JointsInSpaces) == flag : flag;
-        assert du.isEnabled(DumpFlags.MatParams) == !flag : flag;
-        assert du.isEnabled(DumpFlags.NodesInClusters) == !flag : !flag;
-        assert du.isEnabled(DumpFlags.NodesInSofts) == flag : flag;
-        assert du.isEnabled(DumpFlags.Overrides) == !flag : flag;
-        assert du.isEnabled(DumpFlags.Pcos) == flag : flag;
-        assert du.isEnabled(DumpFlags.ShadowModes) == flag : flag;
-        assert du.isEnabled(DumpFlags.Transforms) == !flag : flag;
-        assert du.isEnabled(DumpFlags.UserData) == flag : flag;
+        Assert.assertEquals(flag, du.isEnabled(DumpFlags.Buckets));
+        Assert.assertEquals(!flag, du.isEnabled(DumpFlags.ChildShapes));
+        Assert.assertEquals(!flag, du.isEnabled(DumpFlags.ClustersInSofts));
+        Assert.assertEquals(flag, du.isEnabled(DumpFlags.CullHints));
+        Assert.assertEquals(!flag, du.isEnabled(DumpFlags.JointsInBodies));
+        Assert.assertEquals(flag, du.isEnabled(DumpFlags.JointsInSpaces));
+        Assert.assertEquals(!flag, du.isEnabled(DumpFlags.MatParams));
+        Assert.assertEquals(!flag, du.isEnabled(DumpFlags.NodesInClusters));
+        Assert.assertEquals(flag, du.isEnabled(DumpFlags.NodesInSofts));
+        Assert.assertEquals(!flag, du.isEnabled(DumpFlags.Overrides));
+        Assert.assertEquals(flag, du.isEnabled(DumpFlags.Pcos));
+        Assert.assertEquals(flag, du.isEnabled(DumpFlags.ShadowModes));
+        Assert.assertEquals(!flag, du.isEnabled(DumpFlags.Transforms));
+        Assert.assertEquals(flag, du.isEnabled(DumpFlags.UserData));
 
         int count = Math.round(b / 0.3f);
-        assert du.maxChildren() == count : du.maxChildren();
-        assert du.indentIncrement().equals(Float.toString(b));
-        assert du.getDescriber().listSeparator().equals(Float.toHexString(b));
+        Assert.assertEquals(count, du.maxChildren());
+        Assert.assertEquals(Float.toString(b), du.indentIncrement());
+        Assert.assertEquals(
+                Float.toHexString(b), du.getDescriber().listSeparator());
     }
 }
