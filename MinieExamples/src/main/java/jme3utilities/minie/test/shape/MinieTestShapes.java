@@ -209,6 +209,7 @@ final public class MinieTestShapes {
         HeightfieldCollisionShape result = new HeightfieldCollisionShape(
                 n, n, array, scale, upAxis, flipQuadEdges,
                 flipTriangleWinding, useDiamond, useZigzag);
+        result.setContactFilterEnabled(false); // reduce risk of fallthru
 
         return result;
     }
@@ -225,6 +226,7 @@ final public class MinieTestShapes {
         Vector3f scale = new Vector3f(40f / n, 1f, 40f / n);
         HeightfieldCollisionShape result
                 = new HeightfieldCollisionShape(array, scale);
+        result.setContactFilterEnabled(false); // reduce risk of fallthru
 
         return result;
     }
@@ -335,6 +337,7 @@ final public class MinieTestShapes {
         Vector3f scale = new Vector3f(40f / n, 12.5f, 40f / n);
         HeightfieldCollisionShape result
                 = new HeightfieldCollisionShape(array, scale);
+        result.setContactFilterEnabled(false); // reduce risk of fallthru
 
         return result;
     }
