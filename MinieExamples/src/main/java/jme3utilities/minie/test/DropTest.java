@@ -526,7 +526,7 @@ public class DropTest
     }
 
     /**
-     * Process an action that wasn't handled by the active input mode.
+     * Process an action that wasn't handled by the active InputMode.
      *
      * @param actionString textual description of the action (not null)
      * @param ongoing true if the action is ongoing, otherwise false
@@ -910,7 +910,7 @@ public class DropTest
     /**
      * Update the debug materials of the specified collision object.
      *
-     * @param pco the object to update (not null)
+     * @param pco the object to update (not null, modified)
      */
     private void setDebugMaterial(PhysicsCollisionObject pco) {
         CollisionShape shape = pco.getCollisionShape();

@@ -736,8 +736,6 @@ public class SplitDemo
      * Pseudo-randomly generate an asymmetrical compound shape consisting of 2
      * cylinders, a head and a handle.
      *
-     * @param correctAxes if true, correct the shape's center of mass and
-     * principal axes
      * @return a new instance (not null)
      */
     private CollisionShape randomMallet() {
