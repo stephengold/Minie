@@ -151,6 +151,8 @@ public class TestClonePhysicsControls {
 
     private static void cloneTest(AbstractPhysicsControl control,
             AbstractPhysicsControl controlClone) {
+        Assert.assertNotSame(control, controlClone);
+
         verifyParameters(control, 0f);
         verifyParameters(controlClone, 0f);
 

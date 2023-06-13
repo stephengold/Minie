@@ -306,6 +306,7 @@ public class TestCloneJoints {
     }
 
     private static void cloneTest(PhysicsJoint joint, PhysicsJoint jointClone) {
+        Assert.assertNotSame(joint, jointClone);
         Assert.assertNotEquals(joint.nativeId(), jointClone.nativeId());
 
         PhysicsBody a = joint.getBody(JointEnd.A);

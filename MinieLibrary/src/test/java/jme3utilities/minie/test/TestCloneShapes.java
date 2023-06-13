@@ -67,6 +67,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jme3utilities.Heart;
 import jme3utilities.MyAsset;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -351,6 +352,7 @@ public class TestCloneShapes {
 
     private static void cloneTest(
             CollisionShape shape, CollisionShape shapeClone) {
+        Assert.assertNotSame(shape, shapeClone);
         //logger.log(Level.SEVERE, "{0}", shape.getClass());
         assert shapeClone.getClass() == shape.getClass();
         assert shapeClone.nativeId() != shape.nativeId();
