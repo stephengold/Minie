@@ -46,8 +46,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading on PhysicsGhostObject and its subclass. TODO
- * replace asserts with JUnit Assert
+ * Test cloning/saving/loading on PhysicsGhostObject and its subclass.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -184,37 +183,34 @@ public class TestCloneGhost {
     private static void verifyParameters(PhysicsGhostObject pgo, float b) {
         int index = Math.round(b / 0.3f);
         if (index == 0) {
-            assert !pgo.hasAnisotropicFriction(AfMode.either);
+            Assert.assertFalse(pgo.hasAnisotropicFriction(AfMode.either));
         } else {
-            assert pgo.hasAnisotropicFriction(index);
+            Assert.assertTrue(pgo.hasAnisotropicFriction(index));
             Vector3f c = pgo.getAnisotropicFriction(null);
-            assert c.x == b + 0.004f : c;
-            assert c.y == b + 0.005f : c;
-            assert c.z == b + 0.006f : c;
+            Utils.assertEquals(b + 0.004f, b + 0.005f, b + 0.006f, c, 0f);
         }
 
-        assert pgo.getCcdMotionThreshold() == b + 0.07f;
-        assert pgo.getCcdSweptSphereRadius() == b + 0.08f;
-        assert pgo.getContactDamping() == b + 0.084f;
-        assert pgo.getContactProcessingThreshold() == b + 0.0845f;
-        assert pgo.getContactStiffness() == b + 0.085f;
-        assert pgo.getDeactivationTime() == b + 0.087f;
-        assert pgo.getFriction() == b + 0.09f;
+        Assert.assertEquals(b + 0.07f, pgo.getCcdMotionThreshold(), 0f);
+        Assert.assertEquals(b + 0.08f, pgo.getCcdSweptSphereRadius(), 0f);
+        Assert.assertEquals(b + 0.084f, pgo.getContactDamping(), 0f);
+        Assert.assertEquals(
+                b + 0.0845f, pgo.getContactProcessingThreshold(), 0f);
+        Assert.assertEquals(b + 0.085f, pgo.getContactStiffness(), 0f);
+        Assert.assertEquals(b + 0.087f, pgo.getDeactivationTime(), 0f);
+        Assert.assertEquals(b + 0.09f, pgo.getFriction(), 0f);
 
         Vector3f x = pgo.getPhysicsLocation(null);
-        assert x.x == b + 0.18f : x;
-        assert x.y == b + 0.19f : x;
-        assert x.z == b + 0.20f : x;
-        assert pgo.getRestitution() == b + 0.205f;
+        Utils.assertEquals(b + 0.18f, b + 0.19f, b + 0.20f, x, 0f);
+        Assert.assertEquals(b + 0.205f, pgo.getRestitution(), 0f);
 
         Quaternion orient
                 = new Quaternion(b + 0.21f, b + 0.22f, b + 0.23f, b + 0.24f);
         MyQuaternion.normalizeLocal(orient);
         Matrix3f matrix = orient.toRotationMatrix();
         Matrix3f m = pgo.getPhysicsRotationMatrix(null);
-        assert m.equals(matrix);
+        Assert.assertEquals(m, matrix);
 
-        assert pgo.getRollingFriction() == b + 0.25f;
-        assert pgo.getSpinningFriction() == b + 0.26f;
+        Assert.assertEquals(b + 0.25f, pgo.getRollingFriction(), 0f);
+        Assert.assertEquals(b + 0.26f, pgo.getSpinningFriction(), 0f);
     }
 }
