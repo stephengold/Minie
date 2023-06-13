@@ -596,6 +596,8 @@ public class DropTest
                 default:
             }
         }
+
+        // The action is not handled: forward it to the superclass.
         super.onAction(actionString, ongoing, tpf);
     }
 

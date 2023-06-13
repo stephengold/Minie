@@ -375,12 +375,13 @@ public class SplitDemo
         shape.setScale(5f);
         registerShape("sword", shape);
 
-        // "teapot" using V-HACD and GImpact
+        // "teapot" using V-HACD
         String teapotPath = "CollisionShapes/teapot.j3o";
         shape = (CollisionShape) assetManager.loadAsset(teapotPath);
         shape.setScale(3f);
         registerShape("teapot", shape);
 
+        // "teapot" using GImpact
         String teapotGiPath = "CollisionShapes/teapotGi.j3o";
         shape = (CollisionShape) assetManager.loadAsset(teapotGiPath);
         shape.setScale(3f);
