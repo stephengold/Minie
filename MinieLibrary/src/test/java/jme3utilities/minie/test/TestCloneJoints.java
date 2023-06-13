@@ -470,7 +470,7 @@ public class TestCloneJoints {
         RotationalLimitMotor rot
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_Z);
         rot.setEnableMotor(!flag);
-        rot.setAccumulatedImpulse(0.003f);
+        rot.setAccumulatedImpulse(b + 0.003f);
         rot.setRestitution(b + 0.01f);
         rot.setDamping(b + 0.02f);
         rot.setERP(b + 0.03f);
@@ -728,7 +728,7 @@ public class TestCloneJoints {
         RotationalLimitMotor rot
                 = six.getRotationalLimitMotor(PhysicsSpace.AXIS_Z);
         Assert.assertEquals(!flag, rot.isEnableMotor());
-        Assert.assertEquals(0.003f, rot.getAccumulatedImpulse(), 0f); // TODO
+        Assert.assertEquals(b + 0.003f, rot.getAccumulatedImpulse(), 0f);
         Assert.assertEquals(b + 0.01f, rot.getRestitution(), 0f);
         Assert.assertEquals(b + 0.02f, rot.getDamping(), 0f);
         Assert.assertEquals(b + 0.03f, rot.getERP(), 0f);
