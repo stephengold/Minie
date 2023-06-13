@@ -871,11 +871,14 @@ public class SplitDemo
 
             case "capsule":
             case "cone":
+            case "coneBox":
             case "cylinder":
             case "cylinderBox":
             case "dome":
             case "football":
             case "multiSphere":
+            case "roundedDisc":
+            case "saucer":
             case "snowman":
             case "torus":
                 shape = random.nextShape(shapeName);

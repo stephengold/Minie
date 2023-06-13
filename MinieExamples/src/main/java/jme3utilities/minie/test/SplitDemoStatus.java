@@ -81,14 +81,14 @@ class SplitDemoStatus extends SimpleAppState {
      */
     final private static String[] shapeNames = {
         "ankh", "banana", "barbell", "barrel", "bedOfNails", "box", "candyDish",
-        "capsule", "cone", "corner", "cylinder", "cylinderBox", "digit",
-        "dimples", "dome", "duck", "football", "frame", "halfPipe", "heart",
-        "horseshoe", "hull", "iBeam", "knucklebone", "ladder", "letter",
-        "lidlessBox", "link", "mallet", "multiSphere", "platonic", "prism",
-        "pyramid", "roundedRectangle", "smooth", "snowman", "sphere", "star",
-        "sword", "table", "teapot", "teapotGi", "tetrahedron", "thumbTack",
-        "top", "torus", "tray", "triangle", "triangularFrame", "trident",
-        "washer"
+        "capsule", "cone", "coneBox", "corner", "cylinder", "cylinderBox",
+        "digit", "dimples", "dome", "duck", "football", "frame", "halfPipe",
+        "heart", "horseshoe", "hull", "iBeam", "knucklebone", "ladder",
+        "letter", "lidlessBox", "link", "mallet", "multiSphere", "platonic",
+        "prism", "pyramid", "roundedDisc", "roundedRectangle", "saucer",
+        "smooth", "snowman", "sphere", "star", "sword", "table", "teapot",
+        "teapotGi", "tetrahedron", "thumbTack", "top", "torus", "tray",
+        "triangle", "triangularFrame", "trident", "washer"
     };
     // *************************************************************************
     // fields
