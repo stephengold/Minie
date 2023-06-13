@@ -91,7 +91,7 @@ final public class CompoundTestShapes {
     private CompoundTestShapes() {
     }
     // *************************************************************************
-    // new methods exposed - TODO more validation of method arguments
+    // new methods exposed
 
     /**
      * Generate a barbell shape with 2 cylindrical plates.
@@ -105,6 +105,10 @@ final public class CompoundTestShapes {
      */
     public static CompoundCollisionShape makeBarbell(
             float barLength, float barRadius, float plateRadius) {
+        Validate.positive(barLength, "bar length");
+        Validate.positive(barRadius, "bar radius");
+        Validate.positive(plateRadius, "plate radius");
+
         float plateOffset = 0.42f * barLength;
         CollisionShape bar = new CylinderCollisionShape(
                 barRadius, barLength, PhysicsSpace.AXIS_X);
@@ -202,6 +206,11 @@ final public class CompoundTestShapes {
      */
     public static CompoundCollisionShape makeChair(float backLength,
             float legLength, float legOffset, float legRadius) {
+        Validate.positive(backLength, "back length");
+        Validate.positive(legLength, "leg length");
+        Validate.inRange(legOffset, "leg offset", legRadius, Float.MAX_VALUE);
+        Validate.positive(legRadius, "leg radius");
+
         float seatHalf = legOffset + legRadius;
         Vector3f halfExtents = new Vector3f(seatHalf, 0.2f, seatHalf);
         RectangularSolid solid = new RectangularSolid(halfExtents);
@@ -369,6 +378,10 @@ final public class CompoundTestShapes {
      */
     public static CompoundCollisionShape makeKnucklebone(
             float stemLength, float stemRadius, float ballRadius) {
+        Validate.positive(stemLength, "stem length");
+        Validate.positive(stemRadius, "stem radius");
+        Validate.positive(ballRadius, "ball radius");
+
         CollisionShape xStem = new CapsuleCollisionShape(
                 stemRadius, stemLength, PhysicsSpace.AXIS_X);
         CollisionShape yStem = new CapsuleCollisionShape(
@@ -405,6 +418,11 @@ final public class CompoundTestShapes {
      */
     public static CompoundCollisionShape makeLadder(
             float rungLength, float rungSpacing, float rungRadius) {
+        Validate.positive(rungLength, "rung length");
+        Validate.inRange(
+                rungSpacing, "rung spacing", 2f * rungRadius, Float.MAX_VALUE);
+        Validate.positive(rungRadius, "rung radius");
+
         CollisionShape rung = new CylinderCollisionShape(
                 rungRadius, rungLength, PhysicsSpace.AXIS_X);
 
@@ -442,6 +460,11 @@ final public class CompoundTestShapes {
      */
     public static CompoundCollisionShape makeLidlessBox(
             float iHeight, float iWidth, float iDepth, float wallThickness) {
+        Validate.positive(iHeight, "internal height");
+        Validate.positive(iWidth, "internal width");
+        Validate.positive(iDepth, "internal depth");
+        Validate.positive(wallThickness, "wall thickness");
+
         float ihHeight = iHeight / 2f;
         float ihWidth = iWidth / 2f;
         float ihDepth = iDepth / 2f;
@@ -717,6 +740,10 @@ final public class CompoundTestShapes {
      */
     public static CompoundCollisionShape makeTable(
             float topRadius, float pedestalRadius) {
+        Validate.inRange(
+                topRadius, "top radius", pedestalRadius, Float.MAX_VALUE);
+        Validate.positive(pedestalRadius, "pedestal radius");
+
         float thickness = 0.4f;
         float footHalfLength = 0.6f * (topRadius + pedestalRadius);
         CollisionShape foot
@@ -754,6 +781,10 @@ final public class CompoundTestShapes {
      */
     public static CompoundCollisionShape makeThumbTack(
             float headRadius, float spikeRadius) {
+        Validate.inRange(
+                headRadius, "head radius", spikeRadius, Float.MAX_VALUE);
+        Validate.positive(spikeRadius, "spike radius");
+
         float headThickness = 0.4f;
         CollisionShape head = new CylinderCollisionShape(
                 headRadius, headThickness, PhysicsSpace.AXIS_Y);
@@ -780,6 +811,10 @@ final public class CompoundTestShapes {
      */
     public static CompoundCollisionShape makeTop(
             float bodyRadius, float handleRadius) {
+        Validate.inRange(
+                bodyRadius, "body radius", handleRadius, Float.MAX_VALUE);
+        Validate.positive(handleRadius, "handle radius");
+
         float bodyHeight = 0.6f;
         CollisionShape body = new CylinderCollisionShape(
                 bodyRadius, bodyHeight, PhysicsSpace.AXIS_Y);
