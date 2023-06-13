@@ -42,8 +42,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cloning/saving/loading a PhysicsCharacter. TODO replace asserts with
- * JUnit Assert
+ * Test cloning/saving/loading a PhysicsCharacter.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -197,39 +196,40 @@ public class TestCloneCharacter {
         Vector3f walkOffset
                 = new Vector3f(b + 0.6f, b + 0.2f, b + 0.4f).cross(up);
 
-        assert ch.getAngularDamping() == b + 0.01f;
+        Assert.assertEquals(b + 0.01f, ch.getAngularDamping(), 0f);
         Utils.assertEquals(b + 0.04f, b + 0.05f, b + 0.06f,
                 ch.getAngularVelocity(null), 0f);
 
         if (index == 0) {
-            assert !ch.hasAnisotropicFriction(AfMode.either);
+            Assert.assertFalse(ch.hasAnisotropicFriction(AfMode.either));
         } else {
-            assert ch.hasAnisotropicFriction(index);
+            Assert.assertTrue(ch.hasAnisotropicFriction(index));
             Utils.assertEquals(b + 0.004f, b + 0.005f, b + 0.006f,
                     ch.getAnisotropicFriction(null), 0f);
         }
 
-        assert ch.getCcdMotionThreshold() == b + 0.07f;
-        assert ch.getCcdSweptSphereRadius() == b + 0.08f;
-        assert ch.getContactDamping() == b + 0.084f;
-        assert ch.getContactProcessingThreshold() == b + 0.0845f;
-        assert ch.isContactResponse() == flag;
-        assert ch.getContactStiffness() == b + 0.085f;
-        assert ch.getDeactivationTime() == b + 0.087f;
-        assert ch.getFallSpeed() == b + 0.09f;
-        assert ch.getFriction() == b + 0.095f;
+        Assert.assertEquals(b + 0.07f, ch.getCcdMotionThreshold(), 0f);
+        Assert.assertEquals(b + 0.08f, ch.getCcdSweptSphereRadius(), 0f);
+        Assert.assertEquals(b + 0.084f, ch.getContactDamping(), 0f);
+        Assert.assertEquals(
+                b + 0.0845f, ch.getContactProcessingThreshold(), 0f);
+        Assert.assertEquals(flag, ch.isContactResponse());
+        Assert.assertEquals(b + 0.085f, ch.getContactStiffness(), 0f);
+        Assert.assertEquals(b + 0.087f, ch.getDeactivationTime(), 0f);
+        Assert.assertEquals(b + 0.09f, ch.getFallSpeed(), 0f);
+        Assert.assertEquals(b + 0.095f, ch.getFriction(), 0f);
         Utils.assertEquals(gravity, ch.getGravity(null), 1e-5f);
-        assert ch.getJumpSpeed() == b + 0.125f;
-        assert ch.getLinearDamping() == b + 0.13f;
-        assert ch.getMaxPenetrationDepth() == b + 0.281f;
-        assert ch.getMaxSlope() == b + 0.282f;
+        Assert.assertEquals(b + 0.125f, ch.getJumpSpeed(), 0f);
+        Assert.assertEquals(b + 0.13f, ch.getLinearDamping(), 0f);
+        Assert.assertEquals(b + 0.281f, ch.getMaxPenetrationDepth(), 0f);
+        Assert.assertEquals(b + 0.282f, ch.getMaxSlope(), 0f);
         Utils.assertEquals(b + 0.18f, b + 0.19f, b + 0.20f,
                 ch.getPhysicsLocation(null), 0f);
-        assert ch.getRestitution() == b + 0.25f;
-        assert ch.getRollingFriction() == b + 0.26f;
-        assert ch.getSpinningFriction() == b + 0.27f;
-        assert ch.getStepHeight() == b + 0.29f;
-        assert ch.isUsingGhostSweepTest() == !flag;
+        Assert.assertEquals(b + 0.25f, ch.getRestitution(), 0f);
+        Assert.assertEquals(b + 0.26f, ch.getRollingFriction(), 0f);
+        Assert.assertEquals(b + 0.27f, ch.getSpinningFriction(), 0f);
+        Assert.assertEquals(b + 0.29f, ch.getStepHeight(), 0f);
+        Assert.assertEquals(!flag, ch.isUsingGhostSweepTest());
         Utils.assertEquals(up, ch.getUpDirection(null), 1e-5f);
         Utils.assertEquals(walkOffset, ch.getWalkDirection(null), 1e-5f);
     }
