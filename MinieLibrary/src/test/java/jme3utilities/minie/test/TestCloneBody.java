@@ -386,17 +386,17 @@ public class TestCloneBody {
         if (body instanceof PhysicsRigidBody) {
             PhysicsRigidBody rBody = (PhysicsRigidBody) body;
             PhysicsRigidBody rBodyClone = (PhysicsRigidBody) bodyClone;
-            Assert.assertNotEquals(
+            Assert.assertNotSame(
                     rBody.getMotionState(), rBodyClone.getMotionState());
 
         } else if (body instanceof PhysicsSoftBody) {
             PhysicsSoftBody sBody = (PhysicsSoftBody) body;
             PhysicsSoftBody sBodyClone = (PhysicsSoftBody) bodyClone;
-            Assert.assertNotEquals(
+            Assert.assertNotSame(
                     sBodyClone.getSoftConfig(), sBody.getSoftConfig());
-            Assert.assertNotEquals(
+            Assert.assertNotSame(
                     sBodyClone.getSoftMaterial(), sBody.getSoftMaterial());
-            Assert.assertNotEquals(
+            Assert.assertNotSame(
                     sBodyClone.getWorldInfo(), sBody.getWorldInfo());
         }
 
