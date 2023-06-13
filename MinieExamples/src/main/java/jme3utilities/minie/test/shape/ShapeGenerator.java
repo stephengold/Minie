@@ -163,6 +163,22 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
+     * Generate a cylinder+box shape.
+     *
+     * @return a new Minkowski-sum shape (not null)
+     */
+    public MinkowskiSum nextCylinderBox() {
+        BoxCollisionShape box = nextBox();
+        float baseRadius = nextFloat(0.3f, 1.5f);
+        float height = CollisionShape.getDefaultMargin();
+        CylinderCollisionShape cylinder = new CylinderCollisionShape(
+                baseRadius, height, MyVector3f.yAxis);
+        MinkowskiSum result = new MinkowskiSum(cylinder, box);
+
+        return result;
+    }
+
+    /**
      * Generate a spherical dome or plano-convex lens.
      *
      * @return a new shape
@@ -490,6 +506,10 @@ public class ShapeGenerator extends Generator {
 
             case "cylinder":
                 result = nextCylinder();
+                break;
+
+            case "cylinderBox":
+                result = nextCylinderBox();
                 break;
 
             case "dome":

@@ -109,8 +109,8 @@ class DropTestStatus extends SimpleAppState {
     final private static String[] dropNames = {
         "ankh", "banana", "barbell", "barrel", "bowl", "bowlingPin", "box",
         "breakableRod", "capsule", "chain", "chair", "cloth", "cone", "coneBox",
-        "cylinder", "digit", "diptych", "dome", "duck", "flail", "football",
-        "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
+        "cylinder", "cylinderBox", "digit", "diptych", "dome", "duck", "flail",
+        "football", "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
         "knucklebone", "ladder", "letter", "lidlessBox", "link", "madMallet",
         "mallet", "multiSphere", "platonic", "prism", "pyramid", "ragdoll",
         "roundedDisc", "saucer", "snowman", "sphere", "squishyBall", "star",

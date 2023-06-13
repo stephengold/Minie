@@ -843,6 +843,7 @@ public class SplitDemo
             case "capsule":
             case "cone":
             case "cylinder":
+            case "cylinderBox":
             case "dome":
             case "football":
             case "multiSphere":
