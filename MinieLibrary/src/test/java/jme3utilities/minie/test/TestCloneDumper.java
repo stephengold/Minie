@@ -63,7 +63,10 @@ public class TestCloneDumper {
 
     private static void cloneTest(PhysicsDumper du, PhysicsDumper duClone) {
         Assert.assertNotSame(du, duClone);
+        Assert.assertSame(du.getClass(), duClone.getClass());
         Assert.assertNotSame(duClone.getDescriber(), du.getDescriber());
+        Assert.assertSame(du.getDescriber().getClass(),
+                duClone.getDescriber().getClass());
 
         verifyParameters(du, 0f);
         verifyParameters(duClone, 0f);
