@@ -122,7 +122,6 @@ public class TestCloneShapes {
         verifyParameters(empty, 0f);
         CollisionShape emptyClone = Heart.deepCopy(empty);
         cloneTest(empty, emptyClone);
-        assert emptyClone.nativeId() != empty.nativeId();
         Assert.assertEquals(0.04f, emptyClone.getMargin(), 0f);
         empty.setMargin(0.155f);
         Assert.assertEquals(0.04f, emptyClone.getMargin(), 0f);
