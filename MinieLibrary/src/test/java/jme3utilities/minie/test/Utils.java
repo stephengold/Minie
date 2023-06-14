@@ -27,6 +27,7 @@
 package jme3utilities.minie.test;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.export.Savable;
 import com.jme3.export.xml.XMLExporter;
 import com.jme3.export.xml.XMLImporter;
@@ -149,6 +150,25 @@ final public class Utils {
     public static void assertEquals(
             Vector3f expected, Vector3f actual, float tolerance) {
         assertEquals(expected.x, expected.y, expected.z, actual, tolerance);
+    }
+
+    /**
+     * Start verifying the cloning of a NativePhysicsObject.
+     *
+     * @param pno the original object (not null)
+     * @param pnoClone the clone of the native object (not null)
+     */
+    public static void cloneTest(
+            NativePhysicsObject pno, NativePhysicsObject pnoClone) {
+        Assert.assertNotNull(pno);
+        Assert.assertNotNull(pnoClone);
+        Assert.assertNotSame(pno, pnoClone);
+
+        Assert.assertSame(pno.getClass(), pnoClone.getClass());
+
+        Assert.assertTrue(pno.hasAssignedNativeObject());
+        Assert.assertTrue(pnoClone.hasAssignedNativeObject());
+        Assert.assertNotEquals(pno.nativeId(), pnoClone.nativeId());
     }
 
     /**

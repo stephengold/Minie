@@ -117,8 +117,7 @@ public class TestCloneMultiBody {
     // private methods
 
     private static void cloneTest(MultiBody mb, MultiBody mbClone) {
-        Assert.assertNotSame(mb, mbClone);
-        Assert.assertNotEquals(mb.nativeId(), mbClone.nativeId());
+        Utils.cloneTest(mb, mbClone);
 
         verifyParameters(mb, 0f);
         verifyParameters(mbClone, 0f);

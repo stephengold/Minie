@@ -306,16 +306,14 @@ public class TestCloneJoints {
     }
 
     private static void cloneTest(PhysicsJoint joint, PhysicsJoint jointClone) {
-        Assert.assertNotSame(joint, jointClone);
-        Assert.assertNotEquals(joint.nativeId(), jointClone.nativeId());
+        Utils.cloneTest(joint, jointClone);
 
         PhysicsBody a = joint.getBody(JointEnd.A);
         PhysicsBody aClone = jointClone.getBody(JointEnd.A);
         if (a == null) {
             Assert.assertNull(aClone);
         } else {
-            Assert.assertNotNull(aClone);
-            Assert.assertNotEquals(a.nativeId(), aClone.nativeId());
+            Utils.cloneTest(a, aClone);
         }
 
         PhysicsBody b = joint.getBody(JointEnd.B);
@@ -323,8 +321,7 @@ public class TestCloneJoints {
         if (b == null) {
             Assert.assertNull(bClone);
         } else {
-            Assert.assertNotNull(bClone);
-            Assert.assertNotEquals(b.nativeId(), bClone.nativeId());
+            Utils.cloneTest(b, bClone);
         }
 
         verifyParameters(joint, 0f);

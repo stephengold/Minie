@@ -352,10 +352,7 @@ public class TestCloneShapes {
 
     private static void cloneTest(
             CollisionShape shape, CollisionShape shapeClone) {
-        Assert.assertNotSame(shape, shapeClone);
-        //logger.log(Level.SEVERE, "{0}", shape.getClass());
-        assert shapeClone.getClass() == shape.getClass();
-        assert shapeClone.nativeId() != shape.nativeId();
+        Utils.cloneTest(shape, shapeClone);
 
         verifyParameters(shape, 0f);
         verifyParameters(shapeClone, 0f);
