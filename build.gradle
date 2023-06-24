@@ -8,7 +8,7 @@ ext {
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
 
     // current version of the JMonkeyEngine libraries:
-    jme3Version = '3.6.0-stable'
+    jme3Version = '3.6.1-stable'
 
     // module coordinates of external dependencies:
     acorusCoordinates = 'com.github.stephengold:Acorus:1.0.0' + jmeTarget
