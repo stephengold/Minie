@@ -8,19 +8,19 @@
     <property name="severity" value="error"/>
     <property name="fileExtensions" value="java, properties, xml"/>
 
-    <!-- See https://checkstyle.org/config_filefilters.html -->
+    <!-- See https://checkstyle.org/filefilters/beforeexecutionexclusionfilefilter.html -->
     <module name="BeforeExecutionExclusionFileFilter">
         <property name="fileNamePattern" value="jme3test"/>
     </module>
 
-    <!-- Checks for whitespace                             -->
-    <!-- See https://checkstyle.org/config_whitespace.html -->
+    <!-- Checks for whitespace                        -->
+    <!-- See https://checkstyle.org/checks/whitespace -->
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
 
     <!-- Checks that a package-info.java file exists for each package  -->
-    <!-- See https://checkstyle.org/config_javadoc.html#JavadocPackage -->
+    <!-- See https://checkstyle.org/checks/javadoc/javadocpackage.html -->
     <module name="JavadocPackage"/>
 
     <module name="RegexpSingleline">
@@ -30,8 +30,8 @@
         <property name="message" value="Line has trailing whitespace."/>
     </module>
 
-    <!-- Checks for size violations                   -->
-    <!-- See https://checkstyle.org/config_sizes.html -->
+    <!-- Checks for size violations              -->
+    <!-- See https://checkstyle.org/checks/sizes -->
     <module name="FileLength">
         <property name="max" value="2200"/>
     </module>
@@ -59,8 +59,8 @@
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
 
-        <!-- Checks for imports                             -->
-        <!-- See https://checkstyle.org/config_imports.html -->
+        <!-- Checks for imports                        -->
+        <!-- See https://checkstyle.org/checks/imports -->
         <module name="AvoidStarImport"/>
         <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
         <module name="RedundantImport"/>
@@ -73,8 +73,8 @@
             <property name="tokens" value="PACKAGE_DEF, IMPORT, STATIC_IMPORT"/>
         </module>
 
-        <!-- Checks for blocks. You know, those {}'s       -->
-        <!-- See https://checkstyle.org/config_blocks.html -->
+        <!-- Checks for blocks. You know, those {}'s  -->
+        <!-- See https://checkstyle.org/checks/blocks -->
         <module name="EmptyBlock">
             <property name="option" value="TEXT"/>
             <property name="tokens"
@@ -183,8 +183,8 @@
             <property name="option" value="nl"/>
         </module>
 
-        <!-- Checks for naming conventions                 -->
-        <!-- See https://checkstyle.org/config_naming.html -->
+        <!-- Checks for naming conventions            -->
+        <!-- See https://checkstyle.org/checks/naming -->
         <module name="PackageName">
             <property name="format" value="^[a-z][a-z3.]*[a-z4]$"/>
             <message key="name.invalidPattern"
@@ -314,8 +314,8 @@
         </module>
         <module name="NonEmptyAtclauseDescription"/>
 
-        <!-- Checks for Javadoc comments                    -->
-        <!-- See https://checkstyle.org/config_javadoc.html -->
+        <!-- Checks for Javadoc comments               -->
+        <!-- See https://checkstyle.org/checks/javadoc -->
         <module name="InvalidJavadocPosition"/>
         <module name="JavadocTagContinuationIndentation">
             <property name="offset" value="0"/>
@@ -375,8 +375,8 @@
                       value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>
         </module>
 
-        <!-- Checks for size violations                   -->
-        <!-- See https://checkstyle.org/config_sizes.html -->
+        <!-- Checks for size violations              -->
+        <!-- See https://checkstyle.org/checks/sizes -->
         <module name="MethodLength">
             <property name="max" value="220"/>
         </module>
@@ -384,24 +384,24 @@
             <property name="max" value="12"/>
         </module>
 
-        <!-- Checks for whitespace                             -->
-        <!-- See https://checkstyle.org/config_whitespace.html -->
+        <!-- Checks for whitespace                        -->
+        <!-- See https://checkstyle.org/checks/whitespace -->
         <module name="EmptyForIteratorPad"/>
         <module name="NoWhitespaceAfter"/>
         <module name="TypecastParenPad"/>
 
-        <!-- Modifier checks                                 -->
-        <!-- See https://checkstyle.org/config_modifier.html -->
+        <!-- Modifier checks                            -->
+        <!-- See https://checkstyle.org/checks/modifier -->
         <module name="RedundantModifier"/>
 
-        <!-- Checks for common coding problems             -->
-        <!-- See https://checkstyle.org/config_coding.html -->
+        <!-- Checks for common coding problems        -->
+        <!-- See https://checkstyle.org/checks/coding -->
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <module name="IllegalInstantiation"/>
 
-        <!-- Checks for class design                       -->
-        <!-- See https://checkstyle.org/config_design.html -->
+        <!-- Checks for class design                  -->
+        <!-- See https://checkstyle.org/checks/design -->
         <module name="DesignForExtension"/>
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
