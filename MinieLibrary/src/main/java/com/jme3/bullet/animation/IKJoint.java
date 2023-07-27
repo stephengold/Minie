@@ -180,8 +180,9 @@ public class IKJoint implements JmeCloneable, Savable {
     public void read(JmeImporter importer) throws IOException {
         InputCapsule capsule = importer.getCapsule(this);
 
-        disableForRagdoll = capsule.readBoolean(tagDisableForRagdoll, true);
-        constraint = (Constraint) capsule.readSavable(tagConstraint, null);
+        this.disableForRagdoll
+                = capsule.readBoolean(tagDisableForRagdoll, true);
+        this.constraint = (Constraint) capsule.readSavable(tagConstraint, null);
     }
 
     /**

@@ -604,7 +604,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
                 throw new IllegalArgumentException(
                         "Cannot center torso on Joint.");
             }
-            torsoConfig = config;
+            this.torsoConfig = config;
         } else if (hasBoneLink(boneName)) {
             blConfigMap.put(boneName, config);
         } else {
@@ -621,7 +621,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      */
     public void setDamping(float dampingRatio) {
         Validate.nonNegative(dampingRatio, "damping ratio");
-        damping = dampingRatio;
+        this.damping = dampingRatio;
     }
 
     /**
@@ -631,7 +631,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
      */
     public void setEventDispatchImpulseThreshold(float threshold) {
         Validate.nonNegative(threshold, "threshold");
-        eventDispatchImpulseThreshold = threshold;
+        this.eventDispatchImpulseThreshold = threshold;
     }
 
     /**
@@ -657,7 +657,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
         Validate.nonNegative(numHops, "number of hops");
         verifyNotAddedToSpatial("alter ignored hops");
 
-        ignoredHops = numHops;
+        this.ignoredHops = numHops;
     }
 
     /**
