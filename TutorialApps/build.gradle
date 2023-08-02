@@ -10,11 +10,13 @@ tasks.withType(JavaCompile) { // Java compile-time options:
     options.deprecation = true
 }
 
-mainClassName = 'jme3utilities.tutorial.HelloRigidBody'
-if (!hasProperty('mainClass')) {
-    ext.mainClass = mainClassName
+application {
+    mainClass = 'jme3utilities.tutorial.HelloRigidBody'
 }
-jar.manifest.attributes('Main-Class': mainClassName)
+if (!hasProperty('mainClass')) {
+    ext.mainClass = application.mainClass
+}
+jar.manifest.attributes('Main-Class': application.mainClass)
 
 dependencies {
     implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version

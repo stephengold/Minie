@@ -13,6 +13,10 @@ tasks.withType(JavaExec) { // Java runtime options:
 application {
     mainClass = 'jme3utilities.minie.wizard.DacWizard'
 }
+if (!hasProperty('mainClass')) {
+    ext.mainClass = application.mainClass
+}
+jar.manifest.attributes('Main-Class': application.mainClass)
 
 dependencies {
     runtimeOnly    desktopCoordinates
@@ -33,5 +37,5 @@ dependencies {
 
 tasks.register('runForceDialog', JavaExec) {
     args '--forceDialog'
-    mainClass = mainClassName
+    mainClass = application.mainClass
 }
