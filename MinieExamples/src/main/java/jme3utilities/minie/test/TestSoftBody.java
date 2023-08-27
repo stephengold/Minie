@@ -247,7 +247,7 @@ public class TestSoftBody
     // PhysicsDemo methods
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void acorusInit() {

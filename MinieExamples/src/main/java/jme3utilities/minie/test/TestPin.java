@@ -86,7 +86,7 @@ public class TestPin extends AcorusDemo {
     // AcorusDemo methods
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void acorusInit() {

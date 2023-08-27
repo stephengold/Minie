@@ -71,7 +71,7 @@ final public class TestIssue1351 extends SimpleApplication {
     }
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void simpleInitApp() {

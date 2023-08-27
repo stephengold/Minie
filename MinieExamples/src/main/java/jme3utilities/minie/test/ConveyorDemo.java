@@ -257,7 +257,7 @@ public class ConveyorDemo
     // PhysicsDemo methods
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void acorusInit() {

@@ -91,7 +91,7 @@ final public class TestIssue13 extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void simpleInitApp() {

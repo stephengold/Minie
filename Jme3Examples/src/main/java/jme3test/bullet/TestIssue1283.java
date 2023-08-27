@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jMonkeyEngine
+ * Copyright (c) 2020-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -117,7 +117,7 @@ public class TestIssue1283 extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void simpleInitApp() {

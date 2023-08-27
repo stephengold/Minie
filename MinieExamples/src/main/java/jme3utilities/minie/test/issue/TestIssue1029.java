@@ -90,7 +90,7 @@ public class TestIssue1029
     // SimpleApplication methods
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void simpleInitApp() {

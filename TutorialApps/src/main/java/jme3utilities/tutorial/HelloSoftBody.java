@@ -77,7 +77,7 @@ public class HelloSoftBody extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void simpleInitApp() {

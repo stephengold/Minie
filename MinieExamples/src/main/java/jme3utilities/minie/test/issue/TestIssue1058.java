@@ -94,7 +94,7 @@ public class TestIssue1058
     // SimpleApplication methods
 
     /**
-     * Initialize this application.
+     * Initialize the application.
      */
     @Override
     public void simpleInitApp() {
