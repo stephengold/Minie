@@ -18,16 +18,17 @@
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
+
+    <!-- Checks that a package-info.java file exists for each package  -->
+    <!-- See https://checkstyle.org/checks/javadoc/javadocpackage.html -->
+    <module name="JavadocPackage"/>
+
     <module name="RegexpSingleline">
         <property name="format" value="\s+$"/>
         <property name="minimum" value="0"/>
         <property name="maximum" value="0"/>
         <property name="message" value="Line has trailing whitespace."/>
     </module>
-
-    <!-- Checks that a package-info.java file exists for each package  -->
-    <!-- See https://checkstyle.org/checks/javadoc/javadocpackage.html -->
-    <module name="JavadocPackage"/>
 
     <!-- Checks for size violations              -->
     <!-- See https://checkstyle.org/checks/sizes -->
