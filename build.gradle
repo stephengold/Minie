@@ -13,7 +13,7 @@ ext {
     // module coordinates of external dependencies:
     acorusCoordinates = 'com.github.stephengold:Acorus:1.0.0' + jmeTarget
     desktopCoordinates = 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    heartCoordinates = 'com.github.stephengold:Heart:8.6.0' + jmeTarget
+    heartCoordinates = 'com.github.stephengold:Heart:8.7.0' + jmeTarget
     joggCoordinates = 'org.jmonkeyengine:jme3-jogg:' + jme3Version
     junitCoordinates = 'junit:junit:4.13.2'
     niftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.35' + jmeTarget
