@@ -378,12 +378,20 @@ public class DacWizard extends GuiApplication {
             AnimControl animControl = animControls.get(0);
             poseSkeleton(skeleton, animControl, animationName, animationTime);
 
+            // Update mesh position buffer(s):
+            skeletonControl.setHardwareSkinningPreferred(false);
+            skeletonControl.render(renderManager, viewPort);
+
         } else if (sc instanceof SkinningControl && composers.size() == 1) {
             // new animation system
             SkinningControl skinningControl = (SkinningControl) sc;
             Armature armature = skinningControl.getArmature();
             AnimComposer composer = composers.get(0);
             poseArmature(armature, composer, animationName, animationTime);
+
+            // Update mesh position buffer(s):
+            skinningControl.setHardwareSkinningPreferred(false);
+            skinningControl.render(renderManager, viewPort);
         }
 
         // Translate and scale the C-G model.
