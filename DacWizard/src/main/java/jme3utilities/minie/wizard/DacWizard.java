@@ -345,7 +345,7 @@ public class DacWizard extends GuiApplication {
         rootNode.attachChild(axesNode);
         float arrowLength = 0.2f * cgmHeight;
         AxesVisualizer axes = new AxesVisualizer(assetManager, arrowLength);
-        axes.setLineWidth(0f); // solid arrows
+        axes.setLineWidth(AxesVisualizer.widthForSolid);
         axesNode.addControl(axes);
 
         // Add the C-G model, with its own parent Node.
