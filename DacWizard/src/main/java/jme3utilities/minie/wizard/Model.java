@@ -1181,7 +1181,8 @@ class Model {
     /**
      * Validate the loaded C-G model for use with DynamicAnimControl.
      *
-     * @return a feedback message (not null, not empty) or "" if none
+     * @return a feedback message (not null, not empty) or an empty string if
+     * none
      */
     String validationFeedback() {
         if (rootSpatial == null) {
@@ -1384,15 +1385,15 @@ class Model {
     private void updateAnimationNames() {
         animationNames.clear();
 
-        List<AnimControl> animControls = MySpatial
-                .listControls(rootSpatial, AnimControl.class, null);
+        List<AnimControl> animControls
+                = MySpatial.listControls(rootSpatial, AnimControl.class, null);
         for (AnimControl animControl : animControls) {
             Collection<String> names = animControl.getAnimationNames();
             animationNames.addAll(names);
         }
 
-        List<AnimComposer> composers = MySpatial
-                .listControls(rootSpatial, AnimComposer.class, null);
+        List<AnimComposer> composers
+                = MySpatial.listControls(rootSpatial, AnimComposer.class, null);
         for (AnimComposer composer : composers) {
             Collection<String> names = composer.getAnimClipsNames();
             animationNames.addAll(names);

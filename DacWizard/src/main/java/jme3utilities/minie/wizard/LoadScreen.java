@@ -89,7 +89,8 @@ class LoadScreen extends GuiScreenController {
     /**
      * Determine user feedback (if any) regarding the "next screen" action.
      *
-     * @return "" if ready to proceed, otherwise an explanatory message
+     * @return an empty string if ready to proceed, otherwise an explanatory
+     * message
      */
     static String feedback() {
         Model model = DacWizard.getModel();
