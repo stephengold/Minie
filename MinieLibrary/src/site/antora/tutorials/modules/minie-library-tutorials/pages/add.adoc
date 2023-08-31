@@ -92,7 +92,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation 'com.github.stephengold:Minie:7.6.0'
+    implementation 'com.github.stephengold:Minie:7.7.0'
 }
 ----
 
@@ -115,7 +115,7 @@ Add to the project's "pom.xml" file:
 <dependency>
   <groupId>com.github.stephengold</groupId>
   <artifactId>Minie</artifactId>
-  <version>7.6.0</version>
+  <version>7.7.0</version>
 </dependency>
 ----
 
@@ -124,7 +124,7 @@ Add to the project's "pom.xml" file:
 https://ant.apache.org[Ant] doesn't know about transitive dependencies,
 so you'll need to resolve them manually.
 Furthermore, in order to use the latest {Project} release,
-you'll need version 3.6.0 JMonkeyEngine libraries.
+you'll need version 3.6.1 JMonkeyEngine libraries.
 (You can still use a JME 3.2 or 3.3 SDK, however.)
 For more information about the libraries {Project} depends on,
 see xref:ROOT:depends.adoc[the Library version dependencies page].
@@ -133,10 +133,10 @@ Download the {Project} library and its dependencies
 from GitHub and/or Maven Central:
 
 * https://github.com/stephengold/Minie/releases/latest
-* https://github.com/stephengold/Heart/releases/tag/8.6.0
+* https://github.com/stephengold/Heart/releases/tag/8.7.0
 * https://github.com/Simsilica/SimMath/releases/tag/sim-math-v1.6.0
-* https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-core/3.6.0-stable/
-* https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-terrain/3.6.0-stable/
+* https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-core/3.6.1-stable/
+* https://repo1.maven.org/maven2/org/jmonkeyengine/jme3-terrain/3.6.1-stable/
 * https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.32/
 
 You'll definitely want the class JARs
@@ -151,15 +151,15 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 . Add the Heart class JAR:
 .. Click on the btn:[Add JAR/Folder] button.
 .. Navigate to the download directory.
-.. Select the "Minie-7.6.0.jar" file.
+.. Select the "Minie-7.7.0.jar" file.
 .. Click on the btn:[Open] button.
 . (optional) Add JARs for javadoc and sources:
 .. Click on the btn:[Edit] button.
 .. Click on the btn:[Browse...] button to the right of "Javadoc:"
-.. Select the "Minie-7.6.0-javadoc.jar" file.
+.. Select the "Minie-7.7.0-javadoc.jar" file.
 .. Click on the btn:[Open] button.
 .. Click on the btn:[Browse...] button to the right of "Sources:"
-.. Select the "Minie-7.6.0-sources.jar" file.
+.. Select the "Minie-7.7.0-sources.jar" file.
 .. Click on the btn:[Open] button button again.
 .. Click on the btn:[OK] button to close the "Edit Jar Reference" dialog.
 . Add the other JVM libraries in a similar manner.

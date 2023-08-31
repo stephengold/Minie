@@ -10,10 +10,10 @@
 A _collision shape_
 describes the shape and size of a collision object such as a rigid body.
 
-== The 16 shape classes
+== The 17 shape classes
 
 The examples so far have all used spheres, cubes, and/or cylinders.
-However, those are only 3 of the 16 subclasses of
+However, those are only 3 of the 17 concrete subclasses of
 {url-shape}/CollisionShape.html[`CollisionShape`].
 
 The subclasses are summarized here, in lexicographic order,
@@ -124,7 +124,14 @@ with illustrations and lists of key properties (explained below):
 {item} fully scalable
 |image:mesh.png[height=160]
 
-|13. {url-shape}/MultiSphere.html[`MultiSphere`]
+|13. {url-shape}/MinkowskiSum.html[`MinkowskiSum`]
+
+{item} convex +
+{item} margin determined by base shapes +
+{item} not scalable
+|image:minkowski.png[height=160]
+
+|14. {url-shape}/MultiSphere.html[`MultiSphere`]
 
 {item} convex +
 {item} positive margin +
@@ -132,7 +139,7 @@ with illustrations and lists of key properties (explained below):
 {item} fully scalable
 |image:multiSphere.png[height=160]
 
-|14. {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`]
+|15. {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`]
 
 {item} concave and infinite +
 {item} positive margin +
@@ -141,7 +148,7 @@ with illustrations and lists of key properties (explained below):
 {item} symmetric
 |image:plane.png[height=160]
 
-|15. {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
+|16. {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
 
 {item} convex +
 {item} positive margin +
@@ -149,7 +156,7 @@ with illustrations and lists of key properties (explained below):
 {item} not scalable
 |image:simplex.png[height=160]
 
-|16. {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
+|17. {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
 
 {item} convex +
 {item} zero margin +
@@ -214,7 +221,7 @@ https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf
 the purpose of margin is
 "to improve performance and reliability of the collision detection."
 
-For all shapes with margin, the default thickness is 0.04 physics-space units.
+For shapes with positive margin, the default thickness is 0.04 physics-space units.
 
 NOTE: While methods are provided to alter margins (and the default margin),
 doing so is not recommended.
@@ -537,7 +544,7 @@ than a GImpact shape.
 
 == Summary
 
-* {Project} provides 16 types of collision shapes,
+* {Project} provides 17 types of collision shapes,
   ranging from the trivial {url-shape}/EmptyShape.html[`EmptyShape`]
   to the costly {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`].
 * Collision-shape instances classified as "concave"

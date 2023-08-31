@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.7.0 released on TBD
+## Version 7.7.0 released on 31 August 2023
 
 + Fixed bugs:
   + `NullPointerException` after rebuilding a `DynamicAnimControl`
@@ -10,7 +10,7 @@
 + Added to the library:
   + the `MinkowskiSum` collision shape
   + the `ClassFilter` class, for filtering physics objects
-+ Specified a more precise return type for `Convex2dShape.getBaseShape()`
++ Specified a more precise return type for `Convex2dShape.getBaseShape()`.
 + `DynamicAnimControl` now logs a warning if armature scaling exceeds 1%.
 
 + Improvements to the `DacWizard` application:
@@ -19,7 +19,7 @@
 + Improvements to the `MinieDump` application:
   + Added command-line options to specify an asset root.
   + Added help/usage hints.
-+ Improvements to the `MinieExamples` application:
++ Improvements to the `MinieExamples` applications:
   + Added more shapes to `DropTest` and `SplitDemo`.
   + Reduced the risk of fallthru in `DropTest`, by disabling contact filtering.
 
@@ -34,6 +34,7 @@
 + Bugfix:  `IllegalStateException` in `DropTest` while creating a ragdoll
 + Allow zero-mass kinematic rigid bodies.
 + Added the an "addLinksForTris" parameter to `SoftBodyControl`.
+
 + Based on v8.6.0 of the Heart library.
 + Built using Gradle v8.1.1 .
 + Updated the native libraries to v18.3.0 of Libbulletjme.

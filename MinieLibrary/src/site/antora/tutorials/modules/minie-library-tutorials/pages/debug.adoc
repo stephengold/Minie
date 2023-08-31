@@ -14,7 +14,7 @@ During development, Java assertions should be enabled using:
 
 Similarly, native-code assertions should be enabled during development,
 by specifying a {Project} library of the "debug" type,
-such as "Minie-7.6.0+debug".
+such as "Minie-7.7.0+debug".
 
 When a physics simulation doesn't behave as expected,
 _debug visualization_ should be enabled
