@@ -107,12 +107,20 @@ final public class MinieDump {
                 }
                 ++i;
 
+            } else if (argument.equals("--showSettingsDialog")) {
+                // ignore
+
             } else if (argument.equals("--verbose") || argument.equals("-v")) {
                 dumper.setEnabled(DumpFlags.ChildShapes, true);
                 dumper.setEnabled(DumpFlags.MatParams, true);
 
             } else if (argument.endsWith(".j3o")) {
                 dumpAsset(argument);
+
+            } else {
+                String quotedArg = MyString.quote(argument);
+                System.err.println("Unrecognized argument:  " + quotedArg);
+                System.exit(1);
             }
 
             ++i;
