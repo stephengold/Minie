@@ -514,18 +514,9 @@ public class TorsoLink extends PhysicsLink {
         this.endModelTransform = Heart.deepCopy(oldLink.endModelTransform);
         startModelTransform.set(oldLink.startModelTransform);
         this.endBoneTransforms = Heart.deepCopy(oldLink.endBoneTransforms);
-
-        if (prevBoneTransforms == null) {
-            this.prevBoneTransforms = new Transform[numManaged];
-            for (int managedI = 0; managedI < numManaged; ++managedI) {
-                this.prevBoneTransforms[managedI] = new Transform();
-            }
-        }
+        this.prevBoneTransforms = Heart.deepCopy(oldLink.prevBoneTransforms);
         for (int managedIndex = 0; managedIndex < numManaged; ++managedIndex) {
-            Transform transform = oldLink.prevBoneTransforms[managedIndex];
-            prevBoneTransforms[managedIndex].set(transform);
-
-            transform = oldLink.startBoneTransforms[managedIndex];
+            Transform transform = oldLink.startBoneTransforms[managedIndex];
             startBoneTransforms[managedIndex].set(transform);
         }
     }
