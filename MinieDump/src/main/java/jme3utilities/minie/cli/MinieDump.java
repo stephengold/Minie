@@ -38,7 +38,10 @@ import com.jme3.material.plugins.J3MLoader;
 import com.jme3.scene.Spatial;
 import com.jme3.system.NativeLibraryLoader;
 import com.jme3.texture.plugins.AWTLoader;
+import java.io.File;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import jme3utilities.MyString;
 import jme3utilities.minie.DumpFlags;
 import jme3utilities.minie.PhysicsDumper;
 
@@ -62,11 +65,15 @@ final public class MinieDump {
     /**
      * load assets
      */
-    final private static AssetManager assetManager = new DesktopAssetManager();
+    private static AssetManager assetManager;
     /**
      * dump asset descriptions to {@code System.out}
      */
     final private static PhysicsDumper dumper = new PhysicsDumper();
+    /**
+     * filesystem path to the asset root
+     */
+    private static String assetRoot = ".";
     // *************************************************************************
     // constructors
 
@@ -85,7 +92,6 @@ final public class MinieDump {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        setupAssetManager();
         setupNativeLibrary();
 
         // Process the command-line arguments.
@@ -107,6 +113,8 @@ final public class MinieDump {
      * @param assetPath a path to the asset (not null, not empty)
      */
     private static void dumpAsset(String assetPath) {
+        newAssetManager();
+
         System.out.print(assetPath);
         System.out.print(" contains a ");
         System.out.flush();
@@ -144,16 +152,24 @@ final public class MinieDump {
     }
 
     /**
-     * Configure the AssetManager.
+     * Create an AssetManager for the current asset root.
      */
-    private static void setupAssetManager() {
+    private static void newAssetManager() {
+        File dir = new File(assetRoot);
+        if (!dir.exists()) {
+            logger.log(Level.SEVERE, "No such file:  {0}",
+                    MyString.quote(assetRoot));
+            System.exit(1);
+        }
+        assetManager = new DesktopAssetManager();
+
         // Register loaders.
         assetManager.registerLoader(AWTLoader.class, "jpg", "png");
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
 
         // Register locators.
-        assetManager.registerLocator(".", FileLocator.class);
+        assetManager.registerLocator(assetRoot, FileLocator.class);
         assetManager.registerLocator(null, ClasspathLocator.class);
     }
 
