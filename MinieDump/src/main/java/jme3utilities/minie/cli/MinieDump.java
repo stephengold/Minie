@@ -92,6 +92,8 @@ final public class MinieDump {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
+        setupNativeLibrary();
+
         // Process the command-line arguments.
         int numArguments = arguments.length;
         int lastIndex = numArguments - 1;
