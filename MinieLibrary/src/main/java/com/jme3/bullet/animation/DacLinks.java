@@ -849,11 +849,7 @@ public class DacLinks
             tempManagerMap = managerMap(armature);
 
             // Temporarily put the armature into bind pose.
-            for (int jointI = 0; jointI < numArmatureJoints; ++jointI) {
-                Joint armatureJoint = armature.getJoint(jointI);
-                armatureJoint.applyBindPose(); // TODO adjust the scale?
-            }
-            armature.update();
+            armature.applyBindPose();
 
             // Save the bind transform of each armature joint.
             this.bindTransforms = new Transform[numArmatureJoints];
