@@ -239,8 +239,8 @@ public class UprightController extends IKController {
         this.errorGainFactor = capsule.readFloat("errorGainFactor", 0.1f);
         this.directionInLinkBody = (Vector3f) capsule.readSavable(
                 "directionInLinkBody", new Vector3f(1f, 0f, 0f));
-        this.previousError = (Vector3f) capsule
-                .readSavable("previousError", new Vector3f());
+        this.previousError = (Vector3f) capsule.readSavable(
+                "previousError", new Vector3f());
     }
 
     /**

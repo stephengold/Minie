@@ -948,8 +948,8 @@ public class TestSoftBody
      * go dynamic, put it into ragdoll mode.
      */
     private void goLimp() {
-        List<DynamicAnimControl> dacs = MySpatial
-                .listControls(rootNode, DynamicAnimControl.class, null);
+        List<DynamicAnimControl> dacs = MySpatial.listControls(
+                rootNode, DynamicAnimControl.class, null);
         if (dacs.size() == 1) {
             DynamicAnimControl dac = dacs.get(0);
             if (dac.isReady()) {

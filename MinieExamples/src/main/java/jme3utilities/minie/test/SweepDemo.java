@@ -215,8 +215,8 @@ public class SweepDemo
         float topY = 0f;
         attachCubePlatform(halfExtent, topY);
 
-        Node model = (Node) assetManager
-                .loadModel("Models/Jaime/Jaime-new.j3o");
+        Node model = (Node) assetManager.loadModel(
+                "Models/Jaime/Jaime-new.j3o");
         Geometry g = (Geometry) model.getChild(0);
         RenderState rs = g.getMaterial().getAdditionalRenderState();
         rs.setFaceCullMode(RenderState.FaceCullMode.Off);

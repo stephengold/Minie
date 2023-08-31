@@ -322,8 +322,8 @@ final class JointElasticityStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRatio(int amount) {
-        this.massRatio = AcorusDemo
-                .advanceFloat(ratioValues, massRatio, amount);
+        this.massRatio = AcorusDemo.advanceFloat(
+                ratioValues, massRatio, amount);
         JointElasticity.setMassRatio(massRatio);
     }
 
@@ -333,8 +333,8 @@ final class JointElasticityStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceTimestep(int amount) {
-        this.timestep = AcorusDemo
-                .advanceFloat(timestepValues, timestep, amount);
+        this.timestep = AcorusDemo.advanceFloat(
+                timestepValues, timestep, amount);
         PhysicsSpace physicsSpace = appInstance.getPhysicsSpace();
         physicsSpace.setAccuracy(timestep);
     }

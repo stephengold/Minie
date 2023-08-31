@@ -230,8 +230,8 @@ public class PoolDemo extends PhysicsDemo {
             String ballName = ballName(ballId);
             String assetPath = "Textures/poolBalls/" + ballName + ".png";
             final boolean generateMips = false;
-            Texture texture = MyAsset
-                    .loadTexture(assetManager, assetPath, generateMips);
+            Texture texture = MyAsset.loadTexture(
+                    assetManager, assetPath, generateMips);
 
             Material material
                     = MyAsset.createShadedMaterial(assetManager, texture);
@@ -658,8 +658,8 @@ public class PoolDemo extends PhysicsDemo {
                 impulseVector.multLocal(factor);
 
                 float hitFraction = hit.getHitFraction();
-                Vector3f location = MyVector3f
-                        .lerp(hitFraction, nearLocation, farLocation, null);
+                Vector3f location = MyVector3f.lerp(
+                        hitFraction, nearLocation, farLocation, null);
                 Vector3f ballCenter = pco.getPhysicsLocation(null);
                 location.subtractLocal(ballCenter);
 

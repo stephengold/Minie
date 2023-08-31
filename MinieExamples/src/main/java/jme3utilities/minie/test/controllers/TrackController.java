@@ -270,10 +270,10 @@ public class TrackController extends IKController {
                 = (PhysicsRigidBody) capsule.readSavable("targetBody", null);
         this.directionInLinkBody = (Vector3f) capsule.readSavable(
                 "directionInLinkBody", new Vector3f(1f, 0f, 0f));
-        this.pivotInLinkBody = (Vector3f) capsule
-                .readSavable("directionInLinkBody", new Vector3f());
-        this.previousError = (Vector3f) capsule
-                .readSavable("previousError", new Vector3f());
+        this.pivotInLinkBody = (Vector3f) capsule.readSavable(
+                "directionInLinkBody", new Vector3f());
+        this.previousError = (Vector3f) capsule.readSavable(
+                "previousError", new Vector3f());
     }
 
     /**

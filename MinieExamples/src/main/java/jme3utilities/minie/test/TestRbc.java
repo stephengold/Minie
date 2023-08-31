@@ -848,8 +848,8 @@ public class TestRbc
                 break;
 
             case "KissHull":
-                testShape = CollisionShapeFactory
-                        .createDynamicMeshShape(testSpatial);
+                testShape = CollisionShapeFactory.createDynamicMeshShape(
+                        testSpatial);
                 break;
 
             case "KissMesh":
@@ -1180,8 +1180,8 @@ public class TestRbc
         } else {
             PhysicsRayTestResult nearestHit = rayTest.get(0);
             float fraction = nearestHit.getHitFraction();
-            Vector3f location = MyVector3f
-                    .lerp(fraction, nearLocation, farLocation, null);
+            Vector3f location = MyVector3f.lerp(
+                    fraction, nearLocation, farLocation, null);
 
             hitPoint.setLocalTranslation(location);
             hitPoint.setEnabled(true);
@@ -1391,8 +1391,8 @@ public class TestRbc
             float fraction = nearestHit.getHitFraction();
             Vector3f fromLocation = nearTransform.getTranslation();
             Vector3f toLocation = farTransform.getTranslation();
-            Vector3f location = MyVector3f
-                    .lerp(fraction, fromLocation, toLocation, null);
+            Vector3f location = MyVector3f.lerp(
+                    fraction, fromLocation, toLocation, null);
 
             hitPoint.setLocalTranslation(location);
             hitPoint.setEnabled(true);

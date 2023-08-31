@@ -505,8 +505,8 @@ class DropTestStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        this.restitution = AcorusDemo
-                .advanceFloat(restitutionValues, restitution, amount);
+        this.restitution = AcorusDemo.advanceFloat(
+                restitutionValues, restitution, amount);
         appInstance.setRestitutionAll(restitution);
     }
 

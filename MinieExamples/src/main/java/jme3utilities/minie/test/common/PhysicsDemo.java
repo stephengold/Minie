@@ -590,8 +590,8 @@ abstract public class PhysicsDemo extends AcorusDemo {
     public void generateMaterials() {
         super.generateMaterials();
 
-        Texture texture = MyAsset
-                .loadTexture(assetManager, "Textures/greenTile.png", true);
+        Texture texture = MyAsset.loadTexture(
+                assetManager, "Textures/greenTile.png", true);
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
         Material greenTile

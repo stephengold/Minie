@@ -85,8 +85,8 @@ final public class MinieTestShapes {
             float barLength = 4.8f; // TODO randomize
             float barRadius = 0.2f;
             float plateRadius = 1f;
-            CollisionShape barbell = CompoundTestShapes
-                    .makeBarbell(barLength, barRadius, plateRadius);
+            CollisionShape barbell = CompoundTestShapes.makeBarbell(
+                    barLength, barRadius, plateRadius);
             namedShapes.put("barbell", barbell);
         }
 
@@ -106,8 +106,8 @@ final public class MinieTestShapes {
             float legLength = 2f;
             float legOffset = 1f;
             float legRadius = 0.2f;
-            CollisionShape chair = CompoundTestShapes
-                    .makeChair(backLength, legLength, legOffset, legRadius);
+            CollisionShape chair = CompoundTestShapes.makeChair(
+                    backLength, legLength, legOffset, legRadius);
             namedShapes.put("chair", chair);
         }
 

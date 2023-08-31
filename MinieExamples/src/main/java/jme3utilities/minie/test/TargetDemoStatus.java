@@ -593,8 +593,8 @@ class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceMissileMass(int amount) {
-        this.missileMass = AcorusDemo
-                .advanceFloat(missileMassValues, missileMass, amount);
+        this.missileMass = AcorusDemo.advanceFloat(
+                missileMassValues, missileMass, amount);
     }
 
     /**
@@ -603,8 +603,8 @@ class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceMissileRadius(int amount) {
-        this.missileRadius = AcorusDemo
-                .advanceFloat(missileRadiusValues, missileRadius, amount);
+        this.missileRadius = AcorusDemo.advanceFloat(
+                missileRadiusValues, missileRadius, amount);
     }
 
     /**
@@ -624,8 +624,8 @@ class TargetDemoStatus extends SimpleAppState {
      * @param amount the number of values to advance (may be negative)
      */
     private void advanceRestitution(int amount) {
-        this.restitution = AcorusDemo
-                .advanceFloat(restitutionValues, restitution, amount);
+        this.restitution = AcorusDemo.advanceFloat(
+                restitutionValues, restitution, amount);
         appInstance.setRestitutionAll(restitution);
     }
 
