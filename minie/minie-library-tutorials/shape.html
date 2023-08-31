@@ -360,11 +360,11 @@ describes the shape and size of a collision object such as a rigid body.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_16_shape_classes"><a class="anchor" href="#_the_16_shape_classes"></a>The 16 shape classes</h2>
+<h2 id="_the_17_shape_classes"><a class="anchor" href="#_the_17_shape_classes"></a>The 17 shape classes</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The examples so far have all used spheres, cubes, and/or cylinders.
-However, those are only 3 of the 16 subclasses of
+However, those are only 3 of the 17 concrete subclasses of
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CollisionShape.html"><code>CollisionShape</code></a>.</p>
 </div>
 <div class="paragraph">
@@ -480,7 +480,14 @@ with illustrations and lists of key properties (explained below):</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/mesh.png" alt="mesh" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">13. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MultiSphere.html"><code>MultiSphere</code></a></p>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MinkowskiSum.html"><code>MinkowskiSum</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; margin determined by base shapes<br>
+&rarr; not scalable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/minkowski.png" alt="minkowski" height="160"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/MultiSphere.html"><code>MultiSphere</code></a></p>
 <p class="tableblock">&rarr; convex<br>
 &rarr; positive margin<br>
 &rarr; precise<br>
@@ -488,7 +495,7 @@ with illustrations and lists of key properties (explained below):</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/multiSphere.png" alt="multiSphere" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a></p>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/PlaneCollisionShape.html"><code>PlaneCollisionShape</code></a></p>
 <p class="tableblock">&rarr; concave and infinite<br>
 &rarr; positive margin<br>
 &rarr; precise<br>
@@ -497,7 +504,7 @@ with illustrations and lists of key properties (explained below):</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/plane.png" alt="plane" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">15. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a></p>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SimplexCollisionShape.html"><code>SimplexCollisionShape</code></a></p>
 <p class="tableblock">&rarr; convex<br>
 &rarr; positive margin<br>
 &rarr; imprecise<br>
@@ -505,7 +512,7 @@ with illustrations and lists of key properties (explained below):</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/simplex.png" alt="simplex" height="160"></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">16. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a></p>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/SphereCollisionShape.html"><code>SphereCollisionShape</code></a></p>
 <p class="tableblock">&rarr; convex<br>
 &rarr; zero margin<br>
 &rarr; precise<br>
@@ -601,7 +608,7 @@ the purpose of margin is
 "to improve performance and reliability of the collision detection."</p>
 </div>
 <div class="paragraph">
-<p>For all shapes with margin, the default thickness is 0.04 physics-space units.</p>
+<p>For shapes with positive margin, the default thickness is 0.04 physics-space units.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1126,7 +1133,7 @@ than a GImpact shape.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Minie provides 16 types of collision shapes,
+<p>Minie provides 17 types of collision shapes,
 ranging from the trivial <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/EmptyShape.html"><code>EmptyShape</code></a>
 to the costly <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/GImpactCollisionShape.html"><code>GImpactCollisionShape</code></a>.</p>
 </li>
