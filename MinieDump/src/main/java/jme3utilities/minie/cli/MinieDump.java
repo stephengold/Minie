@@ -92,16 +92,30 @@ final public class MinieDump {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        setupNativeLibrary();
-
         // Process the command-line arguments.
-        for (String argument : arguments) {
-            if (argument.equals("--verbose") || argument.equals("-v")) {
+        int numArguments = arguments.length;
+        int lastIndex = numArguments - 1;
+        int i = 0;
+        while (i < numArguments) {
+            String argument = arguments[i];
+            if (argument.equals("--root") || argument.equals("-r")) {
+                if (i == lastIndex) {
+                    System.err.println("Missing argument for " + argument);
+                    System.exit(1);
+                } else {
+                    assetRoot = arguments[i + 1];
+                }
+                ++i;
+
+            } else if (argument.equals("--verbose") || argument.equals("-v")) {
                 dumper.setEnabled(DumpFlags.ChildShapes, true);
                 dumper.setEnabled(DumpFlags.MatParams, true);
+
             } else if (argument.endsWith(".j3o")) {
                 dumpAsset(argument);
             }
+
+            ++i;
         }
     }
     // *************************************************************************
