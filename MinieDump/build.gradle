@@ -13,6 +13,7 @@ tasks.withType(JavaCompile) { // Java compile-time options:
 application {
     mainClass = 'jme3utilities.minie.cli.MinieDump'
 }
+jar.manifest.attributes('Main-Class': application.mainClass)
 
 dependencies {
     implementation desktopCoordinates
