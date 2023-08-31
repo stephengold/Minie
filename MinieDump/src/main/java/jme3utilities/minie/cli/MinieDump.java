@@ -95,14 +95,23 @@ final public class MinieDump {
         setupNativeLibrary();
 
         // Process the command-line arguments.
+        boolean printHelp = false;
         int numArguments = arguments.length;
+        if (numArguments == 0) {
+            printHelp = true;
+        }
         int lastIndex = numArguments - 1;
         int i = 0;
         while (i < numArguments) {
             String argument = arguments[i];
-            if (argument.equals("--root") || argument.equals("-r")) {
+            if (argument.equals("--help") || argument.equals("-h")
+                    || argument.equals("--usage") || argument.equals("-u")) {
+                printHelp = true;
+
+            } else if (argument.equals("--root") || argument.equals("-r")) {
                 if (i == lastIndex) {
                     System.err.println("Missing argument for " + argument);
+                    printHelp();
                     System.exit(1);
                 } else {
                     assetRoot = arguments[i + 1];
@@ -122,10 +131,15 @@ final public class MinieDump {
             } else {
                 String quotedArg = MyString.quote(argument);
                 System.err.println("Unrecognized argument:  " + quotedArg);
+                printHelp();
                 System.exit(1);
             }
 
             ++i;
+        }
+
+        if (printHelp) {
+            printHelp();
         }
     }
     // *************************************************************************
@@ -173,6 +187,24 @@ final public class MinieDump {
             System.out.print(className);
             System.out.println('.');
         }
+    }
+
+    /**
+     * Print the help/usage hints.
+     */
+    private static void printHelp() {
+        System.err.flush();
+        String workingDirectory = System.getProperty("user.dir");
+        System.out.printf("NAME:%n"
+                + "  miniedump - dump J3O files to standard output.%n%n"
+                + "USAGE:%n"
+                + "  miniedump [ARGUMENTS...]%n%n"
+                + "ARGUMENTS:%n%n"
+                + "  --help, --usage, -h, -u  print this help message%n"
+                + "  --root path, -r path     set path to the asset root (%s)%n"
+                + "  --verbose, -v            set verbose mode%n"
+                + "  asset/path.j3o           an asset to dump%n%n",
+                "default = " + MyString.quote(workingDirectory));
     }
 
     /**
