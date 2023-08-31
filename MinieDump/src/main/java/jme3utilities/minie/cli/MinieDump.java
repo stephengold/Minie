@@ -153,8 +153,7 @@ final public class MinieDump {
     private static void dumpAsset(String assetPath) {
         newAssetManager();
 
-        System.out.print(assetPath);
-        System.out.print(" contains a ");
+        System.out.print(MyString.quote(assetPath));
         System.out.flush();
 
         Object loadedAsset;
@@ -170,6 +169,7 @@ final public class MinieDump {
             loadedAsset = assetManager.loadAsset(modelKey);
         }
 
+        System.out.print(" contains a ");
         if (loadedAsset instanceof CollisionShape) {
             System.out.print("collision shape:");
             dumper.dump((CollisionShape) loadedAsset, "  ");
@@ -177,7 +177,7 @@ final public class MinieDump {
             System.out.println();
 
         } else if (loadedAsset instanceof Spatial) {
-            System.out.println("model:");
+            System.out.println("model or scene:");
             dumper.dump((Spatial) loadedAsset, "  ");
             System.out.println();
             System.out.println();
