@@ -871,6 +871,8 @@ public class DacLinks
                 spatial.addControlAt(composerIndex, preComposer);
             }
         }
+
+        checkForArmatureScaling();
         /*
          * Find the target meshes and choose the transform spatial.
          * Don't invoke getTargets() here, since the SkinningControl or
@@ -1429,6 +1431,24 @@ public class DacLinks
             boneLinkList.add(childLink);
 
             addJoints(childLink);
+        }
+    }
+
+    /**
+     * Check the bind transforms for evidence of armature scaling, something
+     * DynamicAnimControl doesn't handle well. TODO handle it better
+     */
+    private void checkForArmatureScaling() {
+        float maxScale = 1f;
+        float minScale = 1f;
+        for (Transform t : bindTransforms) {
+            Vector3f scale = t.getScale(); // alias
+            maxScale = MyMath.max(maxScale, scale.x, scale.y, scale.z);
+            minScale = MyMath.min(minScale, scale.x, scale.y, scale.z);
+        }
+        if (minScale < 0.99f || maxScale > 1.01f) {
+            logger3.warning("Armature scaling detected:  minScale="
+                    + minScale + " maxScale=" + maxScale);
         }
     }
 
