@@ -175,7 +175,6 @@ class TestMode extends InputMode {
         boolean handled = false;
         if (ongoing) {
             handled = true;
-            DacWizard app = DacWizard.getApplication();
             Model model = DacWizard.getModel();
             switch (actionString) {
                 case Action.pickLink:

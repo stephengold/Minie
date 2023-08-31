@@ -33,6 +33,7 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DacConfiguration;
+import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.PhysicsLink;
 import com.jme3.bullet.animation.RagUtils;
@@ -295,7 +296,7 @@ class TestScreen extends GuiScreenController {
 
         } else {
             // Align the visualizer axes with the PhysicsJoint.
-            DynamicAnimControl dac = DacWizard.findDac();
+            DacLinks dac = DacWizard.findDac();
             PhysicsLink selectedLink = dac.findBoneLink(btName);
             Constraint constraint = (Constraint) selectedLink.getJoint();
             Spatial axesNode = axesVisualizer.getSpatial();
@@ -352,8 +353,7 @@ class TestScreen extends GuiScreenController {
      * Update the "Go limp" button.
      */
     private void updateRagdollButton() {
-        DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findDac();
+        DacLinks dac = DacWizard.findDac();
 
         String ragdollButton = "";
         if (dac != null && dac.isReady()) {
@@ -371,8 +371,7 @@ class TestScreen extends GuiScreenController {
      * Update the linkNameStatus and the custom materials of the DAC's bodies.
      */
     private void updateSelectedLink() {
-        DacWizard wizard = DacWizard.getApplication();
-        DynamicAnimControl dac = wizard.findDac();
+        DacLinks dac = DacWizard.findDac();
         String linkName = "";
         if (dac != null) {
             Model model = DacWizard.getModel();

@@ -39,6 +39,7 @@ import com.jme3.app.state.AppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.RagUtils;
 import com.jme3.light.AmbientLight;
@@ -162,7 +163,7 @@ public class DacWizard extends GuiApplication {
     void clearScene() {
         BulletAppState bulletAppState = findAppState(BulletAppState.class);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
-        DynamicAnimControl ragdoll = findDac();
+        DacLinks ragdoll = findDac();
         if (ragdoll != null) {
             ragdoll.setPhysicsSpace(null);
         }
@@ -409,7 +410,7 @@ public class DacWizard extends GuiApplication {
             rootNode.addControl(sv);
         }
 
-        DynamicAnimControl dac = findDac();
+        DacLinks dac = findDac();
         if (dac != null) { // Configure the DAC.
             float gravity = 6f * cgmHeight;
             Vector3f gravityVector = new Vector3f(0f, -gravity, 0f);
