@@ -67,6 +67,7 @@ final class Action {
     final static String pickLink = "pick link";
     final static String previousAnimation = "previous animation";
     final static String previousScreen = "previous screen";
+    final static String rebuild = "rebuild";
     final static String save = "save";
     final static String saveJ3o = "saveJ3o";
     final static String selectCenterHeuristic = "select centerHeuristic";

@@ -35,6 +35,7 @@ import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.RotationOrder;
 import com.jme3.bullet.animation.BoneLink;
 import com.jme3.bullet.animation.DacConfiguration;
+import com.jme3.bullet.animation.DacLinks;
 import com.jme3.bullet.animation.DynamicAnimControl;
 import com.jme3.bullet.animation.KinematicSubmode;
 import com.jme3.bullet.animation.LinkConfig;
@@ -120,6 +121,7 @@ class TestMode extends InputMode {
         bind(SimpleApplication.INPUT_MAPPING_EXIT, KeyInput.KEY_ESCAPE);
         bind(Action.editBindings, KeyInput.KEY_F1);
         bind(Action.editDisplaySettings, KeyInput.KEY_F2);
+        bind(Action.rebuild, KeyInput.KEY_F3);
 
         bind(Action.previousScreen, KeyInput.KEY_PGUP, KeyInput.KEY_B);
 
@@ -183,6 +185,13 @@ class TestMode extends InputMode {
 
                 case Action.previousScreen:
                     previousScreen();
+                    break;
+
+                case Action.rebuild:
+                    DacLinks dac = DacWizard.findDac();
+                    if (dac != null) {
+                        dac.rebuild();
+                    }
                     break;
 
                 case Action.save:
