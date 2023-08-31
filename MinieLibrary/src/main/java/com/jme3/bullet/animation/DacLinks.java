@@ -525,7 +525,7 @@ public class DacLinks
         result.setScale(1f);
 
         // Convert to mesh coordinates.
-        Transform localToMesh = joint.getModelTransform();
+        Transform localToMesh = joint.getModelTransform(); // alias
         MyMath.combine(result, localToMesh, result);
 
         // Convert to world (physics-space) coordinates.
@@ -884,7 +884,7 @@ public class DacLinks
             this.transformer = spatial;
         }
 
-        // Enumerate mesh-vertex coordinates and assign them to managers.
+        // Enumerate mesh-vertex bind positions and assign them to managers.
         Map<String, VectorSet> coordsMap
                 = RagUtils.coordsMap(targets, tempManagerMap);
 
@@ -942,6 +942,7 @@ public class DacLinks
             armature.update();
         }
 
+        // Decide which links should collide and which shouldn't.
         int maxHops = ignoredHops();
         ignoreCollisions(maxHops);
 
@@ -1633,7 +1634,7 @@ public class DacLinks
                     + " Make sure the root bone is not linked.");
         }
 
-        // Create the CollisionShape.
+        // Determine the main bone.
         Bone bone = null;
         Joint armatureJoint = null;
         String mainBoneName = mainBoneName();

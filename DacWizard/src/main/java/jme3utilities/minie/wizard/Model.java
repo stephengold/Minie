@@ -199,7 +199,7 @@ class Model {
             int skipNames = animationIndex;
 
             List<AnimControl> animControls = MySpatial.listControls(
-                            rootSpatial, AnimControl.class, null);
+                    rootSpatial, AnimControl.class, null);
             for (AnimControl animControl : animControls) {
                 Collection<String> names = animControl.getAnimationNames();
                 if (skipNames < names.size()) {
