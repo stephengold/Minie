@@ -361,12 +361,12 @@ public class DacWizard extends GuiApplication {
          * Normalize all quaternions in the model's animations,
          * since Pose.applyTo() is sensitive to such flaws.
          */
-        List<AnimControl> animControls = MySpatial
-                .listControls(cgmParent, AnimControl.class, null);
+        List<AnimControl> animControls = MySpatial.listControls(
+                cgmParent, AnimControl.class, null);
         normalizeAnimControls(animControls);
 
-        List<AnimComposer> composers = MySpatial
-                .listControls(cgmParent, AnimComposer.class, null);
+        List<AnimComposer> composers = MySpatial.listControls(
+                cgmParent, AnimComposer.class, null);
         normalizeComposers(composers);
 
         // Apply the specified animation pose.

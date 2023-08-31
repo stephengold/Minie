@@ -198,8 +198,8 @@ class Model {
             String name = animationNames.get(animationIndex);
             int skipNames = animationIndex;
 
-            List<AnimControl> animControls = MySpatial
-                    .listControls(rootSpatial, AnimControl.class, null);
+            List<AnimControl> animControls = MySpatial.listControls(
+                            rootSpatial, AnimControl.class, null);
             for (AnimControl animControl : animControls) {
                 Collection<String> names = animControl.getAnimationNames();
                 if (skipNames < names.size()) {
@@ -211,8 +211,8 @@ class Model {
                 }
             }
 
-            List<AnimComposer> composers = MySpatial
-                    .listControls(rootSpatial, AnimComposer.class, null);
+            List<AnimComposer> composers = MySpatial.listControls(
+                    rootSpatial, AnimComposer.class, null);
             for (AnimComposer composer : composers) {
                 Collection<String> names = composer.getAnimClipsNames();
                 if (skipNames < names.size()) {
