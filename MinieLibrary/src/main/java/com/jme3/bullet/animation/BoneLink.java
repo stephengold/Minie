@@ -55,6 +55,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jme3utilities.Heart;
 import jme3utilities.MySkeleton;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
@@ -372,6 +373,7 @@ public class BoneLink extends PhysicsLink {
             this.submode = KinematicSubmode.Frozen;
         }
 
+        this.endBoneTransforms = Heart.deepCopy(oldLink.endBoneTransforms);
         if (prevBoneTransforms == null) {
             this.prevBoneTransforms = new Transform[numManaged];
             for (int managedI = 0; managedI < numManaged; ++managedI) {
