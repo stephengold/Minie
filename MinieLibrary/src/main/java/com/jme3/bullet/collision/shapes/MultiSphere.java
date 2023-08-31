@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -509,8 +509,8 @@ public class MultiSphere extends ConvexShape {
         }
         MultiSphere reducedShape = new MultiSphere(centers, reducedRadii);
         reducedShape.setScale(scale);
-        FloatBuffer buffer = DebugShapeFactory
-                .debugVertices(reducedShape, DebugShapeFactory.lowResolution);
+        FloatBuffer buffer = DebugShapeFactory.debugVertices(
+                reducedShape, DebugShapeFactory.lowResolution);
 
         // Flip the buffer.
         buffer.rewind();

@@ -1593,8 +1593,8 @@ public class PhysicsDumper extends Dumper {
         int numNodes = softBody.countNodes();
         int numLinks = softBody.countLinks();
         for (int nodeIndex = 0; nodeIndex < numNodes; ++nodeIndex) {
-            int degree = MyBuffer
-                    .frequency(linkIndices, 0, 2 * numLinks, nodeIndex);
+            int degree = MyBuffer.frequency(
+                    linkIndices, 0, 2 * numLinks, nodeIndex);
             float nodeMass = masses.get(nodeIndex);
             String locString = describeVector(locations, nodeIndex);
             String vString = describeVector(velocities, nodeIndex);

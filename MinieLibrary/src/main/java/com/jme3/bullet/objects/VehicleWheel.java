@@ -869,14 +869,14 @@ public class VehicleWheel implements JmeCloneable, Savable {
 
         this.subtree = (Spatial) capsule.readSavable(tagWheelSpatial, null);
         this.isFront = capsule.readBoolean(tagFrontWheel, false);
-        this.location = (Vector3f) capsule
-                .readSavable(tagWheelLocation, new Vector3f());
-        this.suspensionDirection = (Vector3f) capsule
-                .readSavable(tagWheelDirection, new Vector3f());
-        this.axisDirection = (Vector3f) capsule
-                .readSavable(tagWheelAxle, new Vector3f());
-        this.tuning = (VehicleTuning) capsule
-                .readSavable(tagTuning, new VehicleTuning());
+        this.location = (Vector3f) capsule.readSavable(
+                tagWheelLocation, new Vector3f());
+        this.suspensionDirection = (Vector3f) capsule.readSavable(
+                tagWheelDirection, new Vector3f());
+        this.axisDirection = (Vector3f) capsule.readSavable(
+                tagWheelAxle, new Vector3f());
+        this.tuning = (VehicleTuning) capsule.readSavable(
+                tagTuning, new VehicleTuning());
         this.rollInfluence = capsule.readFloat(tagRollInfluence, 1f);
         this.radius = capsule.readFloat(tagWheelRadius, 0.5f);
         this.restLength = capsule.readFloat(tagRestLength, 1f);

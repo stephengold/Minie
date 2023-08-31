@@ -326,8 +326,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
     @Override
     public CollisionShape toSplittableShape() {
         // Generate debug triangles.
-        FloatBuffer buffer = DebugShapeFactory
-                .getDebugTriangles(this, DebugShapeFactory.lowResolution);
+        FloatBuffer buffer = DebugShapeFactory.getDebugTriangles(
+                this, DebugShapeFactory.lowResolution);
         IndexedMesh nativeMesh = new IndexedMesh(buffer);
         MeshCollisionShape result = new MeshCollisionShape(true, nativeMesh);
 

@@ -560,12 +560,12 @@ public class TorsoLink extends PhysicsLink {
 
         this.submode = capsule.readEnum(
                 tagSubmode, KinematicSubmode.class, KinematicSubmode.Animated);
-        this.endModelTransform = (Transform) capsule
-                .readSavable(tagEndModelTransform, new Transform());
-        this.meshToModel = (Transform) capsule
-                .readSavable(tagMeshToModel, new Transform());
-        this.startModelTransform = (Transform) capsule
-                .readSavable(tagStartModelTransform, new Transform());
+        this.endModelTransform = (Transform) capsule.readSavable(
+                tagEndModelTransform, new Transform());
+        this.meshToModel = (Transform) capsule.readSavable(
+                tagMeshToModel, new Transform());
+        this.startModelTransform = (Transform) capsule.readSavable(
+                tagStartModelTransform, new Transform());
         this.endBoneTransforms
                 = RagUtils.readTransformArray(capsule, tagEndBoneTransforms);
         this.prevBoneTransforms

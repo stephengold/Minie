@@ -104,12 +104,12 @@ public class TestCloneGhost {
         verifyParameters(pgoClone, 0.6f);
 
         if (pgo instanceof GhostControl) {
-            GhostControl pgoCopy = BinaryExporter
-                    .saveAndLoad(assetManager, (GhostControl) pgo);
+            GhostControl pgoCopy = BinaryExporter.saveAndLoad(
+                    assetManager, (GhostControl) pgo);
             verifyParameters(pgoCopy, 0.3f);
 
-            GhostControl gcCloneCopy = BinaryExporter
-                    .saveAndLoad(assetManager, (GhostControl) pgoClone);
+            GhostControl gcCloneCopy = BinaryExporter.saveAndLoad(
+                    assetManager, (GhostControl) pgoClone);
             verifyParameters(gcCloneCopy, 0.6f);
         }
     }

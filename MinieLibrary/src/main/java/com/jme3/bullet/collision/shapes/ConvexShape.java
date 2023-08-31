@@ -71,8 +71,8 @@ abstract public class ConvexShape extends CollisionShape {
      */
     public HullCollisionShape toHullShape() {
         // Generate low-res debug vertices.
-        FloatBuffer buffer = DebugShapeFactory
-                .debugVertices(this, DebugShapeFactory.lowResolution);
+        FloatBuffer buffer = DebugShapeFactory.debugVertices(
+                this, DebugShapeFactory.lowResolution);
 
         // Flip the buffer.
         buffer.rewind();

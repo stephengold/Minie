@@ -133,8 +133,8 @@ public class CylinderCollisionShape extends ConvexShape {
         MyBuffer.maxAbs(buffer, startPosition, endPosition, halfExtents);
         float halfHeight = halfExtents.get(axisIndex);
 
-        float radius = MyBuffer
-                .cylinderRadius(buffer, startPosition, endPosition, axisIndex);
+        float radius = MyBuffer.cylinderRadius(
+                buffer, startPosition, endPosition, axisIndex);
         halfExtents.set(radius, radius, radius);
         halfExtents.set(axisIndex, halfHeight);
         createShape();
@@ -342,8 +342,8 @@ public class CylinderCollisionShape extends ConvexShape {
         MyVector3f.accumulateMaxima(hes, new Vector3f(1e-6f, 1e-6f, 1e-6f));
         CylinderCollisionShape reducedShape
                 = new CylinderCollisionShape(hes, axis);
-        FloatBuffer buffer = DebugShapeFactory
-                .debugVertices(reducedShape, DebugShapeFactory.lowResolution);
+        FloatBuffer buffer = DebugShapeFactory.debugVertices(
+                reducedShape, DebugShapeFactory.lowResolution);
 
         // Flip the buffer.
         buffer.rewind();

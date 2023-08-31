@@ -631,14 +631,14 @@ public class BetterCharacterControl
         this.initialRadius = capsule.readFloat(tagRadius, 1f);
         this.initialHeight = capsule.readFloat(tagHeight, 2f);
         this.mass = capsule.readFloat(tagMass, 80f);
-        this.jumpImpulse = (Vector3f) capsule
-                .readSavable(tagJumpForce, new Vector3f(0f, mass * 5f, 0f));
+        this.jumpImpulse = (Vector3f) capsule.readSavable(
+                tagJumpForce, new Vector3f(0f, mass * 5f, 0f));
         this.dampingFactor = capsule.readFloat(tagPhysicsDamping, 0.9f);
         this.duckedFactor = capsule.readFloat(tagDuckedFactor, 0.6f);
-        this.viewDirection = (Vector3f) capsule
-                .readSavable(tagViewDirection, new Vector3f(0f, 0f, 1f));
-        this.walkVelocity = (Vector3f) capsule
-                .readSavable(tagWalkDirection, new Vector3f(0f, 0f, 1f));
+        this.viewDirection = (Vector3f) capsule.readSavable(
+                tagViewDirection, new Vector3f(0f, 0f, 1f));
+        this.walkVelocity = (Vector3f) capsule.readSavable(
+                tagWalkDirection, new Vector3f(0f, 0f, 1f));
         this.rigidBody = (PhysicsRigidBody) capsule.readSavable(tagBody, null);
 
         Spatial controlled = getSpatial();

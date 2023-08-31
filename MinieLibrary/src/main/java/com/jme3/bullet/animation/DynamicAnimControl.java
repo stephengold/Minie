@@ -1032,13 +1032,13 @@ public class DynamicAnimControl
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
-        this.ikJoints = capsule
-                .readSavableArrayList(tagIkJoints, new ArrayList(1));
+        this.ikJoints = capsule.readSavableArrayList(
+                tagIkJoints, new ArrayList(1));
         this.ragdollMass = capsule.readFloat(tagRagdollMass, 1f);
-        this.centerLocation = (Vector3f) capsule
-                .readSavable(tagCenterLocation, new Vector3f());
-        this.centerVelocity = (Vector3f) capsule
-                .readSavable(tagCenterVelocity, new Vector3f());
+        this.centerLocation = (Vector3f) capsule.readSavable(
+                tagCenterLocation, new Vector3f());
+        this.centerVelocity = (Vector3f) capsule.readSavable(
+                tagCenterVelocity, new Vector3f());
     }
 
     /**

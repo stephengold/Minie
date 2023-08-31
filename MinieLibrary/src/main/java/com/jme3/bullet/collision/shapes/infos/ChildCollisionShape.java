@@ -326,8 +326,8 @@ public class ChildCollisionShape implements JmeCloneable, Savable {
                 = (Vector3f) capsule.readSavable(tagOffset, new Vector3f());
         this.rotation
                 = (Matrix3f) capsule.readSavable(tagRotation, new Matrix3f());
-        this.shape = (CollisionShape) capsule
-                .readSavable(tagShape, new BoxCollisionShape(1f));
+        this.shape = (CollisionShape) capsule.readSavable(
+                tagShape, new BoxCollisionShape(1f));
     }
 
     /**

@@ -489,10 +489,10 @@ public class AttachmentLink extends PhysicsLink {
 
         this.attachedModel
                 = (Spatial) capsule.readSavable(tagAttachedModel, null);
-        this.endModelTransform = (Transform) capsule
-                .readSavable(tagEndModelTransform, new Transform());
-        this.startModelTransform = (Transform) capsule
-                .readSavable(tagStartModelTransform, new Transform());
+        this.endModelTransform = (Transform) capsule.readSavable(
+                tagEndModelTransform, new Transform());
+        this.startModelTransform = (Transform) capsule.readSavable(
+                tagStartModelTransform, new Transform());
     }
 
     /**

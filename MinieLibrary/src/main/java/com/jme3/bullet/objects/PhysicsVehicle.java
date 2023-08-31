@@ -810,8 +810,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
         InputCapsule capsule = importer.getCapsule(this);
 
         this.tuning = (VehicleTuning) capsule.readSavable(tagTuning, null);
-        this.wheels = capsule
-                .readSavableArrayList(tagWheelsList, new ArrayList<>(6));
+        this.wheels = capsule.readSavableArrayList(
+                tagWheelsList, new ArrayList<>(6));
 
         RigidBodyMotionState motionState = getMotionState();
         motionState.setVehicle(this);

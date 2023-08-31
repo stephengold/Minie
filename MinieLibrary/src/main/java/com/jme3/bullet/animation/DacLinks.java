@@ -1514,8 +1514,8 @@ public class DacLinks
         Vector3f center = centerHeuristic.center(vertexLocations, null);
 
         // Create the CollisionShape.
-        CollisionShape shape = linkConfig
-                .createShape(transformIdentity, center, vertexLocations);
+        CollisionShape shape = linkConfig.createShape(
+                transformIdentity, center, vertexLocations);
 
         AttachmentLink link = new AttachmentLink(
                 this, bone, manager, attachModel, shape, linkConfig, center);
@@ -1565,8 +1565,8 @@ public class DacLinks
         Vector3f center = centerHeuristic.center(vertexLocations, null);
 
         // Create the CollisionShape.
-        CollisionShape shape = linkConfig
-                .createShape(transformIdentity, center, vertexLocations);
+        CollisionShape shape = linkConfig.createShape(
+                transformIdentity, center, vertexLocations);
 
         AttachmentLink link = new AttachmentLink(
                 this, joint, manager, attachModel, shape, linkConfig, center);

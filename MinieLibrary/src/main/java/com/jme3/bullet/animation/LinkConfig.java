@@ -296,14 +296,14 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                 break;
 
             case FourSphere:
-                solid = RagUtils
-                        .makeRectangularSolid(vertexLocations, shapeScale);
+                solid = RagUtils.makeRectangularSolid(
+                        vertexLocations, shapeScale);
                 result = new MultiSphere(solid);
                 break;
 
             case MinBox:
-                solid = RagUtils
-                        .makeRectangularSolid(vertexLocations, shapeScale);
+                solid = RagUtils.makeRectangularSolid(
+                        vertexLocations, shapeScale);
                 result = new HullCollisionShape(solid);
                 break;
 
@@ -313,8 +313,8 @@ public class LinkConfig implements Comparable<LinkConfig>, Savable {
                 break;
 
             case TwoSphere:
-                solid = RagUtils
-                        .makeRectangularSolid(vertexLocations, shapeScale);
+                solid = RagUtils.makeRectangularSolid(
+                        vertexLocations, shapeScale);
                 result = new MultiSphere(solid, 0.5f);
                 break;
 

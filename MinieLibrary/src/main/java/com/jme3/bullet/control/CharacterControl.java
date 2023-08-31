@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 jMonkeyEngine
+ * Copyright (c) 2019-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -273,8 +273,8 @@ public class CharacterControl extends AbstractPhysicsControl {
 
         this.character
                 = (PhysicsCharacter) capsule.readSavable(tagCharacter, null);
-        this.viewDirection = (Vector3f) capsule
-                .readSavable(tagViewDirection, new Vector3f(0f, 0f, 1f));
+        this.viewDirection = (Vector3f) capsule.readSavable(
+                tagViewDirection, new Vector3f(0f, 0f, 1f));
 
         if (character != null) {
             Spatial controlled = getSpatial();

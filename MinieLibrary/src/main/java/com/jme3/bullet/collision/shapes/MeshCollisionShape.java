@@ -326,8 +326,8 @@ public class MeshCollisionShape extends CollisionShape {
         if (writePlatform == null || writePlatform != JmeSystem.getPlatform()) {
             this.bvh = null; // will re-generate the BVH for the new platform
         } else {
-            this.bvh = (BoundingValueHierarchy) capsule
-                    .readSavable(tagBvh, null);
+            this.bvh = (BoundingValueHierarchy) capsule.readSavable(
+                    tagBvh, null);
         }
 
         this.nativeMesh
