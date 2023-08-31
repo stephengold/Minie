@@ -11,7 +11,7 @@ tasks.withType(JavaCompile) { // Java compile-time options:
 }
 
 application {
-    mainClass = 'jme3utilities.cli.J3oDump'
+    mainClass = 'jme3utilities.minie.cli.MinieDump'
 }
 
 dependencies {
