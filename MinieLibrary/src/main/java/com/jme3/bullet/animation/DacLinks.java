@@ -821,9 +821,9 @@ public class DacLinks
 
             // Save the bind transform of each skeleton bone.
             this.bindTransforms = new Transform[numBones];
-            for (int jointIndex = 0; jointIndex < numBones; ++jointIndex) {
-                Bone bone = skeleton.getBone(jointIndex);
-                this.bindTransforms[jointIndex]
+            for (int boneIndex = 0; boneIndex < numBones; ++boneIndex) {
+                Bone bone = skeleton.getBone(boneIndex);
+                this.bindTransforms[boneIndex]
                         = MySkeleton.copyBindTransform(bone, null);
             }
 
