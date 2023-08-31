@@ -1,5 +1,32 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.7.0 released on TBD
+
++ Fixed bugs:
+  + `NullPointerException` after rebuilding a `DynamicAnimControl`
+  + unhelpful warnings while cloning a `PhysicsRigidBody`
+  + `SplitDemo` app crashes caused by attempting to rotate heightfields
+
++ Added to the library:
+  + the `MinkowskiSum` collision shape
+  + the `ClassFilter` class, for filtering physics objects
++ Specified a more precise return type for `Convex2dShape.getBaseShape()`
++ `DynamicAnimControl` now logs a warning if armature scaling exceeds 1%.
+
++ Improvements to the `DacWizard` application:
+  + Re-scale the 3-D model for each pose.
+  + Added a "rebuild" action to test mode, bound to `KEY_F3`.
++ Improvements to the `MinieDump` application:
+  + Added command-line options to specify an asset root.
+  + Added help/usage hints.
++ Improvements to the `MinieExamples` application:
+  + Added more shapes to `DropTest` and `SplitDemo`.
+  + Reduced the risk of fallthru in `DropTest`, by disabling contact filtering.
+
++ Based on v3.6.1-stable of JMonkeyEngine and v8.7.0 of the Heart library.
++ Built using Gradle v8.3 .
++ Updated the native libraries to v18.5.2 of Libbulletjme.
+
 ## Version 7.6.0 released on 3 June 2023
 
 + Bugfix:  the gravity of a rigid body isn't read/written/cloned
