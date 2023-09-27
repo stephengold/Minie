@@ -29,7 +29,7 @@ package jme3utilities.minie;
 import java.util.logging.Logger;
 
 /**
- * Version strings for the Minie library.
+ * Version strings for the Minie library. All methods should be static.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -54,9 +54,9 @@ final public class MinieVersion {
     // new methods exposed
 
     /**
-     * Read the terse version string for this library.
+     * Return the terse version string for this library.
      *
-     * @return the branch and revision string (not null, not empty)
+     * @return the branch name and revision string (not null, not empty)
      */
     public static String versionShort() {
         return "master 7.7.1-SNAPSHOT";
