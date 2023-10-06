@@ -87,7 +87,7 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java19-Linux:
+  Java21-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-20.04
     steps:
@@ -95,7 +95,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 19
+          java-version: 21
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v3
@@ -103,7 +103,7 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java19-MacOS:
+  Java21-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-12
     steps:
@@ -111,7 +111,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 19
+          java-version: 21
       - run: ./gradlew build -Pbtdebug --console=plain --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v3
@@ -119,7 +119,7 @@ jobs:
           name: test-report
           path: 'build/reports/tests/test/index.html'
 
-  Java20-Windows:
+  Java21-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2022
     steps:
@@ -127,7 +127,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 20
+          java-version: 21
       - run: ./gradlew build -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
         shell: bash
       - if: failure()
