@@ -18,9 +18,8 @@ jobs:
           java-version: 17
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.18.1
+          node-version: 18.18.2
       - run: npm ci
-#      - run: npm audit
       - run: npx antora src/site/antora/ci-playbook.yml
       - run: ./gradlew copyJavadocToSite --console=plain --no-daemon --stacktrace
       - uses: peaceiris/actions-gh-pages@v3
