@@ -341,6 +341,9 @@ tasks.register('release') {
 
 jar {
     archiveBaseName = project.ext.baseName
+    doLast {
+        println "using Java ${JavaVersion.current()} (${System.getProperty("java.vendor")})"
+    }
     exclude('**/empty')
     if (project.ext.jarType == 'nativesOnly') {
         exclude '**/*.class'  // no class files
