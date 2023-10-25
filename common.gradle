@@ -12,7 +12,7 @@ checkstyle {
     toolVersion '9.3'
 }
 
-tasks.withType(JavaCompile) { // Java compile-time options:
+tasks.withType(JavaCompile).configureEach { // Java compile-time options:
     options.compilerArgs << '-Xdiags:verbose'
     if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
         // Suppress warnings that source value 7 is obsolete.
@@ -29,7 +29,7 @@ tasks.withType(JavaCompile) { // Java compile-time options:
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 Boolean isMacOS = DefaultNativePlatform.currentOperatingSystem.isMacOsX()
 
-tasks.withType(JavaExec) { // Java runtime options:
+tasks.withType(JavaExec).configureEach { // Java runtime options:
     if (isMacOS) {
         jvmArgs '-XstartOnFirstThread'
     } else {
@@ -44,7 +44,7 @@ tasks.withType(JavaExec) { // Java runtime options:
     //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
 }
 
-configurations.all {
+configurations.configureEach {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of SNAPSHOTs
 }
 

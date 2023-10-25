@@ -6,7 +6,7 @@ plugins {
     id 'application'
 }
 
-tasks.withType(JavaExec) { // Java runtime options:
+tasks.withType(JavaExec).configureEach { // Java runtime options:
     args '--openGL3'
 }
 

@@ -37,7 +37,7 @@ ext {
     plaid = assets + 'Textures/plaid.png'
 }
 
-tasks.withType(JavaCompile) { // Java compile-time options:
+tasks.withType(JavaCompile).configureEach { // Java compile-time options:
     options.deprecation = true
 }
 
