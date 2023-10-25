@@ -4,8 +4,8 @@
 
 dependencyResolutionManagement {
     repositories {
-        //mavenLocal() // to find local SNAPSHOTs of libraries
-        mavenCentral()
+        //mavenLocal() // to find libraries installed locally
+        mavenCentral() // to find libraries released to the Maven Central repository
         //maven { url 'https://s01.oss.sonatype.org/content/groups/staging' } // to find libraries staged but not yet released
         //maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' } // to find public SNAPSHOTs of libraries
     }
@@ -15,7 +15,7 @@ rootProject.name = 'Minie'
 
 /*
  * Enumerate subdirectories in the project's root directory that contain a
- * "build.gradle" file. Any subdirectory with a "build.gradle" file is
+ * "build.gradle" file. Any subdirectory that contains a "build.gradle" file is
  * automatically a subproject of this project.
  */
 def subDirs = rootDir.listFiles(
