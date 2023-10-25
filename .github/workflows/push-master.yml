@@ -16,9 +16,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.18.2
+          node-version: 20.9.0
       - run: npm ci
       - run: npx antora src/site/antora/ci-playbook.yml
       - run: ./gradlew copyJavadocToSite --console=plain --no-daemon --stacktrace
