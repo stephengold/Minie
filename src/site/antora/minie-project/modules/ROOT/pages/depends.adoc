@@ -23,6 +23,7 @@ In case you need to augment Minie's native libraries,
 the following table indicates
 the Libbulletjme release that corresponds to each Minie release.
 
+
 [cols="1,5,3,1",grid="none"]
 |===
 |Minie release |Direct dependencies |Transitive dependencies |Native libraries
