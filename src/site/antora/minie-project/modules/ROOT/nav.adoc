@@ -73,6 +73,7 @@
 ** https://github.com/stephengold/Heart[Heart]
 ** https://jmonkeyengine.org[JMonkeyEngine]
 ** https://stephengold.github.io/Libbulletjme[Libbulletjme]
+** https://stephengold.github.io/Minie-site-it[Minie-site-it]
 ** https://github.com/Simsilica/SimMath[SimMath]
 ** https://github.com/kmammou/v-hacd[V-HACD]
 ** https://github.com/stephengold/antora-ui-bundle[Website UI bundle]
