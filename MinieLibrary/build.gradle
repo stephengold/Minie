@@ -161,7 +161,7 @@ processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Window
 
 assemble.dependsOn((pdbWindows64 == '' ? 'clean' : 'download') + 'PDBs')
 
-// tasks to download native libraries (from GitHub, typically)
+// Register tasks to download native libraries (from GitHub, typically)
 
 tasks.register('downloadAndroid_ARM7', MyDownload) {
     sourceUrl = libbulletjmeUrl + "Android_ARM7${btfAndroid_ARM7}_libbulletjme.so"
@@ -221,7 +221,7 @@ tasks.register('downloadPDBs', MyDownload) {
     target = file('bulletjme.pdb')
 }
 
-// cleanup tasks
+// Register cleanup tasks:
 
 clean.dependsOn('cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
     'cleanAndroid_X86_64', 'cleanLinux32', 'cleanLinux64',
@@ -328,7 +328,7 @@ defineJavadocTasksForRelease('3', '1', '0')
 defineJavadocTasksForRelease('3', '0', '0')
 defineJavadocTasksForRelease('2', '0', '1')
 
-// publishing tasks:
+// Register publishing tasks:
 
 tasks.register('install') {
     dependsOn 'publishMavenPublicationToMavenLocal'
@@ -452,7 +452,7 @@ publishMavenPublicationToMavenLocal.doLast {
 }
 publishMavenPublicationToOSSRHRepository.dependsOn('assemble')
 
-// signing tasks:
+// Register signing tasks:
 
 // Signing relies on the existence of 3 properties
 // (signing.keyId, signing.password, and signing.secretKeyRingFile)

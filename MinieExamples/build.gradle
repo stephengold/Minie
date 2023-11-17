@@ -35,16 +35,16 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
-    implementation project(':MinieLibrary') // for latest library build
+    implementation project(':MinieLibrary') // for local library build
 }
 
 processResources.dependsOn(':MinieAssets:models', ':MinieAssets:shapes', ':MinieAssets:textures')
 
-// cleanup tasks:
+// Register cleanup tasks:
 
 clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanShapes', ':MinieAssets:cleanTextures')
 
-// tasks to run specific apps:
+// Register tasks to run specific apps:
 
 tasks.register('NewtonsCradle', JavaExec) {
     mainClass = 'jme3utilities.minie.test.NewtonsCradle'

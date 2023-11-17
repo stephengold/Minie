@@ -45,10 +45,10 @@ tasks.withType(JavaExec).configureEach { // Java runtime options:
 }
 
 configurations.configureEach {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of SNAPSHOTs
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of snapshots
 }
 
-// cleanup tasks:
+// Register cleanup tasks:
 
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanPDBs', \
     'cleanSandbox', 'cleanSOs')

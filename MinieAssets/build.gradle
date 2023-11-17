@@ -139,7 +139,7 @@ tasks.register('poolBalls', JavaExec) {
     outputs.dirs([poolBalls])
 }
 
-// cleanup tasks:
+// Register cleanup tasks:
 
 clean.dependsOn('cleanModels', 'cleanShapes', 'cleanTextures')
 

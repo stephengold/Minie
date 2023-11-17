@@ -44,14 +44,14 @@ tasks.register('checkstyle') {
     description 'Checks the style of all Java sourcecode.'
 }
 
-// cleanup tasks:
+// Register cleanup tasks:
 
 clean.dependsOn('cleanNodeModules')
 tasks.register('cleanNodeModules', Delete) {
     delete 'node_modules'
 }
 
-// publishing tasks:
+// Register publishing tasks:
 
 tasks.register('install') {
     dependsOn ':MinieLibrary:install'
