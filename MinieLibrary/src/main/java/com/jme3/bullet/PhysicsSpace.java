@@ -1268,11 +1268,13 @@ public class PhysicsSpace
             listener.onContactProcessed(pcoA, pcoB, pointId);
         }
 
-        PhysicsCollisionEvent event
-                = new PhysicsCollisionEvent(pcoA, pcoB, pointId);
+        if (!contactStartedListeners.isEmpty()) {
+            PhysicsCollisionEvent event
+                    = new PhysicsCollisionEvent(pcoA, pcoB, pointId);
 
-        // Queue the event to be handled later by distributeEvents().
-        contactProcessedEvents.add(event);
+            // Queue the event to be handled later by distributeEvents().
+            contactProcessedEvents.add(event);
+        }
     }
 
     /**
@@ -1290,6 +1292,9 @@ public class PhysicsSpace
             listener.onContactStarted(manifoldId);
         }
 
+        if (contactStartedListeners.isEmpty()) {
+            return;
+        }
         int numPoints = PersistentManifolds.countPoints(manifoldId);
         if (numPoints == 0) {
             return;
