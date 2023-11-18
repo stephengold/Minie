@@ -933,7 +933,8 @@ public class PhysicsSpace
 
     /**
      * Update this space. Can be used to single-step the physics simulation, if
-     * maxSubSteps is set to 0 or 1.
+     * maxSubSteps is set to 0 or 1. This method should be invoked from the
+     * thread that created the space.
      *
      * @see #setMaxSubSteps(int)
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
@@ -952,7 +953,8 @@ public class PhysicsSpace
     }
 
     /**
-     * Update this space.
+     * Update this space. This method should be invoked from the thread that
+     * created the space.
      *
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
      * @param maxSteps the maximum number of steps of size {@code accuracy}
