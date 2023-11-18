@@ -470,11 +470,12 @@ will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).</p>
 <h2 id="_updating_the_physics_space"><a class="anchor" href="#_updating_the_physics_space"></a>Updating the physics space</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> offers 2 update methods:</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> offers 3 update methods:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.update(timeInterval, maxSteps);
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">space.update(timeInterval, maxSteps, doEnded, doProcessed, doStarted);
+space.update(timeInterval, maxSteps);
 space.update(timeInterval);</code></pre>
 </div>
 </div>
@@ -494,6 +495,11 @@ and up to <code>maxSteps</code> steps will be simulated for each update.</p>
 And if <code>space.maxSubSteps() == 0</code>,
 then the time step will be capped at <code>space.maxTimeStep()</code> seconds
 (as with a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>).</p>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t need all 3 kinds of contact callbacks,
+you can improve simulation efficiency by specifying <code>false</code>
+for <code>doEnded</code>, <code>doProcessed</code>, and/or <code>doStarted</code>.</p>
 </div>
 </div>
 </div>
