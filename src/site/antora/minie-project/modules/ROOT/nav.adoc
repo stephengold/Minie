@@ -16,7 +16,7 @@
 * xref:build.adoc[Build procedures]
 * xref:demos.adoc[Demo apps]
 * xref:depends.adoc[Dependencies]
-* https://github.com/stephengold/Minie[Git repository]
+* https://github.com/stephengold/Minie[GitHub repository]
 ** https://github.com/stephengold/Minie/releases/latest[Latest release]
 ** https://github.com/stephengold/Minie/releases[Recent releases]
 ** https://github.com/stephengold/Minie/blob/master/README.md[ReadMe file]
