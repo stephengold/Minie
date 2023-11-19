@@ -1270,7 +1270,7 @@ public class PhysicsSpace
             listener.onContactProcessed(pcoA, pcoB, pointId);
         }
 
-        if (!contactStartedListeners.isEmpty()) {
+        if (!contactProcessedListeners.isEmpty()) {
             PhysicsCollisionEvent event
                     = new PhysicsCollisionEvent(pcoA, pcoB, pointId);
 
