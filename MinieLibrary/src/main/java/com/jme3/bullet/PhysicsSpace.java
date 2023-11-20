@@ -781,7 +781,7 @@ public class PhysicsSpace
      * De-register the specified listener for immediate contact notifications.
      *
      * @see #addContactListener(com.jme3.bullet.collision.ContactListener)
-     * @param listener the listener to de-register (not null, alias created)
+     * @param listener the listener to de-register (not null)
      */
     public void removeContactListener(ContactListener listener) {
         Validate.nonNull(listener, "listener");
@@ -1237,7 +1237,7 @@ public class PhysicsSpace
     // ContactListener methods
 
     /**
-     * Invoked by native code immediately after a contact manifold is removed.
+     * Invoked by native code immediately after a contact manifold is destroyed.
      * Skipped if stepSimulation() was invoked with doEnded=false.
      *
      * @param manifoldId the native ID of the {@code btPersistentManifold} (not
@@ -1254,7 +1254,7 @@ public class PhysicsSpace
 
     /**
      * Invoked by native code immediately after a contact point is refreshed
-     * without being removed. Skipped for Sphere-Sphere contacts. Skipped if
+     * without being destroyed. Skipped for Sphere-Sphere contacts. Skipped if
      * stepSimulation() was invoked with doProcessed=false.
      *
      * @param pcoA the first involved object (not null)
