@@ -427,7 +427,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactEnded(long)" class="member-name-link">onContactEnded</a><wbr>(long&nbsp;manifoldId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Invoked by native code immediately after a contact manifold is removed.</div>
+<div class="block">Invoked by native code immediately after a contact manifold is destroyed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
@@ -435,7 +435,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  long&nbsp;pointId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Invoked by native code immediately after a contact point is refreshed
- without being removed.</div>
+ without being destroyed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactStarted(long)" class="member-name-link">onContactStarted</a><wbr>(long&nbsp;manifoldId)</code></div>
@@ -1169,7 +1169,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="block">De-register the specified listener for immediate contact notifications.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>listener</code> - the listener to de-register (not null, alias created)</dd>
+<dd><code>listener</code> - the listener to de-register (not null)</dd>
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list-long">
@@ -1551,7 +1551,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <section class="detail" id="onContactEnded(long)">
 <h3>onContactEnded</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onContactEnded</span><wbr><span class="parameters">(long&nbsp;manifoldId)</span></div>
-<div class="block">Invoked by native code immediately after a contact manifold is removed.
+<div class="block">Invoked by native code immediately after a contact manifold is destroyed.
  Skipped if stepSimulation() was invoked with doEnded=false.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -1569,7 +1569,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
  long&nbsp;pointId)</span></div>
 <div class="block">Invoked by native code immediately after a contact point is refreshed
- without being removed. Skipped for Sphere-Sphere contacts. Skipped if
+ without being destroyed. Skipped for Sphere-Sphere contacts. Skipped if
  stepSimulation() was invoked with doProcessed=false.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
