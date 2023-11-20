@@ -2,17 +2,8 @@
 *.dylib
 *.pdb
 *.so
-/.gradle/
-/.idea/
-/.nb-gradle/
-/build/
-/DacWizard/build/
 /DacWizard/private/
 /DacWizard/Written Assets/
-/Jme3Examples/build/
-/MinieAssets/build/
-/MinieDump/build/
-/MinieExamples/build/
 /MinieExamples/src/main/resources/Models/BaseMesh/
 /MinieExamples/src/main/resources/Models/CandyDish/
 /MinieExamples/src/main/resources/Models/Duck/
@@ -27,9 +18,24 @@
 /MinieExamples/src/main/resources/CollisionShapes/
 /MinieExamples/src/main/resources/Textures/
 /MinieExamples/Written Assets/
-/MinieLibrary/build/
-/TutorialApps/build/
-/VhacdTuner/build/
 /VhacdTuner/private/
 /VhacdTuner/Written Assets/
 /node_modules/
+
+# Ignore Gradle's project-specific cache directory:
+/.gradle/
+
+# Ignore Gradle's build output directories:
+/build/
+/DacWizard/build/
+/Jme3Examples/build/
+/MinieAssets/build/
+/MinieDump/build/
+/MinieExamples/build/
+/MinieLibrary/build/
+/TutorialApps/build/
+/VhacdTuner/build/
+
+# Ignore IDE-specific directories:
+/.idea/
+/.nb-gradle/
