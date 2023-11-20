@@ -332,6 +332,23 @@ public class PhysicsSpace
     }
 
     /**
+     * Register the specified listener for immediate contact notifications.
+     *
+     * @param listener the listener to register (not null, alias created)
+     * @param doEnded true to enable {@code onContactEnded()} callbacks for the
+     * listener, false to skip them (default=true)
+     * @param doProcessed true to enable {@code onContactProcessed()} callbacks
+     * for the listener, false to skip them (default=true)
+     * @param doStarted true to enable {@code onContactStarted()} callbacks for
+     * the listener, false to skip them (default=true)
+     */
+    public void addContactListener(ContactListener listener, boolean doEnded,
+            boolean doProcessed, boolean doStarted) {
+        Validate.nonNull(listener, "listener");
+        manager.addContactListener(listener, doEnded, doProcessed, doStarted);
+    }
+
+    /**
      * Add the specified PhysicsJoint to this space.
      *
      * @param joint the joint to add (not null, alias created)
