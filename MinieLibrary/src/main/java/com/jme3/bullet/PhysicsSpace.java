@@ -33,8 +33,6 @@ package com.jme3.bullet;
 
 import com.jme3.app.AppTask;
 import com.jme3.bullet.collision.ContactListener;
-import com.jme3.bullet.collision.PersistentManifolds;
-import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.control.PhysicsControl;
@@ -49,10 +47,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.util.SafeArrayList;
-import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -125,16 +121,6 @@ public class PhysicsSpace
     // fields
 
     /**
-     * contact-processed events not yet distributed to listeners
-     */
-    final private Deque<PhysicsCollisionEvent> contactProcessedEvents
-            = new ArrayDeque<>(20);
-    /**
-     * contact-started events not yet distributed to listeners
-     */
-    final private Deque<PhysicsCollisionEvent> contactStartedEvents
-            = new ArrayDeque<>(20);
-    /**
      * time step (in seconds, &gt;0) ignored when maxSubSteps=0
      */
     private float accuracy = 1f / 60f;
@@ -148,25 +134,14 @@ public class PhysicsSpace
      */
     private int maxSubSteps = 4;
     /**
-     * list of registered listeners for immediate contact notifications
-     */
-    final private Collection<ContactListener> contactListeners
-            = new SafeArrayList<>(ContactListener.class);
-    /**
-     * list of registered listeners for ongoing contacts
-     */
-    final private Collection<PhysicsCollisionListener> contactProcessedListeners
-            = new SafeArrayList<>(PhysicsCollisionListener.class);
-    /**
-     * list of registered listeners for new contacts
-     */
-    final private Collection<PhysicsCollisionListener> contactStartedListeners
-            = new SafeArrayList<>(PhysicsCollisionListener.class);
-    /**
      * list of registered tick listeners
      */
     final private Collection<PhysicsTickListener> tickListeners
             = new SafeArrayList<>(PhysicsTickListener.class);
+    /**
+     * manage contact/collision listeners and events
+     */
+    final private ContactManager manager = new ContactManager(this);
     /**
      * map character IDs to added objects
      */
@@ -343,9 +318,7 @@ public class PhysicsSpace
      */
     public void addCollisionListener(PhysicsCollisionListener listener) {
         Validate.nonNull(listener, "listener");
-        assert !contactStartedListeners.contains(listener);
-
-        contactStartedListeners.add(listener);
+        manager.addCollisionListener(listener);
     }
 
     /**
@@ -355,9 +328,7 @@ public class PhysicsSpace
      */
     public void addContactListener(ContactListener listener) {
         Validate.nonNull(listener, "listener");
-        assert !contactListeners.contains(listener);
-
-        contactListeners.add(listener);
+        manager.addContactListener(listener, true, true, true);
     }
 
     /**
@@ -414,9 +385,7 @@ public class PhysicsSpace
      */
     public void addOngoingCollisionListener(PhysicsCollisionListener listener) {
         Validate.nonNull(listener, "listener");
-        assert !contactProcessedListeners.contains(listener);
-
-        contactProcessedListeners.add(listener);
+        manager.addOngoingCollisionListener(listener);
     }
 
     /**
@@ -456,8 +425,7 @@ public class PhysicsSpace
      * @return the count (&ge;0)
      */
     public int countCollisionListeners() {
-        int result = contactProcessedListeners.size()
-                + contactStartedListeners.size();
+        int result = manager.countCollisionListeners();
         return result;
     }
 
@@ -510,20 +478,7 @@ public class PhysicsSpace
      * Distribute queued collision events to registered listeners.
      */
     public void distributeEvents() {
-        while (!contactStartedEvents.isEmpty()) {
-            PhysicsCollisionEvent event = contactStartedEvents.pop();
-            for (PhysicsCollisionListener listener : contactStartedListeners) {
-                listener.collision(event);
-            }
-        }
-
-        while (!contactProcessedEvents.isEmpty()) {
-            PhysicsCollisionEvent event = contactProcessedEvents.pop();
-            for (PhysicsCollisionListener listener
-                    : contactProcessedListeners) {
-                listener.collision(event);
-            }
-        }
+        manager.distributeEvents();
     }
 
     /**
@@ -772,9 +727,7 @@ public class PhysicsSpace
      */
     public void removeCollisionListener(PhysicsCollisionListener listener) {
         Validate.nonNull(listener, "listener");
-
-        boolean success = contactStartedListeners.remove(listener);
-        assert success;
+        manager.removeCollisionListener(listener);
     }
 
     /**
@@ -785,9 +738,7 @@ public class PhysicsSpace
      */
     public void removeContactListener(ContactListener listener) {
         Validate.nonNull(listener, "listener");
-
-        boolean success = contactListeners.remove(listener);
-        assert success;
+        manager.removeContactListener(listener);
     }
 
     /**
@@ -828,9 +779,7 @@ public class PhysicsSpace
     public void removeOngoingCollisionListener(
             PhysicsCollisionListener listener) {
         Validate.nonNull(listener, "listener");
-
-        boolean success = contactProcessedListeners.remove(listener);
-        assert success;
+        manager.removeOngoingCollisionListener(listener);
     }
 
     /**
@@ -949,7 +898,7 @@ public class PhysicsSpace
             interval = timeInterval;
             assert maxSubSteps > 0 : maxSubSteps;
         }
-        update(interval, maxSubSteps);
+        manager.update(interval, maxSubSteps);
     }
 
     /**
@@ -964,13 +913,7 @@ public class PhysicsSpace
         assert Validate.nonNegative(timeInterval, "time interval");
         assert Validate.nonNegative(maxSteps, "max steps");
 
-        boolean haveImmediate = !contactListeners.isEmpty();
-        boolean doEnded = haveImmediate;
-        boolean doProcessed
-                = haveImmediate || !contactProcessedListeners.isEmpty();
-        boolean doStarted
-                = haveImmediate || !contactStartedListeners.isEmpty();
-        update(timeInterval, maxSteps, doEnded, doProcessed, doStarted);
+        manager.update(timeInterval, maxSteps);
     }
 
     /**
@@ -1246,10 +1189,8 @@ public class PhysicsSpace
     @Override
     public void onContactEnded(long manifoldId) {
         assert NativeLibrary.jniEnvId() == jniEnvId() : "wrong thread";
-
-        for (ContactListener listener : contactListeners) {
-            listener.onContactEnded(manifoldId);
-        }
+        assert manifoldId != 0L;
+        manager.onContactEnded(manifoldId);
     }
 
     /**
@@ -1265,18 +1206,10 @@ public class PhysicsSpace
     public void onContactProcessed(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long pointId) {
         assert NativeLibrary.jniEnvId() == jniEnvId() : "wrong thread";
-
-        for (ContactListener listener : contactListeners) {
-            listener.onContactProcessed(pcoA, pcoB, pointId);
-        }
-
-        if (!contactProcessedListeners.isEmpty()) {
-            PhysicsCollisionEvent event
-                    = new PhysicsCollisionEvent(pcoA, pcoB, pointId);
-
-            // Queue the event to be handled later by distributeEvents().
-            contactProcessedEvents.add(event);
-        }
+        assert pcoA != null;
+        assert pcoB != null;
+        assert pointId != 0L;
+        manager.onContactProcessed(pcoA, pcoB, pointId);
     }
 
     /**
@@ -1289,34 +1222,8 @@ public class PhysicsSpace
     @Override
     public void onContactStarted(long manifoldId) {
         assert NativeLibrary.jniEnvId() == jniEnvId() : "wrong thread";
-
-        for (ContactListener listener : contactListeners) {
-            listener.onContactStarted(manifoldId);
-        }
-
-        if (contactStartedListeners.isEmpty()) {
-            return;
-        }
-        int numPoints = PersistentManifolds.countPoints(manifoldId);
-        if (numPoints == 0) {
-            return;
-        }
-
-        long bodyAId = PersistentManifolds.getBodyAId(manifoldId);
-        PhysicsCollisionObject pcoA
-                = PhysicsCollisionObject.findInstance(bodyAId);
-        long bodyBId = PersistentManifolds.getBodyBId(manifoldId);
-        PhysicsCollisionObject pcoB
-                = PhysicsCollisionObject.findInstance(bodyBId);
-
-        for (int i = 0; i < numPoints; ++i) {
-            long pointId = PersistentManifolds.getPointId(manifoldId, i);
-            PhysicsCollisionEvent event
-                    = new PhysicsCollisionEvent(pcoA, pcoB, pointId);
-
-            // Queue the event to be handled later by distributeEvents().
-            contactStartedEvents.add(event);
-        }
+        assert manifoldId != 0L;
+        manager.onContactStarted(manifoldId);
     }
     // *************************************************************************
     // Java private methods
