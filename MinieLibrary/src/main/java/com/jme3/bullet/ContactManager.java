@@ -398,8 +398,8 @@ class ContactManager implements ContactListener {
 
         this.doEnded = ((union & invokeEnded) != 0x0);
         this.doProcessed = ((union & invokeProcessed) != 0x0)
-                && !ongoingListeners.isEmpty();
+                || !ongoingListeners.isEmpty();
         this.doStarted = ((union & invokeStarted) != 0x0)
-                && !startedListeners.isEmpty();
+                || !startedListeners.isEmpty();
     }
 }
