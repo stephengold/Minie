@@ -316,8 +316,13 @@ class ContactManager implements ContactListener {
      */
     @Override
     public void onContactEnded(long manifoldId) {
-        for (ContactListener listener : immediateListeners) {
-            listener.onContactEnded(manifoldId);
+        int numImmediateListeners = immediateListeners.size();
+        for (int i = 0; i < numImmediateListeners; ++i) {
+            int flags = immediateListenerFlags.get(i);
+            if ((flags & invokeEnded) != 0x0) {
+                ContactListener listener = immediateListeners.get(i);
+                listener.onContactEnded(manifoldId);
+            }
         }
     }
 
@@ -333,8 +338,13 @@ class ContactManager implements ContactListener {
     @Override
     public void onContactProcessed(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long pointId) {
-        for (ContactListener listener : immediateListeners) {
-            listener.onContactProcessed(pcoA, pcoB, pointId);
+        int numImmediateListeners = immediateListeners.size();
+        for (int i = 0; i < numImmediateListeners; ++i) {
+            int flags = immediateListenerFlags.get(i);
+            if ((flags & invokeProcessed) != 0x0) {
+                ContactListener listener = immediateListeners.get(i);
+                listener.onContactProcessed(pcoA, pcoB, pointId);
+            }
         }
 
         if (!ongoingListeners.isEmpty()) {
@@ -355,8 +365,13 @@ class ContactManager implements ContactListener {
      */
     @Override
     public void onContactStarted(long manifoldId) {
-        for (ContactListener listener : immediateListeners) {
-            listener.onContactStarted(manifoldId);
+        int numImmediateListeners = immediateListeners.size();
+        for (int i = 0; i < numImmediateListeners; ++i) {
+            int flags = immediateListenerFlags.get(i);
+            if ((flags & invokeStarted) != 0x0) {
+                ContactListener listener = immediateListeners.get(i);
+                listener.onContactStarted(manifoldId);
+            }
         }
 
         if (startedListeners.isEmpty()) {
