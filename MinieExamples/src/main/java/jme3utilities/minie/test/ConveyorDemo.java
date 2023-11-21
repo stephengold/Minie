@@ -577,7 +577,7 @@ public class ConveyorDemo
         physicsSpace.getSolverInfo().setMode(solverMode);
 
         // Register a listener for immediate contact notifications.
-        physicsSpace.addContactListener(this);
+        physicsSpace.addContactListener(this, false, true, false);
     }
 
     /**
