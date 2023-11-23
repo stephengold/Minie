@@ -141,7 +141,7 @@ public class PhysicsSpace
     /**
      * manage contact/collision listeners and events
      */
-    final private ContactManager manager = new ContactManager(this);
+    private ContactManager manager = new DefaultContactManager(this);
     /**
      * map character IDs to added objects
      */
