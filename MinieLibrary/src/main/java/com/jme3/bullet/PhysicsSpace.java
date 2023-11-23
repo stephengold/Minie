@@ -551,6 +551,16 @@ public class PhysicsSpace
     }
 
     /**
+     * Access the current ContactManager.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    public ContactManager getContactManager() {
+        assert manager != null;
+        return manager;
+    }
+
+    /**
      * Copy the gravitational acceleration for newly-added bodies.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -835,6 +845,16 @@ public class PhysicsSpace
     public void setCcdWithStaticOnly(boolean setting) {
         long spaceId = nativeId();
         setCcdWithStaticOnly(spaceId, setting);
+    }
+
+    /**
+     * Replace the current ContactManager with the specified one.
+     *
+     * @param manager the desired manager (not null)
+     */
+    public void setContactManager(ContactManager manager) {
+        Validate.nonNull(manager, "manager");
+        this.manager = manager;
     }
 
     /**
