@@ -52,7 +52,7 @@ final public class NativeLibrary {
     /**
      * expected version string of the native library
      */
-    final public static String expectedVersion = "18.5.2";
+    final public static String expectedVersion = "18.6.0";
     // *************************************************************************
     // constructors
 
