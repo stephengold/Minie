@@ -56,7 +56,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
-import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
@@ -552,28 +551,67 @@ final public class CollisionShapeFactory {
     }
 
     /**
-     * Generate a Mesh that merges the triangles of non-empty geometries not
-     * tagged with "JmePhysicsIgnore".
+     * Enumerate all child geometries in the specified scene-graph subtree that
+     * aren't tagged with {@code UserData.JME_PHYSICSIGNORE}. Note: recursive!
      *
-     * @param subtree the scene-graph subtree on which to base the Mesh (not
-     * null, unaffected)
+     * @param parent the parent of the subtree (not null, aliases created)
+     * @param addResult storage for results (added to if not null)
+     * @return a new List
+     */
+    private static List<Geometry> listUntaggedGeometries(
+            Node parent, List<Geometry> addResult) {
+        Validate.nonNull(parent, "subtree");
+        List<Geometry> result
+                = (addResult == null) ? new ArrayList<>(50) : addResult;
+
+        for (Spatial child : parent.getChildren()) {
+            Boolean skipChild = child.getUserData(UserData.JME_PHYSICSIGNORE);
+            if (skipChild != null && skipChild) {
+                // continue to the next child spatial
+
+            } else if (child instanceof Node) {
+                listUntaggedGeometries((Node) child, result);
+
+            } else {
+                result.add((Geometry) child);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Generate a Mesh that merges the triangles of non-empty geometries that
+     * aren't tagged with {@code UserData.JME_PHYSICSIGNORE}.
+     *
+     * @param modelRoot the model on which to base the shape (not null,
+     * unaffected)
      * @return a new, indexed Mesh in Triangles mode, its bounds not set
      */
-    private static Mesh makeMergedMesh(Spatial subtree) {
-        List<Geometry> allGeometries = MySpatial.listGeometries(subtree);
+    private static Mesh makeMergedMesh(Spatial modelRoot) {
+        List<Geometry> untaggedGeometries;
+        if (modelRoot instanceof Geometry) {
+            /*
+             * To be consistent with createDynamicMeshShape() and others,
+             * a nodeless model isn't checked for JME_PHYSICSIGNORE.
+             */
+            untaggedGeometries = new ArrayList<Geometry>(1);
+            untaggedGeometries.add((Geometry) modelRoot);
+
+        } else if (modelRoot instanceof Node) {
+            untaggedGeometries = listUntaggedGeometries((Node) modelRoot, null);
+
+        } else {
+            throw new IllegalArgumentException(
+                    "The model root must either be a Node or a Geometry!");
+        }
+
         Collection<Geometry> includedGeometries
-                = new ArrayList<>(allGeometries.size());
+                = new ArrayList<>(untaggedGeometries.size());
         int totalIndices = 0;
         int totalVertices = 0;
-        for (Geometry geometry : allGeometries) {
-            /*
-             * Exclude any Geometry tagged with "JmePhysicsIgnore"
-             * or having a null/empty mesh.
-             */
-            Boolean ignore = geometry.getUserData(UserData.JME_PHYSICSIGNORE);
-            if (ignore != null && ignore) {
-                continue;
-            }
+        for (Geometry geometry : untaggedGeometries) {
+            // Exclude any Geometry with a null/empty mesh.
             Mesh jmeMesh = geometry.getMesh();
             if (jmeMesh == null) {
                 continue;
@@ -599,7 +637,7 @@ final public class CollisionShapeFactory {
         FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(totalFloats);
 
         for (Geometry geometry : includedGeometries) {
-            appendTriangles(geometry, subtree, positionBuffer, indexBuffer);
+            appendTriangles(geometry, modelRoot, positionBuffer, indexBuffer);
         }
 
         VertexBuffer.Format ibFormat = indexBuffer.getFormat();
