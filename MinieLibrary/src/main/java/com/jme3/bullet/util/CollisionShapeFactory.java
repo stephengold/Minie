@@ -562,7 +562,7 @@ final public class CollisionShapeFactory {
             Node parent, List<Geometry> addResult) {
         Validate.nonNull(parent, "subtree");
         List<Geometry> result
-                = (addResult == null) ? new ArrayList<>(50) : addResult;
+                = (addResult == null) ? new ArrayList<Geometry>(50) : addResult;
 
         for (Spatial child : parent.getChildren()) {
             Boolean skipChild = child.getUserData(UserData.JME_PHYSICSIGNORE);
