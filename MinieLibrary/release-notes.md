@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 7.8.0 released on TBD
+## Version 7.8.0 released on 2 December 2023
 
 + Bugfix:  `PhysicsCharacter` disregards ignore lists
 + Bugfix:  `makeMergedMesh()` uses the `JME_PHYSICSIGNORE` tag differently from
