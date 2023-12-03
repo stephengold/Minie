@@ -26,9 +26,9 @@ ext {
     //lwjglCoordinates =  'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
     lwjglCoordinates = 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
 
-    minieSnapshot = '-SNAPSHOT' // for development builds
-    //minieSnapshot = '' // for release builds
-    minieVersion = '7.7.1'
+    //minieSnapshot = '-SNAPSHOT' // for development builds
+    minieSnapshot = '' // for release builds
+    minieVersion = '7.8.0'
 }
 
 subprojects {

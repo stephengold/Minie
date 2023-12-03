@@ -1,5 +1,20 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.8.0 released on TBD
+
++ Bugfix:  `PhysicsCharacter` disregards ignore lists
++ Bugfix:  `makeMergedMesh()` uses the `JME_PHYSICSIGNORE` tag differently from
+  other methods in `CollisionShapeFactory`
++ Added the `ContactManager` interface and split off the `DefaultContactManager`
+  class the from the `PhysicsSpace` class.
++ Optimized `PhysicsSpace` to instantiate collision events only when a
+  corresponding listener is registered.
++ Added a 4-argument `addContactListener()` method to the `PhysicsSpace` class.
++ Based on v8.8.0 of the Heart library, v1.1.0 of the Acorus library,
+  and v0.8.1 of the Wes library.
++ Built using Gradle v8.5 .
++ Updated the native libraries to v18.6.0 of Libbulletjme.
+
 ## Version 7.7.0 released on 31 August 2023
 
 + Fixed bugs:
