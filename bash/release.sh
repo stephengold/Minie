@@ -4,7 +4,7 @@ set -e
 
 export JAVA_HOME=/usr/lib/jvm/Temurin/jdk-17.0.8.1+1
 
-V=7.8.0
+V=7.8.1
 D=/home/sgold/Releases/Minie/$V
 mkdir $D
 

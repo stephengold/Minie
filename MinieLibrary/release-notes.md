@@ -1,5 +1,10 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 7.8.1 released on TBD
+
++ Bugfix:  BVH algorithm fails
++ Updated the native libraries to v18.6.1 of Libbulletjme.
+
 ## Version 7.8.0 released on 2 December 2023
 
 + Bugfix:  `PhysicsCharacter` disregards ignore lists
