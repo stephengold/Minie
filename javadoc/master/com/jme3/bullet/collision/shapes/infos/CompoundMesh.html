@@ -163,19 +163,29 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
  and original to resolve copied fields.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countTriangles()" class="member-name-link">countTriangles</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countSubmeshes()" class="member-name-link">countSubmeshes</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Count how many triangles are in this mesh.</div>
+<div class="block">Count how many submeshes are in this mesh.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countVertices()" class="member-name-link">countVertices</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countTriangles()" class="member-name-link">countTriangles</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Count how many triangles are in this mesh.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countVertices()" class="member-name-link">countVertices</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Count how many vertices are in this mesh.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScale(com.jme3.math.Vector3f)" class="member-name-link">getScale</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScale(com.jme3.math.Vector3f)" class="member-name-link">getScale</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy the scale factors.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSubmesh(int)" class="member-name-link">getSubmesh</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Access the specified submesh.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -310,6 +320,17 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 </section>
 </li>
 <li>
+<section class="detail" id="countSubmeshes()">
+<h3>countSubmeshes</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countSubmeshes</span>()</div>
+<div class="block">Count how many submeshes are in this mesh.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the count (&ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="countTriangles()">
 <h3>countTriangles</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countTriangles</span>()</div>
@@ -342,6 +363,20 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dt>Returns:</dt>
 <dd>the scale factor for each local axis (either storeResult or a new
  vector, not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getSubmesh(int)">
+<h3>getSubmesh</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></span>&nbsp;<span class="element-name">getSubmesh</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="block">Access the specified submesh.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - the index of the desired submesh (in the order the submeshes
+ were added, &ge;0)</dd>
+<dt>Returns:</dt>
+<dd>the pre-existing instance</dd>
 </dl>
 </section>
 </li>
