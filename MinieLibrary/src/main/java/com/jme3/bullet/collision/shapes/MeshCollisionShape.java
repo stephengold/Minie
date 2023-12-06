@@ -63,6 +63,14 @@ public class MeshCollisionShape extends CollisionShape {
     // constants and loggers
 
     /**
+     * maximum number of submeshes when compression is used
+     */
+    final public static int maxSubmeshes = 1_024;
+    /**
+     * maximum number of triangles in any submesh when compression is used
+     */
+    final public static int maxTrianglesInAnySubmesh = 2_097_151;
+    /**
      * message logger for this class
      */
     final public static Logger logger2
@@ -375,6 +383,21 @@ public class MeshCollisionShape extends CollisionShape {
     private void createShape() {
         int numTriangles = nativeMesh.countTriangles();
         assert numTriangles > 0 : numTriangles;
+        if (useCompression) {
+            int numSubmeshes = nativeMesh.countSubmeshes();
+            if (numSubmeshes > maxSubmeshes) {
+                throw new IllegalArgumentException(
+                        "Too many submeshes: " + numSubmeshes);
+            }
+            for (int submeshI = 0; submeshI < numSubmeshes; ++submeshI) {
+                IndexedMesh submesh = nativeMesh.getSubmesh(submeshI);
+                int count = submesh.countTriangles();
+                if (count > maxTrianglesInAnySubmesh) {
+                    throw new IllegalArgumentException(
+                            "Submesh has too many triangles: " + count);
+                }
+            }
+        }
 
         boolean buildBvh = (bvh == null);
         long meshId = nativeMesh.nativeId();
