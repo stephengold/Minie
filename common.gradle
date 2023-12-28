@@ -65,7 +65,7 @@ tasks.register('cleanLogs', Delete) { // JVM crash logs
 tasks.register('cleanPDBs', Delete) { // Windows program database files
     delete fileTree(dir: '.', include: '*.pdb')
 }
-tasks.register('cleanSandbox', Delete) { // Acorus output directory
+tasks.register('cleanSandbox', Delete) { // Acorus sandbox
     delete 'Written Assets'
 }
 tasks.register('cleanSOs', Delete) { // extracted Linux and Android native libraries
