@@ -47,13 +47,13 @@ dependencies {
     implementation 'com.github.stephengold:jme-ttf:3.0.0'
     implementation heartCoordinates
     implementation 'org.jmonkeyengine:jme3-blender:3.3.2-stable'
-    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
+    runtimeOnly    desktopCoordinates
+    implementation pluginsCoordinates
     runtimeOnly testdataCoordinates
 
     // MinieAssets doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
+    runtimeOnly joggCoordinates
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode

@@ -132,8 +132,8 @@ dependencies {
     api 'org.jmonkeyengine:jme3-terrain:' + jme3Version
 
     testImplementation junitCoordinates
-    testImplementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    testImplementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
+    testImplementation desktopCoordinates
+    testImplementation pluginsCoordinates
     testRuntimeOnly testdataCoordinates
 }
 

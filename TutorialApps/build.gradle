@@ -21,8 +21,8 @@ if (!hasProperty('mainClass')) {
 jar.manifest.attributes('Main-Class': application.mainClass)
 
 dependencies {
-    implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jme3Version
+    implementation desktopCoordinates
+    runtimeOnly pluginsCoordinates
     runtimeOnly testdataCoordinates // for MonkeyHead, Ninja, and Oto
 
     // select one version of LWJGL:
@@ -31,7 +31,7 @@ dependencies {
 
     // TutorialApps doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
+    runtimeOnly joggCoordinates
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode

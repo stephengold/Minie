@@ -23,9 +23,9 @@ dependencies {
     //implementation junitCoordinates
     implementation heartCoordinates
     implementation wesCoordinates
-    runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
+    runtimeOnly    desktopCoordinates
     implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
-    implementation 'org.jmonkeyengine:jme3-plugins:' + jme3Version
+    implementation pluginsCoordinates
     runtimeOnly testdataCoordinates
 
     // select one version of LWJGL:
@@ -34,7 +34,7 @@ dependencies {
 
     // MinieExamples doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
+    runtimeOnly joggCoordinates
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode
