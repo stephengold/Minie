@@ -1,9 +1,11 @@
+// Gradle script to build the Minie/TutorialApps sub-project
+
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
 plugins {
-    id 'application'
+    id 'application' // to build Java applications
 }
 
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:

@@ -1,9 +1,11 @@
+// Gradle script to build the Minie/MinieExamples sub-project
+
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
 plugins {
-    id 'application'
+    id 'application' // to build Java applications
 }
 
 application {
@@ -35,7 +37,7 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
-    implementation project(':MinieLibrary') // for local library build
+    implementation project(':MinieLibrary') // for latest sourcecode
 }
 
 processResources.dependsOn(':MinieAssets:models', ':MinieAssets:shapes', ':MinieAssets:textures')

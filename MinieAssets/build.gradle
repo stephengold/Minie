@@ -1,14 +1,16 @@
+// Gradle script to build the Minie/MinieAssets sub-project
+
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
 ext {
-    // output directories
+    // output directories:
     assets = '../MinieExamples/src/main/resources/'
     glyphAssets = assets + 'CollisionShapes/glyphs/'
     poolBalls = assets + 'Textures/poolBalls/'
 
-    // output directories for C-G models
+    // output directories for C-G models:
     baseMesh = assets + 'Models/BaseMesh'
     candyDish = assets + 'Models/CandyDish'
     duck = assets + 'Models/Duck'
@@ -20,7 +22,7 @@ ext {
     oto = assets + 'Models/Oto'
     sinbad = assets + 'Models/Sinbad'
 
-    // generated collision-shape J3O files
+    // generated collision-shape J3O files:
     ankhShape = assets + 'CollisionShapes/ankh.j3o'
     bananaShape = assets + 'CollisionShapes/banana.j3o'
     barrelShape = assets + 'CollisionShapes/barrel.j3o'
@@ -53,8 +55,8 @@ dependencies {
     //  -- it is included solely to avoid warnings from AssetConfig.
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
 
-    //implementation 'com.github.stephengold:Minie:' + minieVersion
-    implementation project(':MinieLibrary')
+    //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
+    implementation project(':MinieLibrary') // for latest sourcecode
 }
 
 tasks.register('models', JavaExec) {
