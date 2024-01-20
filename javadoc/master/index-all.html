@@ -1434,6 +1434,12 @@ loadScripts(document, 'script');</script>
  shallow-cloned shape into a deep-cloned one, using the specified Cloner
  and original to resolve copied fields.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
+<dd>
+<div class="block">Callback from <code>Cloner</code> to convert this
+ shallow-cloned shape into a deep-cloned one, using the specified Cloner
+ and original to resolve copied fields.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CylinderCollisionShape.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CylinderCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CylinderCollisionShape</a></dt>
 <dd>
 <div class="block">Callback from <code>Cloner</code> to convert this
@@ -2833,6 +2839,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">flag to enable a custom material callback for per-triangle
  friction/restitution (not supported by Minie)</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" class="type-name-link" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a> - Class in <a href="com/jme3/bullet/collision/shapes/package-summary.html">com.jme3.bullet.collision.shapes</a></dt>
+<dd>
+<div class="block">An abstract base class for custom collision shapes defined in terms of their
+ supporting vertices, based on Bullet's <code>btConvexInternalShape</code>.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#%3Cinit%3E()" class="member-name-link">CustomConvexShape()</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
+<dd>
+<div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">CustomConvexShape(Vector3f, Vector3f)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
+<dd>
+<div class="block">Instantiate a custom collision shape with the specified extent and
+ inertia.</div>
 </dd>
 <dt><a href="com/jme3/bullet/debug/MeshCustomizer.html#customizeMesh(com.jme3.scene.Mesh)" class="member-name-link">customizeMesh(Mesh)</a> - Method in interface com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/MeshCustomizer.html" title="interface in com.jme3.bullet.debug">MeshCustomizer</a></dt>
 <dd>
@@ -7076,6 +7096,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Copy the local offset of this link.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#locateSupport(float,float,float)" class="member-name-link">locateSupport(float, float, float)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
+<dd>
+<div class="block">Locate the shape's supporting vertex for the specified direction,
+ excluding collision margin.</div>
+</dd>
 <dt><a href="com/jme3/bullet/MultiBodyLink.html#location(com.jme3.math.Vector3f)" class="member-name-link">location(Vector3f)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodyLink.html" title="class in com.jme3.bullet">MultiBodyLink</a></dt>
 <dd>
 <div class="block">Determine the location of this link's center of mass.</div>
@@ -7597,6 +7622,10 @@ loadScripts(document, 'script');</script>
 <div class="block">message logger for this class</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/ConvexShape.html#loggerX" class="member-name-link">loggerX</a> - Static variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#loggerY" class="member-name-link">loggerY</a> - Static variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
@@ -8994,6 +9023,11 @@ loadScripts(document, 'script');</script>
  loading from a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/Convex2dShape.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/Convex2dShape.html" title="class in com.jme3.bullet.collision.shapes">Convex2dShape</a></dt>
+<dd>
+<div class="block">De-serialize this shape from the specified importer, for example when
+ loading from a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
 <dd>
 <div class="block">De-serialize this shape from the specified importer, for example when
  loading from a J3O file.</div>
@@ -12563,6 +12597,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">m_mode = 1: use tetrahedra</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#threadTmpVector" class="member-name-link">threadTmpVector</a> - Static variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
+<dd>
+<div class="block">temporary storage for one vector per thread</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/infos/Sbcp.html#TimeScale" class="member-name-link">TimeScale</a> - Enum constant in enum class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/Sbcp.html" title="enum class in com.jme3.bullet.objects.infos">Sbcp</a></dt>
 <dd>
 <div class="block">time scale (default=1, native field: timescale)</div>
@@ -13491,6 +13529,11 @@ the order they are declared.</div>
  to a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/Convex2dShape.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/Convex2dShape.html" title="class in com.jme3.bullet.collision.shapes">Convex2dShape</a></dt>
+<dd>
+<div class="block">Serialize this shape to the specified exporter, for example when saving
+ to a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
 <dd>
 <div class="block">Serialize this shape to the specified exporter, for example when saving
  to a J3O file.</div>
