@@ -803,9 +803,9 @@ final public class DebugShapeFactory {
     // *************************************************************************
     // native private methods
 
-    native private static void getTriangles(
+    native private static boolean getTriangles(
             long shapeId, int meshResolution, DebugMeshCallback buffer);
 
-    native private static void getVertices(
+    native private static boolean getVertices(
             long shapeId, int meshResolution, DebugMeshCallback buffer);
 }
