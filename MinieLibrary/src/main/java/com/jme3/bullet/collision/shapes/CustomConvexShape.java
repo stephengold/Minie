@@ -81,10 +81,9 @@ abstract public class CustomConvexShape extends ConvexShape {
      */
     private Vector3f halfExtents;
     /**
-     * copy of the rotational inertia for each local axis, for a shape with
-     * mass=1 and scale=(1,1,1)
+     * rotational inertia around each local axis, for mass=1
      */
-    private Vector3f inertia;
+    private Vector3f inertia = new Vector3f();
     // *************************************************************************
     // constructors
 
@@ -95,20 +94,20 @@ abstract public class CustomConvexShape extends ConvexShape {
     }
 
     /**
-     * Instantiate a custom collision shape with the specified extent and
-     * inertia.
+     * Instantiate a custom collision shape with the specified extents. Subclass
+     * constructors should also invoke {@code setScaledInertia()}.
      *
      * @param halfExtents the desired half extents on each local axis, for
-     * scale=(1,1,1) and margin=0 (unaffected), or {@code null} to calculate
-     * AABBs using the supporting vertices
-     * @param inertia the desired local inertia vector for a shape with mass=1
-     * and scale=(1,1,1) (not null, all components &gt;0, unaffected)
+     * scale=(1,1,1) and margin=0 (all components &gt;0, unaffected), or
+     * {@code null} to calculate AABBs using the supporting vertices
      */
-    public CustomConvexShape(Vector3f halfExtents, Vector3f inertia) {
-        Validate.positive(inertia, "inertia");
-
-        this.halfExtents = (halfExtents == null) ? null : halfExtents.clone();
-        this.inertia = inertia.clone();
+    protected CustomConvexShape(Vector3f halfExtents) {
+        if (halfExtents == null) {
+            this.halfExtents = null;
+        } else {
+            Validate.positive(halfExtents, "half extents");
+            this.halfExtents = halfExtents.clone();
+        }
         createShape();
     }
     // *************************************************************************
@@ -129,8 +128,23 @@ abstract public class CustomConvexShape extends ConvexShape {
      * @return the location of the supporting vertex (in scaled shape
      * coordinates)
      */
-    abstract protected Vector3f locateSupport(
-            float dirX, float dirY, float dirZ);
+    abstract protected Vector3f
+            locateSupport(float dirX, float dirY, float dirZ);
+
+    /**
+     * Alter the scaled rotational inertia. Typically invoked during
+     * instantiation or after a change of scale.
+     *
+     * @param ix the desired X-axis rotational inertia for mass=1 (&gt;0)
+     * @param iy the desired Y-axis rotational inertia for mass=1 (&gt;0)
+     * @param iz the desired Z-axis rotational inertia for mass=1 (&gt;0)
+     */
+    protected void setScaledInertia(float ix, float iy, float iz) {
+        inertia.set(ix, iy, iz);
+
+        long shapeId = nativeId();
+        setScaledInertia(shapeId, ix, iy, iz);
+    }
     // *************************************************************************
     // ConvexShape methods
 
@@ -192,15 +206,17 @@ abstract public class CustomConvexShape extends ConvexShape {
      * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
-        long shapeId = createShapeNative(halfExtents, inertia);
+        long shapeId = createShapeNative(halfExtents);
         setNativeId(shapeId);
 
         setContactFilterEnabled(enableContactFilter);
-        setScale(scale);
         setMargin(margin);
     }
     // *************************************************************************
     // native private methods
 
-    native private long createShapeNative(Vector3f he, Vector3f inertia);
+    native private long createShapeNative(Vector3f halfExtents);
+
+    native private static void setScaledInertia(
+            long shapeId, float ix, float iy, float iz);
 }
