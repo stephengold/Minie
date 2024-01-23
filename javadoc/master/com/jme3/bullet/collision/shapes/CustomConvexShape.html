@@ -138,12 +138,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">No-argument constructor needed by SavableClassUtil.</div>
 </div>
-<div class="col-first odd-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">CustomConvexShape</a><wbr>(com.jme3.math.Vector3f&nbsp;halfExtents,
- com.jme3.math.Vector3f&nbsp;inertia)</code></div>
+<div class="col-first odd-row-color"><code>protected </code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f)" class="member-name-link">CustomConvexShape</a><wbr>(com.jme3.math.Vector3f&nbsp;halfExtents)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Instantiate a custom collision shape with the specified extent and
- inertia.</div>
+<div class="block">Instantiate a custom collision shape with the specified extents.</div>
 </div>
 </div>
 </section>
@@ -181,9 +179,16 @@ loadScripts(document, 'script');</script>
 <div class="block">De-serialize this shape from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setScaledInertia(float,float,float)" class="member-name-link">setScaledInertia</a><wbr>(float&nbsp;ix,
+ float&nbsp;iy,
+ float&nbsp;iz)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the scaled rotational inertia.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this shape to the specified exporter, for example when saving
  to a J3O file.</div>
 </div>
@@ -243,19 +248,16 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">
+<section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f)">
 <h3>CustomConvexShape</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CustomConvexShape</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;halfExtents,
- com.jme3.math.Vector3f&nbsp;inertia)</span></div>
-<div class="block">Instantiate a custom collision shape with the specified extent and
- inertia.</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">CustomConvexShape</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;halfExtents)</span></div>
+<div class="block">Instantiate a custom collision shape with the specified extents. Subclass
+ constructors should also invoke <code>setScaledInertia()</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>halfExtents</code> - the desired half extents on each local axis, for
- scale=(1,1,1) and margin=0 (unaffected), or <code>null</code> to calculate
- AABBs using the supporting vertices</dd>
-<dd><code>inertia</code> - the desired local inertia vector for a shape with mass=1
- and scale=(1,1,1) (not null, all components &gt;0, unaffected)</dd>
+ scale=(1,1,1) and margin=0 (all components &gt;0, unaffected), or
+ <code>null</code> to calculate AABBs using the supporting vertices</dd>
 </dl>
 </section>
 </li>
@@ -288,6 +290,22 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>the location of the supporting vertex (in scaled shape
  coordinates)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setScaledInertia(float,float,float)">
+<h3>setScaledInertia</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setScaledInertia</span><wbr><span class="parameters">(float&nbsp;ix,
+ float&nbsp;iy,
+ float&nbsp;iz)</span></div>
+<div class="block">Alter the scaled rotational inertia. Typically invoked during
+ instantiation or after a change of scale.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ix</code> - the desired X-axis rotational inertia for mass=1 (&gt;0)</dd>
+<dd><code>iy</code> - the desired Y-axis rotational inertia for mass=1 (&gt;0)</dd>
+<dd><code>iz</code> - the desired Z-axis rotational inertia for mass=1 (&gt;0)</dd>
 </dl>
 </section>
 </li>
