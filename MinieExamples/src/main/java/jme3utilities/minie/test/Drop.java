@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -99,10 +99,6 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
     // fields
 
     /**
-     * application that contains this Drop
-     */
-    final private PhysicsDemo appInstance;
-    /**
      * physics bodies in this Drop, all must be dynamic
      */
     final private Collection<PhysicsBody> allBodies = new TreeSet<>();
@@ -118,6 +114,10 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
      * configured total mass of all bodies in this Drop
      */
     final private float totalMass;
+    /**
+     * application that contains this Drop
+     */
+    final private PhysicsDemo appInstance;
     /**
      * configured type of Drop
      */
