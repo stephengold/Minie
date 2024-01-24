@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.github.stephengold.shapes.custom.CustomEllipsoid;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
@@ -238,6 +239,16 @@ public class TestCloneShapes {
         convex2d.setMargin(0.14f);
         Assert.assertEquals(0.04f, convex2dClone.getMargin(), 0f);
 
+        // CustomEllipsoid
+        CustomEllipsoid ellipsoid = new CustomEllipsoid(2f, 3f, 4f, 0.2f);
+        setParameters(ellipsoid, 0f);
+        verifyParameters(ellipsoid, 0f);
+        CollisionShape ellipsoidClone = Heart.deepCopy(ellipsoid);
+        cloneTest(ellipsoid, ellipsoidClone);
+        Assert.assertEquals(0.04f, ellipsoidClone.getMargin(), 0f);
+        ellipsoid.setMargin(0.15f);
+        Assert.assertEquals(0.04f, ellipsoidClone.getMargin(), 0f);
+
         // CylinderCollisionShape
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
@@ -367,11 +378,13 @@ public class TestCloneShapes {
 
         CollisionShape shapeCopy
                 = BinaryExporter.saveAndLoad(assetManager, shape);
+        Assert.assertNotNull(shapeCopy);
         verifyParameters(shapeCopy, 0.3f);
         Assert.assertEquals(shape.getMargin(), shapeCopy.getMargin(), 0f);
 
         CollisionShape shapeCloneCopy
                 = BinaryExporter.saveAndLoad(assetManager, shapeClone);
+        Assert.assertNotNull(shapeCloneCopy);
         verifyParameters(shapeCloneCopy, 0.6f);
         Assert.assertEquals(
                 shapeClone.getMargin(), shapeCloneCopy.getMargin(), 0f);

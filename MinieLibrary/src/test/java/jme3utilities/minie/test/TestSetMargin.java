@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.github.stephengold.shapes.custom.CustomEllipsoid;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
@@ -129,6 +130,12 @@ public class TestSetMargin {
         assert convex2d.getMargin() == 0.04f;
         convex2d.setMargin(0.145f);
         assert convex2d.getMargin() == 0.145f;
+
+        // CustomEllipsoid
+        CollisionShape ellipsoid = new CustomEllipsoid(1f, 2f, 3f, 0.2f);
+        assert ellipsoid.getMargin() == 0.04f;
+        ellipsoid.setMargin(0.15f);
+        assert ellipsoid.getMargin() == 0.15f;
 
         // CylinderCollisionShape
         CollisionShape cylinder

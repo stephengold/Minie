@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.github.stephengold.shapes.custom.CustomEllipsoid;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
@@ -130,6 +131,11 @@ public class TestStaticBody {
         CollisionShape convex2d = new Convex2dShape(flatCone);
         PhysicsRigidBody convex2dBody = new PhysicsRigidBody(convex2d, 0f);
         space.addCollisionObject(convex2dBody);
+
+        // CustomEllipsoid
+        CustomEllipsoid ellipsoid = new CustomEllipsoid(1f);
+        PhysicsRigidBody ellipsoidBody = new PhysicsRigidBody(ellipsoid, 0f);
+        space.addCollisionObject(ellipsoidBody);
 
         // CylinderCollisionShape
         CollisionShape cylinder

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.github.stephengold.shapes.custom.CustomEllipsoid;
 import com.jme3.bullet.CollisionSpace;
 import com.jme3.bullet.DeformableSpace;
 import com.jme3.bullet.FillMode;
@@ -1036,6 +1037,18 @@ public class TestDefaults {
         Assert.assertFalse(cylinder.isNonMoving());
         Assert.assertFalse(cylinder.isPolyhedral());
         Assert.assertEquals(FastMath.TWO_PI, cylinder.unscaledVolume(), 1e-4f);
+
+        // CustomEllipsoid
+        CustomEllipsoid ellipsoid = new CustomEllipsoid(1f);
+        testShape(ellipsoid);
+        Assert.assertEquals(0.04f, ellipsoid.getMargin(), 0f);
+        Assert.assertFalse(ellipsoid.isConcave());
+        Assert.assertTrue(ellipsoid.isConvex());
+        Assert.assertFalse(ellipsoid.isInfinite());
+        Assert.assertFalse(ellipsoid.isNonMoving());
+        Assert.assertFalse(ellipsoid.isPolyhedral());
+        Assert.assertEquals(MyMath.cube(1.04f) * 4f * FastMath.PI / 3f,
+                ellipsoid.scaledVolume(), 1e-5f);
 
         // HullCollisionShape
         List<Vector3f> prismVertices = new ArrayList<>(6);

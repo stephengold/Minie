@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie.test;
 
+import com.github.stephengold.shapes.custom.CustomEllipsoid;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.ModelKey;
@@ -66,6 +67,7 @@ import com.jme3.texture.plugins.AWTLoader;
 import java.util.ArrayList;
 import java.util.List;
 import jme3utilities.MyAsset;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -153,6 +155,14 @@ public class TestSetScale {
         convex2d.setScale(non);
         assert convex2d.getScale(null).equals(non);
         assert flatCylinder.getScale(null).equals(non);
+
+        // CustomEllipsoid
+        CustomEllipsoid ellipsoid = new CustomEllipsoid(1f);
+        Assert.assertEquals(ident, ellipsoid.getScale(null));
+        ellipsoid.setScale(uni);
+        Assert.assertEquals(uni, ellipsoid.getScale(null));
+        ellipsoid.setScale(non);
+        Assert.assertEquals(non, ellipsoid.getScale(null));
 
         // CylinderCollisionShape
         CollisionShape cylinder
