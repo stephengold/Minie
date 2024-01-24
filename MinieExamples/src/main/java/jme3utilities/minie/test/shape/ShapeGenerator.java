@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -26,6 +26,13 @@
  */
 package jme3utilities.minie.test.shape;
 
+import com.github.stephengold.shapes.custom.CustomBox;
+import com.github.stephengold.shapes.custom.CustomCone;
+import com.github.stephengold.shapes.custom.CustomCylinder;
+import com.github.stephengold.shapes.custom.CustomEllipsoid;
+import com.github.stephengold.shapes.custom.CustomFrustum;
+import com.github.stephengold.shapes.custom.CustomHalfCylinder;
+import com.github.stephengold.shapes.custom.CustomHemisphere;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -148,6 +155,46 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
+     * Generate a box shape using {@code CustomBox}.
+     *
+     * @return a new shape
+     */
+    public CustomBox nextCustomBox() {
+        float rx = nextFloat(0.5f, 1.5f);
+        float ry = nextFloat(0.5f, 1.5f);
+        float rz = nextFloat(0.5f, 1.5f);
+        CustomBox result = new CustomBox(rx, ry, rz);
+
+        return result;
+    }
+
+    /**
+     * Generate a cone shape using {@code CustomCone}.
+     *
+     * @return a new shape
+     */
+    public CustomCone nextCustomCone() {
+        float baseRadius = nextFloat(0.5f, 1.5f);
+        float height = nextFloat(0.5f, 2.5f);
+        CustomCone result = new CustomCone(baseRadius, height);
+
+        return result;
+    }
+
+    /**
+     * Generate a cylinder shape using {@code CustomCylinder}.
+     *
+     * @return a new shape
+     */
+    public CustomCylinder nextCustomCylinder() {
+        float baseRadius = nextFloat(0.5f, 1.5f);
+        float height = nextFloat(1f, 4f);
+        CustomCylinder result = new CustomCylinder(baseRadius, height);
+
+        return result;
+    }
+
+    /**
      * Generate a cylinder shape.
      *
      * @return a new shape (not null)
@@ -174,6 +221,36 @@ public class ShapeGenerator extends Generator {
         CylinderCollisionShape cylinder = new CylinderCollisionShape(
                 baseRadius, height, MyVector3f.yAxis);
         MinkowskiSum result = new MinkowskiSum(cylinder, box);
+
+        return result;
+    }
+
+    /**
+     * Generate an ellipsoid shape using {@code CustomEllipsoid}.
+     *
+     * @return a new shape
+     */
+    public CustomEllipsoid nextCustomEllipsoid() {
+        float a = nextFloat(1f, 2f);
+        float b = nextFloat(0.6f, 1.6f);
+        float c = nextFloat(0.4f, 1.4f);
+        float inertiaFactor = nextFloat(0.1f, 1 / 3f);
+        CustomEllipsoid result
+                = new CustomEllipsoid(a, b, c, inertiaFactor);
+
+        return result;
+    }
+
+    /**
+     * Generate an ellipsoid shape using {@code CustomFrustum}.
+     *
+     * @return a new shape
+     */
+    public CustomFrustum nextCustomFrustum() {
+        float a = nextFloat(1f, 2f);
+        float b = nextFloat(0.01f, 1.6f);
+        float height = nextFloat(0.6f, 4f);
+        CustomFrustum result = new CustomFrustum(a, b, height);
 
         return result;
     }
@@ -238,6 +315,19 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
+     * Generate a half-cylinder shape.
+     *
+     * @return a new shape
+     */
+    public CustomHalfCylinder nextHalfCylinder() {
+        float baseRadius = nextFloat(0.5f, 1.5f);
+        float height = nextFloat(0.5f, 3f);
+        CustomHalfCylinder result = new CustomHalfCylinder(baseRadius, height);
+
+        return result;
+    }
+
+    /**
      * Approximate a Z-axis half-pipe shape.
      *
      * @return a new shape
@@ -252,6 +342,17 @@ public class ShapeGenerator extends Generator {
         CompoundCollisionShape result = CompoundTestShapes.makePipe(
                 innerRadius, thickness, length, arc, numChildren);
 
+        return result;
+    }
+
+    /**
+     * Generate a hemisphere shape.
+     *
+     * @return a new shape
+     */
+    public CustomHemisphere nextHemisphere() {
+        float r = nextFloat(0.6f, 1.6f);
+        CustomHemisphere result = new CustomHemisphere(r);
         return result;
     }
 
@@ -504,6 +605,18 @@ public class ShapeGenerator extends Generator {
                 result = nextConeBox();
                 break;
 
+            case "customBox":
+                result = nextCustomBox();
+                break;
+
+            case "customCone":
+                result = nextCustomCone();
+                break;
+
+            case "customCylinder":
+                result = nextCustomCylinder();
+                break;
+
             case "cylinder":
                 result = nextCylinder();
                 break;
@@ -516,6 +629,14 @@ public class ShapeGenerator extends Generator {
                 result = nextDome();
                 break;
 
+            case "ellipsoid":
+                result = nextCustomEllipsoid();
+                break;
+
+            case "frustum":
+                result = nextCustomFrustum();
+                break;
+
             case "football":
                 result = nextFootball();
                 break;
@@ -526,6 +647,14 @@ public class ShapeGenerator extends Generator {
 
             case "halfPipe":
                 result = nextHalfPipe();
+                break;
+
+            case "halfCylinder":
+                result = nextHalfCylinder();
+                break;
+
+            case "hemisphere":
+                result = nextHemisphere();
                 break;
 
             case "hull":
