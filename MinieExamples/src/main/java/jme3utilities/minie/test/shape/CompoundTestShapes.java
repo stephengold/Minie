@@ -866,7 +866,7 @@ final public class CompoundTestShapes {
             float theta = angle * childI;
             offset.x = majorRadius * FastMath.sin(theta);
             offset.y = majorRadius * FastMath.cos(theta);
-            rotation.fromAngleNormalAxis(-theta, Vector3f.UNIT_Z);
+            MyMath.fromAngles(0f, 0f, -theta, rotation);
 
             result.addChildShape(capsule, offset, rotation);
         }
