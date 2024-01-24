@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
+import com.jme3.bullet.collision.shapes.CustomConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.GImpactCollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
@@ -241,7 +242,7 @@ public class PhysicsDescriber extends Describer {
             float radius = sphere.getRadius();
             result.append(MyString.describe(radius));
 
-        } else {
+        } else if (!(shape instanceof CustomConvexShape)) {
             result.append('?');
         }
 
