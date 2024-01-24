@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 
 /**
- * An abstract base class for custom collision shapes defined in terms of their
+ * An abstract base class for collision shapes defined in terms of their
  * supporting vertices, based on Bullet's {@code btConvexInternalShape}.
  *
  * @author Stephen Gold sgold@sonic.net
@@ -75,9 +75,8 @@ abstract public class CustomConvexShape extends ConvexShape {
         }
     };
     /**
-     * copy of the half extents on each local axis, for scale=(1,1,1) and
-     * margin=0, or {@code null} to calculate AABBs using the supporting
-     * vertices
+     * half extents on each local axis, for scale=(1,1,1) and margin=0, or
+     * {@code null} to calculate AABBs using the supporting vertices
      */
     private Vector3f halfExtents;
     /**
@@ -135,7 +134,7 @@ abstract public class CustomConvexShape extends ConvexShape {
     // new protected methods
 
     /**
-     * Locate the shape's supporting vertex for the specified direction,
+     * Locate the shape's supporting vertex for the specified normal direction,
      * excluding collision margin.
      * <p>
      * This method is invoked by native code.
@@ -146,8 +145,8 @@ abstract public class CustomConvexShape extends ConvexShape {
      * coordinates)
      * @param dirZ the Z-coordinate of the direction to test (in scaled shape
      * coordinates)
-     * @return the location of the supporting vertex (in scaled shape
-     * coordinates)
+     * @return the location on the shape's surface with the specified normal (in
+     * scaled shape coordinates, must lie on or within the shape's bounding box)
      */
     abstract protected Vector3f
             locateSupport(float dirX, float dirY, float dirZ);

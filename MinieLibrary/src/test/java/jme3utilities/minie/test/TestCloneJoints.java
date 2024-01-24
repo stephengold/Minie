@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,7 @@ public class TestCloneJoints {
     // fields
 
     /**
-     * AssetManager required by the BinaryImporter
+     * AssetManager for {@code BinaryExporter.saveAndLoad()}
      */
     final private static AssetManager assetManager = new DesktopAssetManager();
 

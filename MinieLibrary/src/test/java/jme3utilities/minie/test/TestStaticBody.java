@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -78,7 +78,7 @@ public class TestStaticBody {
     // fields
 
     /**
-     * AssetManager to load Jaime, also required by the BinaryImporter
+     * AssetManager to load Jaime
      */
     final private static AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************

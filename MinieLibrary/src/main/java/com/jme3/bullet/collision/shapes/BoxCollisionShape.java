@@ -84,10 +84,10 @@ public class BoxCollisionShape extends ConvexShape {
     }
 
     /**
-     * Instantiate a cube-shaped box with the specified half extent.
+     * Instantiate a cube with the specified half extent.
      *
      * @param halfExtent the desired half extent on each local axis (in shape
-     * units, not negative)
+     * units, &gt;0)
      */
     public BoxCollisionShape(float halfExtent) {
         Validate.nonNegative(halfExtent, "half extent");
@@ -97,14 +97,14 @@ public class BoxCollisionShape extends ConvexShape {
     }
 
     /**
-     * Instantiate a box shape with the specified half extents.
+     * Instantiate a box with the specified half extents.
      *
-     * @param xHalfExtent the desired half extent on the local X axis (in shape
-     * units, not negative)
-     * @param yHalfExtent the desired half extent on the local Y axis (in shape
-     * units, not negative)
-     * @param zHalfExtent the desired half extent on the local Z axis (in shape
-     * units, not negative)
+     * @param xHalfExtent the desired unscaled half extent on the local X axis
+     * (in shape units, &ge;0)
+     * @param yHalfExtent the desired unscaled half extent on the local Y axis
+     * (in shape units, &ge;0)
+     * @param zHalfExtent the desired unscaled half extent on the local Z axis
+     * (in shape units, &ge;0)
      */
     public BoxCollisionShape(float xHalfExtent, float yHalfExtent,
             float zHalfExtent) {
@@ -139,10 +139,10 @@ public class BoxCollisionShape extends ConvexShape {
     }
 
     /**
-     * Instantiate a box shape with the specified half extents.
+     * Instantiate a box with the specified half extents.
      *
-     * @param halfExtents the desired half extents (in shape units, not null, no
-     * negative component, unaffected)
+     * @param halfExtents the desired unscaled half extents on each local axis
+     * (in shape units, not null, all components &ge;0, unaffected)
      */
     public BoxCollisionShape(Vector3f halfExtents) {
         Validate.nonNegative(halfExtents, "half extents");
