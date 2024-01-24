@@ -97,6 +97,27 @@ abstract public class CustomConvexShape extends ConvexShape {
      * Instantiate a custom collision shape with the specified extents. Subclass
      * constructors should also invoke {@code setScaledInertia()}.
      *
+     * @param xHalfExtent the desired half extent on the local X axis, for
+     * scale=(1,1,1) and margin=0 (&gt;0)
+     * @param yHalfExtent the desired half extent on the local Y axis, for
+     * scale=(1,1,1) and margin=0 (&gt;0)
+     * @param zHalfExtent the desired half extent on the local Z axis, for
+     * scale=(1,1,1) and margin=0 (&gt;0)
+     */
+    protected CustomConvexShape(
+            float xHalfExtent, float yHalfExtent, float zHalfExtent) {
+        Validate.positive(xHalfExtent, "X half extent");
+        Validate.positive(yHalfExtent, "Y half extent");
+        Validate.positive(zHalfExtent, "Z half extent");
+
+        this.halfExtents = new Vector3f(xHalfExtent, yHalfExtent, zHalfExtent);
+        createShape();
+    }
+
+    /**
+     * Instantiate a custom collision shape with the specified extents. Subclass
+     * constructors should also invoke {@code setScaledInertia()}.
+     *
      * @param halfExtents the desired half extents on each local axis, for
      * scale=(1,1,1) and margin=0 (all components &gt;0, unaffected), or
      * {@code null} to calculate AABBs using the supporting vertices
