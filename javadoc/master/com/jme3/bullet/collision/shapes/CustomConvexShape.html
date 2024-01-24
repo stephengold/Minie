@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">CustomConvexShape</span>
 <span class="extends-implements">extends <a href="ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></span></div>
-<div class="block">An abstract base class for custom collision shapes defined in terms of their
+<div class="block">An abstract base class for collision shapes defined in terms of their
  supporting vertices, based on Bullet's <code>btConvexInternalShape</code>.</div>
 </section>
 <section class="summary">
@@ -139,8 +139,15 @@ loadScripts(document, 'script');</script>
 <div class="block">No-argument constructor needed by SavableClassUtil.</div>
 </div>
 <div class="col-first odd-row-color"><code>protected </code></div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f)" class="member-name-link">CustomConvexShape</a><wbr>(com.jme3.math.Vector3f&nbsp;halfExtents)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(float,float,float)" class="member-name-link">CustomConvexShape</a><wbr>(float&nbsp;xHalfExtent,
+ float&nbsp;yHalfExtent,
+ float&nbsp;zHalfExtent)</code></div>
 <div class="col-last odd-row-color">
+<div class="block">Instantiate a custom collision shape with the specified extents.</div>
+</div>
+<div class="col-first even-row-color"><code>protected </code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f)" class="member-name-link">CustomConvexShape</a><wbr>(com.jme3.math.Vector3f&nbsp;halfExtents)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Instantiate a custom collision shape with the specified extents.</div>
 </div>
 </div>
@@ -170,7 +177,7 @@ loadScripts(document, 'script');</script>
  float&nbsp;dirY,
  float&nbsp;dirZ)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Locate the shape's supporting vertex for the specified direction,
+<div class="block">Locate the shape's supporting vertex for the specified normal direction,
  excluding collision margin.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -248,6 +255,25 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="&lt;init&gt;(float,float,float)">
+<h3>CustomConvexShape</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">CustomConvexShape</span><wbr><span class="parameters">(float&nbsp;xHalfExtent,
+ float&nbsp;yHalfExtent,
+ float&nbsp;zHalfExtent)</span></div>
+<div class="block">Instantiate a custom collision shape with the specified extents. Subclass
+ constructors should also invoke <code>setScaledInertia()</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>xHalfExtent</code> - the desired half extent on the local X axis, for
+ scale=(1,1,1) and margin=0 (&gt;0)</dd>
+<dd><code>yHalfExtent</code> - the desired half extent on the local Y axis, for
+ scale=(1,1,1) and margin=0 (&gt;0)</dd>
+<dd><code>zHalfExtent</code> - the desired half extent on the local Z axis, for
+ scale=(1,1,1) and margin=0 (&gt;0)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f)">
 <h3>CustomConvexShape</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">CustomConvexShape</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;halfExtents)</span></div>
@@ -275,7 +301,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">locateSupport</span><wbr><span class="parameters">(float&nbsp;dirX,
  float&nbsp;dirY,
  float&nbsp;dirZ)</span></div>
-<div class="block">Locate the shape's supporting vertex for the specified direction,
+<div class="block">Locate the shape's supporting vertex for the specified normal direction,
  excluding collision margin.
  <p>
  This method is invoked by native code.</div>
@@ -288,8 +314,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dirZ</code> - the Z-coordinate of the direction to test (in scaled shape
  coordinates)</dd>
 <dt>Returns:</dt>
-<dd>the location of the supporting vertex (in scaled shape
- coordinates)</dd>
+<dd>the location on the shape's surface with the specified normal (in
+ scaled shape coordinates, must lie on or within the shape's bounding box)</dd>
 </dl>
 </section>
 </li>
