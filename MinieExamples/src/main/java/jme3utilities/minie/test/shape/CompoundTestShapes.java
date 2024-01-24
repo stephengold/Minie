@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -91,7 +91,7 @@ final public class CompoundTestShapes {
     private CompoundTestShapes() {
     }
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed - TODO more validation of method arguments
 
     /**
      * Generate a barbell shape with 2 cylindrical plates.

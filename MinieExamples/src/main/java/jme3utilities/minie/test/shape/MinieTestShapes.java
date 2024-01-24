@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -232,10 +232,10 @@ final public class MinieTestShapes {
     }
 
     /**
-     * Generate a spherical dome or plano-convex lens.
+     * Generate a spherical cap, dome, or plano-convex lens.
      *
      * @param radius (in unscaled shape units, &gt;0)
-     * @param verticalAngle the central angle from the top to the rim (in
+     * @param verticalAngle the central angle from the apex to the rim (in
      * radians, &lt;Pi, &gt;0, Pi/2 &rarr; hemisphere)
      * @return a new hull shape
      */
