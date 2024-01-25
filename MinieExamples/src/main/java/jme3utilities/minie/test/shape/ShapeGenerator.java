@@ -142,7 +142,7 @@ public class ShapeGenerator extends Generator {
     /**
      * Generate a cone+box shape.
      *
-     * @return a new Minkowski-sum shape (not null)
+     * @return a new Minkowski-sum shape
      */
     public MinkowskiSum nextConeBox() {
         BoxCollisionShape box = nextBox();
@@ -212,7 +212,7 @@ public class ShapeGenerator extends Generator {
     /**
      * Generate a cylinder+box shape.
      *
-     * @return a new Minkowski-sum shape (not null)
+     * @return a new Minkowski-sum shape
      */
     public MinkowskiSum nextCylinderBox() {
         BoxCollisionShape box = nextBox();
@@ -551,7 +551,7 @@ public class ShapeGenerator extends Generator {
     /**
      * Generate a rounded disc shape.
      *
-     * @return a new Minkowski-sum shape (not null)
+     * @return a new Minkowski-sum shape
      */
     public MinkowskiSum nextRoundedDisc() {
         float baseRadius = nextFloat(0.3f, 1.5f);
@@ -567,7 +567,7 @@ public class ShapeGenerator extends Generator {
     /**
      * Generate a flying-saucer shape.
      *
-     * @return a new Minkowski-sum shape (not null)
+     * @return a new Minkowski-sum shape
      */
     public MinkowskiSum nextSaucer() {
         float baseRadius = nextFloat(0.3f, 1f);
