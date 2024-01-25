@@ -20,13 +20,13 @@ tasks.withType(JavaCompile).configureEach { // Java compile-time options:
 
 dependencies {
     implementation acorusCoordinates
-    //implementation junitCoordinates
-    implementation heartCoordinates
-    implementation wesCoordinates
     runtimeOnly    desktopCoordinates
     implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
+    implementation heartCoordinates
+    //implementation junitCoordinates
     implementation pluginsCoordinates
     runtimeOnly testdataCoordinates
+    implementation wesCoordinates
 
     // select one version of LWJGL:
     //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
