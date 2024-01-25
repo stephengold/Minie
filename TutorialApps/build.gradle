@@ -38,3 +38,135 @@ dependencies {
 }
 
 startScripts.dependsOn(':MinieLibrary:assemble')
+
+// Register tasks to run specific apps:
+
+tasks.register('HelloApplyScale', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloApplyScale'
+}
+tasks.register('HelloBoneLink', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloBoneLink'
+}
+tasks.register('HelloCcd', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloCcd'
+}
+tasks.register('HelloCharacter', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloCharacter'
+}
+tasks.register('HelloCharacterControl', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloCharacterControl'
+}
+tasks.register('HelloCloth', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloCloth'
+}
+tasks.register('HelloConsole', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloConsole'
+}
+tasks.register('HelloContactResponse', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloContactResponse'
+}
+tasks.register('HelloCustomDebug', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloCustomDebug'
+}
+tasks.register('HelloDac', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloDac'
+}
+tasks.register('HelloDamping', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloDamping'
+}
+tasks.register('HelloDeactivation', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloDeactivation'
+}
+tasks.register('HelloDebugToPost', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloDebugToPost'
+}
+tasks.register('HelloDoor', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloDoor'
+}
+tasks.register('HelloDoubleEnded', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloDoubleEnded'
+}
+tasks.register('HelloGhost', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloGhost'
+}
+tasks.register('HelloJoint', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloJoint'
+}
+tasks.register('HelloKinematicRbc', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloKinematicRbc'
+}
+tasks.register('HelloKinematics', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloKinematics'
+}
+tasks.register('HelloLimit', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloLimit'
+}
+tasks.register('HelloLocalPhysics', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloLocalPhysics'
+}
+tasks.register('HelloMadMallet', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloMadMallet'
+}
+tasks.register('HelloMassDistribution', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloMassDistribution'
+}
+tasks.register('HelloMinkowski', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloMinkowski'
+}
+tasks.register('HelloMotor', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloMotor'
+}
+tasks.register('HelloNewHinge', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloNewHinge'
+}
+tasks.register('HelloNonUniformGravity', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloNonUniformGravity'
+}
+tasks.register('HelloPin', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloPin'
+}
+tasks.register('HelloPoi', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloPoi'
+}
+tasks.register('HelloRbc', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloRbc'
+}
+tasks.register('HelloRigidBody', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloRigidBody'
+}
+tasks.register('HelloServo', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloServo'
+}
+tasks.register('HelloSoftBody', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloSoftBody'
+}
+tasks.register('HelloSoftRope', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloSoftRope'
+}
+tasks.register('HelloSoftSoft', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloSoftSoft'
+}
+tasks.register('HelloSpring', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloSpring'
+}
+tasks.register('HelloStaticBody', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloStaticBody'
+}
+tasks.register('HelloUpdate', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloUpdate'
+}
+tasks.register('HelloVehicle', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloVehicle'
+}
+tasks.register('HelloWalk', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloWalk'
+}
+tasks.register('HelloWalkOtoBcc', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloWalkOtoBcc'
+}
+tasks.register('HelloWalkOtoCc', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloWalkOtoCc'
+}
+tasks.register('HelloWind', JavaExec) {
+    mainClass = 'jme3utilities.tutorial.HelloWind'
+}
