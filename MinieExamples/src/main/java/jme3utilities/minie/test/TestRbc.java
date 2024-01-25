@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -26,6 +26,8 @@
  */
 package jme3utilities.minie.test;
 
+import com.github.stephengold.shapes.custom.CustomBox;
+import com.github.stephengold.shapes.custom.CustomEllipsoid;
 import com.jme3.app.Application;
 import com.jme3.app.StatsAppState;
 import com.jme3.app.state.AppState;
@@ -137,15 +139,16 @@ public class TestRbc
      */
     final private static String[] testNames = {
         "17x17Terrain", "33x33Terrain", "5x5Terrain", "65x65Terrain",
-        "9x9Terrain", "Box", "BoxGImpact", "BoxHull", "BoxMesh", "Cone",
-        "ConeGImpact", "ConeHull", "ConeMesh", "Cylinder", "CylinderGImpact",
-        "CylinderHull", "CylinderMesh", "FourSphere", "KissCapsule", "KissHull",
-        "KissMesh", "KissMultiSphere", "KissSphere", "LargeTerrain",
-        "OneSphere", "Prism", "Saucer", "SaucerGImpact", "SaucerHull",
-        "SaucerMesh", "Simplex", "SmallTerrain", "Sphere", "SphereCapsule",
-        "SphereGImpact", "SphereHull", "SphereMesh", "Square", "SquareBox",
-        "SquareConvex2d", "SquareGImpact", "SquareHeightfield", "SquareHull",
-        "SquareMesh", "TetraGImpact", "TetraHull", "TetraMesh", "TwoSphere"
+        "9x9Terrain", "Box", "BoxCustom", "BoxGImpact", "BoxHull", "BoxMesh",
+        "Cone", "ConeGImpact", "ConeHull", "ConeMesh", "Cylinder",
+        "CylinderGImpact", "CylinderHull", "CylinderMesh", "FourSphere",
+        "KissCapsule", "KissHull", "KissMesh", "KissMultiSphere", "KissSphere",
+        "LargeTerrain", "OneSphere", "Prism", "Saucer", "SaucerGImpact",
+        "SaucerHull", "SaucerMesh", "Simplex", "SmallTerrain", "Sphere",
+        "SphereCapsule", "SphereCustom", "SphereGImpact", "SphereHull",
+        "SphereMesh", "Square", "SquareBox", "SquareConvex2d", "SquareCustom",
+        "SquareGImpact", "SquareHeightfield", "SquareHull", "SquareMesh",
+        "TetraGImpact", "TetraHull", "TetraMesh", "TwoSphere"
     };
     // *************************************************************************
     // fields
@@ -590,6 +593,7 @@ public class TestRbc
                 break;
 
             case "Box":
+            case "BoxCustom":
             case "BoxGImpact":
             case "BoxHull":
             case "BoxMesh":
@@ -642,6 +646,7 @@ public class TestRbc
             case "OneSphere":
             case "Sphere":
             case "SphereCapsule":
+            case "SphereCustom":
             case "SphereGImpact":
             case "SphereHull":
             case "SphereMesh":
@@ -650,6 +655,7 @@ public class TestRbc
 
             case "Square":
             case "SquareBox":
+            case "SquareCustom":
             case "SquareConvex2d":
             case "SquareGImpact":
             case "SquareHeightfield":
@@ -683,6 +689,10 @@ public class TestRbc
             case "Box":
                 testShape
                         = new BoxCollisionShape(radius, halfThickness, radius);
+                break;
+
+            case "BoxCustom":
+                testShape = new CustomBox(radius, halfThickness, radius);
                 break;
 
             case "BoxGImpact":
@@ -1019,6 +1029,10 @@ public class TestRbc
                 testShape = new CapsuleCollisionShape(radius, height);
                 break;
 
+            case "SphereCustom":
+                testShape = new CustomEllipsoid(radius);
+                break;
+
             case "SphereGImpact":
                 testShape = new GImpactCollisionShape(mesh);
                 break;
@@ -1053,6 +1067,10 @@ public class TestRbc
 
             case "SquareBox":
                 testShape = new BoxCollisionShape(he, he, 0.04f);
+                break;
+
+            case "SquareCustom":
+                testShape = new CustomBox(he, he, 0.001f);
                 break;
 
             case "SquareConvex2d":
