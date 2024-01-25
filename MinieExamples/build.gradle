@@ -48,12 +48,42 @@ clean.dependsOn(':MinieAssets:cleanModels', ':MinieAssets:cleanShapes', ':MinieA
 
 // Register tasks to run specific apps:
 
+tasks.register('BalanceDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.BalanceDemo'
+}
+tasks.register('BuoyDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.BuoyDemo'
+}
+tasks.register('ConveyorDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.ConveyorDemo'
+}
+tasks.register('DropTest', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.DropTest'
+}
+tasks.register('ForceDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.ForceDemo'
+}
+tasks.register('JointDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.JointDemo'
+}
+tasks.register('JointElasticity', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.JointElasticity'
+}
+tasks.register('MultiSphereDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.MultiSphereDemo'
+}
 tasks.register('NewtonsCradle', JavaExec) {
     mainClass = 'jme3utilities.minie.test.NewtonsCradle'
 }
 tasks.register('NewtonsCradleDeleteSettings', JavaExec) {
     args '--deleteOnly'
     mainClass = 'jme3utilities.minie.test.NewtonsCradle'
+}
+tasks.register('Pachinko', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.Pachinko'
+}
+tasks.register('PoolDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.PoolDemo'
 }
 tasks.register('RopeDemo', JavaExec) {
     mainClass = 'jme3utilities.minie.test.RopeDemo'
@@ -62,11 +92,47 @@ tasks.register('RopeDemoDeleteSettings', JavaExec) {
     args '--deleteOnly'
     mainClass = 'jme3utilities.minie.test.RopeDemo'
 }
+tasks.register('SeJointDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.SeJointDemo'
+}
 tasks.register('SplitDemo', JavaExec) {
     mainClass = 'jme3utilities.minie.test.SplitDemo'
 }
+tasks.register('SweepDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.SweepDemo'
+}
+tasks.register('TargetDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TargetDemo'
+}
+tasks.register('TestDac', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestDac'
+}
 tasks.register('TestGearJoint', JavaExec) {
     mainClass = 'jme3utilities.minie.test.TestGearJoint'
+}
+tasks.register('TestInsideTriangle', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestInsideTriangle'
+}
+tasks.register('TestMultiBody', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestMultiBody'
+}
+tasks.register('TestPin', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestPin'
+}
+tasks.register('TestRbc', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestRbc'
+}
+tasks.register('TestRectangularSolid', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestRectangularSolid'
+}
+tasks.register('TestSoftBody', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestSoftBody'
+}
+tasks.register('TrackDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TrackDemo'
+}
+tasks.register('WatchDemo', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.WatchDemo'
 }
 tasks.register('Windlass', JavaExec) {
     mainClass = 'jme3utilities.minie.test.Windlass'
