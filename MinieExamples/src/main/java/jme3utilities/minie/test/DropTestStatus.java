@@ -116,7 +116,7 @@ class DropTestStatus extends SimpleAppState {
         "lidlessBox", "link", "madMallet", "mallet", "multiSphere", "platonic",
         "prism", "pyramid", "ragdoll", "roundedDisc", "saucer", "snowman",
         "sphere", "squishyBall", "star", "sword", "table", "teapot", "teapotGi",
-        "tetrahedron", "thumbTack", "top", "torus", "triangularFrame", 
+        "tetrahedron", "thumbTack", "top", "torus", "triangularFrame",
         "trident", "washer"
     };
     /**
