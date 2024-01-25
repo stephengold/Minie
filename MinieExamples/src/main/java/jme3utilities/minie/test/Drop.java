@@ -377,6 +377,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
                 break;
 
             case "box":
+            case "customBox":
             case "frame":
             case "halfPipe":
             case "hull":
@@ -398,10 +399,16 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "capsule":
             case "cone":
             case "coneBox":
+            case "customCone":
+            case "customCylinder":
             case "cylinder":
             case "cylinderBox":
             case "dome":
+            case "ellipsoid":
             case "football":
+            case "frustum":
+            case "halfCylinder":
+            case "hemisphere":
             case "multiSphere":
             case "roundedDisc":
             case "saucer":
