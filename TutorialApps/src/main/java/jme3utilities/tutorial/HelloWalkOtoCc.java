@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -197,7 +197,7 @@ public class HelloWalkOtoCc
         character.setWalkDirection(walkOffset);
 
         // Decide whether to jump.
-        if (jumpRequested) {
+        if (jumpRequested && character.onGround()) {
             character.jump();
         }
 
