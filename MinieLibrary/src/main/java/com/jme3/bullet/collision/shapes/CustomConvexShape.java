@@ -160,6 +160,10 @@ abstract public class CustomConvexShape extends ConvexShape {
      * @param iz the desired Z-axis rotational inertia for mass=1 (&gt;0)
      */
     protected void setScaledInertia(float ix, float iy, float iz) {
+        Validate.positive(ix, "X-axis inertia");
+        Validate.positive(iy, "Y-axis inertia");
+        Validate.positive(iz, "Z-axis inertia");
+
         inertia.set(ix, iy, iz);
 
         long shapeId = nativeId();
