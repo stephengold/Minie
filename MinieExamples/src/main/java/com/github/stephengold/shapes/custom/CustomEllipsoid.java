@@ -62,6 +62,7 @@ public class CustomEllipsoid extends CustomConvexShape {
     /**
      * field names for serialization
      */
+    final private static String tagInertiaFactor = "inertiaFactor";
     final private static String tagUnscaledHe = "unscaledHe";
     // *************************************************************************
     // fields
@@ -221,6 +222,8 @@ public class CustomEllipsoid extends CustomConvexShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
+
+        this.inertiaFactor = capsule.readFloat(tagInertiaFactor, 0.2f);
         this.unscaledHe = (Vector3f) capsule.readSavable(
                 tagUnscaledHe, new Vector3f(1f, 1f, 1f));
         setScale(scale);
@@ -285,6 +288,8 @@ public class CustomEllipsoid extends CustomConvexShape {
     public void write(JmeExporter exporter) throws IOException {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
+
+        capsule.write(inertiaFactor, tagInertiaFactor, 0.2f);
         capsule.write(unscaledHe, tagUnscaledHe, new Vector3f(1f, 1f, 1f));
     }
 }
