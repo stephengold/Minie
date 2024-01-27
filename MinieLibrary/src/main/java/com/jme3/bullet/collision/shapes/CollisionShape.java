@@ -625,8 +625,10 @@ abstract public class CollisionShape
         Savable s = capsule.readSavable(tagScale, new Vector3f(1f, 1f, 1f));
         scale.set((Vector3f) s);
         this.margin = capsule.readFloat(tagMargin, 0.04f);
-        // subclass must create the btCollisionShape and
-        // apply contact-filter enable, margin, and scale
+        /*
+         * Subclasses must create the btCollisionShape and
+         * apply the contact-filter enable, margin, and scale to it.
+         */
     }
 
     /**

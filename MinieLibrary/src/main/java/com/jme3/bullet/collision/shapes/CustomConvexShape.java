@@ -206,6 +206,7 @@ abstract public class CustomConvexShape extends ConvexShape {
         this.inertia = (Vector3f) capsule.readSavable(
                 tagInertia, new Vector3f(1f, 1f, 1f));
         createShape();
+        // Subclasses must apply the scale.
     }
 
     /**
