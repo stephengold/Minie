@@ -216,7 +216,7 @@ public class CustomHemisphere extends CustomConvexShape {
          */
         float iy = 0.4f * scaledRadius * scaledRadius;
         float ixz = iy - scaledY0 * scaledY0;
-        this.setScaledInertia(ixz, iy, ixz);
+        setScaledInertia(ixz, iy, ixz);
     }
 
     /**

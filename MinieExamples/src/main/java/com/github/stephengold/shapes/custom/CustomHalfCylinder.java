@@ -245,7 +245,7 @@ public class CustomHalfCylinder extends CustomConvexShape {
         float ix = rSquared / 4f + hSquared / 12f;
         float iy = 0.5f * rSquared;
         float iz = ix - x0Squared;
-        this.setScaledInertia(ix, iy, iz);
+        setScaledInertia(ix, iy, iz);
     }
 
     /**

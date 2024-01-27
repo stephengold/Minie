@@ -236,7 +236,7 @@ public class CustomCone extends CustomConvexShape {
          */
         float ixz = 0.15f * rSquared + 0.0375f * hSquared;
         float iy = 0.3f * rSquared;
-        this.setScaledInertia(ixz, iy, ixz);
+        setScaledInertia(ixz, iy, ixz);
     }
 
     /**

@@ -265,7 +265,7 @@ public class CustomFrustum extends CustomConvexShape {
         float ixz = (0.05f / denom) * mom - scaledY0 * scaledY0;
         float iy = (0.3f / denom)
                 * (a4 + a3 * scaledB + a2 * b2 + scaledA * b3 + b4);
-        this.setScaledInertia(ixz, iy, ixz);
+        setScaledInertia(ixz, iy, ixz);
     }
 
     /**
