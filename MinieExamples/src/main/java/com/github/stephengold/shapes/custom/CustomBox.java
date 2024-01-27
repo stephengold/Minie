@@ -230,21 +230,18 @@ public class CustomBox extends CustomConvexShape {
     public void setScale(Vector3f scale) {
         super.setScale(scale);
 
-        if (unscaledHe != null) {
-            unscaledHe.mult(scale, scaledHe);
-
-            float a = scaledHe.x;
-            float b = scaledHe.y;
-            float c = scaledHe.z;
-            /*
-             * The moments of inertia of a uniformly dense box
-             * with mass=1, around its center of mass:
-             */
-            float ix = (b * b + c * c) / 3f;
-            float iy = (a * a + c * c) / 3f;
-            float iz = (a * a + b * b) / 3f;
-            this.setScaledInertia(ix, iy, iz);
-        }
+        unscaledHe.mult(scale, scaledHe);
+        float a = scaledHe.x;
+        float b = scaledHe.y;
+        float c = scaledHe.z;
+        /*
+         * The moments of inertia of a uniformly dense box
+         * with mass=1, around its center of mass:
+         */
+        float ix = (b * b + c * c) / 3f;
+        float iy = (a * a + c * c) / 3f;
+        float iz = (a * a + b * b) / 3f;
+        setScaledInertia(ix, iy, iz);
     }
 
     /**

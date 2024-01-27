@@ -257,24 +257,21 @@ public class CustomEllipsoid extends CustomConvexShape {
     public void setScale(Vector3f scale) {
         super.setScale(scale);
 
-        if (unscaledHe != null) {
-            unscaledHe.mult(scale, scaledHe);
-            scaledHe.mult(scaledHe, squaredScaledHe);
-
-            float a2 = scaledHe.x * scaledHe.x;
-            float b2 = scaledHe.y * scaledHe.y;
-            float c2 = scaledHe.z * scaledHe.z;
-            /*
-             * see https://adamheins.com/blog/ellipsoidal-shell-inertia
-             *
-             * the moments of inertia of a uniformly dense ellipsoid
-             * with mass=1, around its center of mass:
-             */
-            float ix = inertiaFactor * (b2 + c2);
-            float iy = inertiaFactor * (a2 + c2);
-            float iz = inertiaFactor * (a2 + b2);
-            this.setScaledInertia(ix, iy, iz);
-        }
+        unscaledHe.mult(scale, scaledHe);
+        scaledHe.mult(scaledHe, squaredScaledHe);
+        float a2 = squaredScaledHe.x;
+        float b2 = squaredScaledHe.y;
+        float c2 = squaredScaledHe.z;
+        /*
+         * see https://adamheins.com/blog/ellipsoidal-shell-inertia
+         *
+         * the moments of inertia of a uniformly dense ellipsoid
+         * with mass=1, around its center of mass:
+         */
+        float ix = inertiaFactor * (b2 + c2);
+        float iy = inertiaFactor * (a2 + c2);
+        float iz = inertiaFactor * (a2 + b2);
+        setScaledInertia(ix, iy, iz);
     }
 
     /**
