@@ -356,9 +356,8 @@ public class TestDefaults {
         float suspensionRestLength = 0.1f;
         float wheelRadius = 1f;
         boolean isFrontWheel = true;
-        VehicleWheel wheel = vehicle.addWheel(
-                null, connectionPoint, direction, axle, suspensionRestLength,
-                wheelRadius, isFrontWheel);
+        VehicleWheel wheel = vehicle.addWheel(null, connectionPoint, direction,
+                axle, suspensionRestLength, wheelRadius, isFrontWheel);
         Assert.assertEquals(0f, wheel.getBrake(), 0f);
         Assert.assertEquals(0f, wheel.getEngineForce(), 0f);
         Assert.assertEquals(10.5f, wheel.getFrictionSlip(), 0f);
@@ -424,9 +423,8 @@ public class TestDefaults {
                 new Vector3f(1f, 0f, 0f), new Vector3f(1f, 0f, 0f));
         testHinge(deHinge, 2);
 
-        New6Dof seNew6Dof = new New6Dof(
-                rigidB, new Vector3f(), new Vector3f(), new Matrix3f(),
-                new Matrix3f(), RotationOrder.ZYX);
+        New6Dof seNew6Dof = new New6Dof(rigidB, new Vector3f(), new Vector3f(),
+                new Matrix3f(), new Matrix3f(), RotationOrder.ZYX);
         testNew6Dof(seNew6Dof, 1);
 
         New6Dof deNew6Dof = new New6Dof(
@@ -449,9 +447,9 @@ public class TestDefaults {
                 rigidA, rigidB, new Vector3f(), new Vector3f(), false);
         testSixDof(deSix, 2);
 
-        SixDofSpringJoint deSpring = new SixDofSpringJoint(rigidA, rigidB,
-                new Vector3f(), new Vector3f(), new Matrix3f(), new Matrix3f(),
-                false);
+        SixDofSpringJoint deSpring = new SixDofSpringJoint(
+                rigidA, rigidB, new Vector3f(), new Vector3f(), new Matrix3f(),
+                new Matrix3f(), false);
         testSixDof(deSpring, 2);
 
         SliderJoint deSlider = new SliderJoint(rigidA, rigidB,

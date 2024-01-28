@@ -145,8 +145,8 @@ public class TestSetScale {
         // Convex2dShape of a cylinder
         float radius = 10f;
         float height = 0f;
-        CylinderCollisionShape flatCylinder = new CylinderCollisionShape(radius,
-                height, PhysicsSpace.AXIS_Z);
+        CylinderCollisionShape flatCylinder = new CylinderCollisionShape(
+                radius, height, PhysicsSpace.AXIS_Z);
         CollisionShape convex2d = new Convex2dShape(flatCylinder);
         Utils.assertEquals(ident, convex2d.getScale(null), 0f);
         convex2d.setScale(uni);

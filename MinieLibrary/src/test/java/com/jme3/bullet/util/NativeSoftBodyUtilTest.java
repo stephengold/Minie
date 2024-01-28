@@ -85,10 +85,10 @@ public class NativeSoftBodyUtilTest {
         IntBuffer jme2bulletIndexMap
                 = NativeSoftBodyUtil.generateIndexMap(jmePositions);
 
-        Assert.assertEquals(jmePositions.capacity() / 3,
-                jme2bulletIndexMap.capacity());
-        Assert.assertEquals(jme2bulletIndexMap.limit(),
-                jme2bulletIndexMap.capacity());
+        Assert.assertEquals(
+                jmePositions.capacity() / 3, jme2bulletIndexMap.capacity());
+        Assert.assertEquals(
+                jme2bulletIndexMap.limit(), jme2bulletIndexMap.capacity());
 
         /*
          * bulletPositions should be generated from the mapBulletPositions
@@ -106,8 +106,8 @@ public class NativeSoftBodyUtilTest {
          * generate bullet positions from the index mapping,
          * test should still pass
          */
-        bulletPositions = NativeSoftBodyUtil.mapVertexData(jme2bulletIndexMap,
-                jmePositions, 3);
+        bulletPositions = NativeSoftBodyUtil.mapVertexData(
+                jme2bulletIndexMap, jmePositions, 3);
 
         verifyIndexMap(jmePositions, jme2bulletIndexMap, bulletPositions);
 
@@ -143,8 +143,8 @@ public class NativeSoftBodyUtilTest {
         );
 
         jme2bulletIndexMap = NativeSoftBodyUtil.generateIndexMap(jmePositions);
-        bulletPositions = NativeSoftBodyUtil.mapVertexData(jme2bulletIndexMap,
-                jmePositions, 3);
+        bulletPositions = NativeSoftBodyUtil.mapVertexData(
+                jme2bulletIndexMap, jmePositions, 3);
 
         verifyIndexMap(jmePositions, jme2bulletIndexMap, bulletPositions);
     }
@@ -177,8 +177,8 @@ public class NativeSoftBodyUtilTest {
         );
 
         IntBuffer resultIndex = IntBuffer.wrap(new int[6]);
-        NativeSoftBodyUtil.mapIndices(jme2bulletIndexMap,
-                IndexBuffer.wrapIndexBuffer(facesIndex),
+        NativeSoftBodyUtil.mapIndices(
+                jme2bulletIndexMap, IndexBuffer.wrapIndexBuffer(facesIndex),
                 IndexBuffer.wrapIndexBuffer(resultIndex));
 
         for (int i = 0, size = facesIndex.capacity(); i < size; ++i) {
@@ -228,8 +228,8 @@ public class NativeSoftBodyUtilTest {
         verifyIndexMap(jmePositions, jme2bulletIndexMap, bulletPositions);
 
         jme2bulletIndexMap = NativeSoftBodyUtil.generateIndexMap(jmePositions);
-        bulletPositions = NativeSoftBodyUtil.mapVertexData(jme2bulletIndexMap,
-                jmePositions, 3);
+        bulletPositions = NativeSoftBodyUtil.mapVertexData(
+                jme2bulletIndexMap, jmePositions, 3);
 
         // second verification with generated jme2bullet indexMap
         verifyIndexMap(jmePositions, jme2bulletIndexMap, bulletPositions);
