@@ -269,67 +269,6 @@ tasks.register('cleanWindows64', Delete) {
     delete nativeDir + 'windows/x86_64/bulletjme.dll'
 }
 
-// javadoc to (web)site tasks, triggered by push-master.yml
-
-tasks.register('copyJavadocToSite') {
-    dependsOn 'copyMasterJavadocToSite', \
-     'copy77JavadocToSite', \
-     'copy76JavadocToSite', \
-     'copy75JavadocToSite', \
-     'copy74JavadocToSite', \
-     'copy72JavadocToSite', \
-     'copy71JavadocToSite', \
-     'copy70JavadocToSite', \
-     'copy62JavadocToSite', \
-     'copy61JavadocToSite', \
-     'copy60JavadocToSite', \
-     'copy51JavadocToSite', \
-     'copy50JavadocToSite', \
-     'copy49JavadocToSite', \
-     'copy48JavadocToSite', \
-     'copy47JavadocToSite', \
-     'copy46JavadocToSite', \
-     'copy45JavadocToSite', \
-     'copy44JavadocToSite', \
-     'copy43JavadocToSite', \
-     'copy42JavadocToSite', \
-     'copy41JavadocToSite', \
-     'copy40JavadocToSite', \
-     'copy31JavadocToSite', \
-     'copy30JavadocToSite', \
-     'copy20JavadocToSite'
-}
-tasks.register('copyMasterJavadocToSite', Copy) {
-    dependsOn 'javadoc'
-    from "${buildDir}/docs/javadoc"
-    into '../build/site/javadoc/master'
-}
-defineJavadocTasksForRelease('7', '7', '0')
-defineJavadocTasksForRelease('7', '6', '0')
-defineJavadocTasksForRelease('7', '5', '0')
-defineJavadocTasksForRelease('7', '4', '0')
-defineJavadocTasksForRelease('7', '2', '0')
-defineJavadocTasksForRelease('7', '1', '0')
-defineJavadocTasksForRelease('7', '0', '2')
-defineJavadocTasksForRelease('6', '2', '0')
-defineJavadocTasksForRelease('6', '1', '0')
-defineJavadocTasksForRelease('6', '0', '1')
-defineJavadocTasksForRelease('5', '1', '0')
-defineJavadocTasksForRelease('5', '0', '1')
-defineJavadocTasksForRelease('4', '9', '0')
-defineJavadocTasksForRelease('4', '8', '1')
-defineJavadocTasksForRelease('4', '7', '1')
-defineJavadocTasksForRelease('4', '6', '1')
-defineJavadocTasksForRelease('4', '5', '0')
-defineJavadocTasksForRelease('4', '4', '0')
-defineJavadocTasksForRelease('4', '3', '0')
-defineJavadocTasksForRelease('4', '2', '0')
-defineJavadocTasksForRelease('4', '1', '1')
-defineJavadocTasksForRelease('4', '0', '2')
-defineJavadocTasksForRelease('3', '1', '0')
-defineJavadocTasksForRelease('3', '0', '0')
-defineJavadocTasksForRelease('2', '0', '1')
-
 // Register publishing tasks:
 
 tasks.register('install') {
@@ -467,6 +406,68 @@ tasks.withType(Sign).configureEach {
     onlyIf { rootProject.hasProperty('signing.keyId') }
 }
 signMavenPublication.dependsOn('module')
+
+// Register javadoc-to-(web)site tasks, triggered by push-master.yml:
+
+tasks.register('copyJavadocToSite') {
+    dependsOn 'copyMasterJavadocToSite', \
+     'copy77JavadocToSite', \
+     'copy76JavadocToSite', \
+     'copy75JavadocToSite', \
+     'copy74JavadocToSite', \
+     'copy72JavadocToSite', \
+     'copy71JavadocToSite', \
+     'copy70JavadocToSite', \
+     'copy62JavadocToSite', \
+     'copy61JavadocToSite', \
+     'copy60JavadocToSite', \
+     'copy51JavadocToSite', \
+     'copy50JavadocToSite', \
+     'copy49JavadocToSite', \
+     'copy48JavadocToSite', \
+     'copy47JavadocToSite', \
+     'copy46JavadocToSite', \
+     'copy45JavadocToSite', \
+     'copy44JavadocToSite', \
+     'copy43JavadocToSite', \
+     'copy42JavadocToSite', \
+     'copy41JavadocToSite', \
+     'copy40JavadocToSite', \
+     'copy31JavadocToSite', \
+     'copy30JavadocToSite', \
+     'copy20JavadocToSite'
+}
+tasks.register('copyMasterJavadocToSite', Copy) {
+    dependsOn 'javadoc'
+    from "${buildDir}/docs/javadoc"
+    into '../build/site/javadoc/master'
+}
+defineJavadocTasksForRelease('7', '7', '0')
+defineJavadocTasksForRelease('7', '6', '0')
+defineJavadocTasksForRelease('7', '5', '0')
+defineJavadocTasksForRelease('7', '4', '0')
+defineJavadocTasksForRelease('7', '2', '0')
+defineJavadocTasksForRelease('7', '1', '0')
+defineJavadocTasksForRelease('7', '0', '2')
+defineJavadocTasksForRelease('6', '2', '0')
+defineJavadocTasksForRelease('6', '1', '0')
+defineJavadocTasksForRelease('6', '0', '1')
+defineJavadocTasksForRelease('5', '1', '0')
+defineJavadocTasksForRelease('5', '0', '1')
+defineJavadocTasksForRelease('4', '9', '0')
+defineJavadocTasksForRelease('4', '8', '1')
+defineJavadocTasksForRelease('4', '7', '1')
+defineJavadocTasksForRelease('4', '6', '1')
+defineJavadocTasksForRelease('4', '5', '0')
+defineJavadocTasksForRelease('4', '4', '0')
+defineJavadocTasksForRelease('4', '3', '0')
+defineJavadocTasksForRelease('4', '2', '0')
+defineJavadocTasksForRelease('4', '1', '1')
+defineJavadocTasksForRelease('4', '0', '2')
+defineJavadocTasksForRelease('3', '1', '0')
+defineJavadocTasksForRelease('3', '0', '0')
+defineJavadocTasksForRelease('2', '0', '1')
+
 
 // helper class to wrap Ant download task
 
