@@ -67,11 +67,11 @@ import com.jme3.texture.plugins.AWTLoader;
 import java.util.ArrayList;
 import java.util.List;
 import jme3utilities.MyAsset;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test the setMargin() function on collision shapes of all types. TODO replace
- * asserts with JUnit Assert
+ * Test the setMargin() function on collision shapes of all types.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -94,61 +94,61 @@ public class TestSetMargin {
 
         // Box2dShape
         CollisionShape box2d = new Box2dShape(1f, 2f);
-        assert box2d.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, box2d.getMargin(), 0f);
         box2d.setMargin(0.1f);
-        assert box2d.getMargin() == 0.1f;
+        Assert.assertEquals(0.1f, box2d.getMargin(), 0f);
 
         // BoxCollisionShape
         CollisionShape box = new BoxCollisionShape(1f);
-        assert box.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, box.getMargin(), 0f);
         box.setMargin(0.11f);
-        assert box.getMargin() == 0.11f;
+        Assert.assertEquals(0.11f, box.getMargin(), 0f);
 
         // CapsuleCollisionShape
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
-        assert capsule.getMargin() == 0f;
+        Assert.assertEquals(0f, capsule.getMargin(), 0f);
         capsule.setMargin(0.12f); // cannot alter margin
-        assert capsule.getMargin() == 0f;
+        Assert.assertEquals(0f, capsule.getMargin(), 0f);
 
         // CompoundCollisionShape of a capsule
         CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(capsule, 0f, 1f, 0f);
-        assert compound.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, compound.getMargin(), 0f);
         compound.setMargin(0.13f);
-        assert compound.getMargin() == 0.13f;
+        Assert.assertEquals(0.13f, compound.getMargin(), 0f);
 
         // ConeCollisionShape
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
-        assert cone.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, cone.getMargin(), 0f);
         cone.setMargin(0.14f);
-        assert cone.getMargin() == 0.14f;
+        Assert.assertEquals(0.14f, cone.getMargin(), 0f);
 
         // Convex2dShape of a cone
         ConeCollisionShape flatCone
                 = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
         Convex2dShape convex2d = new Convex2dShape(flatCone);
-        assert convex2d.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, convex2d.getMargin(), 0f);
         convex2d.setMargin(0.145f);
-        assert convex2d.getMargin() == 0.145f;
+        Assert.assertEquals(0.145f, convex2d.getMargin(), 0f);
 
         // CustomEllipsoid
         CollisionShape ellipsoid = new CustomEllipsoid(1f, 2f, 3f, 0.2f);
-        assert ellipsoid.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, ellipsoid.getMargin(), 0f);
         ellipsoid.setMargin(0.15f);
-        assert ellipsoid.getMargin() == 0.15f;
+        Assert.assertEquals(0.15f, ellipsoid.getMargin(), 0f);
 
         // CylinderCollisionShape
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
-        assert cylinder.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, cylinder.getMargin(), 0f);
         cylinder.setMargin(0.15f);
-        assert cylinder.getMargin() == 0.15f;
+        Assert.assertEquals(0.15f, cylinder.getMargin(), 0f);
 
         // EmptyShape
         CollisionShape empty = new EmptyShape(true);
-        assert empty.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, empty.getMargin(), 0f);
         empty.setMargin(0.155f);
-        assert empty.getMargin() == 0.155f;
+        Assert.assertEquals(0.155f, empty.getMargin(), 0f);
 
         // GImpactCollisionShape
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
@@ -156,9 +156,9 @@ public class TestSetMargin {
         Geometry geo = (Geometry) model.getChild(0);
         Mesh mesh = geo.getMesh();
         CollisionShape gimpact = new GImpactCollisionShape(mesh);
-        assert gimpact.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, gimpact.getMargin(), 0f);
         gimpact.setMargin(0.16f);
-        assert gimpact.getMargin() == 0.16f;
+        Assert.assertEquals(0.16f, gimpact.getMargin(), 0f);
 
         // HeightfieldCollisionShape
         Texture heightTexture = MyAsset.loadTexture(
@@ -167,43 +167,43 @@ public class TestSetMargin {
         float heightScale = 1f;
         HeightMap heightMap = new ImageBasedHeightMap(heightImage, heightScale);
         CollisionShape hcs = new HeightfieldCollisionShape(heightMap);
-        assert hcs.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, hcs.getMargin(), 0f);
         hcs.setMargin(0.17f);
-        assert hcs.getMargin() == 0.17f;
+        Assert.assertEquals(0.17f, hcs.getMargin(), 0f);
 
         // HullCollisionShape
         CollisionShape hull = new HullCollisionShape(mesh);
-        assert hull.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, hull.getMargin(), 0f);
         hull.setMargin(0.18f);
-        assert hull.getMargin() == 0.18f;
+        Assert.assertEquals(0.18f, hull.getMargin(), 0f);
 
         // MeshCollisionShape
         CollisionShape mcs = new MeshCollisionShape(mesh);
-        assert mcs.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, mcs.getMargin(), 0f);
         mcs.setMargin(0.19f);
-        assert mcs.getMargin() == 0.19f;
+        Assert.assertEquals(0.19f, mcs.getMargin(), 0f);
 
         // MinkowskiSum of cone + box
         ConvexShape cone1 = new ConeCollisionShape(1f, 1f);
         ConvexShape box1 = new BoxCollisionShape(1f);
         CollisionShape sum = new MinkowskiSum(cone1, box1);
-        assert sum.getMargin() == 0.08f;
+        Assert.assertEquals(0.08f, sum.getMargin(), 0f);
         sum.setMargin(0.194f); // cannot directly alter margin
-        assert sum.getMargin() == 0.08f;
+        Assert.assertEquals(0.08f, sum.getMargin(), 0f);
 
         // MinkowskiSum of sphere + cone
         ConvexShape sphere1 = new SphereCollisionShape(1f);
         CollisionShape sum1 = new MinkowskiSum(sphere1, cone1);
-        assert sum1.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, sum1.getMargin(), 0f);
         sum1.setMargin(0.195f); // cannot directly alter margin
-        assert sum1.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, sum1.getMargin(), 0f);
 
         // MinkowskiSum of sphere + capsule
         ConvexShape capsule1 = new CapsuleCollisionShape(1f, 1f);
         CollisionShape sum2 = new MinkowskiSum(sphere1, capsule1);
-        assert sum2.getMargin() == 0f;
+        Assert.assertEquals(0f, sum2.getMargin(), 0f);
         sum2.setMargin(0.196f); // cannot directly alter margin
-        assert sum2.getMargin() == 0f;
+        Assert.assertEquals(0f, sum2.getMargin(), 0f);
 
         // MultiSphere
         List<Float> radii = new ArrayList<>(3);
@@ -215,30 +215,30 @@ public class TestSetMargin {
         radii.add(0.5f);
         centers.add(new Vector3f(1f, 0f, 0f));
         CollisionShape multiSphere = new MultiSphere(centers, radii);
-        assert multiSphere.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, multiSphere.getMargin(), 0f);
         multiSphere.setMargin(0.20f);
-        assert multiSphere.getMargin() == 0.20f;
+        Assert.assertEquals(0.20f, multiSphere.getMargin(), 0f);
 
         // PlaneCollisionShape
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
         CollisionShape pcs = new PlaneCollisionShape(plane);
-        assert pcs.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, pcs.getMargin(), 0f);
         pcs.setMargin(0.21f);
-        assert pcs.getMargin() == 0.21f;
+        Assert.assertEquals(0.21f, pcs.getMargin(), 0f);
 
         // SimplexCollisionShape of 3 vertices
         Vector3f p1 = new Vector3f(0f, 1f, 1f);
         Vector3f p2 = new Vector3f(1f, 0f, 1f);
         Vector3f p3 = new Vector3f(1f, 1f, 0f);
         CollisionShape simplex = new SimplexCollisionShape(p1, p2, p3);
-        assert simplex.getMargin() == 0.04f;
+        Assert.assertEquals(0.04f, simplex.getMargin(), 0f);
         simplex.setMargin(0.22f);
-        assert simplex.getMargin() == 0.22f;
+        Assert.assertEquals(0.22f, simplex.getMargin(), 0f);
 
         // SphereCollisionShape
         CollisionShape sphere = new SphereCollisionShape(1f);
-        assert sphere.getMargin() == 0f;
+        Assert.assertEquals(0f, sphere.getMargin(), 0f);
         sphere.setMargin(0.3f); // cannot alter margin
-        assert sphere.getMargin() == 0f;
+        Assert.assertEquals(0f, sphere.getMargin(), 0f);
     }
 }
