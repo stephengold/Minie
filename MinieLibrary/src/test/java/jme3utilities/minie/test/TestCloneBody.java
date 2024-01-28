@@ -668,8 +668,7 @@ public class TestCloneBody {
 
         Vector3f normal = new Vector3f(b + 0.1f, b + 0.2f, b + 0.3f);
         normal.normalizeLocal();
-        Utils.assertEquals(normal.x, normal.y, normal.z,
-                info.copyWaterNormal(null), 1e-5f);
+        Utils.assertEquals(normal, info.copyWaterNormal(null), 1e-5f);
 
         Assert.assertEquals(n, config.clusterIterations());
         Assert.assertEquals(n + 1, config.driftIterations());
