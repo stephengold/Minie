@@ -882,7 +882,8 @@ public class TestDefaults {
      */
     private static void testShapes() {
         testShapesConcave();
-        testShapesConvex();
+        testShapesConvex1();
+        testShapesConvex2();
 
         // Compound
         CompoundCollisionShape compound = new CompoundCollisionShape();
@@ -959,7 +960,7 @@ public class TestDefaults {
         Assert.assertFalse(pcs.isPolyhedral());
     }
 
-    private static void testShapesConvex() {
+    private static void testShapesConvex1() {
         // Box2dShape
         Box2dShape box2d = new Box2dShape(1f, 2f);
         testShape(box2d);
@@ -1067,7 +1068,9 @@ public class TestDefaults {
         Assert.assertFalse(hull.isNonMoving());
         Assert.assertTrue(hull.isPolyhedral());
         Assert.assertEquals(4f, hull.scaledVolume(), 1f);
+    }
 
+    private static void testShapesConvex2() {
         // MinkowskiSum of cone + box
         ConvexShape cone1 = new ConeCollisionShape(1f, 1f);
         ConvexShape box1 = new BoxCollisionShape(1f);
