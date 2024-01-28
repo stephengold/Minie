@@ -729,9 +729,8 @@ public class TestDefaults {
         Utils.assertEquals(0., 0., 0., 1., pco.getPhysicsRotationDp(null), 0.);
         Assert.assertEquals(
                 Matrix3f.IDENTITY, pco.getPhysicsRotationMatrix(null));
-        // TODO test disabled until Matrix3d.equals() is fixed:
-        //Assert.assertEquals(
-        //        new Matrix3d(), pco.getPhysicsRotationMatrixDp(null));
+        Assert.assertEquals(
+                new Matrix3d(), pco.getPhysicsRotationMatrixDp(null));
 
         Assert.assertNull(pco.proxyGroup());
         Assert.assertNull(pco.proxyMask());
