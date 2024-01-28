@@ -79,7 +79,7 @@ public class TestStaticBody {
     // fields
 
     /**
-     * AssetManager to load Jaime
+     * AssetManager to load Jaime and Simple_height.png
      */
     final private static AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************

@@ -81,7 +81,8 @@ public class TestCloneShapes {
     // fields
 
     /**
-     * AssetManager to load Jaime, also for {@code BinaryExporter.saveAndLoad()}
+     * AssetManager to load Jaime and Simple_height.png, also for
+     * {@code BinaryExporter.saveAndLoad()}
      */
     final private static AssetManager assetManager = new DesktopAssetManager();
     // *************************************************************************
@@ -101,7 +102,7 @@ public class TestCloneShapes {
         cloneShapesConcave();
         cloneShapesConvex();
 
-        // CompoundCollisionShape
+        // CompoundCollisionShape of a capsule
         CompoundCollisionShape compound = new CompoundCollisionShape(1);
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         compound.addChildShape(capsule, 0f, 1f, 0f);
@@ -229,7 +230,7 @@ public class TestCloneShapes {
         cone.setMargin(0.14f);
         Assert.assertEquals(0.04f, coneClone.getMargin(), 0f);
 
-        // Convex2dShape
+        // Convex2dShape of a cone
         CollisionShape convex2d = new Convex2dShape(cone);
         setParameters(convex2d, 0f);
         verifyParameters(convex2d, 0f);
