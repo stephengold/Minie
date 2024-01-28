@@ -390,6 +390,20 @@ public class TestDefaults {
         Assert.assertFalse(space.isUsingDeterministicDispatch());
     }
 
+    /**
+     * Test the defaults that are common to all newly-created convex shapes.
+     *
+     * @param shape the shape to test (not null, unaffected)
+     */
+    private static void testConvexShape(CollisionShape shape) {
+        testShape(shape);
+
+        Assert.assertFalse(shape.isConcave());
+        Assert.assertTrue(shape.isConvex());
+        Assert.assertFalse(shape.isInfinite());
+        Assert.assertFalse(shape.isNonMoving());
+    }
+
     private static void testConstraint(Constraint constraint) {
         Assert.assertFalse(constraint.isFeedback());
         constraint.setFeedback(true);
@@ -963,49 +977,33 @@ public class TestDefaults {
     private static void testShapesConvex1() {
         // Box2dShape
         Box2dShape box2d = new Box2dShape(1f, 2f);
-        testShape(box2d);
+        testConvexShape(box2d);
         Assert.assertEquals(0.04f, box2d.getMargin(), 0f);
-        Assert.assertFalse(box2d.isConcave());
-        Assert.assertTrue(box2d.isConvex());
-        Assert.assertFalse(box2d.isInfinite());
-        Assert.assertFalse(box2d.isNonMoving());
         Assert.assertFalse(box2d.isPolyhedral());
 
         // BoxCollisionShape
         box = new BoxCollisionShape(1f);
-        testShape(box);
+        testConvexShape(box);
         Assert.assertEquals(0.04f, box.getMargin(), 0f);
-        Assert.assertFalse(box.isConcave());
-        Assert.assertTrue(box.isConvex());
-        Assert.assertFalse(box.isInfinite());
-        Assert.assertFalse(box.isNonMoving());
         Assert.assertTrue(box.isPolyhedral());
         Assert.assertEquals(8f, box.unscaledVolume(), 0f);
 
         // CapsuleCollisionShape
         CapsuleCollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
-        testShape(capsule);
+        testConvexShape(capsule);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, capsule.getAxis());
         Assert.assertEquals(1f, capsule.getHeight(), 0f);
         Assert.assertEquals(0f, capsule.getMargin(), 0f);
-        Assert.assertFalse(capsule.isConcave());
-        Assert.assertTrue(capsule.isConvex());
-        Assert.assertFalse(capsule.isInfinite());
-        Assert.assertFalse(capsule.isNonMoving());
         Assert.assertFalse(capsule.isPolyhedral());
         Assert.assertEquals(
                 7f * FastMath.PI / 3f, capsule.unscaledVolume(), 1e-4f);
 
         // ConeCollisionShape
         ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
-        testShape(cone);
+        testConvexShape(cone);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, cone.getAxis());
         Assert.assertEquals(1f, cone.getHeight(), 0f);
         Assert.assertEquals(0.04f, cone.getMargin(), 0f);
-        Assert.assertFalse(cone.isConcave());
-        Assert.assertTrue(cone.isConvex());
-        Assert.assertFalse(cone.isInfinite());
-        Assert.assertFalse(cone.isNonMoving());
         Assert.assertFalse(cone.isPolyhedral());
         Assert.assertEquals(
                 FastMath.PI / 3f, cone.unscaledVolume(), 1e-5f);
@@ -1014,36 +1012,24 @@ public class TestDefaults {
         ConeCollisionShape flatCone
                 = new ConeCollisionShape(10f, 0f, PhysicsSpace.AXIS_Z);
         Convex2dShape convex2d = new Convex2dShape(flatCone);
-        testShape(convex2d);
+        testConvexShape(convex2d);
         Assert.assertEquals(0.04f, convex2d.getMargin(), 0f);
-        Assert.assertFalse(convex2d.isConcave());
-        Assert.assertTrue(convex2d.isConvex());
-        Assert.assertFalse(convex2d.isInfinite());
-        Assert.assertFalse(convex2d.isNonMoving());
         Assert.assertFalse(convex2d.isPolyhedral());
 
         // CylinderCollisionShape
         CylinderCollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
-        testShape(cylinder);
+        testConvexShape(cylinder);
         Assert.assertEquals(PhysicsSpace.AXIS_Z, cylinder.getAxis());
         Assert.assertEquals(2f, cylinder.getHeight(), 0f);
         Assert.assertEquals(0.04f, cylinder.getMargin(), 0f);
-        Assert.assertFalse(cylinder.isConcave());
-        Assert.assertTrue(cylinder.isConvex());
-        Assert.assertFalse(cylinder.isInfinite());
-        Assert.assertFalse(cylinder.isNonMoving());
         Assert.assertFalse(cylinder.isPolyhedral());
         Assert.assertEquals(FastMath.TWO_PI, cylinder.unscaledVolume(), 1e-4f);
 
         // CustomEllipsoid
         CustomEllipsoid ellipsoid = new CustomEllipsoid(1f);
-        testShape(ellipsoid);
+        testConvexShape(ellipsoid);
         Assert.assertEquals(0.04f, ellipsoid.getMargin(), 0f);
-        Assert.assertFalse(ellipsoid.isConcave());
-        Assert.assertTrue(ellipsoid.isConvex());
-        Assert.assertFalse(ellipsoid.isInfinite());
-        Assert.assertFalse(ellipsoid.isNonMoving());
         Assert.assertFalse(ellipsoid.isPolyhedral());
         Assert.assertEquals(MyMath.cube(1.04f) * 4f * FastMath.PI / 3f,
                 ellipsoid.scaledVolume(), 1e-5f);
@@ -1057,15 +1043,11 @@ public class TestDefaults {
         prismVertices.add(new Vector3f(1f, -1f, -1f));
         prismVertices.add(new Vector3f(-1f, -1f, 0f));
         HullCollisionShape hull = new HullCollisionShape(prismVertices);
-        testShape(hull);
+        testConvexShape(hull);
         Assert.assertEquals(8f, hull.aabbVolume(), 0.001f);
         Assert.assertEquals(6, hull.countHullVertices());
         Assert.assertEquals(6, hull.countMeshVertices());
         Assert.assertEquals(0.04f, hull.getMargin(), 0f);
-        Assert.assertFalse(hull.isConcave());
-        Assert.assertTrue(hull.isConvex());
-        Assert.assertFalse(hull.isInfinite());
-        Assert.assertFalse(hull.isNonMoving());
         Assert.assertTrue(hull.isPolyhedral());
         Assert.assertEquals(4f, hull.scaledVolume(), 1f);
     }
@@ -1075,27 +1057,19 @@ public class TestDefaults {
         ConvexShape cone1 = new ConeCollisionShape(1f, 1f);
         ConvexShape box1 = new BoxCollisionShape(1f);
         CollisionShape sum = new MinkowskiSum(cone1, box1);
-        testShape(sum);
+        testConvexShape(sum);
         Assert.assertEquals(0.08f, sum.getMargin(), 0f);
-        Assert.assertFalse(sum.isConcave());
-        Assert.assertTrue(sum.isConvex());
-        Assert.assertFalse(sum.isInfinite());
-        Assert.assertFalse(sum.isNonMoving());
         Assert.assertFalse(sum.isPolyhedral());
         Assert.assertEquals(39f, sum.scaledVolume(), 1f);
 
         // MultiSphere
         MultiSphere multiSphere = new MultiSphere(1f);
-        testShape(multiSphere);
+        testConvexShape(multiSphere);
         Utils.assertEquals(0f, 0f, 0f, multiSphere.copyCenter(0, null), 0f);
         Assert.assertEquals(1, multiSphere.countSpheres());
         Assert.assertEquals(1f, multiSphere.getRadius(0), 0f);
         Assert.assertEquals(
                 4f * FastMath.PI / 3f, multiSphere.scaledVolume(), 1e-4f);
-        Assert.assertFalse(multiSphere.isConcave());
-        Assert.assertTrue(multiSphere.isConvex());
-        Assert.assertFalse(multiSphere.isInfinite());
-        Assert.assertFalse(multiSphere.isNonMoving());
         Assert.assertFalse(multiSphere.isPolyhedral());
 
         // SimplexCollisionShape of 1 vertex
@@ -1149,12 +1123,8 @@ public class TestDefaults {
 
         // SphereCollisionShape
         SphereCollisionShape sphere = new SphereCollisionShape(1f);
-        testShape(sphere);
+        testConvexShape(sphere);
         Assert.assertEquals(0f, sphere.getMargin(), 0f);
-        Assert.assertFalse(sphere.isConcave());
-        Assert.assertTrue(sphere.isConvex());
-        Assert.assertFalse(sphere.isInfinite());
-        Assert.assertFalse(sphere.isNonMoving());
         Assert.assertFalse(sphere.isPolyhedral());
         Assert.assertEquals(
                 4f * FastMath.PI / 3f, sphere.unscaledVolume(), 1e-4f);
@@ -1166,13 +1136,8 @@ public class TestDefaults {
      * @param simplex the shape to test (not null, unaffected)
      */
     private static void testSimplexShape(SimplexCollisionShape simplex) {
-        testShape(simplex);
+        testConvexShape(simplex);
         Assert.assertEquals(0.04f, simplex.getMargin(), 0f);
-
-        Assert.assertFalse(simplex.isConcave());
-        Assert.assertTrue(simplex.isConvex());
-        Assert.assertFalse(simplex.isInfinite());
-        Assert.assertFalse(simplex.isNonMoving());
         Assert.assertTrue(simplex.isPolyhedral());
     }
 
