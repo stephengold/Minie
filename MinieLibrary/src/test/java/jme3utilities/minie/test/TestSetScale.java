@@ -134,7 +134,7 @@ public class TestSetScale {
         Utils.assertEquals(non, compound.getScale(null), 0f);
         compound.setScale(non2);
         Utils.assertEquals(non2, compound.getScale(null), 0f);
-        Utils.assertEquals(non2, box.getScale(null), 0f); // TODO childBox?
+        Utils.assertEquals(non2, childBox.getScale(null), 0f);
 
         // ConeCollisionShape
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
