@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -265,104 +265,6 @@ class TestMode extends InputMode {
                     }
                     break;
 
-                case asSetAlphaLeft:
-                    setAlpha(leftTest, apSetAlphaLeft);
-                    break;
-
-                case asSetAlphaRight:
-                    setAlpha(rightTest, apSetAlphaRight);
-                    break;
-
-                case asSetBetaLeft:
-                    setBeta(leftTest, apSetBetaLeft);
-                    break;
-
-                case asSetBetaRight:
-                    setBeta(rightTest, apSetBetaRight);
-                    break;
-
-                case asSetHullDSLeft:
-                    setHullDS(leftTest, apSetHullDSLeft);
-                    break;
-
-                case asSetHullDSRight:
-                    setHullDS(rightTest, apSetHullDSRight);
-                    break;
-
-                case asSetMaxConcavityLeft:
-                    setMaxConcavity(leftTest, apSetMaxConcavityLeft);
-                    break;
-
-                case asSetMaxConcavityRight:
-                    setMaxConcavity(rightTest, apSetMaxConcavityRight);
-                    break;
-
-                case asSetMaxHullsLeft:
-                    setMaxHulls(leftTest, apSetMaxHullsLeft);
-                    break;
-
-                case asSetMaxHullsRight:
-                    setMaxHulls(rightTest, apSetMaxHullsRight);
-                    break;
-
-                case asSetMaxRecursionLeft:
-                    setMaxRecursion(leftTest, apSetMaxRecursionLeft);
-                    break;
-
-                case asSetMaxRecursionRight:
-                    setMaxRecursion(rightTest, apSetMaxRecursionRight);
-                    break;
-
-                case asSetMaxVerticesPHLeft:
-                    setMaxVerticesPH(leftTest, apSetMaxVerticesPHLeft);
-                    break;
-
-                case asSetMaxVerticesPHRight:
-                    setMaxVerticesPH(rightTest, apSetMaxVerticesPHRight);
-                    break;
-
-                case asSetMinEdgeLengthLeft:
-                    setMinEdgeLength(leftTest, apSetMinEdgeLengthLeft);
-                    break;
-
-                case asSetMinEdgeLengthRight:
-                    setMinEdgeLength(rightTest, apSetMinEdgeLengthRight);
-                    break;
-
-                case asSetMinVolumePHLeft:
-                    setMinVolumePH(leftTest, apSetMinVolumePHLeft);
-                    break;
-
-                case asSetMinVolumePHRight:
-                    setMinVolumePH(rightTest, apSetMinVolumePHRight);
-                    break;
-
-                case asSetPlaneDSLeft:
-                    setPlaneDS(leftTest, apSetPlaneDSLeft);
-                    break;
-
-                case asSetPlaneDSRight:
-                    setPlaneDS(rightTest, apSetPlaneDSRight);
-                    break;
-
-                case asSetResolutionLeft:
-                    setResolution(leftTest, apSetResolutionLeft);
-                    break;
-
-                case asSetResolutionRight:
-                    setResolution(rightTest, apSetResolutionRight);
-                    break;
-
-                case asSetVolumePercentErrorLeft:
-                    setVolumePercentError(
-                            leftTest, apSetVolumePercentErrorLeft);
-                    break;
-
-                case asSetVolumePercentErrorRight:
-                    setVolumePercentError(
-                            rightTest, apSetVolumePercentErrorRight);
-                    break;
-
                 case asStopRanking:
                     model.stopRanking();
                     break;
@@ -422,6 +324,9 @@ class TestMode extends InputMode {
                 default:
                     handled = false;
             }
+            if (!handled && actionString.startsWith("set ")) {
+                handled = set(actionString);
+            }
             if (!handled) {
                 handled = testForPrefixes(actionString);
             }
@@ -449,6 +354,98 @@ class TestMode extends InputMode {
         setEnabled(false);
         InputMode load = InputMode.findMode("load");
         load.setEnabled(true);
+    }
+
+    /**
+     * Handle an ongoing "set " action.
+     *
+     * @param actionString textual description (starting with "set ")
+     * @return true if the action is handled, otherwise false
+     */
+    private static boolean set(String actionString) {
+        Model model = VhacdTuner.getModel();
+        DecompositionTest leftTest = model.getLeftTest();
+        DecompositionTest rightTest = model.getRightTest();
+
+        boolean result = true;
+        switch (actionString) {
+            case asSetAlphaLeft:
+                setAlpha(leftTest, apSetAlphaLeft);
+                break;
+            case asSetAlphaRight:
+                setAlpha(rightTest, apSetAlphaRight);
+                break;
+            case asSetBetaLeft:
+                setBeta(leftTest, apSetBetaLeft);
+                break;
+            case asSetBetaRight:
+                setBeta(rightTest, apSetBetaRight);
+                break;
+            case asSetHullDSLeft:
+                setHullDS(leftTest, apSetHullDSLeft);
+                break;
+            case asSetHullDSRight:
+                setHullDS(rightTest, apSetHullDSRight);
+                break;
+            case asSetMaxConcavityLeft:
+                setMaxConcavity(leftTest, apSetMaxConcavityLeft);
+                break;
+            case asSetMaxConcavityRight:
+                setMaxConcavity(rightTest, apSetMaxConcavityRight);
+                break;
+            case asSetMaxHullsLeft:
+                setMaxHulls(leftTest, apSetMaxHullsLeft);
+                break;
+            case asSetMaxHullsRight:
+                setMaxHulls(rightTest, apSetMaxHullsRight);
+                break;
+            case asSetMaxRecursionLeft:
+                setMaxRecursion(leftTest, apSetMaxRecursionLeft);
+                break;
+            case asSetMaxRecursionRight:
+                setMaxRecursion(rightTest, apSetMaxRecursionRight);
+                break;
+            case asSetMaxVerticesPHLeft:
+                setMaxVerticesPH(leftTest, apSetMaxVerticesPHLeft);
+                break;
+            case asSetMaxVerticesPHRight:
+                setMaxVerticesPH(rightTest, apSetMaxVerticesPHRight);
+                break;
+            case asSetMinEdgeLengthLeft:
+                setMinEdgeLength(leftTest, apSetMinEdgeLengthLeft);
+                break;
+            case asSetMinEdgeLengthRight:
+                setMinEdgeLength(rightTest, apSetMinEdgeLengthRight);
+                break;
+            case asSetMinVolumePHLeft:
+                setMinVolumePH(leftTest, apSetMinVolumePHLeft);
+                break;
+            case asSetMinVolumePHRight:
+                setMinVolumePH(rightTest, apSetMinVolumePHRight);
+                break;
+            case asSetPlaneDSLeft:
+                setPlaneDS(leftTest, apSetPlaneDSLeft);
+                break;
+            case asSetPlaneDSRight:
+                setPlaneDS(rightTest, apSetPlaneDSRight);
+                break;
+            case asSetResolutionLeft:
+                setResolution(leftTest, apSetResolutionLeft);
+                break;
+            case asSetResolutionRight:
+                setResolution(rightTest, apSetResolutionRight);
+                break;
+            case asSetVolumePercentErrorLeft:
+                setVolumePercentError(leftTest, apSetVolumePercentErrorLeft);
+                break;
+            case asSetVolumePercentErrorRight:
+                setVolumePercentError(rightTest, apSetVolumePercentErrorRight);
+                break;
+            default:
+                result = false;
+        }
+
+        return result;
     }
 
     /**
