@@ -71,8 +71,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test the setScale() function on collision shapes of all types. TODO replace
- * asserts with JUnit Assert
+ * Test the setScale() function on collision shapes of all types.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -100,48 +99,48 @@ public class TestSetScale {
 
         // Box2dShape
         CollisionShape box2d = new Box2dShape(2f);
-        assert box2d.getScale(null).equals(ident);
+        Utils.assertEquals(ident, box2d.getScale(null), 0f);
         box2d.setScale(uni);
-        assert box2d.getScale(null).equals(uni);
+        Utils.assertEquals(uni, box2d.getScale(null), 0f);
         box2d.setScale(non);
-        assert box2d.getScale(null).equals(non);
+        Utils.assertEquals(non, box2d.getScale(null), 0f);
         box2d.setScale(non2);
-        assert box2d.getScale(null).equals(non2);
+        Utils.assertEquals(non2, box2d.getScale(null), 0f);
 
         // BoxCollisionShape
         CollisionShape box = new BoxCollisionShape(2f);
-        assert box.getScale(null).equals(ident);
+        Utils.assertEquals(ident, box.getScale(null), 0f);
         box.setScale(uni);
-        assert box.getScale(null).equals(uni);
+        Utils.assertEquals(uni, box.getScale(null), 0f);
         box.setScale(non);
-        assert box.getScale(null).equals(non);
+        Utils.assertEquals(non, box.getScale(null), 0f);
         box.setScale(non2);
-        assert box.getScale(null).equals(non2);
+        Utils.assertEquals(non2, box.getScale(null), 0f);
 
         // CapsuleCollisionShape
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
-        assert capsule.getScale(null).equals(ident);
+        Utils.assertEquals(ident, capsule.getScale(null), 0f);
         capsule.setScale(uni);
-        assert capsule.getScale(null).equals(uni);
+        Utils.assertEquals(uni, capsule.getScale(null), 0f);
 
         // CompoundCollisionShape of a box
         CollisionShape childBox = new BoxCollisionShape(1f);
         CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(childBox, 0f, 1f, 0f);
-        assert compound.getScale(null).equals(ident);
+        Utils.assertEquals(ident, compound.getScale(null), 0f);
         compound.setScale(uni);
-        assert compound.getScale(null).equals(uni);
+        Utils.assertEquals(uni, compound.getScale(null), 0f);
         compound.setScale(non);
-        assert compound.getScale(null).equals(non);
+        Utils.assertEquals(non, compound.getScale(null), 0f);
         compound.setScale(non2);
-        assert compound.getScale(null).equals(non2);
-        assert box.getScale(null).equals(non2);
+        Utils.assertEquals(non2, compound.getScale(null), 0f);
+        Utils.assertEquals(non2, box.getScale(null), 0f); // TODO childBox?
 
         // ConeCollisionShape
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
-        assert cone.getScale(null).equals(ident);
+        Utils.assertEquals(ident, cone.getScale(null), 0f);
         cone.setScale(uni);
-        assert cone.getScale(null).equals(uni);
+        Utils.assertEquals(uni, cone.getScale(null), 0f);
 
         // Convex2dShape of a cylinder
         float radius = 10f;
@@ -149,12 +148,12 @@ public class TestSetScale {
         CylinderCollisionShape flatCylinder = new CylinderCollisionShape(radius,
                 height, PhysicsSpace.AXIS_Z);
         CollisionShape convex2d = new Convex2dShape(flatCylinder);
-        assert convex2d.getScale(null).equals(ident);
+        Utils.assertEquals(ident, convex2d.getScale(null), 0f);
         convex2d.setScale(uni);
-        assert convex2d.getScale(null).equals(uni);
+        Utils.assertEquals(uni, convex2d.getScale(null), 0f);
         convex2d.setScale(non);
-        assert convex2d.getScale(null).equals(non);
-        assert flatCylinder.getScale(null).equals(non);
+        Utils.assertEquals(non, convex2d.getScale(null), 0f);
+        Utils.assertEquals(non, flatCylinder.getScale(null), 0f);
 
         // CustomEllipsoid
         CustomEllipsoid ellipsoid = new CustomEllipsoid(1f);
@@ -167,21 +166,21 @@ public class TestSetScale {
         // CylinderCollisionShape
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(3f, 3f, 3f));
-        assert cylinder.getScale(null).equals(ident);
+        Assert.assertEquals(ident, cylinder.getScale(null));
         cylinder.setScale(uni);
-        assert cylinder.getScale(null).equals(uni);
+        Assert.assertEquals(uni, cylinder.getScale(null));
         cylinder.setScale(non);
-        assert cylinder.getScale(null).equals(non);
+        Assert.assertEquals(non, cylinder.getScale(null));
 
         // EmptyShape
         CollisionShape empty = new EmptyShape(true);
-        assert empty.getScale(null).equals(ident);
+        Assert.assertEquals(ident, empty.getScale(null));
         empty.setScale(uni);
-        assert empty.getScale(null).equals(uni);
+        Assert.assertEquals(uni, empty.getScale(null));
         empty.setScale(non);
-        assert empty.getScale(null).equals(non);
+        Assert.assertEquals(non, empty.getScale(null));
         empty.setScale(non2);
-        assert empty.getScale(null).equals(non2);
+        Assert.assertEquals(non2, empty.getScale(null));
 
         // GImpactCollisionShape
         ModelKey key = new ModelKey("Models/Jaime/Jaime.j3o");
@@ -189,13 +188,13 @@ public class TestSetScale {
         Geometry geo = (Geometry) model.getChild(0);
         Mesh mesh = geo.getMesh();
         CollisionShape gimpact = new GImpactCollisionShape(mesh);
-        assert gimpact.getScale(null).equals(ident);
+        Utils.assertEquals(ident, gimpact.getScale(null), 0f);
         gimpact.setScale(uni);
-        assert gimpact.getScale(null).equals(uni);
+        Utils.assertEquals(uni, gimpact.getScale(null), 0f);
         gimpact.setScale(non);
-        assert gimpact.getScale(null).equals(non);
+        Utils.assertEquals(non, gimpact.getScale(null), 0f);
         gimpact.setScale(non2);
-        assert gimpact.getScale(null).equals(non2);
+        Utils.assertEquals(non2, gimpact.getScale(null), 0f);
 
         // HeightfieldCollisionShape
         Texture heightTexture = MyAsset.loadTexture(
@@ -204,39 +203,39 @@ public class TestSetScale {
         float heightScale = 1f;
         HeightMap heightMap = new ImageBasedHeightMap(heightImage, heightScale);
         CollisionShape hcs = new HeightfieldCollisionShape(heightMap);
-        assert hcs.getScale(null).equals(ident);
+        Utils.assertEquals(ident, hcs.getScale(null), 0f);
         hcs.setScale(uni);
-        assert hcs.getScale(null).equals(uni);
+        Utils.assertEquals(uni, hcs.getScale(null), 0f);
         hcs.setScale(non);
-        assert hcs.getScale(null).equals(non);
+        Utils.assertEquals(non, hcs.getScale(null), 0f);
         hcs.setScale(non2);
-        assert hcs.getScale(null).equals(non2);
+        Utils.assertEquals(non2, hcs.getScale(null), 0f);
 
         // HullCollisionShape
         CollisionShape hull = new HullCollisionShape(mesh);
-        assert hull.getScale(null).equals(ident);
+        Utils.assertEquals(ident, hull.getScale(null), 0f);
         hull.setScale(uni);
-        assert hull.getScale(null).equals(uni);
+        Utils.assertEquals(uni, hull.getScale(null), 0f);
         hull.setScale(non);
-        assert hull.getScale(null).equals(non);
+        Utils.assertEquals(non, hull.getScale(null), 0f);
         hull.setScale(non2);
-        assert hull.getScale(null).equals(non2);
+        Utils.assertEquals(non2, hull.getScale(null), 0f);
 
         // MeshCollisionShape
         CollisionShape mcs = new MeshCollisionShape(mesh);
-        assert mcs.getScale(null).equals(ident);
+        Utils.assertEquals(ident, mcs.getScale(null), 0f);
         mcs.setScale(uni);
-        assert mcs.getScale(null).equals(uni);
+        Utils.assertEquals(uni, mcs.getScale(null), 0f);
         mcs.setScale(non);
-        assert mcs.getScale(null).equals(non);
+        Utils.assertEquals(non, mcs.getScale(null), 0f);
         mcs.setScale(non2);
-        assert mcs.getScale(null).equals(non2);
+        Utils.assertEquals(non2, mcs.getScale(null), 0f);
 
         // MinkowskiSum of cone + box
         ConvexShape cone1 = new ConeCollisionShape(1f, 1f);
         ConvexShape box1 = new BoxCollisionShape(1f);
         CollisionShape sum = new MinkowskiSum(cone1, box1);
-        assert sum.getScale(null).equals(ident);
+        Utils.assertEquals(ident, sum.getScale(null), 0f);
 
         // MultiSphere
         List<Float> radii = new ArrayList<>(3);
@@ -248,36 +247,36 @@ public class TestSetScale {
         radii.add(0.5f);
         centers.add(new Vector3f(1f, 0f, 0f));
         CollisionShape multiSphere = new MultiSphere(centers, radii);
-        assert multiSphere.getScale(null).equals(ident);
+        Utils.assertEquals(ident, multiSphere.getScale(null), 0f);
         multiSphere.setScale(uni);
-        assert multiSphere.getScale(null).equals(uni);
+        Utils.assertEquals(uni, multiSphere.getScale(null), 0f);
         multiSphere.setScale(non);
-        assert multiSphere.getScale(null).equals(non);
+        Utils.assertEquals(non, multiSphere.getScale(null), 0f);
         multiSphere.setScale(non2);
-        assert multiSphere.getScale(null).equals(non2);
+        Utils.assertEquals(non2, multiSphere.getScale(null), 0f);
 
         // PlaneCollisionShape
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
         CollisionShape pcs = new PlaneCollisionShape(plane);
-        assert pcs.getScale(null).equals(ident);
+        Utils.assertEquals(ident, pcs.getScale(null), 0f);
         pcs.setScale(uni);
-        assert pcs.getScale(null).equals(uni);
+        Utils.assertEquals(uni, pcs.getScale(null), 0f);
         pcs.setScale(non);
-        assert pcs.getScale(null).equals(non);
+        Utils.assertEquals(non, pcs.getScale(null), 0f);
         pcs.setScale(non2);
-        assert pcs.getScale(null).equals(non2);
+        Utils.assertEquals(non2, pcs.getScale(null), 0f);
 
         // SimplexCollisionShape
         Vector3f p1 = new Vector3f(0f, 1f, 1f);
         Vector3f p2 = new Vector3f(1f, 0f, 1f);
         Vector3f p3 = new Vector3f(1f, 1f, 0f);
         CollisionShape simplex = new SimplexCollisionShape(p1, p2, p3);
-        assert simplex.getScale(null).equals(ident);
+        Utils.assertEquals(ident, simplex.getScale(null), 0f);
 
         // SphereCollisionShape
         CollisionShape sphere = new SphereCollisionShape(1f);
-        assert sphere.getScale(null).equals(ident);
+        Utils.assertEquals(ident, sphere.getScale(null), 0f);
         sphere.setScale(uni);
-        assert sphere.getScale(null).equals(uni);
+        Utils.assertEquals(uni, sphere.getScale(null), 0f);
     }
 }
