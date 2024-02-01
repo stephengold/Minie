@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -171,8 +171,8 @@ public class HelloGhost
         physicsSpace.addCollisionObject(character);
 
         // Add a plane to represent the ground.
-        float y = -2f;
-        addPlane(y);
+        float groundY = -2f;
+        addPlane(groundY);
     }
 
     /**

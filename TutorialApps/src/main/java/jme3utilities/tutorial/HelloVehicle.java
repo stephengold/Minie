@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -133,8 +133,8 @@ public class HelloVehicle extends SimpleApplication {
         vehicle.accelerate(1f);
 
         // Add a static plane to represent the ground.
-        float y = -radius - 0.35f;
-        addPlane(y);
+        float groundY = -radius - 0.35f;
+        addPlane(groundY);
     }
     // *************************************************************************
     // private methods
