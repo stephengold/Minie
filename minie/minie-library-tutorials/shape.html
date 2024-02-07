@@ -1127,7 +1127,13 @@ compound of hull shapes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">VHACDParameters parms = new VHACDParameters();
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// using VHACD version 4:
+Vhacd4Parameters v4Parms = new Vhacd4Parameters();
+CollisionShape shape
+        = CollisionShapeFactory.createVhacdShape(modelRoot, v4Parms, null);
+
+// or alternatively, using classic VHACD:
+VHACDParameters parms = new VHACDParameters();
 CollisionShape shape
         = CollisionShapeFactory.createVhacdShape(modelRoot, parms, null);</code></pre>
 </div>
