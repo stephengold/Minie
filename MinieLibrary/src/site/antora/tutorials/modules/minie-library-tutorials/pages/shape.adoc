@@ -532,6 +532,12 @@ compound of hull shapes:
 
 [source,java]
 ----
+// using VHACD version 4:
+Vhacd4Parameters v4Parms = new Vhacd4Parameters();
+CollisionShape shape
+        = CollisionShapeFactory.createVhacdShape(modelRoot, v4Parms, null);
+
+// or alternatively, using classic VHACD:
 VHACDParameters parms = new VHACDParameters();
 CollisionShape shape
         = CollisionShapeFactory.createVhacdShape(modelRoot, parms, null);
