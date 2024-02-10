@@ -252,6 +252,8 @@ public class TestDefaults {
 
     private static void testBetterCharacterControl(BetterCharacterControl bcc) {
         Assert.assertEquals(0.6f, bcc.getDuckedFactor(), 0f);
+        Assert.assertEquals(7f, bcc.getInitialHeight(), 0f);
+        Assert.assertEquals(2f, bcc.getInitialRadius(), 0f);
         Utils.assertEquals(0f, 50f, 0f, bcc.getJumpForce(null), 0f);
         Assert.assertEquals(0.9f, bcc.getPhysicsDamping(), 0f);
         Utils.assertEquals(0f, 0f, 0f, bcc.getVelocity(null), 0f);
