@@ -211,6 +211,16 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy the character's gravity vector.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInitialHeight()" class="member-name-link">getInitialHeight</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the the initial height of the collision shape.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInitialRadius()" class="member-name-link">getInitialRadius</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the the initial radius of the collision shape.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getJumpForce(com.jme3.math.Vector3f)" class="member-name-link">getJumpForce</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -449,9 +459,9 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
  The height must exceed 2x the radius, even when ducked.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>radius</code> - the initial radius for the collision shape (in
+<dd><code>radius</code> - the initial radius for the character's collision shape (in
  physics-space units, &gt;0)</dd>
-<dd><code>height</code> - the initial height for the character's CollisionShape (in
+<dd><code>height</code> - the initial height for the character's collision shape (in
  physics-space units, &gt;2*radius)</dd>
 <dd><code>mass</code> - the character's mass (&ge;0)</dd>
 </dl>
@@ -488,6 +498,28 @@ implements <a href="../PhysicsTickListener.html" title="interface in com.jme3.bu
 <dt>Returns:</dt>
 <dd>an acceleration vector in physics-space coordinates (either
  <code>storeResult</code> or a new vector, not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getInitialHeight()">
+<h3>getInitialHeight</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getInitialHeight</span>()</div>
+<div class="block">Return the the initial height of the collision shape.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the height (in physics-space units, &gt;2*radius)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getInitialRadius()">
+<h3>getInitialRadius</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getInitialRadius</span>()</div>
+<div class="block">Return the the initial radius of the collision shape.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the radius (in physics-space units, &gt;0)</dd>
 </dl>
 </section>
 </li>
