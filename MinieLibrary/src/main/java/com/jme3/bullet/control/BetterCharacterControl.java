@@ -216,9 +216,9 @@ public class BetterCharacterControl
      * <p>
      * The height must exceed 2x the radius, even when ducked.
      *
-     * @param radius the initial radius for the collision shape (in
+     * @param radius the initial radius for the character's collision shape (in
      * physics-space units, &gt;0)
-     * @param height the initial height for the character's CollisionShape (in
+     * @param height the initial height for the character's collision shape (in
      * physics-space units, &gt;2*radius)
      * @param mass the character's mass (&ge;0)
      */
