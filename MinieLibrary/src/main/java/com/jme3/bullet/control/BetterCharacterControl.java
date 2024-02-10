@@ -266,6 +266,24 @@ public class BetterCharacterControl
     }
 
     /**
+     * Return the the initial height of the collision shape.
+     *
+     * @return the height (in physics-space units, &gt;2*radius)
+     */
+    public float getInitialHeight() {
+        return initialHeight;
+    }
+
+    /**
+     * Return the the initial radius of the collision shape.
+     *
+     * @return the radius (in physics-space units, &gt;0)
+     */
+    public float getInitialRadius() {
+        return initialRadius;
+    }
+
+    /**
      * Copy the impulse applied at the start of each jump.
      *
      * @param storeResult storage for the result (modified if not null)
