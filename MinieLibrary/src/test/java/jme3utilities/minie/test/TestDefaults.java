@@ -61,6 +61,7 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.GearJoint;
@@ -186,6 +187,13 @@ public class TestDefaults {
 
         testShapes();
         testCollisionObjects();
+
+        float radius = 2f;
+        float height = 7f;
+        float mass = 10f;
+        BetterCharacterControl bcc
+                = new BetterCharacterControl(radius, height, mass);
+        testBetterCharacterControl(bcc);
         // TODO GhostControl, CharacterControl, VehicleControl
 
         RigidBodyControl dynamicRbc = new RigidBodyControl(box);
@@ -241,6 +249,14 @@ public class TestDefaults {
     }
     // *************************************************************************
     // private methods
+
+    private static void testBetterCharacterControl(BetterCharacterControl bcc) {
+        Assert.assertEquals(0.6f, bcc.getDuckedFactor(), 0f);
+        Utils.assertEquals(0f, 50f, 0f, bcc.getJumpForce(null), 0f);
+        Assert.assertEquals(0.9f, bcc.getPhysicsDamping(), 0f);
+        Utils.assertEquals(0f, 0f, 0f, bcc.getVelocity(null), 0f);
+        Assert.assertFalse(bcc.isKinematic());
+    }
 
     private static void testCollisionObjects() {
         PhysicsCharacter character = new PhysicsCharacter(box, 1f);
