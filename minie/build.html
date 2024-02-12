@@ -409,6 +409,9 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 <p>using Bash or Zsh: <code>export JAVA_HOME="</code> <strong>path to installation</strong> <code>"</code></p>
 </li>
 <li>
+<p>using Fish: <code>set -g JAVA_HOME "</code> <strong>path to installation</strong> <code>"</code></p>
+</li>
+<li>
 <p>using Windows Command Prompt: <code>set JAVA_HOME="</code> <strong>path to installation</strong> <code>"</code></p>
 </li>
 <li>
@@ -467,7 +470,7 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>using Bash or PowerShell or Zsh: <code>./gradlew build</code></p>
+<p>using Bash or Fish or PowerShell or Zsh: <code>./gradlew build</code></p>
 </li>
 <li>
 <p>using Windows Command Prompt: <code>.\gradlew build</code></p>
@@ -492,7 +495,7 @@ To save time, you can build just the library subproject:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh: <code>./gradlew :MinieLibrary:build</code></p>
+<p>using Bash or Fish or PowerShell or Zsh: <code>./gradlew :MinieLibrary:build</code></p>
 </li>
 <li>
 <p>using Windows Command Prompt: <code>.\gradlew :MinieLibrary:build</code></p>
@@ -505,7 +508,7 @@ To save time, you can build just the library subproject:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh: <code>./gradlew :MinieLibrary:assemble</code></p>
+<p>using Bash or Fish or PowerShell or Zsh: <code>./gradlew :MinieLibrary:assemble</code></p>
 </li>
 <li>
 <p>using Windows Command Prompt: <code>.\gradlew :MinieLibrary:assemble</code></p>
@@ -521,7 +524,7 @@ To save time, you can build just the library subproject:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh: <code>./gradlew install</code></p>
+<p>using Bash or Fish or PowerShell or Zsh: <code>./gradlew install</code></p>
 </li>
 <li>
 <p>using Windows Command Prompt: <code>.\gradlew install</code></p>
@@ -537,7 +540,7 @@ To save time, you can build just the library subproject:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh: <code>./gradlew clean</code></p>
+<p>using Bash or Fish or PowerShell or Zsh: <code>./gradlew clean</code></p>
 </li>
 <li>
 <p>using Windows Command Prompt: <code>.\gradlew clean</code></p>
@@ -564,7 +567,7 @@ You can replicate it by adding the "-Pbtdebug" option to the build command:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>using Bash or PowerShell or Zsh: <code>./gradlew -Pbtdebug clean build</code></p>
+<p>using Bash or Fish or PowerShell or Zsh: <code>./gradlew -Pbtdebug clean build</code></p>
 </li>
 <li>
 <p>using Windows Command Prompt: <code>.\gradlew -Pbtdebug clean build</code></p>
