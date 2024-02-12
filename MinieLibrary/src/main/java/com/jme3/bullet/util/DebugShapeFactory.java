@@ -809,12 +809,4 @@ final public class DebugShapeFactory {
 
         return result;
     }
-    // *************************************************************************
-    // native private methods
-
-    native private static boolean getTriangles(
-            long shapeId, int meshResolution, DebugMeshCallback buffer);
-
-    native private static boolean getVertices(
-            long shapeId, int meshResolution, DebugMeshCallback buffer);
 }
