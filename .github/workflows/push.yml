@@ -105,7 +105,7 @@ jobs:
 
   Java21-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-12
+    runs-on: macOS-13
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
