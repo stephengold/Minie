@@ -28,6 +28,7 @@ Here's the recommended procedure:
   or "/usr/lib/jvm/java-8-openjdk-amd64/" or
   "/Library/Java/JavaVirtualMachines/liberica-jdk-17-full.jdk/Contents/Home" .)
 .. using Bash or Zsh: `export JAVA_HOME="` *path to installation* `"`
+.. using Fish: `set -g JAVA_HOME "` *path to installation* `"`
 .. using Windows Command Prompt: `set JAVA_HOME="` *path to installation* `"`
 .. using PowerShell: `$env:JAVA_HOME = '` *path to installation* `'`
 . Download and extract the {Project} source code from GitHub:
@@ -42,7 +43,7 @@ Here's the recommended procedure:
 ... extract the contents of the saved ZIP file
 ... `cd` to the extracted directory
 . Run the Gradle wrapper to build the entire project:
-.. using Bash or PowerShell or Zsh: `./gradlew build`
+.. using Bash or Fish or PowerShell or Zsh: `./gradlew build`
 .. using Windows Command Prompt: `.\gradlew build`
 
 After a successful build,
@@ -54,26 +55,26 @@ In addition to the library, the Minie project includes subprojects for
 assets and applications that take time to build.
 To save time, you can build just the library subproject:
 
-* using Bash or PowerShell or Zsh: `./gradlew :MinieLibrary:build`
+* using Bash or Fish or PowerShell or Zsh: `./gradlew :MinieLibrary:build`
 * using Windows Command Prompt: `.\gradlew :MinieLibrary:build`
 
 To save even more time, you can skip the automated tests:
 
-* using Bash or PowerShell or Zsh: `./gradlew :MinieLibrary:assemble`
+* using Bash or Fish or PowerShell or Zsh: `./gradlew :MinieLibrary:assemble`
 * using Windows Command Prompt: `.\gradlew :MinieLibrary:assemble`
 
 === Install artifacts
 
 You can install the built artifacts to your local Maven repository:
 
-* using Bash or PowerShell or Zsh: `./gradlew install`
+* using Bash or Fish or PowerShell or Zsh: `./gradlew install`
 * using Windows Command Prompt: `.\gradlew install`
 
 === Cleanup
 
 After a build, you can restore the project to a pristine state:
 
-* using Bash or PowerShell or Zsh: `./gradlew clean`
+* using Bash or Fish or PowerShell or Zsh: `./gradlew clean`
 * using Windows Command Prompt: `.\gradlew clean`
 
 == Customizing native libraries
@@ -87,7 +88,7 @@ During application development, debug-enabled native libraries should be used.
 Most Minie releases provide a "+debug" build of the library for this purpose.
 You can replicate it by adding the "-Pbtdebug" option to the build command:
 
-* using Bash or PowerShell or Zsh: `./gradlew -Pbtdebug clean build`
+* using Bash or Fish or PowerShell or Zsh: `./gradlew -Pbtdebug clean build`
 * using Windows Command Prompt: `.\gradlew -Pbtdebug clean build`
 
 NOTE: Don't confuse the "-Pbtdebug" option with "-Pdebug",
