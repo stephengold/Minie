@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 jMonkeyEngine
+ * Copyright (c) 2019-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@ package com.jme3.bullet.collision.shapes.infos;
 
 import com.jme3.bullet.NativePhysicsObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.util.DebugShapeFactory;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -290,6 +291,38 @@ public class IndexedMesh
         this.indexStride = vpt * indexBytes;
 
         createMesh();
+    }
+
+    /**
+     * Instantiate a IndexedMesh to visualize the specified collision shape.
+     *
+     * @param shape shape to visualize (not null, not compound, unaffected)
+     * @param meshResolution (0=low, 1=high)
+     */
+    public IndexedMesh(CollisionShape shape, int meshResolution) {
+        Validate.require(
+                !(shape == null || shape instanceof CompoundCollisionShape),
+                "a non-null value, not a compound shape");
+        Validate.inRange(meshResolution, "mesh resolution", 0, 1);
+
+        long shapeId = shape.nativeId();
+        long meshId = createIntDebug(shapeId, meshResolution);
+        setNativeId(meshId);
+        logger.log(Level.FINE, "Created {0}", this);
+
+        this.numVertices = countVertices(meshId);
+        int numFloats = numVertices * numAxes;
+        this.vertexPositions = BufferUtils.createFloatBuffer(numFloats);
+        this.vertexStride = numAxes * floatBytes;
+
+        this.numTriangles = countTriangles(meshId);
+        int numIndices = numTriangles * vpt;
+        IntBuffer indexBuffer = BufferUtils.createIntBuffer(numIndices);
+        this.indices = IndexBuffer.wrapIndexBuffer(indexBuffer);
+        int indexBytes = indices.getFormat().getComponentSize();
+        this.indexStride = vpt * indexBytes;
+
+        fillBuffersInt(meshId, vertexPositions, indexBuffer);
     }
     // *************************************************************************
     // new methods exposed
@@ -770,6 +803,10 @@ public class IndexedMesh
     // *************************************************************************
     // native private methods
 
+    native private static int countTriangles(long meshId);
+
+    native private static int countVertices(long meshId);
+
     native private static long createByte(ByteBuffer indices,
             FloatBuffer vertexPositions, int numTriangles, int numVertices,
             int vertexStride, int indexStride);
@@ -778,9 +815,14 @@ public class IndexedMesh
             FloatBuffer vertexPositions, int numTriangles, int numVertices,
             int vertexStride, int indexStride);
 
+    native private static long createIntDebug(long shapeId, int meshResolution);
+
     native private static long createShort(ShortBuffer indices,
             FloatBuffer vertexPositions, int numTriangles, int numVertices,
             int vertexStride, int indexStride);
+
+    native private static void fillBuffersInt(
+            long meshId, FloatBuffer vertexPositions, IntBuffer indices);
 
     native private static void finalizeNative(long meshId);
 }
