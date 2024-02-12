@@ -173,7 +173,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxDistance(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.math.Transform,int)" class="member-name-link">maxDistance</a><wbr>(<a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape,
- com.jme3.math.Transform&nbsp;transform,
+ com.jme3.math.Transform&nbsp;shapeToWorld,
  int&nbsp;meshResolution)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Estimate how far the specified (non-compound, non-plane) shape extends
@@ -393,7 +393,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="maxDistance(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.math.Transform,int)">
 <h3>maxDistance</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">maxDistance</span><wbr><span class="parameters">(<a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape,
- com.jme3.math.Transform&nbsp;transform,
+ com.jme3.math.Transform&nbsp;shapeToWorld,
  int&nbsp;meshResolution)</span></div>
 <div class="block">Estimate how far the specified (non-compound, non-plane) shape extends
  from some origin, based on its debug mesh. The shape's scale and margin
@@ -401,7 +401,7 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - (not null, not compound, not plane, unaffected)</dd>
-<dd><code>transform</code> - the transform to apply to debug-mesh coordinates (not
+<dd><code>shapeToWorld</code> - the transform to apply to debug-mesh coordinates (not
  null, unaffected)</dd>
 <dd><code>meshResolution</code> - (0=low, 1=high)</dd>
 <dt>Returns:</dt>
@@ -457,7 +457,7 @@ loadScripts(document, 'script');</script>
  resolution.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>shape</code> - (not null, convex, unaffected)</dd>
+<dd><code>shape</code> - the convex shape to analyze (not null, unaffected)</dd>
 <dd><code>meshResolution</code> - (0=low, 1=high)</dd>
 <dt>Returns:</dt>
 <dd>the scaled volume (in physics-space units cubed, &ge;0)</dd>
