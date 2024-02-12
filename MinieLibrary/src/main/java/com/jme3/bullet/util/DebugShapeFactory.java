@@ -324,23 +324,23 @@ final public class DebugShapeFactory {
      * are taken into account, but not its debug-mesh resolution.
      *
      * @param shape (not null, not compound, not plane, unaffected)
-     * @param transform the transform to apply to debug-mesh coordinates (not
+     * @param shapeToWorld the transform to apply to debug-mesh coordinates (not
      * null, unaffected)
      * @param meshResolution (0=low, 1=high)
      * @return the maximum length of the transformed vertex locations (&ge;0)
      */
     public static float maxDistance(
-            CollisionShape shape, Transform transform, int meshResolution) {
+            CollisionShape shape, Transform shapeToWorld, int meshResolution) {
         Validate.require(
                 !(shape == null || shape instanceof CompoundCollisionShape
                 || shape instanceof PlaneCollisionShape),
                 "a non-null value, neither a compound nor a plane shape");
-        Validate.nonNull(transform, "transform");
+        Validate.nonNull(shapeToWorld, "shapeToWorld");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
         IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
-        float result = debugMesh.maxDistance(transform);
+        float result = debugMesh.maxDistance(shapeToWorld);
 
         return result;
     }
