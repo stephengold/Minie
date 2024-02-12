@@ -37,6 +37,7 @@ import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
+import com.jme3.bullet.collision.shapes.infos.IndexedMesh;
 import com.jme3.bullet.debug.DebugMeshInitListener;
 import com.jme3.bullet.debug.MeshCustomizer;
 import com.jme3.math.Matrix3f;
@@ -51,6 +52,7 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -170,15 +172,8 @@ final public class DebugShapeFactory {
             result = createPlaneVertices((PlaneCollisionShape) shape, halfExt);
 
         } else {
-            long shapeId = shape.nativeId();
-            DebugMeshCallback callback = new DebugMeshCallback();
-            boolean success = getVertices(shapeId, meshResolution, callback);
-            if (!success) {
-                String shapeType = shape.getClass().getSimpleName();
-                throw new RuntimeException(
-                        "getVertices() failed, shapeType = " + shapeType);
-            }
-            result = callback.getVertices();
+            IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
+            result = debugMesh.copyVertexPositions();
         }
 
         assert (result.capacity() % numAxes) == 0 : result.capacity();
@@ -206,15 +201,8 @@ final public class DebugShapeFactory {
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
-        long shapeId = shape.nativeId();
-        DebugMeshCallback callback = new DebugMeshCallback();
-        boolean success = getVertices(shapeId, meshResolution, callback);
-        if (!success) {
-            String shapeType = shape.getClass().getSimpleName();
-            throw new RuntimeException(
-                    "getVertices() failed, shapeType = " + shapeType);
-        }
-        Vector3f[] cornerLocations = callback.footprint(shapeToWorld);
+        IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
+        Vector3f[] cornerLocations = debugMesh.footprint(shapeToWorld);
 
         return cornerLocations;
     }
@@ -312,15 +300,8 @@ final public class DebugShapeFactory {
             result = createPlaneTriangles((PlaneCollisionShape) shape, halfExt);
 
         } else {
-            long shapeId = shape.nativeId();
-            DebugMeshCallback callback = new DebugMeshCallback();
-            boolean success = getTriangles(shapeId, meshResolution, callback);
-            if (!success) {
-                String shapeType = shape.getClass().getSimpleName();
-                throw new RuntimeException(
-                        "getTriangles() failed, shapeType = " + shapeType);
-            }
-            result = callback.getVertices();
+            IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
+            result = debugMesh.copyTriangles();
         }
 
         assert (result.capacity() % 9) == 0 : result.capacity();
@@ -358,15 +339,8 @@ final public class DebugShapeFactory {
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
-        long shapeId = shape.nativeId();
-        DebugMeshCallback callback = new DebugMeshCallback();
-        boolean success = getVertices(shapeId, meshResolution, callback);
-        if (!success) {
-            String shapeType = shape.getClass().getSimpleName();
-            throw new RuntimeException(
-                    "getVertices() failed, shapeType = " + shapeType);
-        }
-        float result = callback.maxDistance(transform);
+        IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
+        float result = debugMesh.maxDistance(transform);
 
         return result;
     }
@@ -431,18 +405,12 @@ final public class DebugShapeFactory {
      * @return the scaled volume (in physics-space units cubed, &ge;0)
      */
     public static float volumeConvex(ConvexShape shape, int meshResolution) {
+        Validate.nonNull(shape, "shape");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
                 highResolution);
 
-        long shapeId = shape.nativeId();
-        DebugMeshCallback callback = new DebugMeshCallback();
-        boolean success = getTriangles(shapeId, meshResolution, callback);
-        if (!success) {
-            String shapeType = shape.getClass().getSimpleName();
-            throw new RuntimeException(
-                    "getTriangles() failed, shapeType = " + shapeType);
-        }
-        float volume = callback.volumeConvex();
+        IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
+        float volume = debugMesh.volumeConvex();
 
         assert volume >= 0f : volume;
         return volume;
@@ -595,33 +563,35 @@ final public class DebugShapeFactory {
         assert resolution >= lowResolution : resolution;
         assert resolution <= highResolution : resolution;
 
-        long shapeId = shape.nativeId();
-        DebugMeshCallback callback = new DebugMeshCallback();
-        boolean success = getTriangles(shapeId, resolution, callback);
-        if (!success) {
-            String shapeType = shape.getClass().getSimpleName();
-            throw new RuntimeException(
-                    "getTriangles() failed, shapeType = " + shapeType);
-        }
-
+        IndexedMesh dm = new IndexedMesh(shape, resolution);
         Mesh mesh = new Mesh();
-        mesh.setBuffer(
-                VertexBuffer.Type.Position, numAxes, callback.getVertices());
-
-        // Add a normal buffer, if requested.
         switch (normals) {
             case Facet:
-                mesh.setBuffer(VertexBuffer.Type.Normal, numAxes,
-                        callback.getFaceNormals());
+                FloatBuffer positions = dm.copyTriangles();
+                mesh.setBuffer(VertexBuffer.Type.Position, numAxes, positions);
+                MyMesh.generateFacetNormals(mesh);
                 break;
             case None:
+                IntBuffer indices = dm.copyIndices();
+                mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
+                        VertexBuffer.Format.UnsignedInt, indices);
+                positions = dm.copyVertexPositions();
+                mesh.setBuffer(
+                        VertexBuffer.Type.Position, numAxes, positions);
                 break;
             case Smooth:
-                mesh.setBuffer(VertexBuffer.Type.Normal, numAxes,
-                        callback.getFaceNormals());
+                positions = dm.copyTriangles();
+                mesh.setBuffer(
+                        VertexBuffer.Type.Position, numAxes, positions);
+                MyMesh.generateFacetNormals(mesh);
                 MyMesh.smoothNormals(mesh);
                 break;
             case Sphere:
+                indices = dm.copyIndices();
+                mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
+                        VertexBuffer.Format.UnsignedInt, indices);
+                positions = dm.copyVertexPositions();
+                mesh.setBuffer(VertexBuffer.Type.Position, numAxes, positions);
                 MyMesh.addSphereNormals(mesh);
                 break;
             default:
@@ -630,7 +600,8 @@ final public class DebugShapeFactory {
         }
 
         // If the mesh is not too big, generate an index buffer.
-        if (mesh.getVertexCount() <= maxVerticesToIndex) {
+        if (!MyMesh.hasIndices(mesh)
+                && mesh.getVertexCount() <= maxVerticesToIndex) {
             mesh = MyMesh.addIndices(mesh);
         }
 
