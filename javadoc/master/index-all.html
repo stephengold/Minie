@@ -2420,6 +2420,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Copy the vertex positions of the specified triangle.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#copyTriangles()" class="member-name-link">copyTriangles()</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Copy the unindexed triangle vertices to a new buffer.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#copyVelocities(java.nio.FloatBuffer)" class="member-name-link">copyVelocities(FloatBuffer)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
 <div class="block">Copy the (linear) velocities of all nodes in this body.</div>
@@ -3291,6 +3295,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Test whether the specified physics object should be displayed/dumped.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#distinctVertices()" class="member-name-link">distinctVertices()</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Return the set of distinct vertices.</div>
+</dd>
 <dt><a href="com/jme3/bullet/ContactManager.html#distributeEvents()" class="member-name-link">distributeEvents()</a> - Method in interface com.jme3.bullet.<a href="com/jme3/bullet/ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></dt>
 <dd>
 <div class="block">Distribute queued collision events to registered listeners.</div>
@@ -3655,6 +3663,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/util/DebugShapeFactory.html#footprint(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.math.Transform,int)" class="member-name-link">footprint(CollisionShape, Transform, int)</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/DebugShapeFactory.html" title="class in com.jme3.bullet.util">DebugShapeFactory</a></dt>
 <dd>
 <div class="block">Estimate the footprint of the specified (non-compound, non-plane) shape.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#footprint(com.jme3.math.Transform)" class="member-name-link">footprint(Transform)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Estimate the footprint of the mesh.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/VehicleController.html#forwardAxisIndex()" class="member-name-link">forwardAxisIndex()</a> - Method in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/VehicleController.html" title="class in com.jme3.bullet.objects.infos">VehicleController</a></dt>
 <dd>
@@ -7787,6 +7799,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Estimate how far the specified (non-compound, non-plane) shape extends
  from some origin, based on its debug mesh.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#maxDistance(com.jme3.math.Transform)" class="member-name-link">maxDistance(Transform)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Calculate how far the mesh extends from some origin.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">maxMin(Vector3f, Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
 <dd>
@@ -12584,6 +12600,10 @@ loadScripts(document, 'script');</script>
  which is the default if no flags are set (native value:
  kF_UseSubSimplexConvexCastRaytest)</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#surfaceArea()" class="member-name-link">surfaceArea()</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Calculate the surface area of the mesh.</div>
+</dd>
 <dt><a href="com/jme3/bullet/FillMode.html#SurfaceOnly" class="member-name-link">SurfaceOnly</a> - Enum constant in enum class com.jme3.bullet.<a href="com/jme3/bullet/FillMode.html" title="enum class in com.jme3.bullet">FillMode</a></dt>
 <dd>
 <div class="block">create a hollow skin (native name: SURFACE_ONLY)</div>
@@ -13386,6 +13406,10 @@ the order they are declared.</div>
 <dt><a href="com/jme3/bullet/objects/infos/Sbcp.html#VolumeConservation" class="member-name-link">VolumeConservation</a> - Enum constant in enum class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/Sbcp.html" title="enum class in com.jme3.bullet.objects.infos">Sbcp</a></dt>
 <dd>
 <div class="block">volume conservation coefficient (&ge;0, default=0, native field: kVC)</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#volumeConvex()" class="member-name-link">volumeConvex()</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
+<dd>
+<div class="block">Calculate volume of the mesh, assuming it's both closed and convex.</div>
 </dd>
 <dt><a href="com/jme3/bullet/util/DebugShapeFactory.html#volumeConvex(com.jme3.bullet.collision.shapes.ConvexShape,int)" class="member-name-link">volumeConvex(ConvexShape, int)</a> - Static method in class com.jme3.bullet.util.<a href="com/jme3/bullet/util/DebugShapeFactory.html" title="class in com.jme3.bullet.util">DebugShapeFactory</a></dt>
 <dd>

@@ -202,24 +202,44 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="block">Copy the vertex positions of the specified triangle.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyVertexPositions()" class="member-name-link">copyVertexPositions</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyTriangles()" class="member-name-link">copyTriangles</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy the unindexed triangle vertices to a new buffer.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyVertexPositions()" class="member-name-link">copyVertexPositions</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy the vertex positions to a new buffer.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countTriangles()" class="member-name-link">countTriangles</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countTriangles()" class="member-name-link">countTriangles</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Count how many triangles are in this mesh.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countVertices()" class="member-name-link">countVertices</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countVertices()" class="member-name-link">countVertices</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Count how many vertices are in this mesh.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>jme3utilities.math.VectorSet</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#distinctVertices()" class="member-name-link">distinctVertices</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the set of distinct vertices.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#footprint(com.jme3.math.Transform)" class="member-name-link">footprint</a><wbr>(com.jme3.math.Transform&nbsp;meshToWorld)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Estimate the footprint of the mesh.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create a shallow clone for the JME cloner.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxDistance(com.jme3.math.Transform)" class="member-name-link">maxDistance</a><wbr>(com.jme3.math.Transform&nbsp;meshToWorld)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Calculate how far the mesh extends from some origin.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">maxMin</a><wbr>(com.jme3.math.Vector3f&nbsp;storeMaxima,
@@ -238,6 +258,16 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#split(com.jme3.math.Plane)" class="member-name-link">split</a><wbr>(com.jme3.math.Plane&nbsp;splittingPlane)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Attempt to divide this mesh into 2 meshes.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#surfaceArea()" class="member-name-link">surfaceArea</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Calculate the surface area of the mesh.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#volumeConvex()" class="member-name-link">volumeConvex</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Calculate volume of the mesh, assuming it's both closed and convex.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -419,6 +449,17 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 </section>
 </li>
 <li>
+<section class="detail" id="copyTriangles()">
+<h3>copyTriangles</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a></span>&nbsp;<span class="element-name">copyTriangles</span>()</div>
+<div class="block">Copy the unindexed triangle vertices to a new buffer.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>a new, direct, unflipped buffer</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="copyVertexPositions()">
 <h3>copyVertexPositions</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a></span>&nbsp;<span class="element-name">copyVertexPositions</span>()</div>
@@ -452,6 +493,44 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 </section>
 </li>
 <li>
+<section class="detail" id="distinctVertices()">
+<h3>distinctVertices</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">jme3utilities.math.VectorSet</span>&nbsp;<span class="element-name">distinctVertices</span>()</div>
+<div class="block">Return the set of distinct vertices.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>a new instance of <code>VectorSet</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="footprint(com.jme3.math.Transform)">
+<h3>footprint</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f[]</span>&nbsp;<span class="element-name">footprint</span><wbr><span class="parameters">(com.jme3.math.Transform&nbsp;meshToWorld)</span></div>
+<div class="block">Estimate the footprint of the mesh.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>meshToWorld</code> - the world transform to use (not null, unaffected)</dd>
+<dt>Returns:</dt>
+<dd>a new array of corner locations (in world coordinates)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="maxDistance(com.jme3.math.Transform)">
+<h3>maxDistance</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">maxDistance</span><wbr><span class="parameters">(com.jme3.math.Transform&nbsp;meshToWorld)</span></div>
+<div class="block">Calculate how far the mesh extends from some origin.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>meshToWorld</code> - the transform to apply to vertex locations (not null,
+ unaffected)</dd>
+<dt>Returns:</dt>
+<dd>the maximum length of the transformed vectors (&ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">
 <h3>maxMin</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">maxMin</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeMaxima,
@@ -477,6 +556,28 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dd>a pair of meshes, the first mesh generated by the plane's minus
  side and the 2nd mesh generated by its plus side; either mesh may be
  null, indicating an empty mesh</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="surfaceArea()">
+<h3>surfaceArea</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">surfaceArea</span>()</div>
+<div class="block">Calculate the surface area of the mesh.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the area (in square mesh units, &ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="volumeConvex()">
+<h3>volumeConvex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">volumeConvex</span>()</div>
+<div class="block">Calculate volume of the mesh, assuming it's both closed and convex.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the volume (in cubic mesh units, &ge;0)</dd>
 </dl>
 </section>
 </li>
