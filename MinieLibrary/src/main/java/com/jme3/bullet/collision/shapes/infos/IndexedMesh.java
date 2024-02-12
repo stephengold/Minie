@@ -32,6 +32,7 @@
 package com.jme3.bullet.collision.shapes.infos;
 
 import com.jme3.bullet.NativePhysicsObject;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.util.DebugShapeFactory;
@@ -63,6 +64,9 @@ import jme3utilities.math.DistinctVectorValues;
 import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVector3f;
+import jme3utilities.math.MyVolume;
+import jme3utilities.math.RectangularSolid;
+import jme3utilities.math.VectorSet;
 
 /**
  * An indexed triangle mesh based on Bullet's {@code btIndexedMesh}. Immutable
@@ -364,6 +368,28 @@ public class IndexedMesh
     }
 
     /**
+     * Copy the unindexed triangle vertices to a new buffer.
+     *
+     * @return a new, direct, unflipped buffer
+     */
+    public FloatBuffer copyTriangles() {
+        int numIndices = numTriangles * vpt;
+        int numFloats = numIndices * numAxes;
+        FloatBuffer result = BufferUtils.createFloatBuffer(numFloats);
+
+        for (int ii = 0; ii < numIndices; ++ii) {
+            int startOffset = indices.get(ii) * numAxes;
+            float x = vertexPositions.get(startOffset);
+            float y = vertexPositions.get(startOffset + 1);
+            float z = vertexPositions.get(startOffset + 2);
+            result.put(x).put(y).put(z);
+        }
+        assert result.position() == result.capacity();
+
+        return result;
+    }
+
+    /**
      * Copy the vertex positions to a new buffer.
      *
      * @return a new, direct, unflipped buffer
@@ -397,6 +423,102 @@ public class IndexedMesh
     public int countVertices() {
         assert numVertices >= 0 : numVertices;
         return numVertices;
+    }
+
+    /**
+     * Return the set of distinct vertices.
+     *
+     * @return a new instance of {@code VectorSet}
+     */
+    public VectorSet distinctVertices() {
+        int numFloats = numVertices * numAxes;
+        assert vertexPositions.capacity() == numFloats;
+        VectorSet result = MyBuffer.distinct(vertexPositions, 0, numFloats);
+
+        return result;
+    }
+
+    /**
+     * Estimate the footprint of the mesh.
+     *
+     * @param meshToWorld the world transform to use (not null, unaffected)
+     * @return a new array of corner locations (in world coordinates)
+     */
+    public Vector3f[] footprint(Transform meshToWorld) {
+        Validate.nonNull(meshToWorld, "mesh-to-world transform");
+
+        VectorSet distinct = distinctVertices();
+        /*
+         * Transform vertex locations to world coordinates and set all the
+         * Y coordinates to the minimum coordinate value.
+         */
+        FloatBuffer floatBuffer = distinct.toBuffer();
+        int numFloats = floatBuffer.limit();
+        MyBuffer.transform(floatBuffer, 0, numFloats, meshToWorld);
+
+        float minY = Float.POSITIVE_INFINITY;
+        int numVectors = numFloats / numAxes;
+        for (int vectorIndex = 0; vectorIndex < numVectors; ++vectorIndex) {
+            int position = vectorIndex * numAxes + PhysicsSpace.AXIS_Y;
+            float y = floatBuffer.get(position);
+            if (y < minY) {
+                minY = y;
+            }
+        }
+
+        for (int vectorIndex = 0; vectorIndex < numVectors; ++vectorIndex) {
+            int position = vectorIndex * numAxes + PhysicsSpace.AXIS_Y;
+            floatBuffer.put(position, minY);
+        }
+
+        // Fit a rotated rectangular solid to the vertex locations.
+        RectangularSolid solid
+                = new RectangularSolid(floatBuffer, 0, numFloats);
+        Vector3f maxima = solid.maxima(null);
+        Vector3f minima = solid.minima(null);
+        /*
+         * Enumerate the local coordinates (within the solid) of the 4 corners.
+         * Assume that the local X axis corresponds to the world Y axis, since
+         * those are the axes with the least variance.
+         */
+        float midX = (minima.x + maxima.x) / 2f;
+        Vector3f[] cornerLocations = new Vector3f[4];
+        cornerLocations[0] = new Vector3f(midX, maxima.y, maxima.z);
+        cornerLocations[1] = new Vector3f(midX, minima.y, maxima.z);
+        cornerLocations[2] = new Vector3f(midX, maxima.y, minima.z);
+        cornerLocations[3] = new Vector3f(midX, minima.y, minima.z);
+
+        // Transform corner locations to the world coordinate system:
+        for (Vector3f location : cornerLocations) {
+            solid.localToWorld(location, location);
+        }
+
+        return cornerLocations;
+    }
+
+    /**
+     * Calculate how far the mesh extends from some origin.
+     *
+     * @param meshToWorld the transform to apply to vertex locations (not null,
+     * unaffected)
+     * @return the maximum length of the transformed vectors (&ge;0)
+     */
+    public float maxDistance(Transform meshToWorld) {
+        Validate.nonNull(meshToWorld, "meshToWorld");
+
+        double maxSquaredDistance = 0.0;
+        Vector3f tmpVector = new Vector3f(); // garbage
+        for (int i = 0; i < numVertices; ++i) {
+            MyBuffer.get(vertexPositions, numAxes * i, tmpVector);
+            MyMath.transform(meshToWorld, tmpVector, tmpVector);
+            double lengthSquared = MyVector3f.lengthSquared(tmpVector);
+            if (lengthSquared > maxSquaredDistance) {
+                maxSquaredDistance = lengthSquared;
+            }
+        }
+
+        float result = (float) Math.sqrt(maxSquaredDistance);
+        return result;
     }
 
     /**
@@ -459,6 +581,51 @@ public class IndexedMesh
             }
         }
 
+        return result;
+    }
+
+    /**
+     * Calculate the surface area of the mesh.
+     *
+     * @return the area (in square mesh units, &ge;0)
+     */
+    public float surfaceArea() {
+        double total = 0.0;
+
+        Triangle tmpTriangle = new Triangle();
+        for (int triIndex = 0; triIndex < numTriangles; ++triIndex) {
+            copyTriangle(triIndex, tmpTriangle);
+            double triangleArea = MyMath.area(tmpTriangle);
+            total += triangleArea;
+        }
+
+        float result = (float) total;
+        assert result >= 0f : result;
+        return result;
+    }
+
+    /**
+     * Calculate volume of the mesh, assuming it's both closed and convex.
+     *
+     * @return the volume (in cubic mesh units, &ge;0)
+     */
+    public float volumeConvex() {
+        double total = 0.0;
+        if (numTriangles > 0) {
+            Vector3f v0 = new Vector3f();
+            MyBuffer.get(vertexPositions, 0, v0);
+
+            Triangle tri = new Triangle();
+            for (int triIndex = 0; triIndex < numTriangles; ++triIndex) {
+                copyTriangle(triIndex, tri);
+                double tetraVolume = MyVolume.tetrahedronVolume(
+                        tri.get1(), tri.get2(), tri.get3(), v0);
+                total += tetraVolume;
+            }
+        }
+
+        float result = (float) total;
+        assert result >= 0f : result;
         return result;
     }
     // *************************************************************************
