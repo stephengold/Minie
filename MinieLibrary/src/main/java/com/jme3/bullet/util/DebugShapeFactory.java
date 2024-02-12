@@ -400,7 +400,7 @@ final public class DebugShapeFactory {
      * shape's scale and margin are taken into account, but not its debug-mesh
      * resolution.
      *
-     * @param shape (not null, convex, unaffected)
+     * @param shape the convex shape to analyze (not null, unaffected)
      * @param meshResolution (0=low, 1=high)
      * @return the scaled volume (in physics-space units cubed, &ge;0)
      */
@@ -571,6 +571,7 @@ final public class DebugShapeFactory {
                 mesh.setBuffer(VertexBuffer.Type.Position, numAxes, positions);
                 MyMesh.generateFacetNormals(mesh);
                 break;
+
             case None:
                 IntBuffer indices = dm.copyIndices();
                 mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
@@ -579,6 +580,7 @@ final public class DebugShapeFactory {
                 mesh.setBuffer(
                         VertexBuffer.Type.Position, numAxes, positions);
                 break;
+
             case Smooth:
                 positions = dm.copyTriangles();
                 mesh.setBuffer(
@@ -586,6 +588,7 @@ final public class DebugShapeFactory {
                 MyMesh.generateFacetNormals(mesh);
                 MyMesh.smoothNormals(mesh);
                 break;
+
             case Sphere:
                 indices = dm.copyIndices();
                 mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
@@ -594,6 +597,7 @@ final public class DebugShapeFactory {
                 mesh.setBuffer(VertexBuffer.Type.Position, numAxes, positions);
                 MyMesh.addSphereNormals(mesh);
                 break;
+
             default:
                 String message = "normals = " + normals;
                 throw new IllegalArgumentException(message);
