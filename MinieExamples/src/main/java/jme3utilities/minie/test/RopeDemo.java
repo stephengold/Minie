@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -318,7 +318,7 @@ public class RopeDemo extends PhysicsDemo {
         // Position help nodes on the right side of the viewport.
         float margin = 10f; // in pixels
         float height = viewPortHeight - (2f * margin);
-        float width = 260f; // in pixels
+        float width = 270f; // in pixels
         float leftX = viewPortWidth - (width + margin);
         float topY = margin + height;
         Rectangle result = new Rectangle(leftX, topY, width, height);
