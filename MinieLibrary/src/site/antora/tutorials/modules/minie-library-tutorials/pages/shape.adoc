@@ -4,6 +4,7 @@
 :page-pagination:
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-enwiki: https://en.wikipedia.org/wiki
+:url-examples-shapes: https://github.com/stephengold/Minie/tree/master/MinieExamples/src/main/java/com/github/stephengold/shapes
 :url-shape: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial
 
@@ -182,6 +183,27 @@ having compound or convex shapes.
 Similarly, collisions between `GImpactCollisionShape` and `PlaneCollisionShape`
 objects are never detected.
 ====
+
+== Custom shape classes
+
+Furthermore, you can define new shape classes by extending the
+abstract {url-shape}/CustomConvexShape.html[`CustomConvexShape`] class:
+
+[cols="2*",grid="none"]
+|===
+
+|{url-shape}/CustomConvexShape.html[`CustomConvexShape`]
+
+{item} convex +
+{item} positive margin +
+{item} imprecise +
+{item} each subclass determines its scalability
+|image:CustomConvex.png[height=160]
+
+|===
+
+Examples of this are found in
+{url-examples-shapes}/custom[the `com.github.stephengold.shapes.custom` package].
 
 == Convex versus concave
 
