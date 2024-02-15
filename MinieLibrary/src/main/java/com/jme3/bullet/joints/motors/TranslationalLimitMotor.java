@@ -158,18 +158,6 @@ public class TranslationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Return the ID of the native object ({@code btTranslationalLimitMotor}).
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link NativePhysicsObject#nativeId()}
-     */
-    @Deprecated
-    public long getMotor() {
-        long motorId = nativeId();
-        return motorId;
-    }
-
-    /**
      * Copy this motor's constraint-force mixing parameters for normal
      * conditions (native field: m_normalCFM).
      *

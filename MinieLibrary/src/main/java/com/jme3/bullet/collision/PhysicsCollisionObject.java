@@ -682,17 +682,6 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the ID of the native object ({@code btCollisionObject}).
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link NativePhysicsObject#nativeId()}
-     */
-    @Deprecated
-    final public long getObjectId() {
-        return nativeId();
-    }
-
-    /**
      * For compatibility with the jme3-jbullet library.
      *
      * @return a new location vector (in physics-space coordinates, not null)

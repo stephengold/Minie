@@ -182,18 +182,6 @@ public class RigidBodyMotionState
     }
 
     /**
-     * Return the ID of the native object.
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link NativePhysicsObject#nativeId()}
-     */
-    @Deprecated
-    public long getObjectId() {
-        long motionStateId = nativeId();
-        return motionStateId;
-    }
-
-    /**
      * Copy the orientation to a Matrix3f.
      *
      * @param storeResult storage for the result (modified if not null)

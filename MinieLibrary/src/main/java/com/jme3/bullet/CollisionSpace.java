@@ -359,18 +359,6 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * Return the ID of the native object.
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link NativePhysicsObject#nativeId()}
-     */
-    @Deprecated
-    final public long getSpaceId() {
-        long spaceId = nativeId();
-        return spaceId;
-    }
-
-    /**
      * Copy the maximum coordinate values for this space.
      *
      * @param storeResult storage for the result (modified if not null)

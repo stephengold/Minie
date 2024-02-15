@@ -265,18 +265,6 @@ abstract public class CollisionShape
     }
 
     /**
-     * Return the ID of the native object ({@code btCollisionShape}).
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link NativePhysicsObject#nativeId()}
-     */
-    @Deprecated
-    final public long getObjectId() {
-        long shapeId = nativeId();
-        return shapeId;
-    }
-
-    /**
      * Copy the scale factors.
      *
      * @param storeResult storage for the result (modified if not null)

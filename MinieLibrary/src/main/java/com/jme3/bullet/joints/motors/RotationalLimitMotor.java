@@ -167,18 +167,6 @@ public class RotationalLimitMotor extends NativePhysicsObject {
     }
 
     /**
-     * Return the ID of the native object ({@code btRotationalLimitMotor}).
-     *
-     * @return the native identifier (not zero)
-     * @deprecated use {@link NativePhysicsObject#nativeId()}
-     */
-    @Deprecated
-    public long getMotor() {
-        long motorId = nativeId();
-        return motorId;
-    }
-
-    /**
      * Return this motor's constraint-force mixing parameter for normal
      * conditions (native field: m_normalCFM).
      *
