@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 8.0.0 released on TBD
+## Version 8.0.0 released on 14 February 2024
 
 + Deleted 9 public methods that had previously been deprecated: (API changes)
   + `CollisionShape.getObjectId()`
