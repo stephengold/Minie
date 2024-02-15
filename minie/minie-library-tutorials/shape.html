@@ -567,6 +567,35 @@ objects are never detected.</p>
 </div>
 </div>
 <div class="sect1">
+<h2 id="_custom_shape_classes"><a class="anchor" href="#_custom_shape_classes"></a>Custom shape classes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Furthermore, you can define new shape classes by extending the
+abstract <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CustomConvexShape.html"><code>CustomConvexShape</code></a> class:</p>
+</div>
+<table class="tableblock frame-all grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CustomConvexShape.html"><code>CustomConvexShape</code></a></p>
+<p class="tableblock">&rarr; convex<br>
+&rarr; positive margin<br>
+&rarr; imprecise<br>
+&rarr; each subclass determines its scalability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/CustomConvex.png" alt="CustomConvex" height="160"></span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Examples of this are found in
+<a href="https://github.com/stephengold/Minie/tree/master/MinieExamples/src/main/java/com/github/stephengold/shapes/custom">the <code>com.github.stephengold.shapes.custom</code> package</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_convex_versus_concave"><a class="anchor" href="#_convex_versus_concave"></a>Convex versus concave</h2>
 <div class="sectionbody">
 <div class="paragraph">

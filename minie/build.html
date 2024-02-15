@@ -435,7 +435,7 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 <p><code>cd Minie</code></p>
 </li>
 <li>
-<p><code>git checkout -b latest 7.8.1</code></p>
+<p><code>git checkout -b latest 8.0.0</code></p>
 </li>
 </ol>
 </div>
@@ -609,15 +609,15 @@ which you can replicate by specifying the "-Pmt" option in the build command.</p
 <div class="paragraph">
 <p>Supporting 13 platforms requires 13 native libraries,
 which results in a big, fat JAR and (potentially) a bloated application.
-To address bloat, some Minie releases provide reduced builds that
+To address bloat, most Minie releases provide reduced builds that
 don&#8217;t support all 13 platforms.
 These include:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>A "+big3" build (created using the "-Pbig3" option)
-with support for just the 3 main platforms (Linux64, MacOSX64, and Windows64).</p>
+<p>A "+big4" build (created using the "-Pbig4" option)
+with support for just the 4 main platforms (Linux64, MacOSX64, MacOSX_ARM64, and Windows64).</p>
 </li>
 <li>
 <p>A "+bare" build (created using the "-Pbare" option)
