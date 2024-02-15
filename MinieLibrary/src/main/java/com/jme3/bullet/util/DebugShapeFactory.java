@@ -574,12 +574,15 @@ final public class DebugShapeFactory {
                 break;
 
             case None:
-                IntBuffer indices = dm.copyIndices();
-                mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
-                        VertexBuffer.Format.UnsignedInt, indices);
-                positions = dm.copyVertexPositions();
-                mesh.setBuffer(
-                        VertexBuffer.Type.Position, numAxes, positions);
+                if (shape.isConvex()) { // create an indexed mesh
+                    positions = dm.copyVertexPositions();
+                    IntBuffer indices = dm.copyIndices();
+                    mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
+                            VertexBuffer.Format.UnsignedInt, indices);
+                } else { // start with a non-indexed mesh
+                    positions = dm.copyTriangles();
+                }
+                mesh.setBuffer(VertexBuffer.Type.Position, numAxes, positions);
                 break;
 
             case Smooth: // always start with a non-indexed mesh
@@ -590,10 +593,14 @@ final public class DebugShapeFactory {
                 break;
 
             case Sphere:
-                indices = dm.copyIndices();
-                mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
-                        VertexBuffer.Format.UnsignedInt, indices);
-                positions = dm.copyVertexPositions();
+                if (shape.isConvex()) { // create an indexed mesh
+                    positions = dm.copyVertexPositions();
+                    IntBuffer indices = dm.copyIndices();
+                    mesh.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt,
+                            VertexBuffer.Format.UnsignedInt, indices);
+                } else { // start with a non-indexed mesh
+                    positions = dm.copyTriangles();
+                }
                 mesh.setBuffer(VertexBuffer.Type.Position, numAxes, positions);
                 MyMesh.addSphereNormals(mesh);
                 break;
