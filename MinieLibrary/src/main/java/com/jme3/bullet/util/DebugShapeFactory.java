@@ -564,10 +564,11 @@ final public class DebugShapeFactory {
         assert resolution <= highResolution : resolution;
 
         IndexedMesh dm = new IndexedMesh(shape, resolution);
+        FloatBuffer positions;
         Mesh mesh = new Mesh();
         switch (normals) {
-            case Facet:
-                FloatBuffer positions = dm.copyTriangles();
+            case Facet: // always start with a non-indexed mesh
+                positions = dm.copyTriangles();
                 mesh.setBuffer(VertexBuffer.Type.Position, numAxes, positions);
                 MyMesh.generateFacetNormals(mesh);
                 break;
@@ -581,10 +582,9 @@ final public class DebugShapeFactory {
                         VertexBuffer.Type.Position, numAxes, positions);
                 break;
 
-            case Smooth:
+            case Smooth: // always start with a non-indexed mesh
                 positions = dm.copyTriangles();
-                mesh.setBuffer(
-                        VertexBuffer.Type.Position, numAxes, positions);
+                mesh.setBuffer(VertexBuffer.Type.Position, numAxes, positions);
                 MyMesh.generateFacetNormals(mesh);
                 MyMesh.smoothNormals(mesh);
                 break;
