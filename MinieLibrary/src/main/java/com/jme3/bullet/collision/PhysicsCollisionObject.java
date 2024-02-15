@@ -969,29 +969,6 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Enumerate the native IDs of all collision objects in this object's ignore
-     * list.
-     *
-     * @return a new array (not null, may be empty)
-     * @see #addToIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject)
-     * @deprecated use {@link #listIgnoredPcos()}
-     */
-    @Deprecated
-    public long[] listIgnoredIds() {
-        long objectId = nativeId();
-        int numIgnoredObjects = getNumObjectsWithoutCollision(objectId);
-        long[] result = new long[numIgnoredObjects];
-
-        for (int listIndex = 0; listIndex < numIgnoredObjects; ++listIndex) {
-            long otherId = getObjectWithoutCollision(objectId, listIndex);
-            assert otherId != 0L;
-            result[listIndex] = otherId;
-        }
-
-        return result;
-    }
-
-    /**
      * Enumerate all collision objects in this object's ignore list.
      *
      * @return a new array (not null, may be empty)
@@ -1315,25 +1292,6 @@ abstract public class PhysicsCollisionObject
 
         long objectId = nativeId();
         setFriction(objectId, friction);
-    }
-
-    /**
-     * Replace the ignore list.
-     *
-     * @param idList the collision-object IDs to ignore (not null, may be empty,
-     * unaffected)
-     * @deprecated use {@link #setIgnoreList(
-     * com.jme3.bullet.collision.PhysicsCollisionObject[])}
-     */
-    @Deprecated
-    public void setIgnoreList(long[] idList) {
-        Validate.nonNull(idList, "ID list");
-
-        clearIgnoreList();
-        for (long otherId : idList) {
-            PhysicsCollisionObject otherPco = findInstance(otherId);
-            addToIgnoreList(otherPco);
-        }
     }
 
     /**
