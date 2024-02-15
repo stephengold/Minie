@@ -15,8 +15,8 @@
 + Optimized `PhysicsSpace` to instantiate collision events only when a
   corresponding listener is registered.
 + Added a 4-argument `addContactListener()` method to the `PhysicsSpace` class.
-+ Based on v8.8.0 of the Heart library, v1.1.0 of the Acorus library,
-  and v0.8.1 of the Wes library.
++ Updated to depend on v8.8.0 of the Heart library, v1.1.0 of the Acorus
+  library, and v0.8.1 of the Wes library.
 + Built using Gradle v8.5 .
 + Updated the native libraries to v18.6.0 of Libbulletjme.
 
@@ -43,7 +43,8 @@
   + Added more shapes to `DropTest` and `SplitDemo`.
   + Reduced the risk of fallthru in `DropTest`, by disabling contact filtering.
 
-+ Based on v3.6.1-stable of JMonkeyEngine and v8.7.0 of the Heart library.
++ Updated to depend on v3.6.1-stable of JMonkeyEngine
+  and v8.7.0 of the Heart library.
 + Built using Gradle v8.3 .
 + Updated the native libraries to v18.5.2 of Libbulletjme.
 
@@ -55,7 +56,7 @@
 + Allow zero-mass kinematic rigid bodies.
 + Added the an "addLinksForTris" parameter to `SoftBodyControl`.
 
-+ Based on v8.6.0 of the Heart library.
++ Updated to depend on v8.6.0 of the Heart library.
 + Built using Gradle v8.1.1 .
 + Updated the native libraries to v18.3.0 of Libbulletjme.
 
@@ -85,7 +86,7 @@
   + `RigidBodyMotionState.getObjectId()`
   + `RotationalLimitMotor.getMotor()`
   + `TranslationalLimitMotor.getMotor()`
-+ Based on:
++ Updated dependencies:
   + v3.6.0-stable of JMonkeyEngine,
   + v3.0.0 of the jME-TTF library,
   + v8.3.2 of the Heart library,
@@ -127,7 +128,7 @@
   + fixed a bug where the wrong main bone was used to estimate ranges of motion
   + when generating Java code, provide a `configure()` method
   + generate practical classnames for Java code
-+ Based on:
++ Updated dependencies:
   + v3.6.0-beta3 of JMonkeyEngine,
   + v1.6.0 of the SimMath library,
   + v8.3.1+for36 of the Heart library,
@@ -156,7 +157,7 @@
 + Publicized the `RagUtils.makeRectangularSolid()` method.
 + Added `DynamicAnimControl` tunings for a Mixamo rig.
 + Added the capability to display angles in degrees or radians in DacWizard.
-+ Updated `DacWizard` and `VhacdTuner` to use v0.9.33
++ Updated `DacWizard` and `VhacdTuner` to depend on v0.9.33
   of the jme3-utilities-nifty library.
 
 ## Version 7.0.2 released on 2 January 2023
@@ -242,7 +243,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Made incremental improvements to the `PhysicsDumper` output format.
 + Strengthened argument validation.
 + Updated the native libraries to v17.4.0 of Libbulletjme.
-+ Updated `DacWizard` and `VhacdTuner` to use v0.9.32
++ Updated `DacWizard` and `VhacdTuner` to depend on v0.9.32
   of the jme3-utilities-nifty library.
 + Built using Gradle v7.6 .
 
@@ -253,7 +254,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
   + `PhysicsSpace.setCcdWithStaticOnly()`
   + `NativeLibrary.countClampedCcdMotions()`
 + Updated the native libraries to v17.0.0 of Libbulletjme.
-+ Based on v0.9.17 of the Acorus library.
++ Updated to depend on v0.9.17 of the Acorus library.
 
 ## Version 6.1.0 released on 1 October 2022
 
@@ -295,7 +296,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Enhanced the `ShapeGenerator` class to use diverse axes when generating
   capsule, cone, and cylinder shapes.
 + Added the "teapotGi" collision shape to the MinieAssets project.
-+ Based on v8.2.0 of the Heart library.
++ Updated to depend on v8.2.0 of the Heart library.
 + Updated the native libraries to v16.3.0 of Libbulletjme.
 
 ## Version 6.0.1 released on 29 August 2022
@@ -341,7 +342,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Bugfix:  `DynamicAnimControl` with `AnimComposer` exhibits glitches during
   blends to kinematic mode
 + Bugfix:  when rebuilding a rigid body, its ignore list is lost
-+ Based on v8.1.0 of the Heart library.
++ Updated to depend on v8.1.0 of the Heart library.
 + Built using Gradle v7.5 .
 
 ## Version 5.0.0 released on 11 July 2022
@@ -396,7 +397,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Added the `HelloGhost` and `HelloWind` apps to TutorialApps.
 + Updated the project URL in the POM.
 + Added 10 "package-info.java" files.
-+ Based on:
++ Updated to depend on:
   + v8.0.0 of the Heart library,
   + v0.7.2 of the Wes library,
   + v0.9.16 of the Acorus library, and
@@ -419,7 +420,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
   + Added monkey-head test to `TestSoftBodyControl`.
   + Added display-settings editors to `NewtonsCradle` and `RopeDemo`.
   + Enabled window resizing for `DacWizard` and all apps in MinieExamples.
-+ Based on:
++ Updated to depend on:
   + v3.5.2-stable of JMonkeyEngine,
   + v1.5.0 of the SimMath library,
   + v7.6.0 of the Heart library,
@@ -432,7 +433,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 
 + Bugfix:  issue #23 (access violations on 64-bit Windows)
 + Split off "TutorialApps" from the "MinieExamples" sub-project.
-+ Based on:
++ Updated dependencies:
   + v0.9.11 of the Acorus library and
   + v0.9.28 of the jme3-utilities-nifty library.
 + Updated the native libraries to v14.2.0 of Libbulletjme.
@@ -446,7 +447,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Added the `contactErp()`, `jointErp()`, `setContactErp()`,
   and `setJointErp()` methods to the `SolverInfo` class,
   to give applications better control over joint elasticity.
-+ Based on v3.5.1-stable of JMonkeyEngine.
++ Updated to depend on v3.5.1-stable of JMonkeyEngine.
 + Updated the native libraries to v14.1.0 of Libbulletjme.
 
 ## Version 4.7.1 released on 11 March 2022
@@ -475,7 +476,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
   in favor of the corresponding `ManifoldPoints` method.
 + Deleted placeholder files from class jars.
 + Added the `ConveyorDemo` and `JointElasticity` apps to MinieExamples.
-+ Based on:
++ Updated dependencies:
   + v7.4.1 of the Heart library,
   + v0.7.1 of the Wes library,
   + v0.9.10 of the Acorus library, and
@@ -486,7 +487,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 ## Version 4.6.1 released on 24 January 2022
 
 + Restored support for the MacOSX32 platform.
-+ Based on:
++ Updated dependencies:
   + v3.5.0-stable of JMonkeyEngine,
   + v7.2.0 of the Heart library,
   + v0.6.8 of the Wes library,
@@ -500,7 +501,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 
 + Bugfix: issue #19 (zero-thickness mesh shape crashes the JRE)
 + Dropped support for the MacOSX32 platform.
-+ Based on v3.4.1-stable of JMonkeyEngine.
++ Updated to depend on v3.4.1-stable of JMonkeyEngine.
 + Changes to the examples:
   + Solved 2 null-pointer exceptions in Jme3Examples.
   + Added the `TestInsideTriangle` and `TestIssue19` apps to MinieExamples.
@@ -555,7 +556,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Added the `listInternalJoints()` method to the `RagUtils` class.
 + Added the example app `HelloServo`.
 + Improved diagnostic messages in `DacWizard`.
-+ Based on v7.1.0 of the Heart library and v0.9.23 of the
++ Updated to depend on v7.1.0 of the Heart library and v0.9.23 of the
   jme3-utilities-nifty library.
 + Updated the native libraries to v12.2.2 of Libbulletjme, which includes
   Bullet updates through 20 September 2021.
@@ -573,7 +574,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Bypass the asset cache when loading models into DacWizard.
 + Updated the native libraries to v12.0.0 of Libbulletjme
   (includes performance enhancements).
-+ Based on:
++ Updated dependencies:
   + LWJGL v3 (to improve support for non-US keyboards),
   + v7.0.0 of the Heart library,
   + v0.6.7 of the Wes library,
@@ -597,7 +598,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 ## Version 4.1.1 released on 1 June 2021
 
 + Bugfix: issue #16 (MinieExamples uses deprecated classes)
-+ Based on:
++ Updated dependencies:
   + v3.4.0-stable of JMonkeyEngine,
   + v2.2.4 of the jme-ttf library,
   + v6.4.4 of the Heart library,
@@ -614,7 +615,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Added `HelloDoor` application to the MinieExamples subproject.
 + Updated the native libraries to v10.3.1 of Libbulletjme, which includes
   Bullet v2 updates through 21 April 2021.
-+ Based on:
++ Updated dependencies:
   + v3.4.0-beta1 of JMonkeyEngine,
   + v6.4.3+for34 of the Heart library,
   + v0.6.3+for34 of the Wes library,
@@ -647,7 +648,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Added a `render()` method to the `AbstractPhysicsControl` class.
 + Added tutorial app `HelloMotor`.
 + Built using Gradle v6.8.2 .
-+ Based on:
++ Updated dependencies:
   + v6.4.2 of the Heart library,
   + v0.6.2 of the Wes library,
   + v0.9.2 of the jme3-utilities-ui library, and
@@ -684,7 +685,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Minimized usage of `PhysicsSpace.add()` and `PhysicsSpace.remove()`.
 + In `HelloPoi`, put the indicator in the `Translucent` bucket.
 + Built using Gradle v6.7.1 .
-+ Based on:
++ Updated dependencies:
   + v6.2.0 of the Heart Library,
   + v0.9.1 of the jme3-utilities-ui library,
   + v0.9.17 of the jme3-utilities-nifty library.
@@ -704,7 +705,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
   + `PhysicRayTestResult.getHitNormalLocal()`
 + Added tutorial app `HelloPoi`.
 + Built using Gradle v6.7 .
-+ Based on v0.6.1 of the Wes Library.
++ Updated to depend on v0.6.1 of the Wes Library.
 
 ## Version 3.0.0 released on 31 August 2020
 
@@ -746,7 +747,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
   + an option to dump the ignored PCOs of a `PhysicsCollisionObject`
   + dump the application data of a `PhysicsCollisionObject`
 + Built using Gradle v6.6.1 .
-+ Based on:
++ Updated dependencies:
   + v6.0.0 of the Heart Library,
   + v0.9.0 of the jme3-utilities-ui library,
   + v0.6.0 of the Wes Library, and
@@ -807,8 +808,8 @@ Bugfix: characters and ghosts ignore their own ignore lists!
     + `VHACD.indices`
     + `VHACD.vertices`
   + Changed 7 returned collections to unmodifiable collections.
-  + Based the `PhysicsCollisionObject` and `PhysicsCollisionEvent` classes
-    on the `NativePhysicsObject` class.
+  + The `PhysicsCollisionObject` and `PhysicsCollisionEvent` classes
+    extend the `NativePhysicsObject` class.
   + Added a private constructor to the `VHACD` class.
 
 + Eliminated all `finalize()` methods by implementing a cleaner thread and
@@ -911,15 +912,15 @@ Bugfix: characters and ghosts ignore their own ignore lists!
   + disabled audio rendering in all apps that use `AppSettings`
 
 + Major refactoring efforts:
-  + many classes based on a new `NativePhysicsObject` class
-  + many demo apps based on a new `AbstractDemo` class
-  + 4 debug controls based on a new `CollisionShapeDebugControl` class
+  + many classes extend a new `NativePhysicsObject` class
+  + many demo apps extend a new `AbstractDemo` class
+  + 4 debug controls extend a new `CollisionShapeDebugControl` class
   + physics appstate configuration using a new `DebugConfiguration` class
 
 + Added 5 more models with CC0 licenses ("Ankh", "Banana", "Barrel",
   "BowlingPin", and "Horseshoe").
 + Updated the native libraries to v6.4.0 of Libbulletjme.
-+ Based on:
++ Updated dependencies:
   + the 3.3.2-stable release of jMonkeyEngine,
   + v5.5.0 of the Heart Library,
   + v0.8.3 of the jme3-utilities-ui library, and
@@ -987,7 +988,7 @@ Fixed JME issue 1351 (crash during garbage collection)
   from the MinieExamples subproject.
 + Removed all references to the CesiumMan model.
 + Updated the native libraries to version 5.5.7 of `Libbulletjme`.
-+ Based on:
++ Updated dependencies:
   + the 3.3.0-stable release of jMonkeyEngine,
   + v5.2.1 of the `Heart` library,
   + v0.8.2 of the `jme3-utilities-ui` library,
@@ -1030,7 +1031,7 @@ Fixed JME issue 1351 (crash during garbage collection)
 + Added more detail to `PhysicsCharacter` dumps.
 + Added validation for the angular limits of a `SixDofJoint`.
 + Updated the native libraries to version 5.0.0 of `Libbulletjme`.
-+ Based on version 5.1 of the `Heart` library.
++ Depends on version 5.1 of the `Heart` library.
 + Built using Gradle v6.2.2 .
 + Continuous integration at TravisCI and GitHub.
 
@@ -1049,7 +1050,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
   + soft-body debug geometries can't receive shadows
 
 + Added library features:
-  + a V-HACD interface with progress listeners, based on JNI
+  + a V-HACD interface with progress listeners, using JNI
     (eliminates the dependency on v-hacd-java-bindings)
   + array-based constructor for `IndexedMesh`
   + ray tests and sweep tests return a part index and/or triangle index
@@ -1080,7 +1081,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
 + moved issue-oriented tests to a new package
 + moved the `jme3test` package to a new `Jme3Tests` sub-project
 + Updated the native libraries to version 3.0.4 of `Libbulletjme`.
-+ Based on:
++ Updated dependencies:
   + v5.0 of the `Heart` library,
   + v0.8.1 of the `jme3-utilities-ui` library, and
   + v0.4.8 of the `Wes` library.
@@ -1136,7 +1137,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
 + Extended `TestDefaults` to cover the `PhysicsGhostObject`,
   `PhysicsVehicle`, and `VehicleWheel` classes.
 + Updated the native libraries to version 2.0.19 of `Libbulletjme`.
-+ Based on:
++ Updated dependencies:
   + the NEW 3.3.0-beta1 release of jMonkeyEngine,
   + v4.3 of the  `jme3-utilities-heart` library,
   + v0.7.10 of the `jme3-utilities-ui` library, and
@@ -1151,7 +1152,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
 + Added a status line to the `SeJointDemo` application.
 + Changed the function of the Ins key in `SeJointDemo` and `TestDac`.
 + Updated the native libraries to version 2.0.17 of `Libbulletjme`.
-+ Based on:
++ Updated dependencies:
   + version 3.3.0-alpha5 of jMonkeyEngine,
   + version 4.1 of the  `jme3-utilities-heart` library,
   + version 0.7.8 of the `jme3-utilities-ui` library, and
@@ -1168,7 +1169,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
 + Extended `TestDefaults` to verify defaults for soft-body configs
   and materials.
 + Updated the native libraries to version 2.0.14 of `Libbulletjme`.
-+ Based on:
++ Updated dependencies:
   + jMonkeyEngine version v3.3.0-beta1, which was later deleted!
   + version 4.2 of the  `jme3-utilities-heart` library,
   + version 0.7.9 of the `jme3-utilities-ui` library, and
@@ -1188,7 +1189,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
 ## Version 1.0.0for33 released on 8 October 2019
 
 + API changes:
-  + Based `BulletAppState` on `AbstractAppState` (JME issue 1178).
+  + `BulletAppState` extends `AbstractAppState` (JME issue 1178).
   + Removed the `extrapolateTransform()` and `getPhysicsScale()` methods
     from `PhysicsRigidBody`.
   + Renamed the `getLocation()` and `getRotation()` methods of
@@ -1257,8 +1258,8 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
   + Avoid aliasing in `HeighfieldCollisionShape` constructors.
   + Added "toggle axes" and "toggle boxes" hotkeys to various demo apps.
   + Updated the native libraries to version 2.0.10 of `Libbulletjme`.
-  + Based on version 4.1 of the `jme3-utilities-heart` library, version
-    0.7.8 of the `jme3-utilities-ui` library, and version 0.9.10 of the
+  + Updated to depend on version 4.1 of the `jme3-utilities-heart` library,
+    version 0.7.8 of the `jme3-utilities-ui` library, and version 0.9.10 of the
     `jme3-utilities-nifty` library.
   + Built using Gradle v5.6.2 .
 
