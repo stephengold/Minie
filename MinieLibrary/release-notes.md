@@ -1,5 +1,68 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 8.0.0 released on TBD
+
++ Deleted 9 public methods that had previously been deprecated: (API changes)
+  + `CollisionShape.getObjectId()`
+  + `CollisionSpace.getSpaceId()`
+  + `PhysicsCollisionObject.getObjectId()`
+  + `PhysicsCollisionObject.listIgnoredIds()`
+  + `PhysicsCollisionObject.setIgnoreList()`
+  + `PhysicsJoint.getObjectId()`
+  + `RigidBodyMotionState.getObjectId()`
+  + `RotationalLimitMotor.getMotor()`
+  + `TranslationalLimitMotor.getMotor()`
++ Privatized the `setIgnoreCollisionCheck()` method in
+  the `PhysicsCollisionObject` class. (API change)
+
++ Added the capability to define custom collision shapes using JVM code:
+  + Added the (abstract) `CustomConvexShape` class.
+  + Modified `PhysicsDescriber` to recognize custom shapes.
+  + Added 7 custom shapes to the MinieExamples project:
+    + `CustomBox`
+    + `CustomCone`
+    + `CustomCylinder`
+    + `CustomEllipsoid`
+    + `CustomFrustum`
+    + `CustomHalfCylinder`
+    + `CustomHemisphere`
+  + Added custom shapes to the `DropTest` example app.
+
++ Bugfix: `CharacterController.onGround()` returns false positives after
+  stepping (not jumping) off a cliff
++ Added runtime checks to `MeshCollisionShape` for meshes that are too complex.
++ Bugfix: JME issue 2002 (`TerrainGridTileLoaderTest` fails to load tiles)
+
++ The "+big3" build flavor was replaced with "+big4" that includes
+  native binaries for MacOSX_ARM64.
+
++ Changed how meshes for debug visualization are generated:
+  + Added an `IndexMesh` constructor to efficiently generate visualization
+    meshes for collision shapes.
+  + Replaced `DebugMeshCallback` with `IndexedMesh` in `DebugShapeFactory`.
+  + Deprecated the `DebugMeshCallback` class.
+
++ Added 10 new public methods:
+  + `BetterCharacterControl.getInitialHeight()`
+  + `BetterCharacterControl.getInitialRadius()`
+  + `CompoundMesh.countSubmeshes()`
+  + `CompoundMesh.getSubmesh()`
+  + `IndexedMesh.copyTriangles()`
+  + `IndexedMesh.distinctVertices()`
+  + `IndexedMesh.footprint()`
+  + `IndexedMesh.maxDistance()`
+  + `IndexedMesh.surfaceArea()`
+  + `IndexedMesh.volumeConvex()`
+
++ Updated dependencies:
+  + v9.0.0 of the Heart library,
+  + v2.0.0 of the Acorus library,
+  + v0.9.37 of the jme3-utilities-nifty library,
+  + v3.1.7 of Antora, and
+  + v20.11.0 of Node.js .
++ Built using Gradle v8.6 .
++ Updated the native libraries to v20.1.0 of Libbulletjme.
+
 ## Version 7.8.1 released on 4 December 2023
 
 + Bugfix:  BVH algorithm fails

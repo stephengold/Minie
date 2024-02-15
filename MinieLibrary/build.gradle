@@ -58,18 +58,19 @@ ext {
         configureDesktopBtfs('')
         metadata = 'bare' + jmeTarget
 
-    } else if (rootProject.hasProperty('big3')) {
-        // -Pbig3 specified, but neither -Pbtdebug nor -Pdp nor -Pbare
+    } else if (rootProject.hasProperty('big4')) {
+        // -Pbig4 specified, but neither -Pbtdebug nor -Pdp nor -Pbare
 
         configureAndroidBtfs('')
         configureDesktopBtfs('')
         btfLinux64 = 'ReleaseSp'
         btfMacOSX64 = 'ReleaseSp'
+        btfMacOSX_ARM64 = 'ReleaseSp'
         btfWindows64 = 'ReleaseSp'
-        metadata = 'big3' + jmeTarget
+        metadata = 'big4' + jmeTarget
 
     } else if (rootProject.hasProperty('mt')) {
-        // -Pmt specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3
+        // -Pmt specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4
 
         configureAndroidBtfs('')
         configureDesktopBtfs('')
@@ -78,13 +79,13 @@ ext {
         metadata = 'mt' + jmeTarget
 
     } else if (rootProject.hasProperty('droid')) {
-        // -Pdroid specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt
+        // -Pdroid specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4 nor -Pmt
 
         configureAndroidBtfs('ReleaseSp')
         configureDesktopBtfs('')
         metadata = 'droid' + jmeTarget
 
-    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig3 nor -Pmt nor -Pdroid specified
+    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4 nor -Pmt nor -Pdroid specified
 
         // Specify the BTF (buildType + flavor) of native library for each platform:
         // (Specify '' for no native library.)

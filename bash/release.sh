@@ -4,7 +4,7 @@ set -e
 
 export JAVA_HOME=/usr/lib/jvm/Temurin/jdk-17.0.8.1+1
 
-V=7.8.1
+V=8.0.0
 D=/home/sgold/Releases/Minie/$V
 mkdir $D
 
@@ -15,8 +15,8 @@ cp MinieLibrary/build/libs/*.{jar,module,pom} $D
 ./gradlew clean release -Pbare
 cp MinieLibrary/build/libs/*bare.{jar,module,pom} $D
 
-./gradlew clean release -Pbig3
-cp MinieLibrary/build/libs/*big3.{jar,module,pom} $D
+./gradlew clean release -Pbig4
+cp MinieLibrary/build/libs/*big4.{jar,module,pom} $D
 
 ./gradlew clean release -Pbtdebug
 cp MinieLibrary/build/libs/*debug.{jar,module,pom} $D
