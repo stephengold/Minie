@@ -107,7 +107,7 @@ Other important differences:
    from the `com.jme3.bullet.collision` package
    to the `com.jme3.bullet.animation` package.
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="downloads"></a>
@@ -123,7 +123,7 @@ Older releases (v0.1.1 through v0.4.5) can be downloaded from
 Maven artifacts since v3.1.0 are available from
 [MavenCentral](https://central.sonatype.com/search?q=Minie&namespace=com.github.stephengold).
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="conventions"></a>
@@ -136,7 +136,7 @@ Package names begin with `jme3utilities.`
 
 The source code and pre-built libraries are compatible with JDK 8.
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="overview"></a>
@@ -214,7 +214,7 @@ model creation and scene-graph design.
 Physics units should therefore be chosen with care,
 preferably early in the development process.
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="build"></a>
@@ -223,7 +223,7 @@ preferably early in the development process.
 
 [How to build Minie from source](https://stephengold.github.io/Minie/minie/build.html)
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 <a name="tutorials"></a>
 <a name="add"></a>
@@ -246,7 +246,7 @@ preferably early in the development process.
  + [Collision detection](https://stephengold.github.io/Minie/minie/minie-library-tutorials/collision.html)
  + [An introduction to soft-body physics](https://stephengold.github.io/Minie/minie/minie-library-tutorials/softbody.html)
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="demos"></a>
@@ -255,7 +255,7 @@ preferably early in the development process.
 
 [An overview of the demo applications](https://stephengold.github.io/Minie/minie/demos.html)
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="links"></a>
@@ -319,7 +319,7 @@ YouTube videos about Minie:
     [watch](https://www.youtube.com/watch?v=A1Rii99nb3Q) (2:49)
     [source code](https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TestDac.java)
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="history"></a>
@@ -338,7 +338,7 @@ From January to November 2018, Minie was a sub-project of
 Since November 2018, Minie has been a separate project, hosted at
 [GitHub][minie].
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="acks"></a>
@@ -407,7 +407,7 @@ I'm also grateful to my dear Holly, for keeping me sane.
 If I've misattributed anything or left anyone out, please let me know, so I can
 correct the situation: sgold@sonic.net
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 [antora]: https://antora.org/ "Antora Project"
