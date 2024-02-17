@@ -412,6 +412,7 @@ signMavenPublication.dependsOn('module')
 
 tasks.register('copyJavadocToSite') {
     dependsOn 'copyMasterJavadocToSite', \
+     'copy78JavadocToSite', \
      'copy77JavadocToSite', \
      'copy76JavadocToSite', \
      'copy75JavadocToSite', \
@@ -443,6 +444,7 @@ tasks.register('copyMasterJavadocToSite', Copy) {
     from "${buildDir}/docs/javadoc"
     into '../build/site/javadoc/master'
 }
+defineJavadocTasksForRelease('7', '8', '1')
 defineJavadocTasksForRelease('7', '7', '0')
 defineJavadocTasksForRelease('7', '6', '0')
 defineJavadocTasksForRelease('7', '5', '0')
