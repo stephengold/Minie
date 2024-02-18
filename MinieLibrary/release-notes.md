@@ -37,7 +37,7 @@
   native binaries for MacOSX_ARM64.
 
 + Changed how meshes for debug visualization are generated:
-  + Added an `IndexMesh` constructor to efficiently generate visualization
+  + Added an `IndexedMesh` constructor to efficiently generate visualization
     meshes for collision shapes.
   + Replaced `DebugMeshCallback` with `IndexedMesh` in `DebugShapeFactory`.
   + Deprecated the `DebugMeshCallback` class.
