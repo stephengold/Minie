@@ -163,9 +163,8 @@ public class CustomParaboloid extends CustomConvexShape {
             float ny = dirY / dxyz; // the Y component of the normalized vector
             assert ny < 0f : ny;
             assert ny >= -1f : ny;
-
             /*
-             * Calculate fr, which is the distance from the Y axis
+             * Calculate rFrac, which is the distance from the Y axis
              * divided by the radius of the cap.
              */
             float radical = MyMath.circle(ny);
