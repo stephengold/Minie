@@ -109,15 +109,15 @@ class DropTestStatus extends SimpleAppState {
     final private static String[] dropNames = {
         "ankh", "banana", "barbell", "barrel", "bowl", "bowlingPin", "box",
         "breakableRod", "capsule", "chain", "chair", "cloth", "cone", "coneBox",
-        "customBox", "customCone", "customCylinder", "cylinder", "cylinderBox",
-        "digit", "diptych", "dome", "duck", "ellipsoid", "flail", "football",
-        "frame", "frustum", "halfCylinder", "halfPipe", "heart", "hemisphere",
-        "horseshoe", "hull", "iBeam", "knucklebone", "ladder", "letter",
-        "lidlessBox", "link", "madMallet", "mallet", "multiSphere", "platonic",
-        "prism", "pyramid", "ragdoll", "roundedDisc", "saucer", "snowman",
-        "sphere", "squishyBall", "star", "sword", "table", "teapot", "teapotGi",
-        "tetrahedron", "thumbTack", "top", "torus", "triangularFrame",
-        "trident", "washer"
+        "customBox", "customCone", "customCylinder", "customParaboloid",
+        "cylinder", "cylinderBox", "digit", "diptych", "dome", "duck",
+        "ellipsoid", "flail", "football", "frame", "frustum", "halfCylinder",
+        "halfPipe", "heart", "hemisphere", "horseshoe", "hull", "iBeam",
+        "knucklebone", "ladder", "letter", "lidlessBox", "link", "madMallet",
+        "mallet", "multiSphere", "platonic", "prism", "pyramid", "ragdoll",
+        "roundedDisc", "saucer", "snowman", "sphere", "squishyBall", "star",
+        "sword", "table", "teapot", "teapotGi", "tetrahedron", "thumbTack",
+        "top", "torus", "triangularFrame", "trident", "washer"
     };
     /**
      * list of platform names, in ascending lexicographic order

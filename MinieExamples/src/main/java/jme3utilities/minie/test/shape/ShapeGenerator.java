@@ -33,6 +33,7 @@ import com.github.stephengold.shapes.custom.CustomEllipsoid;
 import com.github.stephengold.shapes.custom.CustomFrustum;
 import com.github.stephengold.shapes.custom.CustomHalfCylinder;
 import com.github.stephengold.shapes.custom.CustomHemisphere;
+import com.github.stephengold.shapes.custom.CustomParaboloid;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -251,6 +252,19 @@ public class ShapeGenerator extends Generator {
         float b = nextFloat(0.01f, 1.6f);
         float height = nextFloat(0.6f, 4f);
         CustomFrustum result = new CustomFrustum(a, b, height);
+
+        return result;
+    }
+
+    /**
+     * Generate a paraboloid shape using {@code CustomParaboloid}.
+     *
+     * @return a new shape
+     */
+    public CustomParaboloid nextCustomParaboloid() {
+        float baseRadius = nextFloat(0.5f, 1.5f);
+        float height = nextFloat(0.5f, 2.5f);
+        CustomParaboloid result = new CustomParaboloid(baseRadius, height);
 
         return result;
     }
@@ -615,6 +629,10 @@ public class ShapeGenerator extends Generator {
 
             case "customCylinder":
                 result = nextCustomCylinder();
+                break;
+
+            case "customParaboloid":
+                result = nextCustomParaboloid();
                 break;
 
             case "cylinder":
