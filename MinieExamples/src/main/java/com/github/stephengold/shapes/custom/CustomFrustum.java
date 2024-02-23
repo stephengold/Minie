@@ -64,10 +64,6 @@ public class CustomFrustum extends CustomConvexShape {
     // fields
 
     /**
-     * scaled height, excluding margin (in physics-space units)
-     */
-    private float scaledHeight;
-    /**
      * scaled radius of the "A" base, excluding margin (in physics-space units)
      */
     private float scaledA;
@@ -76,14 +72,14 @@ public class CustomFrustum extends CustomConvexShape {
      */
     private float scaledB;
     /**
+     * scaled height, excluding margin (in physics-space units)
+     */
+    private float scaledHeight;
+    /**
      * scaled distance between the center of "A" base and the frustum's center
      * of mass (in physics-space units)
      */
     private float scaledY0;
-    /**
-     * height, for scale=(1,1,1) and margin=0
-     */
-    private float unscaledHeight;
     /**
      * radius of the "A" base, for scale=(1,1,1) and margin=0
      */
@@ -92,6 +88,10 @@ public class CustomFrustum extends CustomConvexShape {
      * radius of the "B" base, for scale=(1,1,1) and margin=0
      */
     private float unscaledB;
+    /**
+     * height, for scale=(1,1,1) and margin=0
+     */
+    private float unscaledHeight;
     // *************************************************************************
     // constructors
 
