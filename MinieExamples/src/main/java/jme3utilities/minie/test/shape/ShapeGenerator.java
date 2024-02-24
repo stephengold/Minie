@@ -34,6 +34,7 @@ import com.github.stephengold.shapes.custom.CustomFrustum;
 import com.github.stephengold.shapes.custom.CustomHalfCylinder;
 import com.github.stephengold.shapes.custom.CustomHemisphere;
 import com.github.stephengold.shapes.custom.CustomParaboloid;
+import com.github.stephengold.shapes.custom.CustomSegment;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -227,6 +228,22 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
+     * Generate a spherical dome or plano-convex lens using
+     * {@code CustomSegment}.
+     *
+     * @return a new shape
+     */
+    public CustomSegment nextCustomDome() {
+        float sphereRadius = nextFloat(0.7f, 1.7f);
+        float verticalAngle = nextFloat(0.7f, 2f);
+        float yMin = FastMath.cos(verticalAngle) * sphereRadius;
+        CustomSegment result
+                = new CustomSegment(sphereRadius, sphereRadius, yMin);
+
+        return result;
+    }
+
+    /**
      * Generate an ellipsoid shape using {@code CustomEllipsoid}.
      *
      * @return a new shape
@@ -265,6 +282,26 @@ public class ShapeGenerator extends Generator {
         float baseRadius = nextFloat(0.5f, 1.5f);
         float height = nextFloat(0.5f, 2.5f);
         CustomParaboloid result = new CustomParaboloid(baseRadius, height);
+
+        return result;
+    }
+
+    /**
+     * Generate a spherical segment using {@code CustomSegment}.
+     *
+     * @return a new shape
+     */
+    public CustomSegment nextCustomSegment() {
+        float sphereRadius = nextFloat(0.5f, 1.5f);
+        float y1 = sphereRadius * nextFloat(-1f, 1f);
+        float y2 = sphereRadius * nextFloat(-1f, 1f);
+
+        CustomSegment result;
+        if (y1 > y2) {
+            result = new CustomSegment(sphereRadius, y1, y2);
+        } else {
+            result = new CustomSegment(sphereRadius, y2, y1);
+        }
 
         return result;
     }
@@ -631,8 +668,16 @@ public class ShapeGenerator extends Generator {
                 result = nextCustomCylinder();
                 break;
 
+            case "customDome":
+                result = nextCustomDome();
+                break;
+
             case "customParaboloid":
                 result = nextCustomParaboloid();
+                break;
+
+            case "customSegment":
+                result = nextCustomSegment();
                 break;
 
             case "cylinder":
