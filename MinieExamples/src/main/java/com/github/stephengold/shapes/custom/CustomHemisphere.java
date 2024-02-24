@@ -156,8 +156,8 @@ public class CustomHemisphere extends CustomConvexShape {
     }
 
     /**
-     * Calculate how far the scaled shape extends from its center, excluding
-     * margin.
+     * Calculate how far the scaled shape extends from its center of mass,
+     * excluding collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
@@ -238,8 +238,8 @@ public class CustomHemisphere extends CustomConvexShape {
     /**
      * Return the half extents of a hemisphere around its center of mass.
      *
-     * @param radius the radius
-     * @return a new vector
+     * @param radius the radius (&gt;0)
+     * @return a new vector with all components &ge;0
      */
     private static Vector3f halfExtents(float radius) {
         // the distance between the center of curvature and the center of mass:

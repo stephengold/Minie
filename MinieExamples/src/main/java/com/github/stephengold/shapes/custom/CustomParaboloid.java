@@ -202,8 +202,8 @@ public class CustomParaboloid extends CustomConvexShape {
     }
 
     /**
-     * Calculate how far the scaled shape extends from its center, excluding
-     * margin.
+     * Calculate how far the scaled shape extends from its center of mass,
+     * excluding collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */

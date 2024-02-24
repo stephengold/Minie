@@ -171,8 +171,8 @@ public class CustomHalfCylinder extends CustomConvexShape {
     }
 
     /**
-     * Calculate how far the scaled shape extends from its center, excluding
-     * margin.
+     * Calculate how far the scaled shape extends from its center of mass,
+     * excluding collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
@@ -268,9 +268,9 @@ public class CustomHalfCylinder extends CustomConvexShape {
     /**
      * Return the half extents of a half cylinder around its center of mass.
      *
-     * @param radius the base radius
-     * @param height the height
-     * @return a new vector
+     * @param radius the base radius (&gt;0)
+     * @param height the height (&gt;0)
+     * @return a new vector with all components &ge;0
      */
     private static Vector3f halfExtents(float radius, float height) {
         float halfHeight = 0.5f * height;

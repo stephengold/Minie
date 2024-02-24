@@ -39,7 +39,8 @@ import jme3utilities.math.MyMath;
 
 /**
  * A collision shape for a conical frustum with uniform density. By convention,
- * the local Y axis is the height axis.
+ * the local Y axis is the height axis, with the "A" base at y=0 and the "B"
+ * base at y=height.
  * <p>
  * This is an imprecise shape; margin always expands the shape.
  *
@@ -180,8 +181,8 @@ public class CustomFrustum extends CustomConvexShape {
     }
 
     /**
-     * Calculate how far the scaled shape extends from its center, excluding
-     * margin.
+     * Calculate how far the scaled shape extends from its center of mass,
+     * excluding collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
@@ -294,10 +295,10 @@ public class CustomFrustum extends CustomConvexShape {
     /**
      * Return the half extents of a conical frustum around its center of mass.
      *
-     * @param a the radius of the "A" base
-     * @param b the radius of the "B" base
-     * @param height the height
-     * @return a new vector
+     * @param a the radius of the "A" base (&gt;0)
+     * @param b the radius of the "B" base (&gt;0)
+     * @param height the height of the frustum (&gt;0)
+     * @return a new vector with all components &ge;0
      */
     private static Vector3f halfExtents(float a, float b, float height) {
         float a2 = a * a;
