@@ -96,6 +96,12 @@ public class CustomFrustum extends CustomConvexShape {
     // constructors
 
     /**
+     * No-argument constructor needed by SavableClassUtil.
+     */
+    protected CustomFrustum() {
+    }
+
+    /**
      * Instantiate a conical frustum with the specified dimensions.
      *
      * @param a the desired radius of the "A" base for scale=(1,1,1) (&gt;0)
