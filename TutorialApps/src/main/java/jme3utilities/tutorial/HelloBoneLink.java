@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,15 @@ public class HelloBoneLink extends SimpleApplication {
      * PhysicsSpace for simulation
      */
     private static PhysicsSpace physicsSpace;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     */
+    public HelloBoneLink() {
+        // do nothing
+    }
     // *************************************************************************
     // new methods exposed
 

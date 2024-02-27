@@ -79,6 +79,15 @@ public class HelloNewHinge
      */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************
+    // constructors
+
+    /**
+     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     */
+    public HelloNewHinge() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

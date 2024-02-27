@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -64,6 +64,15 @@ public class HelloApplyScale extends SimpleApplication {
      * cube geometry, varying in size
      */
     private static Geometry cubeGeometry;
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     */
+    public HelloApplyScale() {
+        // do nothing
+    }
     // *************************************************************************
     // new methods exposed
 

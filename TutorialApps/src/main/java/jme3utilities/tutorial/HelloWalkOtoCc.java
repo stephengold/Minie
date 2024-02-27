@@ -103,6 +103,15 @@ public class HelloWalkOtoCc
      */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************
+    // constructors
+
+    /**
+     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     */
+    public HelloWalkOtoCc() {
+        // do nothing
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**

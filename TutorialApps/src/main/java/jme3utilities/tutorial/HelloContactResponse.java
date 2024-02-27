@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -52,6 +52,15 @@ import com.jme3.math.Vector3f;
  * @author Stephen Gold sgold@sonic.net
  */
 public class HelloContactResponse extends SimpleApplication {
+    // *************************************************************************
+    // constructors
+
+    /**
+     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     */
+    public HelloContactResponse() {
+        // do nothing
+    }
     // *************************************************************************
     // new methods exposed
 
