@@ -14,7 +14,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 8
-      - run: ./gradlew build javadoc -Pbtdebug --console=plain --no-daemon --stacktrace
+      - run: ./gradlew build javadoc -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
@@ -31,7 +31,7 @@ jobs:
           distribution: 'zulu'
           java-version: 11
       - uses: gradle/wrapper-validation-action@v2
-      - run: ./gradlew build javadoc -Pbtdebug --console=plain --no-daemon --stacktrace
+      - run: ./gradlew build javadoc -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
@@ -47,7 +47,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-      - run: ./gradlew build javadoc -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
+      - run: ./gradlew build javadoc -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --no-daemon --stacktrace
         shell: bash
       - if: failure()
         uses: actions/upload-artifact@v4
@@ -64,7 +64,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - run: ./gradlew build javadoc -Pbtdebug --console=plain --no-daemon --stacktrace
+      - run: ./gradlew build javadoc -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
@@ -80,7 +80,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - run: ./gradlew build javadoc -Pbtdebug --console=plain --no-daemon --stacktrace
+      - run: ./gradlew build javadoc -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
@@ -96,7 +96,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - run: ./gradlew build javadoc -Pbtdebug --console=plain --no-daemon --stacktrace
+      - run: ./gradlew build javadoc -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --no-daemon --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
@@ -112,7 +112,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - run: ./gradlew build javadoc -Pbtdebug -Ppdb64 --console=plain --no-daemon --stacktrace
+      - run: ./gradlew build javadoc -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --no-daemon --stacktrace
         shell: bash
       - if: failure()
         uses: actions/upload-artifact@v4
