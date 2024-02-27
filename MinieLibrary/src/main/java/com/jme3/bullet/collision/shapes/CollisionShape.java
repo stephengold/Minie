@@ -118,8 +118,11 @@ abstract public class CollisionShape
     /**
      * Instantiate a collision shape with no tracker and no assigned native
      * object.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    protected CollisionShape() { // to avoid a warning from JDK 18 javadoc
+    protected CollisionShape() {
     }
     // *************************************************************************
     // new methods exposed

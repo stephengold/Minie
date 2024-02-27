@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 jMonkeyEngine
+ * Copyright (c) 2020-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,8 +76,11 @@ abstract public class NativePhysicsObject
 
     /**
      * Instantiate with no tracker and no assigned native object.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    protected NativePhysicsObject() { // to avoid a warning from JDK 18 javadoc
+    protected NativePhysicsObject() {
     }
     // *************************************************************************
     // new methods exposed

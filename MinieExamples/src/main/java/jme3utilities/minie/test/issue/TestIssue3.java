@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -87,8 +87,11 @@ final public class TestIssue3 extends SimpleApplication
 
     /**
      * Instantiate the TestIssue3 application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public TestIssue3() { // explicit to avoid a warning from JDK 18 javadoc
+    public TestIssue3() {
     }
     // *************************************************************************
     // new methods exposed

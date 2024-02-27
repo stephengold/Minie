@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -127,8 +127,11 @@ public class TestRectangularSolid extends PhysicsDemo {
 
     /**
      * Instantiate the TestRectangularSolid application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public TestRectangularSolid() { // to avoid a warning from JDK 18 javadoc
+    public TestRectangularSolid() {
     }
     // *************************************************************************
     // new methods exposed

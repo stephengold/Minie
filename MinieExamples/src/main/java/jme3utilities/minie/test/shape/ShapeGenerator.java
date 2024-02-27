@@ -89,9 +89,10 @@ public class ShapeGenerator extends Generator {
     // constructors
 
     /**
-     * Instantiate a generator.
+     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
      */
-    public ShapeGenerator() { // explicit to avoid a warning from JDK 18 javadoc
+    public ShapeGenerator() {
+        // do nothing
     }
     // *************************************************************************
     // new methods exposed

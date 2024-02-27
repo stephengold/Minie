@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 jMonkeyEngine
+ * Copyright (c) 2020-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,8 +57,11 @@ public class MultiBodyAppState extends BulletAppState {
     /**
      * Instantiate an enabled AppState to manage a space with DBVT broadphase
      * collision detection.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public MultiBodyAppState() { // to avoid a warning from JDK 18 javadoc
+    public MultiBodyAppState() {
     }
     // *************************************************************************
     // new methods exposed

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -122,8 +122,11 @@ public class JointDemo extends PhysicsDemo {
 
     /**
      * Instantiate the JointDemo application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public JointDemo() { // to avoid a warning from JDK 18 javadoc
+    public JointDemo() {
     }
     // *************************************************************************
     // new methods exposed

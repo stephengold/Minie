@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2023, Stephen Gold
+ Copyright (c) 2021-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -87,8 +87,11 @@ final public class TestIssue18Gimpact
 
     /**
      * Instantiate the TestIssue18Gimpact application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public TestIssue18Gimpact() { // to avoid a warning from JDK 18 javadoc
+    public TestIssue18Gimpact() {
     }
     // *************************************************************************
     // new methods exposed

@@ -206,8 +206,11 @@ public class TestRbc
 
     /**
      * Instantiate the TestRbc application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public TestRbc() { // made explicit to avoid a warning from JDK 18 javadoc
+    public TestRbc() {
     }
     // *************************************************************************
     // new methods exposed

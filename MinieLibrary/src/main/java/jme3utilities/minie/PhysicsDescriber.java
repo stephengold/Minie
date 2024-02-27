@@ -102,8 +102,11 @@ public class PhysicsDescriber extends Describer {
 
     /**
      * Instantiate a describer with the default separator.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public PhysicsDescriber() { // to avoid a warning from JDK 18 javadoc
+    public PhysicsDescriber() {
     }
     // *************************************************************************
     // new methods exposed

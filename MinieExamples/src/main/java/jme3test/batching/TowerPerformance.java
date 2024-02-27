@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2023 jMonkeyEngine
+ * Copyright (c) 2009-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -102,8 +102,11 @@ public class TowerPerformance
 
     /**
      * Instantiate the TowerPerformance application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public TowerPerformance() { // to avoid a warning from JDK 18 javadoc
+    public TowerPerformance() {
     }
     // *************************************************************************
     // new methods exposed

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -158,8 +158,11 @@ public class WatchDemo extends PhysicsDemo {
 
     /**
      * Instantiate the WatchDemo application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public WatchDemo() { // made explicit to avoid a warning from JDK 18 javadoc
+    public WatchDemo() {
     }
     // *************************************************************************
     // new methods exposed

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2023, Stephen Gold
+ Copyright (c) 2022-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -151,8 +151,11 @@ public class Windlass
 
     /**
      * Instantiate the Windlass application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public Windlass() { // made explicit to avoid a warning from JDK 18 javadoc
+    public Windlass() {
     }
     // *************************************************************************
     // new methods exposed

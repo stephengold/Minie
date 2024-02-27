@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -59,8 +59,11 @@ public class TestIssue889 extends SimpleApplication {
 
     /**
      * Instantiate the TestIssue889 application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public TestIssue889() { // explicit to avoid a warning from JDK 18 javadoc
+    public TestIssue889() {
     }
     // *************************************************************************
     // new methods exposed

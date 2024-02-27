@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 jMonkeyEngine
+ * Copyright (c) 2019-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,8 +70,11 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
 
     /**
      * Instantiate a PhysicsBody.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    protected PhysicsBody() { // explicit to avoid a warning from JDK 18 javadoc
+    protected PhysicsBody() {
     }
     // *************************************************************************
     // new methods exposed

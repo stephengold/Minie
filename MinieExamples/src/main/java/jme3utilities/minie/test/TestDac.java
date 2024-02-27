@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -211,8 +211,11 @@ public class TestDac extends PhysicsDemo {
 
     /**
      * Instantiate the TestDac application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public TestDac() { // made explicit to avoid a warning from JDK 18 javadoc
+    public TestDac() {
     }
     // *************************************************************************
     // new methods exposed

@@ -219,8 +219,11 @@ public class RopeDemo extends PhysicsDemo {
 
     /**
      * Instantiate the RopeDemo application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public RopeDemo() { // made explicit to avoid a warning from JDK 18 javadoc
+    public RopeDemo() {
     }
     // *************************************************************************
     // new methods exposed

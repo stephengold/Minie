@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -146,8 +146,11 @@ public class ConveyorDemo
 
     /**
      * Instantiate the ConveyorDemo application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public ConveyorDemo() { // explicit to avoid a warning from JDK 18 javadoc
+    public ConveyorDemo() {
     }
     // *************************************************************************
     // new methods exposed

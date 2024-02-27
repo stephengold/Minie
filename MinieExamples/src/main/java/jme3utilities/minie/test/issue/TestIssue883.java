@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,8 +60,11 @@ public class TestIssue883 extends SimpleApplication {
 
     /**
      * Instantiate the TestIssue883 application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
-    public TestIssue883() { // explicit to avoid a warning from JDK 18 javadoc
+    public TestIssue883() {
     }
     // *************************************************************************
     // new methods exposed
