@@ -117,6 +117,48 @@ tasks.register('TestGearJoint', JavaExec) {
 tasks.register('TestInsideTriangle', JavaExec) {
     mainClass = 'jme3utilities.minie.test.TestInsideTriangle'
 }
+tasks.register('TestIssue1029', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue1029'
+}
+tasks.register('TestIssue1058', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue1058'
+}
+tasks.register('TestIssue1283', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue1283'
+}
+tasks.register('TestIssue13', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue13'
+}
+tasks.register('TestIssue1351', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue1351'
+}
+tasks.register('TestIssue18Gimpact', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue18Gimpact'
+}
+tasks.register('TestIssue18Heightfield', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue18Heightfield'
+}
+tasks.register('TestIssue18Mesh', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue18Mesh'
+}
+tasks.register('TestIssue19', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue19'
+}
+tasks.register('TestIssue3', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue3'
+}
+tasks.register('TestIssue883', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue883'
+}
+tasks.register('TestIssue889', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue889'
+}
+tasks.register('TestIssue9', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue9'
+}
+tasks.register('TestLargeMesh', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestLargeMesh'
+}
 tasks.register('TestMultiBody', JavaExec) {
     mainClass = 'jme3utilities.minie.test.TestMultiBody'
 }
@@ -129,8 +171,17 @@ tasks.register('TestRbc', JavaExec) {
 tasks.register('TestRectangularSolid', JavaExec) {
     mainClass = 'jme3utilities.minie.test.TestRectangularSolid'
 }
+tasks.register('TestScaleChange', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestScaleChange'
+}
 tasks.register('TestSoftBody', JavaExec) {
     mainClass = 'jme3utilities.minie.test.TestSoftBody'
+}
+tasks.register('TestSoftBodyControl', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.TestSoftBodyControl'
+}
+tasks.register('TowerPerformance', JavaExec) {
+    mainClass = 'jme3test.batching.TowerPerformance'
 }
 tasks.register('TrackDemo', JavaExec) {
     mainClass = 'jme3utilities.minie.test.TrackDemo'
