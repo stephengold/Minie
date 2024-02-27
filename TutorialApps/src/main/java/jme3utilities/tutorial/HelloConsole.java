@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,9 @@ import com.jme3.system.NativeLibraryLoader;
  * @author Stephen Gold sgold@sonic.net
  */
 final public class HelloConsole {
+    // *************************************************************************
+    // constructors
+
     /**
      * A private constructor to inhibit instantiation of this class.
      */
