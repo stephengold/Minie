@@ -153,8 +153,8 @@ public class TestPin extends AcorusDemo {
      * lines (in mesh units, &gt;0)
      * @return a new IndexedMesh
      */
-    private static IndexedMesh
-         createClothGrid(int xLines, int zLines, float lineSpacing) {
+    private static IndexedMesh createClothGrid(
+            int xLines, int zLines, float lineSpacing) {
         Validate.inRange(xLines, "X lines", 2, Integer.MAX_VALUE);
         Validate.inRange(zLines, "Z lines", 2, Integer.MAX_VALUE);
         Validate.positive(lineSpacing, "line spacing");
