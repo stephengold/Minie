@@ -39,8 +39,8 @@ import jme3utilities.math.MyMath;
 
 /**
  * A collision shape for a conical frustum with uniform density. By convention,
- * the local Y axis is the height axis, with the "A" base at y=0 and the "B"
- * base at y=height.
+ * the local Y axis is the height axis, with the "A" base having y&lt;0 and the
+ * "B" base having y&gt;0.
  * <p>
  * This is an imprecise shape; margin always expands the shape.
  *

@@ -66,6 +66,9 @@ final public class TestIssue13 extends SimpleApplication {
     // *************************************************************************
     // fields
 
+    /**
+     * generate random locations for the vehicle
+     */
     final static private Random random = new Random();
     // *************************************************************************
     // constructors

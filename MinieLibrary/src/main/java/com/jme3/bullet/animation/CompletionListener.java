@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 jMonkeyEngine
+ * Copyright (c) 2022-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ package com.jme3.bullet.animation;
  * Report the completion of an operation.
  *
  * @author Stephen Gold sgold@sonic.net
+ * @param <T> the type of data returned at completion
  */
 public interface CompletionListener<T> {
     /**
