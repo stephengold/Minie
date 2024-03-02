@@ -104,7 +104,7 @@ public class CustomParaboloid extends CustomConvexShape {
      * (&gt;0)
      */
     public CustomParaboloid(float radius, float height) {
-        super(new Vector3f(radius, height / 1.5f, radius));
+        super(radius, height / 1.5f, radius);
 
         Validate.positive(radius, "radius");
         Validate.positive(height, "height");

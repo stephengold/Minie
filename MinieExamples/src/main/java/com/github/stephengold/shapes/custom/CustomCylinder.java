@@ -100,7 +100,7 @@ public class CustomCylinder extends CustomConvexShape {
      * (&gt;0)
      */
     public CustomCylinder(float radius, float height) {
-        super(new Vector3f(radius, 0.5f * height, radius));
+        super(radius, 0.5f * height, radius);
 
         Validate.positive(radius, "radius");
         Validate.positive(height, "height");
