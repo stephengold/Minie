@@ -171,7 +171,6 @@ public class CustomEllipsoid extends CustomConvexShape {
         }
 
         return result;
-
     }
     // *************************************************************************
     // CustomConvexShape methods
