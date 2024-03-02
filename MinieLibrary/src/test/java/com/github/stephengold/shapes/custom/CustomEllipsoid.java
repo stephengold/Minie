@@ -35,6 +35,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 
 /**
@@ -100,6 +101,7 @@ public class CustomEllipsoid extends CustomConvexShape {
      */
     public CustomEllipsoid(float radius) {
         super(radius, radius, radius);
+        Validate.positive(radius, "radius");
 
         this.unscaledHe = new Vector3f(radius, radius, radius);
         this.inertiaFactor = 0.2f;
@@ -122,6 +124,10 @@ public class CustomEllipsoid extends CustomConvexShape {
             float zHalfExtent, float inertiaFactor) {
         super(xHalfExtent, yHalfExtent, zHalfExtent);
 
+        Validate.positive(xHalfExtent, "X half extent");
+        Validate.positive(yHalfExtent, "Y half extent");
+        Validate.positive(zHalfExtent, "Z half extent");
+
         this.unscaledHe = new Vector3f(xHalfExtent, yHalfExtent, zHalfExtent);
         this.inertiaFactor = inertiaFactor;
         setScale(scale);
@@ -137,6 +143,7 @@ public class CustomEllipsoid extends CustomConvexShape {
      */
     public CustomEllipsoid(Vector3f halfExtents, float inertiaFactor) {
         super(halfExtents);
+        Validate.positive(halfExtents, "half extents");
 
         this.unscaledHe = halfExtents.clone();
         this.inertiaFactor = inertiaFactor;
