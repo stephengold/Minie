@@ -36,6 +36,7 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
+import jme3utilities.math.MyVector3f;
 import jme3utilities.math.MyVolume;
 
 /**
@@ -131,6 +132,27 @@ public class CustomBox extends CustomConvexShape {
 
         this.unscaledHe = halfExtents.clone();
         setScale(scale);
+    }
+    // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Copy the half extents of the box.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the unscaled half extent for each local axis (either storeResult
+     * or a new vector, not null, all components &gt;0)
+     */
+    public Vector3f getHalfExtents(Vector3f storeResult) {
+        assert MyVector3f.isAllPositive(unscaledHe) : unscaledHe;
+
+        Vector3f result;
+        if (storeResult == null) {
+            result = unscaledHe.clone();
+        } else {
+            result = storeResult.set(unscaledHe);
+        }
+        return result;
     }
     // *************************************************************************
     // CustomConvexShape methods

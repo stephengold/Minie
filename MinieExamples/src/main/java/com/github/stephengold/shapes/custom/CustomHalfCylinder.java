@@ -119,6 +119,28 @@ public class CustomHalfCylinder extends CustomConvexShape {
         setScale(scale);
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Return the height of the half cylinder.
+     *
+     * @return the unscaled height (&gt;0)
+     */
+    public float getHeight() {
+        assert unscaledHeight > 0f : unscaledHeight;
+        return unscaledHeight;
+    }
+
+    /**
+     * Return the radius of the parent cylinder.
+     *
+     * @return the unscaled radius (&gt;0)
+     */
+    public float getRadius() {
+        assert unscaledRadius > 0f : unscaledRadius;
+        return unscaledRadius;
+    }
+    // *************************************************************************
     // CustomConvexShape methods
 
     /**

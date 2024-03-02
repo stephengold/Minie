@@ -147,6 +147,54 @@ public class CustomSegment extends CustomConvexShape {
         setScale(scale);
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Return the height of the segment.
+     *
+     * @return the unscaled height (&ge;0)
+     */
+    public float getHeight() {
+        float result = unscaledYMax - unscaledYMin;
+
+        assert result >= 0f : result;
+        return result;
+    }
+
+    /**
+     * Return the radius of the parent sphere.
+     *
+     * @return the unscaled radius (&gt;0)
+     */
+    public float sphereRadius() {
+        assert unscaledRadius > 0f : unscaledRadius;
+        return unscaledRadius;
+    }
+
+    /**
+     * Return the Y offset of the upper base from the center of the parent
+     * sphere.
+     *
+     * @return the unscaled offset (&ge;-radius, &le;radius)
+     */
+    public float yMax() {
+        assert unscaledYMax >= -unscaledRadius;
+        assert unscaledYMax <= unscaledRadius;
+        return unscaledYMax;
+    }
+
+    /**
+     * Return the Y offset of the lower base from the center of the parent
+     * sphere.
+     *
+     * @return the unscaled offset (&ge;-radius, &le;radius)
+     */
+    public float yMin() {
+        assert unscaledYMin >= -unscaledRadius;
+        assert unscaledYMin <= unscaledRadius;
+        return unscaledYMin;
+    }
+    // *************************************************************************
     // CustomConvexShape methods
 
     /**

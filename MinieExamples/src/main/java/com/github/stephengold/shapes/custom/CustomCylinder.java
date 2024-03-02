@@ -110,6 +110,44 @@ public class CustomCylinder extends CustomConvexShape {
         setScale(scale);
     }
     // *************************************************************************
+    // new methods exposed
+
+    /**
+     * Copy the half extents of the cylinder.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return the unscaled half extent for each local axis (either storeResult
+     * or a new vector, not null, no negative component)
+     */
+    public Vector3f getHalfExtents(Vector3f storeResult) {
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
+        result.x = unscaledRadius;
+        result.y = 0.5f * unscaledHeight;
+        result.z = unscaledRadius;
+
+        return result;
+    }
+
+    /**
+     * Return the height of the cylinder.
+     *
+     * @return the unscaled height (&gt;0)
+     */
+    public float getHeight() {
+        assert unscaledHeight > 0f : unscaledHeight;
+        return unscaledHeight;
+    }
+
+    /**
+     * Return the radius of the cylinder.
+     *
+     * @return the unscaled radius (&gt;0)
+     */
+    public float getRadius() {
+        assert unscaledRadius > 0f : unscaledRadius;
+        return unscaledRadius;
+    }
+    // *************************************************************************
     // CustomConvexShape methods
 
     /**
