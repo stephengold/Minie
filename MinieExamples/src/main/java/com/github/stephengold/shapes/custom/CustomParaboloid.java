@@ -35,6 +35,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
 
 /**
@@ -104,6 +105,9 @@ public class CustomParaboloid extends CustomConvexShape {
      */
     public CustomParaboloid(float radius, float height) {
         super(new Vector3f(radius, height / 1.5f, radius));
+
+        Validate.positive(radius, "radius");
+        Validate.positive(height, "height");
 
         this.unscaledHeight = height;
         this.unscaledRadius = radius;

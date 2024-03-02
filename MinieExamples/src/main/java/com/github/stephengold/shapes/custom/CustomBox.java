@@ -35,6 +35,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jme3utilities.Validate;
 import jme3utilities.math.MyVolume;
 
 /**
@@ -91,6 +92,7 @@ public class CustomBox extends CustomConvexShape {
      */
     public CustomBox(float halfExtent) {
         super(halfExtent, halfExtent, halfExtent);
+        Validate.positive(halfExtent, "half extent");
 
         this.unscaledHe = new Vector3f(halfExtent, halfExtent, halfExtent);
         setScale(scale);
@@ -109,6 +111,10 @@ public class CustomBox extends CustomConvexShape {
     public CustomBox(float xHalfExtent, float yHalfExtent, float zHalfExtent) {
         super(xHalfExtent, yHalfExtent, zHalfExtent);
 
+        Validate.positive(xHalfExtent, "X half extent");
+        Validate.positive(yHalfExtent, "Y half extent");
+        Validate.positive(zHalfExtent, "Z half extent");
+
         this.unscaledHe = new Vector3f(xHalfExtent, yHalfExtent, zHalfExtent);
         setScale(scale);
     }
@@ -121,6 +127,7 @@ public class CustomBox extends CustomConvexShape {
      */
     public CustomBox(Vector3f halfExtents) {
         super(halfExtents);
+        Validate.positive(halfExtents, "half extents");
 
         this.unscaledHe = halfExtents.clone();
         setScale(scale);
