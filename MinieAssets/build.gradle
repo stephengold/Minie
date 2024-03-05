@@ -44,7 +44,7 @@ tasks.withType(JavaCompile).configureEach { // Java compile-time options:
 }
 
 dependencies {
-    implementation 'com.github.stephengold:jme-ttf:3.0.0'
+    implementation 'com.github.stephengold:jme-ttf:3.0.1'
     implementation heartCoordinates
     implementation 'org.jmonkeyengine:jme3-blender:3.3.2-stable'
     runtimeOnly    desktopCoordinates
