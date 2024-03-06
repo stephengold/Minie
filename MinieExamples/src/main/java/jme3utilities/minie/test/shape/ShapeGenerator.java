@@ -33,6 +33,7 @@ import com.github.stephengold.shapes.custom.CustomEllipsoid;
 import com.github.stephengold.shapes.custom.CustomFrustum;
 import com.github.stephengold.shapes.custom.CustomHalfCylinder;
 import com.github.stephengold.shapes.custom.CustomHemisphere;
+import com.github.stephengold.shapes.custom.CustomLemon;
 import com.github.stephengold.shapes.custom.CustomParaboloid;
 import com.github.stephengold.shapes.custom.CustomSegment;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -270,6 +271,19 @@ public class ShapeGenerator extends Generator {
         float b = nextFloat(0.01f, 1.6f);
         float height = nextFloat(0.6f, 4f);
         CustomFrustum result = new CustomFrustum(a, b, height);
+
+        return result;
+    }
+
+    /**
+     * Generate a parabolic lemon shape using {@code CustomLemon}.
+     *
+     * @return a new shape
+     */
+    public CustomLemon nextCustomLemon() {
+        float baseRadius = nextFloat(0.5f, 1.5f);
+        float height = nextFloat(0.5f, 2.5f);
+        CustomLemon result = new CustomLemon(baseRadius, height);
 
         return result;
     }
@@ -671,6 +685,10 @@ public class ShapeGenerator extends Generator {
 
             case "customDome":
                 result = nextCustomDome();
+                break;
+
+            case "customLemon":
+                result = nextCustomLemon();
                 break;
 
             case "customParaboloid":
