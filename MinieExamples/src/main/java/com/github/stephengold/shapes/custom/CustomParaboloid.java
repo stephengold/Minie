@@ -185,10 +185,7 @@ public class CustomParaboloid extends CustomConvexShape {
 
         } else {
             float dxyz = MyMath.hypotenuse(dirX, dirY, dirZ);
-            assert dxyz > 0f : dxyz;
             float ny = dirY / dxyz; // the Y component of the normalized vector
-            assert ny < 0f : ny;
-            assert ny >= -1f : ny;
             /*
              * Calculate rFrac, which is the distance from the Y axis
              * divided by the radius of the cap.
@@ -196,7 +193,6 @@ public class CustomParaboloid extends CustomConvexShape {
             float radical = MyMath.circle(ny);
             float denom = -2f * scaledHeight * ny;
             float rFrac = scaledRadius * radical / denom;
-            assert rFrac >= 0f : rFrac;
 
             if (rFrac >= 1f) {
                 // The supporting vertex lies on the rim of the cap:
