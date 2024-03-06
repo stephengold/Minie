@@ -59,8 +59,8 @@ public class CustomParaboloid extends CustomConvexShape {
     /**
      * field names for serialization
      */
-    final private static String tagUnscaledHeight = "unscaledHeight";
-    final private static String tagUnscaledRadius = "unscaledRadius";
+    final private static String tagUnscaledHeight = "height";
+    final private static String tagUnscaledRadius = "radius";
     // *************************************************************************
     // fields
 
