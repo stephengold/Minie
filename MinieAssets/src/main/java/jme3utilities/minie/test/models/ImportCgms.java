@@ -189,8 +189,10 @@ public class ImportCgms extends SimpleApplication {
          * Import the CandyDish model (by Stephen Gold)
          * from src/main/resources:
          */
-        Spatial candyDish
-                = assetManager.loadModel("Models/CandyDish/CandyDish.glb");
+        Node sceneNode = (Node) assetManager.loadModel(
+                "Models/CandyDish/CandyDish.glb");
+        Node candyDishNode1 = (Node) (sceneNode.getChild(0));
+        Node candyDish = (Node) (candyDishNode1.getChild(0));
         writeToJ3O(candyDish, "Models/CandyDish/CandyDish.j3o");
         /*
          * Import the Oto model (by OtoTheCleaner)
