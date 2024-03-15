@@ -40,8 +40,8 @@ import jme3utilities.math.MyMath;
 
 /**
  * A collision shape for a elliptic paraboloid with a circular cap and uniform
- * density. By convention, the vertex lies on the -Y axis, and the center of the
- * cap lies on the +Y axis.
+ * density. By convention, the vertex lies on the local -Y axis, and the center
+ * of the cap lies on the local +Y axis.
  * <p>
  * This is an imprecise shape; margin always expands the shape.
  *
