@@ -246,7 +246,8 @@ A sweep test combines features of a ray test and a contact test.
 
 The `sweepTest()` method performs a _sweep test_ against a space,
 returning a list of objects in the space that would
-intersect with a collision shape sweeping from one position to another.
+intersect with a specified collision shape
+sweeping from one position to another.
 
 NOTE:  The shape must be convex.
 
