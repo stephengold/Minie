@@ -244,6 +244,31 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
+     * Count how many submeshes are in the mesh.
+     *
+     * @return the count (&ge;0)
+     */
+    public int countSubmeshes() {
+        int result = nativeMesh.countSubmeshes();
+        return result;
+    }
+
+    /**
+     * Access the specified submesh.
+     *
+     * @param index the index of the desired submesh (in the order the submeshes
+     * were added, &ge;0)
+     * @return the pre-existing instance (not null)
+     */
+    public IndexedMesh getSubmesh(int index) {
+        int numSubmeshes = nativeMesh.countSubmeshes();
+        Validate.inRange(index, "submesh index", 0, numSubmeshes - 1);
+
+        IndexedMesh result = nativeMesh.getSubmesh(index);
+        return result;
+    }
+
+    /**
      * Serialize the BVH to a byte array.
      *
      * @return a new array containing a serialized version of the BVH
