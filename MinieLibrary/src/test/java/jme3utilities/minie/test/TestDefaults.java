@@ -945,6 +945,9 @@ public class TestDefaults {
         Torus torus = new Torus(16, 16, 0.2f, 0.8f);
         GImpactCollisionShape gimpact = new GImpactCollisionShape(torus);
         testShape(gimpact);
+        Assert.assertEquals(512, gimpact.countMeshTriangles());
+        Assert.assertEquals(289, gimpact.countMeshVertices());
+        Assert.assertEquals(1, gimpact.countSubmeshes());
         Assert.assertEquals(0.04f, gimpact.getMargin(), 0f);
         Assert.assertTrue(gimpact.isConcave());
         Assert.assertFalse(gimpact.isConvex());
@@ -971,6 +974,7 @@ public class TestDefaults {
         testShape(mesh);
         Assert.assertEquals(2, mesh.countMeshTriangles());
         Assert.assertEquals(4, mesh.countMeshVertices());
+        Assert.assertEquals(1, mesh.countSubmeshes());
         Assert.assertEquals(0.04f, mesh.getMargin(), 0f);
         Assert.assertTrue(mesh.isConcave());
         Assert.assertFalse(mesh.isConvex());
