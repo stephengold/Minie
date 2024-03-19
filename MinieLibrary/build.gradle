@@ -13,7 +13,7 @@ plugins {
 ext {
     // The URL from which native libraries should be copied:
 
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/20.1.0/'
+    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/20.2.0/'
     //libbulletjmeUrl = 'file:///home/sgold/NetBeansProjects/Libbulletjme/dist/' // to test a local build
     //libbulletjmeUrl = 'file:///c:\\users\\sgold\\My%20Documents\\NetBeansProjects\\Libbulletjme\\dist\\' // to test a local build
 
