@@ -181,8 +181,11 @@ public class PhysicsDescriber extends Describer {
             result.append(desc);
 
         } else if (shape instanceof GImpactCollisionShape) {
-            int numV = ((GImpactCollisionShape) shape).countMeshVertices();
-            desc = String.format("[%d]", numV);
+            GImpactCollisionShape giShape = (GImpactCollisionShape) shape;
+            int numS = giShape.countSubmeshes();
+            int numT = giShape.countMeshTriangles();
+            int numV = giShape.countMeshVertices();
+            desc = String.format("[numS=%s numT=%d numV=%d]", numS, numT, numV);
             result.append(desc);
 
         } else if (shape instanceof HeightfieldCollisionShape) {
@@ -196,8 +199,11 @@ public class PhysicsDescriber extends Describer {
             result.append(desc);
 
         } else if (shape instanceof MeshCollisionShape) {
-            int numV = ((MeshCollisionShape) shape).countMeshVertices();
-            desc = String.format("[%d]", numV);
+            MeshCollisionShape meshShape = (MeshCollisionShape) shape;
+            int numS = meshShape.countSubmeshes();
+            int numT = meshShape.countMeshTriangles();
+            int numV = meshShape.countMeshVertices();
+            desc = String.format("[numS=%s numT=%d numV=%d]", numS, numT, numV);
             result.append(desc);
 
         } else if (shape instanceof MinkowskiSum) {
