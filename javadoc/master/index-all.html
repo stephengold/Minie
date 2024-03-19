@@ -2649,9 +2649,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Count the spheres in this shape.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html#countSubmeshes()" class="member-name-link">countSubmeshes()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">GImpactCollisionShape</a></dt>
+<dd>
+<div class="block">Count how many submeshes are in the mesh.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#countSubmeshes()" class="member-name-link">countSubmeshes()</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
 <dd>
 <div class="block">Count how many submeshes are in this mesh.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#countSubmeshes()" class="member-name-link">countSubmeshes()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
+<dd>
+<div class="block">Count how many submeshes are in the mesh.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsSoftBody.html#countTetras()" class="member-name-link">countTetras()</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsSoftBody.html" title="class in com.jme3.bullet.objects">PhysicsSoftBody</a></dt>
 <dd>
@@ -5622,7 +5630,15 @@ loadScripts(document, 'script');</script>
 <div class="block">Copy this motor's constraint-force mixing parameters at the limits
  (native field: m_stopCFM).</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html#getSubmesh(int)" class="member-name-link">getSubmesh(int)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/GImpactCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">GImpactCollisionShape</a></dt>
+<dd>
+<div class="block">Access the specified submesh.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#getSubmesh(int)" class="member-name-link">getSubmesh(int)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
+<dd>
+<div class="block">Access the specified submesh.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#getSubmesh(int)" class="member-name-link">getSubmesh(int)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
 <dd>
 <div class="block">Access the specified submesh.</div>
 </dd>
@@ -7775,7 +7791,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/BoxCollisionShape.html#maxRadius()" class="member-name-link">maxRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/BoxCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">BoxCollisionShape</a></dt>
 <dd>
-<div class="block">Calculate how far the box extends from its center.</div>
+<div class="block">Calculate how far the scaled shape extends from its center of mass,
+ excluding collision margin.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html#maxRadius()" class="member-name-link">maxRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CapsuleCollisionShape</a></dt>
 <dd>
@@ -9721,7 +9738,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/BoxCollisionShape.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/BoxCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">BoxCollisionShape</a></dt>
 <dd>
-<div class="block">Estimate the volume of this shape, including scale and margin.</div>
+<div class="block">Estimate the volume of the collision shape, including scale and margin.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CapsuleCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CapsuleCollisionShape</a></dt>
 <dd>

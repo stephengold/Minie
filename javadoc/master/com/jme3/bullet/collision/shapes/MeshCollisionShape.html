@@ -87,8 +87,9 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span></div>
 <div class="block">A mesh collision shape that uses a Bounding Value Hierarchy (BVH), based on
  Bullet's <code>btBvhTriangleMeshShape</code>. Not for use in dynamic bodies.
- Collisions between HeightfieldCollisionShape, MeshCollisionShape, and
- PlaneCollisionShape objects are never detected.
+ Collisions between <code>HeightfieldCollisionShape</code>,
+ <code>MeshCollisionShape</code>, and <code>PlaneCollisionShape</code> objects are never
+ detected.
  <p>
  TODO add a shape based on <code>btScaledBvhTriangleMeshShape</code></div>
 </section>
@@ -214,6 +215,16 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countMeshVertices()" class="member-name-link">countMeshVertices</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Count how many vertices are in the mesh.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countSubmeshes()" class="member-name-link">countSubmeshes</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Count how many submeshes are in the mesh.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSubmesh(int)" class="member-name-link">getSubmesh</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Access the specified submesh.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
@@ -428,6 +439,31 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the count (&ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="countSubmeshes()">
+<h3>countSubmeshes</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countSubmeshes</span>()</div>
+<div class="block">Count how many submeshes are in the mesh.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the count (&ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getSubmesh(int)">
+<h3>getSubmesh</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></span>&nbsp;<span class="element-name">getSubmesh</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="block">Access the specified submesh.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - the index of the desired submesh (in the order the submeshes
+ were added, &ge;0)</dd>
+<dt>Returns:</dt>
+<dd>the pre-existing instance (not null)</dd>
 </dl>
 </section>
 </li>
