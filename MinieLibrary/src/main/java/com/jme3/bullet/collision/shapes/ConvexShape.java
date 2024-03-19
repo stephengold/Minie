@@ -39,7 +39,8 @@ import java.util.logging.Logger;
  * The abstract base class for convex collision shapes based on Bullet's
  * {@code btConvexShape}.
  * <p>
- * Subclasses include BoxCollisionShape and CapsuleCollisionShape.
+ * Subclasses include {@code BoxCollisionShape} and
+ * {@code CapsuleCollisionShape}.
  *
  * @author Stephen Gold sgold@sonic.net
  */

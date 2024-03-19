@@ -45,7 +45,7 @@ import jme3utilities.math.MyVector3f;
 
 /**
  * A convex collision shape optimized for 2-D, based on Bullet's
- * {@code btConvex2dShape}. For a rectangle, use Box2dShape instead.
+ * {@code btConvex2dShape}. For a rectangle, use {@code Box2dShape} instead.
  *
  * @author Stephen Gold sgold@sonic.net
  */

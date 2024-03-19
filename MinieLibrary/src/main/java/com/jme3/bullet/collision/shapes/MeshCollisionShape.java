@@ -51,8 +51,9 @@ import jme3utilities.Validate;
 /**
  * A mesh collision shape that uses a Bounding Value Hierarchy (BVH), based on
  * Bullet's {@code btBvhTriangleMeshShape}. Not for use in dynamic bodies.
- * Collisions between HeightfieldCollisionShape, MeshCollisionShape, and
- * PlaneCollisionShape objects are never detected.
+ * Collisions between {@code HeightfieldCollisionShape},
+ * {@code MeshCollisionShape}, and {@code PlaneCollisionShape} objects are never
+ * detected.
  * <p>
  * TODO add a shape based on {@code btScaledBvhTriangleMeshShape}
  *

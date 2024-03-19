@@ -49,9 +49,9 @@ import jme3utilities.math.MyVector3f;
 
 /**
  * A mesh collisions shape based on Bullet's {@code btGImpactMeshShape}.
- *
- * Collisions between GImpactCollisionShape and PlaneCollisionShape objects are
- * never detected.
+ * <p>
+ * Collisions between {@code GImpactCollisionShape} and
+ * {@code PlaneCollisionShape} objects are never detected.
  *
  * @author normenhansen
  */

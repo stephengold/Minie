@@ -52,9 +52,10 @@ import jme3utilities.Validate;
 /**
  * A collision shape for terrain defined by a matrix of height values, based on
  * Bullet's {@code btHeightfieldTerrainShape}. Should be more efficient than an
- * equivalent MeshCollisionShape. Not for use in dynamic bodies. Collisions
- * between HeightfieldCollisionShape, MeshCollisionShape, and
- * PlaneCollisionShape objects are never detected.
+ * equivalent {@code MeshCollisionShape}. Not for use in dynamic bodies.
+ * Collisions between {@code HeightfieldCollisionShape},
+ * {@code MeshCollisionShape}, and {@code PlaneCollisionShape} objects are never
+ * detected.
  *
  * @author Brent Owens
  */

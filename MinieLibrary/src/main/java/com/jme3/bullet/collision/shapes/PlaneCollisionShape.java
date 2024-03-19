@@ -43,10 +43,11 @@ import java.util.logging.Logger;
 
 /**
  * A planar collision shape based on Bullet's {@code btStaticPlaneShape}. Not
- * for use in dynamic bodies. Collisions between HeightfieldCollisionShape,
- * MeshCollisionShape, and PlaneCollisionShape objects are never detected.
- * Similarly, collisions between GImpactCollisionShape objects and
- * PlaneCollisionShape objects are never detected.
+ * for use in dynamic bodies. Collisions between
+ * {@code HeightfieldCollisionShape}, {@code MeshCollisionShape}, and
+ * {@code PlaneCollisionShape} objects are never detected. Similarly, collisions
+ * between {@code GImpactCollisionShape} objects and {@code PlaneCollisionShape}
+ * objects are never detected.
  *
  * @author normenhansen
  */

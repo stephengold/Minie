@@ -62,7 +62,7 @@ import vhacd4.Vhacd4Hull;
 
 /**
  * A convex-hull collision shape based on Bullet's {@code btConvexHullShape}.
- * For a 2-D convex hull, use Convex2dShape.
+ * For a 2-D convex hull, use {@code Convex2dShape}.
  */
 public class HullCollisionShape extends ConvexShape {
     // *************************************************************************
