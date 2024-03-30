@@ -648,6 +648,23 @@ controller.setCoordinateSystem(right, up, forward);</code></pre>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_continuous_collision_detection"><a class="anchor" href="#_continuous_collision_detection"></a>Continuous collision detection</h3>
+<div class="paragraph">
+<p>If a vehicle moves rapidly,
+it may pass through a thin obstacle without any collision being detected.
+To prevent this, enable continuous collision detection (CCD) on the chassis:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">vehicleControl.setCcdMotionThreshold(distancePerTimeStep);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information on CCD, see
+<a href="rigidbody.html#_continuous_collision_detection" class="xref page">the rigid-body tutorial</a>.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_maximum_suspension_force"><a class="anchor" href="#_maximum_suspension_force"></a>Maximum suspension force</h3>
 <div class="paragraph">
 <p>A vehicle&#8217;s <em>suspension</em> connects its wheels to its chassis
