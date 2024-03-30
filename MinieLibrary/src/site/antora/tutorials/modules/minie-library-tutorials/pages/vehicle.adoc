@@ -145,6 +145,20 @@ Vector3f forward = new Vector3f(-1f, 0f, 0f);
 controller.setCoordinateSystem(right, up, forward);
 ----
 
+=== Continuous collision detection
+
+If a vehicle moves rapidly,
+it may pass through a thin obstacle without any collision being detected.
+To prevent this, enable continuous collision detection (CCD) on the chassis:
+
+[source, java]
+----
+vehicleControl.setCcdMotionThreshold(distancePerTimeStep);
+----
+
+For more information on CCD, see
+xref:rigidbody.adoc#_continuous_collision_detection[the rigid-body tutorial].
+
 === Maximum suspension force
 
 A vehicle's _suspension_ connects its wheels to its chassis
