@@ -57,7 +57,7 @@ jobs:
 
   Java17-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-12
+    runs-on: macOS-13
     steps:
       - uses: actions/setup-java@v4
         with:
@@ -89,7 +89,7 @@ jobs:
 
   Java21-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-13
+    runs-on: macOS-14
     steps:
       - uses: actions/setup-java@v4
         with:
