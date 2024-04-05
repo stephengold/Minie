@@ -519,8 +519,8 @@ public class CompoundCollisionShape extends CollisionShape {
                     CollisionShape baseShape = newChild.getShape();
                     newChild.copyOffset(newOffset);
                     newChild.copyRotationMatrix(newRotation);
-                    result[sideI]
-                            .addChildShape(baseShape, newOffset, newRotation);
+                    result[sideI].addChildShape(
+                            baseShape, newOffset, newRotation);
                 }
             }
         }
