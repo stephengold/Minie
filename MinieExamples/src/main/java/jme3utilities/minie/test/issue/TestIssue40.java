@@ -64,6 +64,13 @@ final public class TestIssue40 extends SimpleApplication {
     final private static Logger logger
             = Logger.getLogger(TestIssue40.class.getName());
     // *************************************************************************
+    // fields
+
+    /**
+     * dynamic ball
+     */
+    private static PhysicsRigidBody ballBody;
+    // *************************************************************************
     // constructors
 
     /**
@@ -108,7 +115,7 @@ final public class TestIssue40 extends SimpleApplication {
         // Add a dynamic ball:
         Sphere sphere = new Sphere(5, 7, 1f);
         HullCollisionShape hullShape = new HullCollisionShape(sphere);
-        PhysicsRigidBody ballBody = new PhysicsRigidBody(hullShape);
+        ballBody = new PhysicsRigidBody(hullShape);
         ballBody.setPhysicsLocation(new Vector3f(0f, 5f, 0f));
         physicsSpace.add(ballBody);
 
