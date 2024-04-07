@@ -147,6 +147,9 @@ tasks.register('TestIssue19', JavaExec) {
 tasks.register('TestIssue3', JavaExec) {
     mainClass = 'jme3utilities.minie.test.issue.TestIssue3'
 }
+tasks.register('TestIssue40', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestIssue40'
+}
 tasks.register('TestIssue883', JavaExec) {
     mainClass = 'jme3utilities.minie.test.issue.TestIssue883'
 }
