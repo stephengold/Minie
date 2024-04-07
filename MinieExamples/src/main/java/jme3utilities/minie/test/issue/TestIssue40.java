@@ -94,21 +94,25 @@ final public class TestIssue40 extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
+        // Configure the camera:
         flyCam.setEnabled(false);
         cam.setLocation(new Vector3f(-10f, 5f, 10f));
         cam.setRotation(new Quaternion(0.064f, 0.9106f, -0.156f, 0.377f));
 
+        // Configure physics:
         BulletAppState bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
+        // Add a dynamic ball:
         Sphere sphere = new Sphere(5, 7, 1f);
         HullCollisionShape hullShape = new HullCollisionShape(sphere);
         PhysicsRigidBody ballBody = new PhysicsRigidBody(hullShape);
         ballBody.setPhysicsLocation(new Vector3f(0f, 5f, 0f));
         physicsSpace.add(ballBody);
 
+        // Add a small static terrain with all heights=0:
         CollisionShape heightShape = new HeightfieldCollisionShape(
                 new float[9], new Vector3f(2f, 1f, 2f));
         PhysicsRigidBody terrainBody
@@ -116,6 +120,7 @@ final public class TestIssue40 extends SimpleApplication {
         //heightShape.setContactFilterEnabled(false); // default=true
         physicsSpace.add(terrainBody);
 
+        // For clarity, make the terrain opaque:
         Material solidGray = new Material(assetManager, Materials.UNSHADED);
         solidGray.setColor("Color", ColorRGBA.DarkGray);
         terrainBody.setDebugMaterial(solidGray);

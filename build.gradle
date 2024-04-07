@@ -1,4 +1,4 @@
-// Gradle build script for the Minie project
+// Gradle script to build the Minie project
 
 plugins {
     id 'base' // to add a "clean" task to the root project
