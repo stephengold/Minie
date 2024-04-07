@@ -29,6 +29,9 @@ package jme3utilities.minie.test.issue;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.PhysicsTickListener;
+import com.jme3.bullet.collision.ContactListener;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
@@ -54,10 +57,19 @@ import jme3utilities.minie.PhysicsDumper;
  * <p>
  * Based on "TerrainTest.java" provided by ndebruyn.
  */
-final public class TestIssue40 extends SimpleApplication {
+final public class TestIssue40 extends SimpleApplication
+        implements ContactListener, PhysicsTickListener {
     // *************************************************************************
     // constants and loggers
 
+    /**
+     * simulation step to start printing debug info
+     */
+    final private static int startTick = 51;
+    /**
+     * simulation step to stop printing debug info
+     */
+    final private static int stopTick = 70;
     /**
      * message logger for this class
      */
@@ -66,6 +78,10 @@ final public class TestIssue40 extends SimpleApplication {
     // *************************************************************************
     // fields
 
+    /**
+     * count physics simulation steps
+     */
+    private static int tickCount = 0;
     /**
      * dynamic ball
      */
@@ -111,6 +127,8 @@ final public class TestIssue40 extends SimpleApplication {
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.addContactListener(this);
+        physicsSpace.addTickListener(this);
 
         // Add a dynamic ball:
         Sphere sphere = new Sphere(5, 7, 1f);
@@ -133,5 +151,84 @@ final public class TestIssue40 extends SimpleApplication {
         terrainBody.setDebugMaterial(solidGray);
 
         new PhysicsDumper().dump(bulletAppState);
+    }
+    // *************************************************************************
+    // ContactListener methods
+
+    /**
+     * Invoked immediately after a contact manifold is removed.
+     *
+     * @param manifoldId the native ID of the {@code btPersistentManifold} (not
+     * zero)
+     */
+    @Override
+    public void onContactEnded(long manifoldId) {
+        if (tickCount >= startTick && tickCount < stopTick) {
+            System.out.println("  removed manifold " + manifoldId);
+            System.out.flush();
+        }
+    }
+
+    /**
+     * Invoked immediately after a contact point is refreshed without being
+     * removed. Skipped for Sphere-Sphere contacts.
+     *
+     * @param pcoA the first involved object (not null)
+     * @param pcoB the 2nd involved object (not null)
+     * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
+     * zero)
+     */
+    @Override
+    public void onContactProcessed(PhysicsCollisionObject pcoA,
+            PhysicsCollisionObject pcoB, long manifoldPointId) {
+        if (tickCount > 50 && tickCount < 70) {
+            System.out.println("  processed point " + manifoldPointId);
+            System.out.flush();
+        }
+    }
+
+    /**
+     * Invoked immediately after a contact manifold is created.
+     *
+     * @param manifoldId the native ID of the {@code btPersistentManifold} (not
+     * zero)
+     */
+    @Override
+    public void onContactStarted(long manifoldId) {
+        if (tickCount >= startTick && tickCount < stopTick) {
+            System.out.println("  created manifold " + manifoldId);
+            System.out.flush();
+        }
+    }
+    // *************************************************************************
+    // PhysicsTickListener methods
+
+    /**
+     * Callback from Bullet, invoked just before the physics is stepped.
+     *
+     * @param space the space that's about to be stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     */
+    @Override
+    public void prePhysicsTick(PhysicsSpace space, float timeStep) {
+        if (tickCount >= startTick && tickCount < stopTick) {
+            Vector3f location = ballBody.getPhysicsLocation(null);
+            Vector3f velocity = ballBody.getLinearVelocity(null);
+            int numManifolds = space.countManifolds();
+            System.out.println("tick " + tickCount + "  y=" + location.y
+                    + "  vy=" + velocity.y + " numManifolds=" + numManifolds);
+            System.out.flush();
+        }
+    }
+
+    /**
+     * Callback from Bullet, invoked just after the physics has been stepped.
+     *
+     * @param space the space that was just stepped (not null)
+     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     */
+    @Override
+    public void physicsTick(PhysicsSpace space, float timeStep) {
+        ++tickCount;
     }
 }
