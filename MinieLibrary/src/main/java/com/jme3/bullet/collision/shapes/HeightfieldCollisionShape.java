@@ -206,8 +206,6 @@ public class HeightfieldCollisionShape extends CollisionShape {
      */
     public HeightfieldCollisionShape(Terrain terrain, Vector3f scale) {
         Validate.nonNegative(scale, "scale");
-        Validate.inRange(terrain.getTerrainSize(), "terrain size", 2,
-                Integer.MAX_VALUE);
 
         float[] heightmap = terrain.getHeightMap();
         assert heightmap.length >= 4 : heightmap.length;
