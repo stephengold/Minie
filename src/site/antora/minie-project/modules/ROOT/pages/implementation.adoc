@@ -100,11 +100,11 @@ from _shape coordinates_ (which depend on scale factors).
 
 == Discrete time and collision detection
 
-Within a physics space, simulation occurs in discrete steps.
-While it's possible to vary the time step from step to step,
-a fixed time step tends to yield more reproducible results.
+Within a physics space, simulation occurs in discrete steps of short duration.
+While it's possible to vary these durations from step to step,
+a fixed duration (or _time step_) tends to yield more reproducible results.
 
-Each time step consists of 4 _phases_:
+Each simulation step consists of 4 _phases_:
 
 . _forward dynamics part one_,
   to apply known forces and torques
