@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -131,7 +131,7 @@ public class BuoyController extends IKController {
      * Apply an impulse to the controlled rigid body to simulate buoyancy. Meant
      * to be invoked by the controlled link before each simulation step.
      *
-     * @param timeStep the physics timestep (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void preTick(float timeStep) {

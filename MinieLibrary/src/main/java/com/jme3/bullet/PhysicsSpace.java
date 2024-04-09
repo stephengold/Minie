@@ -1369,7 +1369,7 @@ public class PhysicsSpace
     /**
      * Callback invoked (by native code) just after the physics is stepped.
      *
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     private void postTick(float timeStep) {
         assert NativeLibrary.jniEnvId() == jniEnvId() : "wrong thread";
@@ -1382,7 +1382,7 @@ public class PhysicsSpace
     /**
      * Callback invoked (by native code) just before the physics is stepped.
      *
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     private void preTick(float timeStep) {
         assert NativeLibrary.jniEnvId() == jniEnvId() : "wrong thread";

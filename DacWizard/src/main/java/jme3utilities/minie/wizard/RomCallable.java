@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -269,7 +269,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
      * Callback from Bullet, invoked just after the simulation has been stepped.
      *
      * @param space the space that was just stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
@@ -299,7 +299,7 @@ class RomCallable implements Callable<RangeOfMotion[]>, PhysicsTickListener {
      * Callback from Bullet, invoked just before the simulation is stepped.
      *
      * @param space the space that's about to be stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {

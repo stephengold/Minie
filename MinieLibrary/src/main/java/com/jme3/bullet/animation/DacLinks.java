@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 jMonkeyEngine
+ * Copyright (c) 2018-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1369,7 +1369,7 @@ public class DacLinks
      * Used to re-activate any deactivated rigid bodies.
      *
      * @param space the space that was just stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
@@ -1392,7 +1392,7 @@ public class DacLinks
      * time to clear/apply forces.
      *
      * @param space the space that is about to be stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {

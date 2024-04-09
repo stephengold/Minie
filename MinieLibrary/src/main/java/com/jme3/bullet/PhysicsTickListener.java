@@ -42,7 +42,7 @@ public interface PhysicsTickListener {
      * time to clear/apply forces and reposition kinematic objects.
      *
      * @param space the space that's about to be stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     void prePhysicsTick(PhysicsSpace space, float timeStep);
 
@@ -51,7 +51,7 @@ public interface PhysicsTickListener {
      * good time to re-activate deactivated objects.
      *
      * @param space the space that was just stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     void physicsTick(PhysicsSpace space, float timeStep);
 }

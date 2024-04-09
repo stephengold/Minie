@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 jMonkeyEngine
+ * Copyright (c) 2018-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -123,7 +123,7 @@ abstract public class IKController implements JmeCloneable, Savable {
      * Apply forces, impulses, and torques to the rigid body. Invoked just
      * before the physics is stepped.
      *
-     * @param timeStep the physics time step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     abstract public void preTick(float timeStep);
 

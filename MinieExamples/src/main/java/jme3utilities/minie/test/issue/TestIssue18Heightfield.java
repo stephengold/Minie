@@ -142,7 +142,7 @@ final public class TestIssue18Heightfield
      * Callback from Bullet, invoked just after the physics has been stepped.
      *
      * @param space the space that was just stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
@@ -159,7 +159,7 @@ final public class TestIssue18Heightfield
      * Callback from Bullet, invoked just before the physics is stepped.
      *
      * @param space the space that's about to be stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {

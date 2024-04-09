@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 jMonkeyEngine
+ * Copyright (c) 2018-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -478,7 +478,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
     /**
      * Internal callback, invoked just BEFORE the physics is stepped.
      *
-     * @param timeStep the physics time step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     void preTick(float timeStep) {
         if (isKinematic()) {

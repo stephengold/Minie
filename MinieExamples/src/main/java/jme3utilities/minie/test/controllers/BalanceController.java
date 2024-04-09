@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -176,7 +176,7 @@ public class BalanceController extends IKController {
      * of mass located directly above its center of support. Meant to be invoked
      * by the controlled link before each simulation step.
      *
-     * @param timeStep the physics timestep (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void preTick(float timeStep) {

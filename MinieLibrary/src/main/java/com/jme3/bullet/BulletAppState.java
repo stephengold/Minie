@@ -924,7 +924,7 @@ public class BulletAppState
      * time to clear/apply forces. Meant to be overridden.
      *
      * @param space the space that's about to be stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
@@ -936,7 +936,7 @@ public class BulletAppState
      * time to clear/apply forces. Meant to be overridden.
      *
      * @param space the space that's about to be stepped (not null)
-     * @param timeStep the time per simulation step (in seconds, &ge;0)
+     * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
