@@ -202,8 +202,8 @@ Dynamic bodies in forced contact tend to jiggle.
 Jiggling is mostly noticeable for sharp-edged bodies (such as boxes)
 resting on uneven surfaces, under high gravity.
 The higher the gravity (in psu per second squared),
-the shorter the simulation time step (in seconds) needs to be.
-For efficient and realistic simulation of Earth-like gravity (9.8 m/s)
+the shorter the time step (in seconds) needs to be.
+For efficient and realistic simulation of Earth-like gravity (9.8 m/s^2)
 with the default margin (0.04 psu) and time step (0.0167 seconds),
 the psu should be 0.3 meters or larger.
 This puts a soft lower limit on the dimensions (in psu) of dynamic bodies.

@@ -539,13 +539,13 @@ Debugging improvements:
 Other important changes:
 
  + Added the concept of a `DynamicAnimControl` being "ready" for dynamic-mode
-   only after the 1st physics timestep.  This helps avert initialization bugs.
+   only after the 1st simulation step.  This helps avert initialization bugs.
  + Turned off hardware skinning in `DacLinks.createSpatialData()` to provide
    access to the true positions of mesh vertices.
  + Modified the `DynamicAnimControl.centerOfMass()` method to also estimate the
    velocity vector of the center of mass.
  + Links in kinematic mode now update their body's location and velocity for
-   every frame, instead of just for each timestep.
+   every frame, instead of just for each simulation step.
  + Eliminated the `PhysicsJoint.getPivotInWorld()` method. (API change)
  + Renamed `DacPhysicsLinks` to `DacLinks`. (API change)
  + `PhysicsSpace` accessors now return physics-object collections sorted by ID.
