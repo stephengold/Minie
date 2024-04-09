@@ -105,12 +105,12 @@ A strong force, torque, or impulse can drag a locked DOF out of position
 or overpower the limits of a limited DOF.
 This is because the contact-and-constraint solver
 doesn't immediately correct all position errors in physics joints.
-During each time step, it corrects only a fraction of each error,
+During each simulation step, it corrects only a fraction of each error,
 by default, 20%.
 This fraction is the solver's _error-reduction parameter_ (ERP).
 
 For faster corrections (with more risk of instability) increase the ERP.
-For instance, to correct 90% of joint-position errors during each time step:
+For instance, to correct 90% of joint-position errors during each simulation step:
 
 [source,java]
 ----

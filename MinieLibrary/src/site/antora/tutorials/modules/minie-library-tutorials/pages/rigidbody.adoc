@@ -69,7 +69,7 @@ Things to notice while running the app:
 . The ball on the right receives an impulse that pushes it leftward.
 . After the impulse ends, the ball's inertia keeps it moving leftward.
 . The simulation runs at 1/10th normal speed,
-  making the time steps noticeable.
+  making the simulation steps noticeable.
 . The balls collide, generating contact forces
   that alter their motions but not their shapes.
 .. The ball on the right loses half its horizontal velocity.
@@ -516,7 +516,7 @@ Things to notice while running the app:
 
 . The 2 balls have the same size, mass, initial height, and initial velocity.
 . The simulation runs at 1/10th normal speed,
-  making the time steps noticeable.
+  making the simulation steps noticeable.
 . The ball with CCD enabled (on the left) sticks the landing on the platform.
 . The control ball (on the right) falls through the platform,
   passing from one side to the other in a single simulation step.

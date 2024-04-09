@@ -227,7 +227,7 @@ For example:
   whereas CharacterControl allows you to invoke `setPhysicsLocation()` directly.
 . The `setWalkDirection()` methods have different semantics.
   In BCC, the argument is a velocity vector (psu per second),
-  whereas in CharacterControl the argument is a displacement (psu per time step).
+  whereas in CharacterControl the argument is a displacement (psu per simulation step).
 . The APIs to test whether the character has physical support are different.
   BCC has `isOnGround()`,
   whereas CharacterControl calls it `onGround()`.

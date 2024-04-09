@@ -130,7 +130,7 @@ NOTE: The NNCG solver doesn't support multibodies.
 === Tuning parameters
 
 The contact-and-constraint solver
-performs a limited number of iterations per time step,
+performs a limited number of iterations per simulation step,
 by default, 10.
 For higher-quality (but slower) simulation, increase this number.
 For instance, to use 20 iterations:
