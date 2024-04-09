@@ -468,8 +468,8 @@ loadScripts(document, 'script');</script>
 <dd><code>manifoldPointId</code> - the native ID of the <code>btManifoldPoint</code> (not
  zero)</dd>
 <dt>Returns:</dt>
-<dd>the impulse calculated during the previous timestep, or zero if
- the WarmStart bit is cleared in the solver mode</dd>
+<dd>the impulse calculated during the previous simulation step, or
+ zero if the WarmStart bit is cleared in the solver mode</dd>
 </dl>
 </section>
 </li>
@@ -722,7 +722,7 @@ loadScripts(document, 'script');</script>
 <dd><code>manifoldPointId</code> - the native ID of the <code>btManifoldPoint</code> (not
  zero)</dd>
 <dt>Returns:</dt>
-<dd>the duration (in timesteps, &ge;0)</dd>
+<dd>the duration (in simulation steps, &ge;0)</dd>
 </dl>
 </section>
 </li>
