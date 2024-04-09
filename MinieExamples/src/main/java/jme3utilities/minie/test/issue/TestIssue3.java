@@ -71,7 +71,7 @@ final public class TestIssue3 extends SimpleApplication
     // fields
 
     /**
-     * count of physics timesteps simulated
+     * count simulation steps
      */
     private static int tickCount = 0;
     /**

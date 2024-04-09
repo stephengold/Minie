@@ -79,7 +79,7 @@ final public class TestIssue18Gimpact
      */
     private static float maxElevation = 0.05f;
     /**
-     * count of physics timesteps simulated
+     * count simulation steps
      */
     private static int tickCount = 0;
     // *************************************************************************

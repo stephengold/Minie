@@ -79,7 +79,7 @@ final public class TestIssue40 extends SimpleApplication
     // fields
 
     /**
-     * count physics simulation steps
+     * count simulation steps
      */
     private static int tickCount = 0;
     /**

@@ -74,7 +74,7 @@ final public class TestIssue18Heightfield
      */
     private static float maxElevation = 0.05f;
     /**
-     * count of physics timesteps simulated
+     * count simulation steps
      */
     private static int tickCount = 0;
     // *************************************************************************
