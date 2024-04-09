@@ -531,7 +531,7 @@ public class BuoyDemo extends PhysicsDemo {
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        physicsSpace.setAccuracy(0.01f); // 10-msec timestep
+        physicsSpace.setAccuracy(0.01f); // 10-msec time step
         physicsSpace.getSolverInfo().setNumIterations(15);
     }
 

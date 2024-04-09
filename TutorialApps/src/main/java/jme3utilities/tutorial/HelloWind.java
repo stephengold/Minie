@@ -134,7 +134,7 @@ public class HelloWind
         bulletAppState.setWindVelocityFilter(new FilterAll(true));
         PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
-        physicsSpace.setAccuracy(0.01f); // 10-msec timestep
+        physicsSpace.setAccuracy(0.01f); // 10-msec time step
 
         Vector3f gravityVector = new Vector3f(0f, -1f, 0f);
         physicsSpace.setGravity(gravityVector);

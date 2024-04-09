@@ -844,7 +844,7 @@ public class TestSoftBody
         stateManager.attach(bulletAppState);
 
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
-        physicsSpace.setAccuracy(0.01f); // 10-msec timestep
+        physicsSpace.setAccuracy(0.01f); // 10-msec time step
         setGravityAll(1f);
     }
 

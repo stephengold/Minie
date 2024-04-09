@@ -60,7 +60,7 @@ final class JointElasticityStatus extends SimpleAppState {
      */
     final private static float[] ratioValues = {1f, 10f, 100f, 1000f};
     /**
-     * list of physics timesteps, in ascending order
+     * list of physics time steps, in ascending order
      */
     final private static float[] timestepValues
             = {0.002f, 0.003f, 0.005f, 0.01f, 1f / 60, 0.04f};
@@ -82,7 +82,7 @@ final class JointElasticityStatus extends SimpleAppState {
      */
     final private static int ratioStatusLine = 2;
     /**
-     * index of the status line for physics timestep
+     * index of the status line for the physics time step
      */
     final private static int timestepStatusLine = 3;
     /**
@@ -111,7 +111,7 @@ final class JointElasticityStatus extends SimpleAppState {
      */
     private float massRatio = 1f;
     /**
-     * physics timestep (in seconds)
+     * physics time step (in seconds)
      */
     private float timestep = 1f / 60;
     /**
@@ -328,7 +328,7 @@ final class JointElasticityStatus extends SimpleAppState {
     }
 
     /**
-     * Advance the timestep selection by the specified amount.
+     * Advance the time-step selection by the specified amount.
      *
      * @param amount the number of values to advance (may be negative)
      */

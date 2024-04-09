@@ -83,7 +83,7 @@ final public class HelloConsole {
         physicsSpace.addCollisionObject(statBall);
         statBall.setPhysicsLocation(new Vector3f(0.1f, 0f, 0f));
 
-        // 50 iterations with a 20-msec timestep
+        // 50 iterations with a 20-msec time step
         float timeStep = 0.02f;
         for (int iteration = 0; iteration < 50; ++iteration) {
             physicsSpace.update(timeStep, 0);

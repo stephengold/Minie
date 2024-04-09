@@ -513,7 +513,7 @@ public class TrackDemo extends PhysicsDemo {
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        physicsSpace.setAccuracy(1f / 30); // 33.33-msec timestep
+        physicsSpace.setAccuracy(1f / 30); // 33.33-msec time step
         physicsSpace.getSolverInfo().setNumIterations(15);
     }
 

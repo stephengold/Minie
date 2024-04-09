@@ -646,7 +646,7 @@ public class SeJointDemo extends PhysicsDemo {
         stateManager.attach(bulletAppState);
 
         PhysicsSpace physicsSpace = getPhysicsSpace();
-        physicsSpace.setAccuracy(0.1f); // 100-msec timestep
+        physicsSpace.setAccuracy(0.1f); // 100-msec time step
     }
 
     /**
