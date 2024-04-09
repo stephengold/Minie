@@ -1101,8 +1101,8 @@ abstract public class PhysicsCollisionObject
      * Alter the amount of motion required to trigger continuous collision
      * detection (CCD) (native field: m_ccdMotionThreshold).
      * <p>
-     * CCD addresses the issue of fast objects passing through other objects
-     * with no collision detected.
+     * CCD addresses the issue of fast-moving bodies passing through other
+     * bodies without creating any contacts.
      * <p>
      * CCD doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
