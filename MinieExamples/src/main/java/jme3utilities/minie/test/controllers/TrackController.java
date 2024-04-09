@@ -89,7 +89,7 @@ public class TrackController extends IKController {
      */
     private Vector3f pivotInLinkBody;
     /**
-     * error from the previous timestep
+     * error from the previous simulation step
      */
     private Vector3f previousError = new Vector3f();
     // *************************************************************************

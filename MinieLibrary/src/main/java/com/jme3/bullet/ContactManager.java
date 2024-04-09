@@ -116,8 +116,9 @@ public interface ContactManager extends ContactListener {
      * the thread that created the space.
      *
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
-     * @param maxSteps the maximum number of steps of size {@code accuracy}
-     * (&ge;1) or 0 for a single step of size {@code timeInterval}
+     * @param maxSteps the maximum number of simulation steps of size
+     * {@code accuracy} (&ge;1) or 0 for a single simulation step of size
+     * {@code timeInterval}
      */
     void update(float timeInterval, int maxSteps);
 }

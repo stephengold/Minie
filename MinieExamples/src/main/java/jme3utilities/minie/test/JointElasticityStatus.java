@@ -115,7 +115,7 @@ final class JointElasticityStatus extends SimpleAppState {
      */
     private float timestep = 1f / 60;
     /**
-     * maximum number of solver iterations per physics timestep
+     * maximum number of solver iterations per simulation step
      */
     private int numIterations = 10;
     /**

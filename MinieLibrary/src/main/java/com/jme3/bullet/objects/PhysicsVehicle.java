@@ -342,8 +342,8 @@ public class PhysicsVehicle extends PhysicsRigidBody {
     }
 
     /**
-     * Determine this vehicle's forward velocity as of the previous time step.
-     * The vehicle must be added to a PhysicsSpace.
+     * Determine this vehicle's forward velocity as of the previous simulation
+     * step. The vehicle must be added to a PhysicsSpace.
      *
      * Note that the units are kilometers per hour ONLY if the physics-space
      * unit is exactly one meter.

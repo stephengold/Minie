@@ -341,7 +341,7 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     /**
      * Return the contact point's lifetime (native name: m_lifeTime).
      *
-     * @return the duration (in timesteps, &ge;0)
+     * @return the duration (in simulation steps, &ge;0)
      */
     public int getLifeTime() {
         long nativeId = nativeId();

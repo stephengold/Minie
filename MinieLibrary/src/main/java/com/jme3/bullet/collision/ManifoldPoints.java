@@ -74,8 +74,8 @@ final public class ManifoldPoints {
      *
      * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
      * zero)
-     * @return the impulse calculated during the previous timestep, or zero if
-     * the WarmStart bit is cleared in the solver mode
+     * @return the impulse calculated during the previous simulation step, or
+     * zero if the WarmStart bit is cleared in the solver mode
      */
     native public static float getAppliedImpulse(long manifoldPointId);
 
@@ -252,7 +252,7 @@ final public class ManifoldPoints {
      *
      * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
      * zero)
-     * @return the duration (in timesteps, &ge;0)
+     * @return the duration (in simulation steps, &ge;0)
      */
     native public static int getLifeTime(long manifoldPointId);
 

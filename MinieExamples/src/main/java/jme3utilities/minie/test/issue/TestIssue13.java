@@ -206,7 +206,7 @@ final public class TestIssue13 extends SimpleApplication {
         vehicle.setPhysicsLocation(startLocation);
         physicsSpace.addCollisionObject(vehicle);
 
-        // Simulate a single timestep.
+        // Simulate a single step.
         vehicle.accelerate(2, 415.71f);
         vehicle.accelerate(3, 415.71f);
         physicsSpace.update(1f / 60, 0);

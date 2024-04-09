@@ -129,8 +129,8 @@ public class PhysicsSpace
      */
     private float maxTimeStep = 0.1f;
     /**
-     * maximum number of time steps per frame, or 0 for a variable time step
-     * (&ge;0)
+     * maximum number of simulation steps per frame (&gt;0) or 0 for a variable
+     * time step
      */
     private int maxSubSteps = 4;
     /**
@@ -703,7 +703,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Read the maximum number of time steps per frame.
+     * Read the maximum number of simulation steps per frame.
      *
      * @return number of steps (&gt;0) or 0 for a variable time step
      */

@@ -154,7 +154,7 @@ public class SoftBodyWorldInfo
     }
 
     /**
-     * Read the maximum distance a node can travel per time step.
+     * Read the maximum distance a node can travel per simulation step.
      *
      * @return the distance (in physics-space units)
      */
@@ -187,7 +187,7 @@ public class SoftBodyWorldInfo
     }
 
     /**
-     * Alter the maximum distance a node can travel per time step.
+     * Alter the maximum distance a node can travel per simulation step.
      *
      * @param maxDisplacement the desired value (&gt;0, default=1000)
      */

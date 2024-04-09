@@ -187,8 +187,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Apply a central force to the body. Effective on the next time step, then
-     * cleared.
+     * Apply a central force to the body. Effective on the next simulation step,
+     * then cleared.
      * <p>
      * To apply an impulse, use
      * {@link #applyCentralImpulse(com.jme3.math.Vector3f)}.
@@ -219,7 +219,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Apply a force to the body. Effective on the next time step, then cleared.
+     * Apply a force to the body. Effective on the next simulation step, then
+     * cleared.
      * <p>
      * To apply an impulse, use
      * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
@@ -256,7 +257,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Apply a torque to the body. Effective on the next time step, then
+     * Apply a torque to the body. Effective on the next simulation step, then
      * cleared.
      * <p>
      * To apply a torque impulse, use

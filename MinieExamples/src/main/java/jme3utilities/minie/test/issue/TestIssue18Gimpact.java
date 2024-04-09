@@ -135,7 +135,7 @@ final public class TestIssue18Gimpact
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Terminate the test after 200 time steps.
+        // Terminate the test after 200 simulation steps.
         if (tickCount > 200) {
             stop();
         }

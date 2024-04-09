@@ -231,9 +231,9 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * <li>If ERP=0 then no correcting force is applied and the bodies will
      * eventually drift apart as the simulation proceeds.
      * <li>If ERP=1 then the simulation will attempt to fix all joint error
-     * during the next time step. However, setting ERP=1 is not recommended, as
-     * the joint error will not be completely fixed due to various internal
-     * approximations.
+     * during the next simulation step. However, setting ERP=1 is not
+     * recommended, as the joint error will not be completely fixed due to
+     * various internal approximations.
      * </ul>
      * Values between 0.1 and 0.8 are recommended.
      *
@@ -336,9 +336,9 @@ public abstract class SoftPhysicsJoint extends PhysicsJoint {
      * <li>If ERP=0 then no correcting force is applied and the bodies will
      * eventually drift apart as the simulation proceeds.
      * <li>If ERP=1 then the simulation will attempt to fix all joint error
-     * during the next time step. However, setting ERP=1 is not recommended, as
-     * the joint error will not be completely fixed due to various internal
-     * approximations.
+     * during the next simulation step. However, setting ERP=1 is not
+     * recommended, as the joint error will not be completely fixed due to
+     * various internal approximations.
      * </ul>
      * Values between 0.1 and 0.8 are recommended.
      *

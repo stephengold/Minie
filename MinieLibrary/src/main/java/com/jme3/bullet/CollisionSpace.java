@@ -485,7 +485,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param pcoA the first collision object (not null)
      * @param pcoB the 2nd collision object (not null)
      * @return true to simulate collisions between pcoA and pcoB, false to
-     * ignore such collisions during this timestep
+     * ignore such collisions during this simulation step
      */
     public boolean needsCollision(
             PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
@@ -858,7 +858,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param pcoA the first collision object (not null)
      * @param pcoB the 2nd collision object (not null)
      * @return true to simulate collisions between pcoA and pcoB, false to
-     * ignore such collisions during this timestep
+     * ignore such collisions during this simulation step
      */
     private boolean notifyCollisionGroupListeners(
             PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
