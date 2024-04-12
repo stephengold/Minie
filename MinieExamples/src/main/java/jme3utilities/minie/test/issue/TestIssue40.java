@@ -181,7 +181,7 @@ final public class TestIssue40 extends SimpleApplication
     @Override
     public void onContactProcessed(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
-        if (tickCount > 50 && tickCount < 70) {
+        if (tickCount >= startTick && tickCount < stopTick) {
             System.out.println("  processed point " + manifoldPointId);
             System.out.flush();
         }
