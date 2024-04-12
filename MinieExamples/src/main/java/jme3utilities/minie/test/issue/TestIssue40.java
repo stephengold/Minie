@@ -31,6 +31,7 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.PhysicsTickListener;
 import com.jme3.bullet.collision.ContactListener;
+import com.jme3.bullet.collision.PersistentManifolds;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
@@ -214,9 +215,18 @@ final public class TestIssue40 extends SimpleApplication
         if (tickCount >= startTick && tickCount < stopTick) {
             Vector3f location = ballBody.getPhysicsLocation(null);
             Vector3f velocity = ballBody.getLinearVelocity(null);
-            int numManifolds = space.countManifolds();
-            System.out.println("tick " + tickCount + "  y=" + location.y
-                    + "  vy=" + velocity.y + " numManifolds=" + numManifolds);
+            long[] manifoldIds = space.listManifoldIds();
+            System.out.print("tick " + tickCount + "  y=" + location.y
+                    + "  vy=" + velocity.y + "  manifolds={");
+            for (int i = 0; i < manifoldIds.length; ++i) {
+                if (i > 0) {
+                    System.out.print(',');
+                }
+                long id = manifoldIds[i];
+                int numPoints = PersistentManifolds.countPoints(id);
+                System.out.printf("%x<%d>", id, numPoints);
+            }
+            System.out.println("}");
             System.out.flush();
         }
     }
