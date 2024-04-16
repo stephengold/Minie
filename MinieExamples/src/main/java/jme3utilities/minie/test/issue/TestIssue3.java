@@ -71,11 +71,11 @@ final public class TestIssue3 extends SimpleApplication
     // fields
 
     /**
-     * count simulation steps
+     * count simulation steps (first=1)
      */
     private static int tickCount = 0;
     /**
-     * jumping character to be tested
+     * jumping character that's being tested
      */
     private static PhysicsCharacter character;
     /**

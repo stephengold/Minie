@@ -80,7 +80,7 @@ final public class TestIssue40 extends SimpleApplication
     // fields
 
     /**
-     * count simulation steps
+     * count simulation steps (first=0)
      */
     private static int tickCount = 0;
     /**

@@ -67,7 +67,7 @@ final public class TestIssue18Mesh
     // fields
 
     /**
-     * control under test
+     * control that's being tested
      */
     private static BetterCharacterControl bcc;
     /**
@@ -79,7 +79,7 @@ final public class TestIssue18Mesh
      */
     private static float maxElevation = 0.05f;
     /**
-     * count simulation steps
+     * count simulation steps (first=1)
      */
     private static int tickCount = 0;
     // *************************************************************************
