@@ -68,7 +68,7 @@ final public class TestIssue40 extends SimpleApplication
      */
     final private static int startTick = 51;
     /**
-     * simulation step to stop printing debug info
+     * simulation step to terminate the application
      */
     final private static int stopTick = 70;
     /**
@@ -164,7 +164,7 @@ final public class TestIssue40 extends SimpleApplication
      */
     @Override
     public void onContactEnded(long manifoldId) {
-        if (tickCount >= startTick && tickCount < stopTick) {
+        if (tickCount >= startTick) {
             System.out.println("  removed manifold " + manifoldId);
             System.out.flush();
         }
@@ -182,7 +182,7 @@ final public class TestIssue40 extends SimpleApplication
     @Override
     public void onContactProcessed(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
-        if (tickCount >= startTick && tickCount < stopTick) {
+        if (tickCount >= startTick) {
             System.out.println("  processed point " + manifoldPointId);
             System.out.flush();
         }
@@ -196,7 +196,7 @@ final public class TestIssue40 extends SimpleApplication
      */
     @Override
     public void onContactStarted(long manifoldId) {
-        if (tickCount >= startTick && tickCount < stopTick) {
+        if (tickCount >= startTick) {
             System.out.println("  created manifold " + manifoldId);
             System.out.flush();
         }
@@ -212,7 +212,7 @@ final public class TestIssue40 extends SimpleApplication
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        if (tickCount >= startTick && tickCount < stopTick) {
+        if (tickCount >= startTick) {
             Vector3f location = ballBody.getPhysicsLocation(null);
             Vector3f velocity = ballBody.getLinearVelocity(null);
             long[] manifoldIds = space.listManifoldIds();
@@ -240,5 +240,8 @@ final public class TestIssue40 extends SimpleApplication
     @Override
     public void physicsTick(PhysicsSpace space, float timeStep) {
         ++tickCount;
+        if (tickCount >= stopTick) {
+            stop(true);
+        }
     }
 }
