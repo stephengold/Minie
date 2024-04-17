@@ -191,6 +191,18 @@ public class DropTest
     }
 
     /**
+     * Count the number of persistent manifolds.
+     *
+     * @return the count (&ge;0)
+     */
+    int countManifolds() {
+        PhysicsSpace physicsSpace = getPhysicsSpace();
+        int result = physicsSpace.countManifolds();
+
+        return result;
+    }
+
+    /**
      * Main entry point for the DropTest application.
      *
      * @param arguments array of command-line arguments (not null)

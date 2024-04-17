@@ -549,10 +549,12 @@ class DropTestStatus extends SimpleAppState {
 
         int numDrops = DropTest.countDrops();
         int numActiveBodies = appInstance.countActive();
+        int numManifolds = appInstance.countManifolds();
         int numCachedMeshes = DebugShapeFactory.countCachedMeshes();
         boolean isPaused = appInstance.isPaused();
-        message = String.format(" drops=%d  activeBodies=%d  cachedMeshes=%d%s",
-                numDrops, numActiveBodies, numCachedMeshes,
+        message = String.format(
+                " drops=%d  activeBodies=%d  manifolds=%d  cachedMeshes=%d%s",
+                numDrops, numActiveBodies, numManifolds, numCachedMeshes,
                 isPaused ? "  PAUSED" : "");
         statusLines[1].setText(message);
     }
