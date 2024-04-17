@@ -83,7 +83,7 @@ import jme3utilities.debug.Describer;
 import jme3utilities.math.MyVector3f;
 
 /**
- * Generate compact textual descriptions of Minie data structures for debugging
+ * Generate compact textual descriptions of Minie data objects for debugging
  * purposes.
  *
  * @author Stephen Gold sgold@sonic.net

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 jMonkeyEngine
+ * Copyright (c) 2018-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * An empty collision shape based on Bullet's {@code btEmptyShape.}
+ * An empty collision shape based on Bullet's {@code btEmptyShape}.
  *
  * @author Stephen Gold sgold@sonic.net
  */
