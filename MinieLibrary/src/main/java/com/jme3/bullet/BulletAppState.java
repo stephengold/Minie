@@ -710,8 +710,8 @@ public class BulletAppState
      * @param type the broadphase collision-detection algorithm (not null)
      * @return a new instance (not null)
      */
-    protected PhysicsSpace createPhysicsSpace(Vector3f min, Vector3f max,
-            BroadphaseType type) {
+    protected PhysicsSpace createPhysicsSpace(
+            Vector3f min, Vector3f max, BroadphaseType type) {
         PhysicsSpace result;
         if (solverType == SolverType.SI) {
             result = new PhysicsSpace(min, max, type, numSolvers);
