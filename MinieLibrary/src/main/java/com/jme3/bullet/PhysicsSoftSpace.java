@@ -99,7 +99,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
 
         long spaceId = super.nativeId();
         long worldInfoId = getWorldInfo(spaceId);
-        worldInfo = new SoftBodyWorldInfo(worldInfoId);
+        this.worldInfo = new SoftBodyWorldInfo(worldInfoId);
         /*
          * Make sure the same gravity is applied to both hard bodies
          * and soft ones.

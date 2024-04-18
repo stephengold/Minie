@@ -887,7 +887,7 @@ public class PhysicsSpace
      */
     public void setMaxSubSteps(int steps) {
         Validate.nonNegative(steps, "steps");
-        maxSubSteps = steps;
+        this.maxSubSteps = steps;
     }
 
     /**
@@ -1018,7 +1018,7 @@ public class PhysicsSpace
     protected void initSolverInfo() {
         long spaceId = nativeId();
         long solverInfoId = getSolverInfo(spaceId);
-        solverInfo = new SolverInfo(solverInfoId);
+        this.solverInfo = new SolverInfo(solverInfoId);
     }
 
     /**
