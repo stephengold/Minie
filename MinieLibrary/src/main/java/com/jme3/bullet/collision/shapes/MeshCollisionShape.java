@@ -254,6 +254,15 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
+     * Access the bounding-value hierarchy.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    public BoundingValueHierarchy getBvh() {
+        return bvh;
+    }
+
+    /**
      * Access the specified submesh.
      *
      * @param index the index of the desired submesh (in the order the submeshes
