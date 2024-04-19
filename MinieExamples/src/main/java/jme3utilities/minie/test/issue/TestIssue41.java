@@ -88,8 +88,8 @@ final public class TestIssue41 extends SimpleApplication {
         assetManager.registerLocator(".", FileLocator.class);
         Spatial geomPhy = assetManager.loadModel("pc-screen.gltf");
 
-        CollisionShape meshShape;
-        meshShape = CollisionShapeFactory.createMeshShape(geomPhy);
+        CollisionShape meshShape 
+                = CollisionShapeFactory.createMeshShape(geomPhy);
         ChildCollisionShape[] children
                 = ((CompoundCollisionShape) meshShape).listChildren();
         BoundingValueHierarchy bvh
