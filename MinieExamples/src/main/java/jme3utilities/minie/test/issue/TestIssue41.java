@@ -40,9 +40,6 @@ import java.util.logging.Logger;
 /**
  * Test for Minie issue #41 (JVM crash while serializing BVH on Windows).
  * <p>
- * Before running this test, the "pc-screen.gltf" file must be downloaded from
- * Google Drive and extracted to the MinieExamples runtime folder.
- * <p>
  * If successful, the test will print "successful" and complete normally. If
  * unsuccessful, it will crash the Java Virtual Machine.
  * <p>
