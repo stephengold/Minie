@@ -232,7 +232,11 @@ public class PhysicsDescriber extends Describer {
             int numS = meshShape.countSubmeshes();
             int numT = meshShape.countMeshTriangles();
             int numV = meshShape.countMeshVertices();
-            desc = String.format("[numS=%s numT=%d numV=%d]", numS, numT, numV);
+            boolean compressed = meshShape.getBvh().isCompressed();
+            String un = compressed ? "" : "UN";
+            desc = String.format("[numS=%s numT=%d numV=%d %scompressed]",
+                    numS, numT, numV, un);
+
             result.append(desc);
 
         } else if (shape instanceof MinkowskiSum) {
