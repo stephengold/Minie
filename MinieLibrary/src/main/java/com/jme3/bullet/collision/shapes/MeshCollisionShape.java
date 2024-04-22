@@ -34,6 +34,7 @@ package com.jme3.bullet.collision.shapes;
 import com.jme3.bullet.collision.shapes.infos.BoundingValueHierarchy;
 import com.jme3.bullet.collision.shapes.infos.CompoundMesh;
 import com.jme3.bullet.collision.shapes.infos.IndexedMesh;
+import com.jme3.bullet.util.NativeLibrary;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -81,6 +82,7 @@ public class MeshCollisionShape extends CollisionShape {
      * field names for serialization
      */
     final private static String tagBvh = "bvh";
+    final private static String tagDoublePrecision = "doublePrecision";
     final private static String tagNativePlatform = "nativePlatform";
     final private static String tagNativeMesh = "nativeMesh";
     final private static String tagUseCompression = "useCompression";
@@ -365,10 +367,16 @@ public class MeshCollisionShape extends CollisionShape {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
 
+        boolean writeDoublePrecision
+                = capsule.readBoolean(tagDoublePrecision, false);
         Platform writePlatform
                 = capsule.readEnum(tagNativePlatform, Platform.class, null);
-        if (writePlatform == null || writePlatform != JmeSystem.getPlatform()) {
-            this.bvh = null; // will re-generate the BVH for the new platform
+        if (writeDoublePrecision != NativeLibrary.isDoublePrecision()
+                || writePlatform == null
+                || writePlatform != JmeSystem.getPlatform()) {
+            this.bvh = null;
+            // will re-generate the BVH for the new precision and/or platform
+
         } else {
             this.bvh = (BoundingValueHierarchy) capsule.readSavable(
                     tagBvh, null);
@@ -423,6 +431,9 @@ public class MeshCollisionShape extends CollisionShape {
         OutputCapsule capsule = exporter.getCapsule(this);
 
         capsule.write(bvh, tagBvh, null);
+
+        boolean doublePrecision = NativeLibrary.isDoublePrecision();
+        capsule.write(doublePrecision, tagDoublePrecision, false);
 
         Platform nativePlatform = JmeSystem.getPlatform();
         capsule.write(nativePlatform, tagNativePlatform, null);
