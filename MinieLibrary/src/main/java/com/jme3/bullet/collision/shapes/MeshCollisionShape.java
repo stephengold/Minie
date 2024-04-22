@@ -476,6 +476,8 @@ public class MeshCollisionShape extends CollisionShape {
             setOptimizedBvh(shapeId, bvhId, scale);
         }
         assert hasBvh(shapeId);
+        assert bvh.isCompressed() == useCompression :
+                bvh.isCompressed() + " != " + useCompression;
     }
     // *************************************************************************
     // native private methods
