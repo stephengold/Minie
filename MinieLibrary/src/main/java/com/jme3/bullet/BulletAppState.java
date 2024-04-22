@@ -120,6 +120,12 @@ public class BulletAppState
         }
     };
     /**
+     * collision configuration that will be used to instantiate the PhysicsSpace
+     * (not null)
+     */
+    private CollisionConfiguration collisionConfiguration
+            = new CollisionConfiguration();
+    /**
      * configuration for debug visualization
      */
     final private DebugConfiguration debugConfig = new DebugConfiguration();
@@ -273,6 +279,17 @@ public class BulletAppState
     }
 
     /**
+     * Return the collision configuration that will be used to instantiate the
+     * PhysicsSpace.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    public CollisionConfiguration getCollisionConfiguration() {
+        assert collisionConfiguration != null;
+        return collisionConfiguration;
+    }
+
+    /**
      * Access the Camera used for debug visualization.
      *
      * @return the pre-existing instance, or null if unknown
@@ -354,6 +371,20 @@ public class BulletAppState
         assert !isRunning;
 
         this.broadphaseType = broadphaseType;
+    }
+
+    /**
+     * Replace the collision configuration that will be used to instantiate the
+     * PhysicsSpace. Not allowed after attaching the app state.
+     *
+     * @param configuration the desired configuration (not null)
+     */
+    public void setCollisionConfiguration(
+            CollisionConfiguration configuration) {
+        Validate.nonNull(configuration, "configuration");
+        assert !isRunning;
+
+        this.collisionConfiguration = configuration;
     }
 
     /**
@@ -714,9 +745,11 @@ public class BulletAppState
             Vector3f min, Vector3f max, BroadphaseType type) {
         PhysicsSpace result;
         if (solverType == SolverType.SI) {
-            result = new PhysicsSpace(min, max, type, numSolvers);
+            result = new PhysicsSpace(
+                    min, max, type, numSolvers, collisionConfiguration);
         } else if (numSolvers == 1) {
-            result = new PhysicsSpace(min, max, type, solverType);
+            result = new PhysicsSpace(
+                    min, max, type, solverType, collisionConfiguration);
         } else {
             String message
                     = String.format("num=%d, type=%s", numSolvers, solverType);
