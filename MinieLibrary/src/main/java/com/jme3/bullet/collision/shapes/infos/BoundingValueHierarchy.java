@@ -140,7 +140,6 @@ public class BoundingValueHierarchy
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         BoundingValueHierarchy originalBvh = (BoundingValueHierarchy) original;
-
         byte[] bytes = originalBvh.serialize();
         long bvhId = deSerialize(bytes);
         reassignNativeId(bvhId);

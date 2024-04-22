@@ -439,6 +439,7 @@ public class MeshCollisionShape extends CollisionShape {
     private void createShape() {
         int numTriangles = nativeMesh.countTriangles();
         assert numTriangles > 0 : numTriangles;
+
         if (useCompression) {
             int numSubmeshes = nativeMesh.countSubmeshes();
             if (numSubmeshes > maxSubmeshes) {
