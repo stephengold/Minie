@@ -26,6 +26,7 @@
  */
 package jme3utilities.minie;
 
+import com.jme3.bullet.CollisionConfiguration;
 import com.jme3.bullet.MultiBody;
 import com.jme3.bullet.SoftBodyWorldInfo;
 import com.jme3.bullet.animation.PhysicsLink;
@@ -110,6 +111,34 @@ public class PhysicsDescriber extends Describer {
     }
     // *************************************************************************
     // new methods exposed
+
+    /**
+     * Generate a textual description for a CollisionConfiguration.
+     *
+     * @param configuration the configuration to describe (not null, unaffected)
+     * @return description (not null)
+     */
+    public String describe(CollisionConfiguration configuration) {
+        Validate.nonNull(configuration, "configuration");
+
+        int pdsValue = configuration.penetrationDepthSolver();
+        String pds;
+        switch (pdsValue) {
+            case 0:
+                pds = "minkowski";
+                break;
+            case 1:
+                pds = "epa";
+                break;
+            default:
+                pds = Integer.toString(pdsValue);
+        }
+
+        int maxM = configuration.maxManifolds();
+        String result = String.format("%s maxM=%d", pds, maxM);
+
+        return result;
+    }
 
     /**
      * Generate a textual description for a CollisionShape.
