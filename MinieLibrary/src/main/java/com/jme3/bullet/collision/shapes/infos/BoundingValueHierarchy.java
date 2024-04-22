@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 jMonkeyEngine
+ * Copyright (c) 2020-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,6 +103,17 @@ public class BoundingValueHierarchy
     // new methods exposed
 
     /**
+     * Test whether the hierarchy uses quantized AABB compression.
+     *
+     * @return true if compressed, otherwise false
+     */
+    public boolean isCompressed() {
+        long bvhId = nativeId();
+        boolean result = isCompressed(bvhId);
+        return result;
+    }
+
+    /**
      * Serialize this hierarchy to a byte array.
      *
      * @return a new array containing serialized bytes (not null)
@@ -202,6 +213,8 @@ public class BoundingValueHierarchy
     native private static void finalizeNative(long bvhId);
 
     native private static long getOptimizedBvh(long shapeId);
+
+    native private static boolean isCompressed(long bvhId);
 
     native private static byte[] serialize(long bvhId);
 }
