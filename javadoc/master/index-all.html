@@ -1942,6 +1942,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">collideWithGroups bitmask that represents "no groups"</div>
 </dd>
+<dt><a href="com/jme3/bullet/CollisionConfiguration.html" class="type-name-link" title="class in com.jme3.bullet">CollisionConfiguration</a> - Class in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
+<dd>
+<div class="block">Tuning parameters for a CollisionSpace, based on Bullet's
+ btDefaultCollisionConstructionInfo.</div>
+</dd>
+<dt><a href="com/jme3/bullet/CollisionConfiguration.html#%3Cinit%3E()" class="member-name-link">CollisionConfiguration()</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a></dt>
+<dd>
+<div class="block">Instantiate an instance with the default parameter values.</div>
+</dd>
+<dt><a href="com/jme3/bullet/CollisionConfiguration.html#%3Cinit%3E(int,int)" class="member-name-link">CollisionConfiguration(int, int)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a></dt>
+<dd>
+<div class="block">Instantiate an instance with the specified parameter values.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/CollisionFlag.html" class="type-name-link" title="class in com.jme3.bullet.collision">CollisionFlag</a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
 <dd>
 <div class="block">Named collision flags for a PhysicsCollisionObject.</div>
@@ -1981,6 +1994,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a CollisionSpace.</div>
 </dd>
 <dt><a href="com/jme3/bullet/CollisionSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,int)" class="member-name-link">CollisionSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, int)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Used internally.</div>
+</dd>
+<dt><a href="com/jme3/bullet/CollisionSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,int,com.jme3.bullet.CollisionConfiguration)" class="member-name-link">CollisionSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, int, CollisionConfiguration)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
 <dd>
 <div class="block">Used internally.</div>
 </dd>
@@ -4202,6 +4219,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Return the combined spinning friction of the specified point (native
  field: m_combinedSpinningFriction).</div>
+</dd>
+<dt><a href="com/jme3/bullet/CollisionSpace.html#getConfiguration()" class="member-name-link">getConfiguration()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></dt>
+<dd>
+<div class="block">Access the tuning parameters.</div>
 </dd>
 <dt><a href="com/jme3/bullet/joints/Constraint.html#getConstraintType(long)" class="member-name-link">getConstraintType(long)</a> - Static method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/Constraint.html" title="class in com.jme3.bullet.joints">Constraint</a></dt>
 <dd>
@@ -7196,6 +7217,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
+<dt><a href="com/jme3/bullet/CollisionConfiguration.html#logger" class="member-name-link">logger</a> - Static variable in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/AbstractPhysicsControl.html#logger" class="member-name-link">logger</a> - Static variable in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
@@ -7775,6 +7800,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#maxDistance(com.jme3.math.Transform)" class="member-name-link">maxDistance(Transform)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
 <dd>
 <div class="block">Calculate how far the mesh extends from some origin.</div>
+</dd>
+<dt><a href="com/jme3/bullet/CollisionConfiguration.html#maxManifolds()" class="member-name-link">maxManifolds()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a></dt>
+<dd>
+<div class="block">Return the size of the persistent-manifold pool.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#maxMin(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">maxMin(Vector3f, Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
 <dd>
@@ -8438,6 +8467,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Named constants for types of PhysicsCollisionObject.</div>
 </dd>
+<dt><a href="com/jme3/bullet/CollisionConfiguration.html#penetrationDepthSolver()" class="member-name-link">penetrationDepthSolver()</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a></dt>
+<dd>
+<div class="block">Return which penetration-depth solver is used.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/PersistentManifolds.html" class="type-name-link" title="class in com.jme3.bullet.collision">PersistentManifolds</a> - Class in <a href="com/jme3/bullet/collision/package-summary.html">com.jme3.bullet.collision</a></dt>
 <dd>
 <div class="block">Utility class to access fields of Bullet's <code>btPersistentManifold</code>
@@ -8599,6 +8632,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Instantiate a PhysicsSoftSpace with a sequential-impulse solver.</div>
 </dd>
+<dt><a href="com/jme3/bullet/PhysicsSoftSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.CollisionConfiguration)" class="member-name-link">PhysicsSoftSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, CollisionConfiguration)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSoftSpace.html" title="class in com.jme3.bullet">PhysicsSoftSpace</a></dt>
+<dd>
+<div class="block">Instantiate a PhysicsSoftSpace with a sequential-impulse solver.</div>
+</dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html" class="type-name-link" title="class in com.jme3.bullet">PhysicsSpace</a> - Class in <a href="com/jme3/bullet/package-summary.html">com.jme3.bullet</a></dt>
 <dd>
 <div class="block">A CollisionSpace to simulate dynamic physics, with its own
@@ -8622,7 +8659,17 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a PhysicsSpace with the specified number of
  sequential-impulse solvers.</div>
 </dd>
+<dt><a href="com/jme3/bullet/PhysicsSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,int,com.jme3.bullet.CollisionConfiguration)" class="member-name-link">PhysicsSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, int, CollisionConfiguration)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Instantiate a PhysicsSpace with the specified number of
+ sequential-impulse solvers.</div>
+</dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType)" class="member-name-link">PhysicsSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, SolverType)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Instantiate a PhysicsSpace with the specified contact-and-constraint
+ solver.</div>
+</dd>
+<dt><a href="com/jme3/bullet/PhysicsSpace.html#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType,com.jme3.bullet.CollisionConfiguration)" class="member-name-link">PhysicsSpace(Vector3f, Vector3f, PhysicsSpace.BroadphaseType, SolverType, CollisionConfiguration)</a> - Constructor for class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
 <div class="block">Instantiate a PhysicsSpace with the specified contact-and-constraint
  solver.</div>
@@ -11682,6 +11729,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html#setScale(com.jme3.math.Vector3f)" class="member-name-link">setScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/CompoundMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">CompoundMesh</a></dt>
 <dd>
 <div class="block">Alter the scale factors.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html#setScale(com.jme3.math.Vector3f)" class="member-name-link">setScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a></dt>
+<dd>
+<div class="block">Alter the scale of this shape.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html#setScaledInertia(float,float,float)" class="member-name-link">setScaledInertia(float, float, float)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CustomConvexShape.html" title="class in com.jme3.bullet.collision.shapes">CustomConvexShape</a></dt>
 <dd>

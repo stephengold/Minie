@@ -187,10 +187,28 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="block">Instantiate a PhysicsSpace with the specified number of
  sequential-impulse solvers.</div>
 </div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType)" class="member-name-link">PhysicsSpace</a><wbr>(com.jme3.math.Vector3f&nbsp;worldMin,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,int,com.jme3.bullet.CollisionConfiguration)" class="member-name-link">PhysicsSpace</a><wbr>(com.jme3.math.Vector3f&nbsp;worldMin,
+ com.jme3.math.Vector3f&nbsp;worldMax,
+ <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
+ int&nbsp;numSolvers,
+ <a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a>&nbsp;configuration)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Instantiate a PhysicsSpace with the specified number of
+ sequential-impulse solvers.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType)" class="member-name-link">PhysicsSpace</a><wbr>(com.jme3.math.Vector3f&nbsp;worldMin,
  com.jme3.math.Vector3f&nbsp;worldMax,
  <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
  <a href="SolverType.html" title="enum class in com.jme3.bullet">SolverType</a>&nbsp;solverType)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Instantiate a PhysicsSpace with the specified contact-and-constraint
+ solver.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType,com.jme3.bullet.CollisionConfiguration)" class="member-name-link">PhysicsSpace</a><wbr>(com.jme3.math.Vector3f&nbsp;worldMin,
+ com.jme3.math.Vector3f&nbsp;worldMax,
+ <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
+ <a href="SolverType.html" title="enum class in com.jme3.bullet">SolverType</a>&nbsp;solverType,
+ <a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a>&nbsp;cc)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Instantiate a PhysicsSpace with the specified contact-and-constraint
  solver.</div>
@@ -569,7 +587,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.jme3.bullet.CollisionSpace">Methods inherited from class&nbsp;com.jme3.bullet.<a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></h3>
-<code><a href="CollisionSpace.html#addCollisionGroupListener(com.jme3.bullet.collision.PhysicsCollisionGroupListener,int)">addCollisionGroupListener</a>, <a href="CollisionSpace.html#contactTest(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionListener)">contactTest</a>, <a href="CollisionSpace.html#countCollisionGroupListeners()">countCollisionGroupListeners</a>, <a href="CollisionSpace.html#countCollisionObjects()">countCollisionObjects</a>, <a href="CollisionSpace.html#countSolvers()">countSolvers</a>, <a href="CollisionSpace.html#getBroadphaseType()">getBroadphaseType</a>, <a href="CollisionSpace.html#getCollisionSpace()">getCollisionSpace</a>, <a href="CollisionSpace.html#getGhostObjectList()">getGhostObjectList</a>, <a href="CollisionSpace.html#getRayTestFlags()">getRayTestFlags</a>, <a href="CollisionSpace.html#getWorldMax(com.jme3.math.Vector3f)">getWorldMax</a>, <a href="CollisionSpace.html#getWorldMin(com.jme3.math.Vector3f)">getWorldMin</a>, <a href="CollisionSpace.html#hasClosest(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasClosest</a>, <a href="CollisionSpace.html#hasContact(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasContact</a>, <a href="CollisionSpace.html#initThread(long)">initThread</a>, <a href="CollisionSpace.html#isForceUpdateAllAabbs()">isForceUpdateAllAabbs</a>, <a href="CollisionSpace.html#isUsingDeterministicDispatch()">isUsingDeterministicDispatch</a>, <a href="CollisionSpace.html#jniEnvId()">jniEnvId</a>, <a href="CollisionSpace.html#needsCollision(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)">needsCollision</a>, <a href="CollisionSpace.html#pairTest(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionListener)">pairTest</a>, <a href="CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTest</a>, <a href="CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTest</a>, <a href="CollisionSpace.html#rayTestDp(com.simsilica.mathd.Vec3d,com.simsilica.mathd.Vec3d,java.util.List)">rayTestDp</a>, <a href="CollisionSpace.html#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTestRaw</a>, <a href="CollisionSpace.html#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTestRaw</a>, <a href="CollisionSpace.html#removeCollisionGroupListener(int)">removeCollisionGroupListener</a>, <a href="CollisionSpace.html#setForceUpdateAllAabbs(boolean)">setForceUpdateAllAabbs</a>, <a href="CollisionSpace.html#setRayTestFlags(int)">setRayTestFlags</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)">sweepTest</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)">sweepTest</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)">sweepTest</a>, <a href="CollisionSpace.html#useDeterministicDispatch(boolean)">useDeterministicDispatch</a></code></div>
+<code><a href="CollisionSpace.html#addCollisionGroupListener(com.jme3.bullet.collision.PhysicsCollisionGroupListener,int)">addCollisionGroupListener</a>, <a href="CollisionSpace.html#contactTest(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionListener)">contactTest</a>, <a href="CollisionSpace.html#countCollisionGroupListeners()">countCollisionGroupListeners</a>, <a href="CollisionSpace.html#countCollisionObjects()">countCollisionObjects</a>, <a href="CollisionSpace.html#countSolvers()">countSolvers</a>, <a href="CollisionSpace.html#getBroadphaseType()">getBroadphaseType</a>, <a href="CollisionSpace.html#getCollisionSpace()">getCollisionSpace</a>, <a href="CollisionSpace.html#getConfiguration()">getConfiguration</a>, <a href="CollisionSpace.html#getGhostObjectList()">getGhostObjectList</a>, <a href="CollisionSpace.html#getRayTestFlags()">getRayTestFlags</a>, <a href="CollisionSpace.html#getWorldMax(com.jme3.math.Vector3f)">getWorldMax</a>, <a href="CollisionSpace.html#getWorldMin(com.jme3.math.Vector3f)">getWorldMin</a>, <a href="CollisionSpace.html#hasClosest(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasClosest</a>, <a href="CollisionSpace.html#hasContact(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.bullet.collision.shapes.CollisionShape)">hasContact</a>, <a href="CollisionSpace.html#initThread(long)">initThread</a>, <a href="CollisionSpace.html#isForceUpdateAllAabbs()">isForceUpdateAllAabbs</a>, <a href="CollisionSpace.html#isUsingDeterministicDispatch()">isUsingDeterministicDispatch</a>, <a href="CollisionSpace.html#jniEnvId()">jniEnvId</a>, <a href="CollisionSpace.html#needsCollision(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)">needsCollision</a>, <a href="CollisionSpace.html#pairTest(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionListener)">pairTest</a>, <a href="CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTest</a>, <a href="CollisionSpace.html#rayTest(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTest</a>, <a href="CollisionSpace.html#rayTestDp(com.simsilica.mathd.Vec3d,com.simsilica.mathd.Vec3d,java.util.List)">rayTestDp</a>, <a href="CollisionSpace.html#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f)">rayTestRaw</a>, <a href="CollisionSpace.html#rayTestRaw(com.jme3.math.Vector3f,com.jme3.math.Vector3f,java.util.List)">rayTestRaw</a>, <a href="CollisionSpace.html#removeCollisionGroupListener(int)">removeCollisionGroupListener</a>, <a href="CollisionSpace.html#setForceUpdateAllAabbs(boolean)">setForceUpdateAllAabbs</a>, <a href="CollisionSpace.html#setRayTestFlags(int)">setRayTestFlags</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)">sweepTest</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)">sweepTest</a>, <a href="CollisionSpace.html#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)">sweepTest</a>, <a href="CollisionSpace.html#useDeterministicDispatch(boolean)">useDeterministicDispatch</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.jme3.bullet.NativePhysicsObject">Methods inherited from class&nbsp;com.jme3.bullet.<a href="NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a></h3>
 <code><a href="NativePhysicsObject.html#compareTo(com.jme3.bullet.NativePhysicsObject)">compareTo</a>, <a href="NativePhysicsObject.html#countTrackers()">countTrackers</a>, <a href="NativePhysicsObject.html#dumpTrackers()">dumpTrackers</a>, <a href="NativePhysicsObject.html#equals(java.lang.Object)">equals</a>, <a href="NativePhysicsObject.html#freeUnusedObjects()">freeUnusedObjects</a>, <a href="NativePhysicsObject.html#hasAssignedNativeObject()">hasAssignedNativeObject</a>, <a href="NativePhysicsObject.html#hashCode()">hashCode</a>, <a href="NativePhysicsObject.html#nativeId()">nativeId</a>, <a href="NativePhysicsObject.html#reassignNativeId(long)">reassignNativeId</a>, <a href="NativePhysicsObject.html#setNativeId(long)">setNativeId</a>, <a href="NativePhysicsObject.html#setNativeIdNotTracked(long)">setNativeIdNotTracked</a>, <a href="NativePhysicsObject.html#toString()">toString</a>, <a href="NativePhysicsObject.html#unassignNativeObject()">unassignNativeObject</a></code></div>
@@ -724,6 +742,30 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 </section>
 </li>
 <li>
+<section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,int,com.jme3.bullet.CollisionConfiguration)">
+<h3>PhysicsSpace</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PhysicsSpace</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;worldMin,
+ com.jme3.math.Vector3f&nbsp;worldMax,
+ <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
+ int&nbsp;numSolvers,
+ <a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a>&nbsp;configuration)</span></div>
+<div class="block">Instantiate a PhysicsSpace with the specified number of
+ sequential-impulse solvers. Must be invoked on the designated physics
+ thread.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>worldMin</code> - the desired minimum coordinate values (not null,
+ unaffected, default=(-10k,-10k,-10k))</dd>
+<dd><code>worldMax</code> - the desired maximum coordinate values (not null,
+ unaffected, default=(10k,10k,10k))</dd>
+<dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
+<dd><code>numSolvers</code> - the desired number of solvers in the thread-safe pool
+ (&ge;1, &le;64, default=numThreads)</dd>
+<dd><code>configuration</code> - the desired configuration (not null)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType)">
 <h3>PhysicsSpace</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PhysicsSpace</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;worldMin,
@@ -740,6 +782,28 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  unaffected, default=(10k,10k,10k))</dd>
 <dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
 <dd><code>solverType</code> - the desired contact-and-constraint solver (not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(com.jme3.math.Vector3f,com.jme3.math.Vector3f,com.jme3.bullet.PhysicsSpace.BroadphaseType,com.jme3.bullet.SolverType,com.jme3.bullet.CollisionConfiguration)">
+<h3>PhysicsSpace</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PhysicsSpace</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;worldMin,
+ com.jme3.math.Vector3f&nbsp;worldMax,
+ <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
+ <a href="SolverType.html" title="enum class in com.jme3.bullet">SolverType</a>&nbsp;solverType,
+ <a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a>&nbsp;cc)</span></div>
+<div class="block">Instantiate a PhysicsSpace with the specified contact-and-constraint
+ solver. Must be invoked on the designated physics thread.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>worldMin</code> - the desired minimum coordinate values (not null,
+ unaffected, default=(-10k,-10k,-10k))</dd>
+<dd><code>worldMax</code> - the desired maximum coordinate values (not null,
+ unaffected, default=(10k,10k,10k))</dd>
+<dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
+<dd><code>solverType</code> - the desired contact-and-constraint solver (not null)</dd>
+<dd><code>cc</code> - the desired configuration (not null)</dd>
 </dl>
 </section>
 </li>
