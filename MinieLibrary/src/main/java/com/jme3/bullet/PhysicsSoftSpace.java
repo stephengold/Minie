@@ -95,7 +95,24 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      */
     public PhysicsSoftSpace(Vector3f worldMin, Vector3f worldMax,
             BroadphaseType broadphaseType) {
-        super(worldMin, worldMax, broadphaseType, 1);
+        this(worldMin, worldMax, broadphaseType, new CollisionConfiguration());
+    }
+
+    /**
+     * Instantiate a PhysicsSoftSpace with a sequential-impulse solver. Must be
+     * invoked on the designated physics thread.
+     *
+     * @param worldMin the desired minimum coordinate value for each axis (not
+     * null, unaffected, default=(-10k,-10k,-10k))
+     * @param worldMax the desired maximum coordinate value for each axis (not
+     * null, unaffected, default=(10k,10k,10k))
+     * @param broadphaseType which broadphase accelerator to use (not null)
+     * @param configuration the desired configuration (not null)
+     */
+    public PhysicsSoftSpace(
+            Vector3f worldMin, Vector3f worldMax, BroadphaseType broadphaseType,
+            CollisionConfiguration configuration) {
+        super(worldMin, worldMax, broadphaseType, 1, configuration);
 
         long spaceId = super.nativeId();
         long worldInfoId = getWorldInfo(spaceId);
@@ -219,7 +236,10 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         int broadphase = getBroadphaseType().ordinal();
         Vector3f max = getWorldMax(null);
         Vector3f min = getWorldMin(null);
-        long nativeId = createPhysicsSoftSpace(min, max, broadphase, false);
+        CollisionConfiguration configuration = getConfiguration();
+        long configurationId = configuration.nativeId();
+        long nativeId
+                = createPhysicsSoftSpace(min, max, broadphase, configurationId);
         assert nativeId != 0L;
 
         assert getWorldType(nativeId) == 4 // BT_SOFT_RIGID_DYNAMICS_WORLD
@@ -350,7 +370,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
     native private static void addSoftBody(long softSpaceId, long softBodyId);
 
     native private long createPhysicsSoftSpace(Vector3f minVector,
-            Vector3f maxVector, int broadphaseType, boolean threading);
+            Vector3f maxVector, int broadphaseType, long configurationId);
 
     native private static int getNumSoftBodies(long softSpaceId);
 

@@ -77,6 +77,10 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     final private PhysicsSpace.BroadphaseType broadphaseType;
     /**
+     * tuning parameters
+     */
+    final private CollisionConfiguration collisionConfiguration;
+    /**
      * comparator for raytest results
      */
     final private static Comparator<PhysicsRayTestResult> hitFractionComparator
@@ -153,15 +157,36 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     protected CollisionSpace(Vector3f worldMin, Vector3f worldMax,
             PhysicsSpace.BroadphaseType broadphaseType, int numSolvers) {
+        this(worldMin, worldMax, broadphaseType, numSolvers,
+                new CollisionConfiguration());
+    }
+
+    /**
+     * Used internally.
+     *
+     * @param worldMin the desired minimum coordinate values (not null,
+     * unaffected, default=(-10k,-10k,-10k))
+     * @param worldMax the desired maximum coordinate values (not null,
+     * unaffected, default=(10k,10k,10k))
+     * @param broadphaseType which broadphase accelerator to use (not null)
+     * @param numSolvers the number of contact-and-constraint solvers in the
+     * thread-safe pool (&ge;1, &le;64, default=1)
+     * @param configuration the desired configuration (not null)
+     */
+    protected CollisionSpace(Vector3f worldMin, Vector3f worldMax,
+            PhysicsSpace.BroadphaseType broadphaseType, int numSolvers,
+            CollisionConfiguration configuration) {
         Validate.finite(worldMin, "world min");
         Validate.finite(worldMax, "world max");
         Validate.nonNull(broadphaseType, "broadphase type");
         Validate.inRange(numSolvers, "number of solvers", 1, 64);
+        Validate.nonNull(configuration, "configuration");
 
         this.worldMin.set(worldMin);
         this.worldMax.set(worldMax);
         this.broadphaseType = broadphaseType;
         this.numSolvers = numSolvers;
+        this.collisionConfiguration = configuration;
         create();
     }
     // *************************************************************************
@@ -319,6 +344,15 @@ public class CollisionSpace extends NativePhysicsObject {
     public static CollisionSpace getCollisionSpace() {
         CollisionSpace result = physicsSpaceTL.get();
         return result;
+    }
+
+    /**
+     * Access the tuning parameters.
+     *
+     * @return the pre-existing instance (not null)
+     */
+    public CollisionConfiguration getConfiguration() {
+        return collisionConfiguration;
     }
 
     /**
@@ -794,8 +828,10 @@ public class CollisionSpace extends NativePhysicsObject {
         assert numSolvers == 1 : numSolvers;
 
         int broadphase = getBroadphaseType().ordinal();
-        long spaceId = createCollisionSpace(worldMin.x, worldMin.y, worldMin.z,
-                worldMax.x, worldMax.y, worldMax.z, broadphase);
+        long configurationId = collisionConfiguration.nativeId();
+        long spaceId = createCollisionSpace(
+                worldMin.x, worldMin.y, worldMin.z, worldMax.x, worldMax.y,
+                worldMax.z, broadphase, configurationId);
         assert spaceId != 0L;
 
         initThread(spaceId);
@@ -896,8 +932,9 @@ public class CollisionSpace extends NativePhysicsObject {
     native private static int contactTest(
             long spaceId, long pcoId, PhysicsCollisionListener listener);
 
-    native private long createCollisionSpace(float minX, float minY, float minZ,
-            float maxX, float maxY, float maxZ, int broadphaseType);
+    native private long createCollisionSpace(
+            float minX, float minY, float minZ, float maxX, float maxY,
+            float maxZ, int broadphaseType, long configurationId);
 
     native private static void finalizeNative(long spaceId);
 

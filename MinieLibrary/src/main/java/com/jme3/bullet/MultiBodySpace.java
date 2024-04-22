@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 jMonkeyEngine
+ * Copyright (c) 2020-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -255,7 +255,10 @@ public class MultiBodySpace extends PhysicsSpace {
         int broadphase = getBroadphaseType().ordinal();
         Vector3f max = getWorldMax(null);
         Vector3f min = getWorldMin(null);
-        long nativeId = createMultiBodySpace(min, max, broadphase);
+        CollisionConfiguration configuration = getConfiguration();
+        long configurationId = configuration.nativeId();
+        long nativeId
+                = createMultiBodySpace(min, max, broadphase, configurationId);
         assert nativeId != 0L;
 
         assert getWorldType(nativeId) == 2 // BT_DISCRETE_DYNAMICS_WORLD (!)
@@ -342,7 +345,7 @@ public class MultiBodySpace extends PhysicsSpace {
             long constraintId);
 
     native private long createMultiBodySpace(Vector3f minVector,
-            Vector3f maxVector, int broadphaseType);
+            Vector3f maxVector, int broadphaseType, long configurationId);
 
     native private static int getNumMultibodies(long spaceId);
 
