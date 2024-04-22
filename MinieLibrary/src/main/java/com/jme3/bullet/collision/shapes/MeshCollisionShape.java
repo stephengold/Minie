@@ -83,8 +83,8 @@ public class MeshCollisionShape extends CollisionShape {
      */
     final private static String tagBvh = "bvh";
     final private static String tagDoublePrecision = "doublePrecision";
-    final private static String tagNativePlatform = "nativePlatform";
     final private static String tagNativeMesh = "nativeMesh";
+    final private static String tagNativePlatform = "nativePlatform";
     final private static String tagUseCompression = "useCompression";
     // *************************************************************************
     // fields
