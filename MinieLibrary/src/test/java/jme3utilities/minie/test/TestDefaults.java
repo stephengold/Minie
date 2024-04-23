@@ -976,6 +976,7 @@ public class TestDefaults {
         Assert.assertEquals(4, mesh.countMeshVertices());
         Assert.assertEquals(1, mesh.countSubmeshes());
         Assert.assertEquals(0.04f, mesh.getMargin(), 0f);
+        Assert.assertTrue(mesh.getBvh().isCompressed());
         Assert.assertTrue(mesh.isConcave());
         Assert.assertFalse(mesh.isConvex());
         Assert.assertFalse(mesh.isInfinite());
