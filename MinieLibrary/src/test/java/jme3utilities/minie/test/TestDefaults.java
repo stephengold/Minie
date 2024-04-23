@@ -967,7 +967,7 @@ public class TestDefaults {
         Assert.assertTrue(hcs.isNonMoving());
         Assert.assertFalse(hcs.isPolyhedral());
 
-        // Mesh
+        // MeshCollisionShape with a compressed (quantized) BVH:
         MeshCollisionShape mesh = new MeshCollisionShape(quad);
         testShape(mesh);
         Assert.assertEquals(2, mesh.countMeshTriangles());
@@ -980,6 +980,20 @@ public class TestDefaults {
         Assert.assertFalse(mesh.isInfinite());
         Assert.assertTrue(mesh.isNonMoving());
         Assert.assertFalse(mesh.isPolyhedral());
+
+        // MeshCollisionShape with a non-quantized BVH:
+        MeshCollisionShape mesh2 = new MeshCollisionShape(quad, false);
+        testShape(mesh2);
+        Assert.assertEquals(2, mesh2.countMeshTriangles());
+        Assert.assertEquals(4, mesh2.countMeshVertices());
+        Assert.assertEquals(1, mesh2.countSubmeshes());
+        Assert.assertEquals(0.04f, mesh2.getMargin(), 0f);
+        Assert.assertFalse(mesh2.getBvh().isCompressed());
+        Assert.assertTrue(mesh2.isConcave());
+        Assert.assertFalse(mesh2.isConvex());
+        Assert.assertFalse(mesh2.isInfinite());
+        Assert.assertTrue(mesh2.isNonMoving());
+        Assert.assertFalse(mesh2.isPolyhedral());
 
         // Plane
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
