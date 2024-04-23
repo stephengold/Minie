@@ -106,7 +106,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.shape.Quad;
-import com.jme3.scene.shape.Torus;
 import com.jme3.system.NativeLibraryLoader;
 import com.simsilica.mathd.Matrix3d;
 import com.simsilica.mathd.Quatd;
@@ -942,11 +941,11 @@ public class TestDefaults {
         Assert.assertEquals(0f, empty.unscaledVolume(), 0f);
 
         // GImpact
-        Torus torus = new Torus(16, 16, 0.2f, 0.8f);
-        GImpactCollisionShape gimpact = new GImpactCollisionShape(torus);
+        Quad quad = new Quad(1f, 1f);
+        GImpactCollisionShape gimpact = new GImpactCollisionShape(quad);
         testShape(gimpact);
-        Assert.assertEquals(512, gimpact.countMeshTriangles());
-        Assert.assertEquals(289, gimpact.countMeshVertices());
+        Assert.assertEquals(2, gimpact.countMeshTriangles());
+        Assert.assertEquals(4, gimpact.countMeshVertices());
         Assert.assertEquals(1, gimpact.countSubmeshes());
         Assert.assertEquals(0.04f, gimpact.getMargin(), 0f);
         Assert.assertTrue(gimpact.isConcave());
@@ -969,7 +968,6 @@ public class TestDefaults {
         Assert.assertFalse(hcs.isPolyhedral());
 
         // Mesh
-        Quad quad = new Quad(1f, 1f);
         MeshCollisionShape mesh = new MeshCollisionShape(quad);
         testShape(mesh);
         Assert.assertEquals(2, mesh.countMeshTriangles());
