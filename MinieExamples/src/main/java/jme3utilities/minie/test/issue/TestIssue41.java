@@ -34,11 +34,13 @@ import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.bullet.collision.shapes.infos.BoundingValueHierarchy;
 import com.jme3.bullet.collision.shapes.infos.ChildCollisionShape;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
 
 /**
- * Test for Minie issue #41 (JVM crash while serializing BVH on Windows).
+ * Test for Minie issue #41 (JVM crash while serializing BVH on Windows) and
+ * Minie issue #43 (JVM crash while loading a scaled MeshCollisionShape).
  * <p>
  * If successful, the test will print "successful" and complete normally. If
  * unsuccessful, it will crash the Java Virtual Machine.
@@ -94,7 +96,9 @@ final public class TestIssue41 extends SimpleApplication {
                 = ((CompoundCollisionShape) meshShape).listChildren();
         BoundingValueHierarchy bvh
                 = ((MeshCollisionShape) (children[1].getShape())).getBvh();
-        bvh.serialize();
+        bvh.serialize(); // crash here for Minie issue #41
+
+        BinaryExporter.saveAndLoad(assetManager, meshShape); // Minie issue #43
 
         System.out.println("successful");
         stop();
