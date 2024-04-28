@@ -126,13 +126,13 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color"><code>&nbsp;</code></div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(byte%5B%5D)" class="member-name-link">BoundingValueHierarchy</a><wbr>(byte[]&nbsp;bytes)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Instantiate a hierarchy from serialized bytes.</div>
+<div class="block">Instantiate a (tracked) hierarchy from serialized bytes.</div>
 </div>
 <div class="col-first even-row-color"><code>&nbsp;</code></div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.bullet.collision.shapes.MeshCollisionShape)" class="member-name-link">BoundingValueHierarchy</a><wbr>(<a href="../MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a>&nbsp;meshShape)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Instantiate a reference to the hierarchy of the specified
- MeshCollisionShape.</div>
+<div class="block">Instantiate an (untracked) reference to the hierarchy of the specified
+ <code>MeshCollisionShape</code>.</div>
 </div>
 </div>
 </section>
@@ -229,8 +229,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="&lt;init&gt;(com.jme3.bullet.collision.shapes.MeshCollisionShape)">
 <h3>BoundingValueHierarchy</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BoundingValueHierarchy</span><wbr><span class="parameters">(<a href="../MeshCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">MeshCollisionShape</a>&nbsp;meshShape)</span></div>
-<div class="block">Instantiate a reference to the hierarchy of the specified
- MeshCollisionShape. Used internally.</div>
+<div class="block">Instantiate an (untracked) reference to the hierarchy of the specified
+ <code>MeshCollisionShape</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>meshShape</code> - the pre-existing shape (not null)</dd>
@@ -241,7 +241,11 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="&lt;init&gt;(byte[])">
 <h3>BoundingValueHierarchy</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BoundingValueHierarchy</span><wbr><span class="parameters">(byte[]&nbsp;bytes)</span></div>
-<div class="block">Instantiate a hierarchy from serialized bytes.</div>
+<div class="block">Instantiate a (tracked) hierarchy from serialized bytes.
+ <p>
+ If the bytes weren't generated on the current <code>Platform</code> with the
+ same floating-point precision, the results are undefined (likely a JVM
+ crash).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>bytes</code> - the serialized bytes (not null, unaffected)</dd>
@@ -271,7 +275,12 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="serialize()">
 <h3>serialize</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">serialize</span>()</div>
-<div class="block">Serialize this hierarchy to a byte array.</div>
+<div class="block">Serialize this hierarchy to a byte array.
+ <p>
+ Serialization can be used to avoid re-generating the BVH of a
+ `MeshCollisionShape` each time it is instantiated. The resulting bytes
+ are specific to a particular `MeshCollisionShape`. They are also specific
+ to the current <code>Platform</code> and floating-point precision.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new array containing serialized bytes (not null)</dd>
