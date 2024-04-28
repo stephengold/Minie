@@ -480,7 +480,7 @@ public class MeshCollisionShape extends CollisionShape {
         setMargin(margin);
 
         assert !hasBvh(shapeId);
-        if (bvh == null) {
+        if (bvh == null) { // Create an untracked native object:
             this.bvh = new BoundingValueHierarchy(this);
         } else {
             long bvhId = bvh.nativeId();
