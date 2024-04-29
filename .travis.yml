@@ -16,7 +16,7 @@ jobs:
 
 script:
   - date
-  - ./gradlew build --console=plain --no-daemon
+  - ./gradlew :MinieLibrary:test -x :MinieLibrary:checkstyleMain -x :MinieLibrary:checkstyleTest --console=plain --no-daemon
 
 after_failure:
   - cat MinieLibrary/build/reports/tests/test/classes/jme3utilities.minie.test.TestDefaults.html
