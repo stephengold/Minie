@@ -155,20 +155,20 @@ final public class Utils {
     /**
      * Start verifying the cloning of a NativePhysicsObject.
      *
-     * @param pno the original object (not null)
-     * @param pnoClone the clone of the native object (not null)
+     * @param npo the original object (not null)
+     * @param npoClone the clone of the native object (not null)
      */
     public static void cloneTest(
-            NativePhysicsObject pno, NativePhysicsObject pnoClone) {
-        Assert.assertNotNull(pno);
-        Assert.assertNotNull(pnoClone);
-        Assert.assertNotSame(pno, pnoClone);
+            NativePhysicsObject npo, NativePhysicsObject npoClone) {
+        Assert.assertNotNull(npo);
+        Assert.assertNotNull(npoClone);
+        Assert.assertNotSame(npo, npoClone);
 
-        Assert.assertSame(pno.getClass(), pnoClone.getClass());
+        Assert.assertSame(npo.getClass(), npoClone.getClass());
 
-        Assert.assertTrue(pno.hasAssignedNativeObject());
-        Assert.assertTrue(pnoClone.hasAssignedNativeObject());
-        Assert.assertNotEquals(pno.nativeId(), pnoClone.nativeId());
+        Assert.assertTrue(npo.hasAssignedNativeObject());
+        Assert.assertTrue(npoClone.hasAssignedNativeObject());
+        Assert.assertNotEquals(npo.nativeId(), npoClone.nativeId());
     }
 
     /**
