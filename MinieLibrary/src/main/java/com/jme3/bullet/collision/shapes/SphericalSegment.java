@@ -36,6 +36,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
+import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
@@ -189,6 +190,21 @@ public class SphericalSegment extends ConvexShape {
     }
 
     /**
+     * Callback from {@link com.jme3.util.clone.Cloner} to convert this
+     * shallow-cloned shape into a deep-cloned one, using the specified Cloner
+     * and original to resolve copied fields.
+     *
+     * @param cloner the Cloner that's cloning this shape (not null)
+     * @param original the instance from which this shape was shallow-cloned
+     * (not null, unaffected)
+     */
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        super.cloneFields(cloner, original);
+        createShape();
+    }
+
+    /**
      * Calculate how far the scaled shape extends from its center of mass,
      * including collision margin.
      *
@@ -216,8 +232,7 @@ public class SphericalSegment extends ConvexShape {
         this.unscaledRadius = capsule.readFloat(tagUnscaledRadius, 1f);
         this.unscaledYMax = capsule.readFloat(tagUnscaledYMax, 1f);
         this.unscaledYMin = capsule.readFloat(tagUnscaledYMin, 0f);
-
-        setScale(scale);
+        createShape();
     }
 
     /**
