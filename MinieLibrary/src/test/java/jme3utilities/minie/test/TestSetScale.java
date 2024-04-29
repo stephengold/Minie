@@ -51,6 +51,7 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.collision.shapes.SphericalSegment;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Plane;
@@ -307,5 +308,11 @@ public class TestSetScale {
         Utils.assertEquals(ident, sphere.getScale(null), 0f);
         sphere.setScale(uni);
         Utils.assertEquals(uni, sphere.getScale(null), 0f);
+
+        // SphericalSegment
+        CollisionShape segment = new SphericalSegment(1f);
+        Utils.assertEquals(ident, segment.getScale(null), 0.04f);
+        segment.setScale(uni);
+        Utils.assertEquals(uni, segment.getScale(null), 0f);
     }
 }

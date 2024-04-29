@@ -50,6 +50,7 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.collision.shapes.SphericalSegment;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.material.plugins.J3MLoader;
@@ -358,6 +359,16 @@ public class TestCloneShapes {
         Assert.assertEquals(1f, sphereClone.getScale(null).x, 0f);
         sphere.setScale(2f);
         Assert.assertEquals(1f, sphereClone.getScale(null).x, 0f);
+
+        // SphericalSegment
+        CollisionShape segment = new SphericalSegment(1f);
+        setParameters(segment, 0f);
+        verifyParameters(segment, 0f);
+        CollisionShape segmentClone = Heart.deepCopy(segment);
+        cloneTest(segment, segmentClone);
+        Assert.assertEquals(1f, segmentClone.getScale(null).x, 0f);
+        segment.setScale(2f);
+        Assert.assertEquals(1f, segmentClone.getScale(null).x, 0f);
     }
 
     private static void cloneTest(

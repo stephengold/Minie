@@ -50,6 +50,7 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.collision.shapes.SphericalSegment;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.material.plugins.J3MLoader;
@@ -215,5 +216,10 @@ public class TestStaticBody {
         CollisionShape sphere = new SphereCollisionShape(1f);
         PhysicsRigidBody sphereBody = new PhysicsRigidBody(sphere, 0f);
         space.addCollisionObject(sphereBody);
+
+        // SphericalSegment
+        CollisionShape segment = new SphericalSegment(1f);
+        PhysicsRigidBody segmentBody = new PhysicsRigidBody(segment, 0f);
+        space.addCollisionObject(segmentBody);
     }
 }

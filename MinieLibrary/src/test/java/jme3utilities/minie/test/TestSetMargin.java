@@ -51,6 +51,7 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.collision.shapes.SphericalSegment;
 import com.jme3.export.binary.BinaryLoader;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Plane;
@@ -240,5 +241,11 @@ public class TestSetMargin {
         Assert.assertEquals(0f, sphere.getMargin(), 0f);
         sphere.setMargin(0.3f); // cannot alter margin
         Assert.assertEquals(0f, sphere.getMargin(), 0f);
+
+        // SphericalSegment
+        SphericalSegment segment = new SphericalSegment(1f);
+        Assert.assertEquals(0f, segment.getMargin(), 0f);
+        segment.setMargin(0.31f);
+        Assert.assertEquals(0.31f, segment.getMargin(), 0f);
     }
 }

@@ -61,6 +61,7 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.collision.shapes.SphericalSegment;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.joints.Constraint;
@@ -1163,6 +1164,13 @@ public class TestDefaults {
         Assert.assertFalse(sphere.isPolyhedral());
         Assert.assertEquals(
                 4f * FastMath.PI / 3f, sphere.unscaledVolume(), 1e-4f);
+
+        // SphericalSegment
+        SphericalSegment sphericalSegment = new SphericalSegment(1f);
+        testConvexShape(sphericalSegment);
+        Assert.assertEquals(1.108f, sphericalSegment.maxRadius(), 1e-4f);
+        Assert.assertEquals(2.49176f, sphericalSegment.scaledVolume(), 1e-4f);
+        Assert.assertFalse(sphericalSegment.isPolyhedral());
     }
 
     /**
