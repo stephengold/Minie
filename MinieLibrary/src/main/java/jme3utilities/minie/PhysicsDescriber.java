@@ -50,6 +50,7 @@ import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
+import com.jme3.bullet.collision.shapes.SphericalSegment;
 import com.jme3.bullet.joints.Anchor;
 import com.jme3.bullet.joints.Constraint;
 import com.jme3.bullet.joints.JointEnd;
@@ -283,6 +284,19 @@ public class PhysicsDescriber extends Describer {
             result.append(" r=");
             float radius = sphere.getRadius();
             result.append(MyString.describe(radius));
+
+        } else if (shape instanceof SphericalSegment) {
+            SphericalSegment segment = (SphericalSegment) shape;
+            result.append(" r=");
+            float radius = segment.sphereRadius();
+            result.append(MyString.describe(radius));
+            result.append(" y[");
+            float yMin = segment.yMin();
+            result.append(MyString.describe(yMin));
+            result.append(' ');
+            float yMax = segment.yMax();
+            result.append(MyString.describe(yMax));
+            result.append(']');
 
         } else if (!(shape instanceof CustomConvexShape)) {
             result.append('?');
