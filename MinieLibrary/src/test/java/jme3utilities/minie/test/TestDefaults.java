@@ -436,6 +436,22 @@ public class TestDefaults {
         Assert.assertTrue(constraint.isEnabled());
     }
 
+    /**
+     * Verify the inverse-inertia vector of the specified shape.
+     *
+     * @param shape the shape to test (not null, unaffected)
+     * @param ix the expected X component of the inverse inertia (&ge;0)
+     * @param iy the expected Y component of the inverse inertia (&ge;0)
+     * @param iz the expected Z component of the inverse inertia (&ge;0)
+     * @param tolerance the tolerance for comparisons (&ge;0)
+     */
+    private static void testInverseInertia(CollisionShape shape,
+            float ix, float iy, float iz, float tolerance) {
+        PhysicsRigidBody body = new PhysicsRigidBody(shape, 1f);
+        Vector3f inertia = body.getInverseInertiaLocal(null);
+        Utils.assertEquals(ix, iy, iz, inertia, tolerance);
+    }
+
     private static void testJoints() {
         PhysicsRigidBody rigidB = new PhysicsRigidBody(box);
 
@@ -940,6 +956,7 @@ public class TestDefaults {
         Assert.assertTrue(empty.isNonMoving());
         Assert.assertFalse(empty.isPolyhedral());
         Assert.assertEquals(0f, empty.unscaledVolume(), 0f);
+        testInverseInertia(empty, 0f, 0f, 0f, 0f);
 
         // GImpact
         Mesh quad = new CenterQuad(1f, 1f);
@@ -954,6 +971,7 @@ public class TestDefaults {
         Assert.assertFalse(gimpact.isInfinite());
         Assert.assertFalse(gimpact.isNonMoving());
         Assert.assertFalse(gimpact.isPolyhedral());
+        testInverseInertia(gimpact, 4f, 4f, 2f, 0f);
 
         // Heightfield
         float[] nineHeights = {1f, 0f, 1f, 0f, 0.5f, 0f, 1f, 0f, 1f};
@@ -967,6 +985,7 @@ public class TestDefaults {
         Assert.assertFalse(hcs.isInfinite());
         Assert.assertTrue(hcs.isNonMoving());
         Assert.assertFalse(hcs.isPolyhedral());
+        testInverseInertia(hcs, 0f, 0f, 0f, 0f);
 
         // MeshCollisionShape with a compressed (quantized) BVH:
         MeshCollisionShape mesh = new MeshCollisionShape(quad);
@@ -981,6 +1000,7 @@ public class TestDefaults {
         Assert.assertFalse(mesh.isInfinite());
         Assert.assertTrue(mesh.isNonMoving());
         Assert.assertFalse(mesh.isPolyhedral());
+        testInverseInertia(mesh, 0f, 0f, 0f, 0f);
 
         // MeshCollisionShape with a non-quantized BVH:
         MeshCollisionShape mesh2 = new MeshCollisionShape(quad, false);
@@ -995,6 +1015,7 @@ public class TestDefaults {
         Assert.assertFalse(mesh2.isInfinite());
         Assert.assertTrue(mesh2.isNonMoving());
         Assert.assertFalse(mesh2.isPolyhedral());
+        testInverseInertia(mesh2, 0f, 0f, 0f, 0f);
 
         // Plane
         Plane plane = new Plane(new Vector3f(0f, 1f, 0f), 0f);
@@ -1008,6 +1029,7 @@ public class TestDefaults {
         Assert.assertTrue(pcs.isInfinite());
         Assert.assertTrue(pcs.isNonMoving());
         Assert.assertFalse(pcs.isPolyhedral());
+        testInverseInertia(pcs, 0f, 0f, 0f, 0f);
     }
 
     private static void testShapesConvex1() {
@@ -1016,6 +1038,7 @@ public class TestDefaults {
         testConvexShape(box2d);
         Assert.assertEquals(0.04f, box2d.getMargin(), 0f);
         Assert.assertFalse(box2d.isPolyhedral());
+        testInverseInertia(box2d, 0.75f, 3f, 0.6f, 0.005f);
 
         // BoxCollisionShape
         box = new BoxCollisionShape(1f);
@@ -1023,6 +1046,7 @@ public class TestDefaults {
         Assert.assertEquals(0.04f, box.getMargin(), 0f);
         Assert.assertTrue(box.isPolyhedral());
         Assert.assertEquals(8f, box.unscaledVolume(), 0f);
+        testInverseInertia(box, 1.5f, 1.5f, 1.5f, 0f);
 
         // CapsuleCollisionShape
         CapsuleCollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
@@ -1033,6 +1057,7 @@ public class TestDefaults {
         Assert.assertFalse(capsule.isPolyhedral());
         Assert.assertEquals(
                 7f * FastMath.PI / 3f, capsule.unscaledVolume(), 1e-4f);
+        testInverseInertia(capsule, 0.923f, 1.5f, 0.923f, 0.001f);
 
         // ConeCollisionShape
         ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
@@ -1043,6 +1068,7 @@ public class TestDefaults {
         Assert.assertFalse(cone.isPolyhedral());
         Assert.assertEquals(
                 FastMath.PI / 3f, cone.unscaledVolume(), 1e-5f);
+        testInverseInertia(cone, 1.831f, 1.196f, 1.831f, 0.001f);
 
         // Convex2dShape of a cone
         ConeCollisionShape flatCone
@@ -1051,6 +1077,7 @@ public class TestDefaults {
         testConvexShape(convex2d);
         Assert.assertEquals(0.04f, convex2d.getMargin(), 0f);
         Assert.assertFalse(convex2d.isPolyhedral());
+        testInverseInertia(convex2d, 0.029f, 0.029f, 0.015f, 0.001f);
 
         // CylinderCollisionShape
         CylinderCollisionShape cylinder
@@ -1061,6 +1088,7 @@ public class TestDefaults {
         Assert.assertEquals(0.04f, cylinder.getMargin(), 0f);
         Assert.assertFalse(cylinder.isPolyhedral());
         Assert.assertEquals(FastMath.TWO_PI, cylinder.unscaledVolume(), 1e-4f);
+        testInverseInertia(cylinder, 1.714f, 1.714f, 2f, 0.001f);
 
         // CustomEllipsoid
         CustomEllipsoid ellipsoid = new CustomEllipsoid(1f);
@@ -1069,6 +1097,7 @@ public class TestDefaults {
         Assert.assertFalse(ellipsoid.isPolyhedral());
         Assert.assertEquals(MyMath.cube(1.04f) * 4f * FastMath.PI / 3f,
                 ellipsoid.scaledVolume(), 1e-5f);
+        testInverseInertia(ellipsoid, 2.5f, 2.5f, 2.5f, 0f);
 
         // HullCollisionShape
         List<Vector3f> prismVertices = new ArrayList<>(6);
@@ -1086,6 +1115,7 @@ public class TestDefaults {
         Assert.assertEquals(0.04f, hull.getMargin(), 0f);
         Assert.assertTrue(hull.isPolyhedral());
         Assert.assertEquals(4f, hull.scaledVolume(), 1f);
+        testInverseInertia(hull, 1.196f, 1.196f, 1.196f, 0.001f);
     }
 
     private static void testShapesConvex2() {
@@ -1097,6 +1127,7 @@ public class TestDefaults {
         Assert.assertEquals(0.08f, sum.getMargin(), 0f);
         Assert.assertFalse(sum.isPolyhedral());
         Assert.assertEquals(39f, sum.scaledVolume(), 1f);
+        testInverseInertia(sum, 0.388f, 0.31f, 0.388f, 0.001f);
 
         // MultiSphere
         MultiSphere multiSphere = new MultiSphere(1f);
@@ -1107,6 +1138,7 @@ public class TestDefaults {
         Assert.assertEquals(
                 4f * FastMath.PI / 3f, multiSphere.scaledVolume(), 1e-4f);
         Assert.assertFalse(multiSphere.isPolyhedral());
+        testInverseInertia(multiSphere, 1.5f, 1.5f, 1.5f, 0f);
 
         // SimplexCollisionShape of 1 vertex
         SimplexCollisionShape simplex1
@@ -1116,6 +1148,7 @@ public class TestDefaults {
         Utils.assertEquals(0f, 0f, 0f, simplex1.copyVertex(0, null), 0f);
         Utils.assertEquals(0f, 0f, 0f, simplex1.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex1.unscaledVolume(), 0f);
+        testInverseInertia(simplex1, 104f, 104f, 104f, 1f);
 
         // SimplexCollisionShape of 2 vertices
         SimplexCollisionShape simplex2 = new SimplexCollisionShape(
@@ -1126,6 +1159,7 @@ public class TestDefaults {
         Utils.assertEquals(-1f, 0f, 0f, simplex2.copyVertex(1, null), 0f);
         Utils.assertEquals(1f, 0f, 0f, simplex2.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex2.unscaledVolume(), 0f);
+        testInverseInertia(simplex2, 104f, 2.36f, 2.36f, 1f);
 
         // SimplexCollisionShape of 3 vertices
         SimplexCollisionShape simplex3 = new SimplexCollisionShape(
@@ -1140,6 +1174,7 @@ public class TestDefaults {
         Utils.assertEquals(1f, 0f, 1f, simplex3.copyVertex(2, null), 0f);
         Utils.assertEquals(1f, 1f, 1f, simplex3.getHalfExtents(null), 0f);
         Assert.assertEquals(0f, simplex3.unscaledVolume(), 0f);
+        testInverseInertia(simplex3, 3.9f, 3.9f, 3.9f, 0.003f);
 
         // SimplexCollisionShape of 4 vertices
         SimplexCollisionShape simplex4 = new SimplexCollisionShape(
@@ -1156,6 +1191,7 @@ public class TestDefaults {
         Utils.assertEquals(-1f, -1f, 0f, simplex4.copyVertex(3, null), 0f);
         Utils.assertEquals(1f, 1f, 1f, simplex4.getHalfExtents(null), 0f);
         Assert.assertEquals(4f / 3f, simplex4.unscaledVolume(), 1e-6f);
+        testInverseInertia(simplex4, 1.196f, 1.196f, 1.196f, 0.001f);
 
         // SphereCollisionShape
         SphereCollisionShape sphere = new SphereCollisionShape(1f);
@@ -1164,6 +1200,7 @@ public class TestDefaults {
         Assert.assertFalse(sphere.isPolyhedral());
         Assert.assertEquals(
                 4f * FastMath.PI / 3f, sphere.unscaledVolume(), 1e-4f);
+        testInverseInertia(sphere, 2.5f, 2.5f, 2.5f, 0f);
 
         // SphericalSegment
         SphericalSegment sphericalSegment = new SphericalSegment(1f);
@@ -1171,6 +1208,7 @@ public class TestDefaults {
         Assert.assertEquals(1.108f, sphericalSegment.maxRadius(), 1e-4f);
         Assert.assertEquals(2.49176f, sphericalSegment.scaledVolume(), 1e-4f);
         Assert.assertFalse(sphericalSegment.isPolyhedral());
+        testInverseInertia(sphericalSegment, 3.855f, 2.5f, 3.855f, 0.001f);
     }
 
     /**
