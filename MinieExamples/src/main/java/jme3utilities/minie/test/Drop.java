@@ -402,6 +402,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "customCone":
             case "customCylinder":
             case "customDome":
+            case "customHemisphere":
             case "customLemon":
             case "customParaboloid":
             case "customSegment":
@@ -416,6 +417,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "multiSphere":
             case "roundedDisc":
             case "saucer":
+            case "segment":
             case "snowman":
             case "torus":
                 shape = random.nextShape(typeName);
