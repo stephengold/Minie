@@ -241,7 +241,7 @@ public class CustomEllipsoid extends CustomConvexShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
@@ -304,8 +304,8 @@ public class CustomEllipsoid extends CustomConvexShape {
     }
 
     /**
-     * Serialize this shape to the specified exporter, for example when saving
-     * to a J3O file.
+     * Serialize the shape to the specified exporter, for example when saving to
+     * a J3O file.
      *
      * @param exporter (not null)
      * @throws IOException from the exporter

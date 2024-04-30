@@ -135,8 +135,8 @@ public class CustomCone extends CustomConvexShape {
     // CustomConvexShape methods
 
     /**
-     * Test whether the specified scale factors can be applied to this shape.
-     * For a cone, scaling must preserve the circular cross section.
+     * Test whether the specified scale factors can be applied to the shape. For
+     * a cone, scaling must preserve the circular cross section.
      *
      * @param scale the desired scale factor for each local axis (may be null,
      * unaffected)
@@ -204,7 +204,7 @@ public class CustomCone extends CustomConvexShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
@@ -264,8 +264,8 @@ public class CustomCone extends CustomConvexShape {
     }
 
     /**
-     * Serialize this shape to the specified exporter, for example when saving
-     * to a J3O file.
+     * Serialize the shape to the specified exporter, for example when saving to
+     * a J3O file.
      *
      * @param exporter (not null)
      * @throws IOException from the exporter
