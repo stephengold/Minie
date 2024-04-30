@@ -1089,6 +1089,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Test whether the specified scale factors can be applied to this shape.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#canScale(com.jme3.math.Vector3f)" class="member-name-link">canScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Test whether the specified scale factors can be applied to the shape.</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/motors/MotorParam.html#canSet(float)" class="member-name-link">canSet(float)</a> - Method in enum class com.jme3.bullet.joints.motors.<a href="com/jme3/bullet/joints/motors/MotorParam.html" title="enum class in com.jme3.bullet.joints.motors">MotorParam</a></dt>
 <dd>
 <div class="block">Test whether this parameter can be set to the specified value.</div>
@@ -1524,6 +1528,12 @@ loadScripts(document, 'script');</script>
  and original to resolve copied fields.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">SphereCollisionShape</a></dt>
+<dd>
+<div class="block">Callback from <code>Cloner</code> to convert this
+ shallow-cloned shape into a deep-cloned one, using the specified Cloner
+ and original to resolve copied fields.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
 <dd>
 <div class="block">Callback from <code>Cloner</code> to convert this
  shallow-cloned shape into a deep-cloned one, using the specified Cloner
@@ -4587,6 +4597,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Return the height of the cylinder.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#getHeight()" class="member-name-link">getHeight()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Return the height of the segment.</div>
+</dd>
 <dt><a href="com/jme3/bullet/joints/HingeJoint.html#getHingeAngle()" class="member-name-link">getHingeAngle()</a> - Method in class com.jme3.bullet.joints.<a href="com/jme3/bullet/joints/HingeJoint.html" title="class in com.jme3.bullet.joints">HingeJoint</a></dt>
 <dd>
 <div class="block">Read the hinge angle.</div>
@@ -7510,6 +7524,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#logger2" class="member-name-link">logger2</a> - Static variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/BetterCharacterControl.html#logger2" class="member-name-link">logger2</a> - Static variable in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/BetterCharacterControl.html" title="class in com.jme3.bullet.control">BetterCharacterControl</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
@@ -7880,6 +7898,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html#maxRadius()" class="member-name-link">maxRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">SphereCollisionShape</a></dt>
 <dd>
 <div class="block">Calculate how far the sphere extends from its center.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#maxRadius()" class="member-name-link">maxRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Calculate how far the scaled shape extends from its center of mass,
+ including collision margin.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/Cluster.html#MaxSelfImpulse" class="member-name-link">MaxSelfImpulse</a> - Enum constant in enum class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/Cluster.html" title="enum class in com.jme3.bullet.objects.infos">Cluster</a></dt>
 <dd>
@@ -9171,6 +9194,11 @@ loadScripts(document, 'script');</script>
 <div class="block">De-serialize this shape from the specified importer, for example when
  loading from a J3O file.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">De-serialize this shape from the specified importer, for example when
+ loading from a J3O file.</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/AbstractPhysicsControl.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></dt>
 <dd>
 <div class="block">De-serialize this Control from the specified importer, for example when
@@ -9832,6 +9860,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphereCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">SphereCollisionShape</a></dt>
 <dd>
 <div class="block">Estimate the volume of this shape, including scale and margin.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Estimate the volume of the collision shape, including scale and margin.</div>
 </dd>
 <dt><a href="com/jme3/bullet/objects/infos/ConfigFlag.html#SDF_MDF" class="member-name-link">SDF_MDF</a> - Static variable in class com.jme3.bullet.objects.infos.<a href="com/jme3/bullet/objects/infos/ConfigFlag.html" title="class in com.jme3.bullet.objects.infos">ConfigFlag</a></dt>
 <dd>
@@ -12540,9 +12572,30 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a sphere shape that encloses the sample locations in the
  specified FloatBuffer range.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#sphereRadius()" class="member-name-link">sphereRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Return the radius of the parent sphere.</div>
+</dd>
 <dt><a href="com/jme3/bullet/MultiBodyJointType.html#Spherical" class="member-name-link">Spherical</a> - Enum constant in enum class com.jme3.bullet.<a href="com/jme3/bullet/MultiBodyJointType.html" title="enum class in com.jme3.bullet">MultiBodyJointType</a></dt>
 <dd>
 <div class="block">spherical joint (native name: eSpherical)</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" class="type-name-link" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a> - Class in <a href="com/jme3/bullet/collision/shapes/package-summary.html">com.jme3.bullet.collision.shapes</a></dt>
+<dd>
+<div class="block">A collision shape for a spherical segment with uniform density, based on
+ <code>btConvexInternalShape</code>.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#%3Cinit%3E()" class="member-name-link">SphericalSegment()</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#%3Cinit%3E(float)" class="member-name-link">SphericalSegment(float)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Instantiate a hemisphere with the specified radius.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#%3Cinit%3E(float,float,float)" class="member-name-link">SphericalSegment(float, float, float)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Instantiate a spherical segment with the specified dimensions.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html#split(com.jme3.math.Plane)" class="member-name-link">split(Plane)</a> - Method in class com.jme3.bullet.collision.shapes.infos.<a href="com/jme3/bullet/collision/shapes/infos/IndexedMesh.html" title="class in com.jme3.bullet.collision.shapes.infos">IndexedMesh</a></dt>
 <dd>
@@ -13687,6 +13740,11 @@ the order they are declared.</div>
 <div class="block">Serialize this shape to the specified exporter, for example when saving
  to a J3O file.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Serialize this shape to the specified exporter, for example when saving
+ to a J3O file.</div>
+</dd>
 <dt><a href="com/jme3/bullet/control/AbstractPhysicsControl.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.control.<a href="com/jme3/bullet/control/AbstractPhysicsControl.html" title="class in com.jme3.bullet.control">AbstractPhysicsControl</a></dt>
 <dd>
 <div class="block">Serialize this Control to the specified exporter, for example when saving
@@ -13900,6 +13958,16 @@ the order they are declared.</div>
 </dl>
 <h2 class="title" id="I:Y">Y</h2>
 <dl class="index">
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#yMax()" class="member-name-link">yMax()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Return the Y offset of the upper base from the center of the parent
+ sphere.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/SphericalSegment.html#yMin()" class="member-name-link">yMin()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/SphericalSegment.html" title="class in com.jme3.bullet.collision.shapes">SphericalSegment</a></dt>
+<dd>
+<div class="block">Return the Y offset of the lower base from the center of the parent
+ sphere.</div>
+</dd>
 <dt><a href="com/jme3/bullet/RotationOrder.html#YXZ" class="member-name-link">YXZ</a> - Enum constant in enum class com.jme3.bullet.<a href="com/jme3/bullet/RotationOrder.html" title="enum class in com.jme3.bullet">RotationOrder</a></dt>
 <dd>
 <div class="block">Y then X then Z (native name: RO_YXZ)</div>
