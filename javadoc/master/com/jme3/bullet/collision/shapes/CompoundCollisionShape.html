@@ -229,7 +229,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxRadius()" class="member-name-link">maxRadius</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Estimate how far this shape extends from its center.</div>
+<div class="block">Estimate how far the shape extends from its origin.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Transform</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#principalAxes(java.nio.FloatBuffer,com.jme3.math.Transform,com.jme3.math.Vector3f)" class="member-name-link">principalAxes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a>&nbsp;masses,
@@ -237,13 +237,13 @@ loadScripts(document, 'script');</script>
  com.jme3.math.Vector3f&nbsp;storeInertia)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Calculates the coordinate transform to be applied to a rigid body in
- order for this shape to be centered at the center of mass and its
+ order for this shape to be centered on its center of mass and its
  principal axes to coincide with its local axes.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">De-serialize this shape from the specified importer, for example when
+<div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
@@ -389,7 +389,7 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>childShape</code> - the child shape to add (not null, not a compound shape,
  alias created)</dd>
-<dd><code>offset</code> - the local coordinates of the child shape's center (not
+<dd><code>offset</code> - the local coordinates of the child shape's origin (not
  null, unaffected)</dd>
 </dl>
 </section>
@@ -406,9 +406,9 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>childShape</code> - the child shape to add (not null, not a compound shape,
  alias created)</dd>
-<dd><code>offsetX</code> - the local X coordinate of the child shape's center</dd>
-<dd><code>offsetY</code> - the local Y coordinate of the child shape's center</dd>
-<dd><code>offsetZ</code> - the local Z coordinate of the child shape's center</dd>
+<dd><code>offsetX</code> - the local X coordinate of the child shape's origin</dd>
+<dd><code>offsetY</code> - the local Y coordinate of the child shape's origin</dd>
+<dd><code>offsetZ</code> - the local Z coordinate of the child shape's origin</dd>
 </dl>
 </section>
 </li>
@@ -423,7 +423,7 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>childShape</code> - the child shape to add (not null, not a compound shape,
  alias created)</dd>
-<dd><code>offset</code> - the local coordinates of the child shape's center (not
+<dd><code>offset</code> - the local coordinates of the child shape's origin (not
  null, unaffected)</dd>
 <dd><code>rotation</code> - the local orientation of the child shape (not null,
  unaffected)</dd>
@@ -535,15 +535,15 @@ loadScripts(document, 'script');</script>
  com.jme3.math.Transform&nbsp;storeTransform,
  com.jme3.math.Vector3f&nbsp;storeInertia)</span></div>
 <div class="block">Calculates the coordinate transform to be applied to a rigid body in
- order for this shape to be centered at the center of mass and its
+ order for this shape to be centered on its center of mass and its
  principal axes to coincide with its local axes. Apply the inverse of this
  transform to each child shape using
  <a href="#correctAxes(com.jme3.math.Transform)"><code>correctAxes(com.jme3.math.Transform)</code></a>. The resulting moment of
  inertia is also calculated.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>masses</code> - the mass for each child shape (not null, direct, all
- elements &gt;0)</dd>
+<dd><code>masses</code> - the relative mass for each child shape (not null, direct,
+ all elements &gt;0)</dd>
 <dd><code>storeTransform</code> - storage for the transform (modified if not null)</dd>
 <dd><code>storeInertia</code> - storage for the moment of inertia (not null,
  modified)</dd>
@@ -673,7 +673,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="maxRadius()">
 <h3>maxRadius</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">maxRadius</span>()</div>
-<div class="block">Estimate how far this shape extends from its center.</div>
+<div class="block">Estimate how far the shape extends from its origin.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#maxRadius()">maxRadius</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
@@ -687,7 +687,7 @@ loadScripts(document, 'script');</script>
 <h3>read</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">read</span><wbr><span class="parameters">(com.jme3.export.JmeImporter&nbsp;importer)</span>
           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">De-serialize this shape from the specified importer, for example when
+<div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 <dl class="notes">
 <dt>Specified by:</dt>

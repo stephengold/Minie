@@ -148,7 +148,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#canSplit()" class="member-name-link">canSplit</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether this shape can be split by an arbitrary plane.</div>
+<div class="block">Test whether the shape can be split by an arbitrary plane.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields</a><wbr>(com.jme3.util.clone.Cloner&nbsp;cloner,
@@ -161,23 +161,23 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxRadius()" class="member-name-link">maxRadius</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Determine how far the shape extends from its center.</div>
+<div class="block">Calculate how far the shape extends from its center.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">De-serialize this shape from the specified importer, for example when
+<div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#scaledVolume()" class="member-name-link">scaledVolume</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Estimate the volume of this shape, including scale and margin.</div>
+<div class="block">Return the volume of the shape, including scale and margin.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unscaledVolume()" class="member-name-link">unscaledVolume</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the unscaled volume of the shape.</div>
+<div class="block">Return the volume of the shape.</div>
 </div>
 </div>
 </div>
@@ -247,7 +247,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="unscaledVolume()">
 <h3>unscaledVolume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">unscaledVolume</span>()</div>
-<div class="block">Return the unscaled volume of the shape.</div>
+<div class="block">Return the volume of the shape.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>0</dd>
@@ -258,12 +258,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="canSplit()">
 <h3>canSplit</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">canSplit</span>()</div>
-<div class="block">Test whether this shape can be split by an arbitrary plane.</div>
+<div class="block">Test whether the shape can be split by an arbitrary plane.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#canSplit()">canSplit</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
 <dt>Returns:</dt>
-<dd>true if splittable, false otherwise</dd>
+<dd>true</dd>
 </dl>
 </section>
 </li>
@@ -291,12 +291,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="maxRadius()">
 <h3>maxRadius</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">maxRadius</span>()</div>
-<div class="block">Determine how far the shape extends from its center.</div>
+<div class="block">Calculate how far the shape extends from its center.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#maxRadius()">maxRadius</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
 <dt>Returns:</dt>
-<dd>the distance (in physics-space units, &ge;0)</dd>
+<dd>0</dd>
 </dl>
 </section>
 </li>
@@ -305,7 +305,7 @@ loadScripts(document, 'script');</script>
 <h3>read</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">read</span><wbr><span class="parameters">(com.jme3.export.JmeImporter&nbsp;importer)</span>
           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">De-serialize this shape from the specified importer, for example when
+<div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -323,7 +323,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="scaledVolume()">
 <h3>scaledVolume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">scaledVolume</span>()</div>
-<div class="block">Estimate the volume of this shape, including scale and margin.</div>
+<div class="block">Return the volume of the shape, including scale and margin.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#scaledVolume()">scaledVolume</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>

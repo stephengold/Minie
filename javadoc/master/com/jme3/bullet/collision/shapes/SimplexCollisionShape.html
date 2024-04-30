@@ -197,7 +197,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#canScale(com.jme3.math.Vector3f)" class="member-name-link">canScale</a><wbr>(com.jme3.math.Vector3f&nbsp;scale)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether the specified scale factors can be applied to this shape.</div>
+<div class="block">Test whether the specified scale factors can be applied to the shape.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields</a><wbr>(com.jme3.util.clone.Cloner&nbsp;cloner,
@@ -231,18 +231,18 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxRadius()" class="member-name-link">maxRadius</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Calculate how far the simplex extends from its center, including margin.</div>
+<div class="block">Calculate how far the shape extends from its origin, including margin.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">De-serialize this shape from the specified importer, for example when
+<div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#recalculateAabb()" class="member-name-link">recalculateAabb</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Recalculate this shape's bounding box if necessary.</div>
+<div class="block">Recalculate the shape's bounding box if necessary.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="HullCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">HullCollisionShape</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toHullShape()" class="member-name-link">toHullShape</a>()</code></div>
@@ -500,8 +500,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="canScale(com.jme3.math.Vector3f)">
 <h3>canScale</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">canScale</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;scale)</span></div>
-<div class="block">Test whether the specified scale factors can be applied to this shape.
- For simplex shapes, scaling must be unity.</div>
+<div class="block">Test whether the specified scale factors can be applied to the shape. For
+ simplex shapes, scaling must be unity.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#canScale(com.jme3.math.Vector3f)">canScale</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
@@ -537,12 +537,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="maxRadius()">
 <h3>maxRadius</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">maxRadius</span>()</div>
-<div class="block">Calculate how far the simplex extends from its center, including margin.</div>
+<div class="block">Calculate how far the shape extends from its origin, including margin.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#maxRadius()">maxRadius</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
 <dt>Returns:</dt>
-<dd>a distance (in physics-space units, &ge;0)</dd>
+<dd>the distance (in physics-space units, &ge;0)</dd>
 </dl>
 </section>
 </li>
@@ -551,7 +551,7 @@ loadScripts(document, 'script');</script>
 <h3>read</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">read</span><wbr><span class="parameters">(com.jme3.export.JmeImporter&nbsp;importer)</span>
           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">De-serialize this shape from the specified importer, for example when
+<div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -569,7 +569,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="recalculateAabb()">
 <h3>recalculateAabb</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">recalculateAabb</span>()</div>
-<div class="block">Recalculate this shape's bounding box if necessary.</div>
+<div class="block">Recalculate the shape's bounding box if necessary.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#recalculateAabb()">recalculateAabb</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>

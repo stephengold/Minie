@@ -221,7 +221,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countSpheres()" class="member-name-link">countSpheres</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Count the spheres in this shape.</div>
+<div class="block">Count the spheres in the shape.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRadius(int)" class="member-name-link">getRadius</a><wbr>(int&nbsp;sphereIndex)</code></div>
@@ -231,13 +231,13 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">De-serialize this shape from the specified importer, for example when
+<div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#recalculateAabb()" class="member-name-link">recalculateAabb</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Recalculate this shape's bounding box if necessary.</div>
+<div class="block">Recalculate the shape's bounding box if necessary.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#scaledVolume()" class="member-name-link">scaledVolume</a>()</code></div>
@@ -410,8 +410,8 @@ loadScripts(document, 'script');</script>
  radius.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>center</code> - the location of the center (in shape coordinates, not null,
- unaffected)</dd>
+<dd><code>center</code> - the location of the sphere's center (in shape coordinates,
+ not null, unaffected)</dd>
 <dd><code>radius</code> - the desired radius (in shape units, &ge;0)</dd>
 </dl>
 </section>
@@ -459,7 +459,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="countSpheres()">
 <h3>countSpheres</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countSpheres</span>()</div>
-<div class="block">Count the spheres in this shape.</div>
+<div class="block">Count the spheres in the shape.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the count (&gt;0)</dd>
@@ -504,7 +504,7 @@ loadScripts(document, 'script');</script>
 <h3>read</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">read</span><wbr><span class="parameters">(com.jme3.export.JmeImporter&nbsp;importer)</span>
           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">De-serialize this shape from the specified importer, for example when
+<div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -522,7 +522,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="recalculateAabb()">
 <h3>recalculateAabb</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">recalculateAabb</span>()</div>
-<div class="block">Recalculate this shape's bounding box if necessary.</div>
+<div class="block">Recalculate the shape's bounding box if necessary.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#recalculateAabb()">recalculateAabb</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>
