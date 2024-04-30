@@ -33,20 +33,16 @@ import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.collision.shapes.HullCollisionShape;
 import com.jme3.bullet.collision.shapes.MultiSphere;
 import com.jme3.bullet.collision.shapes.SimplexCollisionShape;
+import com.jme3.bullet.collision.shapes.SphericalSegment;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
-import com.jme3.scene.VertexBuffer;
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
-import jme3utilities.math.MyBuffer;
 import jme3utilities.math.MyMath;
-import jme3utilities.math.MyVector3f;
-import jme3utilities.mesh.DomeMesh;
 import jme3utilities.mesh.RoundedRectangle;
 import jme3utilities.minie.test.terrain.MinieTestTerrains;
 
@@ -239,31 +235,14 @@ final public class MinieTestShapes {
      * radians, &lt;Pi, &gt;0, Pi/2 &rarr; hemisphere)
      * @return a new hull shape
      */
-    public static HullCollisionShape makeDome(
+    public static SphericalSegment makeDome(
             float radius, float verticalAngle) {
         Validate.positive(radius, "radius");
         Validate.inRange(verticalAngle, "vertical angle", 0f, FastMath.PI);
 
-        int rimSamples = 20;
-        int quadrantSamples = 10;
-        DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
-        mesh.setVerticalAngle(verticalAngle);
-        FloatBuffer buffer = mesh.getFloatBuffer(VertexBuffer.Type.Position);
-
-        // Scale mesh positions to the desired radius.
-        int start = 0;
-        int end = buffer.limit();
-        Vector3f scale = new Vector3f(radius, radius, radius);
-        MyBuffer.scale(buffer, start, end, scale);
-
-        // Use max-min to center the vertices.
-        Vector3f max = new Vector3f();
-        Vector3f min = new Vector3f();
-        MyBuffer.maxMin(buffer, start, end, max, min);
-        Vector3f offset = MyVector3f.midpoint(min, max, null).negateLocal();
-        MyBuffer.translate(buffer, start, end, offset);
-
-        HullCollisionShape result = new HullCollisionShape(buffer);
+        float yMax = radius;
+        float yMin = radius * FastMath.cos(verticalAngle);
+        SphericalSegment result = new SphericalSegment(radius, yMax, yMin);
 
         return result;
     }

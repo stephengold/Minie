@@ -675,7 +675,7 @@ final public class CompoundTestShapes {
         Validate.positive(baseRadius, "base radius");
 
         float verticalAngle = 2f; // radians
-        HullCollisionShape base
+        CollisionShape base
                 = MinieTestShapes.makeDome(baseRadius, verticalAngle);
 
         float torsoRadius = 0.8f * baseRadius;

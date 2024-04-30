@@ -338,10 +338,10 @@ public class ShapeGenerator extends Generator {
      *
      * @return a new shape
      */
-    public HullCollisionShape nextDome() {
+    public SphericalSegment nextDome() {
         float radius = nextFloat(0.7f, 1.7f);
         float verticalAngle = nextFloat(0.7f, 2f);
-        HullCollisionShape result
+        SphericalSegment result
                 = MinieTestShapes.makeDome(radius, verticalAngle);
 
         return result;
