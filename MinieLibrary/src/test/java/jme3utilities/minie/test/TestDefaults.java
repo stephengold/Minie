@@ -106,7 +106,7 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.debug.WireBox;
-import com.jme3.scene.shape.Quad;
+import com.jme3.scene.shape.CenterQuad;
 import com.jme3.system.NativeLibraryLoader;
 import com.simsilica.mathd.Matrix3d;
 import com.simsilica.mathd.Quatd;
@@ -942,7 +942,7 @@ public class TestDefaults {
         Assert.assertEquals(0f, empty.unscaledVolume(), 0f);
 
         // GImpact
-        Quad quad = new Quad(1f, 1f);
+        Mesh quad = new CenterQuad(1f, 1f);
         GImpactCollisionShape gimpact = new GImpactCollisionShape(quad);
         testShape(gimpact);
         Assert.assertEquals(2, gimpact.countMeshTriangles());
