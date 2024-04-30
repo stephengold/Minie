@@ -156,15 +156,56 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
  shallow-cloned hierarchy into a deep-cloned one, using the specified
  Cloner and original to resolve copied fields.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.bounding.BoundingBox</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyAabb(com.jme3.bounding.BoundingBox)" class="member-name-link">copyAabb</a><wbr>(com.jme3.bounding.BoundingBox&nbsp;storeResult)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy the bounds of the hierarchy.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyQuantization(com.jme3.math.Vector3f)" class="member-name-link">copyQuantization</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy the quantization vector of the hierarchy.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countLeafNodes()" class="member-name-link">countLeafNodes</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Count the leaf nodes in the hierarchy.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countNodes()" class="member-name-link">countNodes</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Count all nodes in the hierarchy.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countSubtreeHeaders()" class="member-name-link">countSubtreeHeaders</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Count the subtree headers in the hierarchy (native field:
+ m_SubtreeHeaders).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#escapeIndex(int)" class="member-name-link">escapeIndex</a><wbr>(int&nbsp;nodeIndex)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the escape index of the specified node.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isCompressed()" class="member-name-link">isCompressed</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the hierarchy uses quantized AABB compression.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BoundingValueHierarchy.html" title="class in com.jme3.bullet.collision.shapes.infos">BoundingValueHierarchy</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isLeafNode(int)" class="member-name-link">isLeafNode</a><wbr>(int&nbsp;nodeIndex)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Test whether the specified node is a leaf.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BoundingValueHierarchy.html" title="class in com.jme3.bullet.collision.shapes.infos">BoundingValueHierarchy</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create a shallow clone for the JME cloner.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#partId(int)" class="member-name-link">partId</a><wbr>(int&nbsp;nodeIndex)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the part index of the specified node.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
@@ -175,11 +216,26 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serialize()" class="member-name-link">serialize</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Serialize this hierarchy to a byte array.</div>
+<div class="block">Serialize the hierarchy to a byte array.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTraversalMode(int)" class="member-name-link">setTraversalMode</a><wbr>(int&nbsp;mode)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the traversal mode (native field: m_traversalMode).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#traversalMode()" class="member-name-link">traversalMode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the traversal mode (native field: m_traversalMode).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#triangleIndex(int)" class="member-name-link">triangleIndex</a><wbr>(int&nbsp;nodeIndex)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the triangle index of the specified node.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this mesh to the specified exporter, for example when saving to
  a J3O file.</div>
 </div>
@@ -261,6 +317,80 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="copyAabb(com.jme3.bounding.BoundingBox)">
+<h3>copyAabb</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.bounding.BoundingBox</span>&nbsp;<span class="element-name">copyAabb</span><wbr><span class="parameters">(com.jme3.bounding.BoundingBox&nbsp;storeResult)</span></div>
+<div class="block">Copy the bounds of the hierarchy.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt>Returns:</dt>
+<dd>an axis-aligned bounding box (either <code>storeResult</code> or a new
+ instance)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="copyQuantization(com.jme3.math.Vector3f)">
+<h3>copyQuantization</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">copyQuantization</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
+<div class="block">Copy the quantization vector of the hierarchy.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
+<dt>Returns:</dt>
+<dd>an vector (either <code>storeResult</code> or a new vector)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="countLeafNodes()">
+<h3>countLeafNodes</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countLeafNodes</span>()</div>
+<div class="block">Count the leaf nodes in the hierarchy.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the count (&ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="countNodes()">
+<h3>countNodes</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countNodes</span>()</div>
+<div class="block">Count all nodes in the hierarchy.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the count (&ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="countSubtreeHeaders()">
+<h3>countSubtreeHeaders</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countSubtreeHeaders</span>()</div>
+<div class="block">Count the subtree headers in the hierarchy (native field:
+ m_SubtreeHeaders).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the count (&ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="escapeIndex(int)">
+<h3>escapeIndex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">escapeIndex</span><wbr><span class="parameters">(int&nbsp;nodeIndex)</span></div>
+<div class="block">Return the escape index of the specified node.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>nodeIndex</code> - the index of the node (&ge;0)</dd>
+<dt>Returns:</dt>
+<dd>the escape index (&ge;0) or -1 if the node is a leaf</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="isCompressed()">
 <h3>isCompressed</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isCompressed</span>()</div>
@@ -272,10 +402,36 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 </section>
 </li>
 <li>
+<section class="detail" id="isLeafNode(int)">
+<h3>isLeafNode</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isLeafNode</span><wbr><span class="parameters">(int&nbsp;nodeIndex)</span></div>
+<div class="block">Test whether the specified node is a leaf.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>nodeIndex</code> - the index of the node (&ge;0)</dd>
+<dt>Returns:</dt>
+<dd>true if a leaf, false if an internal node</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="partId(int)">
+<h3>partId</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">partId</span><wbr><span class="parameters">(int&nbsp;nodeIndex)</span></div>
+<div class="block">Return the part index of the specified node.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>nodeIndex</code> - the index of the node (&ge;0)</dd>
+<dt>Returns:</dt>
+<dd>the part index (&ge;0) or -1 if the node isn't a leaf</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="serialize()">
 <h3>serialize</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">serialize</span>()</div>
-<div class="block">Serialize this hierarchy to a byte array.
+<div class="block">Serialize the hierarchy to a byte array.
  <p>
  Serialization can be used to avoid re-generating the BVH of a
  `MeshCollisionShape` each time it is instantiated. The resulting bytes
@@ -284,6 +440,43 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new array containing serialized bytes (not null)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setTraversalMode(int)">
+<h3>setTraversalMode</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTraversalMode</span><wbr><span class="parameters">(int&nbsp;mode)</span></div>
+<div class="block">Alter the traversal mode (native field: m_traversalMode).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mode</code> - 0 for "stackless" or 1 for "stackless cache-friendly" or 2
+ for "recursive" (default=0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="traversalMode()">
+<h3>traversalMode</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">traversalMode</span>()</div>
+<div class="block">Return the traversal mode (native field: m_traversalMode).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>0 for "stackless" or 1 for "stackless cache-friendly" or 2 for
+ "recursive"</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="triangleIndex(int)">
+<h3>triangleIndex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">triangleIndex</span><wbr><span class="parameters">(int&nbsp;nodeIndex)</span></div>
+<div class="block">Return the triangle index of the specified node.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>nodeIndex</code> - the index of the node (&ge;0)</dd>
+<dt>Returns:</dt>
+<dd>the triangle index (&ge;0) or -1 if the node isn't a leaf</dd>
 </dl>
 </section>
 </li>
