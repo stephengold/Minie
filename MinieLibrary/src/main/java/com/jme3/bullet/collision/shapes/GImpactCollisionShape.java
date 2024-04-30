@@ -215,7 +215,7 @@ public class GImpactCollisionShape extends CollisionShape {
     // CollisionShape methods
 
     /**
-     * Test whether this shape can be split by an arbitrary plane.
+     * Test whether the shape can be split by an arbitrary plane.
      *
      * @return true if splittable, false otherwise
      */
@@ -242,7 +242,7 @@ public class GImpactCollisionShape extends CollisionShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)

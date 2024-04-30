@@ -144,8 +144,8 @@ public class SphereCollisionShape extends ConvexShape {
     // ConvexShape methods
 
     /**
-     * Test whether the specified scale factors can be applied to this shape.
-     * For sphere shapes, scaling must be uniform.
+     * Test whether the specified scale factors can be applied to the shape. For
+     * sphere shapes, scaling must be uniform.
      *
      * @param scale the desired scale factor for each local axis (may be null,
      * unaffected)
@@ -174,7 +174,7 @@ public class SphereCollisionShape extends ConvexShape {
     }
 
     /**
-     * Return the collision margin for this shape.
+     * Return the collision margin of the shape.
      *
      * @return the margin distance (in physics-space units, &ge;0)
      */
@@ -195,7 +195,7 @@ public class SphereCollisionShape extends ConvexShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)

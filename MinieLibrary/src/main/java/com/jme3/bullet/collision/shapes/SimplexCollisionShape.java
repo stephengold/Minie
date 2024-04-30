@@ -345,8 +345,8 @@ public class SimplexCollisionShape extends ConvexShape {
     // ConvexShape methods
 
     /**
-     * Test whether the specified scale factors can be applied to this shape.
-     * For simplex shapes, scaling must be unity.
+     * Test whether the specified scale factors can be applied to the shape. For
+     * simplex shapes, scaling must be unity.
      *
      * @param scale the desired scale factor for each local axis (may be null,
      * unaffected)
@@ -396,7 +396,7 @@ public class SimplexCollisionShape extends ConvexShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
@@ -426,7 +426,7 @@ public class SimplexCollisionShape extends ConvexShape {
     }
 
     /**
-     * Recalculate this shape's bounding box if necessary.
+     * Recalculate the shape's bounding box if necessary.
      */
     @Override
     protected void recalculateAabb() {

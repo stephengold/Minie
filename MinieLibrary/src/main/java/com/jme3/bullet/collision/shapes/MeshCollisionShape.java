@@ -103,7 +103,7 @@ public class MeshCollisionShape extends CollisionShape {
      */
     private BoundingValueHierarchy bvh;
     /**
-     * native mesh used to construct this shape
+     * native mesh used to construct the shape
      */
     private CompoundMesh nativeMesh;
     // *************************************************************************
@@ -382,7 +382,7 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)

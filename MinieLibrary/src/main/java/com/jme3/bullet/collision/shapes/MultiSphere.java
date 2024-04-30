@@ -379,7 +379,7 @@ public class MultiSphere extends ConvexShape {
     }
 
     /**
-     * Count the spheres in this shape.
+     * Count the spheres in the shape.
      *
      * @return the count (&gt;0)
      */
@@ -423,7 +423,7 @@ public class MultiSphere extends ConvexShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
@@ -446,7 +446,7 @@ public class MultiSphere extends ConvexShape {
     }
 
     /**
-     * Recalculate this shape's bounding box if necessary.
+     * Recalculate the shape's bounding box if necessary.
      */
     @Override
     protected void recalculateAabb() {

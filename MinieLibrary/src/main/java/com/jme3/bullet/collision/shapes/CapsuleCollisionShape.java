@@ -182,8 +182,8 @@ public class CapsuleCollisionShape extends ConvexShape {
     // ConvexShape methods
 
     /**
-     * Test whether the specified scale factors can be applied to this shape.
-     * For capsule shapes, scaling must be uniform.
+     * Test whether the specified scale factors can be applied to the shape. For
+     * capsule shapes, scaling must be uniform.
      *
      * @param scale the desired scale factor for each local axis (may be null,
      * unaffected)
@@ -212,7 +212,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Return the collision margin for this shape.
+     * Return the collision margin of the shape.
      *
      * @return the margin distance (in physics-space units, &ge;0)
      */
@@ -233,7 +233,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
@@ -251,7 +251,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Estimate the volume of this shape, including scale and margin.
+     * Estimate the volume of the shape, including scale and margin.
      *
      * @return the volume (in physics-space units cubed, &ge;0)
      */
@@ -262,7 +262,7 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Alter the collision margin of this shape. This feature is disabled for
+     * Alter the collision margin of the shape. This feature is disabled for
      * capsule shapes.
      *
      * @param margin the desired margin distance (in physics-space units)
@@ -313,8 +313,8 @@ public class CapsuleCollisionShape extends ConvexShape {
     }
 
     /**
-     * Serialize this shape to the specified exporter, for example when saving
-     * to a J3O file.
+     * Serialize the shape to the specified exporter, for example when saving to
+     * a J3O file.
      *
      * @param exporter (not null)
      * @throws IOException from the exporter

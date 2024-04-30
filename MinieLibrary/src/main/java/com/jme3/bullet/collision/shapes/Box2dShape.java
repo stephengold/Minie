@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 jMonkeyEngine
+ * Copyright (c) 2019-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -190,7 +190,7 @@ public class Box2dShape extends ConvexShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
@@ -207,8 +207,8 @@ public class Box2dShape extends ConvexShape {
     }
 
     /**
-     * Serialize this shape to the specified exporter, for example when saving
-     * to a J3O file.
+     * Serialize the shape to the specified exporter, for example when saving to
+     * a J3O file.
      *
      * @param exporter (not null)
      * @throws IOException from the exporter

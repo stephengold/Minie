@@ -501,7 +501,7 @@ public class HullCollisionShape extends ConvexShape {
     // ConvexShape methods
 
     /**
-     * Test whether this shape can be split by an arbitrary plane.
+     * Test whether the shape can be split by an arbitrary plane.
      *
      * @return true if splittable, false otherwise
      */
@@ -557,7 +557,7 @@ public class HullCollisionShape extends ConvexShape {
     }
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
@@ -579,7 +579,7 @@ public class HullCollisionShape extends ConvexShape {
     }
 
     /**
-     * Recalculate this shape's bounding box if necessary.
+     * Recalculate the shape's bounding box if necessary.
      */
     @Override
     protected void recalculateAabb() {

@@ -217,7 +217,7 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether the specified scale factors can be applied to this shape.
+     * Test whether the specified scale factors can be applied to the shape.
      * Subclasses that restrict scaling should override this method.
      *
      * @param scale the desired scale factor for each local axis (may be null,
@@ -236,7 +236,7 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape can be split by an arbitrary plane. Meant to be
+     * Test whether the shape can be split by an arbitrary plane. Meant to be
      * overridden.
      *
      * @return true if splittable, false otherwise
@@ -311,7 +311,7 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape has concave type. In Bullet, "concave" is a
+     * Test whether the shape has concave type. In Bullet, "concave" is a
      * property of <em>types</em> of shapes. Specific <em>instances</em> of
      * those types might actually be "convex" in the mathematical sense of the
      * word.
@@ -342,10 +342,9 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape has convex type. In Bullet, "convex" is a
-     * property of <em>types</em> of shapes. Specific <em>instances</em> of
-     * non-convex types might still be "convex" in the mathematical sense of the
-     * word.
+     * Test whether the shape has convex type. In Bullet, "convex" is a property
+     * of <em>types</em> of shapes. Specific <em>instances</em> of non-convex
+     * types might still be "convex" in the mathematical sense of the word.
      * <p>
      * The only convex types are the box2d, box, capsule, cone, convex2d,
      * cylinder, hull, multi-sphere, simplex, and sphere shapes. Note that
@@ -361,8 +360,8 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape's type is infinite. PlaneCollisionShape is the
-     * only type of shape that's infinite.
+     * Test whether the shape's type is infinite. {@code PlaneCollisionShape} is
+     * the only type of shape that's infinite.
      *
      * @return true if infinite, false otherwise
      */
@@ -374,7 +373,7 @@ abstract public class CollisionShape
     }
 
     /**
-     * Test whether this shape can be applied to a dynamic rigid body. The only
+     * Test whether the shape can be applied to a dynamic rigid body. The only
      * non-moving shapes are the empty, heightfield, mesh, and plane shapes.
      *
      * @return true if non-moving, false otherwise
@@ -601,7 +600,7 @@ abstract public class CollisionShape
     // Savable methods
 
     /**
-     * De-serialize this shape from the specified importer, for example when
+     * De-serialize the shape from the specified importer, for example when
      * loading from a J3O file.
      *
      * @param importer (not null)
