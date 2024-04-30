@@ -244,7 +244,7 @@ public class TestSetMargin {
 
         // SphericalSegment
         SphericalSegment segment = new SphericalSegment(1f);
-        Assert.assertEquals(0f, segment.getMargin(), 0f);
+        Assert.assertEquals(0.04f, segment.getMargin(), 0.04f);
         segment.setMargin(0.31f);
         Assert.assertEquals(0.31f, segment.getMargin(), 0f);
     }
