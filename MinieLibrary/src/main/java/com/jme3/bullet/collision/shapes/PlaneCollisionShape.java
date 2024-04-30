@@ -121,9 +121,9 @@ public class PlaneCollisionShape extends CollisionShape {
     }
 
     /**
-     * Determine how far this shape extends from its center.
+     * Calculate how far the shape extends.
      *
-     * @return the distance (in physics-space units, &ge;0)
+     * @return positive infinity
      */
     @Override
     public float maxRadius() {

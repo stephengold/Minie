@@ -503,7 +503,7 @@ public class HullCollisionShape extends ConvexShape {
     /**
      * Test whether the shape can be split by an arbitrary plane.
      *
-     * @return true if splittable, false otherwise
+     * @return true
      */
     @Override
     public boolean canSplit() {
@@ -530,7 +530,7 @@ public class HullCollisionShape extends ConvexShape {
     /**
      * Calculate how far this shape extends from its center, including margin.
      *
-     * @return a distance (in physics-space units, &ge;0)
+     * @return the distance (in physics-space units, &ge;0)
      */
     @Override
     public float maxRadius() {

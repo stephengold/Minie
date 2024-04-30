@@ -160,9 +160,9 @@ abstract public class CollisionShape
     }
 
     /**
-     * Calculate an axis-aligned bounding box for this shape with the specified
-     * translation and rotation applied to it. Rotation is applied first.
-     * Collision margin is included.
+     * Calculate an axis-aligned bounding box with the specified translation and
+     * rotation applied. Rotation is applied first. Collision margin is
+     * included.
      *
      * @param translation the translation to apply (not null, unaffected)
      * @param rotation the rotation to apply (not null, unaffected)
@@ -188,9 +188,9 @@ abstract public class CollisionShape
     }
 
     /**
-     * Calculate an axis-aligned bounding box for this shape with the specified
-     * translation and rotation applied to it. Rotation is applied first.
-     * Collision margin is included.
+     * Calculate an axis-aligned bounding box with the specified translation and
+     * rotation applied. Rotation is applied first. Collision margin is
+     * included.
      *
      * @param translation the translation to apply (not null, unaffected)
      * @param rotation the rotation to apply (not null, unaffected)
@@ -249,7 +249,7 @@ abstract public class CollisionShape
      * Return the default margin for new shapes that are neither capsules nor
      * spheres.
      *
-     * @return the margin distance (in physics-space units, &gt;0)
+     * @return the margin thickness (in physics-space units, &gt;0)
      */
     public static float getDefaultMargin() {
         assert defaultMargin > 0f : defaultMargin;
@@ -259,7 +259,7 @@ abstract public class CollisionShape
     /**
      * Return the collision margin for this shape.
      *
-     * @return the margin distance (in physics-space units, &ge;0)
+     * @return the margin thickness (in physics-space units, &ge;0)
      */
     public float getMargin() {
         assert margin >= 0f : margin;
@@ -299,9 +299,9 @@ abstract public class CollisionShape
     }
 
     /**
-     * Return the type of this shape.
+     * Return the encoded type of the shape.
      *
-     * @return the type value (from Bullet's {@code enum BroadphaseNativeTypes})
+     * @return the type code (from Bullet's {@code enum BroadphaseNativeTypes})
      */
     public int getShapeType() {
         long shapeId = nativeId();
@@ -346,9 +346,9 @@ abstract public class CollisionShape
      * of <em>types</em> of shapes. Specific <em>instances</em> of non-convex
      * types might still be "convex" in the mathematical sense of the word.
      * <p>
-     * The only convex types are the box2d, box, capsule, cone, convex2d,
-     * cylinder, hull, multi-sphere, simplex, and sphere shapes. Note that
-     * compound shapes are neither concave nor convex.
+     * Convex types include the box2d, box, capsule, cone, convex2d, cylinder,
+     * hull, multi-sphere, simplex, and sphere shapes. Note that compound shapes
+     * are neither concave nor convex.
      *
      * @return true if convex type, false otherwise
      */
@@ -399,7 +399,8 @@ abstract public class CollisionShape
     }
 
     /**
-     * Estimate how far this shape extends from its center.
+     * Estimate how far the scaled shape extends from its center, including
+     * margin.
      *
      * @return a distance estimate (in physics-space units, &ge;0, may be
      * infinite)
@@ -438,8 +439,8 @@ abstract public class CollisionShape
      * It is best not to modify the default collision margin, and if you do use
      * a positive value: zero margin might introduce problems.
      *
-     * @param margin the desired margin distance (in physics-space units, &gt;0,
-     * default=0.04)
+     * @param margin the desired margin thickness (in physics-space units,
+     * &gt;0, default=0.04)
      */
     public static void setDefaultMargin(float margin) {
         Validate.positive(margin, "margin");
@@ -458,8 +459,8 @@ abstract public class CollisionShape
      * Note that if the shape is shared (between collision objects and/or
      * compound shapes) changes can have unintended consequences.
      *
-     * @param margin the desired margin distance (in physics-space units, &gt;0,
-     * default=0.04)
+     * @param margin the desired margin thickness (in physics-space units,
+     * &gt;0, default=0.04)
      */
     public void setMargin(float margin) {
         Validate.positive(margin, "margin");
@@ -538,7 +539,7 @@ abstract public class CollisionShape
     /**
      * Return the native collision margin of this shape.
      *
-     * @return the margin distance (in physics-space units, &ge;0)
+     * @return the margin thickness (in physics-space units, &ge;0)
      */
     final protected float nativeMargin() {
         long shapeId = nativeId();

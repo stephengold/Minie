@@ -204,9 +204,10 @@ public class ConeCollisionShape extends ConvexShape {
     }
 
     /**
-     * Calculate how far the cone extends from its center.
+     * Calculate how far the scaled shape extends from its center of mass,
+     * including collision margin.
      *
-     * @return a distance (in physics-space units, &ge;0)
+     * @return the distance (in physics-space units, &ge;0)
      */
     @Override
     public float maxRadius() {
@@ -254,7 +255,7 @@ public class ConeCollisionShape extends ConvexShape {
     // Java private methods
 
     /**
-     * Instantiate the configured shape.
+     * Instantiate the configured shape in Bullet.
      */
     private void createShape() {
         assert axis == PhysicsSpace.AXIS_X

@@ -376,9 +376,9 @@ public class SimplexCollisionShape extends ConvexShape {
     }
 
     /**
-     * Calculate how far the simplex extends from its center, including margin.
+     * Calculate how far the shape extends from its origin, including margin.
      *
-     * @return a distance (in physics-space units, &ge;0)
+     * @return the distance (in physics-space units, &ge;0)
      */
     @Override
     public float maxRadius() {

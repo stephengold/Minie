@@ -94,7 +94,7 @@ abstract public class ConvexShape extends CollisionShape {
      * those types might actually be "convex" in the mathematical sense of the
      * word.
      *
-     * @return true if concave type, false otherwise
+     * @return false
      */
     @Override
     public boolean isConcave() {
@@ -108,7 +108,7 @@ abstract public class ConvexShape extends CollisionShape {
      * non-convex types might still be "convex" in the mathematical sense of the
      * word.
      *
-     * @return true if convex type, false otherwise
+     * @return true
      */
     @Override
     public boolean isConvex() {

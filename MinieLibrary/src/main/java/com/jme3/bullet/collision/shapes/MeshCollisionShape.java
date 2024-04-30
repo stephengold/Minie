@@ -356,7 +356,7 @@ public class MeshCollisionShape extends CollisionShape {
     /**
      * Test whether this shape can be split by an arbitrary plane.
      *
-     * @return true if splittable, false otherwise
+     * @return true
      */
     @Override
     public boolean canSplit() {

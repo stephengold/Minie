@@ -155,9 +155,9 @@ public class MinkowskiSum extends ConvexShape {
     }
 
     /**
-     * Return the collision margin for this shape.
+     * Return the collision margin of the shape.
      *
-     * @return the margin distance (in physics-space units, &ge;0)
+     * @return the margin thickness (in physics-space units, &ge;0)
      */
     @Override
     public float getMargin() {
@@ -189,7 +189,7 @@ public class MinkowskiSum extends ConvexShape {
      * MinkowskiSum shapes. The margin of a MinkowskiSum is simply the sum of
      * the (native) margins of the base shapes.
      *
-     * @param margin the desired margin distance (in physics-space units)
+     * @param margin the desired margin thickness (in physics-space units)
      */
     @Override
     public void setMargin(float margin) {
