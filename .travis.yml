@@ -14,6 +14,7 @@ jobs:
             - default-jre
           update: true
 
+install: skip
 script:
   - date
   - ./gradlew :MinieLibrary:test -x :MinieLibrary:checkstyleMain -x :MinieLibrary:checkstyleTest --console=plain --no-daemon
