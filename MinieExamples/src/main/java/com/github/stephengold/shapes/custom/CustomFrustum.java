@@ -219,7 +219,7 @@ public class CustomFrustum extends CustomConvexShape {
 
     /**
      * Calculate how far the scaled shape extends from its center of mass,
-     * excluding collision margin.
+     * including collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
@@ -227,7 +227,7 @@ public class CustomFrustum extends CustomConvexShape {
     public float maxRadius() {
         float rimA = MyMath.hypotenuse(scaledA, scaledY0);
         float rimB = MyMath.hypotenuse(scaledB, scaledHeight - scaledY0);
-        float result = Math.max(rimA, rimB);
+        float result = Math.max(rimA, rimB) + margin;
 
         return result;
     }

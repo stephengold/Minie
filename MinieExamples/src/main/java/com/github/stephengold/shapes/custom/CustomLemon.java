@@ -215,13 +215,13 @@ public class CustomLemon extends CustomConvexShape {
 
     /**
      * Calculate how far the scaled shape extends from its center of mass,
-     * excluding collision margin.
+     * including collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
     @Override
     public float maxRadius() {
-        float result = Math.max(scaledRadius, 0.5f * scaledHeight);
+        float result = Math.max(scaledRadius, 0.5f * scaledHeight) + margin;
         return result;
     }
 

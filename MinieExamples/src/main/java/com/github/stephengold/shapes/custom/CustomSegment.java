@@ -257,7 +257,7 @@ public class CustomSegment extends CustomConvexShape {
 
     /**
      * Calculate how far the scaled shape extends from its center of mass,
-     * excluding collision margin.
+     * including collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
@@ -275,7 +275,7 @@ public class CustomSegment extends CustomConvexShape {
             d2 = Math.max(d2, d2Equator);
         }
 
-        float result = FastMath.sqrt(d2);
+        float result = FastMath.sqrt(d2) + margin;
         return result;
     }
 

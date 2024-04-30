@@ -202,14 +202,14 @@ public class CustomCylinder extends CustomConvexShape {
 
     /**
      * Calculate how far the scaled shape extends from its center of mass,
-     * excluding collision margin.
+     * including collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
     @Override
     public float maxRadius() {
         float halfHeight = 0.5f * scaledHeight;
-        float result = MyMath.hypotenuse(scaledRadius, halfHeight);
+        float result = MyMath.hypotenuse(scaledRadius, halfHeight) + margin;
 
         return result;
     }

@@ -230,13 +230,13 @@ public class CustomEllipsoid extends CustomConvexShape {
 
     /**
      * Calculate how far the scaled shape extends from its center of mass,
-     * excluding collision margin.
+     * including collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
     @Override
     public float maxRadius() {
-        float result = MyMath.max(scaledHe.x, scaledHe.y, scaledHe.z);
+        float result = MyMath.max(scaledHe.x, scaledHe.y, scaledHe.z) + margin;
         return result;
     }
 

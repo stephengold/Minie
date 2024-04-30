@@ -225,7 +225,7 @@ public class CustomParaboloid extends CustomConvexShape {
 
     /**
      * Calculate how far the scaled shape extends from its center of mass,
-     * excluding collision margin.
+     * including collision margin.
      *
      * @return the distance (in physics-space units, &ge;0)
      */
@@ -233,7 +233,7 @@ public class CustomParaboloid extends CustomConvexShape {
     public float maxRadius() {
         float rimDistance
                 = MyMath.hypotenuse(scaledRadius, scaledHeight - scaledY0);
-        float result = Math.max(scaledY0, rimDistance);
+        float result = Math.max(scaledY0, rimDistance) + margin;
 
         return result;
     }
