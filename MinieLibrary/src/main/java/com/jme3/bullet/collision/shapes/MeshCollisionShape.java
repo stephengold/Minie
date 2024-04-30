@@ -94,6 +94,11 @@ public class MeshCollisionShape extends CollisionShape {
      */
     private boolean useCompression;
     /**
+     * if true, serialize BVHs when serializing mesh collision shapes
+     * (default=true)
+     */
+    private static boolean serializeBvh = true;
+    /**
      * bounding-value hierarchy
      */
     private BoundingValueHierarchy bvh;
@@ -281,6 +286,16 @@ public class MeshCollisionShape extends CollisionShape {
     }
 
     /**
+     * Test whether bounding-value hierarchies will be serialized when
+     * serializing mesh collision shapes.
+     *
+     * @return true if serializing hierarchies, otherwise false
+     */
+    public static boolean isSerializingBvh() {
+        return serializeBvh;
+    }
+
+    /**
      * Serialize the BVH to a byte array.
      *
      * @return a new array containing a serialized version of the BVH
@@ -288,6 +303,17 @@ public class MeshCollisionShape extends CollisionShape {
     public byte[] serializeBvh() {
         byte[] result = bvh.serialize();
         return result;
+    }
+
+    /**
+     * Alter whether bounding-value hierarchies will be included when
+     * serializing mesh collision shapes.
+     *
+     * @param setting true to serialize hierarchies, false to slip serializing
+     * them (default=true)
+     */
+    public static void setSerializingBvh(boolean setting) {
+        serializeBvh = setting;
     }
 
     /**
@@ -430,7 +456,9 @@ public class MeshCollisionShape extends CollisionShape {
         super.write(exporter);
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(bvh, tagBvh, null);
+        if (serializeBvh) {
+            capsule.write(bvh, tagBvh, null);
+        }
 
         boolean doublePrecision = NativeLibrary.isDoublePrecision();
         capsule.write(doublePrecision, tagDoublePrecision, false);
