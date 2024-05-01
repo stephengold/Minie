@@ -681,7 +681,9 @@ doing so is not recommended.
 <div class="paragraph">
 <p>A <em>precise shape</em> is a collision shape whose <em>effective shape</em>
 (observed in collisions, contact tests, ray tests, and sweep tests)
-is unaffected by margin.</p>
+is unaffected by margin.
+In effect, the margin of a precise shape is internal,
+so it doesn&#8217;t impact the effective shape.</p>
 </div>
 <div class="paragraph">
 <p>While most collision-shape subtypes are precise, 5 of them are not.
@@ -704,11 +706,6 @@ For 4 of them, margin simply expands their effective shapes:</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>Margin also distorts a
-<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>,
-but its effect there is more complicated.</p>
-</div>
-<div class="paragraph">
 <p>Here are illustrations of 4 otherwise identical simplex shapes
 with different margins:</p>
 </div>
@@ -729,12 +726,18 @@ with different margins:</p>
 </tbody>
 </table>
 <div class="paragraph">
+<p>Margin can also distorts a
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>,
+but its effect there is more complicated:
+no effect for small margins and non-uniform distortion for large margins.</p>
+</div>
+<div class="paragraph">
 <p>Since margin is defined in physics-space units,
 its effects are most noticeable for small shapes.</p>
 </div>
 <div class="paragraph">
 <p>When using imprecise shapes, you may compensate for margin
-by shrinking the shape&#8217;s dimensions (for a cone or cylinder shape)
+by shrinking the shape&#8217;s dimensions (for a cone shape)
 or by moving its defining vertices inward (for a simplex or hull shape).</p>
 </div>
 <div class="paragraph">
