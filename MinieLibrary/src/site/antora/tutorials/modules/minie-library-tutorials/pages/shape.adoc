@@ -253,6 +253,8 @@ doing so is not recommended.
 A _precise shape_ is a collision shape whose _effective shape_
 (observed in collisions, contact tests, ray tests, and sweep tests)
 is unaffected by margin.
+In effect, the margin of a precise shape is internal,
+so it doesn't impact the effective shape.
 
 While most collision-shape subtypes are precise, 5 of them are not.
 For 4 of them, margin simply expands their effective shapes:
@@ -261,10 +263,6 @@ For 4 of them, margin simply expands their effective shapes:
 . {url-shape}/Convex2dShape.html[`Convex2dShape`]
 . {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
 . {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
-
-Margin also distorts a
-{url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`],
-but its effect there is more complicated.
 
 Here are illustrations of 4 otherwise identical simplex shapes
 with different margins:
@@ -277,11 +275,16 @@ with different margins:
 |image:margin6.png[height=160]
 |===
 
+Margin can also distorts a
+{url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`],
+but its effect there is more complicated:
+no effect for small margins and non-uniform distortion for large margins.
+
 Since margin is defined in physics-space units,
 its effects are most noticeable for small shapes.
 
 When using imprecise shapes, you may compensate for margin
-by shrinking the shape's dimensions (for a cone or cylinder shape)
+by shrinking the shape's dimensions (for a cone shape)
 or by moving its defining vertices inward (for a simplex or hull shape).
 
 Another possible workaround would be to scale the physics space
