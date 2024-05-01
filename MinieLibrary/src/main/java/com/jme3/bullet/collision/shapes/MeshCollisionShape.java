@@ -398,7 +398,6 @@ public class MeshCollisionShape extends CollisionShape {
         Platform writePlatform
                 = capsule.readEnum(tagNativePlatform, Platform.class, null);
         if (writeDoublePrecision != NativeLibrary.isDoublePrecision()
-                || writePlatform == null
                 || writePlatform != JmeSystem.getPlatform()) {
             this.bvh = null;
             // will re-generate the BVH for the new precision and/or platform
