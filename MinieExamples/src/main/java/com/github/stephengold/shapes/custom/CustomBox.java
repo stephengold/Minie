@@ -152,6 +152,7 @@ public class CustomBox extends CustomConvexShape {
         } else {
             result = storeResult.set(unscaledHe);
         }
+
         return result;
     }
     // *************************************************************************

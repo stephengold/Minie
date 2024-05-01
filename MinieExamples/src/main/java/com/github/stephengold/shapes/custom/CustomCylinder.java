@@ -39,8 +39,8 @@ import jme3utilities.math.MyMath;
 import jme3utilities.math.MyVolume;
 
 /**
- * A collision shape for a solid right circular cylinder with uniform density.
- * By convention, the local Y axis is the height axis.
+ * A collision shape for a right circular cylinder with uniform density. By
+ * convention, the local Y axis is the height axis.
  * <p>
  * {@code CylinderCollisionShape} is more flexible and probably more efficient.
  * <p>

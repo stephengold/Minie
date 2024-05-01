@@ -155,7 +155,7 @@ public class MinkowskiSum extends ConvexShape {
     }
 
     /**
-     * Return the collision margin of the shape.
+     * Return the collision margin of this shape.
      *
      * @return the margin thickness (in physics-space units, &ge;0)
      */
