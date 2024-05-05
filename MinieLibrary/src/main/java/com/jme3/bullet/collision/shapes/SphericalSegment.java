@@ -248,8 +248,8 @@ public class SphericalSegment extends ConvexShape {
     }
 
     /**
-     * Serialize this shape to the specified exporter, for example when saving
-     * to a J3O file.
+     * Serialize the shape to the specified exporter, for example when saving to
+     * a J3O file.
      *
      * @param exporter (not null)
      * @throws IOException from the exporter

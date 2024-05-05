@@ -91,7 +91,7 @@ import jme3utilities.ui.Signals;
 
 /**
  * Test/demonstrate various collision shapes by dropping drops
- * (small/dynamic/rigid bodies) onto a platform (large/fixed/horizontal body).
+ * (small/dynamic bodies) onto a platform (large/fixed/horizontal body).
  * <p>
  * Collision objects are rendered entirely by debug visualization.
  * <p>
@@ -145,7 +145,7 @@ public class DropTest
      */
     private static DropTestStatus status;
     /**
-     * AppState to manage the PhysicsSpace
+     * AppState to manage physics
      */
     private static SoftPhysicsAppState bulletAppState;
     // *************************************************************************
