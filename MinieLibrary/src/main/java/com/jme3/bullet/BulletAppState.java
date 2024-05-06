@@ -162,12 +162,13 @@ public class BulletAppState
      * maximum coordinate values for the PhysicsSpace when using AXIS_SWEEP
      * broadphase algorithms (not null)
      */
-    final private Vector3f worldMax = new Vector3f(10000f, 10000f, 10000f);
+    final private Vector3f worldMax = new Vector3f(10_000f, 10_000f, 10_000f);
     /**
      * minimum coordinate values for the PhysicsSpace when using AXIS_SWEEP
      * broadphase algorithms (not null)
      */
-    final private Vector3f worldMin = new Vector3f(-10000f, -10000f, -10000f);
+    final private Vector3f worldMin
+            = new Vector3f(-10_000f, -10_000f, -10_000f);
     // *************************************************************************
     // constructors
 
@@ -192,8 +193,8 @@ public class BulletAppState
      * use (not null)
      */
     public BulletAppState(BroadphaseType broadphaseType) {
-        this(new Vector3f(-10000f, -10000f, -10000f),
-                new Vector3f(10000f, 10000f, 10000f),
+        this(new Vector3f(-10_000f, -10_000f, -10_000f),
+                new Vector3f(10_000f, 10_000f, 10_000f),
                 broadphaseType);
     }
 

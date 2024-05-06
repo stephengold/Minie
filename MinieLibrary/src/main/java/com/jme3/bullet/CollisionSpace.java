@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2023 jMonkeyEngine
+ * Copyright (c) 2009-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -120,12 +120,13 @@ public class CollisionSpace extends NativePhysicsObject {
      * copy of maximum coordinate values when using AXIS_SWEEP broadphase
      * algorithms
      */
-    final private Vector3f worldMax = new Vector3f(10000f, 10000f, 10000f);
+    final private Vector3f worldMax = new Vector3f(10_000f, 10_000f, 10_000f);
     /**
      * copy of minimum coordinate values when using AXIS_SWEEP broadphase
      * algorithms
      */
-    final private Vector3f worldMin = new Vector3f(-10000f, -10000f, -10000f);
+    final private Vector3f worldMin
+            = new Vector3f(-10_000f, -10_000f, -10_000f);
     // *************************************************************************
     // constructors
 

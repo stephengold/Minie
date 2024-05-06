@@ -168,7 +168,7 @@ final public class DebugShapeFactory {
             result = createCompoundVertices(ccs, meshResolution);
 
         } else if (shape instanceof PlaneCollisionShape) {
-            float halfExt = 1000f;
+            float halfExt = 1_000f;
             result = createPlaneVertices((PlaneCollisionShape) shape, halfExt);
 
         } else {
@@ -296,7 +296,7 @@ final public class DebugShapeFactory {
             result = createCompoundTriangles(ccs, meshResolution);
 
         } else if (shape instanceof PlaneCollisionShape) {
-            float halfExt = 1000f;
+            float halfExt = 1_000f;
             result = createPlaneTriangles((PlaneCollisionShape) shape, halfExt);
 
         } else {
