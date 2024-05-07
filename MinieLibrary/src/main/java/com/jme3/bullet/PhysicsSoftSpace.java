@@ -79,8 +79,8 @@ public class PhysicsSoftSpace extends PhysicsSpace {
      * @param broadphaseType which broadphase accelerator to use (not null)
      */
     public PhysicsSoftSpace(BroadphaseType broadphaseType) {
-        this(new Vector3f(-10000f, -10000f, -10000f),
-                new Vector3f(10000f, 10000f, 10000f), broadphaseType);
+        this(new Vector3f(-10_000f, -10_000f, -10_000f),
+                new Vector3f(10_000f, 10_000f, 10_000f), broadphaseType);
     }
 
     /**

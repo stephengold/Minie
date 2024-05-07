@@ -199,8 +199,8 @@ public class PhysicsSpace
      * @param broadphaseType which broadphase accelerator to use (not null)
      */
     public PhysicsSpace(BroadphaseType broadphaseType) {
-        this(new Vector3f(-10000f, -10000f, -10000f),
-                new Vector3f(10000f, 10000f, 10000f), broadphaseType);
+        this(new Vector3f(-10_000f, -10_000f, -10_000f),
+                new Vector3f(10_000f, 10_000f, 10_000f), broadphaseType);
     }
 
     /**
@@ -297,12 +297,12 @@ public class PhysicsSpace
      * unaffected, default=(10k,10k,10k))
      * @param broadphaseType which broadphase accelerator to use (not null)
      * @param solverType the desired contact-and-constraint solver (not null)
-     * @param cc the desired configuration (not null)
+     * @param configuration the desired configuration (not null)
      */
     public PhysicsSpace(Vector3f worldMin, Vector3f worldMax,
             BroadphaseType broadphaseType, SolverType solverType,
-            CollisionConfiguration cc) {
-        super(worldMin, worldMax, broadphaseType, 1, cc);
+            CollisionConfiguration configuration) {
+        super(worldMin, worldMax, broadphaseType, 1, configuration);
         Validate.nonNull(solverType, "solver type");
 
         if (this.solverType != solverType) {

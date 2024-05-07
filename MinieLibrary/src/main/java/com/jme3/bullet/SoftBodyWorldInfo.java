@@ -303,7 +303,7 @@ public class SoftBodyWorldInfo
         setAirDensity(capsule.readFloat(tagAirDensity, 1.2f));
         setGravity((Vector3f) capsule.readSavable(
                 tagGravity, new Vector3f(0f, -10f, 0f)));
-        setMaxDisplacement(capsule.readFloat(tagMaxDisplacement, 1000f));
+        setMaxDisplacement(capsule.readFloat(tagMaxDisplacement, 1_000f));
         setWaterDensity(capsule.readFloat(tagWaterDensity, 0f));
         setWaterNormal((Vector3f) capsule.readSavable(tagWaterNormal,
                 new Vector3f(0f, 0f, 0f)));
@@ -323,7 +323,7 @@ public class SoftBodyWorldInfo
 
         capsule.write(airDensity(), tagAirDensity, 1.2f);
         capsule.write(copyGravity(null), tagGravity, null);
-        capsule.write(maxDisplacement(), tagMaxDisplacement, 1000f);
+        capsule.write(maxDisplacement(), tagMaxDisplacement, 1_000f);
         capsule.write(waterDensity(), tagWaterDensity, 0f);
         capsule.write(copyWaterNormal(null), tagWaterNormal, null);
         capsule.write(waterOffset(), tagWaterOffset, 0f);
