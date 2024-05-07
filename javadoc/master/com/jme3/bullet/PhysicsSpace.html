@@ -208,7 +208,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  com.jme3.math.Vector3f&nbsp;worldMax,
  <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
  <a href="SolverType.html" title="enum class in com.jme3.bullet">SolverType</a>&nbsp;solverType,
- <a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a>&nbsp;cc)</code></div>
+ <a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a>&nbsp;configuration)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Instantiate a PhysicsSpace with the specified contact-and-constraint
  solver.</div>
@@ -792,7 +792,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  com.jme3.math.Vector3f&nbsp;worldMax,
  <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;broadphaseType,
  <a href="SolverType.html" title="enum class in com.jme3.bullet">SolverType</a>&nbsp;solverType,
- <a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a>&nbsp;cc)</span></div>
+ <a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a>&nbsp;configuration)</span></div>
 <div class="block">Instantiate a PhysicsSpace with the specified contact-and-constraint
  solver. Must be invoked on the designated physics thread.</div>
 <dl class="notes">
@@ -803,7 +803,7 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  unaffected, default=(10k,10k,10k))</dd>
 <dd><code>broadphaseType</code> - which broadphase accelerator to use (not null)</dd>
 <dd><code>solverType</code> - the desired contact-and-constraint solver (not null)</dd>
-<dd><code>cc</code> - the desired configuration (not null)</dd>
+<dd><code>configuration</code> - the desired configuration (not null)</dd>
 </dl>
 </section>
 </li>
