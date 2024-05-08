@@ -189,9 +189,19 @@ loadScripts(document, 'script');</script>
  and original to resolve copied fields.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countMeshVertices()" class="member-name-link">countMeshVertices</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countColumns()" class="member-name-link">countColumns</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Count how many columns are in the heightfield.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countMeshVertices()" class="member-name-link">countMeshVertices</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Count how many data points are in the heightfield.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countRows()" class="member-name-link">countRows</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Count how many rows are in the heightfield.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
@@ -204,9 +214,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Approximate this shape with a splittable shape.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upAxis()" class="member-name-link">upAxis</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the index of the height axis.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Serialize this shape to the specified exporter, for example when saving
  to a J3O file.</div>
 </div>
@@ -350,6 +365,17 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="countColumns()">
+<h3>countColumns</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countColumns</span>()</div>
+<div class="block">Count how many columns are in the heightfield.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the count (&ge;2)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="countMeshVertices()">
 <h3>countMeshVertices</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countMeshVertices</span>()</div>
@@ -357,6 +383,28 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the count (&gt;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="countRows()">
+<h3>countRows</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countRows</span>()</div>
+<div class="block">Count how many rows are in the heightfield.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the count (&ge;2)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="upAxis()">
+<h3>upAxis</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">upAxis</span>()</div>
+<div class="block">Return the index of the height axis.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the axis index: 0&rarr;X, 1&rarr;Y, 2&rarr;Z</dd>
 </dl>
 </section>
 </li>
