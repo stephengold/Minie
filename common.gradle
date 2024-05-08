@@ -1,7 +1,7 @@
 // Gradle settings and tasks common to all Minie subprojects
 
-apply plugin: 'checkstyle'
-apply plugin: 'java'
+apply plugin: 'checkstyle' // to analyze Java sourcecode for style violations
+apply plugin: 'java'       // to compile and test Java projects
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_7
