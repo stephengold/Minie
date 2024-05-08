@@ -125,6 +125,9 @@ final public class TestIssue40 extends SimpleApplication
 
         // Configure physics:
         BulletAppState bulletAppState = new BulletAppState();
+        //CollisionConfiguration configuration
+        //        = new CollisionConfiguration(4_096, 0);
+        //bulletAppState.setCollisionConfiguration(configuration);
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
@@ -136,6 +139,8 @@ final public class TestIssue40 extends SimpleApplication
         HullCollisionShape hullShape = new HullCollisionShape(sphere);
         ballBody = new PhysicsRigidBody(hullShape);
         ballBody.setPhysicsLocation(new Vector3f(0f, 5f, 0f));
+        //ballBody.setCcdMotionThreshold(1f);
+        //ballBody.setCcdSweptSphereRadius(1f);
         physicsSpace.add(ballBody);
 
         // Add a small static terrain with all heights=0:

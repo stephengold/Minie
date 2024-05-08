@@ -90,8 +90,8 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.Signals;
 
 /**
- * Test/demonstrate various collision shapes by dropping drops
- * (small/dynamic bodies) onto a platform (large/fixed/horizontal body).
+ * Test/demonstrate various collision shapes by dropping drops (small/dynamic
+ * bodies) onto a platform (large/fixed/horizontal body).
  * <p>
  * Collision objects are rendered entirely by debug visualization.
  * <p>

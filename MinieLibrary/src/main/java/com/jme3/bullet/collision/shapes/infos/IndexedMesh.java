@@ -585,7 +585,7 @@ public class IndexedMesh
     }
 
     /**
-     * Calculate the surface area of the mesh.
+     * Calculate the (one-sided) surface area of the mesh.
      *
      * @return the area (in square mesh units, &ge;0)
      */
