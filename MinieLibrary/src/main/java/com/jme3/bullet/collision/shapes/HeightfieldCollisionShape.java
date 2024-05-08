@@ -271,12 +271,12 @@ public class HeightfieldCollisionShape extends CollisionShape {
     /**
      * Count how many data points are in the heightfield.
      *
-     * @return the count (&gt;0)
+     * @return the count (&ge;4)
      */
     public int countMeshVertices() {
         int count = heightfieldData.length;
 
-        assert count > 0 : count;
+        assert count >= 4 : count;
         return count;
     }
 
