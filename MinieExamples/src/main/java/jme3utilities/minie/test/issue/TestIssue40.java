@@ -170,7 +170,7 @@ final public class TestIssue40 extends SimpleApplication
     @Override
     public void onContactEnded(long manifoldId) {
         if (tickCount >= startTick) {
-            System.out.println("  removed manifold " + manifoldId);
+            System.out.printf("  removed manifold %x%n", manifoldId);
             System.out.flush();
         }
     }
@@ -188,7 +188,7 @@ final public class TestIssue40 extends SimpleApplication
     public void onContactProcessed(PhysicsCollisionObject pcoA,
             PhysicsCollisionObject pcoB, long manifoldPointId) {
         if (tickCount >= startTick) {
-            System.out.println("  processed point " + manifoldPointId);
+            System.out.printf("  processed point %x%n", manifoldPointId);
             System.out.flush();
         }
     }
@@ -202,7 +202,7 @@ final public class TestIssue40 extends SimpleApplication
     @Override
     public void onContactStarted(long manifoldId) {
         if (tickCount >= startTick) {
-            System.out.println("  created manifold " + manifoldId);
+            System.out.printf("  created manifold %x%n", manifoldId);
             System.out.flush();
         }
     }
