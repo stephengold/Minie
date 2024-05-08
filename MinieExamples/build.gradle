@@ -57,11 +57,11 @@ tasks.register('BuoyDemo', JavaExec) {
 tasks.register('ConveyorDemo', JavaExec) {
     mainClass = 'jme3utilities.minie.test.ConveyorDemo'
 }
-tasks.register('debugDropTest', JavaExec) {
-    debug = true
+tasks.register('DropTest', JavaExec) {
     mainClass = 'jme3utilities.minie.test.DropTest'
 }
-tasks.register('DropTest', JavaExec) {
+tasks.register('debugDropTest', JavaExec) {
+    debug = true
     mainClass = 'jme3utilities.minie.test.DropTest'
 }
 tasks.register('ForceDemo', JavaExec) {
