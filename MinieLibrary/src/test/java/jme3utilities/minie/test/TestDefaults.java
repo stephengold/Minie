@@ -978,13 +978,16 @@ public class TestDefaults {
         HeightfieldCollisionShape hcs
                 = new HeightfieldCollisionShape(nineHeights);
         testShape(hcs);
+        Assert.assertEquals(3, hcs.countColumns());
         Assert.assertEquals(9, hcs.countMeshVertices());
+        Assert.assertEquals(3, hcs.countRows());
         Assert.assertEquals(0.04f, hcs.getMargin(), 0f);
         Assert.assertTrue(hcs.isConcave());
         Assert.assertFalse(hcs.isConvex());
         Assert.assertFalse(hcs.isInfinite());
         Assert.assertTrue(hcs.isNonMoving());
         Assert.assertFalse(hcs.isPolyhedral());
+        Assert.assertEquals(PhysicsSpace.AXIS_Y, hcs.upAxis());
         testInverseInertia(hcs, 0f, 0f, 0f, 0f);
 
         // MeshCollisionShape with a compressed (quantized) BVH:

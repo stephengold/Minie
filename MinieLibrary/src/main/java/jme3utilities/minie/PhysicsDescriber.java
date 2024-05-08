@@ -219,8 +219,12 @@ public class PhysicsDescriber extends Describer {
             result.append(desc);
 
         } else if (shape instanceof HeightfieldCollisionShape) {
-            int numV = ((HeightfieldCollisionShape) shape).countMeshVertices();
-            desc = String.format("[%d]", numV);
+            HeightfieldCollisionShape hcs = (HeightfieldCollisionShape) shape;
+            int numRows = hcs.countRows();
+            int numColumns = hcs.countColumns();
+            int upAxis = hcs.upAxis();
+            String up = MyString.axisName(upAxis);
+            desc = String.format("[%dx%d %sup]", numRows, numColumns, up);
             result.append(desc);
 
         } else if (shape instanceof HullCollisionShape) {
