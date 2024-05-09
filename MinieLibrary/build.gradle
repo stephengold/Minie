@@ -135,7 +135,7 @@ dependencies {
     testImplementation junitCoordinates
     testImplementation desktopCoordinates
     testImplementation pluginsCoordinates
-    testRuntimeOnly testdataCoordinates
+    testRuntimeOnly    testdataCoordinates
 }
 
 test {

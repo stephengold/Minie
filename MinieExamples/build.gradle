@@ -5,7 +5,7 @@
 //   of the root project.
 
 plugins {
-    id 'application' // to build Java applications
+    id 'application' // to build JVM applications
 }
 
 application {
@@ -25,16 +25,16 @@ dependencies {
     implementation heartCoordinates
     //implementation junitCoordinates
     implementation pluginsCoordinates
-    runtimeOnly testdataCoordinates
+    runtimeOnly    testdataCoordinates
     implementation wesCoordinates
 
     // select one version of LWJGL:
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
+    //runtimeOnly    'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
+    runtimeOnly    'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
 
     // MinieExamples doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly joggCoordinates
+    runtimeOnly    joggCoordinates
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode

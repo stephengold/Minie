@@ -14,11 +14,11 @@ dependencies {
     runtimeOnly    desktopCoordinates
     implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
     implementation pluginsCoordinates
-    runtimeOnly 'org.jmonkeyengine:jme3-testdata:' + jme3Version
+    runtimeOnly    'org.jmonkeyengine:jme3-testdata:' + jme3Version
 
     // select one version of LWJGL:
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
+    //runtimeOnly    'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
+    runtimeOnly    'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode
