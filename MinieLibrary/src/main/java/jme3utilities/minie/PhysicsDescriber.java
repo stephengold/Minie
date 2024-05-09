@@ -306,7 +306,8 @@ public class PhysicsDescriber extends Describer {
             result.append('?');
         }
 
-        if (shape instanceof HeightfieldCollisionShape
+        if (shape instanceof GImpactCollisionShape
+                || shape instanceof HeightfieldCollisionShape
                 || shape instanceof MeshCollisionShape) {
             result.append(' ');
             if (!shape.isContactFilterEnabled()) {
