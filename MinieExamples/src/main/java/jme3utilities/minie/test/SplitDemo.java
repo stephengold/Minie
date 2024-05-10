@@ -859,6 +859,7 @@ public class SplitDemo
                 break;
 
             case "box":
+            case "customBox":
             case "frame":
             case "halfPipe":
             case "hull":
@@ -887,10 +888,22 @@ public class SplitDemo
             case "capsule":
             case "cone":
             case "coneBox":
+            case "customCone":
+            case "customCylinder":
+            case "customDome":
+            case "customFrustum":
+            case "customHemisphere":
+            case "customLemon":
+            case "customParaboloid":
+            case "customSegment":
             case "cylinder":
             case "cylinderBox":
             case "dome":
+            case "ellipsoid":
             case "football":
+            case "frustum":
+            case "halfCylinder":
+            case "hemisphere":
             case "multiSphere":
             case "roundedDisc":
             case "saucer":

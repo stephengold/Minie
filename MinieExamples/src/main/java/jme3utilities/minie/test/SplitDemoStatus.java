@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -82,8 +82,11 @@ class SplitDemoStatus extends SimpleAppState {
     final private static String[] shapeNames = {
         "ankh", "banana", "barbell", "barrel", "bedOfNails", "bowl", "box",
         "candyDish", "capsule", "chair", "cone", "coneBox", "corner",
-        "cylinder", "cylinderBox", "digit", "dimples", "dome", "duck",
-        "football", "frame", "halfPipe", "heart", "horseshoe", "hull", "iBeam",
+        "customBox", "customCone", "customCylinder", "customDome",
+        "customFrustum", "customHemisphere", "customLemon", "customParaboloid",
+        "customSegment", "cylinder", "cylinderBox", "digit", "dimples", "dome",
+        "duck", "ellipsoid", "football", "frame", "frustum", "halfCylinder",
+        "halfPipe", "heart", "hemisphere", "horseshoe", "hull", "iBeam",
         "knucklebone", "ladder", "letter", "lidlessBox", "link", "mallet",
         "multiSphere", "platonic", "prism", "pyramid", "roundedDisc",
         "roundedRectangle", "saucer", "smooth", "snowman", "sphere", "star",
