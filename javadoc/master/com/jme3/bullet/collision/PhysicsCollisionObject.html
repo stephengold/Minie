@@ -1160,11 +1160,11 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="debugMeshResolution()">
 <h3>debugMeshResolution</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">debugMeshResolution</span>()</div>
-<div class="block">Return the resolution for new debug meshes. Effective only for objects
- with convex shapes.</div>
+<div class="block">Return the resolution for new debug meshes.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>0=low, 1=high</dd>
+<dd>0&rarr;low, 1&rarr;high for convex shapes, 2&rarr;high for all
+ shapes</dd>
 </dl>
 </section>
 </li>
@@ -1957,17 +1957,11 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setDebugMeshResolution(int)">
 <h3>setDebugMeshResolution</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDebugMeshResolution</span><wbr><span class="parameters">(int&nbsp;newSetting)</span></div>
-<div class="block">Alter the mesh resolution for new debug meshes. Effective only for
- objects with convex shapes.</div>
+<div class="block">Alter the mesh resolution for new debug meshes.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>newSetting</code> - 0=low, 1=high (default=0)</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="shapes/CollisionShape.html#isConvex()"><code>CollisionShape.isConvex()</code></a></li>
-</ul>
-</dd>
+<dd><code>newSetting</code> - 0&rarr;low, 1&rarr;high for convex shapes, 2&rarr;high
+ for all shapes (default=0)</dd>
 </dl>
 </section>
 </li>

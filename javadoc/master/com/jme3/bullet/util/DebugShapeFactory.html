@@ -93,17 +93,25 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static final int</code></div>
 <div class="col-second even-row-color"><code><a href="#highResolution" class="member-name-link">highResolution</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">specify high-res debug meshes for convex shapes (up to 256 vertices)</div>
+<div class="block">specify high-resolution debug meshes for convex shapes (up to 256
+ vertices) and zero-margin debug meshes for concave shapes</div>
 </div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.logging/java/util/logging/Logger.html" title="class or interface in java.util.logging" class="external-link">Logger</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#logger" class="member-name-link">logger</a></code></div>
+<div class="col-first odd-row-color"><code>static final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#highResolution2" class="member-name-link">highResolution2</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">specify high-resolution debug meshes for convex shapes (up to 256
+ vertices) and actual-margin debug meshes for concave shapes</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.logging/java/util/logging/Logger.html" title="class or interface in java.util.logging" class="external-link">Logger</a></code></div>
+<div class="col-second even-row-color"><code><a href="#logger" class="member-name-link">logger</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">message logger for this class</div>
 </div>
-<div class="col-first even-row-color"><code>static final int</code></div>
-<div class="col-second even-row-color"><code><a href="#lowResolution" class="member-name-link">lowResolution</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">specify low-res debug meshes for convex shapes (up to 42 vertices)</div>
+<div class="col-first odd-row-color"><code>static final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#lowResolution" class="member-name-link">lowResolution</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">specify low-res debug meshes for convex shapes (up to 42 vertices) and
+ zero-margin debug meshes for concave shapes</div>
 </div>
 </div>
 </section>
@@ -220,7 +228,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="highResolution">
 <h3>highResolution</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">highResolution</span></div>
-<div class="block">specify high-res debug meshes for convex shapes (up to 256 vertices)</div>
+<div class="block">specify high-resolution debug meshes for convex shapes (up to 256
+ vertices) and zero-margin debug meshes for concave shapes</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -232,10 +241,27 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="highResolution2">
+<h3>highResolution2</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">highResolution2</span></div>
+<div class="block">specify high-resolution debug meshes for convex shapes (up to 256
+ vertices) and actual-margin debug meshes for concave shapes</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#com.jme3.bullet.util.DebugShapeFactory.highResolution2">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="lowResolution">
 <h3>lowResolution</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">lowResolution</span></div>
-<div class="block">specify low-res debug meshes for convex shapes (up to 42 vertices)</div>
+<div class="block">specify low-res debug meshes for convex shapes (up to 42 vertices) and
+ zero-margin debug meshes for concave shapes</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -289,7 +315,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - the input shape (not null, unaffected)</dd>
-<dd><code>meshResolution</code> - (0=low, 1=high)</dd>
+<dd><code>meshResolution</code> - 0&rarr;low, 1&rarr;high for convex shapes,
+ 2&rarr;high for all shapes</dd>
 <dt>Returns:</dt>
 <dd>a new, unflipped, direct buffer full of scaled shape coordinates
  (capacity a multiple of 3)</dd>
@@ -310,7 +337,8 @@ loadScripts(document, 'script');</script>
 <dd><code>shape</code> - (not null, not compound, not plane, unaffected)</dd>
 <dd><code>shapeToWorld</code> - the world transform of the collision object (not
  null, unaffected)</dd>
-<dd><code>meshResolution</code> - (0=low, 1=high)</dd>
+<dd><code>meshResolution</code> - 0&rarr;low, 1&rarr;high for convex shapes,
+ 2&rarr;high for all shapes</dd>
 <dt>Returns:</dt>
 <dd>a new array of corner locations (in world coordinates)</dd>
 </dl>
@@ -369,7 +397,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - the shape to visualize (not null, unaffected)</dd>
-<dd><code>meshResolution</code> - (0=low, 1=high)</dd>
+<dd><code>meshResolution</code> - 0&rarr;low, 1&rarr;high for convex shapes,
+ 2&rarr;high for all shapes</dd>
 <dt>Returns:</dt>
 <dd>a new, unflipped, direct buffer full of scaled shape coordinates
  (capacity a multiple of 9)</dd>
@@ -402,7 +431,8 @@ loadScripts(document, 'script');</script>
 <dd><code>shape</code> - (not null, not compound, not plane, unaffected)</dd>
 <dd><code>shapeToWorld</code> - the transform to apply to debug-mesh coordinates (not
  null, unaffected)</dd>
-<dd><code>meshResolution</code> - (0=low, 1=high)</dd>
+<dd><code>meshResolution</code> - 0&rarr;low, 1&rarr;high for convex shapes,
+ 2&rarr;high for all shapes</dd>
 <dt>Returns:</dt>
 <dd>the maximum length of the transformed vertex locations (&ge;0)</dd>
 </dl>
@@ -457,7 +487,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - the convex shape to analyze (not null, unaffected)</dd>
-<dd><code>meshResolution</code> - (0=low, 1=high)</dd>
+<dd><code>meshResolution</code> - 0&rarr;low, 1&rarr;high for convex shapes,
+ 2&rarr;high for all shapes</dd>
 <dt>Returns:</dt>
 <dd>the scaled volume (in physics-space units cubed, &ge;0)</dd>
 </dl>

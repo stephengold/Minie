@@ -327,7 +327,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - the input shape (not null, unaffected)</dd>
-<dd><code>resolution</code> - ignored for concave shapes (0=low, 1=high)</dd>
+<dd><code>resolution</code> - 0&rarr;low, 1&rarr;high for convex shapes, 2&rarr;high
+ for all shapes</dd>
 <dd><code>dedup</code> - true&rarr;deduplicate vertices, false&rarr;don't deduplicate</dd>
 </dl>
 </section>
@@ -411,7 +412,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - shape to visualize (not null, not compound, unaffected)</dd>
-<dd><code>meshResolution</code> - (0=low, 1=high)</dd>
+<dd><code>meshResolution</code> - 0&rarr;low, 1&rarr;high for convex shapes,
+ 2&rarr;high for all shapes</dd>
 </dl>
 </section>
 </li>
