@@ -582,6 +582,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Used internally.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#aRadius()" class="member-name-link">aRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">Return the radius of the "A" base.</div>
+</dd>
 <dt><a href="com/jme3/bullet/debug/DebugTools.html#arrowBlue" class="member-name-link">arrowBlue</a> - Variable in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/DebugTools.html" title="class in com.jme3.bullet.debug">DebugTools</a></dt>
 <dd>
 <div class="block">mesh for the blue arrow</div>
@@ -919,6 +923,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a box shape that encloses the sample locations in the
  specified FloatBuffer range.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#bRadius()" class="member-name-link">bRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">Return the radius of the "B" base.</div>
+</dd>
 <dt><a href="com/jme3/bullet/objects/PhysicsVehicle.html#brake(float)" class="member-name-link">brake(float)</a> - Method in class com.jme3.bullet.objects.<a href="com/jme3/bullet/objects/PhysicsVehicle.html" title="class in com.jme3.bullet.objects">PhysicsVehicle</a></dt>
 <dd>
 <div class="block">Apply the specified brake impulse to all wheels.</div>
@@ -1068,6 +1076,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/ConeCollisionShape.html#canScale(com.jme3.math.Vector3f)" class="member-name-link">canScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConeCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">ConeCollisionShape</a></dt>
 <dd>
 <div class="block">Test whether the specified scale factors can be applied to this shape.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#canScale(com.jme3.math.Vector3f)" class="member-name-link">canScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">Test whether the specified scale factors can be applied to the shape.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/Convex2dShape.html#canScale(com.jme3.math.Vector3f)" class="member-name-link">canScale(Vector3f)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/Convex2dShape.html" title="class in com.jme3.bullet.collision.shapes">Convex2dShape</a></dt>
 <dd>
@@ -1426,6 +1438,12 @@ loadScripts(document, 'script');</script>
  and original to resolve copied fields.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/ConeCollisionShape.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConeCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">ConeCollisionShape</a></dt>
+<dd>
+<div class="block">Callback from <code>Cloner</code> to convert this
+ shallow-cloned shape into a deep-cloned one, using the specified Cloner
+ and original to resolve copied fields.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields(Cloner, Object)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
 <dd>
 <div class="block">Callback from <code>Cloner</code> to convert this
  shallow-cloned shape into a deep-cloned one, using the specified Cloner
@@ -2186,6 +2204,19 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/MultiBody.html#configureSphericalLink(float,com.jme3.math.Vector3f,com.jme3.bullet.MultiBodyLink,com.jme3.math.Quaternion,com.jme3.math.Vector3f,com.jme3.math.Vector3f,boolean)" class="member-name-link">configureSphericalLink(float, Vector3f, MultiBodyLink, Quaternion, Vector3f, Vector3f, boolean)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/MultiBody.html" title="class in com.jme3.bullet">MultiBody</a></dt>
 <dd>
 <div class="block">Configure a link that is joined to its parent with a spherical joint.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" class="type-name-link" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a> - Class in <a href="com/jme3/bullet/collision/shapes/package-summary.html">com.jme3.bullet.collision.shapes</a></dt>
+<dd>
+<div class="block">A collision shape for a conical frustum with uniform density, based on
+ <code>btConvexInternalShape</code>.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#%3Cinit%3E()" class="member-name-link">ConicalFrustum()</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">No-argument constructor needed by SavableClassUtil.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#%3Cinit%3E(float,float,float)" class="member-name-link">ConicalFrustum(float, float, float)</a> - Constructor for class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">Instantiate a conical frustum with the specified dimensions.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/CompoundCollisionShape.html#connectivityMatrix(com.jme3.bullet.CollisionSpace)" class="member-name-link">connectivityMatrix(CollisionSpace)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></dt>
 <dd>
@@ -6102,6 +6133,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Compare the specified CollisionShape with the lastShape.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#height()" class="member-name-link">height()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">Return the height of the frustum.</div>
+</dd>
 <dt><a href="jme3utilities/minie/MyShape.html#height(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">height(CollisionShape)</a> - Static method in class jme3utilities.minie.<a href="jme3utilities/minie/MyShape.html" title="class in jme3utilities.minie">MyShape</a></dt>
 <dd>
 <div class="block">Determine the unscaled height of the specified shape.</div>
@@ -7524,6 +7559,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">message logger for this class</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#logger2" class="member-name-link">logger2</a> - Static variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">message logger for this class</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/Convex2dShape.html#logger2" class="member-name-link">logger2</a> - Static variable in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/Convex2dShape.html" title="class in com.jme3.bullet.collision.shapes">Convex2dShape</a></dt>
 <dd>
 <div class="block">message logger for this class</div>
@@ -7921,6 +7960,11 @@ loadScripts(document, 'script');</script>
 <div class="block">Estimate how far the shape extends from its origin.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/ConeCollisionShape.html#maxRadius()" class="member-name-link">maxRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConeCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">ConeCollisionShape</a></dt>
+<dd>
+<div class="block">Calculate how far the scaled shape extends from its center of mass,
+ including collision margin.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#maxRadius()" class="member-name-link">maxRadius()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
 <dd>
 <div class="block">Calculate how far the scaled shape extends from its center of mass,
  including collision margin.</div>
@@ -9163,6 +9207,11 @@ loadScripts(document, 'script');</script>
 <div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">De-serialize the shape from the specified importer, for example when
+ loading from a J3O file.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/shapes/Convex2dShape.html#read(com.jme3.export.JmeImporter)" class="member-name-link">read(JmeImporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/Convex2dShape.html" title="class in com.jme3.bullet.collision.shapes">Convex2dShape</a></dt>
 <dd>
 <div class="block">De-serialize the shape from the specified importer, for example when
@@ -9898,6 +9947,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jme3/bullet/collision/shapes/CompoundCollisionShape.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/CompoundCollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CompoundCollisionShape</a></dt>
 <dd>
 <div class="block">Estimate the volume of this shape, including scale and margin.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">Estimate the volume of the collision shape, including scale and margin.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/ConvexShape.html#scaledVolume()" class="member-name-link">scaledVolume()</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a></dt>
 <dd>
@@ -13734,6 +13787,11 @@ the order they are declared.</div>
 <dd>
 <div class="block">Serialize this shape to the specified exporter, for example when saving
  to a J3O file.</div>
+</dd>
+<dt><a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/ConicalFrustum.html" title="class in com.jme3.bullet.collision.shapes">ConicalFrustum</a></dt>
+<dd>
+<div class="block">Serialize the shape to the specified exporter, for example when saving to
+ a J3O file.</div>
 </dd>
 <dt><a href="com/jme3/bullet/collision/shapes/Convex2dShape.html#write(com.jme3.export.JmeExporter)" class="member-name-link">write(JmeExporter)</a> - Method in class com.jme3.bullet.collision.shapes.<a href="com/jme3/bullet/collision/shapes/Convex2dShape.html" title="class in com.jme3.bullet.collision.shapes">Convex2dShape</a></dt>
 <dd>
