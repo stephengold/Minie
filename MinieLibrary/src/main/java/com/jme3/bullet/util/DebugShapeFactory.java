@@ -79,11 +79,18 @@ final public class DebugShapeFactory {
      */
     final private static float planeDebugMeshSideLength = 1_500f;
     /**
-     * specify high-res debug meshes for convex shapes (up to 256 vertices)
+     * specify high-resolution debug meshes for convex shapes (up to 256
+     * vertices) and zero-margin debug meshes for concave shapes
      */
     final public static int highResolution = 1;
     /**
-     * specify low-res debug meshes for convex shapes (up to 42 vertices)
+     * specify high-resolution debug meshes for convex shapes (up to 256
+     * vertices) and actual-margin debug meshes for concave shapes
+     */
+    final public static int highResolution2 = 2;
+    /**
+     * specify low-res debug meshes for convex shapes (up to 42 vertices) and
+     * zero-margin debug meshes for concave shapes
      */
     final public static int lowResolution = 0;
     /**
@@ -152,7 +159,8 @@ final public class DebugShapeFactory {
      * recursive!
      *
      * @param shape the input shape (not null, unaffected)
-     * @param meshResolution (0=low, 1=high)
+     * @param meshResolution 0&rarr;low, 1&rarr;high for convex shapes,
+     * 2&rarr;high for all shapes
      * @return a new, unflipped, direct buffer full of scaled shape coordinates
      * (capacity a multiple of 3)
      */
@@ -160,7 +168,7 @@ final public class DebugShapeFactory {
             CollisionShape shape, int meshResolution) {
         Validate.nonNull(shape, "shape");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
-                highResolution);
+                highResolution2);
 
         FloatBuffer result;
         if (shape instanceof CompoundCollisionShape) {
@@ -188,7 +196,8 @@ final public class DebugShapeFactory {
      * @param shape (not null, not compound, not plane, unaffected)
      * @param shapeToWorld the world transform of the collision object (not
      * null, unaffected)
-     * @param meshResolution (0=low, 1=high)
+     * @param meshResolution 0&rarr;low, 1&rarr;high for convex shapes,
+     * 2&rarr;high for all shapes
      * @return a new array of corner locations (in world coordinates)
      */
     public static Vector3f[] footprint(
@@ -199,7 +208,7 @@ final public class DebugShapeFactory {
                 "a non-null value, neither a compound nor a plane shape");
         Validate.nonNull(shapeToWorld, "shape-to-world");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
-                highResolution);
+                highResolution2);
 
         IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
         Vector3f[] cornerLocations = debugMesh.footprint(shapeToWorld);
@@ -280,7 +289,8 @@ final public class DebugShapeFactory {
      * collision shape. Note: recursive!
      *
      * @param shape the shape to visualize (not null, unaffected)
-     * @param meshResolution (0=low, 1=high)
+     * @param meshResolution 0&rarr;low, 1&rarr;high for convex shapes,
+     * 2&rarr;high for all shapes
      * @return a new, unflipped, direct buffer full of scaled shape coordinates
      * (capacity a multiple of 9)
      */
@@ -288,7 +298,7 @@ final public class DebugShapeFactory {
             CollisionShape shape, int meshResolution) {
         Validate.nonNull(shape, "shape");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
-                highResolution);
+                highResolution2);
 
         FloatBuffer result;
         if (shape instanceof CompoundCollisionShape) {
@@ -326,7 +336,8 @@ final public class DebugShapeFactory {
      * @param shape (not null, not compound, not plane, unaffected)
      * @param shapeToWorld the transform to apply to debug-mesh coordinates (not
      * null, unaffected)
-     * @param meshResolution (0=low, 1=high)
+     * @param meshResolution 0&rarr;low, 1&rarr;high for convex shapes,
+     * 2&rarr;high for all shapes
      * @return the maximum length of the transformed vertex locations (&ge;0)
      */
     public static float maxDistance(
@@ -337,7 +348,7 @@ final public class DebugShapeFactory {
                 "a non-null value, neither a compound nor a plane shape");
         Validate.nonNull(shapeToWorld, "shapeToWorld");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
-                highResolution);
+                highResolution2);
 
         IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
         float result = debugMesh.maxDistance(shapeToWorld);
@@ -401,13 +412,14 @@ final public class DebugShapeFactory {
      * resolution.
      *
      * @param shape the convex shape to analyze (not null, unaffected)
-     * @param meshResolution (0=low, 1=high)
+     * @param meshResolution 0&rarr;low, 1&rarr;high for convex shapes,
+     * 2&rarr;high for all shapes
      * @return the scaled volume (in physics-space units cubed, &ge;0)
      */
     public static float volumeConvex(ConvexShape shape, int meshResolution) {
         Validate.nonNull(shape, "shape");
         Validate.inRange(meshResolution, "mesh resolution", lowResolution,
-                highResolution);
+                highResolution2);
 
         IndexedMesh debugMesh = new IndexedMesh(shape, meshResolution);
         float volume = debugMesh.volumeConvex();
@@ -423,8 +435,8 @@ final public class DebugShapeFactory {
      * CompoundCollisionShape.
      *
      * @param compoundShape (not null, unaffected)
-     * @param meshResolution (0=low, 1=high)
-     *
+     * @param meshResolution 0&rarr;low, 1&rarr;high for convex shapes,
+     * 2&rarr;high for all shapes
      * @return a new, unflipped, direct buffer full of scaled shape coordinates
      * (capacity a multiple of 9)
      */
@@ -465,8 +477,8 @@ final public class DebugShapeFactory {
      * Determine vertex locations for the specified CompoundCollisionShape.
      *
      * @param compoundShape (not null, unaffected)
-     * @param meshResolution (0=low, 1=high)
-     *
+     * @param meshResolution 0&rarr;low, 1&rarr;high for convex shapes,
+     * 2&rarr;high for all shapes
      * @return a new, unflipped, direct buffer full of scaled shape coordinates
      * (capacity a multiple of 3)
      */
@@ -510,7 +522,8 @@ final public class DebugShapeFactory {
      * @param shape (not null, not compound, unaffected)
      * @param listener (may be null)
      * @param normals which normals to generate (not null)
-     * @param resolution how much detail for convex shapes (0=low, 1=high)
+     * @param resolution 0&rarr;low, 1&rarr;high for convex shapes, 2&rarr;high
+     * for all shapes
      * @return a new Geometry (not null)
      */
     private static Geometry createGeometry(CollisionShape shape,
@@ -520,7 +533,7 @@ final public class DebugShapeFactory {
         assert !(shape instanceof CompoundCollisionShape);
         assert normals != null;
         assert resolution >= lowResolution : resolution;
-        assert resolution <= highResolution : resolution;
+        assert resolution <= highResolution2 : resolution;
 
         DebugMeshKey key = new DebugMeshKey(shape, normals, resolution);
         Mesh mesh;
@@ -555,13 +568,14 @@ final public class DebugShapeFactory {
      *
      * @param shape (not null, not compound, not plane, unaffected)
      * @param normals which normals to generate (not null)
-     * @param resolution how much detail for convex shapes (0=low, 1=high)
+     * @param resolution 0&rarr;low, 1&rarr;high for convex shapes, 2&rarr;high
+     * for all shapes
      * @return a new Mesh (not null)
      */
     private static Mesh createMesh(
             CollisionShape shape, MeshNormals normals, int resolution) {
         assert resolution >= lowResolution : resolution;
-        assert resolution <= highResolution : resolution;
+        assert resolution <= highResolution2 : resolution;
 
         IndexedMesh dm = new IndexedMesh(shape, resolution);
         FloatBuffer positions;
@@ -628,7 +642,8 @@ final public class DebugShapeFactory {
      * @param compoundShape (not null, unaffected)
      * @param listener (may be null)
      * @param normals which normals to generate (not null)
-     * @param resolution how much detail for convex child shapes (0=low, 1=high)
+     * @param resolution 0&rarr;low, 1&rarr;high for convex shapes, 2&rarr;high
+     * for all shapes
      * @return a new Node (not null)
      */
     private static Node createNode(CompoundCollisionShape compoundShape,
@@ -636,7 +651,7 @@ final public class DebugShapeFactory {
             int resolution) {
         assert normals != null;
         assert resolution >= lowResolution : resolution;
-        assert resolution <= highResolution : resolution;
+        assert resolution <= highResolution2 : resolution;
 
         Node node = new Node("Bullet debug");
 

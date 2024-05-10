@@ -148,14 +148,15 @@ public class IndexedMesh
      * CollisionShape.
      *
      * @param shape the input shape (not null, unaffected)
-     * @param resolution ignored for concave shapes (0=low, 1=high)
+     * @param resolution 0&rarr;low, 1&rarr;high for convex shapes, 2&rarr;high
+     * for all shapes
      * @param dedup true&rarr;deduplicate vertices, false&rarr;don't deduplicate
      */
     public IndexedMesh(CollisionShape shape, int resolution, boolean dedup) {
         Validate.nonNull(shape, "shape");
         Validate.inRange(resolution, "resolution",
                 DebugShapeFactory.lowResolution,
-                DebugShapeFactory.highResolution);
+                DebugShapeFactory.highResolution2);
 
         FloatBuffer positionBuffer
                 = DebugShapeFactory.getDebugTriangles(shape, resolution);
@@ -301,13 +302,16 @@ public class IndexedMesh
      * Instantiate a IndexedMesh to visualize the specified collision shape.
      *
      * @param shape shape to visualize (not null, not compound, unaffected)
-     * @param meshResolution (0=low, 1=high)
+     * @param meshResolution 0&rarr;low, 1&rarr;high for convex shapes,
+     * 2&rarr;high for all shapes
      */
     public IndexedMesh(CollisionShape shape, int meshResolution) {
         Validate.require(
                 !(shape == null || shape instanceof CompoundCollisionShape),
                 "a non-null value, not a compound shape");
-        Validate.inRange(meshResolution, "mesh resolution", 0, 1);
+        Validate.inRange(meshResolution, "mesh resolution",
+                DebugShapeFactory.lowResolution,
+                DebugShapeFactory.highResolution2);
 
         long shapeId = shape.nativeId();
         long meshId = createIntDebug(shapeId, meshResolution);
