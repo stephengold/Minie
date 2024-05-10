@@ -402,6 +402,7 @@ class Drop implements BulletDebugAppState.DebugAppStateFilter {
             case "customCone":
             case "customCylinder":
             case "customDome":
+            case "customFrustum":
             case "customHemisphere":
             case "customLemon":
             case "customParaboloid":
