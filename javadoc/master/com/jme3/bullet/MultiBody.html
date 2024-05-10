@@ -427,6 +427,16 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter which collision group this MultiBody belongs to.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserIndex(int)" class="member-name-link">setUserIndex</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the primary user index.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserIndex2(int)" class="member-name-link">setUserIndex2</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the secondary user index.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spaceId()" class="member-name-link">spaceId</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -436,6 +446,16 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useGlobalVelocities(boolean)" class="member-name-link">useGlobalVelocities</a><wbr>(boolean&nbsp;setting)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter whether this MultiBody uses global velocities.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#userIndex()" class="member-name-link">userIndex</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the primary user index (native field: m_userIndex).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#userIndex2()" class="member-name-link">userIndex2</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the secondary user index (native field: m_userIndex2).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useRK4(boolean)" class="member-name-link">useRK4</a><wbr>(boolean&nbsp;setting)</code></div>
@@ -1155,6 +1175,30 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 </section>
 </li>
 <li>
+<section class="detail" id="setUserIndex(int)">
+<h3>setUserIndex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserIndex</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="block">Alter the primary user index. Applications may use this parameter for any
+ purpose (native field: m_userIndex).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - the desired value (default=-1)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setUserIndex2(int)">
+<h3>setUserIndex2</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserIndex2</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="block">Alter the secondary user index. Applications may use this parameter for
+ any purpose (native field: m_userIndex2).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - the desired value (default=-1)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="spaceId()">
 <h3>spaceId</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">spaceId</span>()</div>
@@ -1184,6 +1228,28 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>setting</code> - true to use RK4 (default=false)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="userIndex()">
+<h3>userIndex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">userIndex</span>()</div>
+<div class="block">Return the primary user index (native field: m_userIndex).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="userIndex2()">
+<h3>userIndex2</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">userIndex2</span>()</div>
+<div class="block">Return the secondary user index (native field: m_userIndex2).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value</dd>
 </dl>
 </section>
 </li>
