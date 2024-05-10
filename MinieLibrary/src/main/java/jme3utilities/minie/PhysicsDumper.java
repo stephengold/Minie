@@ -254,6 +254,8 @@ public class PhysicsDumper extends Dumper {
         desc = describer.describeGroups(collider);
         stream.print(desc);
 
+        addUserIndices(collider);
+
         long objectId = collider.nativeId();
         addNativeId(objectId);
         /*
@@ -295,6 +297,8 @@ public class PhysicsDumper extends Dumper {
 
         Vector3f ang = character.getAngularVelocity(null);
         stream.printf(" angV[%s]", MyVector3f.describe(ang));
+
+        addUserIndices(character);
 
         long objectId = character.nativeId();
         addNativeId(objectId);
@@ -386,6 +390,8 @@ public class PhysicsDumper extends Dumper {
             String orientText = MyQuaternion.describe(orientation);
             stream.printf(" orient[%s]", orientText);
         }
+
+        addUserIndices(ghost);
 
         long objectId = ghost.nativeId();
         addNativeId(objectId);
@@ -543,6 +549,8 @@ public class PhysicsDumper extends Dumper {
             stream.printf(" orient[%s]", orientText);
         }
 
+        addUserIndices(body);
+
         long objectId = body.nativeId();
         addNativeId(objectId);
 
@@ -633,6 +641,8 @@ public class PhysicsDumper extends Dumper {
         float margin = body.margin();
         desc = MyString.describe(margin);
         stream.print(desc);
+
+        addUserIndices(body);
 
         long objectId = body.nativeId();
         addNativeId(objectId);
@@ -1311,6 +1321,31 @@ public class PhysicsDumper extends Dumper {
             stream.print(" #");
             String hex = Long.toHexString(id);
             stream.print(hex);
+        }
+    }
+
+    /**
+     * Add the PCO user indices, if other than -1.
+     *
+     * @param pco the object being dumped (not null, unaffected)
+     */
+    private void addUserIndices(PhysicsCollisionObject pco) {
+        int userIndex = pco.userIndex();
+        if (userIndex != -1) {
+            stream.print(" userIndex=");
+            stream.print(userIndex);
+        }
+
+        int userIndex2 = pco.userIndex2();
+        if (userIndex2 != -1) {
+            stream.print(" userIndex2=");
+            stream.print(userIndex2);
+        }
+
+        int userIndex3 = pco.userIndex3();
+        if (userIndex3 != -1) {
+            stream.print(" userIndex3=");
+            stream.print(userIndex3);
         }
     }
 

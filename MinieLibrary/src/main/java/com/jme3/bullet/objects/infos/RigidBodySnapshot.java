@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2023 jMonkeyEngine
+ * Copyright (c) 2022-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -135,6 +135,18 @@ public class RigidBodySnapshot {
      */
     final private int anisotropicFrictionModes;
     /**
+     * primary user index
+     */
+    final private int userIndex;
+    /**
+     * secondary user index
+     */
+    final private int userIndex2;
+    /**
+     * tertiary user index
+     */
+    final private int userIndex3;
+    /**
      * basis of the local coordinate system (in physics-space coordinates)
      */
     final private Matrix3f rotationMatrix;
@@ -219,6 +231,9 @@ public class RigidBodySnapshot {
             }
         }
         this.anisotropicFrictionModes = afMode;
+        this.userIndex = body.userIndex();
+        this.userIndex2 = body.userIndex2();
+        this.userIndex3 = body.userIndex3();
 
         this.ignoreList = body.listIgnoredPcos();
         this.rotationMatrix = body.getPhysicsRotationMatrix(null);
@@ -275,6 +290,9 @@ public class RigidBodySnapshot {
 
         body.setAnisotropicFriction(
                 anisotropicFrictionComponents, anisotropicFrictionModes);
+        body.setUserIndex(userIndex);
+        body.setUserIndex2(userIndex2);
+        body.setUserIndex3(userIndex3);
         body.setPhysicsRotation(rotationMatrix);
         body.setPhysicsLocationDp(location);
         body.clearForces();

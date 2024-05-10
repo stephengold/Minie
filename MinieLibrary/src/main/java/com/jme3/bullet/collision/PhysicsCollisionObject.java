@@ -178,6 +178,9 @@ abstract public class PhysicsCollisionObject
     final private static String tagRestitution = "restitution";
     final private static String tagRollingFriction = "rollingFriction";
     final private static String tagSpinningFriction = "spinningFriction";
+    final private static String tagUserIndex = "userIndex";
+    final private static String tagUserIndex2 = "userIndex2";
+    final private static String tagUserIndex3 = "userIndex3";
     final private static String tagUserObject = "userObject";
     // *************************************************************************
     // fields
@@ -387,6 +390,9 @@ abstract public class PhysicsCollisionObject
         setRestitution(old.getRestitution());
         setRollingFriction(old.getRollingFriction());
         setSpinningFriction(old.getSpinningFriction());
+        setUserIndex(old.userIndex());
+        setUserIndex2(old.userIndex2());
+        setUserIndex3(old.userIndex3());
 
         if (old.hasAnisotropicFriction(AfMode.basic)) {
             setAnisotropicFriction(
@@ -1361,6 +1367,39 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
+     * Alter the object's primary user index. Applications may use this
+     * parameter for any purpose (native field: m_userIndex).
+     *
+     * @param index the desired value (default=-1)
+     */
+    public void setUserIndex(int index) {
+        long objectId = nativeId();
+        setUserIndex(objectId, index);
+    }
+
+    /**
+     * Alter the object's secondary user index. Applications may use this
+     * parameter for any purpose (native field: m_userIndex2).
+     *
+     * @param index the desired value (default=-1)
+     */
+    public void setUserIndex2(int index) {
+        long objectId = nativeId();
+        setUserIndex2(objectId, index);
+    }
+
+    /**
+     * Alter the object's tertiary user index. Applications may use this
+     * parameter for any purpose (native field: m_userIndex3).
+     *
+     * @param index the desired value (default=-1)
+     */
+    public void setUserIndex3(int index) {
+        long objectId = nativeId();
+        setUserIndex3(objectId, index);
+    }
+
+    /**
      * Associate a "user" with this collision object. Used by physics controls.
      *
      * @param user the desired scene object (alias created, default=null)
@@ -1381,6 +1420,39 @@ abstract public class PhysicsCollisionObject
         long spaceId = getSpaceId(objectId);
 
         return spaceId;
+    }
+
+    /**
+     * Return the object's primary user index (native field: m_userIndex).
+     *
+     * @return the value of the index
+     */
+    public int userIndex() {
+        long objectId = nativeId();
+        int result = getUserIndex(objectId);
+        return result;
+    }
+
+    /**
+     * Return the object's secondary user index (native field: m_userIndex2).
+     *
+     * @return the value of the index
+     */
+    public int userIndex2() {
+        long objectId = nativeId();
+        int result = getUserIndex2(objectId);
+        return result;
+    }
+
+    /**
+     * Return the object's tertiary user index (native field: m_userIndex3).
+     *
+     * @return the value of the index
+     */
+    public int userIndex3() {
+        long objectId = nativeId();
+        int result = getUserIndex3(objectId);
+        return result;
     }
     // *************************************************************************
     // new protected methods
@@ -1501,6 +1573,9 @@ abstract public class PhysicsCollisionObject
         }
 
         this.applicationData = capsule.readSavable(tagApplicationData, null);
+        setUserIndex(capsule.readInt(tagUserIndex, -1));
+        setUserIndex2(capsule.readInt(tagUserIndex2, -1));
+        setUserIndex3(capsule.readInt(tagUserIndex3, -1));
         this.userObject = capsule.readSavable(tagUserObject, null);
     }
 
@@ -1648,6 +1723,9 @@ abstract public class PhysicsCollisionObject
         if (applicationData instanceof Savable) {
             capsule.write((Savable) applicationData, tagApplicationData, null);
         }
+        capsule.write(userIndex(), tagUserIndex, -1);
+        capsule.write(userIndex2(), tagUserIndex2, -1);
+        capsule.write(userIndex3(), tagUserIndex3, -1);
         if (userObject instanceof Savable) {
             capsule.write((Savable) userObject, tagUserObject, null);
         }
@@ -1806,6 +1884,12 @@ abstract public class PhysicsCollisionObject
 
     native private static float getSpinningFriction(long objectId);
 
+    native private static int getUserIndex(long objectId);
+
+    native private static int getUserIndex2(long objectId);
+
+    native private static int getUserIndex3(long objectId);
+
     native private static boolean
             hasAnisotropicFriction(long objectId, int mode);
 
@@ -1855,4 +1939,10 @@ abstract public class PhysicsCollisionObject
 
     native private static void
             setSpinningFriction(long objectId, float friction);
+
+    native private static void setUserIndex(long objectId, int index);
+
+    native private static void setUserIndex2(long objectId, int index);
+
+    native private static void setUserIndex3(long objectId, int index);
 }
