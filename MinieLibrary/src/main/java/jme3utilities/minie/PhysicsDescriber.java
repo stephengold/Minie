@@ -37,6 +37,7 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.ConicalFrustum;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CustomConvexShape;
@@ -192,6 +193,18 @@ public class PhysicsDescriber extends Describer {
             float radius = cone.getRadius();
             desc = describeHeightAndRadius(height, radius);
             result.append(desc);
+
+        } else if (shape instanceof ConicalFrustum) {
+            ConicalFrustum frustum = (ConicalFrustum) shape;
+            result.append(" a=");
+            float a = frustum.aRadius();
+            result.append(MyString.describe(a));
+            result.append(" b=");
+            float b = frustum.bRadius();
+            result.append(MyString.describe(b));
+            result.append(" h=");
+            float h = frustum.height();
+            result.append(MyString.describe(h));
 
         } else if (shape instanceof Convex2dShape) {
             CollisionShape child = ((Convex2dShape) shape).getBaseShape();
