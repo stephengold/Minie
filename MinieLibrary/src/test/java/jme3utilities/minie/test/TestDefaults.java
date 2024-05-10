@@ -553,6 +553,8 @@ public class TestDefaults {
         Assert.assertEquals(0.04f, mb.linearDamping(), 0f);
         Assert.assertEquals(1000f, mb.maxAppliedImpulse(), 0f);
         Assert.assertEquals(100f, mb.maxCoordinateVelocity(), 0f);
+        Assert.assertEquals(-1, mb.userIndex());
+        Assert.assertEquals(-1, mb.userIndex2());
 
         MultiBodyCollider baseCollider = mb.getBaseCollider();
         Utils.assertEquals(

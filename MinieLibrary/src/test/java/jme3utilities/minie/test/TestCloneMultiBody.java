@@ -163,6 +163,12 @@ public class TestCloneMultiBody {
             MultiBodyCollider c = colliders.get(i);
             setColliderParameters(c, b + 0.02f * i);
         }
+
+        int userIndex = (int) Math.round(10f * b);
+        multiBody.setUserIndex(userIndex);
+
+        int userIndex2 = (int) Math.round(20f * b);
+        multiBody.setUserIndex2(userIndex2);
     }
 
     private static void
@@ -191,5 +197,11 @@ public class TestCloneMultiBody {
             MultiBodyCollider collider = colliders.get(i);
             verifyColliderParameters(collider, b + 0.02f * i);
         }
+
+        int userIndex = (int) Math.round(10f * b);
+        Assert.assertEquals(userIndex, multiBody.userIndex());
+
+        int userIndex2 = (int) Math.round(20f * b);
+        Assert.assertEquals(userIndex2, multiBody.userIndex2());
     }
 }
