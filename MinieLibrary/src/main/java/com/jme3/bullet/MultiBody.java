@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 jMonkeyEngine
+ * Copyright (c) 2020-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,6 +87,8 @@ public class MultiBody
     final private static String tagNumConfigured = "numConfigured";
     final private static String tagNumLinks = "numLinks";
     final private static String tagRK4 = "RK4";
+    final private static String tagUserIndex = "userIndex";
+    final private static String tagUserIndex2 = "userIndex2";
     // *************************************************************************
     // fields
 
@@ -885,6 +887,28 @@ public class MultiBody
     }
 
     /**
+     * Alter the primary user index. Applications may use this parameter for any
+     * purpose (native field: m_userIndex).
+     *
+     * @param index the desired value (default=-1)
+     */
+    public void setUserIndex(int index) {
+        long multiBodyId = nativeId();
+        setUserIndex(multiBodyId, index);
+    }
+
+    /**
+     * Alter the secondary user index. Applications may use this parameter for
+     * any purpose (native field: m_userIndex2).
+     *
+     * @param index the desired value (default=-1)
+     */
+    public void setUserIndex2(int index) {
+        long multiBodyId = nativeId();
+        setUserIndex2(multiBodyId, index);
+    }
+
+    /**
      * Determine the ID of the MultiBodySpace to which this MultiBody is added.
      *
      * @return the ID, or zero if not in any space
@@ -914,6 +938,28 @@ public class MultiBody
     public void useRK4(boolean setting) {
         long multiBodyId = nativeId();
         useRK4Integration(multiBodyId, setting);
+    }
+
+    /**
+     * Return the primary user index (native field: m_userIndex).
+     *
+     * @return the value
+     */
+    public int userIndex() {
+        long multiBodyId = nativeId();
+        int result = getUserIndex(multiBodyId);
+        return result;
+    }
+
+    /**
+     * Return the secondary user index (native field: m_userIndex2).
+     *
+     * @return the value
+     */
+    public int userIndex2() {
+        long multiBodyId = nativeId();
+        int result = getUserIndex2(multiBodyId);
+        return result;
     }
     // *************************************************************************
     // JmeCloneable methods
@@ -959,6 +1005,8 @@ public class MultiBody
 
         setCollideWithGroups(old.collideWithGroups());
         setCollisionGroup(old.collisionGroup());
+        setUserIndex(old.userIndex());
+        setUserIndex2(old.userIndex2());
     }
 
     /**
@@ -1033,6 +1081,8 @@ public class MultiBody
         Vector3f velocity
                 = (Vector3f) capsule.readSavable(tagBaseVelocity, null);
         setBaseVelocity(velocity);
+        setUserIndex(capsule.readInt(tagUserIndex, -1));
+        setUserIndex2(capsule.readInt(tagUserIndex2, -1));
     }
 
     /**
@@ -1069,6 +1119,8 @@ public class MultiBody
 
         capsule.write(numLinks, tagNumLinks, 0);
         capsule.write(isUsingRK4(), tagRK4, false);
+        capsule.write(userIndex(), tagUserIndex, -1);
+        capsule.write(userIndex2(), tagUserIndex2, -1);
     }
     // *************************************************************************
     // Java private methods
@@ -1248,6 +1300,10 @@ public class MultiBody
 
     native private static boolean getUseGyroTerm(long multiBodyId);
 
+    native private static int getUserIndex(long multiBodyId);
+
+    native private static int getUserIndex2(long multiBodyId);
+
     native private static void
             getWorldToBaseRot(long multiBodyId, Quaternion storeQuaternion);
 
@@ -1304,6 +1360,10 @@ public class MultiBody
             float mass, Vector3f inertiaVector, int parentLinkIndex,
             Quaternion parent2LinkQuaternion, Vector3f parent2PivotVector,
             Vector3f pivotToLinkVector, boolean disableParentCollision);
+
+    native private static void setUserIndex(long multiBodyId, int index);
+
+    native private static void setUserIndex2(long multiBodyId, int index);
 
     native private static void
             setWorldToBaseRot(long multiBodyId, Quaternion quaternion);
