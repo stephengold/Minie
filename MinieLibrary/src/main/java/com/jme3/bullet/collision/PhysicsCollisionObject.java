@@ -363,7 +363,7 @@ abstract public class PhysicsCollisionObject
      * Copy common properties from another collision object. Used during
      * cloning.
      *
-     * @param old (not null, unaffected)
+     * @param old the instance to copy from (not null, unaffected)
      */
     final public void copyPcoProperties(PhysicsCollisionObject old) {
         assert old.hasAssignedNativeObject();

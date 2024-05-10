@@ -1124,7 +1124,7 @@ public class SplitDemo
     }
 
     /**
-     * Split the specified rigid body using the specified shapes.
+     * Split the specified rigid body into 2 using the specified shapes.
      *
      * @param oldBody (not null, added to the PhysicsSpace)
      * @param worldNormal the normal of the splitting plane (in world
