@@ -5,7 +5,7 @@
 
 _Demo applications_ are provided to showcase certain features of {Project}.
 The following demos are found in
-{url-examples}[the "jme3utilities.minie.test" package of the MinieExamples sub-project]:
+{url-examples}[the "jme3utilities.minie.test" package of the MinieExamples subproject]:
 
 * {url-examples}/BalanceDemo.java[`BalanceDemo`]
   demonstrates ragdolls that balance their weight between 2 feet

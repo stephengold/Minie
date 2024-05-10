@@ -232,7 +232,7 @@ release log continues at https://github.com/stephengold/Minie/blob/master/MinieL
    + Ensured that static rigid bodies are visualized in blue.
    + Changed the wireframe debug materials from single-sided to double-sided.
    + Added a `debugMeshInitListener` option to add texture coordinates.
- + Added a `MinieAssets` sub-project.
+ + Added a `MinieAssets` subproject.
  + Overrode the default `toString()` method for collision objects.
  + Added methods to the `PhysicsSoftBody` class:
    + `copyClusterMasses()`

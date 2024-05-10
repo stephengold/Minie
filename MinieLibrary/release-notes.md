@@ -380,7 +380,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 + Added V-HACD version 4 including the `Vhacd4`, `Vhacd4Parameters, `FillMode`,
   and `Vhacd4Hull` classes plus a new `HullCollisionShape` constructor and a
   new `CollisionShapeFactory` method.
-+ Added the VhacdTuner sub-project.
++ Added the VhacdTuner subproject.
 + Added the `toMap()` method to the `VHACDParameters` class.
 + Updated the native libraries to v16.1.0 of Libbulletjme.
 
@@ -495,7 +495,7 @@ Bugfix:  `NullPointerException` in `PhysicsCollisionObject.readPcoProperties()`
 ## Version 4.8.1 released on 29 March 2022
 
 + Bugfix:  issue #23 (access violations on 64-bit Windows)
-+ Split off "TutorialApps" from the "MinieExamples" sub-project.
++ Split off "TutorialApps" from the "MinieExamples" subproject.
 + Updated dependencies:
   + v0.9.11 of the Acorus library and
   + v0.9.28 of the jme3-utilities-nifty library.
@@ -1142,7 +1142,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
 
 + changed the Maven groupId to "com.github.stephengold"
 + moved issue-oriented tests to a new package
-+ moved the `jme3test` package to a new `Jme3Tests` sub-project
++ moved the `jme3test` package to a new `Jme3Tests` subproject
 + Updated the native libraries to version 3.0.4 of `Libbulletjme`.
 + Updated dependencies:
   + v5.0 of the `Heart` library,
@@ -1313,7 +1313,7 @@ Fixed JME issue 1283 (CCD doesn't respect collision groups)
 + Other improvements:
   + Updated `DacWizard` and demo apps to work with the new animation system.
   + Implemented `SoftJointDebugControl`.
-  + `MinieAssets` sub-project converts OgreXML and glTF assets to J3O format.
+  + `MinieAssets` subproject converts OgreXML and glTF assets to J3O format.
   + Added the `ForceDemo` app.
   + Added the `TestCollisionShapeFactory`, `TestIssue1120`, and
     `TestPhysicsRayCast` apps from jme3-examples.

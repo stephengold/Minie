@@ -62,7 +62,7 @@ import jme3utilities.MyString;
 
 /**
  * A headless SimpleApplication to import certain C-G models used in the
- * MinieExamples sub-project.
+ * MinieExamples subproject.
  *
  * @author Stephen Gold sgold@sonic.net
  */

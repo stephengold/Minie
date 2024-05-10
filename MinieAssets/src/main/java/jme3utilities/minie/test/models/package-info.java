@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Classes to generate C-G models for use in the MinieExamples sub-project.
+ * Classes to generate C-G models for use in the MinieExamples subproject.
  */
 package jme3utilities.minie.test.models;

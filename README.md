@@ -5,7 +5,7 @@ The [Minie Project][project] is about improving the integration of
 and [Khaled Mamou's V-HACD Library][vhacd] into
 [the jMonkeyEngine (JME) game engine][jme].
 
-It contains 8 sub-projects:
+It contains 8 subprojects:
 
  1. MinieLibrary: the Minie runtime library and its automated tests
  2. [DacWizard]: a GUI application to configure a ragdoll
@@ -332,7 +332,7 @@ The evolution of this project is chronicled in
 Most of Minie was originally forked from `jme3-bullet`,
 a library in the [jMonkeyEngine Game Engine][jme].
 
-From January to November 2018, Minie was a sub-project of
+From January to November 2018, Minie was a subproject of
 [the Jme3-utilities Project][utilities].
 
 Since November 2018, Minie has been a separate project, hosted at
