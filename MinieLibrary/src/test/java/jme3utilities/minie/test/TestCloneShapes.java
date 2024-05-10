@@ -37,6 +37,7 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.ConicalFrustum;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
@@ -230,6 +231,16 @@ public class TestCloneShapes {
         Assert.assertEquals(0.04f, coneClone.getMargin(), 0f);
         cone.setMargin(0.14f);
         Assert.assertEquals(0.04f, coneClone.getMargin(), 0f);
+
+        // ConicalFrustum:
+        CollisionShape frustum = new ConicalFrustum(1f, 2f, 1f);
+        setParameters(frustum, 0f);
+        verifyParameters(frustum, 0f);
+        CollisionShape frustumClone = Heart.deepCopy(frustum);
+        cloneTest(frustum, frustumClone);
+        Assert.assertEquals(1f, frustumClone.getScale(null).x, 0f);
+        frustum.setScale(2f);
+        Assert.assertEquals(1f, frustumClone.getScale(null).x, 0f);
 
         // Convex2dShape of a cone
         CollisionShape convex2d = new Convex2dShape(cone);

@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.ConicalFrustum;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
@@ -100,6 +101,10 @@ public class TestSetScale {
      * non-uniform scaling vector with 3 unequal components
      */
     final private static Vector3f non2 = new Vector3f(1f, 2f, 3f);
+    /*
+     * non-uniform scaling vector with x=z
+     */
+    final private static Vector3f non3 = new Vector3f(4f, 5f, 4f);
     // *************************************************************************
     // new methods exposed
 
@@ -227,6 +232,14 @@ public class TestSetScale {
         Utils.assertEquals(ident, cone.getScale(null), 0f);
         cone.setScale(uni);
         Utils.assertEquals(uni, cone.getScale(null), 0f);
+
+        // ConicalFrustum:
+        CollisionShape frustum = new ConicalFrustum(1f, 2f, 3f);
+        Utils.assertEquals(ident, frustum.getScale(null), 0.04f);
+        frustum.setScale(uni);
+        Utils.assertEquals(uni, frustum.getScale(null), 0f);
+        frustum.setScale(non3);
+        Utils.assertEquals(non3, frustum.getScale(null), 0f);
 
         // Convex2dShape of a cylinder
         float radius = 10f;

@@ -48,6 +48,7 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.ConicalFrustum;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
@@ -1072,6 +1073,18 @@ public class TestDefaults {
         Assert.assertEquals(
                 FastMath.PI / 3f, cone.unscaledVolume(), 1e-5f);
         testInverseInertia(cone, 1.831f, 1.196f, 1.831f, 0.001f);
+
+        // ConicalFrustum:
+        ConicalFrustum frustum = new ConicalFrustum(1f, 2f, 3f);
+        testConvexShape(frustum);
+        Assert.assertEquals(1f, frustum.aRadius(), 0f);
+        Assert.assertEquals(2f, frustum.bRadius(), 0f);
+        Assert.assertEquals(0.04f, frustum.getMargin(), 0f);
+        Assert.assertEquals(3f, frustum.height(), 0f);
+        Assert.assertEquals(2.3614f, frustum.maxRadius(), 1e-4f);
+        Assert.assertEquals(23.7542f, frustum.scaledVolume(), 1e-4f);
+        Assert.assertFalse(frustum.isPolyhedral());
+        testInverseInertia(frustum, 0.75f, 0.753f, 0.75f, 0.001f);
 
         // Convex2dShape of a cone
         ConeCollisionShape flatCone

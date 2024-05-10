@@ -38,6 +38,7 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.ConicalFrustum;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.ConvexShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
@@ -123,6 +124,12 @@ public class TestSetMargin {
         Assert.assertEquals(0.04f, cone.getMargin(), 0f);
         cone.setMargin(0.14f);
         Assert.assertEquals(0.14f, cone.getMargin(), 0f);
+
+        // ConicalFrustum:
+        ConicalFrustum frustum = new ConicalFrustum(1f, 2f, 3f);
+        Assert.assertEquals(0.04f, frustum.getMargin(), 0.04f);
+        frustum.setMargin(0.142f);
+        Assert.assertEquals(0.142f, frustum.getMargin(), 0f);
 
         // Convex2dShape of a cone
         ConeCollisionShape flatCone

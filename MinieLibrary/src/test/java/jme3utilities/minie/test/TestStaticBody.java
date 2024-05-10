@@ -39,6 +39,7 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.ConeCollisionShape;
+import com.jme3.bullet.collision.shapes.ConicalFrustum;
 import com.jme3.bullet.collision.shapes.Convex2dShape;
 import com.jme3.bullet.collision.shapes.CylinderCollisionShape;
 import com.jme3.bullet.collision.shapes.EmptyShape;
@@ -125,6 +126,11 @@ public class TestStaticBody {
         CollisionShape cone = new ConeCollisionShape(1f, 1f);
         PhysicsRigidBody coneBody = new PhysicsRigidBody(cone, 0f);
         space.addCollisionObject(coneBody);
+
+        // ConicalFrustum:
+        CollisionShape frustum = new ConicalFrustum(1f, 2f, 3f);
+        PhysicsRigidBody frustumBody = new PhysicsRigidBody(frustum, 0f);
+        space.addCollisionObject(frustumBody);
 
         // Convex2dShape
         ConeCollisionShape flatCone
