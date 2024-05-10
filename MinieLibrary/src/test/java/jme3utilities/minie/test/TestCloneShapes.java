@@ -424,6 +424,12 @@ public class TestCloneShapes {
     private static void setParameters(CollisionShape shape, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         shape.setContactFilterEnabled(flag);
+
+        int userIndex = (int) Math.round(10f * b);
+        shape.setUserIndex(userIndex);
+
+        int userIndex2 = (int) Math.round(20f * b);
+        shape.setUserIndex2(userIndex2);
     }
 
     /**
@@ -436,5 +442,11 @@ public class TestCloneShapes {
     private static void verifyParameters(CollisionShape shape, float b) {
         boolean flag = (b > 0.15f && b < 0.45f);
         Assert.assertEquals(flag, shape.isContactFilterEnabled());
+
+        int userIndex = (int) Math.round(10f * b);
+        Assert.assertEquals(userIndex, shape.userIndex());
+
+        int userIndex2 = (int) Math.round(20f * b);
+        Assert.assertEquals(userIndex2, shape.userIndex2());
     }
 }
