@@ -207,88 +207,98 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
  shallow-cloned shape into a deep-cloned one, using the specified Cloner
  and original to resolve copied fields.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getDefaultMargin()" class="member-name-link">getDefaultMargin</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyShapeProperties(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">copyShapeProperties</a><wbr>(<a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;old)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy common properties from another <code>CollisionShape</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getDefaultMargin()" class="member-name-link">getDefaultMargin</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Return the default margin for new shapes that are neither capsules nor
  spheres.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMargin()" class="member-name-link">getMargin</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMargin()" class="member-name-link">getMargin</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Return the collision margin for this shape.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScale(com.jme3.math.Vector3f)" class="member-name-link">getScale</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the scale factors.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Vec3d</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScaleDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getScaleDp</a><wbr>(com.simsilica.mathd.Vec3d&nbsp;storeResult)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScale(com.jme3.math.Vector3f)" class="member-name-link">getScale</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copy the scale factors.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShapeType()" class="member-name-link">getShapeType</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Vec3d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScaleDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getScaleDp</a><wbr>(com.simsilica.mathd.Vec3d&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Copy the scale factors.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShapeType()" class="member-name-link">getShapeType</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Return the encoded type of the shape.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>protected static final int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getShapeType(long)" class="member-name-link">getShapeType</a><wbr>(long&nbsp;shapeId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>protected static final int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getShapeType(long)" class="member-name-link">getShapeType</a><wbr>(long&nbsp;shapeId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Return the type of this shape.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isConcave()" class="member-name-link">isConcave</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isConcave()" class="member-name-link">isConcave</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the shape has concave type.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isContactFilterEnabled()" class="member-name-link">isContactFilterEnabled</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isContactFilterEnabled()" class="member-name-link">isContactFilterEnabled</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether contact filtering is enabled for this shape.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isConvex()" class="member-name-link">isConvex</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isConvex()" class="member-name-link">isConvex</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the shape has convex type.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isInfinite()" class="member-name-link">isInfinite</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isInfinite()" class="member-name-link">isInfinite</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the shape's type is infinite.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isNonMoving()" class="member-name-link">isNonMoving</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isNonMoving()" class="member-name-link">isNonMoving</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the shape can be applied to a dynamic rigid body.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPolyhedral()" class="member-name-link">isPolyhedral</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPolyhedral()" class="member-name-link">isPolyhedral</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether this shape is convex and defined by polygons.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create a shallow clone for the JME cloner.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxRadius()" class="member-name-link">maxRadius</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxRadius()" class="member-name-link">maxRadius</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Estimate how far the scaled shape extends from its center, including
  margin.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nativeMargin()" class="member-name-link">nativeMargin</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nativeMargin()" class="member-name-link">nativeMargin</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Return the native collision margin of this shape.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-serialize the shape from the specified importer, for example when
  loading from a J3O file.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#readShapeProperties(com.jme3.export.InputCapsule)" class="member-name-link">readShapeProperties</a><wbr>(com.jme3.export.InputCapsule&nbsp;capsule)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Read common properties from an <code>InputCapsule</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#recalculateAabb()" class="member-name-link">recalculateAabb</a>()</code></div>
@@ -331,6 +341,16 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the scale of this shape.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserIndex(int)" class="member-name-link">setUserIndex</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the primary user index.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserIndex2(int)" class="member-name-link">setUserIndex2</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Alter the secondary user index.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSplittableShape()" class="member-name-link">toSplittableShape</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -345,6 +365,16 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateScale()" class="member-name-link">updateScale</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Synchronize the copied scale factors with the <code>btCollisionShape</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#userIndex()" class="member-name-link">userIndex</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the primary user index (native field: m_userIndex).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#userIndex2()" class="member-name-link">userIndex2</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Return the secondary user index (native field: m_userIndex2).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -769,6 +799,30 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 </section>
 </li>
 <li>
+<section class="detail" id="setUserIndex(int)">
+<h3>setUserIndex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserIndex</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="block">Alter the primary user index. Applications may use this parameter for any
+ purpose (native field: m_userIndex).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - the desired value (default=-1)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setUserIndex2(int)">
+<h3>setUserIndex2</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserIndex2</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="block">Alter the secondary user index. Applications may use this parameter for
+ any purpose (native field: m_userIndex2).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - the desired value (default=-1)</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="toSplittableShape()">
 <h3>toSplittableShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="element-name">toSplittableShape</span>()</div>
@@ -776,6 +830,40 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a new splittable shape</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="userIndex()">
+<h3>userIndex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">userIndex</span>()</div>
+<div class="block">Return the primary user index (native field: m_userIndex).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="userIndex2()">
+<h3>userIndex2</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">userIndex2</span>()</div>
+<div class="block">Return the secondary user index (native field: m_userIndex2).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="copyShapeProperties(com.jme3.bullet.collision.shapes.CollisionShape)">
+<h3>copyShapeProperties</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">copyShapeProperties</span><wbr><span class="parameters">(<a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;old)</span></div>
+<div class="block">Copy common properties from another <code>CollisionShape</code>. Used during
+ cloning.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>old</code> - the instance to copy from (not null, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -800,6 +888,20 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the margin thickness (in physics-space units, &ge;0)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="readShapeProperties(com.jme3.export.InputCapsule)">
+<h3>readShapeProperties</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">readShapeProperties</span><wbr><span class="parameters">(com.jme3.export.InputCapsule&nbsp;capsule)</span>
+                                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+<div class="block">Read common properties from an <code>InputCapsule</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>capsule</code> - the input capsule (not null, modified)</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - from the importer</dd>
 </dl>
 </section>
 </li>
