@@ -1,4 +1,4 @@
-// Gradle script to build the Minie/DacWizard sub-project
+// Gradle script to build the DacWizard subproject of Minie
 
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"

@@ -1,6 +1,4 @@
-/*
- * settings.gradle: global settings shared by all Minie subprojects
- */
+// global settings shared by all Minie subprojects
 
 dependencyResolutionManagement {
     repositories {
