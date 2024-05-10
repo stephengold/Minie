@@ -171,6 +171,7 @@ public class SphereCollisionShape extends ConvexShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         createShape();
+        copyShapeProperties((SphereCollisionShape) original);
     }
 
     /**
@@ -207,6 +208,7 @@ public class SphereCollisionShape extends ConvexShape {
         InputCapsule capsule = importer.getCapsule(this);
         this.radius = capsule.readFloat(tagRadius, 0.5f);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

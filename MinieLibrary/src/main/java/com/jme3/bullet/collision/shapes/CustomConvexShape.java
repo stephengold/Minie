@@ -188,6 +188,7 @@ abstract public class CustomConvexShape extends ConvexShape {
         this.halfExtents = cloner.clone(halfExtents);
         this.inertia = cloner.clone(inertia);
         createShape();
+        copyShapeProperties((CustomConvexShape) original);
     }
 
     /**
@@ -206,6 +207,7 @@ abstract public class CustomConvexShape extends ConvexShape {
         this.inertia = (Vector3f) capsule.readSavable(
                 tagInertia, new Vector3f(1f, 1f, 1f));
         createShape();
+        readShapeProperties(capsule);
         // Subclasses must apply the scale.
     }
 

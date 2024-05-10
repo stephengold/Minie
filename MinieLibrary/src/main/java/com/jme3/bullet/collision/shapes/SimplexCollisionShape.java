@@ -373,6 +373,7 @@ public class SimplexCollisionShape extends ConvexShape {
         super.cloneFields(cloner, original);
         this.locations = cloner.clone(locations);
         createShape();
+        copyShapeProperties((SimplexCollisionShape) original);
     }
 
     /**
@@ -423,6 +424,7 @@ public class SimplexCollisionShape extends ConvexShape {
         }
 
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

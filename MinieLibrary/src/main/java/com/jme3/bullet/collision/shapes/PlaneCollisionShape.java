@@ -118,6 +118,7 @@ public class PlaneCollisionShape extends CollisionShape {
         super.cloneFields(cloner, original);
         this.plane = cloner.clone(plane);
         createShape();
+        copyShapeProperties((PlaneCollisionShape) original);
     }
 
     /**
@@ -145,6 +146,7 @@ public class PlaneCollisionShape extends CollisionShape {
         this.plane
                 = (Plane) capsule.readSavable(tagCollisionPlane, new Plane());
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

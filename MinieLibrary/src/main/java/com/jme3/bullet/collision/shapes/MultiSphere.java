@@ -420,6 +420,7 @@ public class MultiSphere extends ConvexShape {
         this.radii = cloner.clone(radii);
         this.centers = cloner.clone(centers);
         createShape();
+        copyShapeProperties((MultiSphere) original);
     }
 
     /**
@@ -443,6 +444,7 @@ public class MultiSphere extends ConvexShape {
         }
         this.radii = capsule.readFloatArray(tagRadii, new float[0]);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

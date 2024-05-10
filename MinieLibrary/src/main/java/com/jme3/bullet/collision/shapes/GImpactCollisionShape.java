@@ -239,6 +239,7 @@ public class GImpactCollisionShape extends CollisionShape {
 
         this.nativeMesh = cloner.clone(nativeMesh);
         createShape();
+        copyShapeProperties((GImpactCollisionShape) original);
     }
 
     /**
@@ -255,6 +256,7 @@ public class GImpactCollisionShape extends CollisionShape {
         this.nativeMesh
                 = (CompoundMesh) capsule.readSavable(tagNativeMesh, null);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

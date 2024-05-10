@@ -200,6 +200,7 @@ public class BoxCollisionShape extends ConvexShape {
         super.cloneFields(cloner, original);
         this.halfExtents = cloner.clone(halfExtents);
         createShape();
+        copyShapeProperties((BoxCollisionShape) original);
     }
 
     /**
@@ -233,6 +234,7 @@ public class BoxCollisionShape extends ConvexShape {
                 new Vector3f(1f, 1f, 1f));
         halfExtents.set(he);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

@@ -152,6 +152,7 @@ public class MinkowskiSum extends ConvexShape {
         this.shapeA = cloner.clone(shapeA);
         this.shapeB = cloner.clone(shapeB);
         createShape();
+        copyShapeProperties((MinkowskiSum) original);
     }
 
     /**
@@ -182,6 +183,7 @@ public class MinkowskiSum extends ConvexShape {
         this.shapeA = (ConvexShape) capsule.readSavable(tagShapeA, null);
         this.shapeB = (ConvexShape) capsule.readSavable(tagShapeB, null);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

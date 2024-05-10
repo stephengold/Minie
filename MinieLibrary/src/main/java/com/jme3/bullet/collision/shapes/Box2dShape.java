@@ -173,6 +173,7 @@ public class Box2dShape extends ConvexShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         createShape();
+        copyShapeProperties((Box2dShape) original);
     }
 
     /**
@@ -204,6 +205,7 @@ public class Box2dShape extends ConvexShape {
         this.halfExtentX = capsule.readFloat(tagX, 1f);
         this.halfExtentY = capsule.readFloat(tagY, 1f);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

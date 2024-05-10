@@ -610,6 +610,7 @@ public class CompoundCollisionShape extends CollisionShape {
         this.children = cloner.clone(children);
         createEmpty(children.size());
         loadChildren();
+        copyShapeProperties((CompoundCollisionShape) original);
     }
 
     /**
@@ -653,6 +654,7 @@ public class CompoundCollisionShape extends CollisionShape {
         this.children = capsule.readSavableArrayList(tagChildren, null);
         loadChildren();
 
+        readShapeProperties(capsule);
         setContactFilterEnabled(enableContactFilter);
         setScale(scale);
         setMargin(margin);

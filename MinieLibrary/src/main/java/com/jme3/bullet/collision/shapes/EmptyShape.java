@@ -31,6 +31,7 @@
  */
 package com.jme3.bullet.collision.shapes;
 
+import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeImporter;
 import com.jme3.util.clone.Cloner;
 import java.io.IOException;
@@ -104,6 +105,7 @@ public class EmptyShape extends CollisionShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         createShape();
+        copyShapeProperties((EmptyShape) original);
     }
 
     /**
@@ -127,6 +129,9 @@ public class EmptyShape extends CollisionShape {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         createShape();
+
+        InputCapsule capsule = importer.getCapsule(this);
+        readShapeProperties(capsule);
     }
 
     /**

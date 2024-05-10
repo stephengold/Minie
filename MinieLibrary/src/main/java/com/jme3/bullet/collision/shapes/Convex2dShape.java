@@ -150,6 +150,7 @@ public class Convex2dShape extends ConvexShape {
         super.cloneFields(cloner, original);
         this.base = cloner.clone(base);
         createShape();
+        copyShapeProperties((Convex2dShape) original);
     }
 
     /**
@@ -166,6 +167,7 @@ public class Convex2dShape extends ConvexShape {
 
         this.base = (ConvexShape) capsule.readSavable(tagBase, null);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

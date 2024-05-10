@@ -169,6 +169,7 @@ public class ConicalFrustum extends ConvexShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         createShape();
+        copyShapeProperties((ConicalFrustum) original);
     }
 
     /**
@@ -200,6 +201,7 @@ public class ConicalFrustum extends ConvexShape {
         this.unscaledB = capsule.readFloat(tagUnscaledB, 1f);
         this.unscaledHeight = capsule.readFloat(tagUnscaledHeight, 1f);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

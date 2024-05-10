@@ -202,6 +202,7 @@ public class SphericalSegment extends ConvexShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         createShape();
+        copyShapeProperties((SphericalSegment) original);
     }
 
     /**
@@ -233,6 +234,7 @@ public class SphericalSegment extends ConvexShape {
         this.unscaledYMax = capsule.readFloat(tagUnscaledYMax, 1f);
         this.unscaledYMin = capsule.readFloat(tagUnscaledYMin, 0f);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

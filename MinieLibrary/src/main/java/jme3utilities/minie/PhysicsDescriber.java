@@ -333,6 +333,17 @@ public class PhysicsDescriber extends Describer {
         float margin = shape.getMargin();
         result.append(MyString.describe(margin));
 
+        int userIndex = shape.userIndex();
+        if (userIndex != -1) {
+            result.append(" userIndex=");
+            result.append(userIndex);
+        }
+        int userIndex2 = shape.userIndex2();
+        if (userIndex2 != -1) {
+            result.append(" userIndex2=");
+            result.append(userIndex2);
+        }
+
         return result.toString();
     }
 

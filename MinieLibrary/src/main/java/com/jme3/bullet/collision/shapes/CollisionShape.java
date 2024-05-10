@@ -84,6 +84,8 @@ abstract public class CollisionShape
     final private static String tagEnableContactFilter = "enableContactFilter";
     final private static String tagMargin = "margin";
     final private static String tagScale = "scale";
+    final private static String tagUserIndex = "userIndex";
+    final private static String tagUserIndex2 = "userIndex2";
     /**
      * local copy of {@link com.jme3.math.Transform#IDENTITY}
      */
@@ -514,6 +516,28 @@ abstract public class CollisionShape
     }
 
     /**
+     * Alter the primary user index. Applications may use this parameter for any
+     * purpose (native field: m_userIndex).
+     *
+     * @param index the desired value (default=-1)
+     */
+    public void setUserIndex(int index) {
+        long shapeId = nativeId();
+        setUserIndex(shapeId, index);
+    }
+
+    /**
+     * Alter the secondary user index. Applications may use this parameter for
+     * any purpose (native field: m_userIndex2).
+     *
+     * @param index the desired value (default=-1)
+     */
+    public void setUserIndex2(int index) {
+        long shapeId = nativeId();
+        setUserIndex2(shapeId, index);
+    }
+
+    /**
      * Approximate this shape with a splittable shape. Meant to be overridden.
      *
      * @return a new splittable shape
@@ -525,8 +549,41 @@ abstract public class CollisionShape
             throw new IllegalArgumentException("this = " + this);
         }
     }
+
+    /**
+     * Return the primary user index (native field: m_userIndex).
+     *
+     * @return the value
+     */
+    public int userIndex() {
+        long shapeId = nativeId();
+        int result = getUserIndex(shapeId);
+        return result;
+    }
+
+    /**
+     * Return the secondary user index (native field: m_userIndex2).
+     *
+     * @return the value
+     */
+    public int userIndex2() {
+        long shapeId = nativeId();
+        int result = getUserIndex2(shapeId);
+        return result;
+    }
     // *************************************************************************
     // new protected methods
+
+    /**
+     * Copy common properties from another {@code CollisionShape}. Used during
+     * cloning.
+     *
+     * @param old the instance to copy from (not null, unaffected)
+     */
+    final protected void copyShapeProperties(CollisionShape old) {
+        setUserIndex(old.userIndex());
+        setUserIndex2(old.userIndex2());
+    }
 
     /**
      * Return the type of this shape.
@@ -547,6 +604,18 @@ abstract public class CollisionShape
 
         assert result >= 0f : result;
         return margin;
+    }
+
+    /**
+     * Read common properties from an {@code InputCapsule}.
+     *
+     * @param capsule the input capsule (not null, modified)
+     * @throws IOException from the importer
+     */
+    final protected void readShapeProperties(InputCapsule capsule)
+            throws IOException {
+        setUserIndex(capsule.readInt(tagUserIndex, -1));
+        setUserIndex2(capsule.readInt(tagUserIndex2, -1));
     }
 
     /**
@@ -580,7 +649,10 @@ abstract public class CollisionShape
     public void cloneFields(Cloner cloner, Object original) {
         this.scale = cloner.clone(scale);
         unassignNativeObject();
-        // subclass must create the btCollisionShape and invoke setNativeId()
+        /*
+         * The caller should create the btCollisionShape
+         * and invoke setNativeId() and copyShapeProperties().
+         */
     }
 
     /**
@@ -617,8 +689,9 @@ abstract public class CollisionShape
         scale.set((Vector3f) s);
         this.margin = capsule.readFloat(tagMargin, 0.04f);
         /*
-         * Subclasses must create the btCollisionShape and
-         * apply the contact-filter enable, margin, and scale to it.
+         * Subclasses must create the btCollisionShape,
+         * apply the contact-filter enable, margin, and scale to it,
+         * and invoke readShapeProperties().
          */
     }
 
@@ -636,6 +709,8 @@ abstract public class CollisionShape
         capsule.write(enableContactFilter, tagEnableContactFilter, false);
         capsule.write(scale, tagScale, null);
         capsule.write(margin, tagMargin, 0.04f);
+        capsule.write(userIndex(), tagUserIndex, -1);
+        capsule.write(userIndex2(), tagUserIndex2, -1);
     }
     // *************************************************************************
     // NativePhysicsObject methods
@@ -715,6 +790,10 @@ abstract public class CollisionShape
 
     native private static float getMargin(long shapeId);
 
+    native private static int getUserIndex(long shapeId);
+
+    native private static int getUserIndex2(long shapeId);
+
     native private static boolean isConcave(long shapeId);
 
     native private static boolean isContactFilterEnabled(long shapeId);
@@ -733,4 +812,8 @@ abstract public class CollisionShape
     native private static void setLocalScaling(long shapeId, Vector3f scale);
 
     native private static void setMargin(long shapeId, float margin);
+
+    native private static void setUserIndex(long shapeId, int index);
+
+    native private static void setUserIndex2(long shapeId, int index);
 }

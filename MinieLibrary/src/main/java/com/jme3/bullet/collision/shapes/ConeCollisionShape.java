@@ -201,6 +201,7 @@ public class ConeCollisionShape extends ConvexShape {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         createShape();
+        copyShapeProperties((ConeCollisionShape) original);
     }
 
     /**
@@ -233,6 +234,7 @@ public class ConeCollisionShape extends ConvexShape {
         this.height = capsule.readFloat(tagHeight, 0.5f);
         this.axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

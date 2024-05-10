@@ -379,6 +379,7 @@ public class MeshCollisionShape extends CollisionShape {
         this.nativeMesh = cloner.clone(nativeMesh);
         this.bvh = cloner.clone(bvh);
         createShape();
+        copyShapeProperties((MeshCollisionShape) original);
     }
 
     /**
@@ -412,6 +413,7 @@ public class MeshCollisionShape extends CollisionShape {
         this.useCompression = capsule.readBoolean(tagUseCompression, true);
 
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

@@ -318,6 +318,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         super.cloneFields(cloner, original);
         // directBuffer and heightfieldData are never cloned.
         createShape();
+        copyShapeProperties((HeightfieldCollisionShape) original);
     }
 
     /**
@@ -347,6 +348,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
         this.useZigzag = capsule.readBoolean(tagUseZigzag, false);
 
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

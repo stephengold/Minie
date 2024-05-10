@@ -525,6 +525,7 @@ public class HullCollisionShape extends ConvexShape {
         this.directBuffer = null; // directBuffer is never cloned.
         this.points = cloner.clone(points);
         createShape();
+        copyShapeProperties((HullCollisionShape) original);
     }
 
     /**
@@ -576,6 +577,7 @@ public class HullCollisionShape extends ConvexShape {
             this.points = capsule.readFloatArray(tagPoints, new float[0]);
         }
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**

@@ -268,6 +268,7 @@ public class CylinderCollisionShape extends ConvexShape {
         super.cloneFields(cloner, original);
         this.halfExtents = cloner.clone(halfExtents);
         createShape();
+        copyShapeProperties((CylinderCollisionShape) original);
     }
 
     /**
@@ -321,6 +322,7 @@ public class CylinderCollisionShape extends ConvexShape {
         halfExtents.set(he);
         this.axis = capsule.readInt(tagAxis, PhysicsSpace.AXIS_Y);
         createShape();
+        readShapeProperties(capsule);
     }
 
     /**
