@@ -121,6 +121,15 @@ public class TestCloneGhost {
      * @param b the key value
      */
     private static void setParameters(PhysicsGhostObject pgo, float b) {
+        int userIndex = (int) Math.round(10f * b);
+        pgo.setUserIndex(userIndex);
+
+        int userIndex2 = (int) Math.round(20f * b);
+        pgo.setUserIndex2(userIndex2);
+
+        int userIndex3 = (int) Math.round(30f * b);
+        pgo.setUserIndex3(userIndex3);
+
         int afMode = Math.round(b / 0.3f);
         pgo.setAnisotropicFriction(
                 new Vector3f(b + 0.004f, b + 0.005f, b + 0.006f), afMode);
@@ -178,6 +187,15 @@ public class TestCloneGhost {
      * @param b the key value
      */
     private static void verifyParameters(PhysicsGhostObject pgo, float b) {
+        int userIndex = (int) Math.round(10f * b);
+        Assert.assertEquals(userIndex, pgo.userIndex());
+
+        int userIndex2 = (int) Math.round(20f * b);
+        Assert.assertEquals(userIndex2, pgo.userIndex2());
+
+        int userIndex3 = (int) Math.round(30f * b);
+        Assert.assertEquals(userIndex3, pgo.userIndex3());
+
         int index = Math.round(b / 0.3f);
         if (index == 0) {
             Assert.assertFalse(pgo.hasAnisotropicFriction(AfMode.either));

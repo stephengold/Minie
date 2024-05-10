@@ -785,6 +785,9 @@ public class TestDefaults {
         Assert.assertEquals(0f, pco.getRollingFriction(), 0f);
         Assert.assertEquals(0f, pco.getSpinningFriction(), 0f);
         Assert.assertNull(pco.getUserObject());
+        Assert.assertEquals(-1, pco.userIndex());
+        Assert.assertEquals(-1, pco.userIndex2());
+        Assert.assertEquals(-1, pco.userIndex3());
     }
 
     /**

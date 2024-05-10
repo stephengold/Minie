@@ -110,6 +110,15 @@ public class TestCloneCharacter {
      * @param b the key value
      */
     private static void setParameters(PhysicsCharacter ch, float b) {
+        int userIndex = (int) Math.round(10f * b);
+        ch.setUserIndex(userIndex);
+
+        int userIndex2 = (int) Math.round(20f * b);
+        ch.setUserIndex2(userIndex2);
+
+        int userIndex3 = (int) Math.round(30f * b);
+        ch.setUserIndex3(userIndex3);
+
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
         Vector3f gravity = new Vector3f(b - 0.2f, b + 0.8f, b - 0.3f);
@@ -182,6 +191,15 @@ public class TestCloneCharacter {
      * @param b the key value
      */
     private static void verifyParameters(PhysicsCharacter ch, float b) {
+        int userIndex = (int) Math.round(10f * b);
+        Assert.assertEquals(userIndex, ch.userIndex());
+
+        int userIndex2 = (int) Math.round(20f * b);
+        Assert.assertEquals(userIndex2, ch.userIndex2());
+
+        int userIndex3 = (int) Math.round(30f * b);
+        Assert.assertEquals(userIndex3, ch.userIndex3());
+
         boolean flag = (b > 0.15f && b < 0.45f);
         int index = Math.round(b / 0.3f);
         Vector3f gravity = new Vector3f(b - 0.2f, b + 0.8f, b - 0.3f);

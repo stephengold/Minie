@@ -455,6 +455,15 @@ public class TestCloneBody {
     private static void setParameters(PhysicsBody pco, float b) {
         pco.setGravity(new Vector3f(b + 0.031f, b + 0.032f, b + 0.033f));
 
+        int userIndex = (int) Math.round(10f * b);
+        pco.setUserIndex(userIndex);
+
+        int userIndex2 = (int) Math.round(20f * b);
+        pco.setUserIndex2(userIndex2);
+
+        int userIndex3 = (int) Math.round(30f * b);
+        pco.setUserIndex3(userIndex3);
+
         if (pco instanceof PhysicsRigidBody) {
             setRigid((PhysicsRigidBody) pco, b);
         } else if (pco instanceof PhysicsSoftBody) {
@@ -564,6 +573,15 @@ public class TestCloneBody {
         Assert.assertNotNull(pco);
         Utils.assertEquals(
                 b + 0.031f, b + 0.032f, b + 0.033f, pco.getGravity(null), 0f);
+
+        int userIndex = (int) Math.round(10f * b);
+        Assert.assertEquals(userIndex, pco.userIndex());
+
+        int userIndex2 = (int) Math.round(20f * b);
+        Assert.assertEquals(userIndex2, pco.userIndex2());
+
+        int userIndex3 = (int) Math.round(30f * b);
+        Assert.assertEquals(userIndex3, pco.userIndex3());
 
         if (pco instanceof PhysicsRigidBody) {
             verifyRigid((PhysicsRigidBody) pco, b);
