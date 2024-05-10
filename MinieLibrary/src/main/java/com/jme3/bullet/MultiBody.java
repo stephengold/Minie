@@ -137,7 +137,7 @@ public class MultiBody
         assert getNumLinks(nativeId) == numLinks;
         finalizeMultiDof(nativeId);
 
-        links = new MultiBodyLink[numLinks];
+        this.links = new MultiBodyLink[numLinks];
     }
     // *************************************************************************
     // new methods exposed
@@ -999,7 +999,7 @@ public class MultiBody
         this.numConfigured = 0;
         this.links = new MultiBodyLink[numLinks];
         for (int i = 0; i < numLinks; ++i) {
-            links[i] = configureClonedLink(old.links[i]);
+            this.links[i] = configureClonedLink(old.links[i]);
         }
         finalizeMultiDof(multiBodyId);
 
