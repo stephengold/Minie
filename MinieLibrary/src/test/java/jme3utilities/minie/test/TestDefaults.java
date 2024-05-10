@@ -1224,6 +1224,9 @@ public class TestDefaults {
         Assert.assertEquals(1.108f, sphericalSegment.maxRadius(), 1e-4f);
         Assert.assertEquals(2.49176f, sphericalSegment.scaledVolume(), 1e-4f);
         Assert.assertFalse(sphericalSegment.isPolyhedral());
+        Assert.assertEquals(1f, sphericalSegment.sphereRadius(), 0f);
+        Assert.assertEquals(1f, sphericalSegment.yMax(), 0f);
+        Assert.assertEquals(0f, sphericalSegment.yMin(), 0f);
         testInverseInertia(sphericalSegment, 3.855f, 2.5f, 3.855f, 0.001f);
     }
 
