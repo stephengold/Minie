@@ -306,9 +306,9 @@ public class IndexedMesh
      * 2&rarr;high for all shapes
      */
     public IndexedMesh(CollisionShape shape, int meshResolution) {
-        Validate.require(
-                !(shape == null || shape instanceof CompoundCollisionShape),
-                "a non-null value, not a compound shape");
+        Validate.nonNull(shape, "shape");
+        Validate.require(!(shape instanceof CompoundCollisionShape),
+                "not a compound shape");
         Validate.inRange(meshResolution, "mesh resolution",
                 DebugShapeFactory.lowResolution,
                 DebugShapeFactory.highResolution2);
