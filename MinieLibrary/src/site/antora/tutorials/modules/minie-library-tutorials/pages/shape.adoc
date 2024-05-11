@@ -264,7 +264,7 @@ For 4 of them, margin simply expands their effective shapes:
 . {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
 . {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
 
-Here are illustrations of 4 otherwise identical simplex shapes
+To illustrate this, here are 4 otherwise identical simplex shapes
 with different margins:
 
 [cols="2*",grid="none"]
@@ -275,7 +275,7 @@ with different margins:
 |image:margin6.png[height=160]
 |===
 
-Margin can also distorts a
+Margin can also distort a
 {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`],
 but its effect there is more complicated:
 no effect for small margins and non-uniform distortion for large margins.
@@ -569,7 +569,7 @@ CollisionShape shape
 ----
 
 The V-HACD algorithm is costly to run, but for many applications it can
-be run in advance and the output stored in J3O format until needed.
+be run in advance and the output stored until needed.
 During simulation, the resulting shape will usually be much more efficient
 than a GImpact shape.
 
