@@ -145,8 +145,7 @@ with illustrations and lists of key properties (explained below):
 {item} concave and infinite +
 {item} positive margin +
 {item} precise +
-{item} fully scalable, but why bother? +
-{item} symmetric
+{item} fully scalable, but why bother?
 |image:plane.png[height=160]
 
 |16. {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
