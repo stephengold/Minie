@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2023, Stephen Gold
+ Copyright (c) 2018-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -765,7 +765,7 @@ abstract public class PhysicsDemo extends AcorusDemo {
     /**
      * Add a static plane to the PhysicsSpace, to serve as a platform.
      *
-     * @param topY the desired Y coordinate of the top surface (in physics-space
+     * @param topY the desired Y coordinate of the surface (in physics-space
      * coordinates)
      */
     private void addPlanePlatform(float topY) {

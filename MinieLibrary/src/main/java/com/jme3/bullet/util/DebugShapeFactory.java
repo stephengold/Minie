@@ -725,7 +725,7 @@ final public class DebugShapeFactory {
         // Add a normal buffer, if requested.
         if (normals != MeshNormals.None) {
             Plane plane = shape.getPlane();
-            Vector3f v1 = plane.getNormal();
+            Vector3f v1 = plane.getNormal(); // alias
 
             FloatBuffer normBuffer = BufferUtils.createFloatBuffer(numFloats);
             for (int i = 0; i < 4; ++i) {
@@ -815,7 +815,7 @@ final public class DebugShapeFactory {
      * specified PlaneCollisionShape.
      *
      * @param shape (not null, unaffected) units, &gt;0)
-     * @return a new Transform with scale=1
+     * @return a new Transform with scale=(1,1,1)
      */
     private static Transform planeTransform(PlaneCollisionShape shape) {
         Transform result = new Transform();
