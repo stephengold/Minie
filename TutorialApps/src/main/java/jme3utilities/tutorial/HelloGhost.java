@@ -299,8 +299,7 @@ public class HelloGhost
         String assetPath = "Textures/greenTile.png";
         boolean flipY = false;
         TextureKey key = new TextureKey(assetPath, flipY);
-        boolean generateMips = true;
-        key.setGenerateMips(generateMips);
+        key.setGenerateMips(true);
         Texture texture = assetManager.loadTexture(key);
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
