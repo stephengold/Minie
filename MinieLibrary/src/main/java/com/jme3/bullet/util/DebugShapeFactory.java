@@ -708,7 +708,8 @@ final public class DebugShapeFactory {
         Transform transform = planeTransform(shape);
         float scale = meshSideLength() / MyMath.root2;
         transform.setScale(scale);
-        MyBuffer.transform(posBuffer, 0, numFloats, transform);
+        int startPosition = 0;
+        MyBuffer.transform(posBuffer, startPosition, numFloats, transform);
 
         // Generate an index buffer for a 2-sided square.
         ByteBuffer indexBuffer = BufferUtils.createByteBuffer(new byte[]{
