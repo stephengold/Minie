@@ -36,7 +36,7 @@ boolean debug = NativeLibrary.isDebug();
 ----
 
 You can also read the native library's version string,
-which consists of 3 decimal numbers separated by dots:
+which consists of 3 unsigned decimal numbers separated by dots:
 
 [source,java]
 ----
@@ -91,7 +91,7 @@ NOTE: The Bullet Manual advises against changing the default margin.
 By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
 collision detection.
 To specify a different data structure, use `setBroadphaseType()`
-on the appstate:
+before attaching the AppState. For instance:
 
 [source,java]
 ----

@@ -11,7 +11,6 @@ You can also build a local copy of the documentation (website content).
 This is useful if you are editing the content,
 or if your Internet access is limited or unreliable.
 
-
 == Library artifacts
 
 === Standard build
