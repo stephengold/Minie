@@ -1292,7 +1292,9 @@ public class PhysicsDumper extends Dumper {
         Vector3f force = rigidBody.totalAppliedForce(null);
         stream.printf(" force[%s]", MyVector3f.describe(force));
         Vector3f lFact = rigidBody.getLinearFactor(null);
-        stream.printf(" lFact[%s]", MyVector3f.describe(lFact));
+        if (!MyVector3f.isScaleUniform(lFact)) {
+            stream.printf(" lFact[%s]", MyVector3f.describe(lFact));
+        }
 
         // 3rd line: inertia, angular velocity, applied torque, angular factor
         addLine(indent);
@@ -1308,7 +1310,9 @@ public class PhysicsDumper extends Dumper {
         Vector3f torq = rigidBody.totalAppliedTorque(null);
         stream.printf(" torq[%s]", MyVector3f.describe(torq));
         Vector3f aFact = rigidBody.getAngularFactor(null);
-        stream.printf(" aFact[%s]", MyVector3f.describe(aFact));
+        if (!MyVector3f.isScaleUniform(aFact)) {
+            stream.printf(" aFact[%s]", MyVector3f.describe(aFact));
+        }
     }
 
     /**
