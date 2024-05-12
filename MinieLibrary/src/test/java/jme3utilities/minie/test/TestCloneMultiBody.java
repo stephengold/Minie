@@ -164,6 +164,9 @@ public class TestCloneMultiBody {
             setColliderParameters(c, b + 0.02f * i);
         }
 
+        boolean flag = (b > 0.15f && b < 0.45f);
+        multiBody.useRK4(flag);
+
         int userIndex = (int) Math.round(10f * b);
         multiBody.setUserIndex(userIndex);
 
@@ -197,6 +200,9 @@ public class TestCloneMultiBody {
             MultiBodyCollider collider = colliders.get(i);
             verifyColliderParameters(collider, b + 0.02f * i);
         }
+
+        boolean flag = (b > 0.15f && b < 0.45f);
+        Assert.assertEquals(flag, multiBody.isUsingRK4());
 
         int userIndex = (int) Math.round(10f * b);
         Assert.assertEquals(userIndex, multiBody.userIndex());

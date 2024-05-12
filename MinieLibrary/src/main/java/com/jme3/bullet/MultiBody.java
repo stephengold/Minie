@@ -1081,6 +1081,8 @@ public class MultiBody
         Vector3f velocity
                 = (Vector3f) capsule.readSavable(tagBaseVelocity, null);
         setBaseVelocity(velocity);
+
+        useRK4(capsule.readBoolean(tagRK4, false));
         setUserIndex(capsule.readInt(tagUserIndex, -1));
         setUserIndex2(capsule.readInt(tagUserIndex2, -1));
     }
