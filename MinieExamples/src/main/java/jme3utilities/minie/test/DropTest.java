@@ -646,7 +646,7 @@ public class DropTest
 
         CollisionShape shape = pco.getCollisionShape();
         if (!pco.isStatic() && shape != null) {
-            pco.setCcdMotionThreshold(5f);
+            pco.setCcdMotionThreshold(1f);
 
             float sweptSphereRadius = shape.maxRadius();
             pco.setCcdSweptSphereRadius(sweptSphereRadius);
