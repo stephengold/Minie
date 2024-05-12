@@ -418,7 +418,7 @@ and debug information generated):</p>
 </div>
 <div class="paragraph">
 <p>You can also read the native library&#8217;s version string,
-which consists of 3 decimal numbers separated by dots:</p>
+which consists of 3 unsigned decimal numbers separated by dots:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -500,7 +500,7 @@ The Bullet Manual advises against changing the default margin.
 <p>By default, a Dynamic Bounding-Volume Tree (DBVT) is used for broadphase
 collision detection.
 To specify a different data structure, use <code>setBroadphaseType()</code>
-on the appstate:</p>
+before attaching the AppState. For instance:</p>
 </div>
 <div class="listingblock">
 <div class="content">
