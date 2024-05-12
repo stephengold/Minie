@@ -75,7 +75,7 @@ public class HelloNewHinge
     final private static List<PhysicsRigidBody> drive = new ArrayList<>(2);
     private static PhysicsRigidBody chassis;
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************

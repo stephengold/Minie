@@ -99,7 +99,7 @@ public class HelloWalkOtoCc
 
     private static CharacterControl character;
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************

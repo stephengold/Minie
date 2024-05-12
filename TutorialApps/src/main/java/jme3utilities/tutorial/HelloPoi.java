@@ -100,7 +100,7 @@ public class HelloPoi
      */
     private static PhysicsRigidBody terrain;
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     /**

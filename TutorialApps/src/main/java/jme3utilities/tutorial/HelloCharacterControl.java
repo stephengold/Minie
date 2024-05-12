@@ -66,7 +66,7 @@ public class HelloCharacterControl
 
     private static CharacterControl characterControl;
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************

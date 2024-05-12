@@ -264,7 +264,7 @@ public class ShapeGenerator extends Generator {
     }
 
     /**
-     * Generate a conical frustum shape using {@code CustomFrustum}.
+     * Generate a conical-frustum shape using {@code CustomFrustum}.
      *
      * @return a new shape
      */

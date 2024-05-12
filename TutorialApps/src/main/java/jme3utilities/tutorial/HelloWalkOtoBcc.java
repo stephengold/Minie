@@ -100,7 +100,7 @@ public class HelloWalkOtoBcc
 
     final private static Node translationNode = new Node("translation node");
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************

@@ -113,7 +113,7 @@ public class HelloGhost
      */
     private static PhysicsGhostObject ghost;
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************

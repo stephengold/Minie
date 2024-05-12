@@ -58,7 +58,7 @@ public class HelloVehicle extends SimpleApplication {
     // fields
 
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     // *************************************************************************

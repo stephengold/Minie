@@ -86,7 +86,7 @@ public class HelloLimit
      */
     private static PhysicsRigidBody paddleBody;
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     /**

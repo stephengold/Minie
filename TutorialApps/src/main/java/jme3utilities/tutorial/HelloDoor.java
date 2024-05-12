@@ -106,7 +106,7 @@ public class HelloDoor
      */
     private static PhysicsRigidBody doorFrameBody;
     /**
-     * PhysicsSpace for simulation
+     * space for physics simulation
      */
     private static PhysicsSpace physicsSpace;
     /**
@@ -367,7 +367,7 @@ public class HelloDoor
     }
 
     /**
-     * Disable FlyByCamera during startup.
+     * Position the camera during startup.
      */
     private void configureCamera() {
         flyCam.setEnabled(false);
