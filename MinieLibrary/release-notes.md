@@ -1,6 +1,6 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
-## Version 8.1.0 released on TBD
+## Version 8.1.0 released on 12 May 2024
 
 + Bugfix:  JVM crash while serializing `BoundingValueHierarchy` (issue #41)
 + Bugfix:  crash in `processAllTriangles()` when `m_bvh==NULL` (issue #43)
