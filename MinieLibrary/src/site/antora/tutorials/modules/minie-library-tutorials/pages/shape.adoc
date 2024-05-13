@@ -11,10 +11,10 @@
 A _collision shape_
 describes the shape and size of a collision object such as a rigid body.
 
-== The 17 shape classes
+== The 19 shape classes
 
 The examples so far have all used spheres, cubes, and/or cylinders.
-However, those are only 3 of the 17 concrete subclasses of
+However, those are but 3 of the 19 concrete subclasses of
 {url-shape}/CollisionShape.html[`CollisionShape`].
 
 The subclasses are summarized here, in lexicographic order,
@@ -67,7 +67,16 @@ with illustrations and lists of key properties (explained below):
 {item} symmetric
 |image:cone.png[height=160]
 
-|6. {url-shape}/Convex2dShape.html[`Convex2dShape`]
+|6. {url-shape}/ConicalFrustum.html[`ConicalFrustum`]
+
+{item} convex +
+{item} positive margin +
+{item} imprecise +
+{item} limited scalability +
+{item} symmetric
+|image:frustum.png[height=160]
+
+|7. {url-shape}/Convex2dShape.html[`Convex2dShape`]
 
 {item} convex +
 {item} positive margin +
@@ -75,7 +84,7 @@ with illustrations and lists of key properties (explained below):
 {item} scalable to the extent that its base shape is scalable
 |image:convex2d.png[height=160]
 
-|7. {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`]
+|8. {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`]
 
 {item} convex +
 {item} positive margin +
@@ -84,7 +93,7 @@ with illustrations and lists of key properties (explained below):
 {item} symmetric
 |image:cylinder.png[height=160]
 
-|8. {url-shape}/EmptyShape.html[`EmptyShape`]
+|9. {url-shape}/EmptyShape.html[`EmptyShape`]
 
 {item} concave +
 {item} positive margin +
@@ -93,7 +102,7 @@ with illustrations and lists of key properties (explained below):
 {item} symmetric
 |(no image)
 
-|9. {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`]
+|10. {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`]
 
 {item} concave +
 {item} positive margin +
@@ -101,7 +110,7 @@ with illustrations and lists of key properties (explained below):
 {item} fully scalable
 |image:gimpact.png[height=160]
 
-|10. {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`]
+|11. {url-shape}/HeightfieldCollisionShape.html[`HeightfieldCollisionShape`]
 
 {item} concave +
 {item} positive margin +
@@ -109,7 +118,7 @@ with illustrations and lists of key properties (explained below):
 {item} fully scalable
 |image:heightfield.png[height=160]
 
-|11. {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
+|12. {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
 
 {item} convex +
 {item} positive margin +
@@ -117,7 +126,7 @@ with illustrations and lists of key properties (explained below):
 {item} fully scalable
 |image:hull.png[height=160]
 
-|12. {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
+|13. {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`]
 
 {item} concave +
 {item} positive margin +
@@ -125,14 +134,14 @@ with illustrations and lists of key properties (explained below):
 {item} fully scalable
 |image:mesh.png[height=160]
 
-|13. {url-shape}/MinkowskiSum.html[`MinkowskiSum`]
+|14. {url-shape}/MinkowskiSum.html[`MinkowskiSum`]
 
 {item} convex +
 {item} margin determined by base shapes +
 {item} not scalable
 |image:minkowski.png[height=160]
 
-|14. {url-shape}/MultiSphere.html[`MultiSphere`]
+|15. {url-shape}/MultiSphere.html[`MultiSphere`]
 
 {item} convex +
 {item} positive margin +
@@ -140,7 +149,7 @@ with illustrations and lists of key properties (explained below):
 {item} fully scalable
 |image:multiSphere.png[height=160]
 
-|15. {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`]
+|16. {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`]
 
 {item} concave and infinite +
 {item} positive margin +
@@ -148,7 +157,7 @@ with illustrations and lists of key properties (explained below):
 {item} fully scalable, but why bother?
 |image:plane.png[height=160]
 
-|16. {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
+|17. {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
 
 {item} convex +
 {item} positive margin +
@@ -156,7 +165,7 @@ with illustrations and lists of key properties (explained below):
 {item} not scalable
 |image:simplex.png[height=160]
 
-|17. {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
+|18. {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
 
 {item} convex +
 {item} zero margin +
@@ -164,6 +173,15 @@ with illustrations and lists of key properties (explained below):
 {item} uniform scaling only +
 {item} symmetric
 |image:sphere.png[height=160]
+
+|19. {url-shape}/SphericalSegment.html[`SphericalSegment`]
+
+{item} convex +
+{item} positive margin +
+{item} imprecise +
+{item} uniform scaling only +
+{item} symmetric
+|image:segment.png[height=160]
 
 |===
 
@@ -255,13 +273,15 @@ is unaffected by margin.
 In effect, the margin of a precise shape is internal,
 so it doesn't impact the effective shape.
 
-While most collision-shape subtypes are precise, 5 of them are not.
-For 4 of them, margin simply expands their effective shapes:
+While most collision-shape subtypes are precise, 7 of them are not.
+For 6 of them, margin uniformly expands their effective shapes:
 
 . {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`]
+. {url-shape}/ConicalFrustum.html[`ConicalFrustum`]
 . {url-shape}/Convex2dShape.html[`Convex2dShape`]
 . {url-shape}/HullCollisionShape.html[`HullCollisionShape`]
 . {url-shape}/SimplexCollisionShape.html[`SimplexCollisionShape`]
+. {url-shape}/SphericalSegment.html[`SphericalSegment`]
 
 To illustrate this, here are 4 otherwise identical simplex shapes
 with different margins:
@@ -314,15 +334,17 @@ the simulator cannot determine their mass distributions:
 * {url-shape}/MeshCollisionShape.html[`MeshCollisionShape`], and
 * {url-shape}/PlaneCollisionShape.html[`PlaneCollisionShape`].
 
-The safest shapes for dynamic rigid bodies are the 5 _primitives_ listed below.
+The safest shapes for dynamic rigid bodies are the 7 _primitives_ listed below.
 All have at least one {url-enwiki}/Rotational_symmetry[axis of symmetry],
 and their centers and axes are well-known:
 
 . {url-shape}/BoxCollisionShape.html[`BoxCollisionShape`],
 . {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`],
 . {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`],
-. {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`], and
-. {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`].
+. {url-shape}/ConicalSegment.html[`ConicalSegment`],
+. {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`],
+. {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`], and
+. {url-shape}/SphericalSegment.html[`SphericalSegment`].
 
 Many asymmetric shapes are also suitable for dynamic rigid bodies.
 With such shapes, however, care should be taken to ensure the plausibility of
@@ -384,8 +406,9 @@ In particular:
   doesn't support scaling;
   the only allowed scale is (1,1,1).
 * {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`],
-  {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`], and
-  {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`]
+  {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`],
+  {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`], and
+  {url-shape}/SphericalSegment.html[`SphericalSegment`]
   support only uniform scaling, where all axes have the same scale factor,
   such as (0.2, 0.2, 0.2) or (9,9,9).
 * {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`]
@@ -574,7 +597,7 @@ than a GImpact shape.
 
 == Summary
 
-* {Project} provides 17 types of collision shapes,
+* {Project} provides 19 types of collision shapes,
   ranging from the trivial {url-shape}/EmptyShape.html[`EmptyShape`]
   to the costly {url-shape}/GImpactCollisionShape.html[`GImpactCollisionShape`].
 * Collision-shape instances classified as "concave"
