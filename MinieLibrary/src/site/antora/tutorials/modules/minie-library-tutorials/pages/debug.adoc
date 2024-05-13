@@ -281,18 +281,18 @@ Here is sample output for a space containing 2 rigid bodies and nothing else:
 PhysicsSoftSpace with 0 chars, 0 ghosts, 0 joints, 2 rigids, 0 softs, 0 vehicles
  bphase=DBVT grav[y=-30] timeStep[0.0166667 maxSS=4] listeners[c=0 cg=0 t=1]
  solver[SI iters=10 cfm=0 batch=128 splitImp[th=global erp=0.1] mode=WarmStart,VelocityDependent,SIMD,Cone]
- rayTest=SubSimplex,HeightfieldAccel
+ conf[epa maxM=4096] rayTest=SubSimplex,HeightfieldAccel
  SbwInfo grav[y=-30] offset=0 norm[xyz=0] water=0 air=1.2 maxDisp=1000
+  Rigid Dyn(mass=1) aData=Material"drop2" msLoc[x=-0.824232 y=1.15373 z=-0.322077] loc[x=-0.824511 y=1.15376 z=-0.322339] orient[x=0.229 y=0.945 z=0.091 w=-0.215]
+   contact[fric=0.5 rest=0.3 damp=0.1 pth=1e+18 stiff=1e+18]
+   grav[y=-30] NOTprotected ccd[mth=1 r=2.16983] damp[l=0.6 a=0.6] sleep[lth=0.1 ath=0.1 time=1.93333]
+   v[x=-0.0186754 y=0.00228578 z=-0.017551] force[xyz=0]
+   inert[x=1.38189 y=1.44997 z=1.7007] w[x=-0.0149519 y=0.000702213 z=0.0161844] torq[xyz=0]
+   MultiSphere r[1.15392 0.888288 1.03246] marg=0.04
+   with 0 ignores and 0 joints
   Rigid Sta aData=Material"platform" msLoc[y=-2]
    contact[fric=0.5 rest=0.3 damp=0.1 pth=1e+18 stiff=1e+18]
    Box he[x=20 y=2 z=20] marg=0.04
-   with 0 ignores and 0 joints
-  Rigid Dyn(mass=1) aData=Material"drop3" msLoc[x=-2.58505 y=0.534056 z=0.95102] loc[x=-2.58505 y=0.534056 z=0.95102] orient[x=0.705 y=0.705 z=0.048 w=0.048]
-   contact[fric=0.5 rest=0.3 damp=0.1 pth=1e+18 stiff=1e+18]
-   grav[y=-30] NOTprotected ccd[mth=5 r=1.46418] damp[l=0.6 a=0.6] sleep[lth=0.1 ath=0.1 time=0.566667]
-   v[x=8.80844e-05 y=-2.33054e-05 z=-4.42515e-05] force[xyz=0] lFact[xyz=1]
-   inert[x=0.956287 y=0.496926 z=0.649516] w[x=0.000108026 y=0.000106279 z=-5.59903e-05] torq[xyz=0] aFact[xyz=1]
-   MultiSphere r[0.534071 0.534071 0.534071 0.534071] marg=0.04
    with 0 ignores and 0 joints
 ....
 
