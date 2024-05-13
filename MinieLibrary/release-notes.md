@@ -1,5 +1,82 @@
 # Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
 
+## Version 8.1.0 released on TBD
+
++ Bugfix:  JVM crash while serializing `BoundingValueHierarchy` (issue #41)
++ Bugfix:  crash in `processAllTriangles()` when `m_bvh==NULL` (issue #43)
++ Bugfix:  wrong inertia for a `CustomConvexShape` when `mass != 1`
++ Changed the default setting for collision-shape contact filtering
+  (from enabled to disabled) to address issue #40.
+  This change may cause unwanted behavior for rigid bodies in contact
+  with a gimpact, heightfield, or mesh shape; see issue #18 for details.
++ Started regenerating the bounding-value hierarchy if it was serialized
+  with a different floating-point precision.
++ Bugfix:  the RK4 flag of a MultiBody isn't de-serialized
+
++ Added 2 convex collision shapes:
+  + `ConicalFrustum`
+  + `SphericalSegment`
++ Made BVH serialization optional:
+  + `MeshCollisionShape.isSerializingBvh()`
+  + `MeshCollisionShape.setSerializingBvh()`
++ Added a setting to visualize the collision margins of concave shapes.
+
++ Added the new `CollisionConfiguration` class and related methods, to configure
+  penetration depth solvers:
+  + `BulletAppState.getCollisionConfiguration()`
+  + `BulletAppState.setCollisionConfiguration()`
+  + `CollisionSpace.getConfiguration()`
+  + `PhysicsDescriber.describe(CollisionConfiguration)`
+  + a 5-argument `CollisionSpace` constructor
+  + a 4-argument `PhysicsSoftSpace` constructor
+  + a pair of 5-argument `PhysicsSpace` constructors
+
++ Added 14 accessors for the native user indices
+  of `CollisionShape`, `MultiBody`, and `PhysicsCollisionObject`.
+
++ Added 20 other public methods:
+  + `BoundingValueHierarchy.copyAabb()`
+  + `BoundingValueHierarchy.copyQuantization()`
+  + `BoundingValueHierarchy.countLeafNodes()`
+  + `BoundingValueHierarchy.countNodes()`
+  + `BoundingValueHierarchy.countSubtreeHeaders()`
+  + `BoundingValueHierarchy.escapeIndex()`
+  + `BoundingValueHierarchy.isCompressed()`
+  + `BoundingValueHierarchy.isLeafNode()`
+  + `BoundingValueHierarchy.partId()`
+  + `BoundingValueHierarchy.setTraversalMode()`
+  + `BoundingValueHierarchy.traversalMode()`
+  + `BoundingValueHierarchy.triangleIndex()`
+  + `GImpactCollisionShape.countSubmeshes()`
+  + `GImpactCollisionShape.getSubmesh()`
+  + `HeightfieldCollisionShape.countColumns()`
+  + `HeightfieldCollisionShape.countRows()`
+  + `HeightfieldCollisionShape.upAxis()`
+  + `MeshCollisionShape.countSubmeshes()`
+  + `MeshCollisionShape.getBvh()`
+  + `MeshCollisionShape.getSubmesh()`
+
++ Enhancements to the MinieExamples subproject:
+  + Added 2 test apps:
+    + `TestIssue40`
+    + `TestIssue41`
+  + Added 3 custom collision shapes:
+    + `CustomLemon`
+    + `CustomParaboloid`
+    + `CustomSegment`
+  + Added more options to the `ShapeGenerator` class and also to
+    the `DropTest` and `SplitDemo` apps.
+  + Started displaying the number of persistent manifolds in the `DropTest` app.
+  + Reduced the CCD motion threshold in the `DropTest` app.
+  + Added getters for the dimensions of custom collision shapes.
+  + Made 4 custom collision shapes more scalable.
+  + Added margin to the radii of custom collision shapes.
+
++ Updated dependencies:  v3.0.1 of the jme-ttf library and v20.13.0 of Node.js .
++ Built using Gradle v8.7 .
++ Updated the native libraries to v20.2.1 of Libbulletjme.
++ Updated VHACD v4 to version 4.1 .
+
 ## Version 8.0.0 released on 14 February 2024
 
 + Deleted 9 public methods that had previously been deprecated: (API changes)
