@@ -11,14 +11,11 @@ tasks.withType(JavaCompile).configureEach { // Java compile-time options:
 }
 
 dependencies {
-    runtimeOnly    desktopCoordinates
-    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
-    implementation pluginsCoordinates
-    runtimeOnly    'org.jmonkeyengine:jme3-testdata:' + jme3Version
-
-    // select one version of LWJGL:
-    //runtimeOnly    'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
-    runtimeOnly    'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
+    runtimeOnly(libs.jme3.desktop)
+    implementation(libs.jme3.effects)
+    implementation(libs.jme3.plugins)
+    runtimeOnly(libs.jme3.testdata)
+    runtimeOnly(libs.lwjgl)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode

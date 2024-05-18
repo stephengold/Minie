@@ -18,9 +18,9 @@ application {
 jar.manifest.attributes('Main-Class': application.mainClass)
 
 dependencies {
-    implementation desktopCoordinates
-    implementation heartCoordinates
-    runtimeOnly    pluginsCoordinates
+    implementation(libs.jme3.desktop)
+    implementation(libs.heart)
+    runtimeOnly(libs.jme3.plugins)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode

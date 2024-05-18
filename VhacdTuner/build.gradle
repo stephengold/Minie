@@ -21,16 +21,16 @@ if (!hasProperty('mainClass')) {
 jar.manifest.attributes('Main-Class': application.mainClass)
 
 dependencies {
-    runtimeOnly    desktopCoordinates
-    implementation heartCoordinates
-    runtimeOnly    lwjglCoordinates
-    implementation niftyCoordinates
-    runtimeOnly    pluginsCoordinates
-    runtimeOnly    styleCoordinates
+    runtimeOnly(libs.jme3.desktop)
+    implementation(libs.heart)
+    runtimeOnly(libs.lwjgl)
+    implementation(libs.jme3.utilities.nifty)
+    runtimeOnly(libs.jme3.plugins)
+    runtimeOnly(libs.nifty.style.black)
 
     // VhacdTuner doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly    joggCoordinates
+    runtimeOnly(libs.jme3.jogg)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode

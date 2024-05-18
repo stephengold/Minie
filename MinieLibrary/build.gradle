@@ -127,15 +127,15 @@ ext {
 }
 
 dependencies {
-    api heartCoordinates
-    api 'com.simsilica:sim-math:1.6.0'
-    api 'org.jmonkeyengine:jme3-core:' + jme3Version
-    api 'org.jmonkeyengine:jme3-terrain:' + jme3Version
+    api(libs.heart)
+    api(libs.sim.math)
+    api(libs.jme3.core)
+    api(libs.jme3.terrain)
 
-    testImplementation junitCoordinates
-    testImplementation desktopCoordinates
-    testImplementation pluginsCoordinates
-    testRuntimeOnly    testdataCoordinates
+    testImplementation(libs.junit)
+    testImplementation(libs.jme3.desktop)
+    testImplementation(libs.jme3.plugins)
+    testRuntimeOnly(libs.jme3.testdata.old)
 }
 
 test {

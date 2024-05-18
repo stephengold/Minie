@@ -7,25 +7,6 @@ plugins {
 ext {
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
 
-    // current version of the JMonkeyEngine libraries:
-    jme3Version = '3.7.0-beta1'
-
-    // module coordinates of external dependencies:
-    acorusCoordinates = 'com.github.stephengold:Acorus:2.0.0' + jmeTarget
-    desktopCoordinates = 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    heartCoordinates = 'com.github.stephengold:Heart:9.0.0' + jmeTarget
-    joggCoordinates = 'org.jmonkeyengine:jme3-jogg:' + jme3Version
-    junitCoordinates = 'junit:junit:4.13.2'
-    niftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.37' + jmeTarget
-    pluginsCoordinates = 'org.jmonkeyengine:jme3-plugins:' + jme3Version
-    styleCoordinates = 'com.github.nifty-gui:nifty-style-black:1.4.3'
-    testdataCoordinates = 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
-    wesCoordinates = 'com.github.stephengold:Wes:0.8.1' + jmeTarget
-
-    // select one version of LWJGL:
-    //lwjglCoordinates =  'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
-    lwjglCoordinates = 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
-
     minieSnapshot = '-SNAPSHOT' // for development builds
     //minieSnapshot = '' // for release builds
     minieVersion = '8.1.1'

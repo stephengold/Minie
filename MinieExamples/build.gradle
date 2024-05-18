@@ -19,22 +19,19 @@ tasks.withType(JavaCompile).configureEach { // Java compile-time options:
 }
 
 dependencies {
-    implementation acorusCoordinates
-    runtimeOnly    desktopCoordinates
-    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
-    implementation heartCoordinates
-    //implementation junitCoordinates
-    implementation pluginsCoordinates
-    runtimeOnly    testdataCoordinates
-    implementation wesCoordinates
-
-    // select one version of LWJGL:
-    //runtimeOnly    'org.jmonkeyengine:jme3-lwjgl:' + jme3Version // for LWJGL 2.x
-    runtimeOnly    'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version // for LWJGL 3.x
+    implementation(libs.acorus)
+    runtimeOnly(libs.jme3.desktop)
+    implementation(libs.jme3.effects)
+    implementation(libs.heart)
+    //implementation(libs.junit)
+    implementation(libs.jme3.plugins)
+    runtimeOnly(libs.jme3.testdata.old)
+    implementation(libs.wes)
+    runtimeOnly(libs.lwjgl)
 
     // MinieExamples doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly    joggCoordinates
+    runtimeOnly(libs.jme3.jogg)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode

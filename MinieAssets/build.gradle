@@ -44,16 +44,16 @@ tasks.withType(JavaCompile).configureEach { // Java compile-time options:
 }
 
 dependencies {
-    implementation 'com.github.stephengold:jme-ttf:3.0.1'
-    implementation heartCoordinates
-    implementation 'org.jmonkeyengine:jme3-blender:3.3.2-stable'
-    runtimeOnly    desktopCoordinates
-    implementation pluginsCoordinates
-    runtimeOnly    testdataCoordinates
+    implementation(libs.jme.ttf)
+    implementation(libs.heart)
+    implementation(libs.jme3.blender)
+    runtimeOnly(libs.jme3.desktop)
+    implementation(libs.jme3.plugins)
+    runtimeOnly(libs.jme3.testdata.old)
 
     // MinieAssets doesn't use jme3-jogg
     //  -- it is included solely to avoid warnings from AssetConfig.
-    runtimeOnly    joggCoordinates
+    runtimeOnly(libs.jme3.jogg)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
     implementation project(':MinieLibrary') // for latest sourcecode
