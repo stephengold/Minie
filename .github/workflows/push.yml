@@ -73,7 +73,7 @@ jobs:
 
   Java21-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/setup-java@v4
         with:
