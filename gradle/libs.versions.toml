@@ -11,10 +11,10 @@ jme = "3.7.0-beta1"
 #lwjgl = { module = "org.jmonkeyengine:jme3-lwjgl", version.ref = "jme" } # for LWJGL 2.x
 lwjgl = { module = "org.jmonkeyengine:jme3-lwjgl3", version.ref = "jme" } # for LWJGL 3.x
 
-acorus = { module = "com.github.stephengold:Acorus", version = "2.0.0" }
-heart = { module = "com.github.stephengold:Heart", version = "9.0.0" }
-jme-ttf = { module = "com.github.stephengold:jme-ttf", version = "3.0.1" }
-jme3-blender = { module = "org.jmonkeyengine:jme3-blender", version = "3.3.2-stable" }
+acorus = "com.github.stephengold:Acorus:2.0.0"
+heart = "com.github.stephengold:Heart:9.0.0"
+jme-ttf = "com.github.stephengold:jme-ttf:3.0.1"
+jme3-blender = "org.jmonkeyengine:jme3-blender:3.3.2-stable"
 jme3-core = { module = "org.jmonkeyengine:jme3-core", version.ref = "jme" }
 jme3-desktop = { module = "org.jmonkeyengine:jme3-desktop", version.ref = "jme" }
 jme3-effects = { module = "org.jmonkeyengine:jme3-effects", version.ref = "jme" }
@@ -22,12 +22,12 @@ jme3-jogg = { module = "org.jmonkeyengine:jme3-jogg", version.ref = "jme" }
 jme3-plugins = { module = "org.jmonkeyengine:jme3-plugins", version.ref = "jme" }
 jme3-terrain = { module = "org.jmonkeyengine:jme3-terrain", version.ref = "jme" }
 jme3-testdata = { module = "org.jmonkeyengine:jme3-testdata", version.ref = "jme" }
-jme3-testdata-old = { module = "org.jmonkeyengine:jme3-testdata", version = "3.1.0-stable" }
-jme3-utilities-nifty = { module = "com.github.stephengold:jme3-utilities-nifty", version = "0.9.37" }
-junit = { module = "junit:junit", version = "4.13.2" }
-nifty-style-black = { module = "com.github.nifty-gui:nifty-style-black", version = "1.4.3" }
-sim-math = { module = "com.simsilica:sim-math", version = "1.6.0" }
-wes = { module = "com.github.stephengold:Wes", version = "0.8.1" }
+jme3-testdata-old = "org.jmonkeyengine:jme3-testdata:3.1.0-stable"
+jme3-utilities-nifty = "com.github.stephengold:jme3-utilities-nifty:0.9.37"
+junit = "junit:junit:4.13.2"
+nifty-style-black = "com.github.nifty-gui:nifty-style-black:1.4.3"
+sim-math = "com.simsilica:sim-math:1.6.0"
+wes = "com.github.stephengold:Wes:0.8.1"
 
 [bundles]
 
