@@ -1,10 +1,12 @@
 ## TOML version catalog for the Minie project
 
 [versions]
+
 checkstyle = "9.3"
 jme = "3.7.0-beta1"
 
 [libraries]
+
 ## select one version of LWJGL:
 #lwjgl = { module = "org.jmonkeyengine:jme3-lwjgl", version.ref = "jme" } # for LWJGL 2.x
 lwjgl = { module = "org.jmonkeyengine:jme3-lwjgl3", version.ref = "jme" } # for LWJGL 3.x
@@ -26,5 +28,7 @@ junit = { module = "junit:junit", version = "4.13.2" }
 nifty-style-black = { module = "com.github.nifty-gui:nifty-style-black", version = "1.4.3" }
 sim-math = { module = "com.simsilica:sim-math", version = "1.6.0" }
 wes = { module = "com.github.stephengold:Wes", version = "0.8.1" }
+
+[bundles]
 
 [plugins]
