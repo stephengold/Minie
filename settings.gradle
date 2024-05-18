@@ -1,5 +1,7 @@
 // global settings shared by all Minie subprojects
 
+rootProject.name = 'Minie'
+
 dependencyResolutionManagement {
     repositories {
         //mavenLocal() // to find libraries installed locally
@@ -8,8 +10,6 @@ dependencyResolutionManagement {
         //maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' } // to find public snapshots of libraries
     }
 }
-
-rootProject.name = 'Minie'
 
 /*
  * Enumerate subdirectories in the project's root directory that contain a
