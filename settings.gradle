@@ -18,8 +18,8 @@ dependencyResolutionManagement {
  */
 def subDirs = rootDir.listFiles(
     new FileFilter() {
-        boolean accept(File sub) {
-            return sub.isDirectory() && new File(sub, 'build.gradle').isFile()
+        boolean accept(File file) {
+            return file.isDirectory() && new File(file, 'build.gradle').isFile()
         }
     }
 )
