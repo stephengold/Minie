@@ -1,4 +1,4 @@
-// global settings shared by all Minie subprojects
+// global build settings for the Minie project
 
 rootProject.name = 'Minie'
 
@@ -14,7 +14,7 @@ dependencyResolutionManagement {
 /*
  * Enumerate subdirectories in the project's root directory that contain a
  * "build.gradle" file. Any subdirectory that contains a "build.gradle" file is
- * automatically a subproject of this project.
+ * automatically included as a subproject.
  */
 def subDirs = rootDir.listFiles(
     new FileFilter() {

@@ -306,7 +306,7 @@ tasks.register('sourcesJar', Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'sources'
     description 'Creates a JAR of sourcecode.'
-    from sourceSets.main.allJava
+    from sourceSets.main.allJava // default is ".allSource", which includes resources
 }
 
 assemble.dependsOn('module', 'moduleAsc', 'pom', 'pomAsc')
