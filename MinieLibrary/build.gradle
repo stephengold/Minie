@@ -132,7 +132,7 @@ dependencies {
     api(libs.jme3.core)
     api(libs.jme3.terrain)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.junit4)
     testImplementation(libs.jme3.desktop)
     testImplementation(libs.jme3.plugins)
     testRuntimeOnly(libs.jme3.testdata.old)

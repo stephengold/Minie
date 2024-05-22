@@ -23,7 +23,7 @@ dependencies {
     runtimeOnly(libs.jme3.desktop)
     implementation(libs.jme3.effects)
     implementation(libs.heart)
-    //implementation(libs.junit)
+    //implementation(libs.junit4)
     implementation(libs.jme3.plugins)
     runtimeOnly(libs.jme3.testdata.old)
     implementation(libs.wes)
