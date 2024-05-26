@@ -74,7 +74,7 @@
 
 + Updated dependencies:  v3.0.1 of the jme-ttf library and v20.13.0 of Node.js .
 + Built using Gradle v8.7 .
-+ Updated the native libraries to v20.2.1 of Libbulletjme.
++ Updated the native libraries to v21.2.1 of Libbulletjme.
 + Updated VHACD v4 to version 4.1 .
 
 ## Version 8.0.0 released on 14 February 2024

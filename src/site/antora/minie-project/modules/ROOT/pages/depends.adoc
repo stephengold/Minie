@@ -31,7 +31,7 @@ the Libbulletjme release that corresponds to each Minie release.
 |v8.1.0
 |Heart v9.0.0 / sim-math v1.6.0 / jme3-terrain v3.6.1-stable
 |jme3-core v3.6.1-stable / slf4j-api v1.7.32
-|v20.2.1
+|v21.2.1
 
 |v8.0.0
 |Heart v9.0.0 / sim-math v1.6.0 / jme3-terrain v3.6.1-stable
