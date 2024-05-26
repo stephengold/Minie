@@ -50,7 +50,10 @@ public class HelloSoftSoft extends SimpleApplication {
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloSoftSoft application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloSoftSoft() {
         // do nothing
@@ -71,7 +74,7 @@ public class HelloSoftSoft extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {

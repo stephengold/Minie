@@ -73,7 +73,10 @@ public class HelloCharacterControl
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloCharacterControl application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloCharacterControl() {
         // do nothing
@@ -101,7 +104,7 @@ public class HelloCharacterControl
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {
@@ -209,8 +212,8 @@ public class HelloCharacterControl
     /**
      * Attach a horizontal square to the scene and also to the space.
      *
-     * @param halfExtent (half of the desired side length)
-     * @param y (the desired elevation, in physics-space coordinates)
+     * @param halfExtent half of the desired side length
+     * @param y the desired elevation (in physics-space coordinates)
      * @return the new body (not null)
      */
     private RigidBodyControl addSquare(float halfExtent, float y) {

@@ -101,7 +101,10 @@ public class HelloDoubleEnded
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloDoubleEnded application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloDoubleEnded() {
         // do nothing
@@ -133,7 +136,7 @@ public class HelloDoubleEnded
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {
@@ -283,7 +286,7 @@ public class HelloDoubleEnded
     /**
      * Add a horizontal plane body to the space.
      *
-     * @param y (the desired elevation, in physics-space coordinates)
+     * @param y the desired elevation (in physics-space coordinates)
      */
     private void addPlane(float y) {
         Plane plane = new Plane(Vector3f.UNIT_Y, y);

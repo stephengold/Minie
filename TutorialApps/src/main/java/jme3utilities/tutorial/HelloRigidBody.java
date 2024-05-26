@@ -43,6 +43,8 @@ import com.jme3.math.Vector3f;
  * <li>gravity (continual downward force), and </li>
  * <li>contact response (avoid intersecting with other bodies).</li>
  * </ul>
+ * <p>
+ * Builds upon HelloSport.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -51,7 +53,10 @@ public class HelloRigidBody extends SimpleApplication {
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloRigidBody application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloRigidBody() {
         // do nothing
@@ -72,7 +77,7 @@ public class HelloRigidBody extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {

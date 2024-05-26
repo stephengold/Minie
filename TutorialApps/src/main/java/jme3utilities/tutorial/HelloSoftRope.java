@@ -48,7 +48,10 @@ public class HelloSoftRope extends SimpleApplication {
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloSoftRope application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloSoftRope() {
         // do nothing
@@ -69,7 +72,7 @@ public class HelloSoftRope extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {

@@ -78,7 +78,10 @@ public class HelloCharacter
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloCharacter application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloCharacter() {
         // do nothing
@@ -106,7 +109,7 @@ public class HelloCharacter
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {
@@ -207,8 +210,8 @@ public class HelloCharacter
     /**
      * Add a horizontal square body to the space.
      *
-     * @param halfExtent (half of the desired side length)
-     * @param y (the desired elevation, in physics-space coordinates)
+     * @param halfExtent half of the desired side length
+     * @param y the desired elevation (in physics-space coordinates)
      * @return the new body (not null)
      */
     private PhysicsRigidBody addSquare(float halfExtent, float y) {

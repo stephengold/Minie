@@ -106,7 +106,10 @@ public class HelloWalkOtoCc
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloWalkOtoCc application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloWalkOtoCc() {
         // do nothing
@@ -134,7 +137,7 @@ public class HelloWalkOtoCc
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {

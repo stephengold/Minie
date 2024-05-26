@@ -46,7 +46,8 @@ import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 
 /**
- * A simple example of a kinematic RigidBodyControl with setApplyScale(true).
+ * A simple example of a kinematic RigidBodyControl with
+ * {@code setApplyScale(true)}.
  * <p>
  * Builds upon HelloKinematicRbc.
  *
@@ -68,7 +69,10 @@ public class HelloApplyScale extends SimpleApplication {
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloApplyScale application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloApplyScale() {
         // do nothing
@@ -96,7 +100,7 @@ public class HelloApplyScale extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {

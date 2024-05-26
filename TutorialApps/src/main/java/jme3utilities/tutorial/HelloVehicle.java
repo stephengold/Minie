@@ -65,7 +65,10 @@ public class HelloVehicle extends SimpleApplication {
     // constructors
 
     /**
-     * Explicit no-arg constructor to avoid javadoc warnings from JDK 18+.
+     * Instantiate the HelloVehicle application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
      */
     public HelloVehicle() {
         // do nothing
@@ -86,7 +89,7 @@ public class HelloVehicle extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize the application. Invoked once.
      */
     @Override
     public void simpleInitApp() {
@@ -151,7 +154,7 @@ public class HelloVehicle extends SimpleApplication {
     /**
      * Add a horizontal plane body to the space.
      *
-     * @param y (the desired elevation, in physics-space coordinates)
+     * @param y the desired elevation (in physics-space coordinates)
      */
     private void addPlane(float y) {
         Plane plane = new Plane(Vector3f.UNIT_Y, y);
