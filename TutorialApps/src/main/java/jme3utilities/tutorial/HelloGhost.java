@@ -229,7 +229,7 @@ public class HelloGhost
                 offset = cam.getLeft().mult(left - right).add(offset);
 
                 offset.y = 0f;
-                if (offset.lengthSquared() != 0f) {
+                if (offset.length() > 0f) {
                     float scale = 7f * timeStep / offset.length();
                     offset.multLocal(scale);
                 }
