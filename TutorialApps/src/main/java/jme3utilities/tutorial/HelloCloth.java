@@ -105,9 +105,10 @@ public class HelloCloth extends SimpleApplication {
         PhysicsSoftBody cloth = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(squareGrid, cloth);
         physicsSpace.addCollisionObject(cloth);
-
-        // Make the cloth flexible by altering the angular stiffness
-        // of its material.
+        /*
+         * Make the cloth flexible by reducing the angular stiffness
+         * of its material.
+         */
         SoftBodyMaterial mat = cloth.getSoftMaterial();
         mat.setAngularStiffness(0f); // default=1
         /*

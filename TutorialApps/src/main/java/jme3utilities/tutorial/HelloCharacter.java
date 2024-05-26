@@ -129,7 +129,7 @@ public class HelloCharacter
         float y = -2f;
         PhysicsRigidBody ground = addSquare(halfExtent, y);
 
-        // Customize the debug visualization of each object.
+        // Customize the debug visualization of both physics objects.
         Material redMaterial = createLitMaterial(1f, 0f, 0f);
         character.setDebugMaterial(redMaterial);
         character.setDebugMeshNormals(MeshNormals.Smooth);

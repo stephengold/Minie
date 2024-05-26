@@ -159,7 +159,7 @@ public class HelloDoor
         configureCamera();
         physicsSpace = configurePhysics();
 
-        // Add a static plane to represent the floor.
+        // Add a static plane to represent the ground.
         addPlane(groundY);
 
         // Add a static body for the door frame.

@@ -148,7 +148,7 @@ final public class TestIssue40 extends SimpleApplication
                 new float[9], new Vector3f(2f, 1f, 2f));
         PhysicsRigidBody terrainBody
                 = new PhysicsRigidBody(heightShape, PhysicsBody.massForStatic);
-        //heightShape.setContactFilterEnabled(false); // default=true
+        //heightShape.setContactFilterEnabled(true); // default=false
         physicsSpace.add(terrainBody);
 
         // For clarity, make the terrain opaque:

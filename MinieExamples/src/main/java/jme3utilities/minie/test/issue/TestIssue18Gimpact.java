@@ -207,7 +207,7 @@ final public class TestIssue18Gimpact
         ground.rotate(-FastMath.HALF_PI, 0f, 0f);
 
         CollisionShape shape = new GImpactCollisionShape(quad);
-        // shape.setContactFilterEnabled(false); // to make the test fail
+        // shape.setContactFilterEnabled(true); // workaround
         RigidBodyControl rbc
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);
         rbc.setPhysicsSpace(physicsSpace);
