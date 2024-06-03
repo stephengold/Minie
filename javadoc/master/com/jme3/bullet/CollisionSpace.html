@@ -220,7 +220,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCollisionSpace()" class="member-name-link">getCollisionSpace</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Access the CollisionSpace <b>running on this thread</b>.</div>
+<div class="block">Access the CollisionSpace associated with the current thread.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CollisionConfiguration.html" title="class in com.jme3.bullet">CollisionConfiguration</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getConfiguration()" class="member-name-link">getConfiguration</a>()</code></div>
@@ -370,39 +370,44 @@ loadScripts(document, 'script');</script>
  recomputed during each <code>update()</code> (native field:
  m_forceUpdateAllAabbs).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRayTestFlags(int)" class="member-name-link">setRayTestFlags</a><wbr>(int&nbsp;flags)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setLocalThreadPhysicsSpace(com.jme3.bullet.CollisionSpace)" class="member-name-link">setLocalThreadPhysicsSpace</a><wbr>(<a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a>&nbsp;space)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Alter the CollisionSpace associated with this thread.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRayTestFlags(int)" class="member-name-link">setRayTestFlags</a><wbr>(int&nbsp;flags)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the flags used in ray tests (native field: m_flags).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)" class="member-name-link">sweepTest</a><wbr>(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform)" class="member-name-link">sweepTest</a><wbr>(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
  com.jme3.math.Transform&nbsp;start,
  com.jme3.math.Transform&nbsp;end)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">For compatibility with the jme3-jbullet library.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)" class="member-name-link">sweepTest</a><wbr>(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
+ com.jme3.math.Transform&nbsp;start,
+ com.jme3.math.Transform&nbsp;end,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;&nbsp;results)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">For compatibility with the jme3-jbullet library.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List)" class="member-name-link">sweepTest</a><wbr>(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
- com.jme3.math.Transform&nbsp;start,
- com.jme3.math.Transform&nbsp;end,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;&nbsp;results)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">For compatibility with the jme3-jbullet library.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)" class="member-name-link">sweepTest</a><wbr>(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sweepTest(com.jme3.bullet.collision.shapes.ConvexShape,com.jme3.math.Transform,com.jme3.math.Transform,java.util.List,float)" class="member-name-link">sweepTest</a><wbr>(<a href="collision/shapes/ConvexShape.html" title="class in com.jme3.bullet.collision.shapes">ConvexShape</a>&nbsp;shape,
  com.jme3.math.Transform&nbsp;start,
  com.jme3.math.Transform&nbsp;end,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="collision/PhysicsSweepTestResult.html" title="class in com.jme3.bullet.collision">PhysicsSweepTestResult</a>&gt;&nbsp;results,
  float&nbsp;allowedCcdPenetration)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Perform a sweep-collision test and store the results in an existing list,
  in arbitrary order.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useDeterministicDispatch(boolean)" class="member-name-link">useDeterministicDispatch</a><wbr>(boolean&nbsp;desiredSetting)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useDeterministicDispatch(boolean)" class="member-name-link">useDeterministicDispatch</a><wbr>(boolean&nbsp;desiredSetting)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Enable or disable the "deterministic overlapping pairs" option in the
  collision dispatcher (native field: m_deterministicOverlappingPairs).</div>
 </div>
@@ -635,11 +640,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getCollisionSpace()">
 <h3>getCollisionSpace</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></span>&nbsp;<span class="element-name">getCollisionSpace</span>()</div>
-<div class="block">Access the CollisionSpace <b>running on this thread</b>. For parallel
- physics, this may be invoked from the OpenGL thread.</div>
+<div class="block">Access the CollisionSpace associated with the current thread. Spaces
+ created using <code>ThreadingType.PARALLEL</code> are associated with both the
+ physics thread and the OpenGL thread.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the pre-existing CollisionSpace running on this thread</dd>
+<dd>the pre-existing CollisionSpace, or <code>null</code> if none</dd>
 </dl>
 </section>
 </li>
@@ -990,6 +996,18 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>desiredSetting</code> - true &rarr; recompute all AABBs, false &rarr; skip
  inactive objects (default=true)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setLocalThreadPhysicsSpace(com.jme3.bullet.CollisionSpace)">
+<h3>setLocalThreadPhysicsSpace</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLocalThreadPhysicsSpace</span><wbr><span class="parameters">(<a href="CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a>&nbsp;space)</span></div>
+<div class="block">Alter the CollisionSpace associated with this thread.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>space</code> - which space to associate with the current thread, or
+ <code>null</code> for none</dd>
 </dl>
 </section>
 </li>
