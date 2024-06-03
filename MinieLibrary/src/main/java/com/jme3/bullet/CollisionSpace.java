@@ -735,7 +735,7 @@ public class CollisionSpace extends NativePhysicsObject {
      * @param space which space to associate with the current thread, or
      * {@code null} for none
      */
-    static void setLocalThreadPhysicsSpace(CollisionSpace space) {
+    public static void setLocalThreadPhysicsSpace(CollisionSpace space) {
         physicsSpaceTL.set(space);
     }
 
