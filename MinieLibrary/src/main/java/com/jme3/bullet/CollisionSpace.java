@@ -112,7 +112,12 @@ public class CollisionSpace extends NativePhysicsObject {
     final private Map<Long, PhysicsGhostObject> ghostMap
             = new ConcurrentHashMap<>(64);
     /**
-     * physics-space reference for each thread
+     * collision-space reference for each thread
+     * <p>
+     * When a collision space is created, the current thread automatically
+     * becomes associated with it. For the space to be garbage collected, the
+     * same thread should null out its reference (using
+     * {@code setLocalThreadPhysicsSpace()}) before terminating.
      */
     final private static ThreadLocal<CollisionSpace> physicsSpaceTL
             = new ThreadLocal<>();
@@ -337,10 +342,11 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * Access the CollisionSpace <b>running on this thread</b>. For parallel
-     * physics, this may be invoked from the OpenGL thread.
+     * Access the CollisionSpace associated with the current thread. Spaces
+     * created using {@code ThreadingType.PARALLEL} are associated with both the
+     * physics thread and the OpenGL thread.
      *
-     * @return the pre-existing CollisionSpace running on this thread
+     * @return the pre-existing CollisionSpace, or {@code null} if none
      */
     public static CollisionSpace getCollisionSpace() {
         CollisionSpace result = physicsSpaceTL.get();
@@ -724,9 +730,10 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * Used internally.
+     * Alter the CollisionSpace associated with this thread.
      *
-     * @param space which space to simulate on the current thread
+     * @param space which space to associate with the current thread, or
+     * {@code null} for none
      */
     static void setLocalThreadPhysicsSpace(CollisionSpace space) {
         physicsSpaceTL.set(space);
