@@ -8,6 +8,7 @@ plugins {
     id 'java-library'  // to build JVM libraries
     id 'maven-publish' // to publish artifacts to Maven repositories
     id 'signing'       // to sign artifacts for publication
+    alias(libs.plugins.download) // to retrieve files from URLs
 }
 
 ext {
@@ -164,62 +165,76 @@ assemble.dependsOn((pdbWindows64 == '' ? 'clean' : 'download') + 'PDBs')
 
 // Register tasks to download native libraries (from GitHub, typically)
 
-tasks.register('downloadAndroid_ARM7', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Android_ARM7${btfAndroid_ARM7}_libbulletjme.so"
-    target = file(libDir + 'armeabi-v7a/libbulletjme.so')
+tasks.register('downloadAndroid_ARM7', Download) {
+    src libbulletjmeUrl + "Android_ARM7${btfAndroid_ARM7}_libbulletjme.so"
+    dest file(libDir + 'armeabi-v7a/libbulletjme.so')
+    overwrite false
 }
-tasks.register('downloadAndroid_ARM8', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Android_ARM8${btfAndroid_ARM8}_libbulletjme.so"
-    target = file(libDir + 'arm64-v8a/libbulletjme.so')
+tasks.register('downloadAndroid_ARM8', Download) {
+    src libbulletjmeUrl + "Android_ARM8${btfAndroid_ARM8}_libbulletjme.so"
+    dest file(libDir + 'arm64-v8a/libbulletjme.so')
+    overwrite false
 }
-tasks.register('downloadAndroid_X86', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Android_X86${btfAndroid_X86}_libbulletjme.so"
-    target = file(libDir + 'x86/libbulletjme.so')
+tasks.register('downloadAndroid_X86', Download) {
+    src libbulletjmeUrl + "Android_X86${btfAndroid_X86}_libbulletjme.so"
+    dest file(libDir + 'x86/libbulletjme.so')
+    overwrite false
 }
-tasks.register('downloadAndroid_X86_64', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Android_X86_64${btfAndroid_X86_64}_libbulletjme.so"
-    target = file(libDir + 'x86_64/libbulletjme.so')
+tasks.register('downloadAndroid_X86_64', Download) {
+    src libbulletjmeUrl + "Android_X86_64${btfAndroid_X86_64}_libbulletjme.so"
+    dest file(libDir + 'x86_64/libbulletjme.so')
+    overwrite false
 }
-tasks.register('downloadLinux32', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Linux32${btfLinux32}_libbulletjme.so"
-    target = file(nativeDir + 'linux/x86/libbulletjme.so')
+tasks.register('downloadLinux32', Download) {
+    src libbulletjmeUrl + "Linux32${btfLinux32}_libbulletjme.so"
+    dest file(nativeDir + 'linux/x86/libbulletjme.so')
+    overwrite false
 }
-tasks.register('downloadLinux64', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Linux64${btfLinux64}_libbulletjme.so"
-    target = file(nativeDir + 'linux/x86_64/libbulletjme.so')
+tasks.register('downloadLinux64', Download) {
+    src libbulletjmeUrl + "Linux64${btfLinux64}_libbulletjme.so"
+    dest file(nativeDir + 'linux/x86_64/libbulletjme.so')
+    overwrite false
 }
-tasks.register('downloadLinux_ARM32', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Linux_ARM32${btfLinux_ARM32}_libbulletjme.so"
-    target = file(nativeDir + 'linux/arm32/libbulletjme.so')
+tasks.register('downloadLinux_ARM32', Download) {
+    src libbulletjmeUrl + "Linux_ARM32${btfLinux_ARM32}_libbulletjme.so"
+    dest file(nativeDir + 'linux/arm32/libbulletjme.so')
+    overwrite false
 }
-tasks.register('downloadLinux_ARM64', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Linux_ARM64${btfLinux_ARM64}_libbulletjme.so"
-    target = file(nativeDir + 'linux/arm64/libbulletjme.so')
+tasks.register('downloadLinux_ARM64', Download) {
+    src libbulletjmeUrl + "Linux_ARM64${btfLinux_ARM64}_libbulletjme.so"
+    dest file(nativeDir + 'linux/arm64/libbulletjme.so')
+    overwrite false
 }
-tasks.register('downloadMacOSX32', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "MacOSX32${btfMacOSX32}_libbulletjme.dylib"
-    target = file(nativeDir + 'osx/x86/libbulletjme.dylib')
+tasks.register('downloadMacOSX32', Download) {
+    src libbulletjmeUrl + "MacOSX32${btfMacOSX32}_libbulletjme.dylib"
+    dest file(nativeDir + 'osx/x86/libbulletjme.dylib')
+    overwrite false
 }
-tasks.register('downloadMacOSX64', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "MacOSX64${btfMacOSX64}_libbulletjme.dylib"
-    target = file(nativeDir + 'osx/x86_64/libbulletjme.dylib')
+tasks.register('downloadMacOSX64', Download) {
+    src libbulletjmeUrl + "MacOSX64${btfMacOSX64}_libbulletjme.dylib"
+    dest file(nativeDir + 'osx/x86_64/libbulletjme.dylib')
+    overwrite false
 }
-tasks.register('downloadMacOSX_ARM64', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "MacOSX_ARM64${btfMacOSX_ARM64}_libbulletjme.dylib"
-    target = file(nativeDir + 'osx/arm64/libbulletjme.dylib')
+tasks.register('downloadMacOSX_ARM64', Download) {
+    src libbulletjmeUrl + "MacOSX_ARM64${btfMacOSX_ARM64}_libbulletjme.dylib"
+    dest file(nativeDir + 'osx/arm64/libbulletjme.dylib')
+    overwrite false
 }
-tasks.register('downloadWindows32', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Windows32${btfWindows32}_bulletjme.dll"
-    target = file(nativeDir + 'windows/x86/bulletjme.dll')
+tasks.register('downloadWindows32', Download) {
+    src libbulletjmeUrl + "Windows32${btfWindows32}_bulletjme.dll"
+    dest file(nativeDir + 'windows/x86/bulletjme.dll')
+    overwrite false
 }
-tasks.register('downloadWindows64', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Windows64${btfWindows64}_bulletjme.dll"
-    target = file(nativeDir + 'windows/x86_64/bulletjme.dll')
+tasks.register('downloadWindows64', Download) {
+    src libbulletjmeUrl + "Windows64${btfWindows64}_bulletjme.dll"
+    dest file(nativeDir + 'windows/x86_64/bulletjme.dll')
+    overwrite false
 }
 
-tasks.register('downloadPDBs', MyDownload) {
-    sourceUrl = libbulletjmeUrl + "Windows64${pdbWindows64}_bulletjme.pdb"
-    target = file('bulletjme.pdb')
+tasks.register('downloadPDBs', Download) {
+    src libbulletjmeUrl + "Windows64${pdbWindows64}_bulletjme.pdb"
+    dest file('bulletjme.pdb')
+    overwrite false
 }
 
 // Register cleanup tasks:
@@ -473,24 +488,7 @@ defineJavadocTasksForRelease('3', '1', '0')
 defineJavadocTasksForRelease('3', '0', '0')
 defineJavadocTasksForRelease('2', '0', '1')
 
-
-// helper class to wrap Ant download task
-
-class MyDownload extends DefaultTask {
-    @Input
-    String sourceUrl
-
-    @OutputFile
-    File target
-
-    @TaskAction
-    void download() {
-        ant.get(src: sourceUrl, dest: target)
-        println sourceUrl
-    }
-}
-
-// helper methods to configure native libraries
+// helper methods to configure native libraries:
 
 void configureAndroidBtfs(String btfValue) {
     project.ext.btfAndroid_ARM7 = btfValue
@@ -525,9 +523,9 @@ void defineJavadocTasksForRelease(String major, String minor, String patch) {
     String jarPath = "${buildDir}/docs/v${major}-${minor}.jar"
     String mmp = "${major}.${minor}.${patch}"
 
-    tasks.register(downloadTaskName, MyDownload) {
-        sourceUrl = "${downloadUrl}/${mmp}/Minie-${mmp}-javadoc.jar"
-        target = file(jarPath)
+    tasks.register(downloadTaskName, Download) {
+        src "${downloadUrl}/${mmp}/Minie-${mmp}-javadoc.jar"
+        dest file(jarPath)
     }
 
     tasks.register("copy${major}${minor}JavadocToSite", Copy) {
