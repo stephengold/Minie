@@ -341,7 +341,7 @@ and their centers and axes are well-known:
 . {url-shape}/BoxCollisionShape.html[`BoxCollisionShape`],
 . {url-shape}/CapsuleCollisionShape.html[`CapsuleCollisionShape`],
 . {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`],
-. {url-shape}/ConicalSegment.html[`ConicalSegment`],
+. {url-shape}/ConicalFrustum.html[`ConicalFrustum`],
 . {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`],
 . {url-shape}/SphereCollisionShape.html[`SphereCollisionShape`], and
 . {url-shape}/SphericalSegment.html[`SphericalSegment`].
