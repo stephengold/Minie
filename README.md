@@ -5,16 +5,18 @@ The [Minie Project][project] is about improving the integration of
 and [Khaled Mamou's V-HACD Library][vhacd] into
 [the jMonkeyEngine (JME) game engine][jme].
 
-It contains 8 subprojects:
+It contains 7 subprojects:
 
  1. MinieLibrary: the Minie runtime library and its automated tests
  2. [DacWizard]: a GUI application to configure a ragdoll
- 3. VhacdTuner: a GUI application to tune the V-HACD algorithm for a particular mesh
- 4. TutorialApps: tutorial apps
- 5. MinieExamples: demos, examples, and non-automated test software
- 6. MinieAssets: generate assets used in MinieExamples
- 7. MinieDump: a command-line utility to dump J3O assets
- 8. Jme3Examples: physics examples from jme3-examples
+ 3. TutorialApps: tutorial apps
+ 4. MinieExamples: demos, examples, and non-automated test software
+ 5. MinieAssets: generate assets used in MinieExamples
+ 6. MinieDump: a command-line utility to dump J3O assets
+ 7. Jme3Examples: physics examples from jme3-examples
+
+The `VhacdTuner` application, formerly a subproject,
+is now [a separate project at GitHub][vhacdTuner].
 
 Complete source code (in Java) is provided under
 [a 3-clause BSD license][license].
@@ -454,6 +456,7 @@ correct the situation: sgold@sonic.net
 [vegdahl]: https://www.cessen.com "Nathan Vegdahl"
 [vhacd]: https://github.com/kmammou/v-hacd "V-HACD Library"
 [vhacdBindings]: https://github.com/riccardobl/v-hacd-java-bindings "Riccardo's V-hacd-java-bindings Project"
+[vhacdTuner]: https://github.com/stephengold/VhacdTuner "VhacdTuner Project"
 [wes]: https://github.com/stephengold/Wes "Wes Project"
 [winmerge]: https://winmerge.org "WinMerge Project"
 [youtube]: https://www.youtube.com/ "YouTube"

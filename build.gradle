@@ -20,8 +20,7 @@ tasks.register('checkstyle') {
     dependsOn ':DacWizard:checkstyleMain', ':Jme3Examples:checkstyleMain', \
         ':MinieAssets:checkstyleMain', ':MinieDump:checkstyleMain', \
         ':MinieExamples:checkstyleMain', ':MinieLibrary:checkstyleMain', \
-        ':MinieLibrary:checkstyleTest', ':TutorialApps:checkstyleMain', \
-        ':VhacdTuner:checkstyleMain'
+        ':MinieLibrary:checkstyleTest', ':TutorialApps:checkstyleMain'
     description 'Checks the style of all Java sourcecode.'
 }
 
