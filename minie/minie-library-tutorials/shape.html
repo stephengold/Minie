@@ -429,8 +429,8 @@ with illustrations and lists of key properties (explained below):</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4. <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CompoundCollisionShape.html"><code>CompoundCollisionShape</code></a></p>
 <p class="tableblock">&rarr; neither concave nor convex<br>
 &rarr; positive margin<br>
-&rarr; precise if-and-only-if all of its children are precise<br>
-&rarr; scalable to the extent that all of its children are scalable</p></td>
+&rarr; precise if-and-only-if all its children are precise<br>
+&rarr; scalable to the extent that all its children are scalable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="_images/compound.png" alt="compound" height="160"></span></p></td>
 </tr>
 <tr>
@@ -841,7 +841,7 @@ and their centers and axes are well-known:</p>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConeCollisionShape.html"><code>ConeCollisionShape</code></a>,</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConicalSegment.html"><code>ConicalSegment</code></a>,</p>
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConicalFrustum.html"><code>ConicalFrustum</code></a>,</p>
 </li>
 <li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>,</p>
@@ -974,8 +974,9 @@ support only uniform scaling, where all axes have the same scale factor,
 such as (0.2, 0.2, 0.2) or (9,9,9).</p>
 </li>
 <li>
-<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a>
-allows the height and base to scale independently,
+<p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/CylinderCollisionShape.html"><code>CylinderCollisionShape</code></a> and
+<a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/collision/shapes/ConicalFrustum.html"><code>ConicalFrustum</code></a>
+allow the height and base to scale independently,
 but the scale factors of both base axes must be equal.
 In other words, the cross section must remain circular.
 So (9,9,9) would be allowed for any cylinder,
