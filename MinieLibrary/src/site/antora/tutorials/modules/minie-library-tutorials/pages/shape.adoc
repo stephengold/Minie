@@ -411,8 +411,9 @@ In particular:
   {url-shape}/SphericalSegment.html[`SphericalSegment`]
   support only uniform scaling, where all axes have the same scale factor,
   such as (0.2, 0.2, 0.2) or (9,9,9).
-* {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`]
-  allows the height and base to scale independently,
+* {url-shape}/CylinderCollisionShape.html[`CylinderCollisionShape`] and
+  {url-shape}/ConicalFrustum.html[`ConicalFrustum`]
+  allow the height and base to scale independently,
   but the scale factors of both base axes must be equal.
   In other words, the cross section must remain circular.
   So (9,9,9) would be allowed for any cylinder,
