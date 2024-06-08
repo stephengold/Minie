@@ -50,7 +50,7 @@ By default, rigid bodies also exhibit 3 other features of real-world objects:
 * They exhibit _contact response_:
   powerful forces prevent them from intersecting other bodies.
 
-However, these last 3 features are optional and can easily be disabled.
+However, these last 3 features are optional in {Project} and can easily be disabled.
 
 === HelloRigidBody
 
@@ -71,7 +71,7 @@ Things to notice while running the app:
 . The simulation runs at 1/10th normal speed,
   making the simulation steps noticeable.
 . The balls collide, generating contact forces
-  that alter their motions but not their shapes.
+  that alter the balls' motions but not their shapes.
 .. The ball on the right loses half its horizontal velocity.
 .. The ball on the left begins moving leftward as it falls.
 

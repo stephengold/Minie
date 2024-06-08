@@ -54,8 +54,8 @@ with illustrations and lists of key properties (explained below):
 
 {item} neither concave nor convex +
 {item} positive margin +
-{item} precise if-and-only-if all of its children are precise +
-{item} scalable to the extent that all of its children are scalable
+{item} precise if-and-only-if all its children are precise +
+{item} scalable to the extent that all its children are scalable
 |image:compound.png[height=160]
 
 |5. {url-shape}/ConeCollisionShape.html[`ConeCollisionShape`]
