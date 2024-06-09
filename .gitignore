@@ -18,7 +18,6 @@
 
 # Ignore Gradle's build output directories:
 /build/
-/DacWizard/build/
 /Jme3Examples/build/
 /MinieAssets/build/
 /MinieDump/build/
@@ -29,10 +28,8 @@
 # Ignore IDE-specific directories:
 /.idea/
 /.nb-gradle/
-/DacWizard/private/
 
-# Ignore the Acorus sandboxes:
-/DacWizard/Written Assets/
+# Ignore the Acorus sandbox:
 /MinieExamples/Written Assets/
 
 # Ignore extracted native libraries:

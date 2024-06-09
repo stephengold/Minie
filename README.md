@@ -5,15 +5,17 @@ The [Minie Project][project] is about improving the integration of
 and [Khaled Mamou's V-HACD Library][vhacd] into
 [the jMonkeyEngine (JME) game engine][jme].
 
-It contains 7 subprojects:
+It contains 6 subprojects:
 
  1. MinieLibrary: the Minie runtime library and its automated tests
- 2. [DacWizard]: a GUI application to configure a ragdoll
- 3. TutorialApps: tutorial apps
- 4. MinieExamples: demos, examples, and non-automated test software
- 5. MinieAssets: generate assets used in MinieExamples
- 6. MinieDump: a command-line utility to dump J3O assets
- 7. Jme3Examples: physics examples from jme3-examples
+ 2. TutorialApps: tutorial apps
+ 3. MinieExamples: demos, examples, and non-automated test software
+ 4. MinieAssets: generate assets used in MinieExamples
+ 5. MinieDump: a command-line utility to dump J3O assets
+ 6. Jme3Examples: physics examples from jme3-examples
+
+The `DacWizard` application, formerly a subproject,
+is now [a separate project at GitHub][dacwizard].
 
 The `VhacdTuner` application, formerly a subproject,
 is now [a separate project at GitHub][vhacdTuner].
@@ -417,7 +419,7 @@ correct the situation: sgold@sonic.net
 [bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
 [checkstyle]: https://checkstyle.org "Checkstyle"
 [chrome]: https://www.google.com/chrome "Chrome"
-[dacwizard]: https://github.com/stephengold/Minie/tree/master/DacWizard "DacWizard Application"
+[dacwizard]: https://github.com/stephengold/DacWizard "DacWizard Project"
 [dokthar]: https://github.com/dokthar/jmonkeyengine "Dokthar's fork of JMonkeyEngine"
 [elements]: https://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
 [findbugs]: http://findbugs.sourceforge.net "FindBugs Project"

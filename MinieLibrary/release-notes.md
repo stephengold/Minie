@@ -1,4 +1,4 @@
-# Release log for the Minie library, DacWizard, MinieExamples, and VhacdTuner
+# Release log for the Minie library and MinieExamples
 
 ## Version 8.1.0 released on 12 May 2024
 

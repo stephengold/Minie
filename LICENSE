@@ -5,8 +5,7 @@ vhacd software package Copyright (c) 2016, Riccardo Balbo
 All rights reserved.
 
 Note: the following license does not apply to certain assets/resources
-(3 files in DacWizard/src/main/resources/Textures/icons,
- 1 file in MinieAssets/src/main/resources/Interface/Fonts,
+(1 file in MinieAssets/src/main/resources/Interface/Fonts,
  2 files in MinieAssets/src/main/resources/Models/Ankh,
  2 files in MinieAssets/src/main/resources/Models/Banana,
  2 files in MinieAssets/src/main/resources/Models/Barrel,

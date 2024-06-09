@@ -17,7 +17,7 @@ subprojects {
 }
 
 tasks.register('checkstyle') {
-    dependsOn ':DacWizard:checkstyleMain', ':Jme3Examples:checkstyleMain', \
+    dependsOn ':Jme3Examples:checkstyleMain', \
         ':MinieAssets:checkstyleMain', ':MinieDump:checkstyleMain', \
         ':MinieExamples:checkstyleMain', ':MinieLibrary:checkstyleMain', \
         ':MinieLibrary:checkstyleTest', ':TutorialApps:checkstyleMain'
