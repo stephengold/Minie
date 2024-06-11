@@ -166,6 +166,9 @@ tasks.register('TestIssue9', JavaExec) {
 tasks.register('TestLargeMesh', JavaExec) {
     mainClass = 'jme3utilities.minie.test.issue.TestLargeMesh'
 }
+tasks.register('TestManyBoxes', JavaExec) {
+    mainClass = 'jme3utilities.minie.test.issue.TestManyBoxes'
+}
 tasks.register('TestMultiBody', JavaExec) {
     mainClass = 'jme3utilities.minie.test.TestMultiBody'
 }
