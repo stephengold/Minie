@@ -185,10 +185,11 @@ public class PhysicsSpace
         }
     };
     /**
-     * copy of gravity-acceleration vector for newly-added bodies (default is
-     * 9.81 in the -Y direction, corresponding to Earth-normal in MKS units)
+     * copy of the gravity-acceleration vector for newly-added bodies (default
+     * is 9.81 in the -Y direction, approximating Earth-normal gravity in MKS
+     * units for a Y-up coordinate system)
      */
-    final private Vector3f gravity = new Vector3f(0, -9.81f, 0);
+    final private Vector3f gravity = new Vector3f(0f, -9.81f, 0f);
     // *************************************************************************
     // constructors
 
