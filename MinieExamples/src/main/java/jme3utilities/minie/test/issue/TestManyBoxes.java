@@ -70,6 +70,17 @@ public class TestManyBoxes extends SimpleApplication {
     private static Material solidGray;
     private static PhysicsSpace physicsSpace;
     // *************************************************************************
+    // constructors
+
+    /**
+     * Instantiate the TestManyBoxes application.
+     * <p>
+     * This no-arg constructor was made explicit to avoid javadoc warnings from
+     * JDK 18+.
+     */
+    public TestManyBoxes() {
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**
