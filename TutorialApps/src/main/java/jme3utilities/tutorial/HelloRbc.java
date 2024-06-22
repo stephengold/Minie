@@ -90,7 +90,6 @@ public class HelloRbc extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics and create a physics space.
         PhysicsSpace physicsSpace = configurePhysics();
 
         // Create a material and a mesh for balls.

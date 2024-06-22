@@ -336,7 +336,7 @@ public class TestGearJoint
      * Configure physics during startup.
      */
     private void configurePhysics() {
-        // Set up Bullet physics and create a physics space.
+        // Attach a BulletAppState and create a physics space:
         bulletAppState = new BulletAppState();
         float axisLength = maxArrowLength();
         bulletAppState.setDebugAxisLength(axisLength);

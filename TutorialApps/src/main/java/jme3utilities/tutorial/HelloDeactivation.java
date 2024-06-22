@@ -84,7 +84,7 @@ public class HelloDeactivation
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics and create a physics space.
+        // Attach a BulletAppState and create a physics space:
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();

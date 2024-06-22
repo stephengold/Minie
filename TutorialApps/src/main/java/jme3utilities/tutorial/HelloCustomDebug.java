@@ -94,7 +94,7 @@ public class HelloCustomDebug extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics and create a physics space.
+        // Attach a BulletAppState and create a physics space:
         PhysicsSpace physicsSpace = configurePhysics();
 
         // Create a material and CollisionShape for balls.
