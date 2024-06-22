@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2022, Stephen Gold
+ Copyright (c) 2019-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -104,7 +104,8 @@ public class FilterAll implements BulletDebugAppState.DebugAppStateFilter {
     }
 
     /**
-     * Read the value returned by displayObject() for non-exceptional arguments.
+     * Return the value returned by displayObject() for non-exceptional
+     * arguments.
      *
      * @return the boolean value
      */

@@ -94,8 +94,8 @@ final public class PhysicsSweepTestResult {
     }
 
     /**
-     * Read the fraction of the way between the transforms (from=0, to=1, &ge;0,
-     * &le;1)
+     * Return the fraction of the way between the transforms (from=0, to=1,
+     * &ge;0, &le;1)
      *
      * @return fraction (from=0, to=1, &ge;0, &le;1)
      */
@@ -123,7 +123,7 @@ final public class PhysicsSweepTestResult {
     }
 
     /**
-     * Read the part index at the point of contact.
+     * Return the part index at the point of contact.
      * <p>
      * If shape that was hit is compound or convex, the index is undefined.
      * <p>
@@ -140,7 +140,7 @@ final public class PhysicsSweepTestResult {
     }
 
     /**
-     * Read the triangle index at the point of contact.
+     * Return the triangle index at the point of contact.
      * <p>
      * If shape that was hit is convex, the index is undefined.
      * <p>

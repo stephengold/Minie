@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 jMonkeyEngine
+ * Copyright (c) 2018-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,8 @@ class DebugMeshKey {
      *
      * @param shape (not null, not compound, unaffected)
      * @param normals (not null)
-     * @param resolution 0 or 1
+     * @param resolution 0&rarr;low, 1&rarr;high for convex shapes, 2&rarr;high
+     * for all shapes
      */
     DebugMeshKey(CollisionShape shape, MeshNormals normals, int resolution) {
         assert normals != null;
@@ -102,7 +103,7 @@ class DebugMeshKey {
     // new methods exposed
 
     /**
-     * Read the shape ID of this key.
+     * Return the shape ID of this key.
      *
      * @return the ID value
      */

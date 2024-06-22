@@ -130,7 +130,7 @@ public class BulletAppState
      */
     final private DebugConfiguration debugConfig = new DebugConfiguration();
     /**
-     * simulation speed multiplier (paused=0)
+     * simulation speed multiplier (0&rarr;paused)
      */
     private float speed = 1f;
     /**
@@ -142,7 +142,7 @@ public class BulletAppState
      */
     private Future physicsFuture;
     /**
-     * number of solvers in the thread-safe pool
+     * number of threads to create in the thread-safe pool
      */
     private int numSolvers = NativeLibrary.countThreads();
     /**
@@ -322,9 +322,9 @@ public class BulletAppState
     }
 
     /**
-     * Determine the physics simulation speed.
+     * Return the physics-simulation speed.
      *
-     * @return the speedup factor (&ge;0, default=1)
+     * @return the speedup factor (&ge;0, default=1, 0&rarr;paused)
      */
     public float getSpeed() {
         assert speed >= 0f : speed;
@@ -594,7 +594,7 @@ public class BulletAppState
     /**
      * Alter the physics simulation speed.
      *
-     * @param speed the desired speedup factor (&ge;0, default=1)
+     * @param speed the desired speedup factor (&ge;0, default=1, 0&rarr;paused)
      */
     public void setSpeed(float speed) {
         Validate.nonNegative(speed, "speed");
@@ -735,7 +735,7 @@ public class BulletAppState
     }
 
     /**
-     * Create the configured PhysicsSpace.
+     * Create the configured {@code PhysicsSpace}.
      *
      * @param min the minimum coordinate values (not null, unaffected)
      * @param max the maximum coordinate values (not null, unaffected)
@@ -907,7 +907,7 @@ public class BulletAppState
      * Transition this state from detached to initializing. Should be invoked
      * only by a subclass or by the AppStateManager.
      *
-     * @param stateManager (not null)
+     * @param stateManager the manager instance (not null)
      */
     @Override
     public void stateAttached(AppStateManager stateManager) {

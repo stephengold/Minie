@@ -139,7 +139,7 @@ public class RigidBodyControl
      *
      * Its shape will be auto-generated when it is added to a Spatial. If the
      * controlled spatial is a Geometry with a box or sphere mesh, a matching
-     * box or sphere CollisionShape will be generated. Otherwise
+     * box or sphere {@code CollisionShape} will be generated. Otherwise
      * {@link com.jme3.bullet.util.CollisionShapeFactory} will be used.
      *
      * @param mass the desired mass (&ge;0)
@@ -149,8 +149,8 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled Control with a responsive dynamic body, mass=1,
-     * and the specified CollisionShape.
+     * Instantiate an enabled Control with an active/responsive dynamic rigid
+     * body, mass=1, and the specified shape.
      *
      * @param shape the desired shape (not null, alias created)
      */
@@ -159,8 +159,8 @@ public class RigidBodyControl
     }
 
     /**
-     * Instantiate an enabled Control with a responsive dynamic or static body
-     * and the specified CollisionShape and mass.
+     * Instantiate an enabled {@code Control} with a dynamic or static rigid
+     * body and the specified shape and mass.
      *
      * @param shape the desired shape (not null, alias created)
      * @param mass the desired mass (&ge;0)
@@ -174,7 +174,7 @@ public class RigidBodyControl
     /**
      * Access the controlled spatial.
      *
-     * @return the Spatial, or null if none
+     * @return the pre-existing {@code Spatial}, or null if none
      */
     public Spatial getSpatial() {
         return spatial;
@@ -339,7 +339,7 @@ public class RigidBodyControl
      * Enable or disable this Control.
      * <p>
      * When the Control is disabled, the body is removed from PhysicsSpace. When
-     * the Control is enabled again, the body is moved to the current location
+     * the Control is enabled again, the body is moved to the current position
      * of the Spatial and then added to the PhysicsSpace.
      *
      * @param enabled true&rarr;enable the Control, false&rarr;disable it

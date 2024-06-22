@@ -767,8 +767,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the orientation of this object (the basis of its local coordinate
-     * system) to a Matrix3f.
+     * Copy the orientation of the collision object (the basis of its local
+     * coordinate system) to a Matrix3f.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a rotation matrix (in physics-space coordinates, either
@@ -784,8 +784,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the orientation of this object (the basis of its local coordinate
-     * system) to a Matrix3d.
+     * Copy the orientation of the collision object (the basis of its local
+     * coordinate system) to a Matrix3d.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a rotation matrix (in physics-space coordinates, either
@@ -1003,9 +1003,10 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the collision group of this object's broadphase proxy. A proxy is
-     * created when the object is added to a space, and its group is 32 for a
-     * PhysicsCharacter, 2 for a static object, or 1 for anything else.
+     * Return the collision group of the collision object's broadphase proxy. A
+     * proxy is created when the collision object is added to a space, and its
+     * group is 32 for a PhysicsCharacter, 2 for a static object, or 1 for
+     * anything else.
      *
      * @return the proxy's collision group (a bitmask with exactly one bit set)
      * or null if this object has no proxy
@@ -1022,8 +1023,8 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Return the collision mask of this object's broadphase proxy. A proxy is
-     * created when the object is added to a space, and its mask is -3 for a
-     * static object or -1 for anything else.
+     * created when the collision object is added to a space, and its mask is -3
+     * for a static object or -1 for anything else.
      *
      * @return the proxy's bitmask, or null if this object has no proxy
      */
@@ -1289,7 +1290,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter this object's friction (native field: m_friction).
+     * Alter the collision object's friction (native field: m_friction).
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
@@ -1367,8 +1368,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the object's primary user index. Applications may use this
-     * parameter for any purpose (native field: m_userIndex).
+     * Alter the collision object's primary user index. Applications may use
+     * this parameter for any purpose (native field: m_userIndex).
      *
      * @param index the desired value (default=-1)
      */
@@ -1378,8 +1379,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the object's secondary user index. Applications may use this
-     * parameter for any purpose (native field: m_userIndex2).
+     * Alter the collision object's secondary user index. Applications may use
+     * this parameter for any purpose (native field: m_userIndex2).
      *
      * @param index the desired value (default=-1)
      */
@@ -1389,8 +1390,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the object's tertiary user index. Applications may use this
-     * parameter for any purpose (native field: m_userIndex3).
+     * Alter the collision object's tertiary user index. Applications may use
+     * this parameter for any purpose (native field: m_userIndex3).
      *
      * @param index the desired value (default=-1)
      */
@@ -1423,7 +1424,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the object's primary user index (native field: m_userIndex).
+     * Return the collision object's primary user index (native field:
+     * m_userIndex).
      *
      * @return the value of the index
      */
@@ -1434,7 +1436,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the object's secondary user index (native field: m_userIndex2).
+     * Return the collision object's secondary user index (native field:
+     * m_userIndex2).
      *
      * @return the value of the index
      */
@@ -1445,7 +1448,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the object's tertiary user index (native field: m_userIndex3).
+     * Return the collision object's tertiary user index (native field:
+     * m_userIndex3).
      *
      * @return the value of the index
      */
@@ -1458,8 +1462,8 @@ abstract public class PhysicsCollisionObject
     // new protected methods
 
     /**
-     * Attach the identified btCollisionShape to the identified
-     * btCollisionObject. Native method.
+     * Attach the identified {@code btCollisionShape} to the identified
+     * {@code btCollisionObject}. Native method.
      *
      * @param objectId the identifier of the btCollisionObject (not zero)
      * @param collisionShapeId the identifier of the btCollisionShape (not zero)
@@ -1470,9 +1474,10 @@ abstract public class PhysicsCollisionObject
     /**
      * Clone the ignore list.
      *
-     * @param cloner the Cloner that's cloning this object (not null, modified)
-     * @param old the instance from which this object was shallow-cloned (not
-     * null, unaffected)
+     * @param cloner the Cloner that's cloning this collision object (not null,
+     * modified)
+     * @param old the instance from which this collision object was
+     * shallow-cloned (not null, unaffected)
      */
     protected void cloneIgnoreList(Cloner cloner, PhysicsCollisionObject old) {
         assert countIgnored() == 0 : "count = " + countIgnored();
@@ -1516,9 +1521,9 @@ abstract public class PhysicsCollisionObject
     final native protected static int getInternalType(long objectId);
 
     /**
-     * (Re-)initialize the native user info of this object, which stores the
-     * collision group, collide-with groups, and spaceId (native field:
-     * m_userPointer).
+     * (Re-)initialize the native user info of this collision object, which
+     * stores the collision group, collide-with groups, and spaceId (native
+     * field: m_userPointer).
      */
     protected void initUserPointer() {
         logger.log(Level.FINE, "initUserPointer() for {0}", this);
@@ -1580,7 +1585,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the activation state of this object. Native method.
+     * Alter the activation state of the collision object. Native method.
      * <p>
      * Deactivation doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
@@ -1591,7 +1596,7 @@ abstract public class PhysicsCollisionObject
             setActivationState(long objectId, int desiredState);
 
     /**
-     * Alter the collision flags of this object (native field:
+     * Alter the collision flags of the collision object (native field:
      * m_collisionFlags). Subclasses are responsible for cloning/loading/saving
      * these flags. Flag values are defined in
      * {@link com.jme3.bullet.collision.CollisionFlag}. Native method.
@@ -1603,12 +1608,12 @@ abstract public class PhysicsCollisionObject
             setCollisionFlags(long objectId, int desiredFlags);
 
     /**
-     * Directly alter this object's location and basis.
+     * Directly alter the collision object's location and basis.
      *
-     * @param centerLocation the desired location for this object's center (in
-     * physics-space coordinates, not null, unaffected)
-     * @param orientation the desired orientation for this object (rotation
-     * matrix in physics-space coordinates, not null, unaffected)
+     * @param centerLocation the desired location for the collision object's
+     * center (in physics-space coordinates, not null, unaffected)
+     * @param orientation the desired orientation for the collision object
+     * (rotation matrix in physics-space coordinates, not null, unaffected)
      */
     protected void
             setLocationAndBasis(Vector3f centerLocation, Matrix3f orientation) {
@@ -1623,12 +1628,12 @@ abstract public class PhysicsCollisionObject
 
     /**
      * Callback from {@link com.jme3.util.clone.Cloner} to convert this
-     * shallow-cloned object into a deep-cloned one, using the specified Cloner
-     * and original to resolve copied fields.
+     * shallow-cloned instance into a deep-cloned one, using the specified
+     * Cloner and original to resolve copied fields.
      *
-     * @param cloner the Cloner that's cloning this object (not null)
-     * @param original the instance from which this object was shallow-cloned
-     * (unused)
+     * @param cloner the Cloner that's cloning the current instance (not null)
+     * @param original the instance from which the current instance was
+     * shallow-cloned (unused)
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
@@ -1671,8 +1676,8 @@ abstract public class PhysicsCollisionObject
     // Savable methods
 
     /**
-     * De-serialize this object from the specified importer, for example when
-     * loading from a J3O file.
+     * De-serialize the collision object from the specified importer, for
+     * example when loading from a J3O file.
      *
      * @param importer (not null)
      * @throws IOException from the importer
@@ -1700,8 +1705,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Serialize this object to the specified exporter, for example when saving
-     * to a J3O file.
+     * Serialize the collision object to the specified exporter, for example
+     * when saving to a J3O file.
      *
      * @param exporter (not null)
      * @throws IOException from the exporter
@@ -1770,7 +1775,7 @@ abstract public class PhysicsCollisionObject
     // NativePhysicsObject methods
 
     /**
-     * Represent this object as a String.
+     * Represent the collision object as a {@code String}.
      *
      * @return a descriptive string of text (not null, not empty)
      */

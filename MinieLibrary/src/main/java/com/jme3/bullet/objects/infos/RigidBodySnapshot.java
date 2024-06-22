@@ -41,8 +41,8 @@ import com.simsilica.mathd.Vec3d;
 import java.util.logging.Logger;
 
 /**
- * Copy certain properties of a PhysicsRigidBody in order to re-apply them
- * later. Immutable.
+ * Copy certain properties of a {@code PhysicsRigidBody} in order to re-apply
+ * them later. Immutable.
  * <p>
  * Snapshots are used for rebuilding, so they don't include the collision shape,
  * inertia, joints, kinematic flag, mass, motion state, or physics space.

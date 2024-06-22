@@ -70,8 +70,8 @@ public class BoxCollisionShape extends ConvexShape {
     // fields
 
     /**
-     * copy of the unscaled half extents (in shape units, not null, no negative
-     * component)
+     * copy of the unscaled half extents for each local axis (in shape units,
+     * not null, no negative component)
      */
     private Vector3f halfExtents = new Vector3f(1f, 1f, 1f);
     // *************************************************************************
@@ -84,7 +84,7 @@ public class BoxCollisionShape extends ConvexShape {
     }
 
     /**
-     * Instantiate a cube with the specified half extent.
+     * Instantiate a cube shape with the specified half extent.
      *
      * @param halfExtent the desired half extent on each local axis, before
      * scaling and excluding margin (&ge;0)

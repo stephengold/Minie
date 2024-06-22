@@ -153,12 +153,12 @@ public class PhysicsSpace
     final private Map<Long, PhysicsJoint> jointMap
             = new ConcurrentHashMap<>(64);
     /**
-     * map rigid-body IDs to added objects (including vehicles)
+     * map rigid-body IDs to added collision object (including vehicles)
      */
     final private Map<Long, PhysicsRigidBody> rigidMap
             = new ConcurrentHashMap<>(64);
     /**
-     * map vehicle-controller IDs to added objects
+     * map vehicle-controller IDs to added collision objects
      */
     final private Map<Long, PhysicsVehicle> vehicleMap
             = new ConcurrentHashMap<>(64);
@@ -315,7 +315,7 @@ public class PhysicsSpace
     // new methods exposed
 
     /**
-     * Activate all rigid bodies in this space.
+     * Activate all rigid bodies in the space.
      *
      * @param forceFlag true to force activation
      */
@@ -327,7 +327,7 @@ public class PhysicsSpace
 
     /**
      * Add all physics controls in the specified subtree of the scene graph to
-     * this space (e.g. after loading from disk). For compatibility with the
+     * the space (e.g. after loading from disk). For compatibility with the
      * jme3-jbullet library.
      * <p>
      * Does not add joints unless they are managed by a PhysicsControl; the
@@ -389,7 +389,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Add the specified PhysicsJoint to this space.
+     * Add the specified PhysicsJoint to the space.
      *
      * @param joint the joint to add (not null, alias created)
      */
@@ -446,7 +446,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Register the specified tick listener with this space.
+     * Register the specified tick listener with the space.
      * <p>
      * Tick listeners are notified before and after each simulation step. A
      * simulation step is not necessarily the same as a frame; it is more
@@ -464,7 +464,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Test whether the specified PhysicsJoint is added to this space.
+     * Test whether the specified PhysicsJoint is added to the space.
      *
      * @param joint the joint to test (not null, unaffected)
      * @return true if currently added, otherwise false
@@ -477,7 +477,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Count how many collision listeners are registered with this space.
+     * Count how many collision listeners are registered with the space.
      *
      * @return the count (&ge;0)
      */
@@ -487,7 +487,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Count the joints in this space.
+     * Count the joints in the space.
      *
      * @return the count (&ge;0)
      */
@@ -500,7 +500,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Count the collision manifolds in this space.
+     * Count the collision manifolds in the space.
      *
      * @return the current number of btPersistentManifolds (&ge;0)
      */
@@ -512,7 +512,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Count the rigid bodies in this space, including vehicles.
+     * Count the rigid bodies in the space, including vehicles.
      *
      * @return count (&ge;0)
      */
@@ -522,7 +522,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Count how many tick listeners are registered with this space.
+     * Count how many tick listeners are registered with the space.
      *
      * @return the count (&ge;0)
      */
@@ -568,7 +568,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Read the accuracy: the time step used when maxSubSteps&gt;0.
+     * Return the simulation accuracy: the time step used when maxSubSteps&gt;0.
      *
      * @return the time step (in seconds, &gt;0)
      */
@@ -577,7 +577,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Enumerate physics characters that have been added to this space and not
+     * Enumerate physics characters that have been added to the space and not
      * yet removed.
      *
      * @return a new unmodifiable collection of pre-existing instances (not
@@ -616,7 +616,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Enumerate physics joints that have been added to this space and not yet
+     * Enumerate physics joints that have been added to the space and not yet
      * removed.
      *
      * @return a new unmodifiable collection of pre-existing instances (not
@@ -664,8 +664,8 @@ public class PhysicsSpace
     }
 
     /**
-     * Read the number of iterations used by the contact-and-constraint solver,
-     * for compatibility with the jme3-jbullet library.
+     * Return the number of iterations used by the contact-and-constraint
+     * solver, for compatibility with the jme3-jbullet library.
      *
      * @return the number of iterations used (&ge;1)
      */
@@ -674,7 +674,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Determine the type of solver.
+     * Return the type of contact-and-constraint solver in use.
      *
      * @return an enum value (not null)
      */
@@ -683,7 +683,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Enumerate physics vehicles that have been added to this space and not yet
+     * Enumerate physics vehicles that have been added to the space and not yet
      * removed.
      *
      * @return a new unmodifiable collection of pre-existing instances (not
@@ -711,7 +711,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Test whether this space uses Speculative Contact Restitution (native
+     * Test whether the space uses Speculative Contact Restitution (native
      * field: m_applySpeculativeContactRestitution).
      *
      * @return true if using SCR, otherwise false
@@ -724,7 +724,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Enumerate the native IDs of all collision manifolds in this space.
+     * Enumerate the native IDs of all collision manifolds in the space.
      *
      * @return a new array (not null, may be empty)
      * @see com.jme3.bullet.collision.PersistentManifolds
@@ -743,9 +743,9 @@ public class PhysicsSpace
     }
 
     /**
-     * Read the maximum number of simulation steps per frame.
+     * Return the maximum number of simulation steps per frame.
      *
-     * @return number of steps (&gt;0) or 0 for a variable time step
+     * @return the number of steps (&gt;1) or 0 for a variable time step
      */
     public int maxSubSteps() {
         assert maxSubSteps >= 0 : maxSubSteps;
@@ -753,7 +753,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Read the maximum time step (imposed when maxSubSteps=0).
+     * Return the maximum time step (imposed when maxSubSteps=0).
      *
      * @return the maximum time step (in seconds, &gt;0, default=0.1)
      */
@@ -764,7 +764,7 @@ public class PhysicsSpace
 
     /**
      * Remove all physics controls in the specified subtree of the scene graph
-     * from this space (e.g. before saving to disk). For compatibility with the
+     * from the space (e.g. before saving to disk). For compatibility with the
      * jme3-jbullet library.
      * <p>
      * Does not remove joints unless they are managed by a PhysicsControl; the
@@ -809,7 +809,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Remove the specified PhysicsJoint from this space.
+     * Remove the specified PhysicsJoint from the space.
      *
      * @param joint the joint to remove (not null)
      */
@@ -958,9 +958,9 @@ public class PhysicsSpace
     }
 
     /**
-     * Update this space. Can be used to single-step the physics simulation, if
-     * maxSubSteps is set to 0 or 1. This method should be invoked from the
-     * thread that created the space.
+     * Update the space. Can be used to single-step the physics simulation, if
+     * maxSubSteps is set to 0 or 1. This method should be invoked on the thread
+     * that created the space.
      *
      * @see #setMaxSubSteps(int)
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
@@ -979,7 +979,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Update this space. This method should be invoked from the thread that
+     * Update the space. This method should be invoked on the thread that
      * created the space.
      *
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
@@ -994,7 +994,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Update this space. This method should be invoked from the thread that
+     * Update the space. This method should be invoked from the thread that
      * created the space.
      *
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
@@ -1023,7 +1023,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Alter whether this space uses Speculative Contact Restitution (native
+     * Alter whether the space uses Speculative Contact Restitution (native
      * field: m_applySpeculativeContactRestitution).
      *
      * @param setting true to enable SCR, false to disable it (default=false)
@@ -1047,7 +1047,7 @@ public class PhysicsSpace
     /**
      * Determine the type of the underlying btDynamicsWorld.
      *
-     * @param spaceId the Bullet identifier for this space (non-zero)
+     * @param spaceId the Bullet identifier of the space (non-zero)
      * @return 2 (for a discrete world) or 4 (for a soft-rigid world)
      */
     native protected static int getWorldType(long spaceId);
@@ -1074,7 +1074,7 @@ public class PhysicsSpace
     // CollisionSpace methods
 
     /**
-     * Add the specified object to this space. For compatibility with the
+     * Add the specified object to the space. For compatibility with the
      * jme3-jbullet library.
      * <p>
      * The jme3-jbullet version allows the argument to be null.
@@ -1103,7 +1103,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Add the specified collision object to this space.
+     * Add the specified collision object to the space.
      *
      * @param pco the collision object to add (not null)
      */
@@ -1121,7 +1121,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Test whether the specified collision object is added to this space.
+     * Test whether the specified collision object is added to the space.
      *
      * @param pco the object to test (not null, unaffected)
      * @return true if currently added, otherwise false
@@ -1182,8 +1182,8 @@ public class PhysicsSpace
     }
 
     /**
-     * Enumerate collision objects that have been added to this space and not
-     * yet removed.
+     * Enumerate collision objects that have been added to the space and not yet
+     * removed.
      *
      * @return a new modifiable collection of pre-existing instances (not null)
      */
@@ -1197,7 +1197,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Test whether this space is empty.
+     * Test whether the space is empty.
      *
      * @return true if empty, otherwise false
      */
@@ -1212,7 +1212,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Remove the specified object from this space. For compatibility with the
+     * Remove the specified object from the space. For compatibility with the
      * jme3-jbullet library.
      * <p>
      * The jme3-jbullet version allows the argument to be null.
@@ -1239,7 +1239,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Remove the specified collision object from this space.
+     * Remove the specified collision object from the space.
      *
      * @param pco the collision object to remove (not null)
      */
@@ -1308,7 +1308,7 @@ public class PhysicsSpace
     // Java private methods
 
     /**
-     * Add the specified PhysicsCharacter to this space.
+     * Add the specified PhysicsCharacter to the space.
      *
      * @param character the character to add (not null, alias created)
      */
@@ -1335,12 +1335,12 @@ public class PhysicsSpace
     }
 
     /**
-     * Add the specified PhysicsRigidBody to this space.
+     * Add the specified PhysicsRigidBody to the space.
      * <p>
      * NOTE: When a rigid body is added, its gravity gets set to that of the
      * space.
      *
-     * @param rigidBody the body to add (not null, alias created)
+     * @param rigidBody the body to add (not null, modified)
      */
     private void addRigidBody(PhysicsRigidBody rigidBody) {
         if (contains(rigidBody)) {
@@ -1393,7 +1393,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Compare Bullet's gravity vector to the JVM copy.
+     * Compare Bullet's gravity vector to the local copy.
      *
      * @param storeVector caller-allocated temporary storage (not null)
      * @return true if scale factors are exactly equal, otherwise false
@@ -1451,7 +1451,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Remove the specified PhysicsCharacter from this space.
+     * Remove the specified PhysicsCharacter from the space.
      *
      * @param character the character to remove (not null)
      */
@@ -1477,9 +1477,9 @@ public class PhysicsSpace
     }
 
     /**
-     * Remove the specified PhysicsRigidBody from this space.
+     * Remove the specified PhysicsRigidBody from the space.
      *
-     * @param rigidBody the body to remove (not null)
+     * @param rigidBody the body to remove (not null, modified)
      */
     private void removeRigidBody(PhysicsRigidBody rigidBody) {
         long rigidBodyId = rigidBody.nativeId();

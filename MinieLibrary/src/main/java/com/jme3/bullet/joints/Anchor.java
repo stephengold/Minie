@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 jMonkeyEngine
+ * Copyright (c) 2019-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -172,7 +172,7 @@ public class Anchor extends PhysicsJoint {
     }
 
     /**
-     * Read how much influence the anchor has on the bodies.
+     * Return how much influence the anchor has on the bodies.
      *
      * @return the amount (&ge;0, &le;1, 0&rarr;no influence, 1&rarr;strong
      * influence)
@@ -191,7 +191,7 @@ public class Anchor extends PhysicsJoint {
     }
 
     /**
-     * Read the index of the anchored node in body A.
+     * Return the index of the anchored node in body A.
      *
      * @return the node index (&ge;0)
      */

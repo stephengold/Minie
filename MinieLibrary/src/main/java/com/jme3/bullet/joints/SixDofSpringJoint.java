@@ -157,7 +157,7 @@ public class SixDofSpringJoint extends SixDofJoint {
     }
 
     /**
-     * Read the damping of the indexed degree of freedom.
+     * Return the damping of the indexed degree of freedom.
      *
      * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
      * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
@@ -174,7 +174,7 @@ public class SixDofSpringJoint extends SixDofJoint {
     }
 
     /**
-     * Read the equilibrium point of the indexed degree of freedom.
+     * Return the equilibrium point of the indexed degree of freedom.
      *
      * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
      * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,
@@ -191,7 +191,7 @@ public class SixDofSpringJoint extends SixDofJoint {
     }
 
     /**
-     * Read the spring stiffness of the indexed degree of freedom.
+     * Return the spring stiffness of the indexed degree of freedom.
      *
      * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y
      * translation, 2&rarr;Z translation, 3&rarr;X rotation, 4&rarr;Y rotation,

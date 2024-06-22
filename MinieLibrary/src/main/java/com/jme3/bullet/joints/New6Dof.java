@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 jMonkeyEngine
+ * Copyright (c) 2019-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -287,7 +287,7 @@ public class New6Dof extends Constraint {
     }
 
     /**
-     * Read the specified parameter of the indexed degree of freedom.
+     * Return the specified parameter of the indexed degree of freedom.
      *
      * @param parameter which parameter (not null)
      * @param dofIndex which degree of freedom (0&rarr;X translation, 1&rarr;Y

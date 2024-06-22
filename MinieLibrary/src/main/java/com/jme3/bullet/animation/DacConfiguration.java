@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 jMonkeyEngine
+ * Copyright (c) 2018-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -237,7 +237,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Read the mass of the attachment associated with the named bone.
+     * Return the mass of the attachment associated with the named bone.
      *
      * @param boneName the name of the associated bone (not null, not empty)
      * @return the mass (in physics units, &gt;0) or NaN if undetermined
@@ -307,7 +307,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Read the damping ratio for new rigid bodies.
+     * Return the damping ratio for new rigid bodies.
      *
      * @return the viscous damping ratio (0&rarr;no damping, 1&rarr;critically
      * damped)
@@ -336,7 +336,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Read the event-dispatch impulse threshold of this control.
+     * Return the event-dispatch impulse threshold of this control.
      *
      * @return the threshold value (&ge;0)
      */
@@ -533,7 +533,7 @@ abstract public class DacConfiguration extends AbstractPhysicsControl {
     }
 
     /**
-     * Read the mass of the named bone/torso.
+     * Return the mass of the named bone/torso.
      *
      * @param boneName the name of the bone/torso (not null)
      * @return the mass (in physics units, &gt;0) or NaN if undetermined

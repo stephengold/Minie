@@ -693,7 +693,7 @@ public class DacLinks
     }
 
     /**
-     * Read the mass of the attachment associated with the named bone.
+     * Return the mass of the attachment associated with the named bone.
      *
      * @param boneName the name of the associated bone (not null, not empty)
      * @return the mass (in physics units, &gt;0) or NaN if undetermined

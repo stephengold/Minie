@@ -99,9 +99,9 @@ public class CapsuleCollisionShape extends ConvexShape {
     /**
      * Instantiate a Y-axis capsule shape with the specified radius and height.
      *
-     * @param radius the desired radius (in shape units, &ge;0)
-     * @param height the desired height of the cylindrical portion (in shape
-     * units, &ge;0)
+     * @param radius the desired unscaled radius (in shape units, &ge;0)
+     * @param height the desired unscaled height of the cylindrical portion (in
+     * shape units, &ge;0)
      */
     public CapsuleCollisionShape(float radius, float height) {
         Validate.nonNegative(radius, "radius");

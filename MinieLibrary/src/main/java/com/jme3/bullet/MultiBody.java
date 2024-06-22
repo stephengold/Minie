@@ -390,7 +390,7 @@ public class MultiBody
     }
 
     /**
-     * Read the set of collision groups with which this multibody can collide.
+     * Return the set of collision groups with which this multibody can collide.
      *
      * @return the bitmask
      */
@@ -402,7 +402,7 @@ public class MultiBody
     }
 
     /**
-     * Read the collision group of this multibody.
+     * Return the collision group of this multibody.
      *
      * @return the collision group (bitmask with exactly one bit set)
      */

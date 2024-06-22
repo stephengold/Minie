@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2023 jMonkeyEngine
+ * Copyright (c) 2009-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -98,7 +98,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     // new methods exposed
 
     /**
-     * Read the aerodynamics model.
+     * Return the aerodynamics model.
      *
      * @return an enum value (not null)
      */
@@ -111,7 +111,8 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the number of cluster-solver iterations (native field: citerations).
+     * Return the number of cluster-solver iterations (native field:
+     * citerations).
      *
      * @return the iteration count (&ge;0)
      */
@@ -123,7 +124,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the collisions flags (native field: collisions). Flags are defined
+     * Return the collisions flags (native field: collisions). Flags are defined
      * in {@link ConfigFlag}.
      *
      * @return the flags that are set, ORed together
@@ -147,7 +148,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the number of drift-solver iterations (native field: diterations).
+     * Return the number of drift-solver iterations (native field: diterations).
      *
      * @return the iteration count (&ge;0)
      */
@@ -159,7 +160,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the specified parameter.
+     * Return the value of the specified parameter.
      *
      * @param parameter which parameter to read (not null)
      * @return the parameter value
@@ -240,7 +241,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the number of position-solver iterations (native field:
+     * Return the number of position-solver iterations (native field:
      * piterations).
      *
      * @return the iteration count (&ge;0)
@@ -406,7 +407,7 @@ public class SoftBodyConfig implements JmeCloneable, Savable {
     }
 
     /**
-     * Read the number of velocity-solver iterations (native field:
+     * Return the number of velocity-solver iterations (native field:
      * viterations).
      *
      * @return the iteration count (&ge;0)
