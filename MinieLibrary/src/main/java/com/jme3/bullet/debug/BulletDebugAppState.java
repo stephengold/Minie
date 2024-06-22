@@ -851,8 +851,7 @@ public class BulletDebugAppState extends BaseAppState {
      * PhysicsSpace.
      */
     private void updateGravityVectors() {
-        DebugAppStateFilter filter
-                = configuration.getGravityVectorFilter();
+        DebugAppStateFilter filter = configuration.getGravityVectorFilter();
         if (filter == null) {
             return;
         }

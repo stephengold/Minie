@@ -131,7 +131,7 @@ public class DebugConfiguration {
      */
     private ViewPort[] viewPorts;
     // *************************************************************************
-    // constructors - TODO de-publicize
+    // constructors
 
     /**
      * Instantiate a configuration with no space and no viewports.

@@ -511,6 +511,7 @@ abstract public class CollisionShape
 
         long shapeId = nativeId();
         setLocalScaling(shapeId, scale);
+
         logger.log(Level.FINE, "Scaling {0}.", this);
         this.scale.set(scale);
     }
