@@ -192,7 +192,7 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
  com.jme3.math.Vector3f&nbsp;max,
  <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;type)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Create the configured PhysicsSpace.</div>
+<div class="block">Create the configured <code>PhysicsSpace</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#debugAxisLength()" class="member-name-link">debugAxisLength</a>()</code></div>
@@ -244,7 +244,7 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSpeed()" class="member-name-link">getSpeed</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Determine the physics simulation speed.</div>
+<div class="block">Return the physics-simulation speed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BulletAppState.ThreadingType.html" title="enum class in com.jme3.bullet">BulletAppState.ThreadingType</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getThreadingType()" class="member-name-link">getThreadingType</a>()</code></div>
@@ -657,10 +657,10 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <section class="detail" id="getSpeed()">
 <h3>getSpeed</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getSpeed</span>()</div>
-<div class="block">Determine the physics simulation speed.</div>
+<div class="block">Return the physics-simulation speed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the speedup factor (&ge;0, default=1)</dd>
+<dd>the speedup factor (&ge;0, default=1, 0&rarr;paused)</dd>
 </dl>
 </section>
 </li>
@@ -918,7 +918,7 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="block">Alter the physics simulation speed.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>speed</code> - the desired speedup factor (&ge;0, default=1)</dd>
+<dd><code>speed</code> - the desired speedup factor (&ge;0, default=1, 0&rarr;paused)</dd>
 </dl>
 </section>
 </li>
@@ -1028,7 +1028,7 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></span>&nbsp;<span class="element-name">createPhysicsSpace</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;min,
  com.jme3.math.Vector3f&nbsp;max,
  <a href="PhysicsSpace.BroadphaseType.html" title="enum class in com.jme3.bullet">PhysicsSpace.BroadphaseType</a>&nbsp;type)</span></div>
-<div class="block">Create the configured PhysicsSpace.</div>
+<div class="block">Create the configured <code>PhysicsSpace</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>min</code> - the minimum coordinate values (not null, unaffected)</dd>
@@ -1175,7 +1175,7 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <dt>Overrides:</dt>
 <dd><code>stateAttached</code>&nbsp;in class&nbsp;<code>com.jme3.app.state.AbstractAppState</code></dd>
 <dt>Parameters:</dt>
-<dd><code>stateManager</code> - (not null)</dd>
+<dd><code>stateManager</code> - the manager instance (not null)</dd>
 </dl>
 </section>
 </li>

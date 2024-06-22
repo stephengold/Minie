@@ -147,7 +147,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#airDensity()" class="member-name-link">airDensity</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the air density.</div>
+<div class="block">Return the air density.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cloneFields(com.jme3.util.clone.Cloner,java.lang.Object)" class="member-name-link">cloneFields</a><wbr>(com.jme3.util.clone.Cloner&nbsp;cloner,
@@ -180,7 +180,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxDisplacement()" class="member-name-link">maxDisplacement</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the maximum distance a node can travel per simulation step.</div>
+<div class="block">Return the maximum distance a node can travel in a simulation step.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
@@ -221,12 +221,12 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#waterDensity()" class="member-name-link">waterDensity</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the water density.</div>
+<div class="block">Return the water density.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#waterOffset()" class="member-name-link">waterOffset</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the water offset.</div>
+<div class="block">Return the water offset.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
@@ -301,7 +301,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="airDensity()">
 <h3>airDensity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">airDensity</span>()</div>
-<div class="block">Read the air density.</div>
+<div class="block">Return the air density.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the density</dd>
@@ -351,7 +351,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="maxDisplacement()">
 <h3>maxDisplacement</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">maxDisplacement</span>()</div>
-<div class="block">Read the maximum distance a node can travel per simulation step.</div>
+<div class="block">Return the maximum distance a node can travel in a simulation step.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the distance (in physics-space units)</dd>
@@ -431,7 +431,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="waterDensity()">
 <h3>waterDensity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">waterDensity</span>()</div>
-<div class="block">Read the water density.</div>
+<div class="block">Return the water density.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the density</dd>
@@ -442,7 +442,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="waterOffset()">
 <h3>waterOffset</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">waterOffset</span>()</div>
-<div class="block">Read the water offset.</div>
+<div class="block">Return the water offset.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the offset distance (in physics-space units)</dd>

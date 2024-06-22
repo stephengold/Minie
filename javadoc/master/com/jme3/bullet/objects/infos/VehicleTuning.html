@@ -145,14 +145,14 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFrictionSlip()" class="member-name-link">getFrictionSlip</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the friction between tires and ground (native field:
+<div class="block">Return the friction between tires and ground (native field:
  m_frictionSlip).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxSuspensionForce()" class="member-name-link">getMaxSuspensionForce</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the maximum force exerted by each wheel's suspension (native field:
- m_maxSuspensionForce).</div>
+<div class="block">Return the maximum force exerted by each wheel's suspension (native
+ field: m_maxSuspensionForce).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxSuspensionTravelCm()" class="member-name-link">getMaxSuspensionTravelCm</a>()</code></div>
@@ -163,19 +163,19 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSuspensionCompression()" class="member-name-link">getSuspensionCompression</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the suspension damping when compressed (native field:
+<div class="block">Return the suspension damping when compressed (native field:
  m_suspensionCompression).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSuspensionDamping()" class="member-name-link">getSuspensionDamping</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the suspension damping when expanded (native field:
+<div class="block">Return the suspension damping when expanded (native field:
  m_suspensionDamping).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSuspensionStiffness()" class="member-name-link">getSuspensionStiffness</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the suspension stiffness (native field: m_suspensionStiffness).</div>
+<div class="block">Return the suspension stiffness (native field: m_suspensionStiffness).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="VehicleTuning.html" title="class in com.jme3.bullet.objects.infos">VehicleTuning</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -283,7 +283,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getFrictionSlip()">
 <h3>getFrictionSlip</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getFrictionSlip</span>()</div>
-<div class="block">Read the friction between tires and ground (native field:
+<div class="block">Return the friction between tires and ground (native field:
  m_frictionSlip).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -295,8 +295,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getMaxSuspensionForce()">
 <h3>getMaxSuspensionForce</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getMaxSuspensionForce</span>()</div>
-<div class="block">Read the maximum force exerted by each wheel's suspension (native field:
- m_maxSuspensionForce).</div>
+<div class="block">Return the maximum force exerted by each wheel's suspension (native
+ field: m_maxSuspensionForce).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the maximum force</dd>
@@ -309,7 +309,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getMaxSuspensionTravelCm</span>()</div>
 <div class="block">Determine the maximum travel distance for each wheel's suspension (native
  field: m_maxSuspensionTravelCm).
-
+ <p>
  Note that the units are centimeters ONLY if the physics-space unit is
  exactly one meter.</div>
 <dl class="notes">
@@ -323,7 +323,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getSuspensionCompression()">
 <h3>getSuspensionCompression</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getSuspensionCompression</span>()</div>
-<div class="block">Read the suspension damping when compressed (native field:
+<div class="block">Return the suspension damping when compressed (native field:
  m_suspensionCompression).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -335,7 +335,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getSuspensionDamping()">
 <h3>getSuspensionDamping</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getSuspensionDamping</span>()</div>
-<div class="block">Read the suspension damping when expanded (native field:
+<div class="block">Return the suspension damping when expanded (native field:
  m_suspensionDamping).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -347,7 +347,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getSuspensionStiffness()">
 <h3>getSuspensionStiffness</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getSuspensionStiffness</span>()</div>
-<div class="block">Read the suspension stiffness (native field: m_suspensionStiffness).</div>
+<div class="block">Return the suspension stiffness (native field: m_suspensionStiffness).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the stiffness constant</dd>

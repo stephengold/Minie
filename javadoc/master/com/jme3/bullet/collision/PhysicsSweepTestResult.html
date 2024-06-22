@@ -117,8 +117,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHitFraction()" class="member-name-link">getHitFraction</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the fraction of the way between the transforms (from=0, to=1, &ge;0,
- &le;1)</div>
+<div class="block">Return the fraction of the way between the transforms (from=0, to=1,
+ &ge;0, &le;1)</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHitNormalLocal(com.jme3.math.Vector3f)" class="member-name-link">getHitNormalLocal</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -128,12 +128,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#partIndex()" class="member-name-link">partIndex</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the part index at the point of contact.</div>
+<div class="block">Return the part index at the point of contact.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#triangleIndex()" class="member-name-link">triangleIndex</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Read the triangle index at the point of contact.</div>
+<div class="block">Return the triangle index at the point of contact.</div>
 </div>
 </div>
 </div>
@@ -182,8 +182,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getHitFraction()">
 <h3>getHitFraction</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getHitFraction</span>()</div>
-<div class="block">Read the fraction of the way between the transforms (from=0, to=1, &ge;0,
- &le;1)</div>
+<div class="block">Return the fraction of the way between the transforms (from=0, to=1,
+ &ge;0, &le;1)</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>fraction (from=0, to=1, &ge;0, &le;1)</dd>
@@ -208,7 +208,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="partIndex()">
 <h3>partIndex</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">partIndex</span>()</div>
-<div class="block">Read the part index at the point of contact.
+<div class="block">Return the part index at the point of contact.
  <p>
  If shape that was hit is compound or convex, the index is undefined.
  <p>
@@ -227,7 +227,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="triangleIndex()">
 <h3>triangleIndex</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">triangleIndex</span>()</div>
-<div class="block">Read the triangle index at the point of contact.
+<div class="block">Return the triangle index at the point of contact.
  <p>
  If shape that was hit is convex, the index is undefined.
  <p>

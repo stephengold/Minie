@@ -145,15 +145,15 @@ implements <a href="PhysicsControl.html" title="interface in com.jme3.bullet.con
 <div class="col-first even-row-color"><code>&nbsp;</code></div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">RigidBodyControl</a><wbr>(<a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Instantiate an enabled Control with a responsive dynamic body, mass=1,
- and the specified CollisionShape.</div>
+<div class="block">Instantiate an enabled Control with an active/responsive dynamic rigid
+ body, mass=1, and the specified shape.</div>
 </div>
 <div class="col-first odd-row-color"><code>&nbsp;</code></div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.bullet.collision.shapes.CollisionShape,float)" class="member-name-link">RigidBodyControl</a><wbr>(<a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape,
  float&nbsp;mass)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Instantiate an enabled Control with a responsive dynamic or static body
- and the specified CollisionShape and mass.</div>
+<div class="block">Instantiate an enabled <code>Control</code> with a dynamic or static rigid
+ body and the specified shape and mass.</div>
 </div>
 </div>
 </section>
@@ -333,7 +333,7 @@ implements <a href="PhysicsControl.html" title="interface in com.jme3.bullet.con
 
  Its shape will be auto-generated when it is added to a Spatial. If the
  controlled spatial is a Geometry with a box or sphere mesh, a matching
- box or sphere CollisionShape will be generated. Otherwise
+ box or sphere <code>CollisionShape</code> will be generated. Otherwise
  <a href="../util/CollisionShapeFactory.html" title="class in com.jme3.bullet.util"><code>CollisionShapeFactory</code></a> will be used.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -345,8 +345,8 @@ implements <a href="PhysicsControl.html" title="interface in com.jme3.bullet.con
 <section class="detail" id="&lt;init&gt;(com.jme3.bullet.collision.shapes.CollisionShape)">
 <h3>RigidBodyControl</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">RigidBodyControl</span><wbr><span class="parameters">(<a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape)</span></div>
-<div class="block">Instantiate an enabled Control with a responsive dynamic body, mass=1,
- and the specified CollisionShape.</div>
+<div class="block">Instantiate an enabled Control with an active/responsive dynamic rigid
+ body, mass=1, and the specified shape.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - the desired shape (not null, alias created)</dd>
@@ -358,8 +358,8 @@ implements <a href="PhysicsControl.html" title="interface in com.jme3.bullet.con
 <h3>RigidBodyControl</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">RigidBodyControl</span><wbr><span class="parameters">(<a href="../collision/shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;shape,
  float&nbsp;mass)</span></div>
-<div class="block">Instantiate an enabled Control with a responsive dynamic or static body
- and the specified CollisionShape and mass.</div>
+<div class="block">Instantiate an enabled <code>Control</code> with a dynamic or static rigid
+ body and the specified shape and mass.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shape</code> - the desired shape (not null, alias created)</dd>
@@ -382,7 +382,7 @@ implements <a href="PhysicsControl.html" title="interface in com.jme3.bullet.con
 <div class="block">Access the controlled spatial.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the Spatial, or null if none</dd>
+<dd>the pre-existing <code>Spatial</code>, or null if none</dd>
 </dl>
 </section>
 </li>
@@ -543,7 +543,7 @@ implements <a href="PhysicsControl.html" title="interface in com.jme3.bullet.con
 <div class="block">Enable or disable this Control.
  <p>
  When the Control is disabled, the body is removed from PhysicsSpace. When
- the Control is enabled again, the body is moved to the current location
+ the Control is enabled again, the body is moved to the current position
  of the Spatial and then added to the PhysicsSpace.</div>
 <dl class="notes">
 <dt>Specified by:</dt>

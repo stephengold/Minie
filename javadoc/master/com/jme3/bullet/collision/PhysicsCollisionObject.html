@@ -249,8 +249,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#attachCollisionShape(long,long)" class="member-name-link">attachCollisionShape</a><wbr>(long&nbsp;objectId,
  long&nbsp;collisionShapeId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Attach the identified btCollisionShape to the identified
- btCollisionObject.</div>
+<div class="block">Attach the identified <code>btCollisionShape</code> to the identified
+ <code>btCollisionObject</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.bounding.BoundingBox</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#boundingBox(com.jme3.bounding.BoundingBox)" class="member-name-link">boundingBox</a><wbr>(com.jme3.bounding.BoundingBox&nbsp;storeResult)</code></div>
@@ -268,8 +268,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;original)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Callback from <code>Cloner</code> to convert this
- shallow-cloned object into a deep-cloned one, using the specified Cloner
- and original to resolve copied fields.</div>
+ shallow-cloned instance into a deep-cloned one, using the specified
+ Cloner and original to resolve copied fields.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cloneIgnoreList(com.jme3.util.clone.Cloner,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">cloneIgnoreList</a><wbr>(com.jme3.util.clone.Cloner&nbsp;cloner,
@@ -441,14 +441,14 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Matrix3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsRotationMatrix(com.jme3.math.Matrix3f)" class="member-name-link">getPhysicsRotationMatrix</a><wbr>(com.jme3.math.Matrix3f&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the orientation of this object (the basis of its local coordinate
- system) to a Matrix3f.</div>
+<div class="block">Copy the orientation of the collision object (the basis of its local
+ coordinate system) to a Matrix3f.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Matrix3d</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsRotationMatrixDp(com.simsilica.mathd.Matrix3d)" class="member-name-link">getPhysicsRotationMatrixDp</a><wbr>(com.simsilica.mathd.Matrix3d&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the orientation of this object (the basis of its local coordinate
- system) to a Matrix3d.</div>
+<div class="block">Copy the orientation of the collision object (the basis of its local
+ coordinate system) to a Matrix3d.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRestitution()" class="member-name-link">getRestitution</a>()</code></div>
@@ -498,9 +498,9 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initUserPointer()" class="member-name-link">initUserPointer</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">(Re-)initialize the native user info of this object, which stores the
- collision group, collide-with groups, and spaceId (native field:
- m_userPointer).</div>
+<div class="block">(Re-)initialize the native user info of this collision object, which
+ stores the collision group, collide-with groups, and spaceId (native
+ field: m_userPointer).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isActive()" class="member-name-link">isActive</a>()</code></div>
@@ -535,7 +535,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#proxyGroup()" class="member-name-link">proxyGroup</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the collision group of this object's broadphase proxy.</div>
+<div class="block">Return the collision group of the collision object's broadphase proxy.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#proxyMask()" class="member-name-link">proxyMask</a>()</code></div>
@@ -545,8 +545,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(com.jme3.export.JmeImporter)" class="member-name-link">read</a><wbr>(com.jme3.export.JmeImporter&nbsp;importer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">De-serialize this object from the specified importer, for example when
- loading from a J3O file.</div>
+<div class="block">De-serialize the collision object from the specified importer, for
+ example when loading from a J3O file.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#readPcoProperties(com.jme3.export.InputCapsule)" class="member-name-link">readPcoProperties</a><wbr>(com.jme3.export.InputCapsule&nbsp;capsule)</code></div>
@@ -567,7 +567,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setActivationState(long,int)" class="member-name-link">setActivationState</a><wbr>(long&nbsp;objectId,
  int&nbsp;desiredState)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Alter the activation state of this object.</div>
+<div class="block">Alter the activation state of the collision object.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAnisotropicFriction(com.jme3.math.Vector3f,int)" class="member-name-link">setAnisotropicFriction</a><wbr>(com.jme3.math.Vector3f&nbsp;components,
@@ -602,7 +602,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setCollisionFlags(long,int)" class="member-name-link">setCollisionFlags</a><wbr>(long&nbsp;objectId,
  int&nbsp;desiredFlags)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Alter the collision flags of this object (native field:
+<div class="block">Alter the collision flags of the collision object (native field:
  m_collisionFlags).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -665,7 +665,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFriction(float)" class="member-name-link">setFriction</a><wbr>(float&nbsp;friction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter this object's friction (native field: m_friction).</div>
+<div class="block">Alter the collision object's friction (native field: m_friction).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject%5B%5D)" class="member-name-link">setIgnoreList</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>[]&nbsp;desiredList)</code></div>
@@ -676,7 +676,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLocationAndBasis(com.jme3.math.Vector3f,com.jme3.math.Matrix3f)" class="member-name-link">setLocationAndBasis</a><wbr>(com.jme3.math.Vector3f&nbsp;centerLocation,
  com.jme3.math.Matrix3f&nbsp;orientation)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Directly alter this object's location and basis.</div>
+<div class="block">Directly alter the collision object's location and basis.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRestitution(float)" class="member-name-link">setRestitution</a><wbr>(float&nbsp;restitution)</code></div>
@@ -699,17 +699,17 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserIndex(int)" class="member-name-link">setUserIndex</a><wbr>(int&nbsp;index)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the object's primary user index.</div>
+<div class="block">Alter the collision object's primary user index.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserIndex2(int)" class="member-name-link">setUserIndex2</a><wbr>(int&nbsp;index)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the object's secondary user index.</div>
+<div class="block">Alter the collision object's secondary user index.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserIndex3(int)" class="member-name-link">setUserIndex3</a><wbr>(int&nbsp;index)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the object's tertiary user index.</div>
+<div class="block">Alter the collision object's tertiary user index.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserObject(java.lang.Object)" class="member-name-link">setUserObject</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;user)</code></div>
@@ -724,28 +724,31 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Represent this object as a String.</div>
+<div class="block">Represent the collision object as a <code>String</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#userIndex()" class="member-name-link">userIndex</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the object's primary user index (native field: m_userIndex).</div>
+<div class="block">Return the collision object's primary user index (native field:
+ m_userIndex).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#userIndex2()" class="member-name-link">userIndex2</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the object's secondary user index (native field: m_userIndex2).</div>
+<div class="block">Return the collision object's secondary user index (native field:
+ m_userIndex2).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#userIndex3()" class="member-name-link">userIndex3</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the object's tertiary user index (native field: m_userIndex3).</div>
+<div class="block">Return the collision object's tertiary user index (native field:
+ m_userIndex3).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#write(com.jme3.export.JmeExporter)" class="member-name-link">write</a><wbr>(com.jme3.export.JmeExporter&nbsp;exporter)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Serialize this object to the specified exporter, for example when saving
- to a J3O file.</div>
+<div class="block">Serialize the collision object to the specified exporter, for example
+ when saving to a J3O file.</div>
 </div>
 </div>
 </div>
@@ -1514,8 +1517,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getPhysicsRotationMatrix(com.jme3.math.Matrix3f)">
 <h3>getPhysicsRotationMatrix</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Matrix3f</span>&nbsp;<span class="element-name">getPhysicsRotationMatrix</span><wbr><span class="parameters">(com.jme3.math.Matrix3f&nbsp;storeResult)</span></div>
-<div class="block">Copy the orientation of this object (the basis of its local coordinate
- system) to a Matrix3f.</div>
+<div class="block">Copy the orientation of the collision object (the basis of its local
+ coordinate system) to a Matrix3f.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
@@ -1529,8 +1532,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getPhysicsRotationMatrixDp(com.simsilica.mathd.Matrix3d)">
 <h3>getPhysicsRotationMatrixDp</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.simsilica.mathd.Matrix3d</span>&nbsp;<span class="element-name">getPhysicsRotationMatrixDp</span><wbr><span class="parameters">(com.simsilica.mathd.Matrix3d&nbsp;storeResult)</span></div>
-<div class="block">Copy the orientation of this object (the basis of its local coordinate
- system) to a Matrix3d.</div>
+<div class="block">Copy the orientation of the collision object (the basis of its local
+ coordinate system) to a Matrix3d.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
@@ -1733,9 +1736,10 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="proxyGroup()">
 <h3>proxyGroup</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">proxyGroup</span>()</div>
-<div class="block">Return the collision group of this object's broadphase proxy. A proxy is
- created when the object is added to a space, and its group is 32 for a
- PhysicsCharacter, 2 for a static object, or 1 for anything else.</div>
+<div class="block">Return the collision group of the collision object's broadphase proxy. A
+ proxy is created when the collision object is added to a space, and its
+ group is 32 for a PhysicsCharacter, 2 for a static object, or 1 for
+ anything else.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the proxy's collision group (a bitmask with exactly one bit set)
@@ -1748,8 +1752,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>proxyMask</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">proxyMask</span>()</div>
 <div class="block">Return the collision mask of this object's broadphase proxy. A proxy is
- created when the object is added to a space, and its mask is -3 for a
- static object or -1 for anything else.</div>
+ created when the collision object is added to a space, and its mask is -3
+ for a static object or -1 for anything else.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the proxy's bitmask, or null if this object has no proxy</dd>
@@ -2011,7 +2015,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setFriction(float)">
 <h3>setFriction</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFriction</span><wbr><span class="parameters">(float&nbsp;friction)</span></div>
-<div class="block">Alter this object's friction (native field: m_friction).
+<div class="block">Alter the collision object's friction (native field: m_friction).
  <p>
  Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
@@ -2079,8 +2083,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setUserIndex(int)">
 <h3>setUserIndex</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserIndex</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
-<div class="block">Alter the object's primary user index. Applications may use this
- parameter for any purpose (native field: m_userIndex).</div>
+<div class="block">Alter the collision object's primary user index. Applications may use
+ this parameter for any purpose (native field: m_userIndex).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - the desired value (default=-1)</dd>
@@ -2091,8 +2095,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setUserIndex2(int)">
 <h3>setUserIndex2</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserIndex2</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
-<div class="block">Alter the object's secondary user index. Applications may use this
- parameter for any purpose (native field: m_userIndex2).</div>
+<div class="block">Alter the collision object's secondary user index. Applications may use
+ this parameter for any purpose (native field: m_userIndex2).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - the desired value (default=-1)</dd>
@@ -2103,8 +2107,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setUserIndex3(int)">
 <h3>setUserIndex3</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserIndex3</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
-<div class="block">Alter the object's tertiary user index. Applications may use this
- parameter for any purpose (native field: m_userIndex3).</div>
+<div class="block">Alter the collision object's tertiary user index. Applications may use
+ this parameter for any purpose (native field: m_userIndex3).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - the desired value (default=-1)</dd>
@@ -2144,7 +2148,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="userIndex()">
 <h3>userIndex</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">userIndex</span>()</div>
-<div class="block">Return the object's primary user index (native field: m_userIndex).</div>
+<div class="block">Return the collision object's primary user index (native field:
+ m_userIndex).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the index</dd>
@@ -2155,7 +2160,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="userIndex2()">
 <h3>userIndex2</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">userIndex2</span>()</div>
-<div class="block">Return the object's secondary user index (native field: m_userIndex2).</div>
+<div class="block">Return the collision object's secondary user index (native field:
+ m_userIndex2).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the index</dd>
@@ -2166,7 +2172,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="userIndex3()">
 <h3>userIndex3</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">userIndex3</span>()</div>
-<div class="block">Return the object's tertiary user index (native field: m_userIndex3).</div>
+<div class="block">Return the collision object's tertiary user index (native field:
+ m_userIndex3).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the index</dd>
@@ -2178,8 +2185,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>attachCollisionShape</h3>
 <div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">attachCollisionShape</span><wbr><span class="parameters">(long&nbsp;objectId,
  long&nbsp;collisionShapeId)</span></div>
-<div class="block">Attach the identified btCollisionShape to the identified
- btCollisionObject. Native method.</div>
+<div class="block">Attach the identified <code>btCollisionShape</code> to the identified
+ <code>btCollisionObject</code>. Native method.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>objectId</code> - the identifier of the btCollisionObject (not zero)</dd>
@@ -2195,9 +2202,10 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="block">Clone the ignore list.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>cloner</code> - the Cloner that's cloning this object (not null, modified)</dd>
-<dd><code>old</code> - the instance from which this object was shallow-cloned (not
- null, unaffected)</dd>
+<dd><code>cloner</code> - the Cloner that's cloning this collision object (not null,
+ modified)</dd>
+<dd><code>old</code> - the instance from which this collision object was
+ shallow-cloned (not null, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -2235,9 +2243,9 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="initUserPointer()">
 <h3>initUserPointer</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initUserPointer</span>()</div>
-<div class="block">(Re-)initialize the native user info of this object, which stores the
- collision group, collide-with groups, and spaceId (native field:
- m_userPointer).</div>
+<div class="block">(Re-)initialize the native user info of this collision object, which
+ stores the collision group, collide-with groups, and spaceId (native
+ field: m_userPointer).</div>
 </section>
 </li>
 <li>
@@ -2259,7 +2267,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>setActivationState</h3>
 <div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setActivationState</span><wbr><span class="parameters">(long&nbsp;objectId,
  int&nbsp;desiredState)</span></div>
-<div class="block">Alter the activation state of this object. Native method.
+<div class="block">Alter the activation state of the collision object. Native method.
  <p>
  Deactivation doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
@@ -2274,7 +2282,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>setCollisionFlags</h3>
 <div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setCollisionFlags</span><wbr><span class="parameters">(long&nbsp;objectId,
  int&nbsp;desiredFlags)</span></div>
-<div class="block">Alter the collision flags of this object (native field:
+<div class="block">Alter the collision flags of the collision object (native field:
  m_collisionFlags). Subclasses are responsible for cloning/loading/saving
  these flags. Flag values are defined in
  <a href="CollisionFlag.html" title="class in com.jme3.bullet.collision"><code>CollisionFlag</code></a>. Native method.</div>
@@ -2290,13 +2298,13 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>setLocationAndBasis</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLocationAndBasis</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;centerLocation,
  com.jme3.math.Matrix3f&nbsp;orientation)</span></div>
-<div class="block">Directly alter this object's location and basis.</div>
+<div class="block">Directly alter the collision object's location and basis.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>centerLocation</code> - the desired location for this object's center (in
- physics-space coordinates, not null, unaffected)</dd>
-<dd><code>orientation</code> - the desired orientation for this object (rotation
- matrix in physics-space coordinates, not null, unaffected)</dd>
+<dd><code>centerLocation</code> - the desired location for the collision object's
+ center (in physics-space coordinates, not null, unaffected)</dd>
+<dd><code>orientation</code> - the desired orientation for the collision object
+ (rotation matrix in physics-space coordinates, not null, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -2306,15 +2314,15 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cloneFields</span><wbr><span class="parameters">(com.jme3.util.clone.Cloner&nbsp;cloner,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;original)</span></div>
 <div class="block">Callback from <code>Cloner</code> to convert this
- shallow-cloned object into a deep-cloned one, using the specified Cloner
- and original to resolve copied fields.</div>
+ shallow-cloned instance into a deep-cloned one, using the specified
+ Cloner and original to resolve copied fields.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>cloneFields</code>&nbsp;in interface&nbsp;<code>com.jme3.util.clone.JmeCloneable</code></dd>
 <dt>Parameters:</dt>
-<dd><code>cloner</code> - the Cloner that's cloning this object (not null)</dd>
-<dd><code>original</code> - the instance from which this object was shallow-cloned
- (unused)</dd>
+<dd><code>cloner</code> - the Cloner that's cloning the current instance (not null)</dd>
+<dd><code>original</code> - the instance from which the current instance was
+ shallow-cloned (unused)</dd>
 </dl>
 </section>
 </li>
@@ -2337,8 +2345,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>read</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">read</span><wbr><span class="parameters">(com.jme3.export.JmeImporter&nbsp;importer)</span>
           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">De-serialize this object from the specified importer, for example when
- loading from a J3O file.</div>
+<div class="block">De-serialize the collision object from the specified importer, for
+ example when loading from a J3O file.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>read</code>&nbsp;in interface&nbsp;<code>com.jme3.export.Savable</code></dd>
@@ -2354,8 +2362,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <h3>write</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">write</span><wbr><span class="parameters">(com.jme3.export.JmeExporter&nbsp;exporter)</span>
            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">Serialize this object to the specified exporter, for example when saving
- to a J3O file.</div>
+<div class="block">Serialize the collision object to the specified exporter, for example
+ when saving to a J3O file.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>write</code>&nbsp;in interface&nbsp;<code>com.jme3.export.Savable</code></dd>
@@ -2370,7 +2378,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
-<div class="block">Represent this object as a String.</div>
+<div class="block">Represent the collision object as a <code>String</code>.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../NativePhysicsObject.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="../NativePhysicsObject.html" title="class in com.jme3.bullet">NativePhysicsObject</a></code></dd>
