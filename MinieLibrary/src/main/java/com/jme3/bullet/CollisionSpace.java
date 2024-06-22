@@ -319,6 +319,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * @return the count (&ge;1, &le;64)
      */
     public int countSolvers() {
+        assert numSolvers >= 1 : numSolvers;
+        assert numSolvers <= 64 : numSolvers;
         return numSolvers;
     }
 
