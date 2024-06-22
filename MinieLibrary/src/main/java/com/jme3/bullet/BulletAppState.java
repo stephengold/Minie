@@ -893,6 +893,7 @@ public class BulletAppState
      */
     @Override
     public void render(RenderManager rm) {
+        assert isRunning;
         super.render(rm);
 
         if (threadingType == ThreadingType.PARALLEL) {
