@@ -704,7 +704,7 @@ public class BulletDebugAppState extends BaseAppState {
      */
     @Override
     public void initialize(Application app) {
-        assetManager = app.getAssetManager();
+        this.assetManager = app.getAssetManager();
         setupMaterials(assetManager);
 
         DebugInitListener listener = configuration.getInitListener();
@@ -889,7 +889,7 @@ public class BulletDebugAppState extends BaseAppState {
         DebugAppStateFilter filter = configuration.getFilter();
         HashMap<PhysicsJoint, Node> oldMap = jointMap;
         // create new map
-        jointMap = new HashMap<>(oldMap.size());
+        this.jointMap = new HashMap<>(oldMap.size());
         PhysicsSpace space = configuration.getSpace();
         Collection<PhysicsJoint> list = space.getJointList();
         for (PhysicsJoint joint : list) {

@@ -131,8 +131,8 @@ public class BulletCharacterDebugControl extends CollisionShapeDebugControl {
         if (rebuild) {
             logger.log(Level.INFO, "Rebuild debugSpatial for {0}.", character);
             setShape(newShape);
-            oldNormals = newNormals;
-            oldResolution = newResolution;
+            this.oldNormals = newNormals;
+            this.oldResolution = newResolution;
 
             Node node = (Node) spatial;
             node.detachChild(debugSpatial);

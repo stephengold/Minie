@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2018 jMonkeyEngine
+ * Copyright (c) 2009-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -98,14 +98,14 @@ class ConstraintDebugControl extends AbstractPhysicsDebugControl {
         super(debugAppState);
         this.constraint = constraint;
 
-        geomA = new Geometry(constraint.toString());
+        this.geomA = new Geometry(constraint.toString());
         Arrow arrowA = new Arrow(translateIdentity);
         geomA.setMesh(arrowA);
         Material materialA = debugAppState.getJointMaterial(JointEnd.A);
         geomA.setMaterial(materialA);
         geomA.setShadowMode(RenderQueue.ShadowMode.Off);
 
-        geomB = new Geometry(constraint.toString());
+        this.geomB = new Geometry(constraint.toString());
         Arrow arrowB = new Arrow(translateIdentity);
         geomB.setMesh(arrowB);
         Material materialB = debugAppState.getJointMaterial(JointEnd.B);

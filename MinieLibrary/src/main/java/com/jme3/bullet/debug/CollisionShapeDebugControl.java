@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 jMonkeyEngine
+ * Copyright (c) 2020-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -152,8 +152,8 @@ abstract class CollisionShapeDebugControl
      * @param shape (not null, alias created)
      */
     protected void setShape(CollisionShape shape) {
-        lastShape = shape;
-        lastMargin = shape.getMargin();
+        this.lastShape = shape;
+        this.lastMargin = shape.getMargin();
         shape.getScale(lastScale);
         if (shape instanceof CompoundCollisionShape) {
             lastSummaryList.update((CompoundCollisionShape) shape);
