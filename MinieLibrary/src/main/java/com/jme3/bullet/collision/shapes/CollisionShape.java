@@ -483,7 +483,7 @@ abstract public class CollisionShape
      * @param factor the desired scale factor for all axes (&ge;0, default=1)
      */
     public void setScale(float factor) {
-        Validate.nonNegative(factor, "factor");
+        assert Validate.positive(factor, "factor");
 
         Vector3f scaleVector
                 = new Vector3f(factor, factor, factor); // TODO garbage
@@ -501,7 +501,6 @@ abstract public class CollisionShape
      * negative component, unaffected, default=(1,1,1))
      */
     public void setScale(Vector3f scale) {
-        Validate.nonNegative(scale, "scale");
         if (!canScale(scale)) {
             String typeName = getClass().getCanonicalName();
             String message = String.format("%s cannot be scaled to (%s,%s,%s)",
