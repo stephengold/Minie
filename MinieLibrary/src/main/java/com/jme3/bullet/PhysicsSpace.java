@@ -129,11 +129,6 @@ public class PhysicsSpace
      */
     private float maxTimeStep = 0.1f;
     /**
-     * maximum number of simulation steps per frame (&gt;0) or 0 for a variable
-     * time step
-     */
-    private int maxSubSteps = 4;
-    /**
      * list of registered tick listeners
      */
     final private Collection<PhysicsTickListener> tickListeners
@@ -143,7 +138,12 @@ public class PhysicsSpace
      */
     private ContactManager manager = new DefaultContactManager(this);
     /**
-     * map character IDs to added objects
+     * maximum number of simulation steps per frame (&gt;0) or 0 for a variable
+     * time step
+     */
+    private int maxSubSteps = 4;
+    /**
+     * map character IDs to added collision objects
      */
     final private Map<Long, PhysicsCharacter> characterMap
             = new ConcurrentHashMap<>(64);
