@@ -95,7 +95,7 @@ public class TestPin extends AcorusDemo {
     public void acorusInit() {
         super.acorusInit();
 
-        // Set up Bullet physics (with debug enabled).
+        // Set up soft-body physics with debug enabled:
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);

@@ -93,7 +93,7 @@ public class HelloSoftBody extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics.
+        // Set up soft-body physics:
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         stateManager.attach(bulletAppState);
         //bulletAppState.setDebugEnabled(true); // for debug visualization

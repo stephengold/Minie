@@ -130,7 +130,7 @@ public class HelloWind
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
 
-        // Set up Bullet physics (with debug enabled).
+        // Set up soft-body physics with debug enabled:
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true); // for debug visualization

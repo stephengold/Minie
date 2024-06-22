@@ -76,7 +76,7 @@ public class HelloSoftRope extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics (with debug enabled).
+        // Set up soft-body physics with debug enabled:
         SoftPhysicsAppState bulletAppState = new SoftPhysicsAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true); // for debug visualization
