@@ -806,17 +806,17 @@ public class PhysicsRigidBody extends PhysicsBody {
      * @param desiredShape the shape to apply (not null, alias created)
      */
     @Override
-    public void setCollisionShape(CollisionShape collisionShape) {
-        Validate.nonNull(collisionShape, "collision shape");
+    public void setCollisionShape(CollisionShape desiredShape) {
+        Validate.nonNull(desiredShape, "desired shape");
         if (isDynamic()) {
-            validateDynamicShape(collisionShape);
+            validateDynamicShape(desiredShape);
         }
 
-        super.setCollisionShape(collisionShape);
+        super.setCollisionShape(desiredShape);
 
         if (hasAssignedNativeObject()) {
             long objectId = nativeId();
-            long shapeId = collisionShape.nativeId();
+            long shapeId = desiredShape.nativeId();
             setCollisionShape(objectId, shapeId);
             updateMassProps(objectId, shapeId, mass);
 
