@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022 jMonkeyEngine
+ * Copyright (c) 2021-2024 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -114,8 +114,7 @@ final class FreeingMethods {
             }
         }
 
-        int numMethods = methods.size();
-        Method[] result = new Method[numMethods];
+        Method[] result = methods.toArray(new Method[0]);
         methods.toArray(result);
 
         return result;
