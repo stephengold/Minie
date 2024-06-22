@@ -122,6 +122,6 @@ public class HelloDamping extends SimpleApplication {
             cube[cubeIndex].applyImpulse(impulse, offset);
         }
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
 }

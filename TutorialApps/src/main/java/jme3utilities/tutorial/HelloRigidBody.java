@@ -111,6 +111,6 @@ public class HelloRigidBody extends SimpleApplication {
         // Set ball #2 on a collision course with ball #1.
         ball2.applyCentralImpulse(new Vector3f(-25f, 0f, 0f));
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
 }

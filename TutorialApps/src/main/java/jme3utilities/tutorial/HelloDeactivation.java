@@ -119,7 +119,7 @@ public class HelloDeactivation
         bottomBody.setPhysicsLocation(new Vector3f(0f, -2f, 0f));
         physicsSpace.addCollisionObject(bottomBody);
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
     // *************************************************************************
     // PhysicsTickListener methods

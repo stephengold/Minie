@@ -101,6 +101,6 @@ public class HelloStaticBody extends SimpleApplication {
         dynaBall.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
         statBall.setPhysicsLocation(new Vector3f(0.1f, 0f, 0f));
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
 }

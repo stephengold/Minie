@@ -126,7 +126,7 @@ public class HelloCustomDebug extends SimpleApplication {
         statBall.setDebugMeshNormals(MeshNormals.Sphere);
         statBall.setDebugMeshResolution(DebugShapeFactory.highResolution);
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
     // *************************************************************************
     // private methods

@@ -131,7 +131,7 @@ public class HelloNonUniformGravity
         rootNode.addControl(axes);
         axes.setEnabled(true);
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
     // *************************************************************************
     // PhysicsTickListener methods

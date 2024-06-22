@@ -128,7 +128,7 @@ public class HelloRbc extends SimpleApplication {
         // Add lighting.
         addLighting(rootNode);
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
     // *************************************************************************
     // private methods

@@ -130,6 +130,6 @@ public class HelloMadMallet extends SimpleApplication {
         Vector3f upDirection = Vector3f.UNIT_Y;
         cam.lookAt(targetLocation, upDirection);
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
 }

@@ -115,7 +115,7 @@ public class HelloKinematics
         physicsSpace.addCollisionObject(kineBall);
         kineBall.setKinematic(true);
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
     // *************************************************************************
     // PhysicsTickListener methods

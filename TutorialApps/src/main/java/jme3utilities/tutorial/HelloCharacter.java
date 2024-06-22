@@ -139,7 +139,7 @@ public class HelloCharacter
         ground.setDebugMaterial(greenMaterial);
         ground.setDebugMeshNormals(MeshNormals.Facet);
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
     // *************************************************************************
     // PhysicsTickListener methods

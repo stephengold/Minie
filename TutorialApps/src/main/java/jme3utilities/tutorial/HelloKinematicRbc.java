@@ -139,7 +139,7 @@ public class HelloKinematicRbc extends SimpleApplication {
         // Add lighting.
         addLighting(rootNode);
 
-        // Minie's BulletAppState simulates the dynamics...
+        // BulletAppState drives the physics simulation...
     }
 
     /**
