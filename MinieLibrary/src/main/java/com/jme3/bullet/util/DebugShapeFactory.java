@@ -116,7 +116,7 @@ final public class DebugShapeFactory {
     private static int maxVerticesToIndex = 6_000;
     /**
      * map keys to previously generated debug meshes, for reuse
-     *
+     * <p>
      * Synchronized so that it can be updated from the "Physics Cleaner" thread.
      */
     final private static Map<DebugMeshKey, Mesh> cache

@@ -250,7 +250,8 @@ abstract public class PhysicsCollisionObject
     // new methods exposed
 
     /**
-     * Reactivate this object if it has been deactivated due to lack of motion.
+     * Reactivate the collision object if it has been deactivated due to lack of
+     * motion.
      * <p>
      * Deactivation doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
@@ -506,7 +507,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access any application-specific data associated with this collision
+     * Access any application-specific data associated with the collision
      * object.
      *
      * @return the pre-existing instance, or null if none
@@ -585,7 +586,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the shape of this object.
+     * Access the shape of the collision object.
      *
      * @return the pre-existing instance, or null if none
      */
@@ -594,7 +595,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the space where this object is added.
+     * Access the space where the collision object is added.
      *
      * @return the pre-existing instance, or null if none
      */
@@ -677,7 +678,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return this object's friction parameter (native field: m_friction).
+     * Return the collision object's friction parameter (native field: m_friction).
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
@@ -700,7 +701,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the location of this object's center to a Vector3f.
+     * Copy the location of the collision object's center to a Vector3f.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
@@ -717,7 +718,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the location of this object's center to a Vec3d.
+     * Copy the location of the collision object's center to a Vec3d.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
@@ -734,7 +735,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the orientation (rotation) of this object to a Quaternion.
+     * Copy the orientation (rotation) of the collision object to a Quaternion.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a rotation Quaternion (in physics-space coordinates, either
@@ -876,7 +877,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Access the scene object that's using this collision object, typically a
+     * Access the scene object that's using the collision object, typically a
      * PhysicsControl, PhysicsLink, or Spatial. Used by physics controls.
      *
      * @return the pre-existing instance, or null if none
@@ -888,7 +889,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether this object has anisotropic friction.
+     * Test whether the collision object has anisotropic friction.
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
@@ -906,7 +907,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether the specified collision object is in this object's ignore
+     * Test whether the specified collision object is in the current collision object's ignore
      * list.
      *
      * @param other the collision object to search for
@@ -925,7 +926,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether this object has been deactivated due to lack of motion.
+     * Test whether the collision object has been deactivated due to lack of
+     * motion.
      * <p>
      * Deactivation doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
@@ -939,7 +941,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether this object responds to contact with other objects. All
+     * Test whether the collision object responds to contact with other objects. All
      * ghost objects are non-responsive. Other types are responsive by default.
      *
      * @return true if responsive, otherwise false
@@ -953,7 +955,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether this object is added to a space.
+     * Test whether the collision object is added to a space.
      *
      * @return true&rarr;added to a space, false&rarr;not added to a space
      */
@@ -965,7 +967,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether this object is static (immobile).
+     * Test whether the collision object is static (immobile).
      *
      * @return true if static, otherwise false
      */
@@ -1169,7 +1171,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Apply the specified shape to this object. Meant to be overridden.
+     * Apply the specified shape to the collision object. Meant to be
+     * overridden.
      *
      * @param collisionShape the shape to apply (not null, alias created)
      */
@@ -1328,7 +1331,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter this object's restitution (bounciness) (native field:
+     * Alter the collision object's restitution (bounciness) (native field:
      * m_restitution). For perfect elasticity, set restitution=1.
      * <p>
      * Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.
@@ -1401,7 +1404,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Associate a "user" with this collision object. Used by physics controls.
+     * Associate a "user" with the collision object. Used by physics controls.
      *
      * @param user the desired scene object (alias created, default=null)
      * @see #getUserObject()
@@ -1412,7 +1415,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the ID of the space where this object is added.
+     * Return the ID of the space where the collision object is added.
      *
      * @return the ID, or zero if not added to any space
      */

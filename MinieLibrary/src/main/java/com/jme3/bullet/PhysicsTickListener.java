@@ -38,8 +38,8 @@ package com.jme3.bullet;
  */
 public interface PhysicsTickListener {
     /**
-     * Callback from Bullet, invoked just before the physics is stepped. A good
-     * time to clear/apply forces and reposition kinematic objects.
+     * Callback invoked just before the physics is stepped. A good time to
+     * clear/apply forces and reposition kinematic objects.
      *
      * @param space the space that's about to be stepped (not null)
      * @param timeStep the duration of the simulation step (in seconds, &ge;0)
@@ -47,8 +47,8 @@ public interface PhysicsTickListener {
     void prePhysicsTick(PhysicsSpace space, float timeStep);
 
     /**
-     * Callback from Bullet, invoked just after the physics has been stepped. A
-     * good time to re-activate deactivated objects.
+     * Callback invoked just after the physics has been stepped. A good time to
+     * re-activate deactivated objects.
      *
      * @param space the space that was just stepped (not null)
      * @param timeStep the duration of the simulation step (in seconds, &ge;0)

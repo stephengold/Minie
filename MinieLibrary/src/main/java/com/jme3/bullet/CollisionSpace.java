@@ -94,7 +94,7 @@ public class CollisionSpace extends NativePhysicsObject {
         }
     };
     /**
-     * number of contact-and-constraint solvers (&ge;1, &le;64, default=1)
+     * number of worker threads (&ge;1, &le;64, default=1)
      */
     final private int numSolvers;
     /**
@@ -201,7 +201,7 @@ public class CollisionSpace extends NativePhysicsObject {
     /**
      * Add the specified object to the space.
      *
-     * @param object the collision object to add (not null)
+     * @param object the object to add (not null)
      */
     public void add(Object object) {
         Validate.nonNull(object, "object");
@@ -314,7 +314,7 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * Count the solvers.
+     * Count the worker threads.
      *
      * @return the count (&ge;1, &le;64)
      */
@@ -668,7 +668,7 @@ public class CollisionSpace extends NativePhysicsObject {
     /**
      * Remove the specified object from the space.
      *
-     * @param object the collision object to remove, or null
+     * @param object the object to remove, or null
      */
     public void remove(Object object) {
         if (object == null) {
