@@ -1243,8 +1243,8 @@ public class PhysicsDumper extends Dumper {
      * @param rigidBody (not null, unaffected)
      * @param indent (not null)
      */
-    private void addDynamicProperties(PhysicsRigidBody rigidBody,
-            String indent) {
+    private void addDynamicProperties(
+            PhysicsRigidBody rigidBody, String indent) {
         // first line: gravity, CCD, damping, and sleep/activation
         addLine(indent);
 

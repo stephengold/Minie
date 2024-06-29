@@ -678,7 +678,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the collision object's friction parameter (native field: m_friction).
+     * Return the collision object's friction parameter (native field:
+     * m_friction).
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
@@ -907,8 +908,8 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether the specified collision object is in the current collision object's ignore
-     * list.
+     * Test whether the specified collision object is in the current collision
+     * object's ignore list.
      *
      * @param other the collision object to search for
      * @return true if found, otherwise false
@@ -941,8 +942,9 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Test whether the collision object responds to contact with other objects. All
-     * ghost objects are non-responsive. Other types are responsive by default.
+     * Test whether the collision object responds to contact with other objects.
+     * All ghost objects are non-responsive. Other types are responsive by
+     * default.
      *
      * @return true if responsive, otherwise false
      */
