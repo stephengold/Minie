@@ -96,13 +96,13 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#physicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">physicsTick</a><wbr>(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Callback from Bullet, invoked just after the physics has been stepped.</div>
+<div class="block">Callback invoked just after the physics has been stepped.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">prePhysicsTick</a><wbr>(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Callback from Bullet, invoked just before the physics is stepped.</div>
+<div class="block">Callback invoked just before the physics is stepped.</div>
 </div>
 </div>
 </div>
@@ -123,8 +123,8 @@ loadScripts(document, 'script');</script>
 <h3>prePhysicsTick</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">prePhysicsTick</span><wbr><span class="parameters">(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</span></div>
-<div class="block">Callback from Bullet, invoked just before the physics is stepped. A good
- time to clear/apply forces and reposition kinematic objects.</div>
+<div class="block">Callback invoked just before the physics is stepped. A good time to
+ clear/apply forces and reposition kinematic objects.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>space</code> - the space that's about to be stepped (not null)</dd>
@@ -137,8 +137,8 @@ loadScripts(document, 'script');</script>
 <h3>physicsTick</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">physicsTick</span><wbr><span class="parameters">(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</span></div>
-<div class="block">Callback from Bullet, invoked just after the physics has been stepped. A
- good time to re-activate deactivated objects.</div>
+<div class="block">Callback invoked just after the physics has been stepped. A good time to
+ re-activate deactivated objects.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>space</code> - the space that was just stepped (not null)</dd>

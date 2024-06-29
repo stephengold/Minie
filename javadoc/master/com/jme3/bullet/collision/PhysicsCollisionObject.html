@@ -233,7 +233,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#activate(boolean)" class="member-name-link">activate</a><wbr>(boolean&nbsp;forceFlag)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Reactivate this object if it has been deactivated due to lack of motion.</div>
+<div class="block">Reactivate the collision object if it has been deactivated due to lack of
+ motion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addCollideWithGroup(int)" class="member-name-link">addCollideWithGroup</a><wbr>(int&nbsp;collisionGroup)</code></div>
@@ -337,7 +338,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getApplicationData()" class="member-name-link">getApplicationData</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Access any application-specific data associated with this collision
+<div class="block">Access any application-specific data associated with the collision
  object.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
@@ -370,12 +371,12 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCollisionShape()" class="member-name-link">getCollisionShape</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Access the shape of this object.</div>
+<div class="block">Access the shape of the collision object.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCollisionSpace()" class="member-name-link">getCollisionSpace</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Access the space where this object is added.</div>
+<div class="block">Access the space where the collision object is added.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getContactDamping()" class="member-name-link">getContactDamping</a>()</code></div>
@@ -406,7 +407,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFriction()" class="member-name-link">getFriction</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return this object's friction parameter (native field: m_friction).</div>
+<div class="block">Return the collision object's friction parameter (native field: m_friction).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>protected static final int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getInternalType(long)" class="member-name-link">getInternalType</a><wbr>(long&nbsp;objectId)</code></div>
@@ -421,17 +422,17 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsLocation(com.jme3.math.Vector3f)" class="member-name-link">getPhysicsLocation</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the location of this object's center to a Vector3f.</div>
+<div class="block">Copy the location of the collision object's center to a Vector3f.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Vec3d</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsLocationDp(com.simsilica.mathd.Vec3d)" class="member-name-link">getPhysicsLocationDp</a><wbr>(com.simsilica.mathd.Vec3d&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the location of this object's center to a Vec3d.</div>
+<div class="block">Copy the location of the collision object's center to a Vec3d.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Quaternion</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsRotation(com.jme3.math.Quaternion)" class="member-name-link">getPhysicsRotation</a><wbr>(com.jme3.math.Quaternion&nbsp;storeResult)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Copy the orientation (rotation) of this object to a Quaternion.</div>
+<div class="block">Copy the orientation (rotation) of the collision object to a Quaternion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.simsilica.mathd.Quatd</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhysicsRotationDp(com.simsilica.mathd.Quatd)" class="member-name-link">getPhysicsRotationDp</a><wbr>(com.simsilica.mathd.Quatd&nbsp;storeResult)</code></div>
@@ -481,18 +482,18 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUserObject()" class="member-name-link">getUserObject</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Access the scene object that's using this collision object, typically a
+<div class="block">Access the scene object that's using the collision object, typically a
  PhysicsControl, PhysicsLink, or Spatial.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasAnisotropicFriction(int)" class="member-name-link">hasAnisotropicFriction</a><wbr>(int&nbsp;mode)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether this object has anisotropic friction.</div>
+<div class="block">Test whether the collision object has anisotropic friction.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ignores(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">ignores</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;other)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether the specified collision object is in this object's ignore
+<div class="block">Test whether the specified collision object is in the current collision object's ignore
  list.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
@@ -505,22 +506,23 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isActive()" class="member-name-link">isActive</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether this object has been deactivated due to lack of motion.</div>
+<div class="block">Test whether the collision object has been deactivated due to lack of
+ motion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isContactResponse()" class="member-name-link">isContactResponse</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether this object responds to contact with other objects.</div>
+<div class="block">Test whether the collision object responds to contact with other objects.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isInWorld()" class="member-name-link">isInWorld</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether this object is added to a space.</div>
+<div class="block">Test whether the collision object is added to a space.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isStatic()" class="member-name-link">isStatic</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether this object is static (immobile).</div>
+<div class="block">Test whether the collision object is static (immobile).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jmeClone()" class="member-name-link">jmeClone</a>()</code></div>
@@ -613,7 +615,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCollisionShape(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">setCollisionShape</a><wbr>(<a href="shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;collisionShape)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Apply the specified shape to this object.</div>
+<div class="block">Apply the specified shape to the collision object.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setContactDamping(float)" class="member-name-link">setContactDamping</a><wbr>(float&nbsp;damping)</code></div>
@@ -681,7 +683,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRestitution(float)" class="member-name-link">setRestitution</a><wbr>(float&nbsp;restitution)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter this object's restitution (bounciness) (native field:
+<div class="block">Alter the collision object's restitution (bounciness) (native field:
  m_restitution).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -714,12 +716,12 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserObject(java.lang.Object)" class="member-name-link">setUserObject</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;user)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Associate a "user" with this collision object.</div>
+<div class="block">Associate a "user" with the collision object.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spaceId()" class="member-name-link">spaceId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the ID of the space where this object is added.</div>
+<div class="block">Return the ID of the space where the collision object is added.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
@@ -1063,7 +1065,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="activate(boolean)">
 <h3>activate</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">activate</span><wbr><span class="parameters">(boolean&nbsp;forceFlag)</span></div>
-<div class="block">Reactivate this object if it has been deactivated due to lack of motion.
+<div class="block">Reactivate the collision object if it has been deactivated due to lack of
+ motion.
  <p>
  Deactivation doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
@@ -1267,7 +1270,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getApplicationData()">
 <h3>getApplicationData</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">getApplicationData</span>()</div>
-<div class="block">Access any application-specific data associated with this collision
+<div class="block">Access any application-specific data associated with the collision
  object.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -1349,7 +1352,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getCollisionShape()">
 <h3>getCollisionShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></span>&nbsp;<span class="element-name">getCollisionShape</span>()</div>
-<div class="block">Access the shape of this object.</div>
+<div class="block">Access the shape of the collision object.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the pre-existing instance, or null if none</dd>
@@ -1360,7 +1363,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getCollisionSpace()">
 <h3>getCollisionSpace</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../CollisionSpace.html" title="class in com.jme3.bullet">CollisionSpace</a></span>&nbsp;<span class="element-name">getCollisionSpace</span>()</div>
-<div class="block">Access the space where this object is added.</div>
+<div class="block">Access the space where the collision object is added.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the pre-existing instance, or null if none</dd>
@@ -1437,7 +1440,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getFriction()">
 <h3>getFriction</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getFriction</span>()</div>
-<div class="block">Return this object's friction parameter (native field: m_friction).
+<div class="block">Return the collision object's friction parameter (native field: m_friction).
  <p>
  Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
@@ -1461,7 +1464,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getPhysicsLocation(com.jme3.math.Vector3f)">
 <h3>getPhysicsLocation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getPhysicsLocation</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Copy the location of this object's center to a Vector3f.</div>
+<div class="block">Copy the location of the collision object's center to a Vector3f.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
@@ -1475,7 +1478,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getPhysicsLocationDp(com.simsilica.mathd.Vec3d)">
 <h3>getPhysicsLocationDp</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.simsilica.mathd.Vec3d</span>&nbsp;<span class="element-name">getPhysicsLocationDp</span><wbr><span class="parameters">(com.simsilica.mathd.Vec3d&nbsp;storeResult)</span></div>
-<div class="block">Copy the location of this object's center to a Vec3d.</div>
+<div class="block">Copy the location of the collision object's center to a Vec3d.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
@@ -1489,7 +1492,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getPhysicsRotation(com.jme3.math.Quaternion)">
 <h3>getPhysicsRotation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Quaternion</span>&nbsp;<span class="element-name">getPhysicsRotation</span><wbr><span class="parameters">(com.jme3.math.Quaternion&nbsp;storeResult)</span></div>
-<div class="block">Copy the orientation (rotation) of this object to a Quaternion.</div>
+<div class="block">Copy the orientation (rotation) of the collision object to a Quaternion.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
@@ -1617,7 +1620,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getUserObject()">
 <h3>getUserObject</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">getUserObject</span>()</div>
-<div class="block">Access the scene object that's using this collision object, typically a
+<div class="block">Access the scene object that's using the collision object, typically a
  PhysicsControl, PhysicsLink, or Spatial. Used by physics controls.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -1636,7 +1639,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="hasAnisotropicFriction(int)">
 <h3>hasAnisotropicFriction</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasAnisotropicFriction</span><wbr><span class="parameters">(int&nbsp;mode)</span></div>
-<div class="block">Test whether this object has anisotropic friction.
+<div class="block">Test whether the collision object has anisotropic friction.
  <p>
  Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
@@ -1652,7 +1655,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="ignores(com.jme3.bullet.collision.PhysicsCollisionObject)">
 <h3>ignores</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">ignores</span><wbr><span class="parameters">(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;other)</span></div>
-<div class="block">Test whether the specified collision object is in this object's ignore
+<div class="block">Test whether the specified collision object is in the current collision object's ignore
  list.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -1672,7 +1675,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="isActive()">
 <h3>isActive</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isActive</span>()</div>
-<div class="block">Test whether this object has been deactivated due to lack of motion.
+<div class="block">Test whether the collision object has been deactivated due to lack of
+ motion.
  <p>
  Deactivation doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
@@ -1685,7 +1689,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="isContactResponse()">
 <h3>isContactResponse</h3>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isContactResponse</span>()</div>
-<div class="block">Test whether this object responds to contact with other objects. All
+<div class="block">Test whether the collision object responds to contact with other objects. All
  ghost objects are non-responsive. Other types are responsive by default.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -1697,7 +1701,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="isInWorld()">
 <h3>isInWorld</h3>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isInWorld</span>()</div>
-<div class="block">Test whether this object is added to a space.</div>
+<div class="block">Test whether the collision object is added to a space.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true&rarr;added to a space, false&rarr;not added to a space</dd>
@@ -1708,7 +1712,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="isStatic()">
 <h3>isStatic</h3>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isStatic</span>()</div>
-<div class="block">Test whether this object is static (immobile).</div>
+<div class="block">Test whether the collision object is static (immobile).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if static, otherwise false</dd>
@@ -1886,7 +1890,8 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setCollisionShape(com.jme3.bullet.collision.shapes.CollisionShape)">
 <h3>setCollisionShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setCollisionShape</span><wbr><span class="parameters">(<a href="shapes/CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;collisionShape)</span></div>
-<div class="block">Apply the specified shape to this object. Meant to be overridden.</div>
+<div class="block">Apply the specified shape to the collision object. Meant to be
+ overridden.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>collisionShape</code> - the shape to apply (not null, alias created)</dd>
@@ -2040,7 +2045,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setRestitution(float)">
 <h3>setRestitution</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRestitution</span><wbr><span class="parameters">(float&nbsp;restitution)</span></div>
-<div class="block">Alter this object's restitution (bounciness) (native field:
+<div class="block">Alter the collision object's restitution (bounciness) (native field:
  m_restitution). For perfect elasticity, set restitution=1.
  <p>
  Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
@@ -2119,7 +2124,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setUserObject(java.lang.Object)">
 <h3>setUserObject</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserObject</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;user)</span></div>
-<div class="block">Associate a "user" with this collision object. Used by physics controls.</div>
+<div class="block">Associate a "user" with the collision object. Used by physics controls.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>user</code> - the desired scene object (alias created, default=null)</dd>
@@ -2137,7 +2142,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="spaceId()">
 <h3>spaceId</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">spaceId</span>()</div>
-<div class="block">Return the ID of the space where this object is added.</div>
+<div class="block">Return the ID of the space where the collision object is added.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the ID, or zero if not added to any space</dd>

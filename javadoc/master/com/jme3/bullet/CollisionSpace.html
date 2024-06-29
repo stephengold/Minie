@@ -199,7 +199,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countSolvers()" class="member-name-link">countSolvers</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Count the solvers.</div>
+<div class="block">Count the worker threads.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
@@ -521,7 +521,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Add the specified object to the space.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>object</code> - the collision object to add (not null)</dd>
+<dd><code>object</code> - the object to add (not null)</dd>
 </dl>
 </section>
 </li>
@@ -610,7 +610,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="countSolvers()">
 <h3>countSolvers</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countSolvers</span>()</div>
-<div class="block">Count the solvers.</div>
+<div class="block">Count the worker threads.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the count (&ge;1, &le;64)</dd>
@@ -951,7 +951,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Remove the specified object from the space.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>object</code> - the collision object to remove, or null</dd>
+<dd><code>object</code> - the object to remove, or null</dd>
 </dl>
 </section>
 </li>

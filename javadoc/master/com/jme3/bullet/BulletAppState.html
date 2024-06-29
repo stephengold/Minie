@@ -272,7 +272,7 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#physicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">physicsTick</a><wbr>(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Callback from Bullet, invoked just after the physics is stepped.</div>
+<div class="block">Callback invoked just after the physics has been stepped.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#postRender()" class="member-name-link">postRender</a>()</code></div>
@@ -283,7 +283,7 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)" class="member-name-link">prePhysicsTick</a><wbr>(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Callback from Bullet, invoked just before the physics is stepped.</div>
+<div class="block">Callback invoked just before the physics is stepped.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(com.jme3.renderer.RenderManager)" class="member-name-link">render</a><wbr>(com.jme3.renderer.RenderManager&nbsp;rm)</code></div>
@@ -1201,13 +1201,13 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <h3>physicsTick</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">physicsTick</span><wbr><span class="parameters">(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</span></div>
-<div class="block">Callback from Bullet, invoked just after the physics is stepped. A good
- time to clear/apply forces. Meant to be overridden.</div>
+<div class="block">Callback invoked just after the physics has been stepped. A good time to
+ clear/apply forces. Meant to be overridden.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="PhysicsTickListener.html#physicsTick(com.jme3.bullet.PhysicsSpace,float)">physicsTick</a></code>&nbsp;in interface&nbsp;<code><a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>space</code> - the space that's about to be stepped (not null)</dd>
+<dd><code>space</code> - the space that was just stepped (not null)</dd>
 <dd><code>timeStep</code> - the duration of the simulation step (in seconds, &ge;0)</dd>
 </dl>
 </section>
@@ -1217,8 +1217,8 @@ implements <a href="PhysicsTickListener.html" title="interface in com.jme3.bulle
 <h3>prePhysicsTick</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">prePhysicsTick</span><wbr><span class="parameters">(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</span></div>
-<div class="block">Callback from Bullet, invoked just before the physics is stepped. A good
- time to clear/apply forces. Meant to be overridden.</div>
+<div class="block">Callback invoked just before the physics is stepped. A good time to
+ clear/apply forces. Meant to be overridden.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="PhysicsTickListener.html#prePhysicsTick(com.jme3.bullet.PhysicsSpace,float)">prePhysicsTick</a></code>&nbsp;in interface&nbsp;<code><a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a></code></dd>
