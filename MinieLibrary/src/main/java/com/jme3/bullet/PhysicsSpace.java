@@ -1089,10 +1089,10 @@ public class PhysicsSpace
         if (object instanceof PhysicsControl) {
             ((PhysicsControl) object).setPhysicsSpace(this);
         } else if (object instanceof Spatial) {
-            Spatial node = (Spatial) object;
-            for (int i = 0; i < node.getNumControls(); ++i) {
-                if (node.getControl(i) instanceof PhysicsControl) {
-                    add(node.getControl(i));
+            Spatial spatial = (Spatial) object;
+            for (int i = 0; i < spatial.getNumControls(); ++i) {
+                if (spatial.getControl(i) instanceof PhysicsControl) {
+                    add(spatial.getControl(i));
                 }
             }
         } else if (object instanceof PhysicsJoint) {
@@ -1225,10 +1225,10 @@ public class PhysicsSpace
         if (object instanceof PhysicsControl) {
             ((PhysicsControl) object).setPhysicsSpace(null);
         } else if (object instanceof Spatial) {
-            Spatial node = (Spatial) object;
-            for (int i = 0; i < node.getNumControls(); ++i) {
-                if (node.getControl(i) instanceof PhysicsControl) {
-                    remove((node.getControl(i)));
+            Spatial spatial = (Spatial) object;
+            for (int i = 0; i < spatial.getNumControls(); ++i) {
+                if (spatial.getControl(i) instanceof PhysicsControl) {
+                    remove((spatial.getControl(i)));
                 }
             }
         } else if (object instanceof PhysicsJoint) {

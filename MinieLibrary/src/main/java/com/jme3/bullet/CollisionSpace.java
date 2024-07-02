@@ -673,8 +673,7 @@ public class CollisionSpace extends NativePhysicsObject {
     public void remove(Object object) {
         if (object == null) {
             return;
-        }
-        if (object instanceof PhysicsCollisionObject) {
+        } else if (object instanceof PhysicsCollisionObject) {
             removeCollisionObject((PhysicsCollisionObject) object);
         } else {
             String typeName = object.getClass().getCanonicalName();

@@ -162,9 +162,9 @@ class DebugMeshKey {
      */
     @Override
     public String toString() {
-        String desc = String.format(
+        String result = String.format(
                 "shape=%x scale=%s margin=%f res=%d normals=%s",
                 shapeId, scale, margin, resolution, normals);
-        return desc;
+        return result;
     }
 }

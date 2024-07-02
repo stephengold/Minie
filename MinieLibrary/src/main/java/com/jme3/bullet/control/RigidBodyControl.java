@@ -416,10 +416,10 @@ public class RigidBodyControl
                 createCollisionShape();
                 rebuildRigidBody();
             }
-            Vector3f translation = getSpatialTranslation(); // alias
-            setPhysicsLocation(translation);
-            Quaternion rotation = getSpatialRotation(); // alias
-            setPhysicsRotation(rotation);
+            Vector3f location = getSpatialTranslation(); // alias
+            setPhysicsLocation(location);
+            Quaternion orientation = getSpatialRotation(); // alias
+            setPhysicsRotation(orientation);
         }
     }
 
