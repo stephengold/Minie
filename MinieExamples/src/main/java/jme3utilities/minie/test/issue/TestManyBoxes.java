@@ -90,6 +90,7 @@ public class TestManyBoxes extends SimpleApplication {
      */
     public static void main(String[] arguments) {
         TestManyBoxes app = new TestManyBoxes();
+        //app.setPauseOnLostFocus(false); // to run in the background
         app.start();
     }
     // *************************************************************************
@@ -125,6 +126,7 @@ public class TestManyBoxes extends SimpleApplication {
                 PhysicsSpace.BroadphaseType.AXIS_SWEEP_3); // default = DBVT
         bulletAppState.setWorldMax(new Vector3f(100f, 50f, 100f));
         bulletAppState.setWorldMin(new Vector3f(-100f, -200f, -100f));
+        //bulletAppState.setDebugEnabled(true);
         stateManager.attach(bulletAppState);
         physicsSpace = bulletAppState.getPhysicsSpace();
         physicsSpace.setGravity(new Vector3f(0f, -99f, 0f));
