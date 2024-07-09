@@ -548,7 +548,7 @@ resolve the remaining dependencies.</p>
 <div class="sect2">
 <h3 id="_gradle_built_projects_2"><a class="anchor" href="#_gradle_built_projects_2"></a>Gradle-built projects</h3>
 <div class="paragraph">
-<p>Add to the project&#8217;s "build.gradle" file:</p>
+<p>Add to the project&#8217;s "build.gradle" or "build.gradle.kts" file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -556,7 +556,7 @@ resolve the remaining dependencies.</p>
     mavenCentral()
 }
 dependencies {
-    implementation 'com.github.stephengold:Minie:8.1.0'
+    implementation("com.github.stephengold:Minie:8.1.0")
 }</code></pre>
 </div>
 </div>
