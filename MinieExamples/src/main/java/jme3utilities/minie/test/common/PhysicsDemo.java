@@ -386,6 +386,9 @@ abstract public class PhysicsDemo extends AcorusDemo {
         if (vArrowsFilter != null) {
             result += "+VArrows";
         }
+        if (wArrowsFilter != null) {
+            result += "+WArrows";
+        }
 
         return result;
     }
