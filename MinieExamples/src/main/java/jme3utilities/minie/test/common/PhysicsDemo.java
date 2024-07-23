@@ -841,9 +841,9 @@ abstract public class PhysicsDemo extends AcorusDemo {
      */
     private void toggleAabbs() {
         if (aabbsFilter == null) {
-            aabbsFilter = new FilterAll(true);
+            this.aabbsFilter = new FilterAll(true);
         } else {
-            aabbsFilter = null;
+            this.aabbsFilter = null;
         }
 
         BulletAppState bulletAppState = getBulletAppState();
@@ -855,9 +855,9 @@ abstract public class PhysicsDemo extends AcorusDemo {
      */
     private void toggleAngularVelocityArrows() {
         if (wArrowsFilter == null) {
-            wArrowsFilter = new FilterAll(true);
+            this.wArrowsFilter = new FilterAll(true);
         } else {
-            wArrowsFilter = null;
+            this.wArrowsFilter = null;
         }
 
         BulletAppState bulletAppState = getBulletAppState();
@@ -869,9 +869,9 @@ abstract public class PhysicsDemo extends AcorusDemo {
      */
     private void toggleCcdSpheres() {
         if (ccdSpheresFilter == null) {
-            ccdSpheresFilter = new FilterAll(true);
+            this.ccdSpheresFilter = new FilterAll(true);
         } else {
-            ccdSpheresFilter = null;
+            this.ccdSpheresFilter = null;
         }
 
         BulletAppState bulletAppState = getBulletAppState();
@@ -883,9 +883,9 @@ abstract public class PhysicsDemo extends AcorusDemo {
      */
     private void toggleGravityArrows() {
         if (gArrowsFilter == null) {
-            gArrowsFilter = new FilterAll(true);
+            this.gArrowsFilter = new FilterAll(true);
         } else {
-            gArrowsFilter = null;
+            this.gArrowsFilter = null;
         }
 
         BulletAppState bulletAppState = getBulletAppState();
@@ -912,9 +912,9 @@ abstract public class PhysicsDemo extends AcorusDemo {
      */
     private void toggleVelocityArrows() {
         if (vArrowsFilter == null) {
-            vArrowsFilter = new FilterAll(true);
+            this.vArrowsFilter = new FilterAll(true);
         } else {
-            vArrowsFilter = null;
+            this.vArrowsFilter = null;
         }
 
         BulletAppState bulletAppState = getBulletAppState();
