@@ -1248,9 +1248,9 @@ public class PhysicsDumper extends Dumper {
         // first line: gravity, CCD, damping, and sleep/activation
         addLine(indent);
 
-        Vector3f gravity = rigidBody.getGravity(null);
-        String graString = MyVector3f.describe(gravity);
-        stream.printf(" grav[%s] ", graString);
+        Vector3f grav = rigidBody.getGravity(null);
+        String gravString = MyVector3f.describe(grav);
+        stream.printf(" grav[%s] ", gravString);
 
         if (!rigidBody.isGravityProtected()) {
             stream.print("NOT");
