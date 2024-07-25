@@ -202,16 +202,16 @@ public class TestSetMargin {
         // MinkowskiSum of sphere + cone
         ConvexShape sphere1 = new SphereCollisionShape(1f);
         CollisionShape sum1 = new MinkowskiSum(sphere1, cone1);
-        Assert.assertEquals(0.04f, sum1.getMargin(), 0f);
+        Assert.assertEquals(1.04f, sum1.getMargin(), 0f);
         sum1.setMargin(0.195f); // cannot directly alter margin
-        Assert.assertEquals(0.04f, sum1.getMargin(), 0f);
+        Assert.assertEquals(1.04f, sum1.getMargin(), 0f);
 
         // MinkowskiSum of sphere + capsule
         ConvexShape capsule1 = new CapsuleCollisionShape(1f, 1f);
         CollisionShape sum2 = new MinkowskiSum(sphere1, capsule1);
-        Assert.assertEquals(0f, sum2.getMargin(), 0f);
+        Assert.assertEquals(2f, sum2.getMargin(), 0f);
         sum2.setMargin(0.196f); // cannot directly alter margin
-        Assert.assertEquals(0f, sum2.getMargin(), 0f);
+        Assert.assertEquals(2f, sum2.getMargin(), 0f);
 
         // MultiSphere
         List<Float> radii = new ArrayList<>(3);

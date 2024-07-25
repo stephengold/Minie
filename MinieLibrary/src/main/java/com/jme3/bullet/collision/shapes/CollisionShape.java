@@ -604,7 +604,7 @@ abstract public class CollisionShape
         float result = getMargin(shapeId);
 
         assert result >= 0f : result;
-        return margin;
+        return result;
     }
 
     /**
