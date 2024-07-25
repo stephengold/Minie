@@ -87,6 +87,7 @@ class DebugMeshKey {
      */
     DebugMeshKey(CollisionShape shape, MeshNormals normals, int resolution) {
         assert normals != null;
+        assert shape != null;
         assert !(shape instanceof CompoundCollisionShape);
 
         this.normals = normals;
