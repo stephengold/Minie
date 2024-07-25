@@ -483,7 +483,7 @@ abstract public class CollisionShape
      * @param factor the desired scale factor for all axes (&ge;0, default=1)
      */
     public void setScale(float factor) {
-        assert Validate.positive(factor, "factor");
+        assert Validate.nonNegative(factor, "factor");
 
         Vector3f scaleVector
                 = new Vector3f(factor, factor, factor); // TODO garbage
