@@ -229,8 +229,9 @@ public class HullCollisionShape extends ConvexShape {
     }
 
     /**
-     * Instantiate a shape based on the specified array of locations. For best performance
-     * and stability, the convex hull should have no more than 100 vertices.
+     * Instantiate a shape based on the specified array of locations. For best
+     * performance and stability, the convex hull should have no more than 100
+     * vertices.
      *
      * @param locations an array of location vectors (in shape coordinates, not
      * null, not empty, unaffected)
