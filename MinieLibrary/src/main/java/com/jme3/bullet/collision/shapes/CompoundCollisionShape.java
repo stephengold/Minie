@@ -284,7 +284,7 @@ public class CompoundCollisionShape extends CollisionShape {
      */
     public int countChildren() {
         int numChildren = children.size();
-        assert numChildren == countChildren(nativeId());
+        assert numChildren == countChildren(nativeId()) : numChildren;
 
         return numChildren;
     }
