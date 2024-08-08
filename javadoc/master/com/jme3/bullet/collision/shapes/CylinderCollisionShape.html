@@ -148,7 +148,7 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.jme3.math.Vector3f,int)" class="member-name-link">CylinderCollisionShape</a><wbr>(com.jme3.math.Vector3f&nbsp;halfExtents,
  int&nbsp;axisIndex)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Instantiate a cylinder shape around the specified axis.</div>
+<div class="block">Instantiate a cylinder shape around the specified main (height) axis.</div>
 </div>
 <div class="col-first even-row-color"><code>&nbsp;</code></div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.nio.FloatBuffer,int,int,int)" class="member-name-link">CylinderCollisionShape</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/FloatBuffer.html" title="class or interface in java.nio" class="external-link">FloatBuffer</a>&nbsp;buffer,
@@ -285,8 +285,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Instantiate a cylinder shape around the specified main (height) axis.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>radius</code> - the desired unscaled radius (&ge;0)</dd>
-<dd><code>height</code> - the desired unscaled height (&ge;0)</dd>
+<dd><code>radius</code> - the desired unscaled radius (in shape units, &ge;0)</dd>
+<dd><code>height</code> - the desired unscaled height (in shape units, &ge;0)</dd>
 <dd><code>axisIndex</code> - which local axis to use for the height: 0&rarr;X,
  1&rarr;Y, 2&rarr;Z (default=2)</dd>
 </dl>
@@ -331,13 +331,13 @@ loadScripts(document, 'script');</script>
 <h3>CylinderCollisionShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CylinderCollisionShape</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;halfExtents,
  int&nbsp;axisIndex)</span></div>
-<div class="block">Instantiate a cylinder shape around the specified axis.</div>
+<div class="block">Instantiate a cylinder shape around the specified main (height) axis.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>halfExtents</code> - the desired unscaled half extents (not null, no
  negative component, unaffected)</dd>
 <dd><code>axisIndex</code> - which local axis to use for the height: 0&rarr;X,
- 1&rarr;Y, 2&rarr;Z</dd>
+ 1&rarr;Y, 2&rarr;Z (default=2)</dd>
 </dl>
 </section>
 </li>
@@ -401,7 +401,8 @@ loadScripts(document, 'script');</script>
 <h3>canScale</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">canScale</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;scale)</span></div>
 <div class="block">Test whether the specified scale factors can be applied to this shape.
- For cylinder shapes, radial scaling must be uniform.</div>
+ For cylinder shapes, radial scaling must be uniform. The shape is
+ unaffected.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CollisionShape.html#canScale(com.jme3.math.Vector3f)">canScale</a></code>&nbsp;in class&nbsp;<code><a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a></code></dd>

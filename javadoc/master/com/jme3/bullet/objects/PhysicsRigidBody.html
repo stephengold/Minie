@@ -181,7 +181,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#applyCentralImpulse(com.jme3.math.Vector3f)" class="member-name-link">applyCentralImpulse</a><wbr>(com.jme3.math.Vector3f&nbsp;impulse)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Apply a central impulse to the body.</div>
+<div class="block">Apply an impulse to the body's center of mass.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#applyForce(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">applyForce</a><wbr>(com.jme3.math.Vector3f&nbsp;force,
@@ -193,7 +193,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#applyImpulse(com.jme3.math.Vector3f,com.jme3.math.Vector3f)" class="member-name-link">applyImpulse</a><wbr>(com.jme3.math.Vector3f&nbsp;impulse,
  com.jme3.math.Vector3f&nbsp;offset)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Apply an impulse to the body.</div>
+<div class="block">Apply an off-center impulse to the body.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#applyTorque(com.jme3.math.Vector3f)" class="member-name-link">applyTorque</a><wbr>(com.jme3.math.Vector3f&nbsp;torque)</code></div>
@@ -656,8 +656,8 @@ loadScripts(document, 'script');</script>
  <a href="#applyCentralImpulse(com.jme3.math.Vector3f)"><code>applyCentralImpulse(com.jme3.math.Vector3f)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>force</code> - the force vector (mass times physics-space units per second
- squared in physics-space coordinates, not null, unaffected)</dd>
+<dd><code>force</code> - the force vector (mass times distance per second squared in
+ physics-space coordinates, not null, finite, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -665,11 +665,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="applyCentralImpulse(com.jme3.math.Vector3f)">
 <h3>applyCentralImpulse</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">applyCentralImpulse</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;impulse)</span></div>
-<div class="block">Apply a central impulse to the body.</div>
+<div class="block">Apply an impulse to the body's center of mass.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>impulse</code> - the impulse vector (mass times physics-space units per
- second in physics-space coordinates, not null, unaffected)</dd>
+<dd><code>impulse</code> - the impulse vector (mass times distance per second in
+ physics-space coordinates, not null, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -685,10 +685,10 @@ loadScripts(document, 'script');</script>
  <a href="#applyImpulse(com.jme3.math.Vector3f,com.jme3.math.Vector3f)"><code>applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>force</code> - the force vector (mass times physics-space units per second
- squared in physics-space coordinates, not null, unaffected)</dd>
+<dd><code>force</code> - the force vector (mass times distance per second squared in
+ physics-space coordinates, not null, finite, unaffected)</dd>
 <dd><code>offset</code> - the location to apply the force (relative to the body's
- center in physics-space coordinates, not null, unaffected)</dd>
+ center in physics-space coordinates, not null, finite, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -697,13 +697,13 @@ loadScripts(document, 'script');</script>
 <h3>applyImpulse</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">applyImpulse</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;impulse,
  com.jme3.math.Vector3f&nbsp;offset)</span></div>
-<div class="block">Apply an impulse to the body.</div>
+<div class="block">Apply an off-center impulse to the body.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>impulse</code> - the impulse vector (mass times physics-space units per
- second in physics-space coordinates, not null, unaffected)</dd>
-<dd><code>offset</code> - the location to apply the impulse (relative to the body's
- center in physics-space coordinates, not null, unaffected)</dd>
+<dd><code>impulse</code> - the impulse vector (mass times distance per second in
+ physics-space coordinates, not null, unaffected)</dd>
+<dd><code>offset</code> - where to apply the impulse (relative to the body's center
+ of mass in physics-space coordinates, not null, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -718,8 +718,8 @@ loadScripts(document, 'script');</script>
  <a href="#applyTorqueImpulse(com.jme3.math.Vector3f)"><code>applyTorqueImpulse(com.jme3.math.Vector3f)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>torque</code> - the torque vector (mass times physics-space units squared
- per second squared in physics-space coordinates, not null, unaffected)</dd>
+<dd><code>torque</code> - the torque vector (mass times distance squared per second
+ squared in physics-space coordinates, not null, finite, unaffected)</dd>
 </dl>
 </section>
 </li>

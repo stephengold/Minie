@@ -254,7 +254,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeChildShape(com.jme3.bullet.collision.shapes.CollisionShape)" class="member-name-link">removeChildShape</a><wbr>(<a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;childShape)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Remove a child CollisionShape from this shape.</div>
+<div class="block">Purge all references to the specified child shape from this shape.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rotate(com.jme3.math.Matrix3f)" class="member-name-link">rotate</a><wbr>(com.jme3.math.Matrix3f&nbsp;rotation)</code></div>
@@ -380,21 +380,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="addChildShape(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.math.Vector3f)">
-<h3>addChildShape</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addChildShape</span><wbr><span class="parameters">(<a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;childShape,
- com.jme3.math.Vector3f&nbsp;offset)</span></div>
-<div class="block">Add a child shape with the specified local translation.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>childShape</code> - the child shape to add (not null, not a compound shape,
- alias created)</dd>
-<dd><code>offset</code> - the local coordinates of the child shape's origin (not
- null, unaffected)</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="addChildShape(com.jme3.bullet.collision.shapes.CollisionShape,float,float,float)">
 <h3>addChildShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addChildShape</span><wbr><span class="parameters">(<a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;childShape,
@@ -409,6 +394,21 @@ loadScripts(document, 'script');</script>
 <dd><code>offsetX</code> - the local X coordinate of the child shape's origin</dd>
 <dd><code>offsetY</code> - the local Y coordinate of the child shape's origin</dd>
 <dd><code>offsetZ</code> - the local Z coordinate of the child shape's origin</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addChildShape(com.jme3.bullet.collision.shapes.CollisionShape,com.jme3.math.Vector3f)">
+<h3>addChildShape</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addChildShape</span><wbr><span class="parameters">(<a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;childShape,
+ com.jme3.math.Vector3f&nbsp;offset)</span></div>
+<div class="block">Add a child shape with the specified local translation.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>childShape</code> - the child shape to add (not null, not a compound shape,
+ alias created)</dd>
+<dd><code>offset</code> - the local coordinates of the child shape's origin (not
+ null, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -557,7 +557,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="removeChildShape(com.jme3.bullet.collision.shapes.CollisionShape)">
 <h3>removeChildShape</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeChildShape</span><wbr><span class="parameters">(<a href="CollisionShape.html" title="class in com.jme3.bullet.collision.shapes">CollisionShape</a>&nbsp;childShape)</span></div>
-<div class="block">Remove a child CollisionShape from this shape.</div>
+<div class="block">Purge all references to the specified child shape from this shape.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>childShape</code> - the collision shape to remove (not null)</dd>
