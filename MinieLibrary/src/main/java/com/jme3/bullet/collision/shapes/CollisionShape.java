@@ -259,7 +259,7 @@ abstract public class CollisionShape
     }
 
     /**
-     * Return the collision margin for this shape.
+     * Return the (copied) collision margin of the shape.
      *
      * @return the margin thickness (in physics-space units, &ge;0)
      */

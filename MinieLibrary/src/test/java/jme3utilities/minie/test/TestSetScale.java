@@ -221,7 +221,7 @@ public class TestSetScale {
         box.setScale(non2);
         Utils.assertEquals(non2, box.getScale(null), 0f);
 
-        // CapsuleCollisionShape
+        // Y-axis CapsuleCollisionShape
         CollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         Utils.assertEquals(ident, capsule.getScale(null), 0f);
         capsule.setScale(uni);
@@ -262,7 +262,7 @@ public class TestSetScale {
         ellipsoid.setScale(non);
         Assert.assertEquals(non, ellipsoid.getScale(null));
 
-        // CylinderCollisionShape
+        // Z-axis CylinderCollisionShape
         CollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(3f, 3f, 3f));
         Assert.assertEquals(ident, cylinder.getScale(null));

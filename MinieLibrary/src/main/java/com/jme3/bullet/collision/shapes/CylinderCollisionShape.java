@@ -72,7 +72,7 @@ public class CylinderCollisionShape extends ConvexShape {
     // fields
 
     /**
-     * copy of main (height) axis (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
+     * index of the main (height) axis (0&rarr;X, 1&rarr;Y, 2&rarr;Z)
      */
     private int axis;
     /**
@@ -92,8 +92,8 @@ public class CylinderCollisionShape extends ConvexShape {
     /**
      * Instantiate a cylinder shape around the specified main (height) axis.
      *
-     * @param radius the desired unscaled radius (&ge;0)
-     * @param height the desired unscaled height (&ge;0)
+     * @param radius the desired unscaled radius (in shape units, &ge;0)
+     * @param height the desired unscaled height (in shape units, &ge;0)
      * @param axisIndex which local axis to use for the height: 0&rarr;X,
      * 1&rarr;Y, 2&rarr;Z (default=2)
      */
@@ -155,12 +155,12 @@ public class CylinderCollisionShape extends ConvexShape {
     }
 
     /**
-     * Instantiate a cylinder shape around the specified axis.
+     * Instantiate a cylinder shape around the specified main (height) axis.
      *
      * @param halfExtents the desired unscaled half extents (not null, no
      * negative component, unaffected)
      * @param axisIndex which local axis to use for the height: 0&rarr;X,
-     * 1&rarr;Y, 2&rarr;Z
+     * 1&rarr;Y, 2&rarr;Z (default=2)
      */
     public CylinderCollisionShape(Vector3f halfExtents, int axisIndex) {
         Validate.nonNegative(halfExtents, "half extents");
@@ -232,7 +232,8 @@ public class CylinderCollisionShape extends ConvexShape {
 
     /**
      * Test whether the specified scale factors can be applied to this shape.
-     * For cylinder shapes, radial scaling must be uniform.
+     * For cylinder shapes, radial scaling must be uniform. The shape is
+     * unaffected.
      *
      * @param scale the desired scale factor for each local axis (may be null,
      * unaffected)

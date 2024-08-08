@@ -1059,7 +1059,7 @@ public class TestDefaults {
         Assert.assertEquals(8f, box.unscaledVolume(), 0f);
         testInverseInertia(box, 1.5f, 1.5f, 1.5f, 0f);
 
-        // CapsuleCollisionShape
+        // Y-axis CapsuleCollisionShape
         CapsuleCollisionShape capsule = new CapsuleCollisionShape(1f, 1f);
         testConvexShape(capsule);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, capsule.getAxis());
@@ -1070,7 +1070,7 @@ public class TestDefaults {
                 7f * FastMath.PI / 3f, capsule.unscaledVolume(), 1e-4f);
         testInverseInertia(capsule, 0.923f, 1.5f, 0.923f, 0.001f);
 
-        // ConeCollisionShape
+        // Y-axis ConeCollisionShape
         ConeCollisionShape cone = new ConeCollisionShape(1f, 1f);
         testConvexShape(cone);
         Assert.assertEquals(PhysicsSpace.AXIS_Y, cone.getAxis());
@@ -1102,7 +1102,7 @@ public class TestDefaults {
         Assert.assertFalse(convex2d.isPolyhedral());
         testInverseInertia(convex2d, 0.029f, 0.029f, 0.015f, 0.001f);
 
-        // CylinderCollisionShape
+        // Z-axis CylinderCollisionShape
         CylinderCollisionShape cylinder
                 = new CylinderCollisionShape(new Vector3f(1f, 1f, 1f));
         testConvexShape(cylinder);

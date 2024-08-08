@@ -702,7 +702,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the location of the collision object's center to a Vector3f.
+     * Locate the collision object's center.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
@@ -719,7 +719,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Copy the location of the collision object's center to a Vec3d.
+     * Locate the collision object's center in double precision.
      *
      * @param storeResult storage for the result (modified if not null)
      * @return a location vector (in physics-space coordinates, either
@@ -803,7 +803,7 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return this object's restitution (bounciness) (native field:
+     * Return the collision object's restitution (bounciness) (native field:
      * m_restitution).
      * <p>
      * Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.

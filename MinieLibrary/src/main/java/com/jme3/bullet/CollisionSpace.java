@@ -325,7 +325,7 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
-     * Remove all collision objects and physics joints.
+     * Remove all collision objects and physics joints. Meant to be overridden.
      */
     public void destroy() {
         for (PhysicsGhostObject character : ghostMap.values()) {

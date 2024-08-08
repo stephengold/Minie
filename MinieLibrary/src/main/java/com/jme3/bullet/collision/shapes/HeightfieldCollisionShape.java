@@ -150,7 +150,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a square shape for the specified height map.
+     * Instantiate a square shape for the specified array of heights.
      *
      * @param heightmap (not null, length&ge;4, length a perfect square,
      * unaffected)
@@ -269,7 +269,7 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Count how many data points are in the heightfield.
+     * Count how many heights are in the heightfield.
      *
      * @return the count (&ge;4)
      */

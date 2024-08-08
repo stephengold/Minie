@@ -120,7 +120,7 @@ public class CapsuleCollisionShape extends ConvexShape {
      * @param height the desired height of the cylindrical portion (in shape
      * units, &ge;0)
      * @param axisIndex which local axis to use for the height: 0&rarr;X,
-     * 1&rarr;Y, 2&rarr;Z
+     * 1&rarr;Y, 2&rarr;Z (default=1)
      */
     public CapsuleCollisionShape(float radius, float height, int axisIndex) {
         Validate.nonNegative(radius, "radius");

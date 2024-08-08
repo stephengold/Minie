@@ -193,8 +193,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * To apply an impulse, use
      * {@link #applyCentralImpulse(com.jme3.math.Vector3f)}.
      *
-     * @param force the force vector (mass times physics-space units per second
-     * squared in physics-space coordinates, not null, unaffected)
+     * @param force the force vector (mass times distance per second squared in
+     * physics-space coordinates, not null, finite, unaffected)
      */
     public void applyCentralForce(Vector3f force) {
         Validate.finite(force, "force");
@@ -205,10 +205,10 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Apply a central impulse to the body.
+     * Apply an impulse to the body's center of mass.
      *
-     * @param impulse the impulse vector (mass times physics-space units per
-     * second in physics-space coordinates, not null, unaffected)
+     * @param impulse the impulse vector (mass times distance per second in
+     * physics-space coordinates, not null, unaffected)
      */
     public void applyCentralImpulse(Vector3f impulse) {
         Validate.finite(impulse, "impulse");
@@ -225,10 +225,10 @@ public class PhysicsRigidBody extends PhysicsBody {
      * To apply an impulse, use
      * {@link #applyImpulse(com.jme3.math.Vector3f, com.jme3.math.Vector3f)}.
      *
-     * @param force the force vector (mass times physics-space units per second
-     * squared in physics-space coordinates, not null, unaffected)
+     * @param force the force vector (mass times distance per second squared in
+     * physics-space coordinates, not null, finite, unaffected)
      * @param offset the location to apply the force (relative to the body's
-     * center in physics-space coordinates, not null, unaffected)
+     * center in physics-space coordinates, not null, finite, unaffected)
      */
     public void applyForce(Vector3f force, Vector3f offset) {
         Validate.finite(force, "force");
@@ -240,12 +240,12 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Apply an impulse to the body.
+     * Apply an off-center impulse to the body.
      *
-     * @param impulse the impulse vector (mass times physics-space units per
-     * second in physics-space coordinates, not null, unaffected)
-     * @param offset the location to apply the impulse (relative to the body's
-     * center in physics-space coordinates, not null, unaffected)
+     * @param impulse the impulse vector (mass times distance per second in
+     * physics-space coordinates, not null, unaffected)
+     * @param offset where to apply the impulse (relative to the body's center
+     * of mass in physics-space coordinates, not null, unaffected)
      */
     public void applyImpulse(Vector3f impulse, Vector3f offset) {
         Validate.finite(impulse, "impulse");
@@ -263,8 +263,8 @@ public class PhysicsRigidBody extends PhysicsBody {
      * To apply a torque impulse, use
      * {@link #applyTorqueImpulse(com.jme3.math.Vector3f)}.
      *
-     * @param torque the torque vector (mass times physics-space units squared
-     * per second squared in physics-space coordinates, not null, unaffected)
+     * @param torque the torque vector (mass times distance squared per second
+     * squared in physics-space coordinates, not null, finite, unaffected)
      */
     public void applyTorque(Vector3f torque) {
         Validate.finite(torque, "torque");

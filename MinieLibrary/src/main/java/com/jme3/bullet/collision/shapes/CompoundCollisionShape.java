@@ -422,7 +422,7 @@ public class CompoundCollisionShape extends CollisionShape {
     }
 
     /**
-     * Remove a child CollisionShape from this shape.
+     * Purge all references to the specified child shape from this shape.
      *
      * @param childShape the collision shape to remove (not null)
      */
