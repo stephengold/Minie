@@ -147,13 +147,13 @@ class DebugMeshKey {
      */
     @Override
     public int hashCode() {
-        int hash = (int) (shapeId >> 4);
-        hash = 7 * hash + scale.hashCode();
-        hash = 7 * hash + Float.floatToIntBits(margin);
-        hash = 7 * hash + resolution;
-        hash = 7 * hash + normals.ordinal();
+        int result = (int) (shapeId >> 4);
+        result = 7 * result + scale.hashCode();
+        result = 7 * result + Float.floatToIntBits(margin);
+        result = 7 * result + resolution;
+        result = 7 * result + normals.ordinal();
 
-        return hash;
+        return result;
     }
 
     /**

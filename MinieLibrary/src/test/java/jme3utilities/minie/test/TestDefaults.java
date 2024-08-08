@@ -145,8 +145,8 @@ public class TestDefaults {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
         // default margin for collision shapes
-        float margin = CollisionShape.getDefaultMargin();
-        Assert.assertEquals(0.04f, margin, 0f);
+        float defaultMargin = CollisionShape.getDefaultMargin();
+        Assert.assertEquals(0.04f, defaultMargin, 0f);
 
         // deactivation deadline
         float deadline = PhysicsBody.getDeactivationDeadline();
