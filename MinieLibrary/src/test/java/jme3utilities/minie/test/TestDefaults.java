@@ -739,7 +739,6 @@ public class TestDefaults {
         Assert.assertNotEquals(0L, id);
         Assert.assertEquals(pco, PhysicsCollisionObject.findInstance(id));
         Assert.assertEquals(0, pco.countIgnored());
-        Assert.assertFalse(pco.isInWorld());
         Assert.assertEquals(0L, pco.spaceId());
         Assert.assertTrue(pco.isActive());
         Assert.assertFalse(pco.isInWorld());
