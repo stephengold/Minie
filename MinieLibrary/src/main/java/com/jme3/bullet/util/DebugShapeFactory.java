@@ -556,7 +556,7 @@ final public class DebugShapeFactory {
             }
         }
 
-        Geometry geometry = new Geometry("Bullet debug", mesh);
+        Geometry geometry = new Geometry("Physics debug", mesh);
         geometry.updateModelBound();
 
         return geometry;
