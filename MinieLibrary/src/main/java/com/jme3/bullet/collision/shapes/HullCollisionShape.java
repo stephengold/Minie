@@ -237,7 +237,7 @@ public class HullCollisionShape extends ConvexShape {
      * null, not empty, unaffected)
      */
     public HullCollisionShape(Vector3f... locations) {
-        Validate.nonEmpty(locations, "points");
+        Validate.nonEmpty(locations, "locations");
 
         int numFloats = numAxes * locations.length;
         this.points = new float[numFloats];
