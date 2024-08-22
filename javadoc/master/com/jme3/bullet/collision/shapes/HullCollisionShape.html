@@ -133,7 +133,7 @@ loadScripts(document, 'script');</script>
 <div class="block">No-argument constructor needed by SavableClassUtil.</div>
 </div>
 <div class="col-first odd-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(float...)" class="member-name-link">HullCollisionShape</a><wbr>(float...&nbsp;points)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(float...)" class="member-name-link">HullCollisionShape</a><wbr>(float...&nbsp;coordinates)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Instantiate a shape based on the specified array of coordinates.</div>
 </div>
@@ -317,14 +317,14 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(float...)">
 <h3>HullCollisionShape</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">HullCollisionShape</span><wbr><span class="parameters">(float...&nbsp;points)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">HullCollisionShape</span><wbr><span class="parameters">(float...&nbsp;coordinates)</span></div>
 <div class="block">Instantiate a shape based on the specified array of coordinates. For best
  performance and stability, the convex hull should have no more than 100
  vertices.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>points</code> - an array of coordinates on which to base the shape (not
- null, not empty, length a multiple of 3, unaffected)</dd>
+<dd><code>coordinates</code> - an array of coordinates on which to base the shape
+ (not null, not empty, length a multiple of 3, unaffected)</dd>
 </dl>
 </section>
 </li>

@@ -176,7 +176,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#applyCentralForce(com.jme3.math.Vector3f)" class="member-name-link">applyCentralForce</a><wbr>(com.jme3.math.Vector3f&nbsp;force)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Apply a central force to the body.</div>
+<div class="block">Apply a force to the body's center of mass.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#applyCentralImpulse(com.jme3.math.Vector3f)" class="member-name-link">applyCentralImpulse</a><wbr>(com.jme3.math.Vector3f&nbsp;impulse)</code></div>
@@ -649,8 +649,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="applyCentralForce(com.jme3.math.Vector3f)">
 <h3>applyCentralForce</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">applyCentralForce</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;force)</span></div>
-<div class="block">Apply a central force to the body. Effective on the next simulation step,
- then cleared.
+<div class="block">Apply a force to the body's center of mass. Effective on the next
+ simulation step, then cleared.
  <p>
  To apply an impulse, use
  <a href="#applyCentralImpulse(com.jme3.math.Vector3f)"><code>applyCentralImpulse(com.jme3.math.Vector3f)</code></a>.</div>
@@ -812,7 +812,7 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a velocity vector (radians per second in physics-space
+<dd>an angular-velocity vector (radians per second in physics-space
  coordinates, either storeResult or a new vector, not null)</dd>
 </dl>
 </section>
@@ -826,7 +826,7 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a velocity vector (radians per second in physics-space
+<dd>an angular-velocity vector (radians per second in physics-space
  coordinates, either storeResult or a new vector, not null)</dd>
 </dl>
 </section>
@@ -1127,8 +1127,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Alter the body's angular velocity.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>omega</code> - the desired angular velocity (in physics-space coordinates,
- not null, unaffected)</dd>
+<dd><code>omega</code> - the desired angular velocity (radians per second in
+ physics-space coordinates, not null, finite, unaffected)</dd>
 </dl>
 </section>
 </li>
@@ -1139,8 +1139,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Alter the body's angular velocity.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>omega</code> - the desired angular velocity (in physics-space coordinates,
- not null, unaffected)</dd>
+<dd><code>omega</code> - the desired angular velocity (radians per second in
+ physics-space coordinates, not null, unaffected)</dd>
 </dl>
 </section>
 </li>

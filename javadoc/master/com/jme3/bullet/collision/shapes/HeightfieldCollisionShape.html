@@ -132,12 +132,12 @@ loadScripts(document, 'script');</script>
 <div class="block">No-argument constructor needed by SavableClassUtil.</div>
 </div>
 <div class="col-first odd-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(float%5B%5D)" class="member-name-link">HeightfieldCollisionShape</a><wbr>(float[]&nbsp;heightmap)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(float%5B%5D)" class="member-name-link">HeightfieldCollisionShape</a><wbr>(float[]&nbsp;heightArray)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Instantiate a square shape for the specified array of heights.</div>
 </div>
 <div class="col-first even-row-color"><code>&nbsp;</code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(float%5B%5D,com.jme3.math.Vector3f)" class="member-name-link">HeightfieldCollisionShape</a><wbr>(float[]&nbsp;heightmap,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(float%5B%5D,com.jme3.math.Vector3f)" class="member-name-link">HeightfieldCollisionShape</a><wbr>(float[]&nbsp;heightArray,
  com.jme3.math.Vector3f&nbsp;scale)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Instantiate a square shape for the specified height map and scale vector.</div>
@@ -273,11 +273,11 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(float[])">
 <h3>HeightfieldCollisionShape</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">HeightfieldCollisionShape</span><wbr><span class="parameters">(float[]&nbsp;heightmap)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">HeightfieldCollisionShape</span><wbr><span class="parameters">(float[]&nbsp;heightArray)</span></div>
 <div class="block">Instantiate a square shape for the specified array of heights.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>heightmap</code> - (not null, length&ge;4, length a perfect square,
+<dd><code>heightArray</code> - (not null, length&ge;4, length a perfect square,
  unaffected)</dd>
 </dl>
 </section>
@@ -297,12 +297,12 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(float[],com.jme3.math.Vector3f)">
 <h3>HeightfieldCollisionShape</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">HeightfieldCollisionShape</span><wbr><span class="parameters">(float[]&nbsp;heightmap,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">HeightfieldCollisionShape</span><wbr><span class="parameters">(float[]&nbsp;heightArray,
  com.jme3.math.Vector3f&nbsp;scale)</span></div>
 <div class="block">Instantiate a square shape for the specified height map and scale vector.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>heightmap</code> - (not null, length&ge;4, length a perfect square,
+<dd><code>heightArray</code> - (not null, length&ge;4, length a perfect square,
  unaffected)</dd>
 <dd><code>scale</code> - the desired scale factor for each local axis (not null, no
  negative component, unaffected, default=(1,1,1))</dd>
