@@ -190,7 +190,7 @@ abstract public class PhysicsBody extends PhysicsCollisionObject {
      */
     @SuppressWarnings("unchecked")
     protected void readJoints(InputCapsule capsule) throws IOException {
-        joints = capsule.readSavableArrayList(tagJoints, null);
+        this.joints = capsule.readSavableArrayList(tagJoints, null);
     }
 
     /**
