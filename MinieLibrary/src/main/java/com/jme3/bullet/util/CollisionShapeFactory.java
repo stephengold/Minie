@@ -254,8 +254,9 @@ final public class CollisionShapeFactory {
      */
     public static CollisionShape createMeshShape(Spatial modelRoot) {
         if (modelRoot instanceof Terrain) {
-            return new HeightfieldCollisionShape(
+            CollisionShape result = new HeightfieldCollisionShape(
                     (Terrain) modelRoot, modelRoot.getLocalScale());
+            return result;
 
         } else if (modelRoot instanceof Geometry) {
             return createSingleMeshShape((Geometry) modelRoot, modelRoot);
