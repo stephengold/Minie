@@ -76,7 +76,7 @@ public class CylinderCollisionShape extends ConvexShape {
      */
     private int axis;
     /**
-     * copy of the unscaled half extents for each local axis (not null, no
+     * copy of the unscaled half extent for each local axis (not null, no
      * negative component)
      */
     private Vector3f halfExtents = new Vector3f(0.5f, 0.5f, 0.5f);

@@ -337,7 +337,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Returm the body's angular-motion sleeping threshold. Note that "sleeping"
+     * Return the body's angular-motion sleeping threshold. Note that "sleeping"
      * is synonym for "deactivation".
      *
      * @return the angular-motion threshold (in radians per second, &ge;0)
