@@ -121,6 +121,11 @@ public class PhysicsSpace
     // fields
 
     /**
+     * list of registered tick listeners
+     */
+    final private Collection<PhysicsTickListener> tickListeners
+            = new SafeArrayList<>(PhysicsTickListener.class);
+    /**
      * time step (in seconds, &gt;0) ignored when maxSubSteps=0
      */
     private float accuracy = 1f / 60f;
@@ -128,11 +133,6 @@ public class PhysicsSpace
      * maximum time step (in seconds, &gt;0) ignored when maxSubSteps>0
      */
     private float maxTimeStep = 0.1f;
-    /**
-     * list of registered tick listeners
-     */
-    final private Collection<PhysicsTickListener> tickListeners
-            = new SafeArrayList<>(PhysicsTickListener.class);
     /**
      * manage contact/collision listeners and events
      */
