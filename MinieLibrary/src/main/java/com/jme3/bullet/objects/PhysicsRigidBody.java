@@ -187,8 +187,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     }
 
     /**
-     * Apply a central force to the body. Effective on the next simulation step,
-     * then cleared.
+     * Apply a force to the body's center of mass. Effective on the next
+     * simulation step, then cleared.
      * <p>
      * To apply an impulse, use
      * {@link #applyCentralImpulse(com.jme3.math.Vector3f)}.
@@ -364,7 +364,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Copy the body's angular velocity. The body must be in dynamic mode.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a velocity vector (radians per second in physics-space
+     * @return an angular-velocity vector (radians per second in physics-space
      * coordinates, either storeResult or a new vector, not null)
      */
     public Vector3f getAngularVelocity(Vector3f storeResult) {
@@ -381,7 +381,7 @@ public class PhysicsRigidBody extends PhysicsBody {
      * Copy the body's angular velocity. The body must be in dynamic mode.
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a velocity vector (radians per second in physics-space
+     * @return an angular-velocity vector (radians per second in physics-space
      * coordinates, either storeResult or a new vector, not null)
      */
     public Vec3d getAngularVelocityDp(Vec3d storeResult) {
@@ -776,8 +776,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Alter the body's angular velocity.
      *
-     * @param omega the desired angular velocity (in physics-space coordinates,
-     * not null, unaffected)
+     * @param omega the desired angular velocity (radians per second in
+     * physics-space coordinates, not null, finite, unaffected)
      */
     public void setAngularVelocity(Vector3f omega) {
         Validate.finite(omega, "omega");
@@ -790,8 +790,8 @@ public class PhysicsRigidBody extends PhysicsBody {
     /**
      * Alter the body's angular velocity.
      *
-     * @param omega the desired angular velocity (in physics-space coordinates,
-     * not null, unaffected)
+     * @param omega the desired angular velocity (radians per second in
+     * physics-space coordinates, not null, unaffected)
      */
     public void setAngularVelocityDp(Vec3d omega) {
         long objectId = nativeId();

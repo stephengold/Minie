@@ -902,7 +902,7 @@ public class PhysicsSpace
      * <p>
      * Typically, when a body is added to a space, the body's gravity gets set
      * to that of the space. Thus, it is preferable to set the space's gravity
-     * before adding any bodies to the space.
+     * before adding any bodies.
      *
      * @param gravity the desired acceleration vector (in physics-space
      * coordinates, not null, unaffected, default=(0,-9.81,0))
