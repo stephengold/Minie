@@ -138,15 +138,15 @@ public class HullCollisionShape extends ConvexShape {
      * performance and stability, the convex hull should have no more than 100
      * vertices.
      *
-     * @param points an array of coordinates on which to base the shape (not
-     * null, not empty, length a multiple of 3, unaffected)
+     * @param coordinates an array of coordinates on which to base the shape
+     * (not null, not empty, length a multiple of 3, unaffected)
      */
-    public HullCollisionShape(float... points) {
-        Validate.nonEmpty(points, "points");
+    public HullCollisionShape(float... coordinates) {
+        Validate.nonEmpty(coordinates, "coordinates");
         Validate.require(
-                points.length % numAxes == 0, "length a multiple of 3");
+                coordinates.length % numAxes == 0, "length a multiple of 3");
 
-        this.points = points.clone();
+        this.points = coordinates.clone();
         createShape();
     }
 
