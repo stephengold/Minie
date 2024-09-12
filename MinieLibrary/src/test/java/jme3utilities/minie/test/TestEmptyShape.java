@@ -95,13 +95,21 @@ public class TestEmptyShape {
         shape = new CompoundCollisionShape();
         rigidBody = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        shape = new GImpactCollisionShape(indexedMeshArray);
-        rigidBody = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
-
-        shape = new GImpactCollisionShape(jmeMeshArray);
-        rigidBody = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
-
         // Attempt to create empty shapes in various illegal ways.
+        try {
+            shape = new GImpactCollisionShape(indexedMeshArray);
+            Assert.fail("Expected an IllegalArgumentException");
+        } catch (IllegalArgumentException exception) {
+            // do nothing
+        }
+
+        try {
+            shape = new GImpactCollisionShape(jmeMeshArray);
+            Assert.fail("Expected an IllegalArgumentException");
+        } catch (IllegalArgumentException exception) {
+            // do nothing
+        }
+
         try {
             shape = new HeightfieldCollisionShape(floatArray);
             Assert.fail("Expected an IllegalArgumentException");
