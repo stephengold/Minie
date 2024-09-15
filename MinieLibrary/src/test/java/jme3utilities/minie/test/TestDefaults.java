@@ -940,7 +940,7 @@ public class TestDefaults {
         testShapesConvex1();
         testShapesConvex2();
 
-        // Compound
+        // empty CompoundCollisionShape:
         CompoundCollisionShape compound = new CompoundCollisionShape();
         testShape(compound);
         Assert.assertEquals(0, compound.countChildren());

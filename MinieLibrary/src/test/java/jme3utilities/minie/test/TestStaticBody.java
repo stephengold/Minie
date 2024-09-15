@@ -116,7 +116,7 @@ public class TestStaticBody {
         PhysicsRigidBody capsuleBody = new PhysicsRigidBody(capsule, 0f);
         space.addCollisionObject(capsuleBody);
 
-        // CompoundCollisionShape
+        // CompoundCollisionShape of a capsule
         CompoundCollisionShape compound = new CompoundCollisionShape(1);
         compound.addChildShape(capsule, 0f, 1f, 0f);
         PhysicsRigidBody compoundBody = new PhysicsRigidBody(compound, 0f);
