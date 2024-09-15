@@ -42,6 +42,9 @@ ext {
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
     options.deprecation = true
 }
+tasks.withType(JavaExec).configureEach { // Java runtime options:
+    dependsOn(':MinieLibrary:pom');
+}
 
 dependencies {
     implementation(libs.jme.ttf)

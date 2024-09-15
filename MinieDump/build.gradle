@@ -11,6 +11,7 @@ plugins {
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
     options.deprecation = true
 }
+startScripts.dependsOn(':MinieLibrary:pom')
 
 application {
     mainClass = 'jme3utilities.minie.cli.MinieDump'
