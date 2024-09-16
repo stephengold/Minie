@@ -227,5 +227,7 @@ public class TestStaticBody {
         CollisionShape segment = new SphericalSegment(1f);
         PhysicsRigidBody segmentBody = new PhysicsRigidBody(segment, 0f);
         space.addCollisionObject(segmentBody);
+
+        System.gc();
     }
 }
