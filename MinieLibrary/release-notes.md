@@ -1,6 +1,6 @@
 # Release log for the Minie library and MinieExamples
 
-## Version 8.2.0 released on TBD
+## Version 8.2.0 released on 16 September 2024
 
 + Bugfix:  logic error in `CollisionShape.nativeMargin()`
 + Disallowed GImpact shapes with zero triangles.
