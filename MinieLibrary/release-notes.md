@@ -1,5 +1,19 @@
 # Release log for the Minie library and MinieExamples
 
+## Version 8.2.0 released on TBD
+
++ Bugfix:  logic error in `CollisionShape.nativeMargin()`
++ Disallowed GImpact shapes with zero triangles.
++ Publicized the `CollisionSpace.setLocalThreadPhysicsSpace()` method,
+  so apps creating spaces on multiple threads can stop a memory leak.
++ Moved the `DacWizard` and `VhacdTuner` subprojects to new GitHub projects.
++ Added the `TestIssue2282` and `TestManyBoxes` apps for testing.
++ Updated dependencies:
+  + v9.1.0 of the Heart library,
+  + v3.1.9 of Antora, and
+  + v20.17.0 of Node.js .
++ Built using Gradle v8.10.1 .
+
 ## Version 8.1.0 released on 12 May 2024
 
 + Bugfix:  JVM crash while serializing `BoundingValueHierarchy` (issue #41)
