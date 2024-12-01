@@ -124,6 +124,7 @@
 
         <!-- Checks for whitespace                        -->
         <!-- See https://checkstyle.org/checks/whitespace -->
+        <module name="EmptyForInitializerPad"/>
         <module name="EmptyForIteratorPad"/>
         <module name="EmptyLineSeparator">
             <property name="tokens"
