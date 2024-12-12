@@ -124,8 +124,7 @@ Add to the project's "pom.xml" file:
 https://ant.apache.org[Ant] doesn't know about transitive dependencies,
 so you'll need to resolve them manually.
 Furthermore, in order to use the latest {Project} release,
-you'll need version 3.6.1 JMonkeyEngine libraries.
-(You can still use a JME 3.2 or 3.3 SDK, however.)
+you'll need version 3.6.1 (or later) JMonkeyEngine libraries.
 For more information about the libraries {Project} depends on,
 see xref:ROOT:depends.adoc[the Library version dependencies page].
 
