@@ -140,8 +140,8 @@ dependencies {
 }
 
 test {
-    failFast true // stop after first failure
-    forkEvery 1  // don't run tests in parallel
+    failFast = true // stop after first failure
+    forkEvery = 1  // don't run tests in parallel
     testLogging {
         events 'started', 'skipped', 'failed'
     }
@@ -289,11 +289,11 @@ tasks.register('cleanWindows64', Delete) {
 
 tasks.register('install') {
     dependsOn 'publishMavenPublicationToMavenLocal'
-    description 'Installs Maven artifacts to the local repository.'
+    description = 'Installs Maven artifacts to the local repository.'
 }
 tasks.register('release') {
     dependsOn 'publishMavenPublicationToOSSRHRepository'
-    description 'Stages Maven artifacts to Sonatype OSSRH.'
+    description = 'Stages Maven artifacts to Sonatype OSSRH.'
 }
 
 jar {
@@ -314,41 +314,41 @@ tasks.register('javadocJar', Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'javadoc'
     dependsOn 'javadoc'
-    description 'Creates a JAR of javadoc.'
+    description = 'Creates a JAR of javadoc.'
     from javadoc.destinationDir
 }
 tasks.register('sourcesJar', Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'sources'
-    description 'Creates a JAR of sourcecode.'
+    description = 'Creates a JAR of sourcecode.'
     from sourceSets.main.allJava // default is ".allSource", which includes resources
 }
 
 assemble.dependsOn('module', 'moduleAsc', 'pom', 'pomAsc')
 tasks.register('module', Copy) {
     dependsOn 'generateMetadataFileForMavenPublication'
-    description 'Copies the module metadata to build/libs.'
+    description = 'Copies the module metadata to build/libs.'
     from "${buildDir}/publications/maven/module.json"
     into "${buildDir}/libs"
     rename 'module.json', project.ext.baseName + '.module'
 }
 tasks.register('moduleAsc', Copy) {
     dependsOn 'signMavenPublication'
-    description 'Copies the signature of the module metadata to build/libs.'
+    description = 'Copies the signature of the module metadata to build/libs.'
     from "${buildDir}/publications/maven/module.json.asc"
     into "${buildDir}/libs"
     rename 'module.json.asc', project.ext.baseName + '.module.asc'
 }
 tasks.register('pom', Copy) {
     dependsOn 'generatePomFileForMavenPublication'
-    description 'Copies the Maven POM to build/libs.'
+    description = 'Copies the Maven POM to build/libs.'
     from "${buildDir}/publications/maven/pom-default.xml"
     into "${buildDir}/libs"
     rename 'pom-default.xml', project.ext.baseName + '.pom'
 }
 tasks.register('pomAsc', Copy) {
     dependsOn 'signMavenPublication'
-    description 'Copies the signature of the Maven POM to build/libs.'
+    description = 'Copies the signature of the Maven POM to build/libs.'
     from "${buildDir}/publications/maven/pom-default.xml.asc"
     into "${buildDir}/libs"
     rename 'pom-default.xml.asc', project.ext.baseName + '.pom.asc'
@@ -359,9 +359,9 @@ publishing {
         maven(MavenPublication) {
             artifact javadocJar
             artifact sourcesJar
-            artifactId artifact
+            artifactId = artifact
             from components.java
-            groupId project.ext.group
+            groupId = project.ext.group
             pom {
                 description = 'a physics library for jMonkeyEngine'
                 developers {
@@ -385,7 +385,7 @@ publishing {
                 }
                 url = 'https://stephengold.github.io/Minie'
             }
-            version project.ext.version + rootProject.ext.minieSnapshot
+            version = project.ext.version + rootProject.ext.minieSnapshot
         }
     }
     // Staging to OSSRH relies on the existence of 2 properties

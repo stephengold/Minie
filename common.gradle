@@ -9,7 +9,7 @@ java {
 }
 
 checkstyle {
-    toolVersion libs.versions.checkstyle.get()
+    toolVersion = libs.versions.checkstyle.get()
 }
 
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
@@ -37,7 +37,7 @@ tasks.withType(JavaExec).configureEach { // Java runtime options:
     }
     //args '--verbose' // to enable additional log output
     classpath sourceSets.main.runtimeClasspath
-    enableAssertions true
+    enableAssertions = true
     //jvmArgs '-verbose:gc'
     //jvmArgs '-Xcheck:jni'
     jvmArgs '-Xms1024m', '-Xmx1024m' // to enlarge the Java heap

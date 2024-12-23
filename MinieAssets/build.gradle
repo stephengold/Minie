@@ -63,7 +63,7 @@ dependencies {
 }
 
 tasks.register('models', JavaExec) {
-    description 'Generates C-G model assets used in MinieExamples.'
+    description = 'Generates C-G model assets used in MinieExamples.'
     mainClass = 'jme3utilities.minie.test.models.ImportCgms'
     outputs.files([
             baseMesh + '/BaseMesh.j3o',
@@ -84,7 +84,7 @@ tasks.register('shapes') {
     dependsOn 'ankhShape', 'bananaShape', 'barrelShape', 'bowlingPinShape', \
         'duckShape', 'glyphShapes', 'heartShape', 'horseshoeShape', \
         'swordShape', 'teapotShape'
-    description 'Generates collision-shape assets used in MinieExamples.'
+    description = 'Generates collision-shape assets used in MinieExamples.'
 }
 tasks.register('ankhShape', JavaExec) {
     mainClass = 'jme3utilities.minie.test.shapes.MakeAnkh'
@@ -129,7 +129,7 @@ tasks.register('teapotShape', JavaExec) {
 
 tasks.register('textures') {
     dependsOn 'greenTile', 'plaid', 'poolBalls'
-    description 'Generates texture assets used in MinieExamples.'
+    description = 'Generates texture assets used in MinieExamples.'
 }
 tasks.register('greenTile', JavaExec) {
     mainClass = 'jme3utilities.minie.test.textures.MakeGreenTile'
@@ -152,7 +152,7 @@ tasks.register('cleanModels', Delete) {
     delete(baseMesh, candyDish, duck, elephant, jaime, mhGame, \
         monkeyHead, ninja, sinbad)
     dependsOn 'cleanOto'
-    description 'Deletes generated model assets.'
+    description = 'Deletes generated model assets.'
 }
 tasks.register('cleanOto', Delete) {
     delete fileTree(dir: oto, include: 'Oto.*')
@@ -163,7 +163,7 @@ tasks.register('cleanShapes') {
         'cleanBowlingPinShape', 'cleanDuckShape', 'cleanGlyphShapes', \
         'cleanHeartShape', 'cleanHorseshoeShape', 'cleanSwordShape', \
         'cleanTeapotShape'
-    description 'Deletes generated collision-shape assets.'
+    description = 'Deletes generated collision-shape assets.'
 }
 tasks.register('cleanAnkhShape', Delete) {
     delete ankhShape
@@ -198,5 +198,5 @@ tasks.register('cleanTeapotShape', Delete) {
 
 tasks.register('cleanTextures', Delete) {
     delete(greenTile, plaid, poolBalls)
-    description 'Deletes generated texture assets.'
+    description = 'Deletes generated texture assets.'
 }
