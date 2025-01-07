@@ -12,7 +12,7 @@ jme = "3.7.0-stable"
 lwjgl = { module = "org.jmonkeyengine:jme3-lwjgl3", version.ref = "jme" } # for LWJGL 3.x
 
 acorus = "com.github.stephengold:Acorus:2.0.0"
-heart = "com.github.stephengold:Heart:9.1.0"
+heart = "com.github.stephengold:Heart:9.2.0"
 jme-ttf = "com.github.stephengold:jme-ttf:3.0.1"
 jme3-blender = "org.jmonkeyengine:jme3-blender:3.3.2-stable"
 jme3-core = { module = "org.jmonkeyengine:jme3-core", version.ref = "jme" }
