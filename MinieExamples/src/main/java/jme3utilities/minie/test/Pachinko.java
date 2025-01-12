@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Stephen Gold
+ Copyright (c) 2022-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -322,17 +322,23 @@ public class Pachinko
                     InputMode.suspendAndActivate(editor);
                     return;
 
-                case "simulate 1":
-                    restartSimulation(1);
-                    return;
-                case "simulate 2":
-                    restartSimulation(2);
-                    return;
-                case "simulate 3":
-                    restartSimulation(3);
-                    return;
                 case "simulate 4":
                     restartSimulation(4);
+                    return;
+                case "simulate 5":
+                    restartSimulation(5);
+                    return;
+                case "simulate 6":
+                    restartSimulation(6);
+                    return;
+                case "simulate 7":
+                    restartSimulation(7);
+                    return;
+                case "simulate 8":
+                    restartSimulation(8);
+                    return;
+                case "simulate 9":
+                    restartSimulation(9);
                     return;
 
                 default:
