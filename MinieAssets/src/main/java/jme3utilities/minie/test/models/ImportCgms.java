@@ -191,10 +191,9 @@ public class ImportCgms extends SimpleApplication {
          */
         Node sceneNode = (Node) assetManager.loadModel(
                 "Models/CandyDish/CandyDish.glb");
-        writeToJ3O(sceneNode, "Models/CandyDish/CandyDish.j3o");
-        //Node candyDishNode1 = (Node) (sceneNode.getChild(0));
-        //Node candyDish = (Node) (candyDishNode1.getChild(0));
-        //writeToJ3O(candyDish, "Models/CandyDish/CandyDish.j3o");
+        Node candyDishNode1 = (Node) (sceneNode.getChild(0));
+        Node candyDish = (Node) (candyDishNode1.getChild(0));
+        writeToJ3O(candyDish, "Models/CandyDish/CandyDish.j3o");
         /*
          * Import the Oto model (by OtoTheCleaner)
          * from jme3-testdata-3.1.0-stable.jar:
