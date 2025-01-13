@@ -259,12 +259,14 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * Return the triangle index in the shape of object A at the point of
-     * contact (native field: m_index0).
+     * Return the triangle index in the shape of object 0 at the point of
+     * contact (native field: m_index0). Object 0 could be object A, or it could
+     * be object B.
      * <p>
-     * If shape is convex, the index is undefined.
+     * If the shape is convex, the index is undefined.
      * <p>
-     * If shape is a CompoundCollisionShape, the index identifies a child shape.
+     * If the shape is a CompoundCollisionShape, the index identifies a child
+     * shape.
      * <p>
      * If the shape is a GImpactCollisionShape or MeshCollisionShape, the index
      * identifies a triangle in an IndexedMesh.
@@ -283,12 +285,14 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * Return the triangle index in the shape of object B at the point of
-     * contact (native field: m_index1).
+     * Return the triangle index in the shape of object 1 at the point of
+     * contact (native field: m_index1). Object 1 could be object A, or it could
+     * be object B.
      * <p>
-     * If shape is convex, the index is undefined.
+     * If the shape is convex, the index is undefined.
      * <p>
-     * If shape is a CompoundCollisionShape, the index identifies a child shape.
+     * If the shape is a CompoundCollisionShape, the index identifies a child
+     * shape.
      * <p>
      * If the shape is a GImpactCollisionShape or MeshCollisionShape, the index
      * identifies a triangle in an IndexedMesh.
@@ -409,8 +413,9 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * Return the part index in the shape of object A at the point of contact
-     * (native field: m_partId0).
+     * Return the part index in the shape of object 0 at the point of contact
+     * (native field: m_partId0). Object 0 could be object A, or it could be
+     * object B.
      * <p>
      * If the shape is compound or convex, the index is undefined.
      * <p>
@@ -430,8 +435,9 @@ public class PhysicsCollisionEvent extends NativePhysicsObject {
     }
 
     /**
-     * Return the part index in the shape of object B at the point of contact
-     * (native field: m_partId1).
+     * Return the part index in the shape of object 1 at the point of contact
+     * (native field: m_partId1). Object 1 could be object A, or it could be
+     * object B.
      * <p>
      * If the shape is compound or convex, the index is undefined.
      * <p>
