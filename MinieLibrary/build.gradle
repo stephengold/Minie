@@ -1,8 +1,8 @@
-// Gradle script to build the MinieLibrary subproject of Minie
+// Gradle script to build/publish the MinieLibrary subproject of Minie
 
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
-//   of the root project.
+//   script of the root project.
 
 plugins {
     id 'java-library'  // to build JVM libraries
@@ -13,10 +13,7 @@ plugins {
 
 ext {
     // The URL from which native libraries should be copied:
-
     libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/21.2.1/'
-    //libbulletjmeUrl = 'file:///home/sgold/NetBeansProjects/Libbulletjme/dist/' // to test a local build
-    //libbulletjmeUrl = 'file:///c:\\users\\sgold\\My%20Documents\\NetBeansProjects\\Libbulletjme\\dist\\' // to test a local build
 
     jarType = ''
     if (rootProject.hasProperty('btdebug')) {
@@ -399,11 +396,12 @@ publishMavenPublicationToMavenLocal.doLast {
 }
 publishMavenPublicationToOSSRHRepository.dependsOn('assemble')
 
-// Register signing tasks:
+// Register tasks to sign artifacts for publication:
 
-// Signing relies on the existence of 3 properties
-// (signing.keyId, signing.password, and signing.secretKeyRingFile)
-// which should be stored in ~/.gradle/gradle.properties
+//   Signing relies on the existence of 3 properties
+//   (signing.keyId, signing.password, and signing.secretKeyRingFile)
+//   which should be set in the ~/.gradle/gradle.properties file
+//   or by -P options on the command line.
 
 signing {
     sign publishing.publications.maven
