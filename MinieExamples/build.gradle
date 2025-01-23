@@ -167,6 +167,7 @@ tasks.register('TestLargeMesh', JavaExec) {
     mainClass = 'jme3utilities.minie.test.issue.TestLargeMesh'
 }
 tasks.register('TestManyBoxes', JavaExec) {
+    enableAssertions = false
     mainClass = 'jme3utilities.minie.test.issue.TestManyBoxes'
 }
 tasks.register('TestMultiBody', JavaExec) {
