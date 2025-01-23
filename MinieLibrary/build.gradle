@@ -19,7 +19,6 @@ ext {
     //libbulletjmeUrl = 'file:///c:\\users\\sgold\\My%20Documents\\NetBeansProjects\\Libbulletjme\\dist\\' // to test a local build
 
     jarType = ''
-    pdbWindows64 = ''
     if (rootProject.hasProperty('btdebug')) {
         // -Pbtdebug specified on the command line
 
@@ -36,7 +35,6 @@ ext {
             configureAndroidBtfs('')
             configureDesktopBtfs('')
             btfWindows64 = 'DebugSp'
-            pdbWindows64 = 'DebugSp'
             metadata = 'debug' + jmeTarget
 
         } else { // -Pbtdebug specified, but not -Pdp nor -Ppdb64
@@ -161,8 +159,6 @@ processResources.dependsOn((btfMacOSX_ARM64 == '' ? 'clean' : 'download') + 'Mac
 processResources.dependsOn((btfWindows32 == '' ? 'clean' : 'download') + 'Windows32')
 processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Windows64')
 
-assemble.dependsOn((pdbWindows64 == '' ? 'clean' : 'download') + 'PDBs')
-
 // Register tasks to download native libraries (from GitHub, typically)
 
 tasks.register('downloadAndroid_ARM7', Download) {
@@ -228,12 +224,6 @@ tasks.register('downloadWindows32', Download) {
 tasks.register('downloadWindows64', Download) {
     src libbulletjmeUrl + "Windows64${btfWindows64}_bulletjme.dll"
     dest file(nativeDir + 'windows/x86_64/bulletjme.dll')
-    overwrite false
-}
-
-tasks.register('downloadPDBs', Download) {
-    src libbulletjmeUrl + "Windows64${pdbWindows64}_bulletjme.pdb"
-    dest file('bulletjme.pdb')
     overwrite false
 }
 

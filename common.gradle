@@ -50,7 +50,7 @@ configurations.configureEach {
 
 // Register cleanup tasks:
 
-clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanPDBs', \
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', \
     'cleanSandbox', 'cleanSOs')
 
 tasks.register('cleanDLLs', Delete) { // extracted Windows native libraries
@@ -61,9 +61,6 @@ tasks.register('cleanDyLibs', Delete) { // extracted macOS native libraries
 }
 tasks.register('cleanLogs', Delete) { // JVM crash logs
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
-}
-tasks.register('cleanPDBs', Delete) { // Windows program database files
-    delete fileTree(dir: '.', include: '*.pdb')
 }
 tasks.register('cleanSandbox', Delete) { // Acorus sandbox
     delete 'Written Assets'
