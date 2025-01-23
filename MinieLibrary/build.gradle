@@ -12,93 +12,67 @@ plugins {
 }
 
 ext {
-    // The URL from which native libraries should be copied:
-    libbulletjmeUrl = 'https://github.com/stephengold/Libbulletjme/releases/download/21.2.1/'
-
-    jarType = ''
     if (rootProject.hasProperty('btdebug')) {
         // -Pbtdebug specified on the command line
 
         if (rootProject.hasProperty('dp')) {
             // both -Pbtdebug and -Pdp specified
 
-            configureAndroidBtfs('') // no DebugDp for Android yet
-            configureDesktopBtfs('DebugDp')
+            bftAndroid = '' // no DpDebug for Android yet
+            configureDesktopBfts('DpDebug')
             metadata = 'debugdp' + jmeTarget
 
-        } else if (rootProject.hasProperty('pdb64')) {
-            // both -Pbtdebug and -Ppdb64 specified, but not -Pdp
-
-            configureAndroidBtfs('')
-            configureDesktopBtfs('')
-            btfWindows64 = 'DebugSp'
-            metadata = 'debug' + jmeTarget
-
-        } else { // -Pbtdebug specified, but not -Pdp nor -Ppdb64
-            configureAndroidBtfs('DebugSp')
-            configureDesktopBtfs('DebugSp')
+        } else { // -Pbtdebug specified, but not -Pdp
+            bftAndroid = 'SpDebug'
+            configureDesktopBfts('SpDebug')
             metadata = 'debug' + jmeTarget
         }
 
     } else if (rootProject.hasProperty('dp')) {
         // -Pdp specified, but not -Pbtdebug
 
-        configureAndroidBtfs('') // no ReleaseDp for Android yet
-        configureDesktopBtfs('ReleaseDp')
+        bftAndroid = '' // no DpRelease for Android yet
+        configureDesktopBfts('DpRelease')
         metadata = 'dp' + jmeTarget
 
     } else if (rootProject.hasProperty('bare')) {
         // -Pbare specified, but neither -Pbtdebug nor -Pdp
 
-        configureAndroidBtfs('')
-        configureDesktopBtfs('')
+        bftAndroid = ''
+        configureDesktopBfts('')
         metadata = 'bare' + jmeTarget
 
     } else if (rootProject.hasProperty('big4')) {
         // -Pbig4 specified, but neither -Pbtdebug nor -Pdp nor -Pbare
 
-        configureAndroidBtfs('')
-        configureDesktopBtfs('')
-        btfLinux64 = 'ReleaseSp'
-        btfMacOSX64 = 'ReleaseSp'
-        btfMacOSX_ARM64 = 'ReleaseSp'
-        btfWindows64 = 'ReleaseSp'
+        bftAndroid = ''
+        configureDesktopBfts('')
+        bftLinux64 = 'SpRelease'
+        bftMacOSX64 = 'SpRelease'
+        bftMacOSX_ARM64 = 'SpRelease'
+        bftWindows64 = 'SpRelease'
         metadata = 'big4' + jmeTarget
 
     } else if (rootProject.hasProperty('mt')) {
         // -Pmt specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4
 
-        configureAndroidBtfs('')
-        configureDesktopBtfs('')
-        btfLinux64 = 'ReleaseSpMt'
-        btfWindows64 = 'ReleaseSpMt'
+        bftAndroid = ''
+        configureDesktopBfts('')
+        bftLinux64 = 'SpMtRelease'
+        bftWindows64 = 'SpMtRelease'
         metadata = 'mt' + jmeTarget
 
     } else if (rootProject.hasProperty('droid')) {
         // -Pdroid specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4 nor -Pmt
 
-        configureAndroidBtfs('ReleaseSp')
-        configureDesktopBtfs('')
+        bftAndroid = 'SpRelease'
+        configureDesktopBfts('')
         metadata = 'droid' + jmeTarget
 
-    } else { // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4 nor -Pmt nor -Pdroid specified
-
-        // Specify the BTF (buildType + flavor) of native library for each platform:
-        // (Specify '' for no native library.)
-
-        btfAndroid_ARM7 = 'ReleaseSp'
-        btfAndroid_ARM8 = 'ReleaseSp'
-        btfAndroid_X86 = 'ReleaseSp'
-        btfAndroid_X86_64 = 'ReleaseSp'
-        btfLinux32 = 'ReleaseSp'
-        btfLinux64 = 'ReleaseSp'
-        btfLinux_ARM32 = 'hfReleaseSp'
-        btfLinux_ARM64 = 'ReleaseSp'
-        btfMacOSX32 = 'ReleaseSp'
-        btfMacOSX64 = 'ReleaseSp'
-        btfMacOSX_ARM64 = 'ReleaseSp'
-        btfWindows32 = 'ReleaseSp'
-        btfWindows64 = 'ReleaseSp'
+    } else {
+        // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4 nor -Pmt nor -Pdroid specified
+        bftAndroid = 'SpRelease'
+        configureDesktopBfts('SpRelease')
 
         metadata = jmeTarget
     }
@@ -119,7 +93,8 @@ ext {
 
     resourcesDir = 'src/main/resources/'
     libDir = resourcesDir + 'lib/'       // for Android native libraries
-    nativeDir = resourcesDir + 'native/' // for desktop native libraries
+    lbjVersion = libs.versions.lbj.get()
+    androidArchive = "Android-${lbjVersion}-${bftAndroid}"
 }
 
 dependencies {
@@ -127,6 +102,26 @@ dependencies {
     api(libs.sim.math)
     api(libs.jme3.core)
     api(libs.jme3.terrain)
+    api(libs.libbulletjme.windows64)
+
+    if (project.ext.bftLinux64 != '') {
+        runtimeOnly(variantOf(libs.libbulletjme.linux64){ classifier(project.ext.bftLinux64) })
+    }
+    if (project.ext.bftLinux_ARM32 != '') {
+        runtimeOnly(variantOf(libs.libbulletjme.linuxarm32hf){ classifier(project.ext.bftLinux_ARM32) })
+    }
+    if (project.ext.bftLinux_ARM64 != '') {
+        runtimeOnly(variantOf(libs.libbulletjme.linuxarm64){ classifier(project.ext.bftLinux_ARM64) })
+    }
+    if (project.ext.bftMacOSX64 != '') {
+        runtimeOnly(variantOf(libs.libbulletjme.macosx64){ classifier(project.ext.bftMacOSX64) })
+    }
+    if (project.ext.bftMacOSX_ARM64 != '') {
+        runtimeOnly(variantOf(libs.libbulletjme.macosxarm64){ classifier(project.ext.bftMacOSX_ARM64) })
+    }
+    if (project.ext.bftWindows64 != '') {
+        runtimeOnly(variantOf(libs.libbulletjme.windows64){ classifier(project.ext.bftWindows64) })
+    }
 
     testImplementation(libs.junit4)
     testImplementation(libs.jme3.desktop)
@@ -140,136 +135,6 @@ test {
     testLogging {
         events 'started', 'skipped', 'failed'
     }
-}
-
-processResources.dependsOn((btfAndroid_ARM7 == '' ? 'clean' : 'download') + 'Android_ARM7')
-processResources.dependsOn((btfAndroid_ARM8 == '' ? 'clean' : 'download') + 'Android_ARM8')
-processResources.dependsOn((btfAndroid_X86 == '' ? 'clean' : 'download') + 'Android_X86')
-processResources.dependsOn((btfAndroid_X86_64 == '' ? 'clean' : 'download') + 'Android_X86_64')
-processResources.dependsOn((btfLinux32 == '' ? 'clean' : 'download') + 'Linux32')
-processResources.dependsOn((btfLinux64 == '' ? 'clean' : 'download') + 'Linux64')
-processResources.dependsOn((btfLinux_ARM32 == '' ? 'clean' : 'download') + 'Linux_ARM32')
-processResources.dependsOn((btfLinux_ARM64 == '' ? 'clean' : 'download') + 'Linux_ARM64')
-processResources.dependsOn((btfMacOSX32 == '' ? 'clean' : 'download') + 'MacOSX32')
-processResources.dependsOn((btfMacOSX64 == '' ? 'clean' : 'download') + 'MacOSX64')
-processResources.dependsOn((btfMacOSX_ARM64 == '' ? 'clean' : 'download') + 'MacOSX_ARM64')
-processResources.dependsOn((btfWindows32 == '' ? 'clean' : 'download') + 'Windows32')
-processResources.dependsOn((btfWindows64 == '' ? 'clean' : 'download') + 'Windows64')
-
-// Register tasks to download native libraries (from GitHub, typically)
-
-tasks.register('downloadAndroid_ARM7', Download) {
-    src libbulletjmeUrl + "Android_ARM7${btfAndroid_ARM7}_libbulletjme.so"
-    dest file(libDir + 'armeabi-v7a/libbulletjme.so')
-    overwrite false
-}
-tasks.register('downloadAndroid_ARM8', Download) {
-    src libbulletjmeUrl + "Android_ARM8${btfAndroid_ARM8}_libbulletjme.so"
-    dest file(libDir + 'arm64-v8a/libbulletjme.so')
-    overwrite false
-}
-tasks.register('downloadAndroid_X86', Download) {
-    src libbulletjmeUrl + "Android_X86${btfAndroid_X86}_libbulletjme.so"
-    dest file(libDir + 'x86/libbulletjme.so')
-    overwrite false
-}
-tasks.register('downloadAndroid_X86_64', Download) {
-    src libbulletjmeUrl + "Android_X86_64${btfAndroid_X86_64}_libbulletjme.so"
-    dest file(libDir + 'x86_64/libbulletjme.so')
-    overwrite false
-}
-tasks.register('downloadLinux32', Download) {
-    src libbulletjmeUrl + "Linux32${btfLinux32}_libbulletjme.so"
-    dest file(nativeDir + 'linux/x86/libbulletjme.so')
-    overwrite false
-}
-tasks.register('downloadLinux64', Download) {
-    src libbulletjmeUrl + "Linux64${btfLinux64}_libbulletjme.so"
-    dest file(nativeDir + 'linux/x86_64/libbulletjme.so')
-    overwrite false
-}
-tasks.register('downloadLinux_ARM32', Download) {
-    src libbulletjmeUrl + "Linux_ARM32${btfLinux_ARM32}_libbulletjme.so"
-    dest file(nativeDir + 'linux/arm32/libbulletjme.so')
-    overwrite false
-}
-tasks.register('downloadLinux_ARM64', Download) {
-    src libbulletjmeUrl + "Linux_ARM64${btfLinux_ARM64}_libbulletjme.so"
-    dest file(nativeDir + 'linux/arm64/libbulletjme.so')
-    overwrite false
-}
-tasks.register('downloadMacOSX32', Download) {
-    src libbulletjmeUrl + "MacOSX32${btfMacOSX32}_libbulletjme.dylib"
-    dest file(nativeDir + 'osx/x86/libbulletjme.dylib')
-    overwrite false
-}
-tasks.register('downloadMacOSX64', Download) {
-    src libbulletjmeUrl + "MacOSX64${btfMacOSX64}_libbulletjme.dylib"
-    dest file(nativeDir + 'osx/x86_64/libbulletjme.dylib')
-    overwrite false
-}
-tasks.register('downloadMacOSX_ARM64', Download) {
-    src libbulletjmeUrl + "MacOSX_ARM64${btfMacOSX_ARM64}_libbulletjme.dylib"
-    dest file(nativeDir + 'osx/arm64/libbulletjme.dylib')
-    overwrite false
-}
-tasks.register('downloadWindows32', Download) {
-    src libbulletjmeUrl + "Windows32${btfWindows32}_bulletjme.dll"
-    dest file(nativeDir + 'windows/x86/bulletjme.dll')
-    overwrite false
-}
-tasks.register('downloadWindows64', Download) {
-    src libbulletjmeUrl + "Windows64${btfWindows64}_bulletjme.dll"
-    dest file(nativeDir + 'windows/x86_64/bulletjme.dll')
-    overwrite false
-}
-
-// Register cleanup tasks:
-
-clean.dependsOn('cleanAndroid_ARM7', 'cleanAndroid_ARM8', 'cleanAndroid_X86',
-    'cleanAndroid_X86_64', 'cleanLinux32', 'cleanLinux64',
-    'cleanLinux_ARM32', 'cleanLinux_ARM64',
-    'cleanMacOSX32', 'cleanMacOSX64', 'cleanMacOSX_ARM64',
-    'cleanWindows32', 'cleanWindows64')
-
-tasks.register('cleanAndroid_ARM7', Delete) {
-    delete libDir + 'armeabi-v7a/libbulletjme.so'
-}
-tasks.register('cleanAndroid_ARM8', Delete) {
-    delete libDir + 'arm64-v8a/libbulletjme.so'
-}
-tasks.register('cleanAndroid_X86', Delete) {
-    delete libDir + 'x86/libbulletjme.so'
-}
-tasks.register('cleanAndroid_X86_64', Delete) {
-    delete libDir + 'x86_64/libbulletjme.so'
-}
-tasks.register('cleanLinux32', Delete) {
-    delete nativeDir + 'linux/x86/libbulletjme.so'
-}
-tasks.register('cleanLinux64', Delete) {
-    delete nativeDir + 'linux/x86_64/libbulletjme.so'
-}
-tasks.register('cleanLinux_ARM32', Delete) {
-    delete nativeDir + 'linux/arm32/libbulletjme.so'
-}
-tasks.register('cleanLinux_ARM64', Delete) {
-    delete nativeDir + 'linux/arm64/libbulletjme.so'
-}
-tasks.register('cleanMacOSX32', Delete) {
-    delete nativeDir + 'osx/x86/libbulletjme.dylib'
-}
-tasks.register('cleanMacOSX64', Delete) {
-    delete nativeDir + 'osx/x86_64/libbulletjme.dylib'
-}
-tasks.register('cleanMacOSX_ARM64', Delete) {
-    delete nativeDir + 'osx/arm64/libbulletjme.dylib'
-}
-tasks.register('cleanWindows32', Delete) {
-    delete nativeDir + 'windows/x86/bulletjme.dll'
-}
-tasks.register('cleanWindows64', Delete) {
-    delete nativeDir + 'windows/x86_64/bulletjme.dll'
 }
 
 // Register publishing tasks:
@@ -288,15 +153,30 @@ jar {
     doLast {
         println "using Java ${JavaVersion.current()} (${System.getProperty("java.vendor")})"
     }
-    exclude('**/empty')
-    if (project.ext.jarType == 'nativesOnly') {
-        exclude '**/*.class'  // no class files
-        includeEmptyDirs false
-    }
     manifest {
         attributes 'Created-By': "${JavaVersion.current()} (${System.getProperty("java.vendor")})"
     }
 }
+
+if (bftAndroid != '') {
+    processResources.dependsOn('unpackAndroidNatives')
+}
+tasks.register('unpackAndroidNatives', Copy) {
+    dependsOn 'downloadAndroidNatives'
+    from (zipTree("build/${androidArchive}.jar")) {
+        include 'jni/**'
+        eachFile { fcd ->
+            fcd.relativePath = new RelativePath(true, fcd.relativePath.segments.drop(1))
+        }
+        includeEmptyDirs = false
+    }
+    into layout.projectDirectory.dir(project.ext.libDir)
+}
+tasks.register('downloadAndroidNatives', Download) {
+    src "https://repo1.maven.org/maven2/com/github/stephengold/Libbulletjme-Android/${lbjVersion}/Libbulletjme-${androidArchive}.aar"
+    dest file("build/${androidArchive}.jar")
+}
+
 tasks.register('javadocJar', Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'javadoc'
@@ -482,29 +362,13 @@ defineJavadocTasksForRelease('2', '0', '1')
 
 // helper methods to configure native libraries:
 
-void configureAndroidBtfs(String btfValue) {
-    project.ext.btfAndroid_ARM7 = btfValue
-    project.ext.btfAndroid_ARM8 = btfValue
-    project.ext.btfAndroid_X86 = btfValue
-    project.ext.btfAndroid_X86_64 = btfValue
-}
-
-void configureDesktopBtfs(String btfValue) {
-    project.ext.btfLinux32 = btfValue
-    if (btfValue.isEmpty()) {
-        project.ext.btfLinux64 = ''
-        project.ext.btfLinux_ARM32 = ''
-        project.ext.btfWindows64 = ''
-    } else {
-        project.ext.btfLinux64 = btfValue
-        project.ext.btfLinux_ARM32 = 'hf' + btfValue
-        project.ext.btfWindows64 = btfValue
-    }
-    project.ext.btfLinux_ARM64 = btfValue
-    project.ext.btfMacOSX32 = btfValue
-    project.ext.btfMacOSX64 = btfValue
-    project.ext.btfMacOSX_ARM64 = btfValue
-    project.ext.btfWindows32 = btfValue
+void configureDesktopBfts(String value) {
+    project.ext.bftLinux64 = value
+    project.ext.bftLinux_ARM32 = value
+    project.ext.bftWindows64 = value
+    project.ext.bftLinux_ARM64 = value
+    project.ext.bftMacOSX64 = value
+    project.ext.bftMacOSX_ARM64 = value
 }
 
 // helper method to register tasks that copy javadoc to the (web)site

@@ -11,6 +11,7 @@
 /MinieExamples/src/main/resources/Models/Sinbad/
 /MinieExamples/src/main/resources/CollisionShapes/
 /MinieExamples/src/main/resources/Textures/
+/MinieLibrary/src/main/resources/lib/
 /node_modules/
 
 # Ignore Gradle's project-specific cache directory:
