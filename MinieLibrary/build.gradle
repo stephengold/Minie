@@ -406,7 +406,7 @@ publishMavenPublicationToOSSRHRepository.dependsOn('assemble')
 signing {
     sign publishing.publications.maven
 }
-tasks.withType(Sign) {
+tasks.withType(Sign).configureEach {
     onlyIf { rootProject.hasProperty('signing.keyId') }
 }
 signMavenPublication.dependsOn('module')
