@@ -4,6 +4,7 @@
 
 checkstyle = "9.3"
 jme = "3.8.0-alpha2"
+lbj = "22.0.0"
 
 [libraries]
 
@@ -25,6 +26,13 @@ jme3-testdata = { module = "org.jmonkeyengine:jme3-testdata", version.ref = "jme
 jme3-testdata-old = "org.jmonkeyengine:jme3-testdata:3.1.0-stable"
 jme3-utilities-nifty = "com.github.stephengold:jme3-utilities-nifty:0.9.37"
 junit4 = "junit:junit:4.13.2"
+libbulletjme-android = { module = "com.github.stephengold:Libbulletjme-Android", version.ref = "lbj" }
+libbulletjme-linux64 = { module = "com.github.stephengold:Libbulletjme-Linux64", version.ref = "lbj" }
+libbulletjme-linuxarm32hf = { module = "com.github.stephengold:Libbulletjme-Linux_ARM32hf", version.ref = "lbj" }
+libbulletjme-linuxarm64 = { module = "com.github.stephengold:Libbulletjme-Linux_ARM64", version.ref = "lbj" }
+libbulletjme-macosx64 = { module = "com.github.stephengold:Libbulletjme-MacOSX64", version.ref = "lbj" }
+libbulletjme-macosxarm64 = { module = "com.github.stephengold:Libbulletjme-MacOSX_ARM64", version.ref = "lbj" }
+libbulletjme-windows64 = { module = "com.github.stephengold:Libbulletjme-Windows64", version.ref = "lbj" }
 nifty-style-black = "com.github.nifty-gui:nifty-style-black:1.4.3"
 sim-math = "com.simsilica:sim-math:1.6.0"
 wes = "com.github.stephengold:Wes:0.8.1"
