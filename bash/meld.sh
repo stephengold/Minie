@@ -23,14 +23,11 @@ D5="$GitDir/Minie/src/site/antora/minie-project/modules/ROOT"
 S6="$GitDir/Acorus/docs/en"
 D6="$GitDir/Minie/src/site/antora/minie-project"
 
-S7="$GitDir/Minie-site-it"
-D7="$GitDir/Minie"
-
-S8="$GitDir/LbjExamples/apps/src/main/java"
-D8="$GitDir/Minie/MinieExamples/src/main/java"
+S7="$GitDir/LbjExamples/apps/src/main/java"
+D7="$GitDir/Minie/MinieExamples/src/main/java"
 
 Meld="/usr/bin/meld"
 #Meld="/c/Program Files/Meld/meld"
 
 "$Meld" --diff "$S1" "$D1" --diff "$S2" "$D2" --diff "$S3" "$D3" --diff "$S4" "$D4" \
-        --diff "$S5" "$D5" --diff "$S6" "$D6" --diff "$S7" "$D7" --diff "$S8" "$D8"
+        --diff "$S5" "$D5" --diff "$S6" "$D6" --diff "$S7" "$D7"
