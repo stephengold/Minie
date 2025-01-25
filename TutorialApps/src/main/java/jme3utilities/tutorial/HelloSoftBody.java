@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,9 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 /**
- * A simple example of a soft body.
+ * A simple example of a soft body colliding with a static rigid body.
+ * <p>
+ * Builds upon HelloStaticBody.
  *
  * @author Stephen Gold sgold@sonic.net
  */

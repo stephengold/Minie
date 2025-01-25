@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2024 Stephen Gold
+ Copyright (c) 2024-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,8 @@ import jme3utilities.math.MyVector3f;
 /**
  * A collision shape for a spherical segment with uniform density. By
  * convention, both bases are orthogonal to the local Y axis.
+ * <p>
+ * {@code SphericalSegment} is probably more efficient.
  * <p>
  * This is an imprecise shape; margin always expands the shape.
  *
