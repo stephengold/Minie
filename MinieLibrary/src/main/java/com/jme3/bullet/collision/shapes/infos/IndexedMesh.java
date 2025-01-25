@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 jMonkeyEngine
+ * Copyright (c) 2019-2025 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,10 +80,6 @@ public class IndexedMesh
     // *************************************************************************
     // constants and loggers
 
-    /**
-     * number of bytes in a float
-     */
-    final private static int floatBytes = 4;
     /**
      * number of axes in a vector
      */
@@ -216,7 +212,7 @@ public class IndexedMesh
 
         this.numVertices = positionArray.length;
         this.vertexPositions = BufferUtils.createFloatBuffer(positionArray);
-        this.vertexStride = numAxes * floatBytes;
+        this.vertexStride = numAxes * Float.BYTES;
 
         this.numTriangles = numIndices / vpt;
         IntBuffer buffer = BufferUtils.createIntBuffer(indexArray);
@@ -246,7 +242,7 @@ public class IndexedMesh
         this.numVertices = dvv.countDistinct();
         this.vertexPositions
                 = BufferUtils.createFloatBuffer(numAxes * numVertices);
-        this.vertexStride = numAxes * floatBytes;
+        this.vertexStride = numAxes * Float.BYTES;
 
         int numIndices = numFloats / numAxes;
         this.numTriangles = numIndices / vpt;
@@ -288,7 +284,7 @@ public class IndexedMesh
 
         this.numVertices = numFloats / numAxes;
         this.vertexPositions = positionBuffer;
-        this.vertexStride = numAxes * floatBytes;
+        this.vertexStride = numAxes * Float.BYTES;
 
         this.numTriangles = numIndices / vpt;
         this.indices = IndexBuffer.wrapIndexBuffer(indexBuffer);
@@ -321,7 +317,7 @@ public class IndexedMesh
         this.numVertices = countVertices(meshId);
         int numFloats = numVertices * numAxes;
         this.vertexPositions = BufferUtils.createFloatBuffer(numFloats);
-        this.vertexStride = numAxes * floatBytes;
+        this.vertexStride = numAxes * Float.BYTES;
 
         this.numTriangles = countTriangles(meshId);
         int numIndices = numTriangles * vpt;
@@ -699,7 +695,7 @@ public class IndexedMesh
         this.numVertices = capsule.readInt(tagNumVertices, 0);
 
         this.vertexStride = capsule.readInt(tagVertexStride, 12);
-        assert vertexStride == numAxes * floatBytes : vertexStride;
+        assert vertexStride == numAxes * Float.BYTES : vertexStride;
 
         int[] intArray = capsule.readIntArray(tagIndexInts, new int[0]);
         int numIndices = intArray.length;
@@ -790,7 +786,7 @@ public class IndexedMesh
             float temp = meshVs.get(offset);
             vertexPositions.put(offset, temp);
         }
-        this.vertexStride = numAxes * floatBytes;
+        this.vertexStride = numAxes * Float.BYTES;
 
         if (transform != null && !MyMath.isIdentity(transform)) {
             MyBuffer.transform(vertexPositions, 0, numFloats, transform);
