@@ -1,0 +1,23 @@
+---
+# configure deployment and continuous integration at travis-ci.com
+
+dist: jammy
+language: java
+
+jobs:
+  include:
+    - os: linux
+      arch: arm64
+      addons:
+        apt:
+          packages:
+            - default-jre
+          update: true
+
+install: skip
+script:
+  - date
+  - ./gradlew :MinieLibrary:test -x :MinieLibrary:checkstyleMain -x :MinieLibrary:checkstyleTest --console=plain
+
+after_failure:
+  - cat MinieLibrary/build/reports/tests/test/classes/jme3utilities.minie.test.TestDefaults.html
