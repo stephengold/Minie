@@ -183,7 +183,8 @@ public class HeightfieldCollisionShape extends CollisionShape {
     }
 
     /**
-     * Instantiate a square shape for the specified height map and scale vector.
+     * Instantiate a square shape for the specified height array and scale
+     * vector.
      *
      * @param heightArray (not null, length&ge;4, length a perfect square,
      * unaffected)
