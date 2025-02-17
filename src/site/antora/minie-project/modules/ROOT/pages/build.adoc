@@ -119,6 +119,7 @@ These include:
   (Linux64, MacOSX64, MacOSX_ARM64, and Windows64)
 * a "+bare" build (built with the "-Pbare" option)
   which doesn't include *any* native libraries
+  (so you can add exactly the ones you want)
 * a "+droid" build (built with the "-Pdroid" option)
   with support for just the 4 Android platforms
 
