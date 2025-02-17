@@ -28,11 +28,11 @@ compiled for the {url-enwiki}/Computing_platform[platform]
 on which the app is executing.
 
 The Libbulletjme project publishes native libraries
-for the 13 platforms {Project} supports:
+for 10 different platforms:
 
-* Windows (32-bit and 64-bit),
-* Linux (x86-64, x86, armhf, and aarch64),
-* macOS (x86-64, IA-32, and ARM64), and
+* Windows (64-bit),
+* Linux (x86-64, armhf, and aarch64),
+* macOS (x86-64 and ARM64), and
 * Android (armeabi-v7a, arm64-v8a, x86, and x86_64).
 
 NOTE: 32-bit and 64-bit versions of the same operating system

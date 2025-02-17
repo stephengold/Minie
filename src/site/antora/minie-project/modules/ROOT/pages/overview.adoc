@@ -42,7 +42,7 @@ nor for scientific research.
 For 2-D physics, consider using http://www.dyn4j.org/[dyn4j] instead.
 
 In order to use the latest {Project} release,
-you'll need version 3.6.1 (or later) JMonkeyEngine libraries.
+you'll need version 3.7.0 (or later) JMonkeyEngine libraries.
 For more information about the libraries Minie depends on,
 see xref:depends.adoc[the Library version dependencies page].
 

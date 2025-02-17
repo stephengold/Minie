@@ -1,6 +1,6 @@
 # Release log for the Minie library and MinieExamples
 
-## Version 9.0.0 released on TBD
+## Version 9.0.0 released on 17 February 2025
 
 + Updated the native libraries to v22.0.1 of Libbulletjme, eliminating support
   for three 32-bit desktop platforms (Linux32, MacOSX32, and Windows32)
