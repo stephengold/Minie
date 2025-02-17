@@ -396,7 +396,7 @@ or if your Internet access is limited or unreliable.</p>
 <h3 id="_standard_build"><a class="anchor" href="#_standard_build"></a>Standard build</h3>
 <div class="paragraph">
 <p>The <em>standard build</em> of the Minie library includes a non-debug,
-single-precision native library for each of the 13 platforms Minie supports.</p>
+single-precision native library for each of the 10 platforms Minie supports.</p>
 </div>
 <div class="paragraph">
 <p>Here&#8217;s the recommended procedure:</p>
@@ -444,7 +444,7 @@ or "/usr/lib/jvm/java-8-openjdk-amd64/" or
 <p><code>cd Minie</code></p>
 </li>
 <li>
-<p><code>git checkout -b latest 8.2.0</code></p>
+<p><code>git checkout -b latest 9.0.0</code></p>
 </li>
 </ol>
 </div>
@@ -616,10 +616,10 @@ which you can replicate by specifying the "-Pmt" option in the build command.</p
 <div class="sect2">
 <h3 id="_reduced_builds"><a class="anchor" href="#_reduced_builds"></a>Reduced builds</h3>
 <div class="paragraph">
-<p>Supporting 13 platforms requires 13 native libraries,
+<p>Supporting 10 platforms requires 10 native libraries,
 which results in a big, fat JAR and (potentially) a bloated application.
 To address bloat, most Minie releases provide reduced builds that
-don&#8217;t support all 13 platforms.
+don&#8217;t support all 10 platforms.
 These include:</p>
 </div>
 <div class="ulist">
@@ -639,98 +639,6 @@ which doesn&#8217;t include <strong>any</strong> native libraries
 with support for just the 4 Android platforms</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_further_customization"><a class="anchor" href="#_further_customization"></a>Further customization</h3>
-<div class="paragraph">
-<p>You can customize Minie to include precisely the native libraries you need.</p>
-</div>
-<div class="paragraph">
-<p>To configure which native libraries will be included in the JAR,
-edit the "MinieLibrary/build.gradle" script.
-Look for the section where the <code>btf</code> variables are set.
-It should look something like this:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">btfAndroid_ARM7 = 'ReleaseSp'
-btfAndroid_ARM8 = 'ReleaseSp'
-btfAndroid_X86 = 'ReleaseSp'
-btfAndroid_X86_64 = 'ReleaseSp'
-btfLinux32 = 'ReleaseSp'
-btfLinux64 = 'ReleaseSp'
-btfLinux_ARM32 = 'hfReleaseSp'
-btfLinux_ARM64 = 'ReleaseSp'
-btfMacOSX32 = 'ReleaseSp'
-btfMacOSX64 = 'ReleaseSp'
-btfMacOSX_ARM64 = 'ReleaseSp'
-btfWindows32 = 'ReleaseSp'
-btfWindows64 = 'ReleaseSp'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For example, to include only the 64-bit Linux native library,
-change the other <code>btf</code> variables to <code>''</code> and rebuild:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">btfAndroid_ARM7 = ''
-btfAndroid_ARM8 = ''
-btfAndroid_X86 = ''
-btfAndroid_X86_64 = ''
-btfLinux32 = ''
-btfLinux64 = 'ReleaseSp'
-btfLinux_ARM32 = ''
-btfLinux_ARM64 = ''
-btfMacOSX32 = ''
-btfMacOSX64 = ''
-btfMacOSX_ARM64 = ''
-btfWindows32 = ''
-btfWindows64 = ''</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Similarly, you could customize Minie
-with the debug-enabled native library for a specific platform:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">btfAndroid_ARM7 = ''
-btfAndroid_ARM8 = ''
-btfAndroid_X86 = ''
-btfAndroid_X86_64 = ''
-btfLinux32 = ''
-btfLinux64 = ''
-btfLinux_ARM32 = ''
-btfLinux_ARM64 = ''
-btfMacOSX32 = ''
-btfMacOSX64 = ''
-btfMacOSX_ARM64 = ''
-btfWindows32 = ''
-btfWindows64 = 'DebugSp'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Similarly, you can specify double-precision (Dp-flavored) native libraries
-for specific platforms:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">btfAndroid_ARM7 = ''
-btfAndroid_ARM8 = ''
-btfAndroid_X86 = ''
-btfAndroid_X86_64 = ''
-btfLinux32 = ''
-btfLinux64 = 'ReleaseDp'
-btfLinux_ARM32 = ''
-btfLinux_ARM64 = ''
-btfMacOSX32 = ''
-btfMacOSX64 = 'ReleaseDp'
-btfMacOSX_ARM64 = 'ReleaseDp'
-btfWindows32 = ''
-btfWindows64 = 'ReleaseDp'</code></pre>
-</div>
 </div>
 <div class="admonitionblock note">
 <table>
