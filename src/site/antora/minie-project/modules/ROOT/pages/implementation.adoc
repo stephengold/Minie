@@ -19,7 +19,7 @@ https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/intro.html[the J
 to access their objects and methods.
 
 All {Cplusplus} source code associated with {Project}
-(including a modified partial snapshot of Bullet, a snapshot of V-HACD, and some "glue code")
+(including a modified partial snapshot of Bullet, two snapshots of V-HACD, and some "glue code")
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
 Before instantiating physics objects,
 a {Project} application must {url-enwiki}/Dynamic_loading[dynamically load]
