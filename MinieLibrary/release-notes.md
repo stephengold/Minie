@@ -1,5 +1,18 @@
 # Release log for the Minie library and MinieExamples
 
+## Version 9.0.0 released on TBD
+
++ Updated the native libraries to v22.0.1 of Libbulletjme, eliminating support
+  for three 32-bit desktop platforms (Linux32, MacOSX32, and Windows32)
+  and also some old 64-bit Linux distributions (such as Ubuntu Focal).
+
++ Updated dependencies:
+  + v3.7.0-stable of JMonkeyEngine,
+  + v9.2.0 of the Heart library,
+  + v3.1.10 of Antora, and
+  + v22.14.0 of Node.js .
++ Built using Gradle v8.12.1 .
+
 ## Version 8.2.0 released on 16 September 2024
 
 + Bugfix:  logic error in `CollisionShape.nativeMargin()`

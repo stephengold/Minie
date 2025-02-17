@@ -9,7 +9,7 @@ ext {
 
     //minieSnapshot = '-SNAPSHOT' // for development builds
     minieSnapshot = '' // for release builds
-    minieVersion = '8.2.1-SNAPSHOT'
+    minieVersion = '9.0.0'
 }
 
 subprojects {
