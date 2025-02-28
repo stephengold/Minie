@@ -275,7 +275,7 @@ publishing {
 generateMetadataFileForMavenPublication.dependsOn('pom')
 publishMavenPublicationToMavenLocal.dependsOn('assemble')
 publishMavenPublicationToMavenLocal.doLast {
-    println 'installed locally as ' + project.ext.baseName
+    println 'installed locally as ' + baseName
 }
 publishMavenPublicationToOSSRHRepository.dependsOn('assemble')
 
