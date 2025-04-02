@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 jMonkeyEngine
+ * Copyright (c) 2018-2025 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -124,10 +124,14 @@ final public class RagUtils {
             coordsMap(Mesh[] meshes, String[] managerMap) {
         Validate.nonNull(managerMap, "manager map");
 
+        Map<String, VectorSet> coordsMap = new HashMap<>(32);
+        if (managerMap.length == 0) {
+            return coordsMap;
+        }
+
         float[] wArray = new float[4];
         int[] iArray = new int[4];
         Vector3f bindPosition = new Vector3f();
-        Map<String, VectorSet> coordsMap = new HashMap<>(32);
         for (Mesh mesh : meshes) {
             int numVertices = mesh.getVertexCount();
             for (int vertexI = 0; vertexI < numVertices; ++vertexI) {
