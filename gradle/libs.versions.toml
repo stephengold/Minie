@@ -3,7 +3,7 @@
 [versions]
 
 checkstyle = "9.3"
-jme = "3.8.0-alpha4"
+jme = "3.8.0-beta1"
 lbj = "22.0.1"
 
 [libraries]
@@ -15,6 +15,7 @@ lwjgl = { module = "org.jmonkeyengine:jme3-lwjgl3", version.ref = "jme" } # for 
 acorus = "com.github.stephengold:Acorus:2.0.2"
 heart = "com.github.stephengold:Heart:9.2.0"
 jme-ttf = "com.github.stephengold:jme-ttf:3.0.1"
+
 jme3-blender = "org.jmonkeyengine:jme3-blender:3.3.2-stable"
 jme3-core = { module = "org.jmonkeyengine:jme3-core", version.ref = "jme" }
 jme3-desktop = { module = "org.jmonkeyengine:jme3-desktop", version.ref = "jme" }
@@ -24,8 +25,10 @@ jme3-plugins = { module = "org.jmonkeyengine:jme3-plugins", version.ref = "jme" 
 jme3-terrain = { module = "org.jmonkeyengine:jme3-terrain", version.ref = "jme" }
 jme3-testdata = { module = "org.jmonkeyengine:jme3-testdata", version.ref = "jme" }
 jme3-testdata-old = "org.jmonkeyengine:jme3-testdata:3.1.0-stable"
+
 jme3-utilities-nifty = "com.github.stephengold:jme3-utilities-nifty:0.9.37"
 junit4 = "junit:junit:4.13.2"
+
 libbulletjme-android = { module = "com.github.stephengold:Libbulletjme-Android", version.ref = "lbj" }
 libbulletjme-linux64 = { module = "com.github.stephengold:Libbulletjme-Linux64", version.ref = "lbj" }
 libbulletjme-linuxarm32hf = { module = "com.github.stephengold:Libbulletjme-Linux_ARM32hf", version.ref = "lbj" }
@@ -33,6 +36,7 @@ libbulletjme-linuxarm64 = { module = "com.github.stephengold:Libbulletjme-Linux_
 libbulletjme-macosx64 = { module = "com.github.stephengold:Libbulletjme-MacOSX64", version.ref = "lbj" }
 libbulletjme-macosxarm64 = { module = "com.github.stephengold:Libbulletjme-MacOSX_ARM64", version.ref = "lbj" }
 libbulletjme-windows64 = { module = "com.github.stephengold:Libbulletjme-Windows64", version.ref = "lbj" }
+
 nifty-style-black = "com.github.nifty-gui:nifty-style-black:1.4.3"
 sim-math = "com.simsilica:sim-math:1.6.0"
 wes = "com.github.stephengold:Wes:0.8.1"
