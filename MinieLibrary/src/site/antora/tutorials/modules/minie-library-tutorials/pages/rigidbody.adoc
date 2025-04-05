@@ -425,7 +425,7 @@ To disable deactivation globally (for all rigid bodies),
 use `PhysicsBody.setDeactivationEnabled(false)`.
 
 To disable deactivation for a particular rigid body,
-use `physicsSpace.setEnableSleep(false)`.
+use `rigidBody.setEnableSleep(false)`.
 
 To test whether a body is deactivated, use `rigidBody.isActive()`.
 
