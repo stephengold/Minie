@@ -1,6 +1,6 @@
 # Release log for the Minie library and MinieExamples
 
-## Version 9.0.1 released on TBD
+## Version 9.0.1 released on 9 April 2025
 
 + Bugfix:  extra Libbulletjme dependency breaks Maven automation (issue #46)
 + Bugfix:  index out of bounds in `RagUtils.coordsMap()`
