@@ -104,7 +104,6 @@ dependencies {
     api(libs.sim.math)
     api(libs.jme3.core)
     api(libs.jme3.terrain)
-    api(libs.libbulletjme.windows64)
 
     if (project.ext.bftLinux64 != '') {
         runtimeOnly(variantOf(libs.libbulletjme.linux64){ classifier(project.ext.bftLinux64) })
