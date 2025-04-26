@@ -89,7 +89,7 @@ jobs:
 
   Java21-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-14
+    runs-on: macOS-15
     steps:
       - uses: actions/setup-java@v4
         with:
@@ -103,14 +103,14 @@ jobs:
           name: test-report
           path: 'build/reports/tests/test/index.html'
 
-  Java23-Windows:
+  Java24-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2025
     steps:
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: 23
+          java-version: 24
       - uses: actions/checkout@v4
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
