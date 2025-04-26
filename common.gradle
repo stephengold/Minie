@@ -28,6 +28,7 @@ tasks.withType(JavaCompile).configureEach { // Java compile-time options:
 
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 Boolean isMacOS = DefaultNativePlatform.currentOperatingSystem.isMacOsX()
+Boolean enableNativeAccess = JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)
 
 tasks.withType(JavaExec).configureEach { // Java runtime options:
     if (isMacOS) {
@@ -38,6 +39,9 @@ tasks.withType(JavaExec).configureEach { // Java runtime options:
     //args '--verbose' // to enable additional log output
     classpath sourceSets.main.runtimeClasspath
     enableAssertions = true
+    if (enableNativeAccess) {
+        jvmArgs '--enable-native-access=ALL-UNNAMED' // suppress System::load() warning
+    }
     //jvmArgs '-verbose:gc'
     //jvmArgs '-Xcheck:jni'
     jvmArgs '-Xms1024m', '-Xmx1024m' // to enlarge the Java heap
