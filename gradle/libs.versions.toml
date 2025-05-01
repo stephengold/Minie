@@ -3,7 +3,7 @@
 [versions]
 
 checkstyle = "9.3"
-jme = "3.8.0-beta1"
+jme = "3.8.0-stable"
 lbj = "22.0.1"
 
 [libraries]
