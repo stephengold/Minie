@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 jMonkeyEngine
+ * Copyright (c) 2022-2025 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -149,6 +149,19 @@ public class PreComposer extends AbstractControl {
     }
 
     /**
+     * Render this Control. Invoked once per ViewPort per frame, provided the
+     * Control is enabled and added to a scene. Should be invoked only by a
+     * subclass or by AbstractControl.
+     *
+     * @param rm the render manager (unused)
+     * @param vp the view port to render (unused)
+     */
+    @Override
+    protected void controlRender(RenderManager rm, ViewPort vp) {
+        // do nothing
+    }
+
+    /**
      * Update this control. Invoked once per frame during the logical-state
      * update, provided the control is enabled and added to a scene. Should be
      * invoked only by a subclass or by AbstractControl.
@@ -172,19 +185,6 @@ public class PreComposer extends AbstractControl {
         }
 
         this.haveSaved = false;
-    }
-
-    /**
-     * Render this Control. Invoked once per ViewPort per frame, provided the
-     * Control is enabled and added to a scene. Should be invoked only by a
-     * subclass or by AbstractControl.
-     *
-     * @param rm the render manager (unused)
-     * @param vp the view port to render (unused)
-     */
-    @Override
-    protected void controlRender(RenderManager rm, ViewPort vp) {
-        // do nothing
     }
 
     /**
