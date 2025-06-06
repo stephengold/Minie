@@ -18,7 +18,7 @@
     <!-- See https://checkstyle.org/checks/javadoc/javadocpackage.html -->
     <module name="JavadocPackage"/>
 
-    <!-- Checks for whitespace                        -->
+    <!-- Checks for whitespace:                       -->
     <!-- See https://checkstyle.org/checks/whitespace -->
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
@@ -30,7 +30,7 @@
         <property name="message" value="Line has trailing whitespace."/>
     </module>
 
-    <!-- Checks for size violations              -->
+    <!-- Checks for size violations:             -->
     <!-- See https://checkstyle.org/checks/sizes -->
     <module name="FileLength">
         <property name="max" value="2200"/>
@@ -122,7 +122,7 @@
                                      or preceding-sibling::*[last()][self::LCURLY]]"/>
         </module>
 
-        <!-- Checks for whitespace                        -->
+        <!-- Checks for whitespace:                       -->
         <!-- See https://checkstyle.org/checks/whitespace -->
         <module name="EmptyForInitializerPad"/>
         <module name="EmptyForIteratorPad"/>
@@ -384,7 +384,7 @@
                       value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>
         </module>
 
-        <!-- Checks for size violations              -->
+        <!-- Checks for size violations:             -->
         <!-- See https://checkstyle.org/checks/sizes -->
         <module name="MethodLength">
             <property name="max" value="200"/>
@@ -393,17 +393,17 @@
             <property name="max" value="12"/>
         </module>
 
-        <!-- Modifier checks                            -->
+        <!-- Modifier checks:                           -->
         <!-- See https://checkstyle.org/checks/modifier -->
         <module name="RedundantModifier"/>
 
-        <!-- Checks for common coding problems        -->
+        <!-- Checks for common coding problems:       -->
         <!-- See https://checkstyle.org/checks/coding -->
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <module name="IllegalInstantiation"/>
 
-        <!-- Checks for class design                  -->
+        <!-- Checks for class design:                 -->
         <!-- See https://checkstyle.org/checks/design -->
         <module name="DesignForExtension"/>
         <module name="FinalClass"/>

@@ -1,4 +1,4 @@
-// Gradle script to build the MinieExamples subproject of Minie
+// Gradle script to build and run the MinieExamples subproject of Minie
 
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
