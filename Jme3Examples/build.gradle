@@ -1,4 +1,4 @@
-// Gradle script to build the Jme3Examples subproject of Minie
+// Gradle script to build and run the Jme3Examples subproject of Minie
 
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
@@ -18,5 +18,5 @@ dependencies {
     runtimeOnly(libs.lwjgl)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
-    implementation project(':MinieLibrary') // for latest sourcecode
+    implementation project(':MinieLibrary') // for local library build
 }

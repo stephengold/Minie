@@ -1,4 +1,4 @@
-// Gradle script to build the MinieAssets subproject of Minie
+// Gradle script to build and run the MinieAssets subproject of Minie
 
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
@@ -55,11 +55,11 @@ dependencies {
     runtimeOnly(libs.jme3.testdata.old)
 
     // MinieAssets doesn't use jme3-jogg
-    //  -- it is included solely to avoid warnings from AssetConfig.
+    //  -- it is included solely to avoid runtime warnings from AssetConfig:
     runtimeOnly(libs.jme3.jogg)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
-    implementation project(':MinieLibrary') // for latest sourcecode
+    implementation project(':MinieLibrary') // for local library build
 }
 
 tasks.register('models', JavaExec) {

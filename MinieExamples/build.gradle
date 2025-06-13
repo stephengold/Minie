@@ -30,7 +30,7 @@ dependencies {
     runtimeOnly(libs.lwjgl)
 
     // MinieExamples doesn't use jme3-jogg
-    //  -- it is included solely to avoid warnings from AssetConfig.
+    //  -- it is included solely to avoid runtime warnings from AssetConfig:
     runtimeOnly(libs.jme3.jogg)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library

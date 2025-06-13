@@ -1,4 +1,4 @@
-// Gradle script to build the TutorialApps subproject of Minie
+// Gradle script to build and run the TutorialApps subproject of Minie
 
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
@@ -31,7 +31,7 @@ dependencies {
     runtimeOnly(libs.jme3.jogg)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
-    implementation project(':MinieLibrary') // for latest sourcecode
+    implementation project(':MinieLibrary') // for local library build
 }
 
 startScripts.dependsOn(':MinieLibrary:assemble')
