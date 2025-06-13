@@ -145,8 +145,8 @@ tasks.register('install') {
     description = 'Installs Maven artifacts to the local repository.'
 }
 tasks.register('release') {
-    dependsOn 'publishMavenPublicationToOSSRHRepository'
-    description = 'Stages Maven artifacts to Sonatype OSSRH.'
+    dependsOn 'publishMavenPublicationToCentralRepository'
+    description = 'Stages the Maven artifacts to the Central Publisher Portal.'
 }
 
 jar {
@@ -257,17 +257,18 @@ publishing {
             version = project.ext.version + rootProject.ext.minieSnapshot
         }
     }
-    // Staging to OSSRH relies on the existence of 2 properties
-    // (ossrhUsername and ossrhPassword)
-    // which should be stored in ~/.gradle/gradle.properties
+    // Staging to the Central Publisher Portal relies on the existence of 2 properties
+    // (centralUsername and centralPassword)
+    // which should be set in the ~/.gradle/gradle.properties file
+    // or by -P options on the command line.
     repositories {
         maven {
             credentials {
-                username = project.hasProperty('ossrhUsername') ? ossrhUsername : 'Unknown user'
-                password = project.hasProperty('ossrhPassword') ? ossrhPassword : 'Unknown password'
+                username = project.hasProperty('centralUsername') ? centralUsername : 'Unknown user'
+                password = project.hasProperty('centralPassword') ? centralPassword : 'Unknown password'
             }
-            name = 'OSSRH'
-            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2'
+            name = 'Central'
+            url = 'https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/'
         }
     }
 }
@@ -276,7 +277,7 @@ publishMavenPublicationToMavenLocal.dependsOn('assemble')
 publishMavenPublicationToMavenLocal.doLast {
     println 'installed locally as ' + baseName
 }
-publishMavenPublicationToOSSRHRepository.dependsOn('assemble')
+publishMavenPublicationToCentralRepository.dependsOn('assemble')
 
 // Register tasks to sign artifacts for publication:
 

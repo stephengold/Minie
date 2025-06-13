@@ -39,5 +39,5 @@ tasks.register('install') {
 }
 tasks.register('release') {
     dependsOn ':MinieLibrary:release'
-    description = 'Stages Maven artifacts to Sonatype OSSRH.'
+    description = 'Stages the Maven artifacts to the Central Publisher Portal.'
 }
