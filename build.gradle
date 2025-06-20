@@ -35,7 +35,7 @@ tasks.register('cleanNodeModules', Delete) {
 
 tasks.register('install') {
     dependsOn ':MinieLibrary:install'
-    description = 'Installs Maven artifacts to the local repository.'
+    description = 'Installs the Maven artifacts to the local repository.'
 }
 tasks.register('release') {
     dependsOn ':MinieLibrary:release'
