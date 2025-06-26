@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -164,7 +164,7 @@ class DropTestStatus extends SimpleAppState {
      */
     private float gravity = 30f;
     /**
-     * restitution all all rigid bodies (&ge;0, &le;1)
+     * restitution for all rigid bodies (&ge;0, &le;1)
      */
     private float restitution = 0.3f;
     /**
