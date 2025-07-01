@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,6 @@ public class ElephantControl
      * Instantiate a new control tuned for the Elephant model.
      */
     public ElephantControl() {
-        super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.ZYX);

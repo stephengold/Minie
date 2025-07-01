@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2022, Stephen Gold
+ Copyright (c) 2018-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,6 @@ public class JaimeControl
      * Instantiate a new DynamicAnimControl tuned for the Jaime model.
      */
     public JaimeControl() {
-        super();
         LinkConfig hull = new LinkConfig(0.005f, MassHeuristic.Mass,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.XZY);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2022 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,6 @@ public class BaseMeshControl
      * Instantiate a new control tuned for the BaseMesh model.
      */
     public BaseMeshControl() {
-        super();
         LinkConfig hull = new LinkConfig(1f, MassHeuristic.Density,
                 ShapeHeuristic.VertexHull, new Vector3f(1f, 1f, 1f),
                 CenterHeuristic.Mean, RotationOrder.XZY);

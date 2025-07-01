@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2023 Stephen Gold
+ Copyright (c) 2022-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,6 @@ public class MixamoControl
      * @param density the desired mass per unit volume (&gt;0)
      */
     public MixamoControl(float density) {
-        super();
         Validate.positive(density, "density");
 
         setIgnoredHops(2);
