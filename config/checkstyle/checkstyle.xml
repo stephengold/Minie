@@ -255,6 +255,13 @@
             <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
 
+        <!-- Regexp checks:                           -->
+        <!-- See https://checkstyle.org/checks/regexp -->
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="\{[ ]+\}"/>
+            <property name="message" value="Empty blocks should have no spaces. Empty blocks may only be represented as '{}' when not part of a multi-block statement (4.1.3)"/>
+        </module>
+
         <!-- Checks for size violations:             -->
         <!-- See https://checkstyle.org/checks/sizes -->
         <module name="MethodLength">
