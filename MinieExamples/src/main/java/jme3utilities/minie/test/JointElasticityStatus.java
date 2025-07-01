@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -181,17 +181,32 @@ final class JointElasticityStatus extends SimpleAppState {
         }
     }
 
+    /**
+     * Return the joint error-reduction parameter value.
+     *
+     * @return the value
+     */
     float jointErp() {
         assert jointErp >= 0f : jointErp;
         assert jointErp <= 1f : jointErp;
         return jointErp;
     }
 
+    /**
+     * Return the ball's mass as a multiple of the door.
+     *
+     * @return the mass ratio
+     */
     float massRatio() {
         assert massRatio > 0f : massRatio;
         return massRatio;
     }
 
+    /**
+     * Return the maximum number of solver iterations per simulation step.
+     *
+     * @return the numeric limit
+     */
     int numIterations() {
         assert numIterations > 0 : numIterations;
         return numIterations;
@@ -212,6 +227,11 @@ final class JointElasticityStatus extends SimpleAppState {
         }
     }
 
+    /**
+     * Return the physics time step.
+     *
+     * @return the time interval (in seconds)
+     */
     float timeStep() {
         assert timestep > 0f : timestep;
         return timestep;
