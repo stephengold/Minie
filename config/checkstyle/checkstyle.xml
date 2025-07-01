@@ -98,10 +98,13 @@
 
         <!-- Checks for common coding problems:       -->
         <!-- See https://checkstyle.org/checks/coding -->
+        <module name="AvoidDoubleBraceInitialization"/>
+        <module name="AvoidNoArgumentSuperConstructorCall"/>
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <module name="FallThrough"/>
         <module name="IllegalInstantiation"/>
+        <module name="IllegalThrows"/>
         <module name="IllegalToken">
             <property name="tokens" value="POST_DEC, POST_INC, STATIC_IMPORT"/>
         </module>
