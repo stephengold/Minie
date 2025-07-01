@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2023 jMonkeyEngine
+ * Copyright (c) 2009-2025 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
     /**
      * map soft bodies to visualization nodes
      */
-    private HashMap<PhysicsSoftBody, Node> softBodies = new HashMap<>(64);
+    private Map<PhysicsSoftBody, Node> softBodies = new HashMap<>(64);
     /**
      * material for visualizing all soft-body anchors
      */
@@ -298,7 +298,7 @@ public class SoftDebugAppState extends BulletDebugAppState {
      * Synchronize the soft-body debug controls with the PhysicsSoftSpace.
      */
     private void updateSoftBodies() {
-        HashMap<PhysicsSoftBody, Node> oldMap = softBodies;
+        Map<PhysicsSoftBody, Node> oldMap = softBodies;
         // create new map
         this.softBodies = new HashMap<>(oldMap.size());
         DebugConfiguration config = getConfiguration();

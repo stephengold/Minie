@@ -149,7 +149,7 @@ public class BulletDebugAppState extends BaseAppState {
     /**
      * map physics joints to visualization nodes
      */
-    private HashMap<PhysicsJoint, Node> jointMap = new HashMap<>(64);
+    private Map<PhysicsJoint, Node> jointMap = new HashMap<>(64);
     /**
      * materials for rigid bodies (and vehicle chassis and colliders) that are
      * responsive and either static or kinematic or inactive
@@ -886,7 +886,7 @@ public class BulletDebugAppState extends BaseAppState {
      */
     private void updateJoints() {
         DebugAppStateFilter filter = configuration.getFilter();
-        HashMap<PhysicsJoint, Node> oldMap = jointMap;
+        Map<PhysicsJoint, Node> oldMap = jointMap;
         // create new map
         this.jointMap = new HashMap<>(oldMap.size());
         PhysicsSpace space = configuration.getSpace();
@@ -933,7 +933,7 @@ public class BulletDebugAppState extends BaseAppState {
      */
     private void updatePcoMap() {
         // Create visualization nodes for PCOs that have been added.
-        HashMap<PhysicsCollisionObject, Node> oldMap = pcoMap;
+        Map<PhysicsCollisionObject, Node> oldMap = pcoMap;
         this.pcoMap = new HashMap<>(oldMap.size());
         PhysicsSpace space = configuration.getSpace();
         Collection<PhysicsCollisionObject> list = space.getPcoList();

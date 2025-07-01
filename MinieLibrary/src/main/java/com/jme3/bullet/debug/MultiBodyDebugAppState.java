@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 jMonkeyEngine
+ * Copyright (c) 2020-2025 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
     /**
      * map multibodies to visualization nodes
      */
-    private HashMap<MultiBodyCollider, Node> colliderMap = new HashMap<>(64);
+    private Map<MultiBodyCollider, Node> colliderMap = new HashMap<>(64);
     // *************************************************************************
     // constructors
 
@@ -95,7 +95,7 @@ public class MultiBodyDebugAppState extends BulletDebugAppState {
      * Synchronize the collider debug controls with the MultiBodySpace.
      */
     private void updateMultiBodies() {
-        HashMap<MultiBodyCollider, Node> oldMap = colliderMap;
+        Map<MultiBodyCollider, Node> oldMap = colliderMap;
         // create new map
         this.colliderMap = new HashMap<>(oldMap.size());
         DebugConfiguration config = getConfiguration();
