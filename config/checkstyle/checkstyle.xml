@@ -16,7 +16,7 @@
     <!-- Regexp checks:                           -->
     <!-- See https://checkstyle.org/checks/regexp -->
     <module name="RegexpSingleline">
-        <property name="format" value="\s+$"/>
+        <property name="format" value="\s$"/>
         <property name="maximum" value="0"/>
         <property name="message" value="Line has trailing whitespace."/>
         <property name="minimum" value="0"/>
@@ -167,7 +167,7 @@
         <module name="RequireEmptyLineBeforeBlockTagGroup"/>
         <module name="SingleLineJavadoc"/>
         <module name="SummaryJavadoc">
-            <property name="forbiddenSummaryFragments" value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
+            <property name="forbiddenSummaryFragments" value="^@return the *|^This method returns |^A [{]@code [0-9A-Za-z]+[}]( is a )"/>
             <property name="period" value=""/>
         </module>
 
@@ -214,15 +214,15 @@
         </module>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]{0,29}$"/>
+            <property name="format" value="^[a-z][0-9A-Za-z]{0,29}$"/>
             <message key="name.invalidPattern" value="Local variable name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MemberName">
-            <property name="format" value="^[A-Za-z][a-zA-Z0-9_]{0,28}$"/>
+            <property name="format" value="^[A-Za-z][0-9A-Za-z_]{0,28}$"/>
             <message key="name.invalidPattern" value="Member name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MethodName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]{0,33}$"/>
+            <property name="format" value="^[a-z][0-9A-Za-z]{0,33}$"/>
             <message key="name.invalidPattern" value="Method name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MethodTypeParameterName">
@@ -234,7 +234,7 @@
             <message key="name.invalidPattern" value="Package name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="ParameterName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]{0,29}$"/>
+            <property name="format" value="^[a-z][0-9A-Za-z]{0,29}$"/>
             <message key="name.invalidPattern" value="Parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="PatternVariableName">
