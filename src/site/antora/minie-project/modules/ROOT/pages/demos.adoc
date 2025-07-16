@@ -78,7 +78,7 @@ In most demos:
 For camera control, all demos use
 the standard `FlyByCamera` with `setDragToRotate(true)`.
 This means you can rotate the camera
-by dragging with the left mouse button (LMB).
+by dragging the mouse with the left button depressed.
 Furthermore:
 
 * kbd:[W] and kbd:[S] dolly the camera forward and back, respectively,

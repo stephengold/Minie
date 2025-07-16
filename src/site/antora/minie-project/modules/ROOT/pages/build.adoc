@@ -3,7 +3,7 @@
 
 {Project} is free, open-source software.
 
-While pre-built artifacts
+While pre-built library artifacts
 can be downloaded from GitHub and the Maven Central Repository,
 some people prefer to build them from source.
 
