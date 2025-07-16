@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ public class HelloDamping extends SimpleApplication {
     // SimpleApplication methods
 
     /**
-     * Initialize the application. Invoked once.
+     * Initialize the application. Invoked once during initialization.
      */
     @Override
     public void simpleInitApp() {
