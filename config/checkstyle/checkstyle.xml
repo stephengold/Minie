@@ -13,6 +13,10 @@
     <!-- See https://checkstyle.org/checks/javadoc/javadocpackage.html -->
     <module name="JavadocPackage"/>
 
+    <!-- Miscellaneous checks:                  -->
+    <!-- See https://checkstyle.org/checks/misc -->
+    <module name="NewlineAtEndOfFile"/>
+
     <!-- Regexp checks:                           -->
     <!-- See https://checkstyle.org/checks/regexp -->
     <module name="RegexpSingleline">
@@ -57,6 +61,8 @@
             <property name="id" value="AnnotationLocationVariables"/>
             <property name="tokens" value="VARIABLE_DEF"/>
         </module>
+        <module name="AnnotationUseStyle"/>
+        <module name="MissingDeprecated"/>
 
         <!-- Checks for blocks:                       -->
         <!-- See https://checkstyle.org/checks/blocks -->
@@ -100,9 +106,14 @@
         <!-- See https://checkstyle.org/checks/coding -->
         <module name="AvoidDoubleBraceInitialization"/>
         <module name="AvoidNoArgumentSuperConstructorCall"/>
+        <module name="CovariantEquals"/>
+        <module name="DefaultComesLast"/>
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <module name="FallThrough"/>
+        <module name="HiddenField">
+            <property name="tokens" value="VARIABLE_DEF"/>
+        </module>
         <module name="IllegalInstantiation"/>
         <module name="IllegalThrows"/>
         <module name="IllegalToken">
@@ -121,6 +132,7 @@
         <!-- Checks for imports:                       -->
         <!-- See https://checkstyle.org/checks/imports -->
         <module name="AvoidStarImport"/>
+        <module name="AvoidStaticImport"/>
         <module name="CustomImportOrder">
             <property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE"/>
             <property name="separateLineBetweenGroups" value="true"/>
