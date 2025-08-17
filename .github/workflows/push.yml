@@ -13,7 +13,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 8
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
@@ -29,7 +29,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: gradle/actions/wrapper-validation@v4
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
       - if: failure()
@@ -46,7 +46,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
       - if: failure()
@@ -63,7 +63,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
@@ -79,7 +79,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
@@ -95,7 +95,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
       - if: failure()
         uses: actions/upload-artifact@v4
@@ -111,7 +111,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 24
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
       - if: failure()
