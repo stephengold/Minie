@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2024 Stephen Gold
+ Copyright (c) 2021-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,7 @@ final public class TestIssue13 extends SimpleApplication {
     /**
      * generate random locations for the vehicle
      */
-    final static private Random random = new Random();
+    final private static Random random = new Random();
     // *************************************************************************
     // constructors
 

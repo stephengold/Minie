@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -94,7 +94,7 @@ public class TestIssue1283 extends SimpleApplication {
     /**
      * dump debugging information to {@code System.out}
      */
-    final static private PhysicsDumper dumper = new PhysicsDumper();
+    final private static PhysicsDumper dumper = new PhysicsDumper();
     /**
      * space for physics simulation
      */

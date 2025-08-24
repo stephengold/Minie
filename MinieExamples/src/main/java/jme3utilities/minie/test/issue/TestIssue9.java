@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2024 Stephen Gold
+ Copyright (c) 2018-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ final public class TestIssue9 extends SimpleApplication {
     /**
      * wire mesh for generating soft bodies
      */
-    final static private Mesh wireBox = new WireBox();
+    final private static Mesh wireBox = new WireBox();
     // *************************************************************************
     // constructors
 
