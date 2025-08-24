@@ -165,7 +165,7 @@
             <property name="offset" value="0"/>
         </module>
         <module name="JavadocVariable">
-            <property name="scope" value="package"/>
+            <property name="accessModifiers" value="public, protected, package"/>
         </module>
         <module name="MissingJavadocMethod">
             <property name="allowedAnnotations" value=""/>
