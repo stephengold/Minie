@@ -5,59 +5,9 @@ name: CI at GitHub
 on: [push]
 
 jobs:
-  Java8-Linux:
+  Java17-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: 8
-      - uses: actions/checkout@v5
-      - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
-      - if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: crash-log
-          path: 'MinieLibrary/*.log'
-
-  Java11-Linux:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: 11
-      - uses: actions/checkout@v5
-      - uses: gradle/actions/wrapper-validation@v4
-      - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
-      - if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: crash-log
-          path: 'MinieLibrary/*.log'
-
-  Java11-Windows:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: windows-2022
-    steps:
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: 11
-      - uses: actions/checkout@v5
-      - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
-        shell: bash
-      - if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: crash-log
-          path: 'MinieLibrary/*.log'
-
-  Java17-MacOS:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-13
     steps:
       - uses: actions/setup-java@v4
         with:
@@ -71,9 +21,26 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java21-Linux:
+  Java17-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: ubuntu-24.04
+    runs-on: windows-2022
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - uses: actions/checkout@v5
+      - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+        shell: bash
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
+
+  Java21-MacOS:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
+    runs-on: macOS-13
     steps:
       - uses: actions/setup-java@v4
         with:
@@ -87,14 +54,30 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java21-MacOS:
+  Java24-Linux:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 24
+      - uses: actions/checkout@v5
+      - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: crash-log
+          path: 'MinieLibrary/*.log'
+
+  Java24-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-15
     steps:
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: 21
+          java-version: 24
       - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
       - if: failure()
