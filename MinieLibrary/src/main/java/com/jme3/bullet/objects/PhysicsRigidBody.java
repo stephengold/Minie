@@ -1089,7 +1089,7 @@ public class PhysicsRigidBody extends PhysicsBody {
     public void setPhysicsScale(Vector3f newScale) {
         CollisionShape shape = getCollisionShape();
         Vector3f oldScale = shape.getScale(null); // TODO garbage
-        if (MyVector3f.ne(oldScale, newScale)) {
+        if (MyVector3f.ne(oldScale, newScale) && Vector3f.isValidVector(newScale)) {
             shape.setScale(newScale);
             setCollisionShape(shape);
         }
