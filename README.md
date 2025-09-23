@@ -7,5 +7,5 @@ First one, refer to an <a href="https://github.com/stephengold/Minie"> origin of
 To install this fix you need donwload .jar file in releases then put it in 'libs' folder of your root project,  then add these implementations to your build.gradle dependencies closure
 ```groovy
   implementation 'com.github.stephengold:Minie:9.0.1' //requried b'cuz it loads native libs , while my 9.0.2 doesn't.
-    implementation 'com.github.stephengold:Minie:9.0.2-SNAPSHOT'
+  implementation 'com.github.stephengold:Minie:9.0.2-SNAPSHOT'
 ```
