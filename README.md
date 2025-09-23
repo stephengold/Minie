@@ -4,7 +4,7 @@ First one, refer to an <a href="https://github.com/stephengold/Minie"> origin of
 
 <h1>This fork currently contains only one <a href=https://github.com/stephengold/Minie/commit/a69541ef4716236460510c8b2d92b13fb664739d>fix</h1>
 
-To install this fix you need donwload .jar file in releases then put it in 'libs' folder of your root project,  then add these implementations to your build.gradle closure
+To install this fix you need donwload .jar file in releases then put it in 'libs' folder of your root project,  then add these implementations to your build.gradle 
 ```groovy
 
 repositories {
