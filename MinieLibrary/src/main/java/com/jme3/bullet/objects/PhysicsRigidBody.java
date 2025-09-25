@@ -1087,6 +1087,9 @@ public class PhysicsRigidBody extends PhysicsBody {
      * no negative component, unaffected, default=(1,1,1))
      */
     public void setPhysicsScale(Vector3f newScale) {
+        Validate.nonNegative(newScale, "new scale");
+        Validate.finite(newScale, "new scale");
+
         CollisionShape shape = getCollisionShape();
         Vector3f oldScale = shape.getScale(null); // TODO garbage
         if (MyVector3f.ne(oldScale, newScale)) {
