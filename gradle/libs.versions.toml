@@ -2,7 +2,7 @@
 
 [versions]
 
-checkstyle = "11.0.1"
+checkstyle = "11.1.0"
 jme = "3.9.0-alpha4"
 lbj = "22.0.3"
 
