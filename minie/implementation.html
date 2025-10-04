@@ -384,7 +384,7 @@ a mature, open-source, 3-D physics simulator,
 released under <a href="https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt">a Zlib license</a>.</p>
 </div>
 <div class="paragraph">
-<p>To enable efficient simulation of moving meshes,
+<p>To enable efficient simulation of complex moving shapes,
 Minie also incorporates Khaled Mamou&#8217;s
 <a href="https://github.com/kmammou/v-hacd">Volumetric-Hierarchical Approximate Convex Decomposition <em>(V-HACD)</em> algorithm</a>.</p>
 </div>
@@ -403,7 +403,7 @@ to access their objects and methods.</p>
 (including a modified partial snapshot of Bullet, two snapshots of V-HACD, and some "glue code")
 resides in <a href="https://github.com/stephengold/Libbulletjme">the Libbulletjme repository</a>.
 Before instantiating physics objects,
-a Minie application must <a href="https://en.wikipedia.org/wiki/Dynamic_loading">dynamically load</a>
+a Minie app must <a href="https://en.wikipedia.org/wiki/Dynamic_loading">dynamically load</a>
 a <em>native library</em> of this code,
 compiled for the <a href="https://en.wikipedia.org/wiki/Computing_platform">platform</a>
 on which the app is executing.</p>
@@ -554,7 +554,7 @@ to apply contact forces, solve constraints, and update positions.</p>
 </div>
 <div class="paragraph">
 <p>Collisions are reported to listeners registered at the space.
-For fast-moving objects,
+For fast-moving rigid bodies,
 Minie offers optional continuous collision detection (CCD)
 using swept spheres.
 Collisions detected by CCD are reported to those same listeners.</p>
@@ -606,7 +606,7 @@ To enable this feature, a multithreaded (Mt) native library must be loaded.</p>
 <h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next steps</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For more detail about Bullet physics, download and read the
+<p>For more detail about how Bullet physics works, download and read the
 <a href="https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf">Bullet User Manual</a>.</p>
 </div>
 <div class="paragraph">

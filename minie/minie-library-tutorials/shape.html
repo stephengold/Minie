@@ -651,7 +651,7 @@ assert convexClass == isConvex;</code></pre>
 </td>
 <td class="content">
 In this context, "convex" is a property of classes, not instances.
-While specific <strong>instances</strong> of non-convex classes have the convex property,
+While specific <strong>instances</strong> of non-convex classes possess the convex property,
 those classes don&#8217;t guarantee it for <strong>all</strong> instances.
 </td>
 </tr>
@@ -1150,18 +1150,28 @@ Unlike <code>createMeshShape()</code>, it ignores terrain.</p>
 <div class="paragraph">
 <p>Faced with the task of simulating a non-convex rigid body
 (such as a cross or ring),
-it&#8217;s best to decompose it into convex shapes that,
+it&#8217;s best to decompose it into a small number of convex shapes that,
 when recombined, will approximate the desired behavior.</p>
 </div>
 <div class="paragraph">
 <p>There are various approaches,
-depending how much the developer knows about the object&#8217;s shape.
-If the model&#8217;s mesh is generated procedurally, it may be possible
-to decompose it during the generation process.
-Or if the object is modeled in Blender,
-it may be practical to manually decompose it there
-into meshes that are convex or nearly so.
-In both cases, the desired compound shape can then be generated using
+depending how much you know about the body&#8217;s shape.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the mesh was generated procedurally, it may be convenient
+to decompose it during the generation process.</p>
+</li>
+<li>
+<p>If the mesh was crafted in a tool such as <a href="https://www.blender.org/">Blender</a>,
+it may be practical to manually decompose it there,
+into sub-meshes that are convex or nearly so.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In both cases, the desired compound shape can then be generated using
 <code>createDynamicMeshShape()</code>.</p>
 </div>
 <div class="sect3">

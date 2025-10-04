@@ -454,14 +454,14 @@ or as a <em>single-ended</em> constraint (connecting a rigid body to a fixed poi
 </div>
 <div class="paragraph">
 <p><code>New6Dof</code> can simulate up to 3 rotation DOFs
-and up to 3 translation DOFs, so an instance
+and up to 3 translation DOFs, so it
 can potentially rotate or slide on any axis or axes.
 By default, the translation DOFs are <em>locked</em> at a zero,
 while the rotation DOFs are <em>free</em> to assume any angular value.
 In other words, it defaults to a point-to-point joint.</p>
 </div>
 <div class="paragraph">
-<p>By locking and/or unlocking DOFs, you simulate different types of joints:</p>
+<p>By locking and/or unlocking DOFs, you simulate other types of joints:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -588,8 +588,8 @@ connects to the physics space itself.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Different <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/Constraint.html"><code>Constraint</code></a>
-subclasses use different end-naming conventions for single-ended constraints.
+Certain other <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/joints/Constraint.html"><code>Constraint</code></a>
+subclasses use the opposite end-naming convention for single-ended constraints.
 </td>
 </tr>
 </table>
