@@ -33,7 +33,7 @@ Here's the recommended procedure:
 .. using Windows Command Prompt: `set JAVA_HOME="` *path to installation* `"`
 .. using PowerShell: `$env:JAVA_HOME = '` *path to installation* `'`
 . Download and extract the {Project} source code from GitHub:
-.. using Git:
+.. using https://git-scm.com[Git]:
 ... `git clone https://github.com/stephengold/Minie.git`
 ... `cd Minie`
 ... `git checkout -b latest 9.0.1`
