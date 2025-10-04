@@ -12,7 +12,7 @@ This is useful if you are editing the content,
 or if your Internet access is limited or unreliable.
 
 
-== Library artifacts
+== Libraries
 
 === Standard build
 
@@ -63,7 +63,7 @@ To save even more time, you can skip the automated tests:
 * using Bash or Fish or PowerShell or Zsh: `./gradlew :MinieLibrary:assemble`
 * using Windows Command Prompt: `.\gradlew :MinieLibrary:assemble`
 
-=== Install artifacts
+=== Local installation
 
 You can install the built artifacts to your local Maven repository:
 
@@ -126,7 +126,8 @@ For more information,
 see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
 ====
 
-== Website content
+
+== Website
 
 . Download and extract the source code from GitHub:
 .. `git clone https://github.com/stephengold/Minie.git`
