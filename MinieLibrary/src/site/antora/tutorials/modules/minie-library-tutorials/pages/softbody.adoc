@@ -271,3 +271,8 @@ using an iterative algorithm that's built into Bullet:
 softBody.generateClusters(k, numIterations);
 ----
 
+
+== Summary
+
+* Soft bodies are a convenient and efficient way to simulate
+  objects that can be deformed.
