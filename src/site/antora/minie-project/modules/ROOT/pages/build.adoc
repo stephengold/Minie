@@ -24,8 +24,8 @@ Here's the recommended procedure:
 . Install a https://adoptium.net/releases.html[Java Development Kit (JDK)],
   if you don't already have one.
 . Point the `JAVA_HOME` environment variable to your JDK installation:
-  (The path might be something like "C:\Program Files\Java\jre1.8.0_301"
-  or "/usr/lib/jvm/java-8-openjdk-amd64/" or
+  (The path might be something like "C:\Program Files\Eclipse Adoptium\jdk-17.0.3.7-hotspot"
+  or "/usr/lib/jvm/java-21-openjdk-amd64/" or
   "/Library/Java/JavaVirtualMachines/liberica-jdk-17-full.jdk/Contents/Home" .)
 .. using Bash or Zsh: `export JAVA_HOME="` *path to installation* `"`
 .. using https://fishshell.com/[Fish]: `set -g JAVA_HOME "` *path to installation* `"`
