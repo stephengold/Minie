@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -145,20 +145,20 @@ public class HelloWind
         // To enable the callbacks, register the application as a tick listener.
         physicsSpace.addTickListener(this);
 
-        // Generate a subdivided rectangle mesh with alternating diagonals.
+        // Generate a subdivided rectangle mesh with alternating diagonals:
         int xLines = 20;
         int zLines = 2 * xLines; // 2x as wide as it is tall
         float width = 2f;
         float lineSpacing = width / zLines;
         Mesh mesh = new ClothGrid(xLines, zLines, lineSpacing);
 
-        // Create a soft rectangle for the flag.
+        // Create a soft rectangle for the flag:
         flag = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(mesh, flag);
         flag.setMargin(0.1f);
         flag.setMass(1f);
 
-        // Pin the left edge of the flag.
+        // Pin the left edge of the flag:
         int nodeIndex = 0; // upper left corner
         flag.setNodeMass(nodeIndex, PhysicsBody.massForStatic);
         nodeIndex = xLines - 1; // lower left corner

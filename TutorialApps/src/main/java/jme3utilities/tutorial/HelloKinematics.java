@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -100,17 +100,17 @@ public class HelloKinematics
         // Enable debug visualization to reveal what occurs in physics space.
         bulletAppState.setDebugEnabled(true);
 
-        // Create a CollisionShape for balls.
+        // Create a CollisionShape for balls:
         float ballRadius = 1f;
         CollisionShape ballShape = new SphereCollisionShape(ballRadius);
 
-        // Create a dynamic body and add it to the space.
+        // Create a dynamic body and add it to the space:
         float mass = 2f;
         PhysicsRigidBody dynaBall = new PhysicsRigidBody(ballShape, mass);
         physicsSpace.addCollisionObject(dynaBall);
         dynaBall.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
-        // Create a kinematic body and add it to the space.
+        // Create a kinematic body and add it to the space:
         kineBall = new PhysicsRigidBody(ballShape);
         physicsSpace.addCollisionObject(kineBall);
         kineBall.setKinematic(true);

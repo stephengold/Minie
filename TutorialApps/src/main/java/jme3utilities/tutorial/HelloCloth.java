@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -89,7 +89,7 @@ public class HelloCloth extends SimpleApplication {
         // Relocate the camera.
         cam.setLocation(new Vector3f(0f, 1f, 8f));
 
-        // Create a static, rigid sphere and add it to the physics space.
+        // Create a static, rigid sphere and add it to the physics space:
         float radius = 1f;
         SphereCollisionShape shape = new SphereCollisionShape(radius);
         PhysicsRigidBody sphere
@@ -101,7 +101,7 @@ public class HelloCloth extends SimpleApplication {
         float lineSpacing = 0.1f; // mesh units
         Mesh squareGrid = new ClothGrid(numLines, numLines, lineSpacing);
 
-        // Create a soft square and add it to the physics space.
+        // Create a soft square and add it to the physics space:
         PhysicsSoftBody cloth = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(squareGrid, cloth);
         physicsSpace.addCollisionObject(cloth);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -139,7 +139,7 @@ public class HelloGhost
     public static void main(String[] arguments) {
         HelloGhost application = new HelloGhost();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -164,7 +164,7 @@ public class HelloGhost
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
 
-        // Create a ghost using a sphere shape and add it to the space.
+        // Create a ghost using a sphere shape and add it to the space:
         float sphereRadius = 10f;
         SphereCollisionShape sphereShape
                 = new SphereCollisionShape(sphereRadius);
@@ -172,7 +172,7 @@ public class HelloGhost
         ghost.setPhysicsLocation(new Vector3f(15f, 0f, -13f));
         physicsSpace.addCollisionObject(ghost);
 
-        // Create a character with a capsule shape and add it to the space.
+        // Create a character with a capsule shape and add it to the space:
         float capsuleRadius = 3f;
         float capsuleHeight = 4f;
         CapsuleCollisionShape shape
@@ -182,7 +182,7 @@ public class HelloGhost
         character.setGravity(4f);
         physicsSpace.addCollisionObject(character);
 
-        // Add a plane to represent the ground.
+        // Add a plane to represent the ground:
         float groundY = -2f;
         addPlane(groundY);
     }
@@ -402,7 +402,7 @@ public class HelloGhost
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
         return result;

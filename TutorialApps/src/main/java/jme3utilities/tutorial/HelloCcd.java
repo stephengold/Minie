@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -87,15 +87,16 @@ public class HelloCcd extends SimpleApplication {
         // For clarity, simulate at 1/10th normal speed.
         bulletAppState.setSpeed(0.1f);
 
-        // Increase gravity to make the balls fall faster.
+        // Increase gravity to make the balls fall faster:
         physicsSpace.setGravity(new Vector3f(0f, -100f, 0f));
 
-        // Create a CollisionShape for balls.
+        // Create a CollisionShape for balls:
         float ballRadius = 0.1f;
         CollisionShape ballShape = new SphereCollisionShape(ballRadius);
-
-        // Create 2 dynamic balls, one with CCD and one without,
-        // and add them to the space.
+        /*
+         * Create 2 dynamic balls, one with CCD and one without,
+         * and add them to the space:
+         */
         float mass = 1f;
         PhysicsRigidBody ccdBall = new PhysicsRigidBody(ballShape, mass);
         physicsSpace.addCollisionObject(ccdBall);
@@ -107,7 +108,7 @@ public class HelloCcd extends SimpleApplication {
         physicsSpace.addCollisionObject(controlBall);
         controlBall.setPhysicsLocation(new Vector3f(1f, 4f, 0f));
 
-        // Create a thin, static disc and add it to the space.
+        // Create a thin, static disc and add it to the space:
         float discRadius = 2f;
         float discThickness = 0.05f;
         CollisionShape discShape = new CylinderCollisionShape(

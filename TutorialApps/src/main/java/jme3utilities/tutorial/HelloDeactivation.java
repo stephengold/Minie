@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -95,7 +95,7 @@ public class HelloDeactivation
         // Enable debug visualization to reveal what occurs in physics space.
         bulletAppState.setDebugEnabled(true);
 
-        // Create a dynamic cube and add it to the space.
+        // Create a dynamic cube and add it to the space:
         float boxHalfExtent = 0.5f;
         CollisionShape smallCubeShape = new BoxCollisionShape(boxHalfExtent);
         float boxMass = 1f;

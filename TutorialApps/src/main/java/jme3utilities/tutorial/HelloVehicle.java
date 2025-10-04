@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -138,13 +138,13 @@ public class HelloVehicle extends SimpleApplication {
 
         physicsSpace.addCollisionObject(vehicle);
 
-        // Apply a steering angle of 6 degrees left (to the front wheels).
+        // Apply a steering angle of 6 degrees left (to the front wheels):
         vehicle.steer(FastMath.PI / 30f);
 
-        // Apply a constant acceleration (to the chassis).
+        // Apply a constant acceleration (to the chassis):
         vehicle.accelerate(1f);
 
-        // Add a static plane to represent the ground.
+        // Add a static plane to represent the ground:
         float groundY = -radius - 0.35f;
         addPlane(groundY);
     }

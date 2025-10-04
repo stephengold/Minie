@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -159,16 +159,16 @@ public class HelloDoor
         configureCamera();
         physicsSpace = configurePhysics();
 
-        // Add a static plane to represent the ground.
+        // Add a static plane to represent the ground:
         addPlane(groundY);
 
-        // Add a static body for the door frame.
+        // Add a static body for the door frame:
         addDoorFrame();
 
-        // Add a dynamic body for the door.
+        // Add a dynamic body for the door:
         addDoor();
 
-        // Add a single-ended physics joint to constrain the door's motion.
+        // Add a single-ended physics joint to constrain the door's motion:
         Vector3f pivotInDoor = new Vector3f(-doorHalfWidth, 0f, 0f);
         Vector3f pivotInWorld = new Vector3f(-doorHalfWidth, 0f, 0f);
         HingeJoint joint = new HingeJoint(doorBody, pivotInDoor, pivotInWorld,

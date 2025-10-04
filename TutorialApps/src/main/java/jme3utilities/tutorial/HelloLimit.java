@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -146,10 +146,10 @@ public class HelloLimit
         // Add a mouse-controlled kinematic paddle.
         addPaddle();
 
-        // Add a dynamic yellow ball.
+        // Add a dynamic yellow ball:
         PhysicsRigidBody ballBody = addBall();
 
-        // Add a single-ended physics joint to constrain the ball's center.
+        // Add a single-ended physics joint to constrain the ball's center:
         Vector3f pivotInBall = new Vector3f(0f, 0f, 0f);
         Vector3f pivotInWorld = new Vector3f(0f, 0f, 0f);
         Matrix3f rotInBall = Matrix3f.IDENTITY;
@@ -158,13 +158,13 @@ public class HelloLimit
                 rotInBall, rotInPaddle, RotationOrder.XYZ);
         physicsSpace.addJoint(joint);
 
-        // Limit the X and Z translation DOFs.
+        // Limit the X and Z translation DOFs:
         joint.set(MotorParam.LowerLimit, PhysicsSpace.AXIS_X, -halfExtent);
         joint.set(MotorParam.LowerLimit, PhysicsSpace.AXIS_Z, -halfExtent);
         joint.set(MotorParam.UpperLimit, PhysicsSpace.AXIS_X, +halfExtent);
         joint.set(MotorParam.UpperLimit, PhysicsSpace.AXIS_Z, +halfExtent);
 
-        // Lock the Y translation at paddle height.
+        // Lock the Y translation at paddle height:
         float paddleY = groundY + paddleHalfHeight;
         joint.set(MotorParam.LowerLimit, PhysicsSpace.AXIS_Y, paddleY);
         joint.set(MotorParam.UpperLimit, PhysicsSpace.AXIS_Y, paddleY);
@@ -201,7 +201,7 @@ public class HelloLimit
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Reposition the paddle based on the mouse location.
+        // Reposition the paddle based on the mouse location:
         Vector3f bodyLocation = mouseLocation.add(0f, paddleHalfHeight, 0f);
         paddleBody.setPhysicsLocation(bodyLocation);
     }
@@ -317,7 +317,7 @@ public class HelloLimit
 
         physicsSpace.addCollisionObject(result);
 
-        // Rotate it 90 degrees to a horizontal orientation.
+        // Rotate it 90 degrees to a horizontal orientation:
         Quaternion rotate90
                 = new Quaternion().fromAngles(-FastMath.HALF_PI, 0f, 0f);
         result.setPhysicsRotation(rotate90);

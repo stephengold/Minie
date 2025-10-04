@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -134,7 +134,7 @@ public class HelloWalk
         configureInput();
         physicsSpace = configurePhysics();
 
-        // Create a character with a capsule shape and add it to the space.
+        // Create a character with a capsule shape and add it to the space:
         float capsuleRadius = 3f;
         float capsuleHeight = 4f;
         CapsuleCollisionShape shape
@@ -144,10 +144,10 @@ public class HelloWalk
         character.setGravity(60f);
         physicsSpace.addCollisionObject(character);
 
-        // Teleport the character to its initial location.
+        // Teleport the character to its initial location:
         character.setPhysicsLocation(new Vector3f(-73.6f, 19.09f, -45.58f));
 
-        // Add a static heightmap to represent the ground.
+        // Add a static heightmap to represent the ground:
         addTerrain();
     }
 
@@ -177,7 +177,7 @@ public class HelloWalk
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Clear any motion from the previous simulation step.
+        // Clear any motion from the previous simulation step:
         character.setWalkDirection(Vector3f.ZERO);
         /*
          * If the character is touching the ground,
@@ -188,7 +188,7 @@ public class HelloWalk
                 character.jump();
 
             } else if (walkRequested) {
-                // Walk in the camera's forward direction.
+                // Walk in the camera's forward direction:
                 Vector3f offset = cam.getDirection();
                 float walkSpeed = 7f;
                 offset.multLocal(walkSpeed * timeStep);
@@ -257,14 +257,14 @@ public class HelloWalk
         HeightMap heightMap = new ImageBasedHeightMap(image);
         heightMap.setHeightScale(0.2f);
 
-        // Construct a static rigid body based on the HeightMap.
+        // Construct a static rigid body based on the HeightMap:
         CollisionShape shape = new HeightfieldCollisionShape(heightMap);
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         physicsSpace.addCollisionObject(body);
 
-        // Customize its debug visualization.
+        // Customize its debug visualization:
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         body.setDebugMaterial(greenMaterial);
         body.setDebugMeshNormals(MeshNormals.Smooth);

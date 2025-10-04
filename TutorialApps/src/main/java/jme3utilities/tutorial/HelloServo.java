@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2024 Stephen Gold
+ Copyright (c) 2021-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -113,13 +113,13 @@ public class HelloServo extends SimpleApplication {
         configureCamera();
         physicsSpace = configurePhysics();
 
-        // Add a dynamic, green frame.
+        // Add a dynamic, green frame:
         PhysicsRigidBody frameBody = addFrame();
 
-        // Add a dynamic, yellow box for the door.
+        // Add a dynamic, yellow box for the door:
         PhysicsRigidBody doorBody = addDoor();
 
-        // Add a double-ended physics joint to join the door to the frame.
+        // Add a double-ended physics joint to join the door to the frame:
         Vector3f pivotLocation = new Vector3f(-1f, 0f, 0f);
         Quaternion pivotOrientation = Quaternion.IDENTITY;
         New6Dof joint = New6Dof.newInstance(frameBody, doorBody,

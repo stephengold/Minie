@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -149,7 +149,7 @@ public class HelloJoint
         // Add a mouse-controlled kinematic paddle.
         addPaddle();
 
-        // Add a dynamic yellow ball.
+        // Add a dynamic yellow ball:
         PhysicsRigidBody ballBody = addBall();
 
         // Add a single-ended physics joint to constrain the ball's motion.

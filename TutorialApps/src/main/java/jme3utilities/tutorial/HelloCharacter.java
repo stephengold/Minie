@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -97,7 +97,7 @@ public class HelloCharacter
     public static void main(String[] arguments) {
         HelloCharacter application = new HelloCharacter();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -115,7 +115,7 @@ public class HelloCharacter
     public void simpleInitApp() {
         physicsSpace = configurePhysics();
 
-        // Create a character with a capsule shape and add it to the space.
+        // Create a character with a capsule shape and add it to the space:
         float capsuleRadius = 0.5f;
         float capsuleHeight = 1f;
         CapsuleCollisionShape shape
@@ -129,7 +129,7 @@ public class HelloCharacter
         float y = -2f;
         PhysicsRigidBody ground = addSquare(halfExtent, y);
 
-        // Customize the debug visualization of both physics objects.
+        // Customize the debug visualization of both physics objects:
         Material redMaterial = createLitMaterial(1f, 0f, 0f);
         character.setDebugMaterial(redMaterial);
         character.setDebugMeshNormals(MeshNormals.Smooth);

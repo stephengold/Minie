@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -83,7 +83,7 @@ public class HelloMinkowski extends SimpleApplication {
         // Enable debug visualization to reveal what occurs in physics space.
         bulletAppState.setDebugEnabled(true);
 
-        // Add a static rigid body with a cone shape.
+        // Add a static rigid body with a cone shape:
         float radius = 1f;
         float height = 1f;
         ConeCollisionShape coneShape = new ConeCollisionShape(radius, height);

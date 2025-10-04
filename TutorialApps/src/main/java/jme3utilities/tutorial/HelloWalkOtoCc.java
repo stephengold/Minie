@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -154,7 +154,7 @@ public class HelloWalkOtoCc
 
         rootNode.attachChild(oto);
 
-        // Create the PhysicsControl and add it to the scene and space.
+        // Create the PhysicsControl and add it to the scene and space:
         float capsuleRadius = 3f;
         float capsuleHeight = 4f;
         CapsuleCollisionShape shape
@@ -165,10 +165,10 @@ public class HelloWalkOtoCc
         oto.addControl(character);
         physicsSpace.add(character);
 
-        // Teleport the character to its initial location.
+        // Teleport the character to its initial location:
         character.setPhysicsLocation(new Vector3f(-73.6f, 19.09f, -45.58f));
 
-        // Add a static heightmap to represent the ground.
+        // Add a static heightmap to represent the ground:
         addTerrain();
     }
 
