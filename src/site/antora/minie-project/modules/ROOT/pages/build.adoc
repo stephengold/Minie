@@ -70,12 +70,6 @@ You can install the built artifacts to your local Maven repository:
 * using Bash or Fish or PowerShell or Zsh: `./gradlew install`
 * using Windows Command Prompt: `.\gradlew install`
 
-=== Cleanup
-
-After a build, you can restore the project to a pristine state:
-
-* using Bash or Fish or PowerShell or Zsh: `./gradlew clean`
-* using Windows Command Prompt: `.\gradlew clean`
 
 == Customizing native libraries
 
@@ -145,3 +139,13 @@ see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
 
 After a successful build,
 the local copy of the site will be found in the "build/site" directory.
+
+
+== Cleanup
+
+At any time, you can restore the project to a pristine state:
+
+* using Bash or Fish or PowerShell or Zsh:
+** `./gradlew clean`
+* using Windows Command Prompt:
+** `.\gradlew clean`
