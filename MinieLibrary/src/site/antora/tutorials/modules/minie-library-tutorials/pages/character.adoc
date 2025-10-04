@@ -35,7 +35,7 @@ You can create a character by directly invoking the
 {url-api}/objects/PhysicsCharacter.html[`PhysicsCharacter`] constructor.
 This allows you to specify its collision shape and step height.
 
-{url-tutorial}/HelloCharacter.java[HelloCharacter] is a simple application
+{url-tutorial}/HelloCharacter.java[HelloCharacter] is a simple app
 that demonstrates the direct creation of a character,
 followed by automated jumps.
 Things to notice about the app:
@@ -74,7 +74,7 @@ To access the control associated with a collision object, use:
 ----
 
 {url-tutorial}/HelloCharacterControl.java[HelloCharacterControl]
-is a simple application that demonstrates
+is a simple app that demonstrates
 the creation of a {url-api}/control/CharacterControl.html[`CharacterControl`].
 
 Things to notice about the app:
@@ -238,7 +238,7 @@ For example:
   whereas a CharacterControl has no mass and cannot be made kinematic.
 . BCC is more customizable than CharacterControl.
 
-{url-tutorial}/HelloWalkOtoBcc.java[HelloWalkOtoBcc] is a simple application
+{url-tutorial}/HelloWalkOtoBcc.java[HelloWalkOtoBcc] is a simple app
 that demonstrates walking and jumping with BCC and a third-person viewpoint.
 The user interface is identical to HelloWalkOtoCc:
 

@@ -37,7 +37,7 @@ Before adding it to a physics space, you should add wheels to it.
 For stability, a vehicle needs at least 3 wheels, and the chassis center of mass
 should be located between the wheels, roughly speaking.
 
-{url-tutorial}/HelloVehicle.java[HelloVehicle] is a simple application
+{url-tutorial}/HelloVehicle.java[HelloVehicle] is a simple app
 that demonstrates the direct creation of a vehicle,
 followed by automated steering and acceleration.
 Things to notice while running the app:
@@ -95,7 +95,7 @@ Most of the remaining keyboard controls are standardized:
 * kbd:[F5] toggles visibility of the render-statistics overlay,
 * kbd:[C] dumps the camera's position to the console,
 * kbd:[M] prints memory statistics to the console, and
-* kbd:[Esc] ends the application.
+* kbd:[Esc] ends the app.
 
 == Configuration and tuning
 

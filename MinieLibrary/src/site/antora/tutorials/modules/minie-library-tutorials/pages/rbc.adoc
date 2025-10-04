@@ -72,7 +72,7 @@ A collision shape will be generated based on the controlled spatial, using:
 * `CollisionShapeFactory.createMeshShape()` (for a static one).
 
 {url-tutorial}/HelloRbc.java[HelloRbc] is a simple
-application that demonstrates the use of
+app that demonstrates the use of
 {url-api}/control/RigidBodyControl.html[`RigidBodyControl`].
 Things to notice while running the app:
 
@@ -86,7 +86,7 @@ first instantiate a dynamic RBC (with `mass > 0`),
 then convert it to kinematic using `rigidBodyControl.setKinematic(true)`.
 
 {url-tutorial}/HelloKinematicRbc.java[HelloKinematicRbc] is a simple
-application that demonstrates a kinematic RBC.
+app that demonstrates a kinematic RBC.
 
 By default, the physics object of a kinematic RBC
 follows the motion of the spatial.
@@ -108,7 +108,7 @@ and the scale of the body's collision shape.
 To synchronize those scales, use `setApplyScale(true)`.
 
 {url-tutorial}/HelloApplyScale.java[HelloApplyScale] is a simple
-application that demonstrates `setApplyScale()`.
+app that demonstrates `setApplyScale()`.
 Things to notice while running the app:
 
 . The rigid body is visualized as a blue wireframe.
@@ -130,13 +130,13 @@ to that of its parent node in the scene graph.
 
 By default, a rigid-body control matches
 the *world* transform of its controlled spatial.
-For most applications, this is what you want.
+For most apps, this is what you want.
 
 To match the spatial's *local* transform instead,
 use `setApplyPhysicsLocal(true)`.
 
 {url-tutorial}/HelloLocalPhysics.java[HelloLocalPhysics] is a simple
-application that demonstrates local physics.
+app that demonstrates local physics.
 Things to notice while running the app:
 
 . Two balls: the top one dynamic, the bottom one kinematic.

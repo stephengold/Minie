@@ -4,7 +4,7 @@
 :Project: Minie
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 
-TIP: If you're creating a JMonkeyEngine desktop application from scratch,
+TIP: If you're creating a JMonkeyEngine desktop app from scratch,
 https://github.com/stephengold/BasicGame-on-Gradle[the BasicGame-on-Gradle project]
 provides a good starting point.
 
@@ -15,17 +15,17 @@ Adding {Project} to an existing JMonkeyEngine project is a 7-step process:
 . Load the native library.
 . Create, configure, and attach
   a {url-api}/BulletAppState.html[`BulletAppState`],
-  if the application doesn't already do so.
+  if the app doesn't already do so.
 . Configure the {url-api}/PhysicsSpace.html[`PhysicsSpace`],
-  if the application doesn't already do so.
+  if the app doesn't already do so.
 . Create physics controls, collision objects,
   and joints and add them to the physics space,
-  if the application doesn't already do so.
+  if the app doesn't already do so.
 . Test and tune as necessary.
 
 == Remove libraries that might interfere
 
-If any directory where the application might run contains files
+If any directory where the app might run contains files
 named "libbulletjme.so" or "bulletjme.dll" or "libbulletjme.dylib",
 you should remove those files.
 Those filenames are used by JMonkeyEngine when it loads the native library,
@@ -166,10 +166,10 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 
 == Load the native library
 
-In a conventional JMonkeyEngine application,
+In a conventional JMonkeyEngine app,
 the required native libraries get loaded automatically by `Application.start()`.
 
-If your application doesn't invoke `Application.start()`,
+If your app doesn't invoke `Application.start()`,
 load Minie's native library before instantiating any physics objects:
 
 [source,java]
@@ -189,7 +189,7 @@ However, the appstate *does* provide a convenient interface
 for configuring, accessing, updating, and debugging
 a {url-api}/PhysicsSpace.html[`PhysicsSpace`].
 
-If the application already has
+If the app already has
 a {url-api}/BulletAppState.html[`BulletAppState`],
 that code might work with Minie.
 If not, here is a snippet to guide you:
@@ -239,7 +239,7 @@ are described on xref:server.adoc[the physics-without-appstates page].
 
 Attaching a {url-api}/BulletAppState.html[`BulletAppState`] instantiates a
 {url-api}/PhysicsSpace.html[`PhysicsSpace`] that
-the application can access immediately:
+the app can access immediately:
 
 [source,java]
 ----
@@ -324,7 +324,7 @@ aren't simulated unless they're added to a space.
 
 == Summary
 
-* Before adding Minie to an application, remove all other physics libraries.
+* Before adding Minie to an app, remove all other physics libraries.
 * {url-api}/BulletAppState.html[`BulletAppState`] provides a convenient interface
   for configuring, accessing, updating, and debugging a physics space.
 * Collision objects can be created 2 ways:

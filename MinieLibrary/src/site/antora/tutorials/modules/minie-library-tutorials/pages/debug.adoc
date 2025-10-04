@@ -70,7 +70,7 @@ DebugShapeFactory.clearCache();
 === Viewports
 
 By default, debug visualization renders only to the
-application's main `ViewPort`.
+app's main `ViewPort`.
 To specify a different viewport (or an array of viewports) use:
 
 [source,java]
@@ -228,7 +228,7 @@ You can use this callback
 to provide lighting and/or shadows for debug visualization.
 
 {url-tutorial}/HelloCustomDebug.java[HelloCustomDebug] is a simple
-application that demonstrates customization of debug materials,
+app that demonstrates customization of debug materials,
 debug meshes, and lighting.
 
 === Texture coordinates

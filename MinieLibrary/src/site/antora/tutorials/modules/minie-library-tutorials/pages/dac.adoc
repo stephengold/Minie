@@ -91,7 +91,7 @@ stays rigid.
 
 As an alternative to hand-coding the control configuration,
 you can generate configuration code for a specific model using
-https://github.com/stephengold/DacWizard[the DacWizard application],
+https://github.com/stephengold/DacWizard[the DacWizard app],
 which samples animation tracks to estimate
 the range of motion for each linked bone.
 

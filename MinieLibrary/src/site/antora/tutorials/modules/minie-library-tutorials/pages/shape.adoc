@@ -352,7 +352,7 @@ the center of mass and principal axes.
 At the very least,
 the shape's center should be located well inside its convex hull.
 
-{url-tutorial}/HelloMadMallet.java[HelloMadMallet] is a simple application
+{url-tutorial}/HelloMadMallet.java[HelloMadMallet] is a simple app
 that demonstrates the effect of an implausibly centered shape.
 Things to notice while running the app:
 
@@ -383,7 +383,7 @@ the `principalAxes()` and `correctAxes()` methods
 may be used to adjust its center and axes for a specific mass distribution.
 
 {url-tutorial}/HelloMassDistribution.java[HelloMassDistribution]
-is a simple application
+is a simple app
 that demonstrates the use of `principalAxes()` and `correctAxes()`.
 Things to notice while running the app:
 
@@ -397,7 +397,7 @@ center, axes, and moment of inertia.
 
 == Scaling
 
-Some applications require collision shapes that are _scalable_
+Some apps require collision shapes that are _scalable_
 (can be dynamically shrunk or enlarged).
 However, not all collision shapes can scale arbitrarily.
 In particular:
@@ -591,7 +591,7 @@ CollisionShape shape
         = CollisionShapeFactory.createVhacdShape(modelRoot, parms, null);
 ----
 
-The V-HACD algorithm is costly to run, but for many applications it can
+The V-HACD algorithm is costly to run, but for many apps it can
 be run in advance and the output stored until needed.
 During simulation, the resulting shape will usually be much more efficient
 than a GImpact shape.

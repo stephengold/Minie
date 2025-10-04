@@ -54,7 +54,7 @@ However, these last 3 features are optional in {Project} and can easily be disab
 
 === HelloRigidBody
 
-{url-tutorial}/HelloRigidBody.java[HelloRigidBody] is a simple application
+{url-tutorial}/HelloRigidBody.java[HelloRigidBody] is a simple app
 that demonstrates the 5 familiar features of rigid bodies.
 
 IMPORTANT: {url-tutorial}/HelloRigidBody.java[HelloRigidBody] is the first of
@@ -88,7 +88,7 @@ as if its mass were infinite.
 
 NOTE: Java's `static` keyword is completely unrelated to physics.
 
-{url-tutorial}/HelloStaticBody.java[HelloStaticBody] is a simple application
+{url-tutorial}/HelloStaticBody.java[HelloStaticBody] is a simple app
 that combines static and dynamic rigid bodies.
 Things to notice while running the app:
 
@@ -146,7 +146,7 @@ There's no direct way to instantiate a kinematic rigid body.
 The usual way is to instantiate a static or dynamic body and then convert it
 to kinematic using `rigidBody.setKinematic(true)`.
 
-{url-tutorial}/HelloKinematics.java[HelloKinematics] is a simple application
+{url-tutorial}/HelloKinematics.java[HelloKinematics] is a simple app
 that combines kinematic and dynamic rigid bodies.
 Things to notice while running the app:
 
@@ -166,7 +166,7 @@ To disable contact response for a particular rigid body,
 use `rigidBody.setContactResponse(false)`.
 
 {url-tutorial}/HelloContactResponse.java[HelloContactResponse]
-is a simple application
+is a simple app
 that demonstrates contact response.
 Things to notice while running the app:
 
@@ -254,7 +254,7 @@ float angularDamping = 0.2f;
 rigidBody.setDamping(linearDamping, angularDamping);
 ----
 
-{url-tutorial}/HelloDamping.java[HelloDamping] is a simple application
+{url-tutorial}/HelloDamping.java[HelloDamping] is a simple app
 that demonstrates damping.
 Things to notice while running the app:
 
@@ -297,7 +297,7 @@ to which it's added, use `rigidBody.setProtectGravity(true)`.
 To simulate a non-uniform gravitational field,
 update the gravity of each body before each simulation step.
 {url-tutorial}/HelloNonUniformGravity.java[HelloNonUniformGravity]
-is a simple application
+is a simple app
 that demonstrates this technique.
 The planet's gravity vector is visualized by a thin cyan arrow.
 It orbits a black hole whose location is indicated by 3 thick arrows.
@@ -363,7 +363,7 @@ is calculated by multiplying the parameters of the colliding bodies.
 ==== Related demo apps
 
 {url-examples}/DropTest.java[The DropTest demo] and
-{url-examples}/TargetDemo.java[the TargetDemo application]
+{url-examples}/TargetDemo.java[the TargetDemo app]
 both allow and you to vary the damping, friction, gravity,
 and restitution of all the bodies in a physics space.
 This allows you to see how these 4 parameters affect the bodies' motion.
@@ -456,14 +456,14 @@ Puzzling behavior may occur if a deactivated body is:
 The deactivated body will seem to be "stuck"
 because the events listed above do not, by themselves, reactivate it.
 
-{url-tutorial}/HelloDeactivation.java[HelloDeactivation] is a simple application
+{url-tutorial}/HelloDeactivation.java[HelloDeactivation] is a simple app
 that demonstrates deactivation.
 Things to notice while running the app:
 
 . The upper (dynamic) box falls until it collides with the lower (static) box,
   which provides a contact force to halt its motion and counteract gravity.
 . About 2 seconds after the upper box stops moving, it gets deactivated.
-. After the application removes the lower box,
+. After the app removes the lower box,
   the upper box doesn't resume falling.
   Due to deactivation, it appears to be "stuck".
 
@@ -510,7 +510,7 @@ if (rigidBody.isDynamic()) {
 }
 ----
 
-{url-tutorial}/HelloCcd.java[HelloCcd] is a simple application
+{url-tutorial}/HelloCcd.java[HelloCcd] is a simple app
 that demonstrates CCD.
 Things to notice while running the app:
 
@@ -523,7 +523,7 @@ Things to notice while running the app:
 
 By default, CCD tests for
 both dynamic-dynamic collisions and dynamic-static ones.
-For some applications (such as simulation of fast-moving ragdolls),
+For some apps (such as simulation of fast-moving ragdolls),
 testing for dynamic-dynamic collisions is undesirable.
 You can disable dynamic-dynamic CCD
 by invoking `physicsSpace.setCcdWithStaticOnly(true)`.

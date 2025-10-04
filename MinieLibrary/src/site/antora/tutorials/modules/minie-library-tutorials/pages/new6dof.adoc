@@ -183,7 +183,7 @@ Then you can specify `Matrix3f.IDENTITY` for each "rot" parameter.
 
 === Example apps
 
-{url-tutorial}/HelloJoint.java[HelloJoint] is a simple application
+{url-tutorial}/HelloJoint.java[HelloJoint] is a simple app
 that demonstrates a single-ended `New6Dof` constraint.
 
 Things to notice while running the app:
@@ -194,7 +194,7 @@ Things to notice while running the app:
 . If you strike the ball with the paddle, it swings around, maintaining
   a constant distance from the pivot point.
 
-{url-tutorial}/HelloDoubleEnded.java[HelloDoubleEnded] is a simple application
+{url-tutorial}/HelloDoubleEnded.java[HelloDoubleEnded] is a simple app
 that demonstrates a double-ended `New6Dof` constraint.
 
 Things to notice while running the app:
@@ -234,7 +234,7 @@ use the `set()` method with lowerLimit &gt; upperLimit.
 
 NOTE: The limits of a rotational DOF are measured in radians.
 
-{url-tutorial}/HelloLimit.java[HelloLimit] is a simple application
+{url-tutorial}/HelloLimit.java[HelloLimit] is a simple app
 that demonstrates a single-ended `New6Dof` constraint
 with limited translation DOFs.
 The joint's translations are limited,
@@ -245,7 +245,7 @@ confining the ball to a 6x6 horizontal square centered on the origin.
 Motors are used to apply forces to a constraint.
 In `New6Dof`, each DOF has its own motor, which is disabled by default.
 
-{url-tutorial}/HelloMotor.java[HelloMotor] is a simple application
+{url-tutorial}/HelloMotor.java[HelloMotor] is a simple app
 that demonstrates a double-ended `New6Dof`
 with its Y-rotation motor enabled.
 
@@ -275,7 +275,7 @@ In `New6Dof`, each DOF has its own servo, which is disabled by default.
 
 NOTE: For a servo to be effective, its corresponding motor must also be enabled.
 
-{url-tutorial}/HelloServo.java[HelloServo] is a simple application
+{url-tutorial}/HelloServo.java[HelloServo] is a simple app
 that demonstrates a double-ended `New6Dof` constraint
 with its Y-rotation servo enabled.
 
@@ -305,7 +305,7 @@ and set its stiffness to a positive value.
 If desired, you can also configure
 the spring's equilibrium value and damping ratio.
 
-{url-tutorial}/HelloSpring.java[HelloSpring] is a simple application
+{url-tutorial}/HelloSpring.java[HelloSpring] is a simple app
 that demonstrates a single-ended constraint with springs.
 
 Things to notice while running the app:

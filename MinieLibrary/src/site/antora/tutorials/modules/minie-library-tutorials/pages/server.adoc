@@ -8,30 +8,31 @@ provides a convenient interface
 for configuring, accessing, updating, and debugging
 a {url-api}/PhysicsSpace.html[`PhysicsSpace`].
 
-However, if an application doesn't require debug visualization,
+However, if an app doesn't require debug visualization,
 it can instantiate a physics space directly and update it explicitly.
 
 {url-tutorial}/HelloUpdate.java[HelloUpdate] is a simple
-application that demonstrates direct instantiation and explicit updating.
+app that demonstrates direct instantiation and explicit updating.
 
-Furthermore, an application running in a headless environment
+Furthermore, an app running in a headless environment
 (such as a server) might not even need a scene graph.
 By instantiating collision objects directly (not using physics controls),
 you can simulate physics without a scene graph.
 
 And by using `NativeLibraryLoader` to explicitly load the native library,
-such applications can completely avoid initializing JMonkeyEngine.
+such apps can completely avoid initializing JMonkeyEngine.
 
 {url-tutorial}/HelloConsole.java[HelloConsole] is a console
-application that demonstrates explicitly loading the native library.
+app that demonstrates explicitly loading the native library.
 
-For applications without a scene graph, consider using
+For apps without a scene graph, consider using
 https://stephengold.github.io/Libbulletjme[Libbulletjme] instead of Minie.
+
 
 == Constructors
 
 Both examples used the simplest {url-api}/PhysicsSpace.html[`PhysicsSpace`]
-constructor, which is fine for most applications.
+constructor, which is fine for most apps.
 However there are actually different 8 ways
 to directly instantiate a physics space:
 

@@ -165,7 +165,7 @@ _Spinning friction_ generates torque parallel to the contact normal,
 which tends to prevent a body from spinning when grasped.
 
 To see rolling and spinning friction in action, run
-{url-examples}/PoolDemo.java[the PoolDemo application].
+{url-examples}/PoolDemo.java[the PoolDemo app].
 
 To simulate objects with grooved surfaces, it's also possible to configure
 a rigid body for _anisotropic friction_:
@@ -184,4 +184,4 @@ The rotational rate of the A body around its axis
 is matched to that of the B body around its axis, or made proportional.
 
 To see a gear joint in action, run
-{url-examples}/TestGearJoint.java[the TestGearJoint application].
+{url-examples}/TestGearJoint.java[the TestGearJoint app].

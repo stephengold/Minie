@@ -230,7 +230,7 @@ For a simple example of a pinned node, see
 
 == Simulating a rope
 
-{url-tutorial}/HelloSoftRope.java[HelloSoftRope] is a simple application
+{url-tutorial}/HelloSoftRope.java[HelloSoftRope] is a simple app
 that demonstrates one way to simulate rope using a soft body.
 
 TODO: applying forces, anchors, soft joints, world info
@@ -238,7 +238,7 @@ TODO: applying forces, anchors, soft joints, world info
 
 == Aerodynamics
 
-{url-tutorial}/HelloWind.java[HelloWind] is a simple application
+{url-tutorial}/HelloWind.java[HelloWind] is a simple app
 that simulates the effect of wind on a flag.
 
 Things notice while running the app:

@@ -61,7 +61,7 @@ aren't {url-enwiki}/Minimum_bounding_box[minimal].
 Approximations in Bullet make them somewhat larger than necessary.
 However, they are usually accurate enough to be useful.
 
-{url-tutorial}/HelloGhost.java[`HelloGhost`] is a simple application
+{url-tutorial}/HelloGhost.java[`HelloGhost`] is a simple app
 that illustrates how a ghost could be used
 to detect a character entering/leaving a box-shaped zone.
 
@@ -167,7 +167,7 @@ To confirm intersection,
 use `ManifoldPoints.getDistance1()` to get the separation distance.
 When the distance is positive, there's no intersection.
 
-{url-examples}/ConveyorDemo.java[`ConveyorDemo`] is a simple application
+{url-examples}/ConveyorDemo.java[`ConveyorDemo`] is a simple app
 that implements conveyor belts using contact-point modification.
 
 == Collision/contact listeners
