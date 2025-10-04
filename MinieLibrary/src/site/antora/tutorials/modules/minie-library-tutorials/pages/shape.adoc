@@ -1,7 +1,7 @@
 = Choosing collision shapes
-:Project: Minie
 :item: &rarr;
 :page-pagination:
+:Project: Minie
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-enwiki: https://en.wikipedia.org/wiki
 :url-examples-shapes: https://github.com/stephengold/Minie/tree/master/MinieExamples/src/main/java/com/github/stephengold/shapes

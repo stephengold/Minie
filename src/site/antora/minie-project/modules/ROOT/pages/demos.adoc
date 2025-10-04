@@ -1,6 +1,6 @@
 = An overview of the demo applications
-:Project: Minie
 :experimental:
+:Project: Minie
 :url-examples: https://github.com/stephengold/Minie/tree/master/MinieExamples/src/main/java/jme3utilities/minie/test
 
 _Demo applications_ are provided to showcase certain features of {Project}.

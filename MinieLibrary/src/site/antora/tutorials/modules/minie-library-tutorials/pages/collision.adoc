@@ -1,7 +1,7 @@
 = Managing collisions
-:Project: Minie
 :experimental:
 :page-pagination:
+:Project: Minie
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-enwiki: https://en.wikipedia.org/wiki
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test

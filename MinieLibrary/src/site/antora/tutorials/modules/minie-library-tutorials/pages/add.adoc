@@ -1,7 +1,7 @@
 = How to add Minie to an existing project
-:Project: Minie
 :experimental:
 :page-pagination:
+:Project: Minie
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 
 TIP: If you're creating a JMonkeyEngine desktop application from scratch,
