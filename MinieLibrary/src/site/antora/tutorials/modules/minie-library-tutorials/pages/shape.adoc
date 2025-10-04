@@ -241,7 +241,7 @@ assert convexClass == isConvex;
 ----
 
 NOTE: In this context, "convex" is a property of classes, not instances.
-While specific *instances* of non-convex classes have the convex property,
+While specific *instances* of non-convex classes possess the convex property,
 those classes don't guarantee it for *all* instances.
 
 _Concave_ is essentially the opposite of convex, except that compound shapes
@@ -550,16 +550,18 @@ Unlike `createMeshShape()`, it ignores terrain.
 
 Faced with the task of simulating a non-convex rigid body
 (such as a cross or ring),
-it's best to decompose it into convex shapes that,
+it's best to decompose it into a small number of convex shapes that,
 when recombined, will approximate the desired behavior.
 
 There are various approaches,
-depending how much the developer knows about the object's shape.
-If the model's mesh is generated procedurally, it may be possible
-to decompose it during the generation process.
-Or if the object is modeled in Blender,
-it may be practical to manually decompose it there
-into meshes that are convex or nearly so.
+depending how much you know about the body's shape.
+
+* If the mesh was generated procedurally, it may be convenient
+  to decompose it during the generation process.
+* If the mesh was crafted in a tool such as https://www.blender.org/[Blender],
+  it may be practical to manually decompose it there,
+  into sub-meshes that are convex or nearly so.
+
 In both cases, the desired compound shape can then be generated using
 `createDynamicMeshShape()`.
 

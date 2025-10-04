@@ -56,13 +56,13 @@ either as a _double-ended_ constraint (connecting 2 rigid bodies)
 or as a _single-ended_ constraint (connecting a rigid body to a fixed point).
 
 `New6Dof` can simulate up to 3 rotation DOFs
-and up to 3 translation DOFs, so an instance
+and up to 3 translation DOFs, so it
 can potentially rotate or slide on any axis or axes.
 By default, the translation DOFs are _locked_ at a zero,
 while the rotation DOFs are _free_ to assume any angular value.
 In other words, it defaults to a point-to-point joint.
 
-By locking and/or unlocking DOFs, you simulate different types of joints:
+By locking and/or unlocking DOFs, you simulate other types of joints:
 
 * For a hinge joint, lock all but one of the rotation DOFs.
 * For a slider joint, lock all 3 rotation DOFs
@@ -133,8 +133,8 @@ By convention, the body connected to a single-ended
 In effect, the "A" end of a single-ended constraint
 connects to the physics space itself.
 
-NOTE: Different {url-api}/joints/Constraint.html[`Constraint`]
-subclasses use different end-naming conventions for single-ended constraints.
+NOTE: Certain other {url-api}/joints/Constraint.html[`Constraint`]
+subclasses use the opposite end-naming convention for single-ended constraints.
 
 There are 2 `New6Dof` constructors,
 one for a single-ended constraint:

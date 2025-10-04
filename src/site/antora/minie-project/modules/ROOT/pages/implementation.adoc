@@ -8,7 +8,7 @@ For physics simulation and collision detection,
 a mature, open-source, 3-D physics simulator,
 released under https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt[a Zlib license].
 
-To enable efficient simulation of moving meshes,
+To enable efficient simulation of complex moving shapes,
 {Project} also incorporates Khaled Mamou's
 https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Decomposition _(V-HACD)_ algorithm].
 
@@ -23,7 +23,7 @@ All {Cplusplus} source code associated with {Project}
 (including a modified partial snapshot of Bullet, two snapshots of V-HACD, and some "glue code")
 resides in https://github.com/stephengold/Libbulletjme[the Libbulletjme repository].
 Before instantiating physics objects,
-a {Project} application must {url-enwiki}/Dynamic_loading[dynamically load]
+a {Project} app must {url-enwiki}/Dynamic_loading[dynamically load]
 a _native library_ of this code,
 compiled for the {url-enwiki}/Computing_platform[platform]
 on which the app is executing.
@@ -123,7 +123,7 @@ Each simulation step consists of 4 _phases_:
   to apply contact forces, solve constraints, and update positions.
 
 Collisions are reported to listeners registered at the space.
-For fast-moving objects,
+For fast-moving rigid bodies,
 {Project} offers optional continuous collision detection (CCD)
 using swept spheres.
 Collisions detected by CCD are reported to those same listeners.
@@ -162,7 +162,7 @@ To enable this feature, a multithreaded (Mt) native library must be loaded.
 
 == Next steps
 
-For more detail about Bullet physics, download and read the
+For more detail about how Bullet physics works, download and read the
 https://github.com/bulletphysics/bullet3/blob/master/docs/Bullet_User_Manual.pdf[Bullet User Manual].
 
 To gain hands-on experience,

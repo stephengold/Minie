@@ -7,8 +7,8 @@ While pre-built library artifacts
 can be downloaded from GitHub and the Maven Central Repository,
 some people prefer to build them from source.
 
-You can also build a local copy of the documentation (website content).
-This is useful if you are editing the content,
+You can also build a local copy of the documentation website (including HTML).
+This is useful if you are editing the documentation,
 or if your Internet access is limited or unreliable.
 
 
@@ -48,7 +48,7 @@ Here's the recommended procedure:
 .. using Windows Command Prompt: `.\gradlew build`
 
 After a successful build,
-artifacts will be found in the "MinieLibrary/build/libs" directory.
+artifacts will be found in "MinieLibrary/build/libs".
 
 === Quicker builds
 
@@ -140,7 +140,7 @@ see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
 . Run Antora:  `npx antora src/site/antora/playbook.yml`
 
 After a successful build,
-the local copy of the site will be found in the "build/site" directory.
+your local copy of the site will be found in "build/site".
 
 
 == Cleanup
