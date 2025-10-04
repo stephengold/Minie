@@ -22,6 +22,7 @@ single-precision native library for each of the 10 platforms Minie supports.
 Here's the recommended procedure:
 
 . Install a https://adoptium.net/releases.html[Java Development Kit (JDK)],
+  version 17 or higher,
   if you don't already have one.
 . Point the `JAVA_HOME` environment variable to your JDK installation:
   (The path might be something like "C:\Program Files\Eclipse Adoptium\jdk-17.0.3.7-hotspot"
