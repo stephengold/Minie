@@ -41,7 +41,7 @@ count as distinct platforms!
 On desktop platforms, JMonkeyEngine automatically loads
 the appropriate native library
 during initialization of the `JmeDesktopSystem` class
-if it detects Minie's `NativeMeshUtil` class.
+if it detects {Project}'s `NativeMeshUtil` class.
 On Android platforms, the native library is loaded (if present)
 during static initialization of the `JmeAndroidSystem` class.
 
@@ -79,7 +79,7 @@ A collision object's absolute location and orientation are quantified
 in _physics-space coordinates_,
 based on a right-handed Cartesian coordinate system.
 These typically correspond to world coordinates of the scene.
-However, Minie supports scaling the physics space relative to the scene,
+However, {Project} supports scaling the physics space relative to the scene,
 in which case the _physics-space units_ (psu)
 might differ the from world units (wu).
 

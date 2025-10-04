@@ -1,7 +1,7 @@
 = Troubleshooting physics issues
-:Project: Minie
 :page-pagination:
 :page-toclevels: 3
+:Project: Minie
 :url-api: https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet
 :url-examples: https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test
 :url-tutorial: https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial
