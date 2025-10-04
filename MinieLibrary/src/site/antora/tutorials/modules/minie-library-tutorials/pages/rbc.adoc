@@ -33,6 +33,7 @@ with that of the controlled spatial.
 RBCs are enabled by default.
 Disabling an RBC causes the body to be removed from the space it's in, if any.
 
+
 == Constructors
 
 There are 3 {url-api}/control/RigidBodyControl.html[`RigidBodyControl`]
@@ -79,6 +80,7 @@ Things to notice while running the app:
 . The RBCs behave like directly instantiated rigid bodies.
 . Each geometry matches the motion of its corresponding RBC.
 
+
 == Kinematic flags
 
 To create a physics control for a *kinematic* rigid body,
@@ -98,6 +100,7 @@ but it will no longer follow the motion of the spatial.
 The body can then be positioned directly,
 using `setPhysicsLocation()` and `setPhysicsRotation()`.
 
+
 == Synchronizing scales
 
 While the *motion* of the controlled spatial matches
@@ -115,6 +118,7 @@ Things to notice while running the app:
 . The controlled geometry is shaded white.
 . The size of the rigid body matches that of the controlled geometry,
   even as it pulsates.
+
 
 == Local physics
 
@@ -146,6 +150,7 @@ Things to notice while running the app:
   its path in world space is a circular orbit.
 . While the dynamic ball falls straight downward in physics space,
   it follows a corkscrew path in world space.
+
 
 == Summary
 

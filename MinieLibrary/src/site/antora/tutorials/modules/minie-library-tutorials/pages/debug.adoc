@@ -28,6 +28,7 @@ To streamline this process, {Project} provides a configurable _dumper_
 to print out app states, physics spaces, collision shapes, multibodies,
 viewports, and scene graphs.
 
+
 == Debug visualization tips and tricks
 
 Debug visualization is disabled by default.
@@ -264,6 +265,7 @@ PlaneDmiListener callbackObject = new PlaneDmiListener(tileSize);
 collisionObject.setDebugMeshInitListener(callbackObject);
 ----
 
+
 == An introduction to `PhysicsDumper`
 
 The following temporary statements could be used to dump
@@ -376,6 +378,7 @@ dumper.dump(physicsSpace, indent, noUser);
 
 Other dump flags can be set to describe the nodes or clusters in each soft body
 or the child shapes in each compound collision shape.
+
 
 == Summary
 

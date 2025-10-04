@@ -29,6 +29,7 @@ and its motion is controlled very differently from a dynamic body.
 Instead of applying forces or directly updating the character's velocities,
 the app should specify when and how the character should walk and jump.
 
+
 == Direct creation
 
 You can create a character by directly invoking the
@@ -52,6 +53,7 @@ Since directly created characters don't look like much,
 even in debug visualization,
 they are mostly used to represent players in single-player games
 with a first-person viewpoint.
+
 
 == CharacterControl
 
@@ -89,6 +91,7 @@ Things to notice about the app:
   such as `onGround()` and `jump()`,
   the app never accesses the collision object directly.
 
+
 == Walking
 
 A character's walking motion is controlled by its _walk direction_ vector.
@@ -118,6 +121,7 @@ see {url-tutorial}/HelloWalkOtoCc.java[HelloWalkOtoCc].
 . Press kbd:[J] to walk in the direction opposite
   from the camera's forward direction.
 . Press kbd:[K] to walk to the camera's right.
+
 
 == Configuration
 
@@ -199,6 +203,7 @@ As with a rigid body, you can disable the contact response of a character using
 Disabling a character's contact response
 will compel it to fall, at least until contact response is re-enabled.
 
+
 == BetterCharacterControl
 
 Many limitations of
@@ -246,6 +251,7 @@ The user interface is identical to HelloWalkOtoCc:
 . Press kbd:[U] to walk in the camera's forward direction.
 . Press kbd:[H], kbd:[J], or kbd:[K] to walk in other directions.
 
+
 == Related demo apps
 
 The Jme3Examples subproject contains several demo apps
@@ -264,6 +270,7 @@ that showcase physics characters.
 * {url-jme3test}/bullet/TestBetterCharacter.java[The `TestBetterCharacter` demo app]
   demonstrates the Jaime model walking, jumping, and ducking.
   It uses BCC and a third-person viewpoint.
+
 
 == Summary
 

@@ -23,6 +23,7 @@ Adding {Project} to an existing JMonkeyEngine project is a 7-step process:
   if the app doesn't already do so.
 . Test and tune as necessary.
 
+
 == Remove libraries that might interfere
 
 If any directory where the app might run contains files
@@ -65,6 +66,7 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 . Look for incompatible libraries in the "Compile-time Libraries"
   listbox.  Select them and click on the btn:[Remove] button.
 . Click on the btn:[OK] button to exit the "Project Properties" dialog.
+
 
 == Add libraries to the classpath
 
@@ -164,6 +166,7 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 . Add the other JVM libraries in a similar manner.
 . Click on the btn:[OK] button to exit the "Project Properties" dialog.
 
+
 == Load the native library
 
 In a conventional JMonkeyEngine app,
@@ -180,6 +183,7 @@ NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 For Minie to work on Android platforms running Marshmallow (6.0) or higher,
 make sure the `extractNativeLibs` flag is set to `true`
 in the "application" element of the "AndroidManifest.xml" manifest.
+
 
 == Attach a `BulletAppState`
 
@@ -235,6 +239,7 @@ Techniques to simulate physics without using
 {url-api}/BulletAppState.html[`BulletAppState`]
 are described on xref:server.adoc[the physics-without-appstates page].
 
+
 == Configure the `PhysicsSpace`
 
 Attaching a {url-api}/BulletAppState.html[`BulletAppState`] instantiates a
@@ -279,6 +284,7 @@ set the gravity of the space to zero:
 space.setGravity(Vector3f.ZERO);
 ----
 
+
 == Create and add collision objects
 
 Collision objects come in many different types:
@@ -321,6 +327,7 @@ rigidNode1.addControl(rbc1);
 
 Either way, the objects
 aren't simulated unless they're added to a space.
+
 
 == Summary
 

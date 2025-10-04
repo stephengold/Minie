@@ -79,6 +79,7 @@ and the `worldMin`/`worldMax` arguments are omitted,
 then the physics space
 will extend from (-10000, -10000, -10000) to (+10000, +10000, +10000).
 
+
 == Updating the physics space
 
 {url-api}/PhysicsSpace.html[`PhysicsSpace`] offers 3 update methods:
@@ -107,6 +108,7 @@ then the time step will be capped at `space.maxTimeStep()` seconds
 If you don't need all 3 kinds of contact callbacks,
 you can improve simulation efficiency by specifying `false`
 for `doEnded`, `doProcessed`, and/or `doStarted`.
+
 
 == Summary
 

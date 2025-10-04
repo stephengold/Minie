@@ -45,6 +45,7 @@ It's so versatile, it can also emulate 4 other constraints:
 
 It might be the only physics joint you'll ever need.
 
+
 == Features
 
 A `New6Dof` constraint can be instantiated
@@ -88,6 +89,7 @@ You can also:
 * (for a double-ended constraint) configure
   whether collisions between the end bodies should be simulated or not.
 
+
 == Caveats
 
 A `New6Dof` constraint
@@ -116,6 +118,7 @@ For instance, to correct 90% of joint-position errors during each simulation ste
 ----
 physicsSpace.getSolverInfo().setJointErp(0.9f); // default=0.2
 ----
+
 
 == Constructors
 
@@ -206,6 +209,7 @@ Things to notice while running the app:
   Even though all 3 translation DOFs are locked, the paddle's
   motion drags them out of position.
 
+
 == Limits
 
 The degrees of freedom are indexed as follows...
@@ -240,6 +244,7 @@ with limited translation DOFs.
 The joint's translations are limited,
 confining the ball to a 6x6 horizontal square centered on the origin.
 
+
 == Motors
 
 Motors are used to apply forces to a constraint.
@@ -264,6 +269,7 @@ constraint.set(MotorParam.MaxMotorForce, dofIndex, force);
 ----
 
 NOTE: For translation DOFs, the default maximum force is zero!
+
 
 == Servos
 
@@ -297,6 +303,7 @@ constraint.set(MotorParam.TargetVelocity, dofIndex, velocity);
 
 NOTE: The default target velocity is zero!
 
+
 == Springs
 
 By default, a DOF that's limited or free has no preferred position.
@@ -314,6 +321,7 @@ Things to notice while running the app:
 . Springs on the X and Z translation DOFs
   cause the ball to accelerate toward its equilibrium location.
 . Since there's no damping, the ball tends to oscillate.
+
 
 == Summary
 

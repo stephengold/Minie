@@ -75,6 +75,7 @@ Things to notice while running the app:
 .. The ball on the right loses half its horizontal velocity.
 .. The ball on the left begins moving leftward as it falls.
 
+
 == Configuring rigid bodies
 
 === Static rigid bodies
@@ -467,6 +468,7 @@ Things to notice while running the app:
   the upper box doesn't resume falling.
   Due to deactivation, it appears to be "stuck".
 
+
 == Continuous collision detection
 
 A common issue with discrete-time physics simulation
@@ -527,6 +529,7 @@ For some apps (such as simulation of fast-moving ragdolls),
 testing for dynamic-dynamic collisions is undesirable.
 You can disable dynamic-dynamic CCD
 by invoking `physicsSpace.setCcdWithStaticOnly(true)`.
+
 
 == Summary
 

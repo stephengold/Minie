@@ -28,6 +28,7 @@ Instead of applying forces or directly updating the vehicle's velocities,
 an app using a physics vehicle
 should specify when and how the vehicle accelerates, steers, and brakes.
 
+
 == Direct creation
 
 You can create a vehicle without wheels by directly invoking the
@@ -47,6 +48,7 @@ Things to notice while running the app:
 . The vehicle circles to the left,
   accelerating steadily until it "wipes out" and flips over.
 
+
 == VehicleControl
 
 To associate a vehicle with a `Spatial`, there's
@@ -56,6 +58,7 @@ a physics control that extends
 
 NOTE: As with {url-api}/control/RigidBodyControl.html[`RigidBodyControl`],
 the physics control and the collision object are the same object.
+
 
 == Related demo apps
 
@@ -96,6 +99,7 @@ Most of the remaining keyboard controls are standardized:
 * kbd:[C] dumps the camera's position to the console,
 * kbd:[M] prints memory statistics to the console, and
 * kbd:[Esc] ends the app.
+
 
 == Configuration and tuning
 
@@ -234,6 +238,7 @@ The default value of 1.0 yields realistic behavior.
 Reducing this parameter will improve stability, but it's a bit of a hack;
 use it only as a last resort.
 
+
 == Advanced vehicles
 
 For further inspiration, look at
@@ -247,6 +252,7 @@ which includes:
 * a tachometer display,
 * tire smoke, and
 * skid marks.
+
 
 == Summary
 

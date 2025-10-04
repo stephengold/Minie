@@ -7,6 +7,7 @@ Adding a `DynamicAnimControl` to an animated model
 provides ragdoll physics and inverse kinematics.
 `DynamicAnimControl` can also be used to simulate ropes.
 
+
 == Adding the control to a spatial
 
 Configuration of `DynamicAnimControl` mostly takes place
@@ -46,6 +47,7 @@ the phrases _physics joint_ (for `com.jme3.bullet.joints.PhysicsJoint`)
 and _skeleton joint_ (for `com.jme3.anim.Joint`) are used.
 ====
 
+
 == Physics links
 
 A model's ragdoll is composed of rigid bodies joined by physics joints.
@@ -64,6 +66,7 @@ a `PhysicsLink`, and the links are organized in a tree hierarchy.
 * `AttachmentLink`: manages a non-animated model that's
   attached to the main model by means of an attachment node.
   An `AttachmentLink` cannot be the parent of a link.
+
 
 == Configuring a ragdoll
 
@@ -102,6 +105,7 @@ Unlinked bones will be managed by the nearest linked ancestor bone.
 The `TorsoLink` will manage any bones for which no ancestor bone is linked.
 If you link too many bones, the ragdoll may become inflexible or jittery
 due to collisions between rigid bodies that don't share a `PhysicsJoint`.
+
 
 == Link modes:  dynamic/kinematic
 
@@ -148,13 +152,16 @@ To avoid sudden jumps
 when a link transitions from dynamic mode to kinematic mode,
 there's a configurable blending period.
 
+
 == Canned animations in dynamic mode
 
 (Documentation not yet written)
 
+
 == Collisions between links
 
 (Documentation not yet written)
+
 
 == Inverse kinematics
 
@@ -190,13 +197,16 @@ you might add a single-ended IK joint to the head's `BoneLink`.
 
 (More documentation to be written)
 
+
 == Collision detection
 
 (Documentation not yet written)
 
+
 == Contact response
 
 (Documentation not yet written)
+
 
 == Simulating chain/rope
 

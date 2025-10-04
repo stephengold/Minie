@@ -6,6 +6,7 @@
 This page acts as a holding area for tutorial material that's waiting
 to be organized.
 
+
 == Startup message
 
 By default, the native library prints a startup message to `System.out`.
@@ -15,6 +16,7 @@ Once the library is loaded (but not started) you can disable this message:
 ----
 NativeLibrary.setStartupMessageEnabled(false);
 ----
+
 
 == Library versions and properties
 
@@ -53,6 +55,7 @@ import jme3utilities.minie.MinieVersion;
 String minieVersion = MinieVersion.versionShort();
 ----
 
+
 == Dedicated physics thread
 
 By default, the physics simulation runs on the render thread.
@@ -62,6 +65,7 @@ To execute it on a dedicated thread, use:
 ----
 bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
 ----
+
 
 == Simulation speed
 
@@ -74,6 +78,7 @@ To advance the physics simulation at a different rate, use:
 bulletAppState.setSpeed(0.5f); // simulate physics at half speed
 ----
 
+
 == Default collision margin
 
 The default collision margin for new shapes is 0.04 physics-space units.
@@ -85,6 +90,7 @@ CollisionShape.setDefaultMargin(0.1f);
 ----
 
 NOTE: The Bullet Manual advises against changing the default margin.
+
 
 == Broadphase types
 

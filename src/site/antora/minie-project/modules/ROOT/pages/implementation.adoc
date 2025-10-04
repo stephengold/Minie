@@ -12,6 +12,7 @@ To enable efficient simulation of moving meshes,
 {Project} also incorporates Khaled Mamou's
 https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Decomposition _(V-HACD)_ algorithm].
 
+
 == Native libraries
 
 Bullet and V-HACD are written in {Cplusplus}, so {Project} uses
@@ -45,10 +46,12 @@ if it detects {Project}'s `NativeMeshUtil` class.
 On Android platforms, the native library is loaded (if present)
 during static initialization of the `JmeAndroidSystem` class.
 
+
 == Collision objects, spaces, and shapes
 
 Collision detection is organized around _collision objects_
 that interact in the context of a _collision space_.
+
 Collision objects can be _soft_ (varying shape) or _rigid_ (non-varying shape).
 Rigid objects can be _mobile_ (moving) or _static_ (non-moving).
 And mobile objects can be _dynamic_ (driven by {url-enwiki}/Force[forces],
@@ -72,6 +75,7 @@ that describes the shape of its surface.
 Most collision shapes are _scalable_,
 allowing you to grow or shrink objects
 simply by varying the shape's scale factors.
+
 
 == Coordinate systems and units
 
@@ -98,6 +102,7 @@ are quantified using _local coordinates_.
 The documentation distinguishes _scaled local coordinates_ (measured in psu)
 from _shape coordinates_ (which depend on scale factors).
 
+
 == Discrete time and collision detection
 
 Within a physics space, simulation occurs in discrete steps of short duration.
@@ -123,6 +128,7 @@ For fast-moving objects,
 using swept spheres.
 Collisions detected by CCD are reported to those same listeners.
 
+
 == App states
 
 To simplify the creation and management of physics spaces,
@@ -135,6 +141,7 @@ Either way, the app state attempts to synchronize to real time
 during each rendered frame.
 
 Debug visualization can be enabled or disabled simply by setting a parameter.
+
 
 == Direct buffers, garbage collection, and threading
 
