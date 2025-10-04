@@ -28,7 +28,7 @@ Here's the recommended procedure:
   or "/usr/lib/jvm/java-8-openjdk-amd64/" or
   "/Library/Java/JavaVirtualMachines/liberica-jdk-17-full.jdk/Contents/Home" .)
 .. using Bash or Zsh: `export JAVA_HOME="` *path to installation* `"`
-.. using Fish: `set -g JAVA_HOME "` *path to installation* `"`
+.. using https://fishshell.com/[Fish]: `set -g JAVA_HOME "` *path to installation* `"`
 .. using Windows Command Prompt: `set JAVA_HOME="` *path to installation* `"`
 .. using PowerShell: `$env:JAVA_HOME = '` *path to installation* `'`
 . Download and extract the {Project} source code from GitHub:
@@ -42,7 +42,7 @@ Here's the recommended procedure:
 ... save the ZIP file
 ... extract the contents of the saved ZIP file
 ... `cd` to the extracted directory
-. Run the Gradle wrapper to build the entire project:
+. Run the https://gradle.org[Gradle] wrapper to build the entire project:
 .. using Bash or Fish or PowerShell or Zsh: `./gradlew build`
 .. using Windows Command Prompt: `.\gradlew build`
 
