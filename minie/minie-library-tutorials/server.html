@@ -387,29 +387,29 @@ for configuring, accessing, updating, and debugging
 a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>However, if an application doesn&#8217;t require debug visualization,
+<p>However, if an app doesn&#8217;t require debug visualization,
 it can instantiate a physics space directly and update it explicitly.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloUpdate.java">HelloUpdate</a> is a simple
-application that demonstrates direct instantiation and explicit updating.</p>
+app that demonstrates direct instantiation and explicit updating.</p>
 </div>
 <div class="paragraph">
-<p>Furthermore, an application running in a headless environment
+<p>Furthermore, an app running in a headless environment
 (such as a server) might not even need a scene graph.
 By instantiating collision objects directly (not using physics controls),
 you can simulate physics without a scene graph.</p>
 </div>
 <div class="paragraph">
 <p>And by using <code>NativeLibraryLoader</code> to explicitly load the native library,
-such applications can completely avoid initializing JMonkeyEngine.</p>
+such apps can completely avoid initializing JMonkeyEngine.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloConsole.java">HelloConsole</a> is a console
-application that demonstrates explicitly loading the native library.</p>
+app that demonstrates explicitly loading the native library.</p>
 </div>
 <div class="paragraph">
-<p>For applications without a scene graph, consider using
+<p>For apps without a scene graph, consider using
 <a href="https://stephengold.github.io/Libbulletjme">Libbulletjme</a> instead of Minie.</p>
 </div>
 </div>
@@ -419,7 +419,7 @@ application that demonstrates explicitly loading the native library.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Both examples used the simplest <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>
-constructor, which is fine for most applications.
+constructor, which is fine for most apps.
 However there are actually different 8 ways
 to directly instantiate a physics space:</p>
 </div>

@@ -447,7 +447,7 @@ powerful forces prevent them from intersecting other bodies.</p>
 <div class="sect2">
 <h3 id="_hellorigidbody"><a class="anchor" href="#_hellorigidbody"></a>HelloRigidBody</h3>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody</a> is a simple application
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloRigidBody.java">HelloRigidBody</a> is a simple app
 that demonstrates the 5 familiar features of rigid bodies.</p>
 </div>
 <div class="admonitionblock important">
@@ -475,14 +475,14 @@ Take time <strong>now</strong> to set up a development environment for this purp
 <p>Two balls, both falling slowly under the influence of gravity.</p>
 </li>
 <li>
+<p>The simulation runs at 1/10th normal speed,
+making the simulation steps noticeable.</p>
+</li>
+<li>
 <p>The ball on the right receives an impulse that pushes it leftward.</p>
 </li>
 <li>
 <p>After the impulse ends, the ball&#8217;s inertia keeps it moving leftward.</p>
-</li>
-<li>
-<p>The simulation runs at 1/10th normal speed,
-making the simulation steps noticeable.</p>
 </li>
 <li>
 <p>The balls collide, generating contact forces
@@ -529,7 +529,7 @@ Java&#8217;s <code>static</code> keyword is completely unrelated to physics.
 </table>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloStaticBody.java">HelloStaticBody</a> is a simple application
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloStaticBody.java">HelloStaticBody</a> is a simple app
 that combines static and dynamic rigid bodies.
 Things to notice while running the app:</p>
 </div>
@@ -626,7 +626,7 @@ The usual way is to instantiate a static or dynamic body and then convert it
 to kinematic using <code>rigidBody.setKinematic(true)</code>.</p>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloKinematics.java">HelloKinematics</a> is a simple application
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloKinematics.java">HelloKinematics</a> is a simple app
 that combines kinematic and dynamic rigid bodies.
 Things to notice while running the app:</p>
 </div>
@@ -661,7 +661,7 @@ use <code>rigidBody.setContactResponse(false)</code>.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloContactResponse.java">HelloContactResponse</a>
-is a simple application
+is a simple app
 that demonstrates contact response.
 Things to notice while running the app:</p>
 </div>
@@ -841,7 +841,7 @@ rigidBody.setDamping(linearDamping, angularDamping);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloDamping.java">HelloDamping</a> is a simple application
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloDamping.java">HelloDamping</a> is a simple app
 that demonstrates damping.
 Things to notice while running the app:</p>
 </div>
@@ -915,7 +915,7 @@ to which it&#8217;s added, use <code>rigidBody.setProtectGravity(true)</code>.</
 <p>To simulate a non-uniform gravitational field,
 update the gravity of each body before each simulation step.
 <a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloNonUniformGravity.java">HelloNonUniformGravity</a>
-is a simple application
+is a simple app
 that demonstrates this technique.
 The planet&#8217;s gravity vector is visualized by a thin cyan arrow.
 It orbits a black hole whose location is indicated by 3 thick arrows.</p>
@@ -1005,7 +1005,7 @@ is calculated by multiplying the parameters of the colliding bodies.</p>
 <h4 id="_related_demo_apps"><a class="anchor" href="#_related_demo_apps"></a>Related demo apps</h4>
 <div class="paragraph">
 <p><a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/DropTest.java">The DropTest demo</a> and
-<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TargetDemo.java">the TargetDemo application</a>
+<a href="https://github.com/stephengold/Minie/blob/master/MinieExamples/src/main/java/jme3utilities/minie/test/TargetDemo.java">the TargetDemo app</a>
 both allow and you to vary the damping, friction, gravity,
 and restitution of all the bodies in a physics space.
 This allows you to see how these 4 parameters affect the bodies' motion.</p>
@@ -1165,7 +1165,7 @@ use <code>physicsSpace.activateAll(true)</code>.</p>
 because the events listed above do not, by themselves, reactivate it.</p>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloDeactivation.java">HelloDeactivation</a> is a simple application
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloDeactivation.java">HelloDeactivation</a> is a simple app
 that demonstrates deactivation.
 Things to notice while running the app:</p>
 </div>
@@ -1179,7 +1179,7 @@ which provides a contact force to halt its motion and counteract gravity.</p>
 <p>About 2 seconds after the upper box stops moving, it gets deactivated.</p>
 </li>
 <li>
-<p>After the application removes the lower box,
+<p>After the app removes the lower box,
 the upper box doesn&#8217;t resume falling.
 Due to deactivation, it appears to be "stuck".</p>
 </li>
@@ -1237,7 +1237,7 @@ Here&#8217;s a heuristic that works well for many situations:</p>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloCcd.java">HelloCcd</a> is a simple application
+<p><a href="https://github.com/stephengold/Minie/blob/master/TutorialApps/src/main/java/jme3utilities/tutorial/HelloCcd.java">HelloCcd</a> is a simple app
 that demonstrates CCD.
 Things to notice while running the app:</p>
 </div>
@@ -1262,7 +1262,7 @@ passing from one side to the other in a single simulation step.</p>
 <div class="paragraph">
 <p>By default, CCD tests for
 both dynamic-dynamic collisions and dynamic-static ones.
-For some applications (such as simulation of fast-moving ragdolls),
+For some apps (such as simulation of fast-moving ragdolls),
 testing for dynamic-dynamic collisions is undesirable.
 You can disable dynamic-dynamic CCD
 by invoking <code>physicsSpace.setCcdWithStaticOnly(true)</code>.</p>

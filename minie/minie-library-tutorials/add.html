@@ -387,7 +387,7 @@
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-If you&#8217;re creating a JMonkeyEngine desktop application from scratch,
+If you&#8217;re creating a JMonkeyEngine desktop app from scratch,
 <a href="https://github.com/stephengold/BasicGame-on-Gradle">the BasicGame-on-Gradle project</a>
 provides a good starting point.
 </td>
@@ -411,16 +411,16 @@ provides a good starting point.
 <li>
 <p>Create, configure, and attach
 a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>,
-if the application doesn&#8217;t already do so.</p>
+if the app doesn&#8217;t already do so.</p>
 </li>
 <li>
 <p>Configure the <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>,
-if the application doesn&#8217;t already do so.</p>
+if the app doesn&#8217;t already do so.</p>
 </li>
 <li>
 <p>Create physics controls, collision objects,
 and joints and add them to the physics space,
-if the application doesn&#8217;t already do so.</p>
+if the app doesn&#8217;t already do so.</p>
 </li>
 <li>
 <p>Test and tune as necessary.</p>
@@ -433,7 +433,7 @@ if the application doesn&#8217;t already do so.</p>
 <h2 id="_remove_libraries_that_might_interfere"><a class="anchor" href="#_remove_libraries_that_might_interfere"></a>Remove libraries that might interfere</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If any directory where the application might run contains files
+<p>If any directory where the app might run contains files
 named "libbulletjme.so" or "bulletjme.dll" or "libbulletjme.dylib",
 you should remove those files.
 Those filenames are used by JMonkeyEngine when it loads the native library,
@@ -715,11 +715,11 @@ and probably the "-sources" and "-javadoc" JARs as well.</p>
 <h2 id="_load_the_native_library"><a class="anchor" href="#_load_the_native_library"></a>Load the native library</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In a conventional JMonkeyEngine application,
+<p>In a conventional JMonkeyEngine app,
 the required native libraries get loaded automatically by <code>Application.start()</code>.</p>
 </div>
 <div class="paragraph">
-<p>If your application doesn&#8217;t invoke <code>Application.start()</code>,
+<p>If your app doesn&#8217;t invoke <code>Application.start()</code>,
 load Minie&#8217;s native library before instantiating any physics objects:</p>
 </div>
 <div class="listingblock">
@@ -745,7 +745,7 @@ for configuring, accessing, updating, and debugging
 a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>If the application already has
+<p>If the app already has
 a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a>,
 that code might work with Minie.
 If not, here is a snippet to guide you:</p>
@@ -811,7 +811,7 @@ are described on <a href="server.html" class="xref page">the physics-without-app
 <div class="paragraph">
 <p>Attaching a <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> instantiates a
 <a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/PhysicsSpace.html"><code>PhysicsSpace</code></a> that
-the application can access immediately:</p>
+the app can access immediately:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -948,7 +948,7 @@ aren&#8217;t simulated unless they&#8217;re added to a space.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Before adding Minie to an application, remove all other physics libraries.</p>
+<p>Before adding Minie to an app, remove all other physics libraries.</p>
 </li>
 <li>
 <p><a href="https://stephengold.github.io/Minie/javadoc/master/com/jme3/bullet/BulletAppState.html"><code>BulletAppState</code></a> provides a convenient interface
