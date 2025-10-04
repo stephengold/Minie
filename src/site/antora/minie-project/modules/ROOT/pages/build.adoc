@@ -137,8 +137,7 @@ see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
   with an absolute path to your checkout directory (3 places).
 . https://docs.antora.org/antora/latest/install-and-run-quickstart/#install-nodejs[Install Node.js]
 . Install Antora:  `npm i -D -E @antora/cli@3.1`
-. Run Antora:
-.. `npx antora src/site/antora/playbook.yml`
+. Run Antora:  `npx antora src/site/antora/playbook.yml`
 
 After a successful build,
 the local copy of the site will be found in the "build/site" directory.
