@@ -9,6 +9,9 @@
 A _physics joint_ connects one physics body to another
 (or to a fixed point in space), constraining how the body(s) can move.
 
+
+== Conceptual examples
+
 For instance, a door might swing on hinges.
 In simulation, the hinges would be represented by a joint
 with a single _degree of freedom_ (DOF):
