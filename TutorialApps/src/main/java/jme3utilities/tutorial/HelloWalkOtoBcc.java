@@ -358,7 +358,7 @@ public class HelloWalkOtoBcc
     /**
      * Configure physics during startup.
      *
-     * @return a new instance (not null)
+     * @return a new object
      */
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();
@@ -376,7 +376,7 @@ public class HelloWalkOtoBcc
      * @param red the desired reflectivity for red light (&ge;0, &le;1)
      * @param green the desired reflectivity for green light (&ge;0, &le;1)
      * @param blue the desired reflectivity for blue light (&ge;0, &le;1)
-     * @return a new instance (not null)
+     * @return a new object
      */
     private Material createLitMaterial(float red, float green, float blue) {
         Material result = new Material(assetManager, Materials.LIGHTING);

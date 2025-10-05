@@ -154,7 +154,7 @@ public class HelloRbc extends SimpleApplication {
     /**
      * Configure physics during startup.
      *
-     * @return a new instance (not null)
+     * @return a new object
      */
     private PhysicsSpace configurePhysics() {
         BulletAppState bulletAppState = new BulletAppState();
