@@ -10,7 +10,9 @@ released under https://github.com/bulletphysics/bullet3/blob/master/LICENSE.txt[
 
 To enable efficient simulation of complex moving shapes,
 {Project} also incorporates Khaled Mamou's
-https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Decomposition _(V-HACD)_ algorithm].
+https://github.com/kmammou/v-hacd[Volumetric-Hierarchical Approximate Convex Decomposition _(V-HACD)_ algorithm],
+released under
+https://github.com/kmammou/v-hacd/blob/master/LICENSE[a 3-Clause BSD License].
 
 
 == Native libraries
