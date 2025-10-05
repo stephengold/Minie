@@ -13,8 +13,10 @@
 A _rigid body_ is a type of collision object
 that exhibits some familiar features of real-world objects, including:
 
-* _rigidity_: a fixed shape and
-* {url-enwiki}/Inertia[_inertia_]: resistance to changes of motion.
+* _rigidity_: a fixed shape, and
+* {url-enwiki}/Inertia[_inertia_]: resistance to changes of motion
+  (quantified by its mass
+  and {url-enwiki}/Moment_of_inertia[_moment of inertia_]).
 
 The simplest way to create a rigid body is to directly invoke the
 {url-api}/objects/PhysicsRigidBody.html[`PhysicsRigidBody`] constructor.
