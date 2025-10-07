@@ -119,10 +119,10 @@ public class HelloLimit
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         settings.setGammaCorrection(true);
 
-        // Disable VSync for more frequent mouse-position updates.
+        // Disable VSync for more frequent mouse-position updates:
         settings.setVSync(false);
         application.setSettings(settings);
 
@@ -139,11 +139,11 @@ public class HelloLimit
         configureCamera();
         physicsSpace = configurePhysics();
 
-        // Add a static, green square to represent the ground.
+        // Add a static, green square to represent the ground:
         float halfExtent = 3f;
         addSquare(halfExtent, groundY);
 
-        // Add a mouse-controlled kinematic paddle.
+        // Add a mouse-controlled kinematic paddle:
         addPaddle();
 
         // Add a dynamic yellow ball:
@@ -177,7 +177,7 @@ public class HelloLimit
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Calculate the ground location (if any) selected by the mouse cursor.
+        // Calculate the ground location (if any) selected by the mouse cursor:
         Vector2f screenXy = inputManager.getCursorPosition();
         float nearZ = 0f;
         Vector3f nearLocation = cam.getWorldCoordinates(screenXy, nearZ);
@@ -232,10 +232,10 @@ public class HelloLimit
         PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
         physicsSpace.addCollisionObject(result);
 
-        // Apply angular damping to reduce the ball's tendency to spin.
+        // Apply angular damping to reduce the ball's tendency to spin:
         result.setAngularDamping(0.6f);
 
-        // Disable sleep (deactivation).
+        // Disable sleep (deactivation):
         result.setEnableSleep(false);
 
         Material yellowMaterial = createLitMaterial(1f, 1f, 0f);
@@ -264,7 +264,7 @@ public class HelloLimit
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -277,7 +277,7 @@ public class HelloLimit
         dlsr.setShadowIntensity(0.6f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -306,7 +306,7 @@ public class HelloLimit
      * @return the new body (not null)
      */
     private PhysicsRigidBody addSquare(float halfExtent, float y) {
-        // Construct a static rigid body with a square shape.
+        // Construct a static rigid body with a square shape:
         Box2dShape shape = new Box2dShape(halfExtent);
         PhysicsRigidBody result
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
@@ -322,7 +322,7 @@ public class HelloLimit
                 = new Quaternion().fromAngles(-FastMath.HALF_PI, 0f, 0f);
         result.setPhysicsRotation(rotate90);
 
-        // Translate it to the desired elevation.
+        // Translate it to the desired elevation:
         result.setPhysicsLocation(new Vector3f(0f, y, 0f));
 
         return result;
@@ -347,10 +347,10 @@ public class HelloLimit
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {
@@ -362,10 +362,10 @@ public class HelloLimit
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
-        // Reduce the time step for better accuracy.
+        // Reduce the time step for better accuracy:
         result.setAccuracy(0.005f);
 
         return result;

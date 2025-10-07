@@ -94,10 +94,10 @@ public class HelloKinematics
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         physicsSpace.addTickListener(this);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
         // Create a CollisionShape for balls:
@@ -128,7 +128,7 @@ public class HelloKinematics
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Make the kinematic ball orbit the origin.
+        // Make the kinematic ball orbit the origin:
         float orbitalPeriod = 0.8f; // seconds
         float phaseAngle = elapsedTime * FastMath.TWO_PI / orbitalPeriod;
 

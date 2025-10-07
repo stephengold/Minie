@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -82,21 +82,21 @@ public class HelloSoftRope extends SimpleApplication {
         bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
-        // Relocate the camera.
+        // Relocate the camera:
         cam.setLocation(new Vector3f(0f, 1f, 8f));
 
-        // Generate a subdivided line segment.
+        // Generate a subdivided line segment:
         int numSegments = 40;
         Vector3f endPoint1 = new Vector3f(0f, 4f, 0f);
         Vector3f endPoint2 = new Vector3f(2f, 4f, 2f);
         Mesh lineMesh = new DividedLine(endPoint1, endPoint2, numSegments);
 
-        // Create a soft body and add it to the physics space.
+        // Create a soft body and add it to the physics space:
         PhysicsSoftBody rope = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromLineMesh(lineMesh, rope);
         physicsSpace.addCollisionObject(rope);
 
-        // Pin one of the end nodes by setting its mass to zero.
+        // Pin one of the end nodes by setting its mass to zero:
         int nodeIndex = 0;
         rope.setNodeMass(nodeIndex, PhysicsBody.massForStatic);
     }

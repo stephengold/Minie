@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -84,10 +84,10 @@ public class HelloSoftSoft extends SimpleApplication {
         bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSoftSpace physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
-        // Set gravity to zero.
+        // Set gravity to zero:
         physicsSpace.setGravity(Vector3f.ZERO); // default = default=(0,-9.81,0)
 
-        // Relocate the camera.
+        // Relocate the camera:
         cam.setLocation(new Vector3f(0f, 1f, 8f));
         /*
          * A mesh is used to generate the shape and topology
@@ -97,7 +97,7 @@ public class HelloSoftSoft extends SimpleApplication {
         float radius = 1f;
         Mesh sphere = new Icosphere(numRefinementIterations, radius);
 
-        // Create 2 squishy balls and add them to the physics space.
+        // Create 2 squishy balls and add them to the physics space:
         PhysicsSoftBody ball1 = new PhysicsSoftBody();
         NativeSoftBodyUtil.appendFromTriMesh(sphere, ball1);
         physicsSpace.addCollisionObject(ball1);
@@ -114,7 +114,7 @@ public class HelloSoftSoft extends SimpleApplication {
         ball1.setPose(setVolumePose, setFramePose);
         ball2.setPose(setVolumePose, setFramePose);
 
-        // Enable pose matching to make the balls bouncy.
+        // Enable pose matching to make the balls bouncy:
         SoftBodyConfig config1 = ball1.getSoftConfig();
         config1.set(Sbcp.PoseMatching, 0.01f); // default = 0
         SoftBodyConfig config2 = ball2.getSoftConfig();
@@ -126,7 +126,7 @@ public class HelloSoftSoft extends SimpleApplication {
         config1.setCollisionFlags(ConfigFlag.VF_SS); // default = SDF_RS
         config2.setCollisionFlags(ConfigFlag.VF_SS);
 
-        // Translate ball2 upward and put it on a collision course with ball1.
+        // Translate ball2 upward and put it on a collision course with ball1:
         ball2.applyTranslation(new Vector3f(0f, 3f, 0f));
         ball2.setVelocity(new Vector3f(0f, -1f, 0f));
     }

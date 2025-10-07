@@ -126,7 +126,7 @@ public class HelloWalkOtoBcc
     public static void main(String[] arguments) {
         HelloWalkOtoBcc application = new HelloWalkOtoBcc();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -147,18 +147,18 @@ public class HelloWalkOtoBcc
         configureInput();
         physicsSpace = configurePhysics();
 
-        // Load the Oto model and find its animation actions.
+        // Load the Oto model and find its animation actions:
         Spatial oto = assetManager.loadModel("Models/Oto/Oto.mesh.xml");
         composer = oto.getControl(AnimComposer.class);
         standAction = composer.action("stand");
         walkAction = composer.action("Walk");
 
-        // Attach the model to a translation node.
+        // Attach the model to a translation node:
         rootNode.attachChild(translationNode);
         translationNode.attachChild(oto);
         oto.move(0f, 5f, 0f);
 
-        // Create the PhysicsControl and add it to the scene and space.
+        // Create the PhysicsControl and add it to the scene and space:
         float characterRadius = 3f;
         float characterHeight = 10f;
         float characterMass = 70f;
@@ -168,10 +168,10 @@ public class HelloWalkOtoBcc
         translationNode.addControl(character);
         physicsSpace.add(character);
 
-        // Teleport the character to its initial location.
+        // Teleport the character to its initial location:
         character.warp(new Vector3f(-73.6f, 14.09f, -45.58f));
 
-        // Add a static heightmap to represent the ground.
+        // Add a static heightmap to represent the ground:
         addTerrain();
     }
 
@@ -182,7 +182,7 @@ public class HelloWalkOtoBcc
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Determine horizontal directions relative to the camera orientation.
+        // Determine horizontal directions relative to the camera orientation:
         Vector3f away = cam.getDirection();
         away.y = 0;
         away.normalizeLocal();
@@ -191,7 +191,7 @@ public class HelloWalkOtoBcc
         left.y = 0;
         left.normalizeLocal();
 
-        // Determine the walk velocity from keyboard inputs.
+        // Determine the walk velocity from keyboard inputs:
         Vector3f direction = new Vector3f();
         if (walkAway) {
             direction.addLocal(away);
@@ -210,12 +210,12 @@ public class HelloWalkOtoBcc
         Vector3f walkVelocity = direction.mult(walkSpeed);
         character.setWalkDirection(walkVelocity);
 
-        // Decide whether to jump.
+        // Decide whether to jump:
         if (jumpRequested) {
             character.jump();
         }
 
-        // Update the animation action.
+        // Update the animation action:
         Action action = composer.getCurrentAction();
         if (walkVelocity.length() < 0.001f) {
             if (action != standAction) {
@@ -288,7 +288,7 @@ public class HelloWalkOtoBcc
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -301,7 +301,7 @@ public class HelloWalkOtoBcc
         dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -324,7 +324,7 @@ public class HelloWalkOtoBcc
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         terrain.setMaterial(greenMaterial);
 
-        // Construct a static RigidBodyControl based on the HeightMap.
+        // Construct a static RigidBodyControl based on the HeightMap:
         CollisionShape shape = new HeightfieldCollisionShape(heightMap);
         RigidBodyControl rbc
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);

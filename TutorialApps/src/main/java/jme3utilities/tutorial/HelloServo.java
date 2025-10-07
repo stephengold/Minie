@@ -95,7 +95,7 @@ public class HelloServo extends SimpleApplication {
     public static void main(String[] arguments) {
         HelloServo application = new HelloServo();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -131,23 +131,23 @@ public class HelloServo extends SimpleApplication {
         int yRotationDof = 3 + PhysicsSpace.AXIS_Y;
         int zRotationDof = 3 + PhysicsSpace.AXIS_Z;
 
-        // Lock the X and Z rotation DOFs.
+        // Lock the X and Z rotation DOFs:
         joint.set(MotorParam.LowerLimit, xRotationDof, 0f);
         joint.set(MotorParam.LowerLimit, zRotationDof, 0f);
         joint.set(MotorParam.UpperLimit, xRotationDof, 0f);
         joint.set(MotorParam.UpperLimit, zRotationDof, 0f);
 
-        // Limit the Y rotation DOF.
+        // Limit the Y rotation DOF:
         joint.set(MotorParam.LowerLimit, yRotationDof, 0f);
         joint.set(MotorParam.UpperLimit, yRotationDof, 1.2f);
 
-        // Enable the motor for Y rotation.
+        // Enable the motor for Y rotation:
         final RotationMotor motor = joint.getRotationMotor(PhysicsSpace.AXIS_Y);
         motor.set(MotorParam.TargetVelocity, 0.4f);
         motor.setMotorEnabled(true);
         motor.setServoEnabled(true);
 
-        // Configure the InputManager to respond to the 1/2/3/4 keys.
+        // Configure the InputManager to respond to the 1/2/3/4 keys:
         inputManager.addMapping("pos1", new KeyTrigger(KeyInput.KEY_1));
         inputManager.addMapping("pos2", new KeyTrigger(KeyInput.KEY_2));
         inputManager.addMapping("pos3", new KeyTrigger(KeyInput.KEY_3));
@@ -159,7 +159,7 @@ public class HelloServo extends SimpleApplication {
                     return; // ignore key release
                 }
 
-                // Swing the door to the requested position.
+                // Swing the door to the requested position:
                 switch (action) {
                     case "pos1":
                         motor.set(MotorParam.ServoTarget, 1.2f);
@@ -195,7 +195,7 @@ public class HelloServo extends SimpleApplication {
         PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
         physicsSpace.addCollisionObject(result);
 
-        // Disable sleep (deactivation).
+        // Disable sleep (deactivation):
         result.setEnableSleep(false);
 
         Material yellowMaterial = createLitMaterial(1f, 1f, 0f);
@@ -250,7 +250,7 @@ public class HelloServo extends SimpleApplication {
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -263,7 +263,7 @@ public class HelloServo extends SimpleApplication {
         dlsr.setShadowIntensity(0.6f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -287,10 +287,10 @@ public class HelloServo extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {

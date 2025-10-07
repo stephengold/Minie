@@ -78,7 +78,7 @@ public class HelloCustomDebug extends SimpleApplication {
     public static void main(String[] arguments) {
         HelloCustomDebug application = new HelloCustomDebug();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -97,27 +97,27 @@ public class HelloCustomDebug extends SimpleApplication {
         // Attach a BulletAppState and create a physics space:
         PhysicsSpace physicsSpace = configurePhysics();
 
-        // Create a material and CollisionShape for balls.
+        // Create a material and CollisionShape for balls:
         Material ballMaterial = new Material(assetManager, Materials.LIGHTING);
         float ballRadius = 1f;
         CollisionShape ballShape = new SphereCollisionShape(ballRadius);
 
-        // Create rigid bodies for a dynamic ball and a static ball.
+        // Create rigid bodies for a dynamic ball and a static ball:
         float mass = 2f;
         PhysicsRigidBody dynaBall = new PhysicsRigidBody(ballShape, mass);
 
         PhysicsRigidBody statBall
                 = new PhysicsRigidBody(ballShape, PhysicsBody.massForStatic);
 
-        // Add the bodies to the physics space.
+        // Add the bodies to the physics space:
         physicsSpace.addCollisionObject(dynaBall);
         physicsSpace.addCollisionObject(statBall);
 
-        // Position the balls in physics space.
+        // Position the balls in physics space:
         dynaBall.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
         statBall.setPhysicsLocation(new Vector3f(0.1f, 0f, 0f));
 
-        // Customize the debug visualization of each object.
+        // Customize the debug visualization of each object:
         dynaBall.setDebugMaterial(ballMaterial);
         dynaBall.setDebugMeshNormals(MeshNormals.Sphere);
         dynaBall.setDebugMeshResolution(DebugShapeFactory.highResolution);
@@ -132,12 +132,12 @@ public class HelloCustomDebug extends SimpleApplication {
     // private methods
 
     /**
-     * Add lighting to the specified scene.
+     * Add lighting to the specified scene:
      *
      * @param scene the scene to augment (not null)
      */
     private static void addLighting(Spatial scene) {
-        // Light the scene with ambient and directional lights.
+        // Light the scene with ambient and directional lights:
         ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         scene.addLight(ambient);
@@ -160,7 +160,7 @@ public class HelloCustomDebug extends SimpleApplication {
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true); // for debug visualization
 
-        // Add lighting to the debug scene.
+        // Add lighting to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {

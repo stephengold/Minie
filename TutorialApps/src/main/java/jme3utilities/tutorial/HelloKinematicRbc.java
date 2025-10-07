@@ -85,7 +85,7 @@ public class HelloKinematicRbc extends SimpleApplication {
     public static void main(String[] arguments) {
         HelloKinematicRbc application = new HelloKinematicRbc();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -104,13 +104,14 @@ public class HelloKinematicRbc extends SimpleApplication {
         // Attach a BulletAppState and create a physics space:
         PhysicsSpace physicsSpace = configurePhysics();
 
-        // Create a material and a mesh for balls.
+        // Create a material and a mesh for balls:
         float ballRadius = 1f;
         Material ballMaterial = new Material(assetManager, Materials.LIGHTING);
         Mesh ballMesh = new Sphere(16, 32, ballRadius);
-
-        // Create geometries for a dynamic ball and a kinematic ball
-        // and add them to the scene graph.
+        /*
+         * Create geometries for a dynamic ball and a kinematic ball
+         * and add them to the scene graph:
+         */
         Geometry dyna = new Geometry("dyna", ballMesh);
         dyna.setMaterial(ballMaterial);
         rootNode.attachChild(dyna);
@@ -119,24 +120,24 @@ public class HelloKinematicRbc extends SimpleApplication {
         kine.setMaterial(ballMaterial);
         rootNode.attachChild(kine);
 
-        // Create RBCs for both balls and add them to the geometries.
+        // Create RBCs for both balls and add them to the geometries:
         float mass = 2f;
         RigidBodyControl dynaRbc = new RigidBodyControl(mass);
         dyna.addControl(dynaRbc);
         RigidBodyControl kineRbc = new RigidBodyControl(mass);
         kine.addControl(kineRbc);
 
-        // Add the controls to the physics space.
+        // Add the controls to the physics space:
         dynaRbc.setPhysicsSpace(physicsSpace);
         kineRbc.setPhysicsSpace(physicsSpace);
 
-        // Position the dynamic ball in physics space.
+        // Position the dynamic ball in physics space:
         dynaRbc.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
-        // Set the kinematic flag on the other ball.
+        // Set the kinematic flag on the other ball:
         kineRbc.setKinematic(true);
 
-        // Add lighting.
+        // Add lighting:
         addLighting(rootNode);
 
         // BulletAppState drives the physics simulation...
@@ -149,7 +150,7 @@ public class HelloKinematicRbc extends SimpleApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Cause the kinematic ball to orbit the origin.
+        // Cause the kinematic ball to orbit the origin:
         float orbitalPeriod = 0.8f; // seconds
         float phaseAngle = elapsedTime * FastMath.TWO_PI / orbitalPeriod;
 
@@ -170,7 +171,7 @@ public class HelloKinematicRbc extends SimpleApplication {
      * @param scene the scene to augment (not null)
      */
     private static void addLighting(Spatial scene) {
-        // Light the scene with ambient and directional lights.
+        // Light the scene with ambient and directional lights:
         ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         scene.addLight(ambient);
@@ -194,7 +195,7 @@ public class HelloKinematicRbc extends SimpleApplication {
         //bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // Reduce the time step for better accuracy.
+        // Reduce the time step for better accuracy:
         result.setAccuracy(0.005f);
 
         return result;

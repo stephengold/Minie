@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -74,42 +74,44 @@ public class HelloDac extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics (with debug enabled).
+        // Set up Bullet physics (with debug enabled):
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // Add a light to the scene.
+        // Add a light to the scene:
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
 
-        // Add a model to the scene.
+        // Add a model to the scene:
         Spatial ninjaModel
                 = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
         rootNode.attachChild(ninjaModel);
         ninjaModel.rotate(0f, 3f, 0f);
         ninjaModel.scale(0.02f);
-
-        // The DynamicAnimControl must be added to the Spatial controlled by
-        // the model's SkinningControl (or SkeletonControl).
-        // MySpatial.listAnimationSpatials() is used to locate that Spatial.
+        /*
+         * The DynamicAnimControl must be added to the Spatial controlled by
+         * the model's SkinningControl (or SkeletonControl).
+         * MySpatial.listAnimationSpatials() is used to locate that Spatial.
+         */
         List<Spatial> list = MySpatial.listAnimationSpatials(ninjaModel, null);
         assert list.size() == 1 : list.size();
         Spatial controlled = list.get(0);
 
-        // In the Ninja model, that Spatial is the model's root Node.
+        // In the Ninja model, that Spatial is the model's root Node:
         assert controlled == ninjaModel;
 
-        // Add a DynamicAnimControl to the model.
+        // Add a DynamicAnimControl to the model:
         DynamicAnimControl dac = new DynamicAnimControl();
         controlled.addControl(dac);
 
         dac.setPhysicsSpace(physicsSpace);
-
-        // Because no bone links are configured, the model would behave more
-        // like a rigid body than a ragdoll.  See HelloBoneLink for an
-        // example of configuring bone links.
+        /*
+         * Because no bone links are configured, the model would behave more
+         * like a rigid body than a ragdoll.  See HelloBoneLink for an
+         * example of configuring bone links.
+         */
     }
 }

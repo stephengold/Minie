@@ -139,10 +139,10 @@ public class HelloDoor
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         settings.setGammaCorrection(true);
 
-        // Disable VSync for more frequent mouse-position updates.
+        // Disable VSync for more frequent mouse-position updates:
         settings.setVSync(false);
         application.setSettings(settings);
 
@@ -178,10 +178,10 @@ public class HelloDoor
         joint.setLimit(lowLimitAngle, highLimitAngle);
         physicsSpace.addJoint(joint);
 
-        // Disable collisions between the door and the door frame.
+        // Disable collisions between the door and the door frame:
         doorBody.addToIgnoreList(doorFrameBody);
 
-        // Add a kinematic, yellow ball.
+        // Add a kinematic, yellow ball:
         ballBody = addBall();
     }
 
@@ -192,7 +192,7 @@ public class HelloDoor
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Calculate the ground location (if any) selected by the mouse cursor.
+        // Calculate the ground location (if any) selected by the mouse cursor:
         Vector2f screenXy = inputManager.getCursorPosition();
         float nearZ = 0f;
         Vector3f nearLocation = cam.getWorldCoordinates(screenXy, nearZ);
@@ -216,7 +216,7 @@ public class HelloDoor
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Reposition the ball based on the mouse location.
+        // Reposition the ball based on the mouse location:
         Vector3f bodyLocation = mouseLocation.add(0f, doorHalfHeight, 0f);
         ballBody.setPhysicsLocation(bodyLocation);
     }
@@ -266,7 +266,7 @@ public class HelloDoor
         doorBody = new PhysicsRigidBody(shape, mass);
         physicsSpace.addCollisionObject(doorBody);
 
-        // Disable sleep (deactivation).
+        // Disable sleep (deactivation):
         doorBody.setEnableSleep(false);
 
         Material redMaterial = createLitMaterial(1f, 0.1f, 0.1f);
@@ -318,7 +318,7 @@ public class HelloDoor
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -343,7 +343,7 @@ public class HelloDoor
         PhysicsRigidBody floorBody
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        // Load a repeating tile texture.
+        // Load a repeating tile texture:
         String assetPath = "Textures/greenTile.png";
         boolean flipY = false;
         TextureKey key = new TextureKey(assetPath, flipY);
@@ -352,17 +352,17 @@ public class HelloDoor
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
 
-        // Enable anisotropic filtering, to reduce blurring.
+        // Enable anisotropic filtering, to reduce blurring:
         Integer maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
         int degree = (maxDegree == null) ? 1 : Math.min(8, maxDegree);
         texture.setAnisotropicFilter(degree);
 
-        // Apply a tiled, unshaded debug material to the body.
+        // Apply a tiled, unshaded debug material to the body:
         Material material = new Material(assetManager, Materials.UNSHADED);
         material.setTexture("ColorMap", texture);
         floorBody.setDebugMaterial(material);
 
-        // Generate texture coordinates during debug-mesh initialization.
+        // Generate texture coordinates during debug-mesh initialization:
         float tileSize = 1f;
         PlaneDmiListener planeDmiListener = new PlaneDmiListener(tileSize);
         floorBody.setDebugMeshInitListener(planeDmiListener);
@@ -389,10 +389,10 @@ public class HelloDoor
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {
@@ -404,10 +404,10 @@ public class HelloDoor
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
-        // Reduce the time step for better accuracy.
+        // Reduce the time step for better accuracy:
         result.setAccuracy(0.005f);
 
         return result;

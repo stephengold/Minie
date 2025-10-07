@@ -95,7 +95,7 @@ public class HelloMotor extends SimpleApplication {
     public static void main(String[] arguments) {
         HelloMotor application = new HelloMotor();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -131,28 +131,28 @@ public class HelloMotor extends SimpleApplication {
         int yRotationDof = 3 + PhysicsSpace.AXIS_Y;
         int zRotationDof = 3 + PhysicsSpace.AXIS_Z;
 
-        // Lock the X and Z rotation DOFs.
+        // Lock the X and Z rotation DOFs:
         joint.set(MotorParam.LowerLimit, xRotationDof, 0f);
         joint.set(MotorParam.LowerLimit, zRotationDof, 0f);
         joint.set(MotorParam.UpperLimit, xRotationDof, 0f);
         joint.set(MotorParam.UpperLimit, zRotationDof, 0f);
 
-        // Limit the Y rotation DOF.
+        // Limit the Y rotation DOF:
         joint.set(MotorParam.LowerLimit, yRotationDof, 0f);
         joint.set(MotorParam.UpperLimit, yRotationDof, 1.2f);
 
-        // Enable the motor for Y rotation.
+        // Enable the motor for Y rotation:
         final RotationMotor motor = joint.getRotationMotor(PhysicsSpace.AXIS_Y);
         motor.set(MotorParam.TargetVelocity, 0.4f);
         motor.setMotorEnabled(true);
 
-        // Configure the InputManager to respond to the spacebar.
+        // Configure the InputManager to respond to the spacebar:
         inputManager.addMapping("reverse", new KeyTrigger(KeyInput.KEY_SPACE));
         InputListener actionListener = new ActionListener() {
             @Override
             public void onAction(String action, boolean ongoing, float tpf) {
                 if (action.equals("reverse") && ongoing) {
-                    // Reverse the motor's direction.
+                    // Reverse the motor's direction:
                     float rate = motor.get(MotorParam.TargetVelocity);
                     motor.set(MotorParam.TargetVelocity, -rate);
                 }
@@ -175,7 +175,7 @@ public class HelloMotor extends SimpleApplication {
         PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
         physicsSpace.addCollisionObject(result);
 
-        // Disable sleep (deactivation).
+        // Disable sleep (deactivation):
         result.setEnableSleep(false);
 
         Material yellowMaterial = createLitMaterial(1f, 1f, 0f);
@@ -230,7 +230,7 @@ public class HelloMotor extends SimpleApplication {
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -243,7 +243,7 @@ public class HelloMotor extends SimpleApplication {
         dlsr.setShadowIntensity(0.6f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -267,10 +267,10 @@ public class HelloMotor extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {

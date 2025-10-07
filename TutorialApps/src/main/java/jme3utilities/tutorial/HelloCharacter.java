@@ -124,7 +124,7 @@ public class HelloCharacter
         character = new PhysicsCharacter(shape, stepHeight);
         physicsSpace.addCollisionObject(character);
 
-        // Add a square to represent the ground.
+        // Add a square to represent the ground:
         float halfExtent = 4f;
         float y = -2f;
         PhysicsRigidBody ground = addSquare(halfExtent, y);
@@ -152,7 +152,7 @@ public class HelloCharacter
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // If the character is touching the ground, cause it to jump.
+        // If the character is touching the ground, cause it to jump:
         if (character.onGround()) {
             character.jump();
         }
@@ -189,7 +189,7 @@ public class HelloCharacter
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -202,7 +202,7 @@ public class HelloCharacter
         dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -215,19 +215,19 @@ public class HelloCharacter
      * @return the new body (not null)
      */
     private PhysicsRigidBody addSquare(float halfExtent, float y) {
-        // Construct a static rigid body with a square shape.
+        // Construct a static rigid body with a square shape:
         Box2dShape shape = new Box2dShape(halfExtent);
         PhysicsRigidBody result
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
         physicsSpace.addCollisionObject(result);
 
-        // Rotate it 90 degrees to a horizontal orientation.
+        // Rotate it 90 degrees to a horizontal orientation:
         Quaternion rotate90
                 = new Quaternion().fromAngles(-FastMath.HALF_PI, 0f, 0f);
         result.setPhysicsRotation(rotate90);
 
-        // Translate it to the desired elevation.
+        // Translate it to the desired elevation:
         result.setPhysicsLocation(new Vector3f(0f, y, 0f));
 
         return result;
@@ -242,10 +242,10 @@ public class HelloCharacter
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {
@@ -257,7 +257,7 @@ public class HelloCharacter
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
         return result;

@@ -123,10 +123,10 @@ public class HelloDoubleEnded
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         settings.setGammaCorrection(true);
 
-        // Disable VSync for more frequent mouse-position updates.
+        // Disable VSync for more frequent mouse-position updates:
         settings.setVSync(false);
         application.setSettings(settings);
 
@@ -143,16 +143,16 @@ public class HelloDoubleEnded
         configureCamera();
         physicsSpace = configurePhysics();
 
-        // Add a static plane to represent the ground.
+        // Add a static plane to represent the ground:
         addPlane(groundY);
 
-        // Add a mouse-controlled kinematic paddle.
+        // Add a mouse-controlled kinematic paddle:
         addPaddle();
 
-        // Add a dynamic ball.
+        // Add a dynamic ball:
         PhysicsRigidBody ballBody = addBall();
 
-        // Add a double-ended physics joint to connect the ball to the paddle.
+        // Add a double-ended physics joint to connect the ball to the paddle:
         Vector3f pivotInBall = new Vector3f(0f, 3f, 0f);
         Vector3f pivotInPaddle = new Vector3f(0f, 3f, 0f);
         Matrix3f rotInBall = Matrix3f.IDENTITY;
@@ -170,7 +170,7 @@ public class HelloDoubleEnded
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Calculate the ground location (if any) indicated by the mouse cursor.
+        // Calculate the ground location (if any) indicated by the mouse cursor:
         Vector2f screenXy = inputManager.getCursorPosition();
         float nearZ = 0f;
         Vector3f nearLocation = cam.getWorldCoordinates(screenXy, nearZ);
@@ -194,7 +194,7 @@ public class HelloDoubleEnded
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Reposition the paddle based on the mouse location.
+        // Reposition the paddle based on the mouse location:
         Vector3f bodyLocation = mouseLocation.add(0f, paddleHalfHeight, 0f);
         paddleBody.setPhysicsLocation(bodyLocation);
     }
@@ -225,7 +225,7 @@ public class HelloDoubleEnded
         PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
         physicsSpace.addCollisionObject(result);
 
-        // Disable sleep (deactivation).
+        // Disable sleep (deactivation):
         result.setEnableSleep(false);
 
         Material yellowMaterial = createLitMaterial(1f, 1f, 0f);
@@ -253,7 +253,7 @@ public class HelloDoubleEnded
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -308,12 +308,12 @@ public class HelloDoubleEnded
         int degree = (maxDegree == null) ? 1 : Math.min(8, maxDegree);
         texture.setAnisotropicFilter(degree);
 
-        // Apply a tiled, unshaded debug material to the body.
+        // Apply a tiled, unshaded debug material to the body:
         Material material = new Material(assetManager, Materials.UNSHADED);
         material.setTexture("ColorMap", texture);
         body.setDebugMaterial(material);
 
-        // Generate texture coordinates during debug-mesh initialization.
+        // Generate texture coordinates during debug-mesh initialization:
         float tileSize = 1f;
         PlaneDmiListener planeDmiListener = new PlaneDmiListener(tileSize);
         body.setDebugMeshInitListener(planeDmiListener);
@@ -340,10 +340,10 @@ public class HelloDoubleEnded
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {
@@ -355,10 +355,10 @@ public class HelloDoubleEnded
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
-        // Reduce the time step for better accuracy.
+        // Reduce the time step for better accuracy:
         result.setAccuracy(0.005f);
 
         return result;

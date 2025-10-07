@@ -123,10 +123,10 @@ public class HelloJoint
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         settings.setGammaCorrection(true);
 
-        // Disable VSync for more frequent mouse-position updates.
+        // Disable VSync for more frequent mouse-position updates:
         settings.setVSync(false);
         application.setSettings(settings);
 
@@ -143,16 +143,16 @@ public class HelloJoint
         configureCamera();
         physicsSpace = configurePhysics();
 
-        // Add a static plane to represent the ground.
+        // Add a static plane to represent the ground:
         addPlane(groundY);
 
-        // Add a mouse-controlled kinematic paddle.
+        // Add a mouse-controlled kinematic paddle:
         addPaddle();
 
         // Add a dynamic yellow ball:
         PhysicsRigidBody ballBody = addBall();
 
-        // Add a single-ended physics joint to constrain the ball's motion.
+        // Add a single-ended physics joint to constrain the ball's motion:
         Vector3f pivotInBall = new Vector3f(0f, 3f, 0f);
         Vector3f pivotInWorld = new Vector3f(0f, groundY + 4f, 0f);
         Matrix3f rotInBall = Matrix3f.IDENTITY;
@@ -169,7 +169,7 @@ public class HelloJoint
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Calculate the ground location (if any) selected by the mouse cursor.
+        // Calculate the ground location (if any) selected by the mouse cursor:
         Vector2f screenXy = inputManager.getCursorPosition();
         float nearZ = 0f;
         Vector3f nearLocation = cam.getWorldCoordinates(screenXy, nearZ);
@@ -193,7 +193,7 @@ public class HelloJoint
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Reposition the paddle based on the mouse location.
+        // Reposition the paddle based on the mouse location:
         Vector3f bodyLocation = mouseLocation.add(0f, paddleHalfHeight, 0f);
         paddleBody.setPhysicsLocation(bodyLocation);
     }
@@ -224,7 +224,7 @@ public class HelloJoint
         PhysicsRigidBody result = new PhysicsRigidBody(shape, mass);
         physicsSpace.addCollisionObject(result);
 
-        // Disable sleep (deactivation).
+        // Disable sleep (deactivation):
         result.setEnableSleep(false);
 
         Material yellowMaterial = createLitMaterial(1f, 1f, 0f);
@@ -252,7 +252,7 @@ public class HelloJoint
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -293,7 +293,7 @@ public class HelloJoint
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        // Load a repeating tile texture.
+        // Load a repeating tile texture:
         String assetPath = "Textures/greenTile.png";
         boolean flipY = false;
         TextureKey key = new TextureKey(assetPath, flipY);
@@ -302,17 +302,17 @@ public class HelloJoint
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
 
-        // Enable anisotropic filtering, to reduce blurring.
+        // Enable anisotropic filtering, to reduce blurring:
         Integer maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
         int degree = (maxDegree == null) ? 1 : Math.min(8, maxDegree);
         texture.setAnisotropicFilter(degree);
 
-        // Apply a tiled, unshaded debug material to the body.
+        // Apply a tiled, unshaded debug material to the body:
         Material material = new Material(assetManager, Materials.UNSHADED);
         material.setTexture("ColorMap", texture);
         body.setDebugMaterial(material);
 
-        // Generate texture coordinates during debug-mesh initialization.
+        // Generate texture coordinates during debug-mesh initialization:
         float tileSize = 1f;
         PlaneDmiListener planeDmiListener = new PlaneDmiListener(tileSize);
         body.setDebugMeshInitListener(planeDmiListener);
@@ -339,10 +339,10 @@ public class HelloJoint
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {
@@ -354,10 +354,10 @@ public class HelloJoint
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
-        // Reduce the time step for better accuracy.
+        // Reduce the time step for better accuracy:
         result.setAccuracy(0.005f);
 
         return result;

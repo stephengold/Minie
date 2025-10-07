@@ -87,7 +87,7 @@ public class HelloLocalPhysics extends SimpleApplication {
     public static void main(String[] arguments) {
         HelloLocalPhysics application = new HelloLocalPhysics();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -105,17 +105,17 @@ public class HelloLocalPhysics extends SimpleApplication {
     public void simpleInitApp() {
         PhysicsSpace physicsSpace = configurePhysics();
 
-        // Create a material and a mesh for balls.
+        // Create a material and a mesh for balls:
         float ballRadius = 1f;
         Material ballMaterial = new Material(assetManager, Materials.LIGHTING);
         Mesh ballMesh = new Sphere(16, 32, ballRadius);
 
-        // Create an orbiting Node and add it to the scene graph.
+        // Create an orbiting Node and add it to the scene graph:
         orbitingNode = new Node("orbiting node");
         rootNode.attachChild(orbitingNode);
 
         // Create geometries for a dynamic ball and a kinematic ball
-        // and attach them to the orbiting node.
+        // and attach them to the orbiting node:
         Geometry dyna = new Geometry("dyna", ballMesh);
         dyna.setMaterial(ballMaterial);
         orbitingNode.attachChild(dyna);
@@ -124,7 +124,7 @@ public class HelloLocalPhysics extends SimpleApplication {
         kine.setMaterial(ballMaterial);
         orbitingNode.attachChild(kine);
 
-        // Create local RBCs for both balls and add them to the geometries.
+        // Create local RBCs for both balls and add them to the geometries:
         float mass = 2f;
         RigidBodyControl dynaRbc = new RigidBodyControl(mass);
         dynaRbc.setApplyPhysicsLocal(true);
@@ -133,14 +133,14 @@ public class HelloLocalPhysics extends SimpleApplication {
         kineRbc.setApplyPhysicsLocal(true);
         kine.addControl(kineRbc);
 
-        // Add the controls to the space.
+        // Add the controls to the space:
         dynaRbc.setPhysicsSpace(physicsSpace);
         kineRbc.setPhysicsSpace(physicsSpace);
 
-        // Position the dynamic ball in physics space.
+        // Position the dynamic ball in physics space:
         dynaRbc.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
-        // Set the kinematic flag on the other ball.
+        // Set the kinematic flag on the other ball:
         kineRbc.setKinematic(true);
 
         addLighting(rootNode);
@@ -153,7 +153,7 @@ public class HelloLocalPhysics extends SimpleApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Cause the node to orbit the origin.
+        // Cause the node to orbit the origin:
         float orbitalPeriod = 0.8f; // seconds
         float phaseAngle = elapsedTime * FastMath.TWO_PI / orbitalPeriod;
 
@@ -197,7 +197,7 @@ public class HelloLocalPhysics extends SimpleApplication {
         //bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // Reduce the time step for better accuracy.
+        // Reduce the time step for better accuracy:
         result.setAccuracy(0.005f);
 
         return result;

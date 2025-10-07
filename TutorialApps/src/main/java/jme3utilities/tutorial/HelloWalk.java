@@ -114,7 +114,7 @@ public class HelloWalk
     public static void main(String[] arguments) {
         HelloWalk application = new HelloWalk();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -228,7 +228,7 @@ public class HelloWalk
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -241,7 +241,7 @@ public class HelloWalk
         dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -280,7 +280,7 @@ public class HelloWalk
         float far = cam.getFrustumFar();
         float fieldOfViewDegrees = 30f;
 
-        // Bring the near plane closer to reduce clipping.
+        // Bring the near plane closer to reduce clipping:
         float near = 0.1f; // default = 1
         cam.setFrustumPerspective(fieldOfViewDegrees, aspectRatio, near, far);
     }
@@ -319,10 +319,10 @@ public class HelloWalk
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {
@@ -334,7 +334,7 @@ public class HelloWalk
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
         return result;

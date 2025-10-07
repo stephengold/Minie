@@ -94,9 +94,10 @@ public class HelloVehicle extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         physicsSpace = configurePhysics();
-
-        // Create a wedge-shaped vehicle with a low center of gravity.
-        // The local forward direction is +Z.
+        /*
+         * Create a wedge-shaped vehicle with a low center of gravity.
+         * The local forward direction is +Z.
+         */
         float noseZ = 1.4f;           // offset from chassis center
         float spoilerY = 0.5f;        // offset from chassis center
         float tailZ = -0.7f;          // offset from chassis center
@@ -117,7 +118,7 @@ public class HelloVehicle extends SimpleApplication {
         vehicle.setSuspensionDamping(7f); // default=0.88
         vehicle.setSuspensionStiffness(150f); // default=5.88
 
-        // Add 4 wheels, 2 in the front (for steering) and 2 in the rear.
+        // Add 4 wheels, 2 in the front (for steering) and 2 in the rear:
         boolean front = true;
         boolean rear = false;
         float frontAxleZ = 0.7f * noseZ; // offset from chassis center
@@ -162,7 +163,7 @@ public class HelloVehicle extends SimpleApplication {
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        // Load a repeating tile texture.
+        // Load a repeating tile texture:
         String assetPath = "Textures/greenTile.png";
         boolean flipY = false;
         TextureKey key = new TextureKey(assetPath, flipY);
@@ -171,17 +172,17 @@ public class HelloVehicle extends SimpleApplication {
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
 
-        // Enable anisotropic filtering, to reduce blurring.
+        // Enable anisotropic filtering, to reduce blurring:
         Integer maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
         int degree = (maxDegree == null) ? 1 : Math.min(8, maxDegree);
         texture.setAnisotropicFilter(degree);
 
-        // Apply a tiled, unshaded debug material to the body.
+        // Apply a tiled, unshaded debug material to the body:
         Material material = new Material(assetManager, Materials.UNSHADED);
         material.setTexture("ColorMap", texture);
         body.setDebugMaterial(material);
 
-        // Generate texture coordinates during debug-mesh initialization.
+        // Generate texture coordinates during debug-mesh initialization:
         float tileSize = 1f;
         PlaneDmiListener planeDmiListener = new PlaneDmiListener(tileSize);
         body.setDebugMeshInitListener(planeDmiListener);

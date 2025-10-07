@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -84,29 +84,30 @@ public class HelloRigidBody extends SimpleApplication {
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // For clarity, simulate at 1/10th normal speed.
+        // For clarity, simulate at 1/10th normal speed:
         bulletAppState.setSpeed(0.1f);
 
-        // Create a CollisionShape for balls.
+        // Create a CollisionShape for balls:
         float ballRadius = 1f;
         CollisionShape ballShape = new SphereCollisionShape(ballRadius);
 
-        // Create 2 balls (dynamic rigid bodies) and add them to the space.
+        // Create 2 balls (dynamic rigid bodies) and add them to the space:
         float ballMass = 2f;
         PhysicsRigidBody ball1 = new PhysicsRigidBody(ballShape, ballMass);
         physicsSpace.addCollisionObject(ball1);
         PhysicsRigidBody ball2 = new PhysicsRigidBody(ballShape, ballMass);
         physicsSpace.addCollisionObject(ball2);
-
-        // Locate the balls initially 2 PSU (physics-space units) apart.
-        // In other words, 4 PSU from center to center.
+        /*
+         * Locate the balls initially 2 PSU (physics-space units) apart.
+         * In other words, 4 PSU from center to center.
+         */
         ball1.setPhysicsLocation(new Vector3f(1f, 1f, 0f));
         ball2.setPhysicsLocation(new Vector3f(5f, 1f, 0f));
 
-        // Set ball #2 on a collision course with ball #1.
+        // Set ball #2 on a collision course with ball #1:
         ball2.applyCentralImpulse(new Vector3f(-25f, 0f, 0f));
 
         // BulletAppState drives the physics simulation...

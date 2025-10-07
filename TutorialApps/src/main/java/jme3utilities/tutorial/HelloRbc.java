@@ -74,7 +74,7 @@ public class HelloRbc extends SimpleApplication {
     public static void main(String[] arguments) {
         HelloRbc application = new HelloRbc();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -92,13 +92,14 @@ public class HelloRbc extends SimpleApplication {
     public void simpleInitApp() {
         PhysicsSpace physicsSpace = configurePhysics();
 
-        // Create a material and a mesh for balls.
+        // Create a material and a mesh for balls:
         float ballRadius = 1f;
         Material ballMaterial = new Material(assetManager, Materials.LIGHTING);
         Mesh ballMesh = new Sphere(16, 32, ballRadius);
-
-        // Create geometries for a dynamic ball and a static ball
-        // and add them to the scene graph.
+        /*
+         * Create geometries for a dynamic ball and a static ball
+         * and add them to the scene graph:
+         */
         Geometry dyna = new Geometry("dyna", ballMesh);
         dyna.setMaterial(ballMaterial);
         rootNode.attachChild(dyna);
@@ -107,7 +108,7 @@ public class HelloRbc extends SimpleApplication {
         stat.setMaterial(ballMaterial);
         rootNode.attachChild(stat);
 
-        // Create RBCs for both balls and add them to the geometries.
+        // Create RBCs for both balls and add them to the geometries:
         float mass = 2f;
         RigidBodyControl dynaRbc = new RigidBodyControl(mass);
         dyna.addControl(dynaRbc);
@@ -116,15 +117,15 @@ public class HelloRbc extends SimpleApplication {
                 = new RigidBodyControl(PhysicsBody.massForStatic);
         stat.addControl(statRbc);
 
-        // Add the controls to the physics space.
+        // Add the controls to the physics space:
         dynaRbc.setPhysicsSpace(physicsSpace);
         statRbc.setPhysicsSpace(physicsSpace);
 
-        // Position the balls in physics space.
+        // Position the balls in physics space:
         dynaRbc.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
         statRbc.setPhysicsLocation(new Vector3f(0.1f, 0f, 0f));
 
-        // Add lighting.
+        // Add lighting:
         addLighting(rootNode);
 
         // BulletAppState drives the physics simulation...
@@ -138,7 +139,7 @@ public class HelloRbc extends SimpleApplication {
      * @param scene the scene to augment (not null)
      */
     private static void addLighting(Spatial scene) {
-        // Light the scene with ambient and directional lights.
+        // Light the scene with ambient and directional lights:
         ColorRGBA ambientColor = new ColorRGBA(0.02f, 0.02f, 0.02f, 1f);
         AmbientLight ambient = new AmbientLight(ambientColor);
         scene.addLight(ambient);

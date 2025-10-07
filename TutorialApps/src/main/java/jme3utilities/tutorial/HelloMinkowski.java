@@ -80,7 +80,7 @@ public class HelloMinkowski extends SimpleApplication {
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
         // Add a static rigid body with a cone shape:
@@ -92,7 +92,7 @@ public class HelloMinkowski extends SimpleApplication {
         cone.setPhysicsLocation(new Vector3f(3f, 0f, 0f));
         physicsSpace.addCollisionObject(cone);
 
-        // Add a static rigid body with a Minkowski-sum shape.
+        // Add a static rigid body with a Minkowski-sum shape:
         MinkowskiSum sumShape = new MinkowskiSum(coneShape, coneShape);
         PhysicsRigidBody sum
                 = new PhysicsRigidBody(sumShape, PhysicsBody.massForStatic);

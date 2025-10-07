@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -60,24 +60,24 @@ final public class HelloConsole {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        // Load the native library for this platform.
+        // Load the native library for this platform:
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
-        // Create a physics space.
+        // Create a physics space:
         PhysicsSpace physicsSpace
                 = new PhysicsSpace(PhysicsSpace.BroadphaseType.DBVT);
 
-        // Create a CollisionShape for balls.
+        // Create a CollisionShape for balls:
         float ballRadius = 1f;
         CollisionShape ballShape = new SphereCollisionShape(ballRadius);
 
-        // Create a dynamic body and add it to the space.
+        // Create a dynamic body and add it to the space:
         float mass = 2f;
         PhysicsRigidBody dynaBall = new PhysicsRigidBody(ballShape, mass);
         physicsSpace.addCollisionObject(dynaBall);
         dynaBall.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
-        // Create a static body and add it to the space.
+        // Create a static body and add it to the space:
         PhysicsRigidBody statBall
                 = new PhysicsRigidBody(ballShape, PhysicsBody.massForStatic);
         physicsSpace.addCollisionObject(statBall);

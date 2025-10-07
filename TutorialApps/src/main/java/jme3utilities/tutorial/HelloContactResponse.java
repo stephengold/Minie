@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -84,13 +84,13 @@ public class HelloContactResponse extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics (with debug enabled).
+        // Set up Bullet physics (with debug enabled):
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // Add a static box to the space, to serve as a horizontal platform.
+        // Add a static box to the space, to serve as a horizontal platform:
         float boxHalfExtent = 3f;
         CollisionShape boxShape = new BoxCollisionShape(boxHalfExtent);
         PhysicsRigidBody box
@@ -98,7 +98,7 @@ public class HelloContactResponse extends SimpleApplication {
         physicsSpace.addCollisionObject(box);
         box.setPhysicsLocation(new Vector3f(0f, -4f, 0f));
 
-        // Add a dynamic ball to the space.
+        // Add a dynamic ball to the space:
         float ballRadius = 1f;
         CollisionShape ballShape = new SphereCollisionShape(ballRadius);
         float ballMass = 2f;
@@ -106,19 +106,19 @@ public class HelloContactResponse extends SimpleApplication {
         physicsSpace.addCollisionObject(ball);
         assert ball.isContactResponse();
 
-        // Position the ball directly above the box.
+        // Position the ball directly above the box:
         ball.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
-        // Configure the InputManager to respond to the spacebar.
+        // Configure the InputManager to respond to the spacebar:
         inputManager.addMapping("freefall", new KeyTrigger(KeyInput.KEY_SPACE));
         InputListener actionListener = new ActionListener() {
             @Override
             public void onAction(String action, boolean ongoing, float tpf) {
                 if (action.equals("freefall") && ongoing) {
-                    // Disable the ball's contact response.
+                    // Disable the ball's contact response:
                     ball.setContactResponse(false);
 
-                    // Activate the ball in case it got deactivated.
+                    // Activate the ball in case it got deactivated:
                     ball.activate();
                 }
             }

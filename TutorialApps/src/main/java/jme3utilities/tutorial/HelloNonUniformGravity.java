@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -95,36 +95,36 @@ public class HelloNonUniformGravity
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         physicsSpace.addTickListener(this);
 
-        // Reduce the time step for better accuracy.
+        // Reduce the time step for better accuracy:
         physicsSpace.setAccuracy(0.005f);
         /*
          * Enable debug visualization
          * (including gravity-vector visualization)
-         * to reveal what occurs in physics space.
+         * to reveal what occurs in physics space:
          */
         bulletAppState.setDebugEnabled(true);
         bulletAppState.setDebugGravityVectorFilter(new FilterAll(true));
 
-        // Create a CollisionShape for the planet.
+        // Create a CollisionShape for the planet:
         float planetRadius = 0.1f;
         CollisionShape planetShape = new SphereCollisionShape(planetRadius);
 
-        // Create a planet (dynamic rigid body) and add it to the space.
+        // Create a planet (dynamic rigid body) and add it to the space:
         float planetMass = 1f; // physics mass unit = 10^25 kg
         planet = new PhysicsRigidBody(planetShape, planetMass);
         physicsSpace.addCollisionObject(planet);
 
-        // Prevent deactivation of the planet.
+        // Prevent deactivation of the planet:
         planet.setEnableSleep(false);
 
-        // Kick the planet into orbit around the central black hole.
+        // Kick the planet into orbit around the central black hole:
         planet.setPhysicsLocation(new Vector3f(2f, 0f, 0f));
         planet.applyCentralImpulse(new Vector3f(0f, -1f, 0f));
 
-        // Visualize axes to indicate the black hole's location.
+        // Visualize axes to indicate the black hole's location:
         float axisLength = 1f;
         AxesVisualizer axes = new AxesVisualizer(assetManager, axisLength);
         axes.setLineWidth(AxesVisualizer.widthForSolid);
@@ -144,7 +144,7 @@ public class HelloNonUniformGravity
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Calculate the gravitational acceleration GM/r^2.
+        // Calculate the gravitational acceleration GM/r^2 :
         planet.getPhysicsLocation(tmpVector);
         float r2 = tmpVector.lengthSquared(); //squared distance from black hole
         tmpVector.normalizeLocal();

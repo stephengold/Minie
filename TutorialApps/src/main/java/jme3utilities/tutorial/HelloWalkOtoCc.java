@@ -125,7 +125,7 @@ public class HelloWalkOtoCc
     public static void main(String[] arguments) {
         HelloWalkOtoCc application = new HelloWalkOtoCc();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -146,7 +146,7 @@ public class HelloWalkOtoCc
         configureInput();
         physicsSpace = configurePhysics();
 
-        // Load the Oto model and find its animation actions.
+        // Load the Oto model and find its animation actions:
         Spatial oto = assetManager.loadModel("Models/Oto/Oto.mesh.xml");
         composer = oto.getControl(AnimComposer.class);
         standAction = composer.action("stand");
@@ -179,7 +179,7 @@ public class HelloWalkOtoCc
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Determine horizontal directions relative to the camera orientation.
+        // Determine horizontal directions relative to the camera orientation:
         Vector3f away = cam.getDirection();
         away.y = 0;
         away.normalizeLocal();
@@ -188,7 +188,7 @@ public class HelloWalkOtoCc
         left.y = 0;
         left.normalizeLocal();
 
-        // Determine the walk velocity from keyboard inputs.
+        // Determine the walk velocity from keyboard inputs:
         Vector3f direction = new Vector3f();
         if (walkAway) {
             direction.addLocal(away);
@@ -208,12 +208,12 @@ public class HelloWalkOtoCc
         Vector3f walkOffset = direction.mult(walkSpeed * timeStep);
         character.setWalkDirection(walkOffset);
 
-        // Decide whether to jump.
+        // Decide whether to jump:
         if (jumpRequested && character.onGround()) {
             character.jump();
         }
 
-        // Update the animation action.
+        // Update the animation action:
         Action action = composer.getCurrentAction();
         if (walkOffset.length() < 0.0001f) {
             if (action != standAction) {
@@ -286,7 +286,7 @@ public class HelloWalkOtoCc
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -299,7 +299,7 @@ public class HelloWalkOtoCc
         dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -308,7 +308,7 @@ public class HelloWalkOtoCc
      * Add a heightfield body to the space.
      */
     private void addTerrain() {
-        // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar
+        // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar :
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);
         Image image = texture.getImage();
@@ -322,7 +322,7 @@ public class HelloWalkOtoCc
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         terrain.setMaterial(greenMaterial);
 
-        // Construct a static RigidBodyControl based on the HeightMap.
+        // Construct a static RigidBodyControl based on the HeightMap:
         CollisionShape shape = new HeightfieldCollisionShape(heightMap);
         RigidBodyControl rbc
                 = new RigidBodyControl(shape, PhysicsBody.massForStatic);

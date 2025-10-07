@@ -126,7 +126,7 @@ public class HelloWind
         configureCamera();
         configureInput();
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
 
@@ -142,7 +142,7 @@ public class HelloWind
         Vector3f gravityVector = new Vector3f(0f, -1f, 0f);
         physicsSpace.setGravity(gravityVector);
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         physicsSpace.addTickListener(this);
 
         // Generate a subdivided rectangle mesh with alternating diagonals:
@@ -170,7 +170,7 @@ public class HelloWind
         SoftBodyMaterial softMaterial = flag.getSoftMaterial();
         softMaterial.setAngularStiffness(0f);
 
-        // Configure the flag's aerodynamics.
+        // Configure the flag's aerodynamics:
         SoftBodyConfig config = flag.getSoftConfig();
         config.setAerodynamics(Aero.F_TwoSidedLiftDrag);
         config.set(Sbcp.Damping, 0.01f); // default = 0
@@ -186,7 +186,7 @@ public class HelloWind
                 = new Quaternion().fromAngles(FastMath.HALF_PI, 0f, 0f);
         flag.applyRotation(rotation);
 
-        // Initialize the wind velocity.
+        // Initialize the wind velocity:
         tmpVelocity.x = windSpeed * FastMath.cos(windAzimuth);
         tmpVelocity.z = windSpeed * FastMath.sin(windAzimuth);
         flag.setWindVelocity(tmpVelocity);
@@ -205,7 +205,7 @@ public class HelloWind
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Update the flag's wind velocity.
+        // Update the flag's wind velocity:
         if (turnLeft) {
             windAzimuth -= timeStep;
         }

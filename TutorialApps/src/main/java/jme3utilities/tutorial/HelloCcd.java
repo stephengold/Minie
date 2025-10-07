@@ -81,10 +81,10 @@ public class HelloCcd extends SimpleApplication {
         stateManager.attach(bulletAppState);
         PhysicsSpace physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // For clarity, simulate at 1/10th normal speed.
+        // For clarity, simulate at 1/10th normal speed:
         bulletAppState.setSpeed(0.1f);
 
         // Increase gravity to make the balls fall faster:

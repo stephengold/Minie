@@ -159,7 +159,7 @@ public class HelloGhost
         configureInput();
         physicsSpace = configurePhysics();
 
-        // Add the status text to the GUI.
+        // Add the status text to the GUI:
         statusText = new BitmapText(guiFont);
         statusText.setLocalTranslation(205f, 25f, 0f);
         guiNode.attachChild(statusText);
@@ -208,18 +208,18 @@ public class HelloGhost
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Clear any motion from the previous simulation step.
+        // Clear any motion from the previous simulation step:
         character.setWalkDirection(Vector3f.ZERO);
         /*
          * If the character is touching the ground,
-         * cause it respond to keyboard input.
+         * cause it respond to keyboard input:
          */
         if (character.onGround()) {
             if (jumpRequested) {
                 character.jump();
 
             } else {
-                // Walk as directed.
+                // Walk as directed:
                 Vector3f offset = cam.getDirection();
                 float backward = walkBackward ? 1f : 0f;
                 float forward = walkForward ? 1f : 0f;
@@ -298,7 +298,7 @@ public class HelloGhost
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        // Load a repeating tile texture.
+        // Load a repeating tile texture:
         String assetPath = "Textures/greenTile.png";
         boolean flipY = false;
         TextureKey key = new TextureKey(assetPath, flipY);
@@ -307,17 +307,17 @@ public class HelloGhost
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
 
-        // Enable anisotropic filtering, to reduce blurring.
+        // Enable anisotropic filtering, to reduce blurring:
         Integer maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
         int degree = (maxDegree == null) ? 1 : Math.min(8, maxDegree);
         texture.setAnisotropicFilter(degree);
 
-        // Apply a tiled, unshaded debug material to the body.
+        // Apply a tiled, unshaded debug material to the body:
         Material material = new Material(assetManager, Materials.UNSHADED);
         material.setTexture("ColorMap", texture);
         body.setDebugMaterial(material);
 
-        // Generate texture coordinates during debug-mesh initialization.
+        // Generate texture coordinates during debug-mesh initialization:
         float tileSize = 1f;
         PlaneDmiListener planeDmiListener = new PlaneDmiListener(tileSize);
         body.setDebugMeshInitListener(planeDmiListener);
@@ -387,10 +387,10 @@ public class HelloGhost
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {

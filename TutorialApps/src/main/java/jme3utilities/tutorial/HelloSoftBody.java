@@ -101,21 +101,21 @@ public class HelloSoftBody extends SimpleApplication {
         //bulletAppState.setDebugEnabled(true); // for debug visualization
         physicsSpace = bulletAppState.getPhysicsSoftSpace();
 
-        // Add a box to the scene and relocate the camera.
+        // Add a box to the scene and relocate the camera:
         addBox();
         cam.setLocation(new Vector3f(0f, 1f, 8f));
 
-        // Add a light to the scene.
+        // Add a light to the scene:
         Vector3f direction = new Vector3f(1f, -2f, -4f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
 
-        // Add a model to the scene.
+        // Add a model to the scene:
         Spatial cgModel = assetManager.loadModel(
                 "Models/MonkeyHead/MonkeyHead.mesh.xml");
         rootNode.attachChild(cgModel);
 
-        // Add a soft-body control to the model.
+        // Add a soft-body control to the model:
         SoftBodyControl sbc = new SoftBodyControl();
         cgModel.addControl(sbc);
         /*
@@ -133,7 +133,7 @@ public class HelloSoftBody extends SimpleApplication {
         boolean setFramePose = true;
         body.setPose(setVolumePose, setFramePose);
 
-        // Enable pose matching to make the body bouncy.
+        // Enable pose matching to make the body bouncy:
         SoftBodyConfig config = body.getSoftConfig();
         config.set(Sbcp.PoseMatching, 0.05f);
 

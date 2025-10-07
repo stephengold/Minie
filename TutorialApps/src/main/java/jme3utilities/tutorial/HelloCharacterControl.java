@@ -92,7 +92,7 @@ public class HelloCharacterControl
     public static void main(String[] arguments) {
         HelloCharacterControl application = new HelloCharacterControl();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -116,14 +116,14 @@ public class HelloCharacterControl
         jaime.move(0f, -1f, 0f);
         jaime.scale(1.4f);
 
-        // Attach Jaime to a new scene-graph node located near its center.
+        // Attach Jaime to a new scene-graph node located near its center:
         Node centerNode = new Node("center node");
         centerNode.attachChild(jaime);
 
-        // Attach the center node to the scene.
+        // Attach the center node to the scene:
         rootNode.attachChild(centerNode);
 
-        // Create a CharacterControl with a capsule shape.
+        // Create a CharacterControl with a capsule shape:
         float capsuleRadius = 0.5f;
         float capsuleHeight = 1f;
         CapsuleCollisionShape shape
@@ -131,16 +131,16 @@ public class HelloCharacterControl
         float stepHeight = 0.01f;
         characterControl = new CharacterControl(shape, stepHeight);
 
-        // Add the control to the center node and the PhysicsSpace.
+        // Add the control to the center node and the PhysicsSpace:
         centerNode.addControl(characterControl);
         characterControl.setPhysicsSpace(physicsSpace);
 
-        // Add a square to represent the ground.
+        // Add a square to represent the ground:
         float halfExtent = 4f;
         float y = -2f;
         addSquare(halfExtent, y);
 
-        // Add lighting.
+        // Add lighting:
         addLighting(rootNode);
     }
     // *************************************************************************
@@ -154,7 +154,7 @@ public class HelloCharacterControl
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // If the character is touching the ground, cause it to jump.
+        // If the character is touching the ground, cause it to jump:
         if (characterControl.onGround()) {
             characterControl.jump();
         }
@@ -191,7 +191,7 @@ public class HelloCharacterControl
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -204,7 +204,7 @@ public class HelloCharacterControl
         dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -217,7 +217,7 @@ public class HelloCharacterControl
      * @return the new body (not null)
      */
     private RigidBodyControl addSquare(float halfExtent, float y) {
-        // Add a Quad to the scene.
+        // Add a Quad to the scene:
         Mesh quad = new Quad(2 * halfExtent, 2 * halfExtent);
         Geometry geometry = new Geometry("square", quad);
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
@@ -225,13 +225,13 @@ public class HelloCharacterControl
         geometry.setShadowMode(RenderQueue.ShadowMode.Receive);
         rootNode.attachChild(geometry);
 
-        // Rotate it 90 degrees to a horizontal orientation.
+        // Rotate it 90 degrees to a horizontal orientation:
         geometry.rotate(-FastMath.HALF_PI, 0f, 0f);
 
-        // Translate it to the desired elevation.
+        // Translate it to the desired elevation:
         geometry.move(-halfExtent, y, halfExtent);
 
-        // Add a static RBC to the Geometry, to make it solid.
+        // Add a static RBC to the Geometry, to make it solid:
         RigidBodyControl result
                 = new RigidBodyControl(PhysicsBody.massForStatic);
         geometry.addControl(result);
@@ -251,7 +251,7 @@ public class HelloCharacterControl
         //bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
         return result;

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Stephen Gold
+ Copyright (c) 2020-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -84,10 +84,10 @@ public class HelloMadMallet extends SimpleApplication {
 
         physicsSpace.setGravity(new Vector3f(0f, -50f, 0f));
 
-        // Visualize the local axes of each collision object.
+        // Visualize the local axes of each collision object:
         bulletAppState.setDebugAxisLength(1f);
 
-        // Construct a compound shape for the mallet.
+        // Construct a compound shape for the mallet:
         float headLength = 1f;
         float headRadius = 0.5f;
         Vector3f hes = new Vector3f(headLength / 2f, headRadius, headRadius);
@@ -104,17 +104,17 @@ public class HelloMadMallet extends SimpleApplication {
         malletShape.addChildShape(handleShape, 0f, 0f, handleLength / 2f);
         malletShape.addChildShape(headShape, 0f, 0f, handleLength);
 
-        // Create a dynamic body for the mallet.
+        // Create a dynamic body for the mallet:
         float mass = 2f;
         PhysicsRigidBody mallet = new PhysicsRigidBody(malletShape, mass);
         mallet.setPhysicsLocation(new Vector3f(0f, 4f, 0f));
 
-        // Increase the mallet's angular damping to stabilize it.
+        // Increase the mallet's angular damping to stabilize it:
         mallet.setAngularDamping(0.9f);
 
         physicsSpace.addCollisionObject(mallet);
 
-        // Create a static disc and add it to the space.
+        // Create a static disc and add it to the space:
         float discRadius = 5f;
         float discThickness = 0.5f;
         CollisionShape discShape = new CylinderCollisionShape(
@@ -124,7 +124,7 @@ public class HelloMadMallet extends SimpleApplication {
         physicsSpace.addCollisionObject(disc);
         disc.setPhysicsLocation(new Vector3f(0f, -3f, 0f));
 
-        // Re-position the camera for a better view.
+        // Re-position the camera for a better view:
         cam.setLocation(new Vector3f(10f, -2.75f, 0f));
         Vector3f targetLocation = new Vector3f(0f, -2.75f, 0f);
         Vector3f upDirection = Vector3f.UNIT_Y;

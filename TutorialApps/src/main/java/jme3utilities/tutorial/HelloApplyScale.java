@@ -88,7 +88,7 @@ public class HelloApplyScale extends SimpleApplication {
     public static void main(String[] arguments) {
         HelloApplyScale application = new HelloApplyScale();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -106,22 +106,22 @@ public class HelloApplyScale extends SimpleApplication {
     public void simpleInitApp() {
         PhysicsSpace physicsSpace = configurePhysics();
 
-        // Create the cube Geometry and add it to the scene graph.
+        // Create the cube Geometry and add it to the scene graph:
         Material cubeMaterial = new Material(assetManager, Materials.LIGHTING);
         Mesh cubeMesh = new Box(1f, 1f, 1f);
         cubeGeometry = new Geometry("kine", cubeMesh);
         cubeGeometry.setMaterial(cubeMaterial);
         rootNode.attachChild(cubeGeometry);
 
-        // Create an RBC and add it to the Geometry.
+        // Create an RBC and add it to the Geometry:
         float mass = 2f;
         RigidBodyControl kineRbc = new RigidBodyControl(mass);
         cubeGeometry.addControl(kineRbc);
 
-        // Add the control to the space.
+        // Add the control to the space:
         kineRbc.setPhysicsSpace(physicsSpace);
 
-        // Set the kinematic and "apply scale" flags on the RBC.
+        // Set the kinematic and "apply scale" flags on the RBC:
         kineRbc.setKinematic(true);
         kineRbc.setApplyScale(true);
 
@@ -136,7 +136,7 @@ public class HelloApplyScale extends SimpleApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        // Vary the scale of the Geometry with time.
+        // Vary the scale of the Geometry with time:
         float cycleTime = 3f; // seconds
         float phaseAngle = elapsedTime * FastMath.TWO_PI / cycleTime;
 
@@ -150,7 +150,7 @@ public class HelloApplyScale extends SimpleApplication {
     // private methods
 
     /**
-     * Add lighting to the specified scene.
+     * Add lighting to the specified scene:
      *
      * @param scene the scene to augment (not null)
      */
@@ -184,11 +184,12 @@ public class HelloApplyScale extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
-
-        // Direct debug visuals to a post ViewPort that clears the depth buffer.
-        // This prevents z-fighting between the box and its debug visuals.
+        /*
+         * Direct debug visuals to a post ViewPort that clears the depth buffer.
+         * This prevents z-fighting between the box and its debug visuals.
+         */
         ViewPort overlay = renderManager.createPostView("Overlay", cam);
         overlay.setClearFlags(false, true, false);
         bulletAppState.setDebugViewPorts(overlay);

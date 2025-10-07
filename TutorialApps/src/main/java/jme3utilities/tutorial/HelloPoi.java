@@ -130,7 +130,7 @@ public class HelloPoi
     public static void main(String[] arguments) {
         HelloPoi application = new HelloPoi();
 
-        // Enable gamma correction for accurate lighting.
+        // Enable gamma correction for accurate lighting:
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setGammaCorrection(true);
@@ -153,14 +153,14 @@ public class HelloPoi
         redMaterial = new Material(assetManager, Materials.UNSHADED);
         redMaterial.setColor("Color", ColorRGBA.Red.clone());
 
-        // Add an indicator for the predicted point of impact.
+        // Add an indicator for the predicted point of impact:
         int indicatorSize = 15; // in pixels
         poiIndicator = new PointVisualizer(
                 assetManager, indicatorSize, ColorRGBA.Yellow, "cross");
         rootNode.attachChild(poiIndicator);
         poiIndicator.setDepthTest(true);
 
-        // Add a static heightmap to represent the ground.
+        // Add a static heightmap to represent the ground:
         addTerrain();
     }
 
@@ -244,7 +244,7 @@ public class HelloPoi
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
+        // Render shadows based on the directional light:
         viewPort.clearProcessors();
         int shadowMapSize = 2_048; // in pixels
         int numSplits = 3;
@@ -257,7 +257,7 @@ public class HelloPoi
         dlsr.setShadowIntensity(0.4f);
         viewPort.addProcessor(dlsr);
 
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
@@ -266,20 +266,20 @@ public class HelloPoi
      * Add a heightfield body to the space.
      */
     private void addTerrain() {
-        // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar
+        // Generate a HeightMap from jme3-testdata-3.1.0-stable.jar :
         String assetPath = "Textures/Terrain/splat/mountains512.png";
         Texture texture = assetManager.loadTexture(assetPath);
         Image image = texture.getImage();
         HeightMap heightMap = new ImageBasedHeightMap(image);
         heightMap.setHeightScale(0.2f);
 
-        // Construct a static rigid body based on the HeightMap.
+        // Construct a static rigid body based on the HeightMap:
         CollisionShape shape = new HeightfieldCollisionShape(heightMap);
         terrain = new RigidBodyControl(shape, PhysicsBody.massForStatic);
 
         physicsSpace.addCollisionObject(terrain);
 
-        // Customize its debug visualization.
+        // Customize its debug visualization:
         Material greenMaterial = createLitMaterial(0f, 0.5f, 0f);
         terrain.setDebugMaterial(greenMaterial);
         terrain.setDebugMeshNormals(MeshNormals.Smooth);
@@ -301,7 +301,7 @@ public class HelloPoi
         float far = cam.getFrustumFar();
         float fieldOfViewDegrees = 100f; // fish-eye view
 
-        // Bring the near plane closer to reduce clipping.
+        // Bring the near plane closer to reduce clipping:
         float near = 0.1f; // default = 1
         cam.setFrustumPerspective(fieldOfViewDegrees, aspectRatio, near, far);
     }
@@ -325,10 +325,10 @@ public class HelloPoi
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        // Enable debug visualization to reveal what occurs in physics space.
+        // Enable debug visualization to reveal what occurs in physics space:
         bulletAppState.setDebugEnabled(true);
 
-        // Add lighting and shadows to the debug scene.
+        // Add lighting and shadows to the debug scene:
         bulletAppState.setDebugInitListener(new DebugInitListener() {
             @Override
             public void bulletDebugInit(Node physicsDebugRootNode) {
@@ -340,7 +340,7 @@ public class HelloPoi
 
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
         return result;
@@ -411,7 +411,7 @@ public class HelloPoi
             List<PhysicsRayTestResult> rayTest
                     = physicsSpace.rayTestRaw(previousLocation, location);
 
-            // Find the closest contact with the terrain.
+            // Find the closest contact with the terrain:
             float closestFraction = 9f;
             for (PhysicsRayTestResult hit : rayTest) {
                 if (hit.getCollisionObject() == terrain) {
@@ -438,13 +438,15 @@ public class HelloPoi
      * Update the POI indicator.
      */
     private void updateIndicator() {
-        // Predict the point-of-impact for a hypothetical missile
-        // launched along the camera's line of sight.
+        /*
+         * Predict the point-of-impact for a hypothetical missile
+         * launched along the camera's line of sight:
+         */
         Vector3f launchLocation = cam.getLocation();
         Vector3f launchVelocity = cam.getDirection().mult(launchSpeed);
         Vector3f predictedLocation = predictPoi(launchLocation, launchVelocity);
 
-        // Update the POI indicator.
+        // Update the POI indicator:
         if (predictedLocation == null) {
             poiIndicator.setEnabled(false);
         } else {

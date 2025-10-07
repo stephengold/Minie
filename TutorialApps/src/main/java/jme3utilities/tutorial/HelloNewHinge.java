@@ -111,9 +111,10 @@ public class HelloNewHinge
     @Override
     public void simpleInitApp() {
         physicsSpace = configurePhysics();
-
-        // Create a wedge-shaped vehicle with a low center of gravity.
-        // The local forward direction is +Z.
+        /*
+         * Create a wedge-shaped vehicle with a low center of gravity.
+         * The local forward direction is +Z.
+         */
         float noseZ = 1.4f;           // offset from chassis center
         float spoilerY = 0.5f;        // offset from chassis center
         float tailZ = -0.7f;          // offset from chassis center
@@ -133,7 +134,7 @@ public class HelloNewHinge
         chassis.setEnableSleep(false);
         physicsSpace.addCollisionObject(chassis);
 
-        // Add 4 wheels, 2 in the front (for steering) and 2 in the rear.
+        // Add 4 wheels, 2 in the front (for steering) and 2 in the rear:
         boolean front = true;
         boolean rear = false;
         float frontAxleZ = 0.7f * noseZ; // offset from chassis center
@@ -152,12 +153,12 @@ public class HelloNewHinge
         addWheel(new Vector3f(xOffset, 0f, rearAxleZ),
                 suspensionDirection, axleDirection, restLength, radius, rear);
 
-        // Apply a steering angle of 6 degrees left (to the front wheels).
+        // Apply a steering angle of 6 degrees left (to the front wheels):
         for (RotationMotor motor : steer) {
             motor.set(MotorParam.ServoTarget, FastMath.PI / 30f);
         }
 
-        // Add a static plane to represent the ground.
+        // Add a static plane to represent the ground:
         float groundY = -radius - 0.35f;
         addPlane(groundY);
     }
@@ -172,7 +173,7 @@ public class HelloNewHinge
      */
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
-        // Apply a constant torque (to the rear wheels).
+        // Apply a constant torque (to the rear wheels):
         for (PhysicsRigidBody wheel : drive) {
             Vector3f torque = new Vector3f(1f, 0f, 0f);
             MyQuaternion.rotate(wheel.getPhysicsRotation(null), torque, torque);
@@ -204,7 +205,7 @@ public class HelloNewHinge
         PhysicsRigidBody body
                 = new PhysicsRigidBody(shape, PhysicsBody.massForStatic);
 
-        // Load a repeating tile texture.
+        // Load a repeating tile texture:
         String assetPath = "Textures/greenTile.png";
         boolean flipY = false;
         TextureKey key = new TextureKey(assetPath, flipY);
@@ -213,17 +214,17 @@ public class HelloNewHinge
         texture.setMinFilter(Texture.MinFilter.Trilinear);
         texture.setWrap(Texture.WrapMode.Repeat);
 
-        // Enable anisotropic filtering, to reduce blurring.
+        // Enable anisotropic filtering, to reduce blurring:
         Integer maxDegree = renderer.getLimits().get(Limits.TextureAnisotropy);
         int degree = (maxDegree == null) ? 1 : Math.min(8, maxDegree);
         texture.setAnisotropicFilter(degree);
 
-        // Apply a tiled, unshaded debug material to the body.
+        // Apply a tiled, unshaded debug material to the body:
         Material material = new Material(assetManager, Materials.UNSHADED);
         material.setTexture("ColorMap", texture);
         body.setDebugMaterial(material);
 
-        // Generate texture coordinates during debug-mesh initialization.
+        // Generate texture coordinates during debug-mesh initialization:
         float tileSize = 1f;
         PlaneDmiListener planeDmiListener = new PlaneDmiListener(tileSize);
         body.setDebugMeshInitListener(planeDmiListener);
@@ -287,7 +288,7 @@ public class HelloNewHinge
         bulletAppState.setDebugEnabled(true); // for debug visualization
         PhysicsSpace result = bulletAppState.getPhysicsSpace();
 
-        // To enable the callbacks, register the application as a tick listener.
+        // To enable the callbacks, register the application as a tick listener:
         result.addTickListener(this);
 
         return result;

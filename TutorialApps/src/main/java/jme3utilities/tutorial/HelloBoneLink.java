@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2025 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -97,29 +97,29 @@ public class HelloBoneLink extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        // Set up Bullet physics (with debug enabled).
+        // Set up Bullet physics (with debug enabled):
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.setDebugEnabled(true); // for debug visualization
         physicsSpace = bulletAppState.getPhysicsSpace();
 
-        // Add a box to the scene and relocate the camera.
+        // Add a box to the scene and relocate the camera:
         addBox();
         cam.setLocation(new Vector3f(0f, 1f, 8f));
 
-        // Add a light to the scene.
+        // Add a light to the scene:
         Vector3f direction = new Vector3f(1f, -2f, -1f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction);
         rootNode.addLight(sun);
 
-        // Add a model to the scene.
+        // Add a model to the scene:
         Spatial ninjaModel
                 = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
         rootNode.attachChild(ninjaModel);
         ninjaModel.rotate(0f, 3f, 0f);
         ninjaModel.scale(0.02f);
 
-        // Configure a DynamicAnimControl.
+        // Configure a DynamicAnimControl:
         LinkConfig defaultConfig = new LinkConfig();
         RangeOfMotion defaultRom = new RangeOfMotion(1f);
         final DynamicAnimControl dac = new DynamicAnimControl();
@@ -127,11 +127,11 @@ public class HelloBoneLink extends SimpleApplication {
         dac.link("Joint11", defaultConfig, defaultRom); // right elbow
         dac.link("Joint12", defaultConfig, defaultRom); // right wrist
 
-        // NOTE: Complete configuration BEFORE adding control to a model.
+        // NOTE: Complete configuration BEFORE adding control to a model:
         ninjaModel.addControl(dac);
         dac.setPhysicsSpace(physicsSpace);
 
-        // Configure InputManager to respond to the spacebar.
+        // Configure InputManager to respond to the spacebar:
         inputManager.addMapping("go limp", new KeyTrigger(KeyInput.KEY_SPACE));
         InputListener actionListener = new ActionListener() {
             @Override
