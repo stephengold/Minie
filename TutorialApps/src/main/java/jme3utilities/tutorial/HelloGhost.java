@@ -57,8 +57,6 @@ import com.jme3.renderer.Limits;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.shadow.DirectionalLightShadowRenderer;
-import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 import jme3utilities.minie.FilterAll;
@@ -269,20 +267,7 @@ public class HelloGhost
         scene.addLight(sun);
         sun.setName("sun");
 
-        // Render shadows based on the directional light.
-        viewPort.clearProcessors();
-        int shadowMapSize = 2_048; // in pixels
-        int numSplits = 3;
-        DirectionalLightShadowRenderer dlsr
-                = new DirectionalLightShadowRenderer(
-                        assetManager, shadowMapSize, numSplits);
-        dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
-        dlsr.setEdgesThickness(5);
-        dlsr.setLight(sun);
-        dlsr.setShadowIntensity(0.4f);
-        viewPort.addProcessor(dlsr);
-
-        // Set the viewport's background color to light blue.
+        // Set the viewport's background color to light blue:
         ColorRGBA skyColor = new ColorRGBA(0.1f, 0.2f, 0.4f, 1f);
         viewPort.setBackgroundColor(skyColor);
     }
