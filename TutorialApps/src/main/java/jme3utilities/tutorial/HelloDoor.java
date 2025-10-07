@@ -311,7 +311,7 @@ public class HelloDoor
         scene.addLight(ambient);
         ambient.setName("ambient");
 
-        ColorRGBA directColor = new ColorRGBA(0.2f, 0.2f, 0.2f, 1f);
+        ColorRGBA directColor = new ColorRGBA(0.5f, 0.5f, 0.5f, 1f);
         Vector3f direction = new Vector3f(-7f, -3f, -5f).normalizeLocal();
         DirectionalLight sun = new DirectionalLight(direction, directColor);
         scene.addLight(sun);
