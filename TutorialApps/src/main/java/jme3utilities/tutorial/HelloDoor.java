@@ -251,6 +251,7 @@ public class HelloDoor
 
         Material yellowMaterial = createLitMaterial(1f, 1f, 0f);
         result.setDebugMaterial(yellowMaterial);
+        result.setDebugMeshNormals(MeshNormals.Sphere);
 
         return result;
     }

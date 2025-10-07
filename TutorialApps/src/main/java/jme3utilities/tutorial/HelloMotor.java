@@ -55,6 +55,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.shadow.EdgeFilteringMode;
 import com.jme3.system.AppSettings;
+import jme3utilities.MeshNormals;
 
 /**
  * A simple example of a PhysicsJoint with a motor.
@@ -179,6 +180,7 @@ public class HelloMotor extends SimpleApplication {
 
         Material yellowMaterial = createLitMaterial(1f, 1f, 0f);
         result.setDebugMaterial(yellowMaterial);
+        result.setDebugMeshNormals(MeshNormals.Facet);
 
         return result;
     }
@@ -205,6 +207,7 @@ public class HelloMotor extends SimpleApplication {
 
         Material greenMaterial = createLitMaterial(0f, 1f, 0f);
         result.setDebugMaterial(greenMaterial);
+        result.setDebugMeshNormals(MeshNormals.Smooth);
 
         return result;
     }
