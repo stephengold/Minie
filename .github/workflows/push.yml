@@ -55,14 +55,14 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java25-Linux:
+  Java24-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/setup-java@v5
         with:
           distribution: 'liberica'
-          java-version: 25
+          java-version: 24
       - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
       - if: failure()
@@ -71,14 +71,14 @@ jobs:
           name: crash-log
           path: 'MinieLibrary/*.log'
 
-  Java25-MacOS:
+  Java24-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-15
     steps:
       - uses: actions/setup-java@v5
         with:
           distribution: 'liberica'
-          java-version: 25
+          java-version: 24
       - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
       - if: failure()
@@ -87,14 +87,14 @@ jobs:
           name: test-report
           path: 'build/reports/tests/test/index.html'
 
-  Java25-Windows:
+  Java24-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2025
     steps:
       - uses: actions/setup-java@v5
         with:
           distribution: 'liberica'
-          java-version: 25
+          java-version: 24
       - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
