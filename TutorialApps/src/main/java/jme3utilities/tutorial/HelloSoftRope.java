@@ -96,7 +96,7 @@ public class HelloSoftRope extends SimpleApplication {
         NativeSoftBodyUtil.appendFromLineMesh(lineMesh, rope);
         physicsSpace.addCollisionObject(rope);
 
-        // Pin one of the end nodes by setting its mass to zero:
+        // Pin one of the end nodes by zeroing its mass:
         int nodeIndex = 0;
         rope.setNodeMass(nodeIndex, PhysicsBody.massForStatic);
     }

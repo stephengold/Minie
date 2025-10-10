@@ -114,7 +114,7 @@ public class HelloServo extends SimpleApplication {
         configureCamera();
         physicsSpace = configurePhysics();
 
-        // Add a dynamic, green frame:
+        // Add a dynamic, green doorframe:
         PhysicsRigidBody frameBody = addFrame();
 
         // Add a dynamic, yellow box for the door:

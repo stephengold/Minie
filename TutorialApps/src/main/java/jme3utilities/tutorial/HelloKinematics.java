@@ -52,7 +52,7 @@ public class HelloKinematics
     /**
      * physics-simulation time (in seconds, &ge;0)
      */
-    private static float elapsedTime = 0f;
+    private static float elapsedTime;
     /**
      * kinematic ball, orbiting the origin
      */

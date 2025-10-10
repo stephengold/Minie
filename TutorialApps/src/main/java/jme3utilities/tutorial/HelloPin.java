@@ -106,7 +106,7 @@ public class HelloPin extends SimpleApplication {
         NativeSoftBodyUtil.appendFromTriMesh(squareGrid, cloth);
         physicsSpace.addCollisionObject(cloth);
 
-        // Pin one of the corner nodes by setting its mass to zero:
+        // Pin one of the corner nodes by zeroing its mass:
         int nodeIndex = 0; // upper left corner
         cloth.setNodeMass(nodeIndex, PhysicsBody.massForStatic);
         /*
