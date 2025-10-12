@@ -402,7 +402,7 @@ abstract public class CollisionShape
 
     /**
      * Estimate how far the scaled shape extends from its center, including
-     * margin.
+     * margin. Meant to be overridden.
      *
      * @return a distance estimate (in physics-space units, &ge;0, may be
      * infinite)
