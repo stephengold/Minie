@@ -136,8 +136,8 @@ see https://github.com/stephengold/Libbulletjme[the Libbulletjme project].
 . Edit "src/site/antora/playbook.yml" and replace "/home/sgold/NetBeansProjects/Minie"
   with an absolute path to your checkout directory (3 places).
 . https://docs.antora.org/antora/latest/install-and-run-quickstart/#install-nodejs[Install Node.js]
-. Install Antora:  `npm i -D -E @antora/cli@3.1`
-. Run Antora:  `npx antora src/site/antora/playbook.yml`
+. Install Antora: `npm i -D -E @antora/cli@3.1`
+. Run Antora: `npx antora src/site/antora/playbook.yml`
 
 After a successful build,
 your local copy of the site will be found in "build/site".
@@ -147,7 +147,5 @@ your local copy of the site will be found in "build/site".
 
 At any time, you can restore the project to a pristine state:
 
-* using Bash or Fish or PowerShell or Zsh:
-** `./gradlew clean`
-* using Windows Command Prompt:
-** `.\gradlew clean`
+* using Bash or Fish or PowerShell or Zsh: `./gradlew clean`
+* using Windows Command Prompt: `.\gradlew clean`
