@@ -21,9 +21,7 @@
     <!-- See https://checkstyle.org/checks/regexp -->
     <module name="RegexpSingleline">
         <property name="format" value="\s$"/>
-        <property name="maximum" value="0"/>
         <property name="message" value="Line has trailing whitespace."/>
-        <property name="minimum" value="0"/>
     </module>
 
     <!-- Checks for size violations:             -->
@@ -34,7 +32,6 @@
     <module name="LineLength">
         <property name="fileExtensions" value="java"/>
         <property name="ignorePattern" value="https://"/>
-        <property name="max" value="80"/>
     </module>
 
     <!-- Checks for whitespace:                       -->
@@ -154,10 +151,7 @@
         </module>
         <module name="InvalidJavadocPosition"/>
         <module name="JavadocMethod">
-            <property name="allowMissingParamTags" value="false"/>
-            <property name="allowMissingReturnTag" value="false"/>
             <property name="allowedAnnotations" value=""/>
-            <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF, COMPACT_CTOR_DEF"/>
         </module>
         <module name="JavadocStyle">
             <property name="checkFirstSentence" value="false"/>
@@ -170,14 +164,10 @@
         </module>
         <module name="MissingJavadocMethod">
             <property name="allowedAnnotations" value=""/>
-            <property name="minLineCount" value="-1"/>
             <property name="scope" value="package"/>
-            <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF, COMPACT_CTOR_DEF"/>
         </module>
         <module name="MissingJavadocType">
-            <property name="excludeScope" value="nothing"/>
             <property name="scope" value="private"/>
-            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, RECORD_DEF, ANNOTATION_DEF"/>
         </module>
         <module name="NonEmptyAtclauseDescription"/>
         <module name="RequireEmptyLineBeforeBlockTagGroup"/>
