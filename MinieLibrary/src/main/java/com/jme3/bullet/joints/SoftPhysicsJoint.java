@@ -59,7 +59,7 @@ import jme3utilities.Validate;
  *
  * @author dokthar
  */
-public abstract class SoftPhysicsJoint extends PhysicsJoint {
+abstract public class SoftPhysicsJoint extends PhysicsJoint {
     // *************************************************************************
     // constants and loggers
 
