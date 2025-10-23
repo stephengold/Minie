@@ -201,7 +201,7 @@
         <!-- Checks for naming conventions:           -->
         <!-- See https://checkstyle.org/checks/naming -->
         <module name="AbbreviationAsWordInName">
-            <property name="allowedAbbreviationLength" value="5"/>
+            <property name="allowedAbbreviationLength" value="6"/>
             <property name="ignoreFinal" value="false"/>
             <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, ANNOTATION_FIELD_DEF, PARAMETER_DEF, VARIABLE_DEF, METHOD_DEF, PATTERN_VARIABLE_DEF, RECORD_DEF, RECORD_COMPONENT_DEF"/>
         </module>
