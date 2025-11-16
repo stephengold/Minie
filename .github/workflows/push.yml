@@ -40,36 +40,36 @@ jobs:
       - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
 
-  Java24-Linux:
+  Java25-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/setup-java@v5
         with:
           distribution: 'liberica'
-          java-version: 24
+          java-version: 25
       - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
 
-  Java24-MacOS:
+  Java25-MacOS:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: macOS-15
     steps:
       - uses: actions/setup-java@v5
         with:
           distribution: 'liberica'
-          java-version: 24
+          java-version: 25
       - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
 
-  Java24-Windows:
+  Java25-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2025
     steps:
       - uses: actions/setup-java@v5
         with:
           distribution: 'liberica'
-          java-version: 24
+          java-version: 25
       - uses: actions/checkout@v5
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
