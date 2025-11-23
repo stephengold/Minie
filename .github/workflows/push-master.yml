@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24.11.1
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: npm clean-install
       - run: npx antora src/site/antora/ci-playbook.yml
       - run: ./gradlew copyJavadocToSite --console=plain --stacktrace

@@ -13,7 +13,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
 
   Java17-Windows:
@@ -24,7 +24,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: gradle/actions/wrapper-validation@v5
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
@@ -37,7 +37,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
 
   Java25-Linux:
@@ -48,7 +48,7 @@ jobs:
         with:
           distribution: 'liberica'
           java-version: 25
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
 
   Java25-MacOS:
@@ -59,7 +59,7 @@ jobs:
         with:
           distribution: 'liberica'
           java-version: 25
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
 
   Java25-Windows:
@@ -70,6 +70,6 @@ jobs:
         with:
           distribution: 'liberica'
           java-version: 25
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
