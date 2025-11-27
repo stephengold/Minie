@@ -1324,8 +1324,12 @@ public class PhysicsRigidBody extends PhysicsBody {
                 tagInverseInertia, scaleIdentity));
         setAngularFactor((Vector3f) capsule.readSavable(
                 tagAngularFactor, scaleIdentity));
-        setGravity((Vector3f) capsule.readSavable(
+
+        // Set gravity but bypass the "adding it to a PhysicsSpace" warning:
+        long objectId = nativeId();
+        setGravity(objectId, (Vector3f) capsule.readSavable(
                 tagGravity, translateIdentity));
+
         setLinearFactor((Vector3f) capsule.readSavable(
                 tagLinearFactor, scaleIdentity));
         setDamping(capsule.readFloat(tagLinearDamping, 0f),
