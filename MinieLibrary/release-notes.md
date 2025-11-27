@@ -1,5 +1,16 @@
 # Release log for the Minie library and MinieExamples
 
+## Version 9.0.2 released on TBD
+
++ Added argument validation to `PhysicsRigidBody.setPhysicsScale()`. (issue #47)
++ Bypassed an unhelpful warning during `PhysicsRigidBody.read()`.
++ Updated the native libraries to v22.0.3 of Libbulletjme.
++ Updated the Gradle build tool to v9.2.1; JDK 17+ is now required to build.
++ Updated dependencies:
+  + v3.8.1-stable of JMonkeyEngine,
+  + v3.1.14 of Antora, and
+  + v24.11.1 of Node.js .
+
 ## Version 9.0.1 released on 9 April 2025
 
 + Bugfix:  extra Libbulletjme dependency breaks Maven automation (issue #46)
