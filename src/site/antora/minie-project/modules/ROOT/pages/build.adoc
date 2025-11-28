@@ -36,7 +36,7 @@ Here's the recommended procedure:
 .. using https://git-scm.com[Git]:
 ... `git clone https://github.com/stephengold/Minie.git`
 ... `cd Minie`
-... `git checkout -b latest 9.0.1`
+... `git checkout -b latest 9.0.2`
 .. using a web browser:
 ... browse to https://github.com/stephengold/Minie/releases/latest
 ... follow the "Source code (zip)" link

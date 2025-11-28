@@ -1,6 +1,6 @@
 # Release log for the Minie library and MinieExamples
 
-## Version 9.0.2 released on TBD
+## Version 9.0.2 released on 27 November 2025
 
 + Added argument validation to `PhysicsRigidBody.setPhysicsScale()`. (issue #47)
 + Bypassed an unhelpful warning during `PhysicsRigidBody.read()`.
