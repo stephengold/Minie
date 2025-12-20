@@ -808,7 +808,12 @@ public class VehicleWheel implements JmeCloneable, Savable {
     public void updatePhysicsState() {
         getWheelLocation(vehicleId, wheelIndex, wheelWorldLocation);
         getWheelRotation(vehicleId, wheelIndex, tmpMatrix);
+
         wheelWorldRotation.fromRotationMatrix(tmpMatrix);
+        if (!Quaternion.isValidQuaternion(wheelWorldRotation)) {
+            // Sometimes getWheelRotation() fills the matrix with NaNs.
+            wheelWorldRotation.loadIdentity();
+        }
     }
     // *************************************************************************
     // JmeCloneable methods
