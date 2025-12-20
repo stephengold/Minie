@@ -7,9 +7,9 @@ plugins {
 ext {
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
 
-    //minieSnapshot = '-SNAPSHOT' // for development builds
-    minieSnapshot = '' // for release builds
-    minieVersion = '9.0.3'
+    minieSnapshot = '-SNAPSHOT' // for development builds
+    //minieSnapshot = '' // for release builds
+    minieVersion = '9.0.4'
 }
 
 subprojects {

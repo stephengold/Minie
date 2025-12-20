@@ -1,6 +1,6 @@
 # Release log for the Minie library and MinieExamples
 
-## Version 9.0.3 released on TBD
+## Version 9.0.3 released on 19 December 2025
 
 + Added silent override of invalid rotations during `VehicleWheel` updates.
 + Updated Node.js to v24.12.0.
