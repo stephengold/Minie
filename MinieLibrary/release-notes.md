@@ -1,5 +1,10 @@
 # Release log for the Minie library and MinieExamples
 
+## Version 9.0.3 released on TBD
+
++ Added silent override of invalid rotations during `VehicleWheel` updates.
++ Updated Node.js to v24.12.0.
+
 ## Version 9.0.2 released on 27 November 2025
 
 + Added argument validation to `PhysicsRigidBody.setPhysicsScale()`. (issue #47)
