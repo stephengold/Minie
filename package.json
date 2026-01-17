@@ -5,7 +5,7 @@
   },
   "overrides": {
     "asciidoctor-opal-runtime": {
-      "glob": "~10.4"
+      "glob": "~10.5"
     }
   }
 }
