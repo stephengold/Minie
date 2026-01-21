@@ -48,17 +48,13 @@ import com.jme3.scene.UserData;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.mesh.IndexBuffer;
 import com.jme3.terrain.Terrain;
-import com.jme3.util.BufferUtils;
-import java.nio.Buffer;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.MyMesh;
+import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.MyBuffer;
-import jme3utilities.math.MyMath;
 import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 import vhacd.VHACD;
@@ -171,7 +167,7 @@ final public class CollisionShapeFactory {
     public static GImpactCollisionShape createGImpactShape(Spatial modelRoot) {
         Validate.nonNull(modelRoot, "model root");
 
-        Mesh mergedMesh = makeMergedMesh(modelRoot);
+        Mesh mergedMesh = MyMesh.makeMergedMesh(modelRoot);
         GImpactCollisionShape result = new GImpactCollisionShape(mergedMesh);
 
         return result;
@@ -187,7 +183,7 @@ final public class CollisionShapeFactory {
     public static CollisionShape createMergedBoxShape(Spatial modelRoot) {
         Validate.nonNull(modelRoot, "model root");
 
-        Mesh mergedMesh = makeMergedMesh(modelRoot);
+        Mesh mergedMesh = MyMesh.makeMergedMesh(modelRoot);
         int numVertices = mergedMesh.getVertexCount();
         int numFloats = numAxes * numVertices;
         FloatBuffer positions
@@ -218,7 +214,7 @@ final public class CollisionShapeFactory {
     public static HullCollisionShape createMergedHullShape(Spatial modelRoot) {
         Validate.nonNull(modelRoot, "model root");
 
-        Mesh mergedMesh = makeMergedMesh(modelRoot);
+        Mesh mergedMesh = MyMesh.makeMergedMesh(modelRoot);
         HullCollisionShape result = new HullCollisionShape(mergedMesh);
 
         return result;
@@ -235,7 +231,7 @@ final public class CollisionShapeFactory {
     public static MeshCollisionShape createMergedMeshShape(Spatial modelRoot) {
         Validate.nonNull(modelRoot, "model root");
 
-        Mesh mergedMesh = makeMergedMesh(modelRoot);
+        Mesh mergedMesh = MyMesh.makeMergedMesh(modelRoot);
         MeshCollisionShape result = new MeshCollisionShape(mergedMesh);
 
         return result;
@@ -289,7 +285,7 @@ final public class CollisionShapeFactory {
         Validate.nonNull(modelRoot, "model root");
         Validate.nonNull(parameters, "parameters");
 
-        Mesh mergedMesh = makeMergedMesh(modelRoot);
+        Mesh mergedMesh = MyMesh.makeMergedMesh(modelRoot);
 
         FloatBuffer positionBuffer
                 = mergedMesh.getFloatBuffer(VertexBuffer.Type.Position);
@@ -342,7 +338,7 @@ final public class CollisionShapeFactory {
         Validate.nonNull(modelRoot, "model root");
         Validate.nonNull(parameters, "parameters");
 
-        Mesh mergedMesh = makeMergedMesh(modelRoot);
+        Mesh mergedMesh = MyMesh.makeMergedMesh(modelRoot);
 
         FloatBuffer positionBuffer
                 = mergedMesh.getFloatBuffer(VertexBuffer.Type.Position);
@@ -383,45 +379,6 @@ final public class CollisionShapeFactory {
     // *************************************************************************
     // private methods
 
-    /**
-     * Append transformed mesh triangles to a merged mesh.
-     *
-     * @param geometry the Geometry from which to read triangles (not null,
-     * unaffected)
-     * @param modelRoot (not null, unaffected)
-     * @param addPositions the position buffer for the merged mesh (not null,
-     * modified)
-     * @param addIndices the index buffer for the merged mesh (not null,
-     * modified)
-     */
-    private static void appendTriangles(Geometry geometry, Spatial modelRoot,
-            FloatBuffer addPositions, IndexBuffer addIndices) {
-        Mesh jmeMesh = geometry.getMesh();
-
-        // Append merged-mesh indices to the IndexBuffer.
-        int indexBase = addPositions.position() / numAxes;
-        IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
-        int numIndices = indexBuffer.size();
-        for (int offset = 0; offset < numIndices; ++offset) {
-            int indexInGeometry = indexBuffer.get(offset);
-            int indexInMergedMesh = indexBase + indexInGeometry;
-            addIndices.put(indexInMergedMesh);
-        }
-
-        // Append transformed vertex locations to the FloatBuffer.
-        Transform transform = relativeTransform(geometry, modelRoot);
-        Vector3f tmpPosition = new Vector3f();
-        int numVertices = jmeMesh.getVertexCount();
-        for (int vertexIndex = 0; vertexIndex < numVertices; ++vertexIndex) {
-            MyMesh.vertexVector3f(jmeMesh, VertexBuffer.Type.Position,
-                    vertexIndex, tmpPosition);
-            MyMath.transform(transform, tmpPosition, tmpPosition);
-            addPositions.put(tmpPosition.x);
-            addPositions.put(tmpPosition.y);
-            addPositions.put(tmpPosition.z);
-        }
-    }
-
     private static void createCompoundShape(Node modelRoot, Node parent,
             CompoundCollisionShape shape, boolean meshAccurate,
             boolean dynamic) {
@@ -430,7 +387,7 @@ final public class CollisionShapeFactory {
             if (skipChild != null && skipChild) {
                 continue; // to the next child spatial
             }
-            Transform transform = relativeTransform(child, modelRoot);
+            Transform transform = MySpatial.relativeTransform(child, modelRoot);
 
             CollisionShape childShape;
             if (child instanceof Terrain) {
@@ -486,7 +443,7 @@ final public class CollisionShapeFactory {
             return null;
         }
 
-        Transform transform = relativeTransform(geometry, modelRoot);
+        Transform transform = MySpatial.relativeTransform(geometry, modelRoot);
 
         int numFloats = numAxes * numVertices;
         FloatBuffer positions = mesh.getFloatBuffer(VertexBuffer.Type.Position);
@@ -517,7 +474,7 @@ final public class CollisionShapeFactory {
             return null;
         }
 
-        Transform transform = relativeTransform(geometry, modelRoot);
+        Transform transform = MySpatial.relativeTransform(geometry, modelRoot);
         // TODO recognize AbstractBox, Cylinder, Quad,
         // and Sphere from com.jme3.scene.shape package
         HullCollisionShape hullShape = new HullCollisionShape(mesh);
@@ -542,135 +499,11 @@ final public class CollisionShapeFactory {
             return null;
         }
 
-        Transform transform = relativeTransform(geometry, modelRoot);
+        Transform transform = MySpatial.relativeTransform(geometry, modelRoot);
         // TODO recognize AbstractBox, Cylinder, Quad,
         // and Sphere from com.jme3.scene.shape package
         MeshCollisionShape result = new MeshCollisionShape(mesh);
         result.setScale(transform.getScale());
-
-        return result;
-    }
-
-    /**
-     * Enumerate all child geometries in the specified scene-graph subtree that
-     * aren't tagged with {@code UserData.JME_PHYSICSIGNORE}. Note: recursive!
-     *
-     * @param parent the parent of the subtree (not null, aliases created)
-     * @param addResult storage for results (added to if not null)
-     * @return a new List
-     */
-    private static List<Geometry> listUntaggedGeometries(
-            Node parent, List<Geometry> addResult) {
-        Validate.nonNull(parent, "subtree");
-        List<Geometry> result
-                = (addResult == null) ? new ArrayList<Geometry>(50) : addResult;
-
-        for (Spatial child : parent.getChildren()) {
-            Boolean skipChild = child.getUserData(UserData.JME_PHYSICSIGNORE);
-            if (skipChild != null && skipChild) {
-                // continue to the next child spatial
-
-            } else if (child instanceof Node) {
-                listUntaggedGeometries((Node) child, result);
-
-            } else {
-                result.add((Geometry) child);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Generate a Mesh that merges the triangles of non-empty geometries that
-     * aren't tagged with {@code UserData.JME_PHYSICSIGNORE}.
-     *
-     * @param modelRoot the model on which to base the shape (not null,
-     * unaffected)
-     * @return a new, indexed Mesh in Triangles mode, its bounds not set
-     */
-    private static Mesh makeMergedMesh(Spatial modelRoot) {
-        List<Geometry> untaggedGeometries;
-        if (modelRoot instanceof Geometry) {
-            /*
-             * To be consistent with createDynamicMeshShape() and others,
-             * a nodeless model isn't checked for JME_PHYSICSIGNORE.
-             */
-            untaggedGeometries = new ArrayList<Geometry>(1);
-            untaggedGeometries.add((Geometry) modelRoot);
-
-        } else if (modelRoot instanceof Node) {
-            untaggedGeometries = listUntaggedGeometries((Node) modelRoot, null);
-
-        } else {
-            throw new IllegalArgumentException(
-                    "The model root must either be a Node or a Geometry!");
-        }
-
-        Collection<Geometry> includedGeometries
-                = new ArrayList<>(untaggedGeometries.size());
-        int totalIndices = 0;
-        int totalVertices = 0;
-        for (Geometry geometry : untaggedGeometries) {
-            // Exclude any Geometry with a null/empty mesh.
-            Mesh jmeMesh = geometry.getMesh();
-            if (jmeMesh == null) {
-                continue;
-            }
-            IndexBuffer indexBuffer = jmeMesh.getIndicesAsList();
-            int numIndices = indexBuffer.size();
-            if (numIndices == 0) {
-                continue;
-            }
-            int numVertices = jmeMesh.getVertexCount();
-            if (numVertices == 0) {
-                continue;
-            }
-
-            includedGeometries.add(geometry);
-            totalIndices += numIndices;
-            totalVertices += numVertices;
-        }
-
-        IndexBuffer indexBuffer
-                = IndexBuffer.createIndexBuffer(totalVertices, totalIndices);
-        int totalFloats = numAxes * totalVertices;
-        FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(totalFloats);
-
-        for (Geometry geometry : includedGeometries) {
-            appendTriangles(geometry, modelRoot, positionBuffer, indexBuffer);
-        }
-
-        VertexBuffer.Format ibFormat = indexBuffer.getFormat();
-        Buffer ibData = indexBuffer.getBuffer();
-        Mesh result = new Mesh();
-        result.setBuffer(VertexBuffer.Type.Index, MyMesh.vpt, ibFormat, ibData);
-        result.setBuffer(VertexBuffer.Type.Position, numAxes, positionBuffer);
-
-        return result;
-    }
-
-    /**
-     * Calculate the Transform for a ChildCollisionShape relative to the
-     * ancestor for which the shape is being generated.
-     *
-     * @param spatial (not null, unaffected)
-     * @param modelRoot the ancestor for which the shape is being generated (not
-     * null, unaffected)
-     * @return a new Transform (not null)
-     */
-    private static Transform relativeTransform(
-            Spatial spatial, Spatial modelRoot) {
-        Transform result = new Transform();
-        Spatial currentSpatial = spatial;
-        while (currentSpatial != modelRoot) {
-            MyMath.combine(result, currentSpatial.getLocalTransform(), result);
-            currentSpatial = currentSpatial.getParent();
-        }
-        // Include the model root's scale but not its translation or rotation.
-        Transform mrTransform = new Transform(); // TODO garbage
-        mrTransform.setScale(modelRoot.getLocalScale());
-        MyMath.combine(result, mrTransform, result);
 
         return result;
     }
