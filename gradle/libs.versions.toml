@@ -39,7 +39,7 @@ libbulletjme-windows64 = { module = "com.github.stephengold:Libbulletjme-Windows
 
 nifty-style-black = "com.github.nifty-gui:nifty-style-black:1.4.3"
 sim-math = "com.simsilica:sim-math:1.6.0"
-wes = "com.github.stephengold:Wes:0.8.2"
+wes = "com.github.stephengold:Wes:0.8.3"
 
 [bundles]
 
