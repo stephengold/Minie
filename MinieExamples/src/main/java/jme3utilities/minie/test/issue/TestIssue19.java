@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2024 Stephen Gold
+ Copyright (c) 2021-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -91,7 +91,7 @@ final public class TestIssue19 extends SimpleApplication {
         BetterCharacterControl player
                 = new BetterCharacterControl(0.5f, 6f, 2f);
         playerNode.addControl(player);
-        bulletAppState.getPhysicsSpace().add(player);
+        player.setPhysicsSpace(bulletAppState.getPhysicsSpace());
 
         Box b = new Box(0f, 1f, 16f);
         CollisionShape shape = new MeshCollisionShape(b);

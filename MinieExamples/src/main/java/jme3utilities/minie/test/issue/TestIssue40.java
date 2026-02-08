@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2024 Stephen Gold
+ Copyright (c) 2024-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -141,7 +141,7 @@ final public class TestIssue40 extends SimpleApplication
         ballBody.setPhysicsLocation(new Vector3f(0f, 5f, 0f));
         //ballBody.setCcdMotionThreshold(1f);
         //ballBody.setCcdSweptSphereRadius(1f);
-        physicsSpace.add(ballBody);
+        physicsSpace.addCollisionObject(ballBody);
 
         // Add a small static terrain with all heights=0:
         CollisionShape heightShape = new HeightfieldCollisionShape(
@@ -149,7 +149,7 @@ final public class TestIssue40 extends SimpleApplication
         PhysicsRigidBody terrainBody
                 = new PhysicsRigidBody(heightShape, PhysicsBody.massForStatic);
         //heightShape.setContactFilterEnabled(true); // default=false
-        physicsSpace.add(terrainBody);
+        physicsSpace.addCollisionObject(terrainBody);
 
         // For clarity, make the terrain opaque:
         Material solidGray = new Material(assetManager, Materials.UNSHADED);

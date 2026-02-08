@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2024 Stephen Gold
+ Copyright (c) 2021-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -125,7 +125,7 @@ final public class TestIssue18Mesh
         bcc = new BetterCharacterControl(
                 characterRadius, characterHeight, characterMass);
         controlledNode.addControl(bcc);
-        physicsSpace.add(bcc);
+        bcc.setPhysicsSpace(physicsSpace);
     }
 
     /**
