@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2025 Stephen Gold
+ Copyright (c) 2020-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -163,7 +163,7 @@ public class HelloWalkOtoCc
         character = new CharacterControl(shape, stepHeight);
         character.setGravity(60f);
         oto.addControl(character);
-        physicsSpace.add(character);
+        character.setPhysicsSpace(physicsSpace);
 
         // Teleport the character to its initial location:
         character.setPhysicsLocation(new Vector3f(-73.6f, 19.09f, -45.58f));

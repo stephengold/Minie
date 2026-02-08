@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2025 Stephen Gold
+ Copyright (c) 2020-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -166,7 +166,7 @@ public class HelloWalkOtoBcc
                 characterRadius, characterHeight, characterMass);
         character.setJumpForce(new Vector3f(0f, 700f, 0f));
         translationNode.addControl(character);
-        physicsSpace.add(character);
+        character.setPhysicsSpace(physicsSpace);
 
         // Teleport the character to its initial location:
         character.warp(new Vector3f(-73.6f, 14.09f, -45.58f));
