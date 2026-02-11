@@ -229,7 +229,7 @@ public class TowerPerformance
                 .setLinearSleepingThreshold(0f);
 
         batchNode.attachChild(brickGeometry);
-        getPhysicsSpace().add(brickGeometry);
+        brickGeometry.getControl(RigidBodyControl.class).setPhysicsSpace(getPhysicsSpace());
     }
 
     private PhysicsSpace getPhysicsSpace() {
@@ -246,7 +246,7 @@ public class TowerPerformance
         floor.setShadowMode(RenderQueue.ShadowMode.Receive);
         floor.addControl(new RigidBodyControl(PhysicsBody.massForStatic));
         rootNode.attachChild(floor);
-        getPhysicsSpace().add(floor);
+        floor.getControl(RigidBodyControl.class).setPhysicsSpace(getPhysicsSpace());
     }
 
     private void initMaterial() {
@@ -317,7 +317,7 @@ public class TowerPerformance
         bulletNode.setLinearVelocity(cam.getDirection().mult(25f));
         geometry.addControl(bulletNode);
         rootNode.attachChild(geometry);
-        getPhysicsSpace().add(bulletNode);
+        bulletNode.setPhysicsSpace(getPhysicsSpace());
 
         System.out.println("shoot");
     }
