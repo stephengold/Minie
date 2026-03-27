@@ -25,7 +25,7 @@ jobs:
           distribution: 'zulu'
           java-version: 17
       - uses: actions/checkout@v6
-      - uses: gradle/actions/wrapper-validation@v5
+      - uses: gradle/actions/wrapper-validation@v6
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
 
