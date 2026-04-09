@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2024 jMonkeyEngine
+ * Copyright (c) 2009-2026 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -322,6 +322,11 @@ public class DeformableSpace extends MultiBodySpace {
         }
     }
 
+    /**
+     * Remove the specified soft body from this space.
+     *
+     * @param softBody the body to remove (not null)
+     */
     private void removeSoftBody(PhysicsSoftBody softBody) {
         long softBodyId = softBody.nativeId();
         if (!softBodyMap.containsKey(softBodyId)) {

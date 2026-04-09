@@ -349,6 +349,11 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         }
     }
 
+    /**
+     * Remove the specified soft body from this space.
+     *
+     * @param softBody the body to remove (not null)
+     */
     private void removeSoftBody(PhysicsSoftBody softBody) {
         long softBodyId = softBody.nativeId();
         if (!softBodyMap.containsKey(softBodyId)) {
