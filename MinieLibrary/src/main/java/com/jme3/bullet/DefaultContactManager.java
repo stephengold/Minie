@@ -210,6 +210,8 @@ public class DefaultContactManager implements ContactManager {
     /**
      * De-register the specified listener for new contacts.
      *
+     * @see
+     * #addCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)
      * @param listener the listener to de-register (not null)
      */
     @Override
@@ -226,6 +228,7 @@ public class DefaultContactManager implements ContactManager {
     /**
      * De-register the specified listener for immediate contact notifications.
      *
+     * @see #addContactListener(com.jme3.bullet.collision.ContactListener, int)
      * @param listener the listener to de-register (not null)
      */
     @Override
@@ -243,6 +246,8 @@ public class DefaultContactManager implements ContactManager {
     /**
      * De-register the specified listener for ongoing contacts.
      *
+     * @see #addOngoingCollisionListener(
+     * com.jme3.bullet.collision.PhysicsCollisionListener)
      * @param listener the listener to de-register (not null)
      */
     @Override

@@ -66,9 +66,7 @@ import jme3utilities.Validate;
  *
  * @author normenhansen
  */
-public class PhysicsSpace
-        extends CollisionSpace
-        implements ContactListener {
+public class PhysicsSpace extends CollisionSpace implements ContactListener {
     // *************************************************************************
     // enums
 
@@ -1474,7 +1472,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Callback invoked just after the physics is stepped.
+     * Callback invoked (by native code) just after the physics is stepped.
      *
      * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
@@ -1487,7 +1485,7 @@ public class PhysicsSpace
     }
 
     /**
-     * Callback invoked just before the physics is stepped.
+     * Callback invoked (by native code) just before the physics is stepped.
      *
      * @param timeStep the duration of the simulation step (in seconds, &ge;0)
      */
