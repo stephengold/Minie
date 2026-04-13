@@ -114,22 +114,30 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactEnded(long)" class="member-name-link">onContactEnded</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">onContactConceived</a><wbr>(long&nbsp;pointId,
+ long&nbsp;manifoldId,
+ <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+ <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Invoked immediately after a contact manifold is removed.</div>
+<div class="block">Invoked immediately before a contact point is added to a manifold.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactEnded(long)" class="member-name-link">onContactEnded</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Invoked immediately after a contact manifold is removed.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
  <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
  long&nbsp;manifoldPointId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Invoked immediately after a contact point is refreshed without being
  removed.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactStarted(long)" class="member-name-link">onContactStarted</a><wbr>(long&nbsp;manifoldId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#onContactStarted(long)" class="member-name-link">onContactStarted</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Invoked immediately after a contact manifold is created.</div>
 </div>
 </div>
@@ -146,6 +154,26 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)">
+<h3>onContactConceived</h3>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">onContactConceived</span><wbr><span class="parameters">(long&nbsp;pointId,
+ long&nbsp;manifoldId,
+ <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+ <a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB)</span></div>
+<div class="block">Invoked immediately before a contact point is added to a manifold.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>pointId</code> - the native ID of the <code>btManifoldPoint</code> (not zero)</dd>
+<dd><code>manifoldId</code> - the native ID of the <code>btPersistentManifold</code> (not
+ zero)</dd>
+<dd><code>pcoA</code> - the "A" collision object (not null)</dd>
+<dd><code>pcoB</code> - the "B" collision object (not null)</dd>
+<dt>Returns:</dt>
+<dd>true to accept the contact, or false to reject it</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="onContactEnded(long)">
 <h3>onContactEnded</h3>

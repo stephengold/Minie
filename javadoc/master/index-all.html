@@ -246,15 +246,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Register the specified listener for immediate contact notifications.</div>
 </dd>
-<dt><a href="com/jme3/bullet/ContactManager.html#addContactListener(com.jme3.bullet.collision.ContactListener,boolean,boolean,boolean)" class="member-name-link">addContactListener(ContactListener, boolean, boolean, boolean)</a> - Method in interface com.jme3.bullet.<a href="com/jme3/bullet/ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></dt>
-<dd>
-<div class="block">Register the specified listener for immediate contact notifications.</div>
-</dd>
-<dt><a href="com/jme3/bullet/DefaultContactManager.html#addContactListener(com.jme3.bullet.collision.ContactListener,boolean,boolean,boolean)" class="member-name-link">addContactListener(ContactListener, boolean, boolean, boolean)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DefaultContactManager.html" title="class in com.jme3.bullet">DefaultContactManager</a></dt>
-<dd>
-<div class="block">Register the specified listener for immediate contact notifications.</div>
-</dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html#addContactListener(com.jme3.bullet.collision.ContactListener,boolean,boolean,boolean)" class="member-name-link">addContactListener(ContactListener, boolean, boolean, boolean)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Register the specified listener for immediate contact notifications.</div>
+</dd>
+<dt><a href="com/jme3/bullet/ContactManager.html#addContactListener(com.jme3.bullet.collision.ContactListener,int)" class="member-name-link">addContactListener(ContactListener, int)</a> - Method in interface com.jme3.bullet.<a href="com/jme3/bullet/ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></dt>
+<dd>
+<div class="block">Register the specified listener for immediate contact notifications.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DefaultContactManager.html#addContactListener(com.jme3.bullet.collision.ContactListener,int)" class="member-name-link">addContactListener(ContactListener, int)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DefaultContactManager.html" title="class in com.jme3.bullet">DefaultContactManager</a></dt>
 <dd>
 <div class="block">Register the specified listener for immediate contact notifications.</div>
 </dd>
@@ -8538,6 +8538,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Callback invoked after the operation completes.</div>
 </dd>
+<dt><a href="com/jme3/bullet/collision/ContactListener.html#onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">onContactConceived(long, long, PhysicsCollisionObject, PhysicsCollisionObject)</a> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
+<dd>
+<div class="block">Invoked immediately before a contact point is added to a manifold.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DefaultContactManager.html#onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">onContactConceived(long, long, PhysicsCollisionObject, PhysicsCollisionObject)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DefaultContactManager.html" title="class in com.jme3.bullet">DefaultContactManager</a></dt>
+<dd>
+<div class="block">Invoked immediately before a contact point is added to a manifold.</div>
+</dd>
+<dt><a href="com/jme3/bullet/PhysicsSpace.html#onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">onContactConceived(long, long, PhysicsCollisionObject, PhysicsCollisionObject)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Invoked by native code immediately before a contact point is added to a
+ manifold.</div>
+</dd>
 <dt><a href="com/jme3/bullet/collision/ContactListener.html#onContactEnded(long)" class="member-name-link">onContactEnded(long)</a> - Method in interface com.jme3.bullet.collision.<a href="com/jme3/bullet/collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></dt>
 <dd>
 <div class="block">Invoked immediately after a contact manifold is removed.</div>
@@ -13253,21 +13266,26 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Update the space.</div>
 </dd>
-<dt><a href="com/jme3/bullet/ContactManager.html#update(float,int)" class="member-name-link">update(float, int)</a> - Method in interface com.jme3.bullet.<a href="com/jme3/bullet/ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></dt>
-<dd>
-<div class="block">Update the associated PhysicsSpace.</div>
-</dd>
-<dt><a href="com/jme3/bullet/DefaultContactManager.html#update(float,int)" class="member-name-link">update(float, int)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DefaultContactManager.html" title="class in com.jme3.bullet">DefaultContactManager</a></dt>
-<dd>
-<div class="block">Update the associated PhysicsSpace.</div>
-</dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html#update(float,int)" class="member-name-link">update(float, int)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
 <div class="block">Update the space.</div>
 </dd>
 <dt><a href="com/jme3/bullet/PhysicsSpace.html#update(float,int,boolean,boolean,boolean)" class="member-name-link">update(float, int, boolean, boolean, boolean)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
 <dd>
-<div class="block">Update the space.</div>
+<div class="block">Update the space, enabling the specified callbacks.</div>
+</dd>
+<dt><a href="com/jme3/bullet/ContactManager.html#update(float,int,int)" class="member-name-link">update(float, int, int)</a> - Method in interface com.jme3.bullet.<a href="com/jme3/bullet/ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></dt>
+<dd>
+<div class="block">Update the associated PhysicsSpace, enabling the specified callbacks.</div>
+</dd>
+<dt><a href="com/jme3/bullet/DefaultContactManager.html#update(float,int,int)" class="member-name-link">update(float, int, int)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/DefaultContactManager.html" title="class in com.jme3.bullet">DefaultContactManager</a></dt>
+<dd>
+<div class="block">Update the associated PhysicsSpace, enabling the specified additional
+ callbacks.</div>
+</dd>
+<dt><a href="com/jme3/bullet/PhysicsSpace.html#update(float,int,int)" class="member-name-link">update(float, int, int)</a> - Method in class com.jme3.bullet.<a href="com/jme3/bullet/PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a></dt>
+<dd>
+<div class="block">Update the space with the specified callbacks.</div>
 </dd>
 <dt><a href="com/jme3/bullet/debug/BulletDebugAppState.html#updateAxes(com.jme3.scene.Node,boolean)" class="member-name-link">updateAxes(Node, boolean)</a> - Method in class com.jme3.bullet.debug.<a href="com/jme3/bullet/debug/BulletDebugAppState.html" title="class in com.jme3.bullet.debug">BulletDebugAppState</a></dt>
 <dd>

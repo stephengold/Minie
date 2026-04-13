@@ -468,121 +468,137 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Return the maximum time step (imposed when maxSubSteps=0).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactEnded(long)" class="member-name-link">onContactEnded</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">onContactConceived</a><wbr>(long&nbsp;pointId,
+ long&nbsp;manifoldId,
+ <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+ <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Invoked by native code immediately after a contact manifold is destroyed.</div>
+<div class="block">Invoked by native code immediately before a contact point is added to a
+ manifold.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactEnded(long)" class="member-name-link">onContactEnded</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Invoked by native code immediately after a contact manifold is destroyed.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
  <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
  long&nbsp;pointId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Invoked by native code immediately after a contact point is refreshed
  without being destroyed.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactStarted(long)" class="member-name-link">onContactStarted</a><wbr>(long&nbsp;manifoldId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactStarted(long)" class="member-name-link">onContactStarted</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Invoked by native code immediately after a contact manifold is created.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(java.lang.Object)" class="member-name-link">remove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(java.lang.Object)" class="member-name-link">remove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove the specified object from the space.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeAll(com.jme3.scene.Spatial)" class="member-name-link">removeAll</a><wbr>(com.jme3.scene.Spatial&nbsp;spatial)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeAll(com.jme3.scene.Spatial)" class="member-name-link">removeAll</a><wbr>(com.jme3.scene.Spatial&nbsp;spatial)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove all physics controls in the specified subtree of the scene graph
  from the space (e.g.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">removeCollisionListener</a><wbr>(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">removeCollisionListener</a><wbr>(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-register the specified listener for new contacts.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">removeCollisionObject</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionObject(com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">removeCollisionObject</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pco)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove the specified collision object from the space.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeContactListener(com.jme3.bullet.collision.ContactListener)" class="member-name-link">removeContactListener</a><wbr>(<a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a>&nbsp;listener)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeContactListener(com.jme3.bullet.collision.ContactListener)" class="member-name-link">removeContactListener</a><wbr>(<a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a>&nbsp;listener)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-register the specified listener for immediate contact notifications.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeJoint(com.jme3.bullet.joints.PhysicsJoint)" class="member-name-link">removeJoint</a><wbr>(<a href="joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeJoint(com.jme3.bullet.joints.PhysicsJoint)" class="member-name-link">removeJoint</a><wbr>(<a href="joints/PhysicsJoint.html" title="class in com.jme3.bullet.joints">PhysicsJoint</a>&nbsp;joint)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Remove the specified PhysicsJoint from the space.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">removeOngoingCollisionListener</a><wbr>(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">removeOngoingCollisionListener</a><wbr>(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-register the specified listener for ongoing contacts.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeTickListener(com.jme3.bullet.PhysicsTickListener)" class="member-name-link">removeTickListener</a><wbr>(<a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a>&nbsp;listener)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeTickListener(com.jme3.bullet.PhysicsTickListener)" class="member-name-link">removeTickListener</a><wbr>(<a href="PhysicsTickListener.html" title="interface in com.jme3.bullet">PhysicsTickListener</a>&nbsp;listener)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-register the specified tick listener.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAccuracy(float)" class="member-name-link">setAccuracy</a><wbr>(float&nbsp;accuracy)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAccuracy(float)" class="member-name-link">setAccuracy</a><wbr>(float&nbsp;accuracy)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the accuracy (time step used when maxSubSteps&gt;0).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCcdWithStaticOnly(boolean)" class="member-name-link">setCcdWithStaticOnly</a><wbr>(boolean&nbsp;setting)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCcdWithStaticOnly(boolean)" class="member-name-link">setCcdWithStaticOnly</a><wbr>(boolean&nbsp;setting)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter whether CCD checks for collisions with static and kinematic bodies
  (native field: m_ccdWithStaticOnly).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setContactManager(com.jme3.bullet.ContactManager)" class="member-name-link">setContactManager</a><wbr>(<a href="ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a>&nbsp;manager)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setContactManager(com.jme3.bullet.ContactManager)" class="member-name-link">setContactManager</a><wbr>(<a href="ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a>&nbsp;manager)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Replace the current ContactManager with the specified one.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGravity(com.jme3.math.Vector3f)" class="member-name-link">setGravity</a><wbr>(com.jme3.math.Vector3f&nbsp;gravity)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGravity(com.jme3.math.Vector3f)" class="member-name-link">setGravity</a><wbr>(com.jme3.math.Vector3f&nbsp;gravity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the gravitational acceleration acting on newly-added bodies.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxSubSteps(int)" class="member-name-link">setMaxSubSteps</a><wbr>(int&nbsp;steps)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxSubSteps(int)" class="member-name-link">setMaxSubSteps</a><wbr>(int&nbsp;steps)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the maximum number of simulation steps per frame.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxTimeStep(float)" class="member-name-link">setMaxTimeStep</a><wbr>(float&nbsp;maxTimeStep)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxTimeStep(float)" class="member-name-link">setMaxTimeStep</a><wbr>(float&nbsp;maxTimeStep)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the maximum time step (imposed when maxSubSteps=0).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSolverNumIterations(int)" class="member-name-link">setSolverNumIterations</a><wbr>(int&nbsp;numIterations)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSolverNumIterations(int)" class="member-name-link">setSolverNumIterations</a><wbr>(int&nbsp;numIterations)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Alter the number of iterations used by the contact-and-constraint solver,
  for compatibility with the jme3-jbullet library.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Update the space.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float,int)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval,
- int&nbsp;maxSteps)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update the space.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float,int,boolean,boolean,boolean)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float,int)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval,
+ int&nbsp;maxSteps)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update the space.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float,int,boolean,boolean,boolean)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval,
  int&nbsp;maxSteps,
  boolean&nbsp;doEnded,
  boolean&nbsp;doProcessed,
  boolean&nbsp;doStarted)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update the space, enabling the specified callbacks.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float,int,int)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval,
+ int&nbsp;maxSteps,
+ int&nbsp;stepFlags)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Update the space.</div>
+<div class="block">Update the space with the specified callbacks.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateSolver()" class="member-name-link">updateSolver</a>()</code></div>
@@ -1493,19 +1509,41 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  boolean&nbsp;doEnded,
  boolean&nbsp;doProcessed,
  boolean&nbsp;doStarted)</span></div>
-<div class="block">Update the space. This method should be invoked from the thread that
- created the space.</div>
+<div class="block">Update the space, enabling the specified callbacks. This method should be
+ invoked on the thread that created the space.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>timeInterval</code> - the time interval to simulate (in seconds, &ge;0)</dd>
 <dd><code>maxSteps</code> - the maximum number of steps of size <code>accuracy</code>
  (&ge;1) or 0 for a single step of size <code>timeInterval</code></dd>
-<dd><code>doEnded</code> - true to enable <code>onContactEnded()</code> callbacks, false
- to skip them</dd>
-<dd><code>doProcessed</code> - true to enable <code>onContactProcessed()</code> callbacks,
- false to skip them</dd>
-<dd><code>doStarted</code> - true to enable <code>onContactStarted()</code> callbacks,
- false to skip them</dd>
+<dd><code>doEnded</code> - true to enable <code>onContactEnded()</code> callbacks</dd>
+<dd><code>doProcessed</code> - true to enable <code>onContactProcessed()</code> callbacks</dd>
+<dd><code>doStarted</code> - true to enable <code>onContactStarted()</code> callbacks</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="update(float,int,int)">
+<h3>update</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(float&nbsp;timeInterval,
+ int&nbsp;maxSteps,
+ int&nbsp;stepFlags)</span></div>
+<div class="block">Update the space with the specified callbacks. This method should be
+ invoked on the thread that created the space.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>timeInterval</code> - the time interval to simulate (in seconds, &ge;0)</dd>
+<dd><code>maxSteps</code> - the maximum number of simulation steps of size
+ <code>accuracy</code> (&ge;1) or 0 for a single simulation step of size
+ <code>timeInterval</code></dd>
+<dd><code>stepFlags</code> - flags representing the desired callbacks, ORed together
+ (default=0x0)</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="StepFlag.html" title="class in com.jme3.bullet"><code>StepFlag</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
@@ -1685,11 +1723,36 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 </section>
 </li>
 <li>
+<section class="detail" id="onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)">
+<h3>onContactConceived</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">onContactConceived</span><wbr><span class="parameters">(long&nbsp;pointId,
+ long&nbsp;manifoldId,
+ <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+ <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB)</span></div>
+<div class="block">Invoked by native code immediately before a contact point is added to a
+ manifold. Skipped if <code>stepSimulation()</code> was invoked without the
+ <code>contactConceived</code> flag set.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="collision/ContactListener.html#onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)">onContactConceived</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>pointId</code> - the native ID of the <code>btManifoldPoint</code> (not zero)</dd>
+<dd><code>manifoldId</code> - the native ID of the <code>btPersistentManifold</code> (not
+ zero)</dd>
+<dd><code>pcoA</code> - the "A" collision object (not null)</dd>
+<dd><code>pcoB</code> - the "B" collision object (not null)</dd>
+<dt>Returns:</dt>
+<dd>true to accept the contact, or false to reject it</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="onContactEnded(long)">
 <h3>onContactEnded</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onContactEnded</span><wbr><span class="parameters">(long&nbsp;manifoldId)</span></div>
 <div class="block">Invoked by native code immediately after a contact manifold is destroyed.
- Skipped if stepSimulation() was invoked with doEnded=false.</div>
+ Skipped if <code>stepSimulation()</code> was invoked without the
+ <code>contactEnded</code> flag set.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="collision/ContactListener.html#onContactEnded(long)">onContactEnded</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
@@ -1707,7 +1770,8 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
  long&nbsp;pointId)</span></div>
 <div class="block">Invoked by native code immediately after a contact point is refreshed
  without being destroyed. Skipped for Sphere-Sphere contacts. Skipped if
- stepSimulation() was invoked with doProcessed=false.</div>
+ <code>stepSimulation()</code> was invoked without the <code>contactProcessed</code>
+ flag set.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="collision/ContactListener.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactProcessed</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
@@ -1723,7 +1787,8 @@ implements <a href="collision/ContactListener.html" title="interface in com.jme3
 <h3>onContactStarted</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onContactStarted</span><wbr><span class="parameters">(long&nbsp;manifoldId)</span></div>
 <div class="block">Invoked by native code immediately after a contact manifold is created.
- Skipped if stepSimulation() was invoked with doStarted=false.</div>
+ Skipped if <code>stepSimulation()</code> was invoked without the
+ <code>contactStarted</code> flag.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="collision/ContactListener.html#onContactStarted(long)">onContactStarted</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>

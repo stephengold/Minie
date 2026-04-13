@@ -132,10 +132,8 @@ implements <a href="ContactManager.html" title="interface in com.jme3.bullet">Co
 <div class="block">Register the specified listener for new contacts.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addContactListener(com.jme3.bullet.collision.ContactListener,boolean,boolean,boolean)" class="member-name-link">addContactListener</a><wbr>(<a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a>&nbsp;listener,
- boolean&nbsp;doEnded,
- boolean&nbsp;doProcessed,
- boolean&nbsp;doStarted)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addContactListener(com.jme3.bullet.collision.ContactListener,int)" class="member-name-link">addContactListener</a><wbr>(<a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a>&nbsp;listener,
+ int&nbsp;stepFlags)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Register the specified listener for immediate contact notifications.</div>
 </div>
@@ -154,44 +152,54 @@ implements <a href="ContactManager.html" title="interface in com.jme3.bullet">Co
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Distribute queued collision events to registered listeners.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactEnded(long)" class="member-name-link">onContactEnded</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)" class="member-name-link">onContactConceived</a><wbr>(long&nbsp;pointId,
+ long&nbsp;manifoldId,
+ <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+ <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Invoked immediately after a contact manifold is destroyed.</div>
+<div class="block">Invoked immediately before a contact point is added to a manifold.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactEnded(long)" class="member-name-link">onContactEnded</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Invoked immediately after a contact manifold is destroyed.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)" class="member-name-link">onContactProcessed</a><wbr>(<a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
  <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
  long&nbsp;pointId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Invoked immediately after a contact point is refreshed without being
  destroyed.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactStarted(long)" class="member-name-link">onContactStarted</a><wbr>(long&nbsp;manifoldId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onContactStarted(long)" class="member-name-link">onContactStarted</a><wbr>(long&nbsp;manifoldId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Invoked immediately after a contact manifold is created.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">removeCollisionListener</a><wbr>(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">removeCollisionListener</a><wbr>(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-register the specified listener for new contacts.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeContactListener(com.jme3.bullet.collision.ContactListener)" class="member-name-link">removeContactListener</a><wbr>(<a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a>&nbsp;listener)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeContactListener(com.jme3.bullet.collision.ContactListener)" class="member-name-link">removeContactListener</a><wbr>(<a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a>&nbsp;listener)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-register the specified listener for immediate contact notifications.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">removeOngoingCollisionListener</a><wbr>(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeOngoingCollisionListener(com.jme3.bullet.collision.PhysicsCollisionListener)" class="member-name-link">removeOngoingCollisionListener</a><wbr>(<a href="collision/PhysicsCollisionListener.html" title="interface in com.jme3.bullet.collision">PhysicsCollisionListener</a>&nbsp;listener)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">De-register the specified listener for ongoing contacts.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float,int)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval,
- int&nbsp;maxSteps)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Update the associated PhysicsSpace.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float,int,int)" class="member-name-link">update</a><wbr>(float&nbsp;timeInterval,
+ int&nbsp;maxSteps,
+ int&nbsp;addFlags)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update the associated PhysicsSpace, enabling the specified additional
+ callbacks.</div>
 </div>
 </div>
 </div>
@@ -247,24 +255,23 @@ implements <a href="ContactManager.html" title="interface in com.jme3.bullet">Co
 </section>
 </li>
 <li>
-<section class="detail" id="addContactListener(com.jme3.bullet.collision.ContactListener,boolean,boolean,boolean)">
+<section class="detail" id="addContactListener(com.jme3.bullet.collision.ContactListener,int)">
 <h3>addContactListener</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addContactListener</span><wbr><span class="parameters">(<a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a>&nbsp;listener,
- boolean&nbsp;doEnded,
- boolean&nbsp;doProcessed,
- boolean&nbsp;doStarted)</span></div>
+ int&nbsp;stepFlags)</span></div>
 <div class="block">Register the specified listener for immediate contact notifications.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ContactManager.html#addContactListener(com.jme3.bullet.collision.ContactListener,boolean,boolean,boolean)">addContactListener</a></code>&nbsp;in interface&nbsp;<code><a href="ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></code></dd>
+<dd><code><a href="ContactManager.html#addContactListener(com.jme3.bullet.collision.ContactListener,int)">addContactListener</a></code>&nbsp;in interface&nbsp;<code><a href="ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>listener</code> - the listener to register (not null, alias created)</dd>
-<dd><code>doEnded</code> - true to enable <code>onContactEnded()</code> callbacks for the
- listener, false to skip them</dd>
-<dd><code>doProcessed</code> - true to enable <code>onContactProcessed()</code> callbacks
- for the listener, false to skip them</dd>
-<dd><code>doStarted</code> - true to enable <code>onContactStarted()</code> callbacks for
- the listener, false to skip them</dd>
+<dd><code>stepFlags</code> - the step flags for this listener, ORed together</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="StepFlag.html" title="class in com.jme3.bullet"><code>StepFlag</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
@@ -348,19 +355,51 @@ implements <a href="ContactManager.html" title="interface in com.jme3.bullet">Co
 </section>
 </li>
 <li>
-<section class="detail" id="update(float,int)">
+<section class="detail" id="update(float,int,int)">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(float&nbsp;timeInterval,
- int&nbsp;maxSteps)</span></div>
-<div class="block">Update the associated PhysicsSpace. This method should be invoked from
- the thread that created the space.</div>
+ int&nbsp;maxSteps,
+ int&nbsp;addFlags)</span></div>
+<div class="block">Update the associated PhysicsSpace, enabling the specified additional
+ callbacks. This method should be invoked from the thread that created the
+ space.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ContactManager.html#update(float,int)">update</a></code>&nbsp;in interface&nbsp;<code><a href="ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></code></dd>
+<dd><code><a href="ContactManager.html#update(float,int,int)">update</a></code>&nbsp;in interface&nbsp;<code><a href="ContactManager.html" title="interface in com.jme3.bullet">ContactManager</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>timeInterval</code> - the time interval to simulate (in seconds, &ge;0)</dd>
-<dd><code>maxSteps</code> - the maximum number of steps of size <code>accuracy</code>
- (&ge;1) or 0 for a single step of size <code>timeInterval</code></dd>
+<dd><code>maxSteps</code> - the maximum number of simulation steps of size
+ <code>accuracy</code> (&ge;1) or 0 for a single simulation step of size
+ <code>timeInterval</code></dd>
+<dd><code>addFlags</code> - the desired callbacks, ORed together (default=0x0)</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="StepFlag.html" title="class in com.jme3.bullet"><code>StepFlag</code></a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)">
+<h3>onContactConceived</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">onContactConceived</span><wbr><span class="parameters">(long&nbsp;pointId,
+ long&nbsp;manifoldId,
+ <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoA,
+ <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB)</span></div>
+<div class="block">Invoked immediately before a contact point is added to a manifold.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="collision/ContactListener.html#onContactConceived(long,long,com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject)">onContactConceived</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>pointId</code> - the native ID of the <code>btManifoldPoint</code> (not zero)</dd>
+<dd><code>manifoldId</code> - the native ID of the <code>btPersistentManifold</code> (not
+ zero)</dd>
+<dd><code>pcoA</code> - the "A" collision object (not null)</dd>
+<dd><code>pcoB</code> - the "B" collision object (not null)</dd>
+<dt>Returns:</dt>
+<dd>true to accept the contact, or false to reject it</dd>
 </dl>
 </section>
 </li>
@@ -368,8 +407,7 @@ implements <a href="ContactManager.html" title="interface in com.jme3.bullet">Co
 <section class="detail" id="onContactEnded(long)">
 <h3>onContactEnded</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onContactEnded</span><wbr><span class="parameters">(long&nbsp;manifoldId)</span></div>
-<div class="block">Invoked immediately after a contact manifold is destroyed. Skipped if
- stepSimulation() was invoked with doEnded=false.</div>
+<div class="block">Invoked immediately after a contact manifold is destroyed.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="collision/ContactListener.html#onContactEnded(long)">onContactEnded</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
@@ -386,8 +424,7 @@ implements <a href="ContactManager.html" title="interface in com.jme3.bullet">Co
  <a href="collision/PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>&nbsp;pcoB,
  long&nbsp;pointId)</span></div>
 <div class="block">Invoked immediately after a contact point is refreshed without being
- destroyed. Skipped for Sphere-Sphere contacts. Skipped if
- stepSimulation() was invoked with doProcessed=false.</div>
+ destroyed. Skipped for Sphere-Sphere contacts.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="collision/ContactListener.html#onContactProcessed(com.jme3.bullet.collision.PhysicsCollisionObject,com.jme3.bullet.collision.PhysicsCollisionObject,long)">onContactProcessed</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
@@ -402,8 +439,7 @@ implements <a href="ContactManager.html" title="interface in com.jme3.bullet">Co
 <section class="detail" id="onContactStarted(long)">
 <h3>onContactStarted</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onContactStarted</span><wbr><span class="parameters">(long&nbsp;manifoldId)</span></div>
-<div class="block">Invoked immediately after a contact manifold is created. Skipped if
- stepSimulation() was invoked with doStarted=false.</div>
+<div class="block">Invoked immediately after a contact manifold is created.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="collision/ContactListener.html#onContactStarted(long)">onContactStarted</a></code>&nbsp;in interface&nbsp;<code><a href="collision/ContactListener.html" title="interface in com.jme3.bullet.collision">ContactListener</a></code></dd>
