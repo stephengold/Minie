@@ -494,6 +494,18 @@ public class CollisionSpace extends NativePhysicsObject {
     }
 
     /**
+     * Test whether the {@code needsCollision()} callback is enabled.
+     *
+     * @return true if it's enabled, otherwise false
+     */
+    public boolean isOverlapFilterEnabled() {
+        long spaceId = nativeId();
+        boolean result = isOverlapFilterEnabled(spaceId);
+
+        return result;
+    }
+
+    /**
      * Test whether the "deterministic overlapping pairs" option is enabled in
      * the collision dispatcher (native field: m_deterministicOverlappingPairs).
      *
@@ -523,7 +535,8 @@ public class CollisionSpace extends NativePhysicsObject {
      * Callback to determine whether the specified objects should be allowed to
      * collide. Invoked during broadphase, after axis-aligned bounding boxes,
      * ignore lists, and collision groups have been checked. Override this
-     * method to implement dynamic collision filtering.
+     * method to implement dynamic collision filtering. When not needed, the
+     * callback can be disabled by {@code setOverlapFilterEnabled(false)}.
      *
      * @param pcoA the first collision object (not null)
      * @param pcoB the 2nd collision object (not null)
@@ -738,6 +751,17 @@ public class CollisionSpace extends NativePhysicsObject {
      */
     public static void setLocalThreadPhysicsSpace(CollisionSpace space) {
         physicsSpaceTL.set(space);
+    }
+
+    /**
+     * Alter whether the {@code needsCollision()} callback is enabled.
+     *
+     * @param enable true to enable the callback, or false to skip it
+     * (default=true)
+     */
+    public void setOverlapFilterEnabled(boolean enable) {
+        long spaceId = nativeId();
+        setOverlapFilterEnabled(spaceId, enable);
     }
 
     /**
@@ -962,6 +986,8 @@ public class CollisionSpace extends NativePhysicsObject {
 
     native private static boolean isForceUpdateAllAabbs(long spaceId);
 
+    native private static boolean isOverlapFilterEnabled(long spaceId);
+
     native private static int pairTest(long spaceId, long aId, long bId,
             PhysicsCollisionListener listener);
 
@@ -977,6 +1003,9 @@ public class CollisionSpace extends NativePhysicsObject {
 
     native private static void setDeterministicOverlappingPairs(
             long spaceId, boolean desiredSetting);
+
+    native private static void setOverlapFilterEnabled(
+            long spaceId, boolean enable);
 
     native private static void
             setForceUpdateAllAabbs(long spaceId, boolean desiredSetting);
