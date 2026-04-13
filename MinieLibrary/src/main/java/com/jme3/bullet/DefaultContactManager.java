@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 jMonkeyEngine
+ * Copyright (c) 2023-2026 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,21 +54,6 @@ public class DefaultContactManager implements ContactManager {
     // constants and loggers
 
     /**
-     * bitmask to indicate that the {@code onContactEnded()} method of a
-     * particular ContactListener should be invoked
-     */
-    final private static int invokeEnded = 0x2;
-    /**
-     * bitmask to indicate that the {@code onContactProcessed()} method of a
-     * particular ContactListener should be invoked
-     */
-    final private static int invokeProcessed = 0x10;
-    /**
-     * bitmask to indicate that the {@code onContactStarted()} method of a
-     * particular ContactListener should be invoked
-     */
-    final private static int invokeStarted = 0x80;
-    /**
      * message logger for this class
      */
     final static Logger logger
@@ -76,21 +61,6 @@ public class DefaultContactManager implements ContactManager {
     // *************************************************************************
     // fields
 
-    /**
-     * true to request {@code onContactEnded()} callbacks for the space, false
-     * to skip them
-     */
-    private boolean doEnded = false;
-    /**
-     * true to request {@code onContactProcessed()} callbacks for the space,
-     * false to skip them
-     */
-    private boolean doProcessed = false;
-    /**
-     * true to request {@code onContactStarted()} callbacks for the space, false
-     * to skip them
-     */
-    private boolean doStarted = false;
     /**
      * registered listeners for delayed notification of ongoing contacts
      */
@@ -112,13 +82,19 @@ public class DefaultContactManager implements ContactManager {
     final private Deque<PhysicsCollisionEvent> startedEvents
             = new ArrayDeque<>(99);
     /**
+     * step flags of callbacks needed by the registered listeners, ORed together
+     *
+     * @see com.jme3.bullet.StepFlag
+     */
+    private int stepFlags = 0x0;
+    /**
      * list of registered listeners for immediate contact notifications
      * (parallel with {@code immediateListenerFlags})
      */
     final private List<ContactListener> immediateListeners = new ArrayList<>(4);
     /**
-     * list of invocation flags for immediate contact notifications (parallel
-     * with {@code immediateListeners})
+     * list of step flags for immediate contact notifications (parallel with
+     * {@code immediateListeners})
      */
     final private List<Integer> immediateListenerFlags = new ArrayList<>(4);
     /**
@@ -158,44 +134,26 @@ public class DefaultContactManager implements ContactManager {
         assert !startedListeners.contains(listener);
 
         startedListeners.add(listener);
-        this.doStarted = true;
+        this.stepFlags |= StepFlag.contactStarted;
     }
 
     /**
      * Register the specified listener for immediate contact notifications.
      *
      * @param listener the listener to register (not null, alias created)
-     * @param doEnded true to enable {@code onContactEnded()} callbacks for the
-     * listener, false to skip them
-     * @param doProcessed true to enable {@code onContactProcessed()} callbacks
-     * for the listener, false to skip them
-     * @param doStarted true to enable {@code onContactStarted()} callbacks for
-     * the listener, false to skip them
+     * @param stepFlags the step flags for this listener, ORed together
      */
     @Override
-    public synchronized void addContactListener(ContactListener listener,
-            boolean doEnded, boolean doProcessed, boolean doStarted) {
+    public synchronized void addContactListener(
+            ContactListener listener, int stepFlags) {
         Validate.nonNull(listener, "listener");
         assert listener != this;
         assert listener != space;
         assert !immediateListeners.contains(listener);
 
         immediateListeners.add(listener);
-
-        int encodedFlags = (doEnded ? invokeEnded : 0x0)
-                | (doProcessed ? invokeProcessed : 0x0)
-                | (doStarted ? invokeStarted : 0x0);
-        immediateListenerFlags.add(encodedFlags);
-
-        if (doEnded) {
-            this.doEnded = true;
-        }
-        if (doProcessed) {
-            this.doProcessed = true;
-        }
-        if (doStarted) {
-            this.doStarted = true;
-        }
+        immediateListenerFlags.add(stepFlags);
+        this.stepFlags |= stepFlags;
     }
 
     /**
@@ -215,7 +173,7 @@ public class DefaultContactManager implements ContactManager {
         assert !ongoingListeners.contains(listener);
 
         ongoingListeners.add(listener);
-        this.doProcessed = true;
+        this.stepFlags |= StepFlag.contactProcessed;
     }
 
     /**
@@ -299,26 +257,46 @@ public class DefaultContactManager implements ContactManager {
     }
 
     /**
-     * Update the associated PhysicsSpace. This method should be invoked from
-     * the thread that created the space.
+     * Update the associated PhysicsSpace, enabling the specified additional
+     * callbacks. This method should be invoked from the thread that created the
+     * space.
      *
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
-     * @param maxSteps the maximum number of steps of size {@code accuracy}
-     * (&ge;1) or 0 for a single step of size {@code timeInterval}
+     * @param maxSteps the maximum number of simulation steps of size
+     * {@code accuracy} (&ge;1) or 0 for a single simulation step of size
+     * {@code timeInterval}
+     * @param addFlags the desired callbacks, ORed together (default=0x0)
+     * @see com.jme3.bullet.StepFlag
      */
     @Override
-    public void update(float timeInterval, int maxSteps) {
+    public void update(float timeInterval, int maxSteps, int addFlags) {
         assert Validate.nonNegative(timeInterval, "time interval");
         assert Validate.nonNegative(maxSteps, "max steps");
 
-        space.update(timeInterval, maxSteps, doEnded, doProcessed, doStarted);
+        int flags = stepFlags | addFlags;
+        space.update(timeInterval, maxSteps, flags);
     }
     // *************************************************************************
     // ContactListener methods
 
     /**
-     * Invoked immediately after a contact manifold is destroyed. Skipped if
-     * stepSimulation() was invoked with doEnded=false.
+     * Invoked immediately before a contact point is added to a manifold.
+     *
+     * @param pointId the native ID of the {@code btManifoldPoint} (not zero)
+     * @param manifoldId the native ID of the {@code btPersistentManifold} (not
+     * zero)
+     * @param pcoA the "A" collision object (not null)
+     * @param pcoB the "B" collision object (not null)
+     * @return true to accept the contact, or false to reject it
+     */
+    @Override
+    public boolean onContactConceived(long pointId, long manifoldId,
+            PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
+        return true;
+    }
+
+    /**
+     * Invoked immediately after a contact manifold is destroyed.
      *
      * @param manifoldId the native ID of the {@code btPersistentManifold} (not
      * zero)
@@ -328,7 +306,7 @@ public class DefaultContactManager implements ContactManager {
         int numImmediateListeners = immediateListeners.size();
         for (int i = 0; i < numImmediateListeners; ++i) {
             int flags = immediateListenerFlags.get(i);
-            if ((flags & invokeEnded) != 0x0) {
+            if ((flags & StepFlag.contactEnded) != 0x0) {
                 ContactListener listener = immediateListeners.get(i);
                 listener.onContactEnded(manifoldId);
             }
@@ -337,8 +315,7 @@ public class DefaultContactManager implements ContactManager {
 
     /**
      * Invoked immediately after a contact point is refreshed without being
-     * destroyed. Skipped for Sphere-Sphere contacts. Skipped if
-     * stepSimulation() was invoked with doProcessed=false.
+     * destroyed. Skipped for Sphere-Sphere contacts.
      *
      * @param pcoA the first involved object (not null)
      * @param pcoB the 2nd involved object (not null)
@@ -350,7 +327,7 @@ public class DefaultContactManager implements ContactManager {
         int numImmediateListeners = immediateListeners.size();
         for (int i = 0; i < numImmediateListeners; ++i) {
             int flags = immediateListenerFlags.get(i);
-            if ((flags & invokeProcessed) != 0x0) {
+            if ((flags & StepFlag.contactProcessed) != 0x0) {
                 ContactListener listener = immediateListeners.get(i);
                 listener.onContactProcessed(pcoA, pcoB, pointId);
             }
@@ -366,8 +343,7 @@ public class DefaultContactManager implements ContactManager {
     }
 
     /**
-     * Invoked immediately after a contact manifold is created. Skipped if
-     * stepSimulation() was invoked with doStarted=false.
+     * Invoked immediately after a contact manifold is created.
      *
      * @param manifoldId the native ID of the {@code btPersistentManifold} (not
      * zero)
@@ -377,7 +353,7 @@ public class DefaultContactManager implements ContactManager {
         int numImmediateListeners = immediateListeners.size();
         for (int i = 0; i < numImmediateListeners; ++i) {
             int flags = immediateListenerFlags.get(i);
-            if ((flags & invokeStarted) != 0x0) {
+            if ((flags & StepFlag.contactStarted) != 0x0) {
                 ContactListener listener = immediateListeners.get(i);
                 listener.onContactStarted(manifoldId);
             }
@@ -411,19 +387,19 @@ public class DefaultContactManager implements ContactManager {
     // new private methods
 
     /**
-     * Update the doEnded, doProcessed, and doStarted flags after a listener is
-     * removed.
+     * Update the {@code stepFlags} field after a listener is removed.
      */
     private void updateFlags() {
         int union = 0x0;
         for (int flags : immediateListenerFlags) {
             union |= flags;
         }
-
-        this.doEnded = ((union & invokeEnded) != 0x0);
-        this.doProcessed = ((union & invokeProcessed) != 0x0)
-                || !ongoingListeners.isEmpty();
-        this.doStarted = ((union & invokeStarted) != 0x0)
-                || !startedListeners.isEmpty();
+        if (!ongoingListeners.isEmpty()) {
+            union |= StepFlag.contactProcessed;
+        }
+        if (!startedListeners.isEmpty()) {
+            union |= StepFlag.contactStarted;
+        }
+        this.stepFlags = union;
     }
 }

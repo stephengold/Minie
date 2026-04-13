@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 jMonkeyEngine
+ * Copyright (c) 2023-2026 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,15 +58,10 @@ public interface ContactManager extends ContactListener {
      * Register the specified listener for immediate contact notifications.
      *
      * @param listener the listener to register (not null, alias created)
-     * @param doEnded true to enable {@code onContactEnded()} callbacks for the
-     * listener, false to skip them
-     * @param doProcessed true to enable {@code onContactProcessed()} callbacks
-     * for the listener, false to skip them
-     * @param doStarted true to enable {@code onContactStarted()} callbacks for
-     * the listener, false to skip them
+     * @param stepFlags the desired flags, ORed together
+     * @see com.jme3.bullet.StepFlag
      */
-    void addContactListener(ContactListener listener,
-            boolean doEnded, boolean doProcessed, boolean doStarted);
+    void addContactListener(ContactListener listener, int stepFlags);
 
     /**
      * Register the specified listener for ongoing contacts.
@@ -112,13 +107,16 @@ public interface ContactManager extends ContactListener {
     void removeOngoingCollisionListener(PhysicsCollisionListener listener);
 
     /**
-     * Update the associated PhysicsSpace. This method should be invoked from
-     * the thread that created the space.
+     * Update the associated PhysicsSpace, enabling the specified callbacks.
+     * This method should be invoked from the thread that created the space.
      *
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
      * @param maxSteps the maximum number of simulation steps of size
      * {@code accuracy} (&ge;1) or 0 for a single simulation step of size
      * {@code timeInterval}
+     * @param stepFlags flags indicating the desired callbacks, ORed together
+     * (default=0x0)
+     * @see com.jme3.bullet.StepFlag
      */
-    void update(float timeInterval, int maxSteps);
+    void update(float timeInterval, int maxSteps, int stepFlags);
 }

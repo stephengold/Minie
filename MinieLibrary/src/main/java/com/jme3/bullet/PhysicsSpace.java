@@ -368,7 +368,9 @@ public class PhysicsSpace
      */
     public void addContactListener(ContactListener listener) {
         Validate.nonNull(listener, "listener");
-        manager.addContactListener(listener, true, true, true);
+        int stepFlags = StepFlag.contactConceived | StepFlag.contactEnded
+                | StepFlag.contactProcessed | StepFlag.contactStarted;
+        manager.addContactListener(listener, stepFlags);
     }
 
     /**
@@ -385,7 +387,18 @@ public class PhysicsSpace
     public void addContactListener(ContactListener listener, boolean doEnded,
             boolean doProcessed, boolean doStarted) {
         Validate.nonNull(listener, "listener");
-        manager.addContactListener(listener, doEnded, doProcessed, doStarted);
+
+        int stepFlags = 0x0;
+        if (doEnded) {
+            stepFlags |= StepFlag.contactEnded;
+        }
+        if (doProcessed) {
+            stepFlags |= StepFlag.contactProcessed;
+        }
+        if (doStarted) {
+            stepFlags |= StepFlag.contactStarted;
+        }
+        manager.addContactListener(listener, stepFlags);
     }
 
     /**
@@ -975,7 +988,7 @@ public class PhysicsSpace
             interval = timeInterval;
             assert maxSubSteps > 0 : maxSubSteps;
         }
-        manager.update(interval, maxSubSteps);
+        update(interval, maxSubSteps);
     }
 
     /**
@@ -990,25 +1003,49 @@ public class PhysicsSpace
         assert Validate.nonNegative(timeInterval, "time interval");
         assert Validate.nonNegative(maxSteps, "max steps");
 
-        manager.update(timeInterval, maxSteps);
+        manager.update(timeInterval, maxSteps, 0x0);
     }
 
     /**
-     * Update the space. This method should be invoked from the thread that
-     * created the space.
+     * Update the space, enabling the specified callbacks. This method should be
+     * invoked on the thread that created the space.
      *
      * @param timeInterval the time interval to simulate (in seconds, &ge;0)
      * @param maxSteps the maximum number of steps of size {@code accuracy}
      * (&ge;1) or 0 for a single step of size {@code timeInterval}
-     * @param doEnded true to enable {@code onContactEnded()} callbacks, false
-     * to skip them
-     * @param doProcessed true to enable {@code onContactProcessed()} callbacks,
-     * false to skip them
-     * @param doStarted true to enable {@code onContactStarted()} callbacks,
-     * false to skip them
+     * @param doEnded true to enable {@code onContactEnded()} callbacks
+     * @param doProcessed true to enable {@code onContactProcessed()} callbacks
+     * @param doStarted true to enable {@code onContactStarted()} callbacks
      */
     public void update(float timeInterval, int maxSteps, boolean doEnded,
             boolean doProcessed, boolean doStarted) {
+        int stepFlags = 0x0;
+        if (doEnded) {
+            stepFlags |= StepFlag.contactEnded;
+        }
+        if (doProcessed) {
+            stepFlags |= StepFlag.contactProcessed;
+        }
+        if (doStarted) {
+            stepFlags |= StepFlag.contactStarted;
+        }
+
+        manager.update(timeInterval, maxSteps, stepFlags);
+    }
+
+    /**
+     * Update the space with the specified callbacks. This method should be
+     * invoked on the thread that created the space.
+     *
+     * @param timeInterval the time interval to simulate (in seconds, &ge;0)
+     * @param maxSteps the maximum number of simulation steps of size
+     * {@code accuracy} (&ge;1) or 0 for a single simulation step of size
+     * {@code timeInterval}
+     * @param stepFlags flags representing the desired callbacks, ORed together
+     * (default=0x0)
+     * @see com.jme3.bullet.StepFlag
+     */
+    public void update(float timeInterval, int maxSteps, int stepFlags) {
         assert Validate.nonNegative(timeInterval, "time interval");
         assert Validate.nonNegative(maxSteps, "max steps");
 
@@ -1018,8 +1055,7 @@ public class PhysicsSpace
 
         long spaceId = nativeId();
         assert accuracy > 0f : accuracy;
-        stepSimulation(spaceId, timeInterval, maxSteps, accuracy, doEnded,
-                doProcessed, doStarted);
+        stepSimulation(spaceId, timeInterval, maxSteps, accuracy, stepFlags);
     }
 
     /**
@@ -1259,8 +1295,35 @@ public class PhysicsSpace
     // ContactListener methods
 
     /**
+     * Invoked by native code immediately before a contact point is added to a
+     * manifold. Skipped if {@code stepSimulation()} was invoked without the
+     * {@code contactConceived} flag set.
+     *
+     * @param pointId the native ID of the {@code btManifoldPoint} (not zero)
+     * @param manifoldId the native ID of the {@code btPersistentManifold} (not
+     * zero)
+     * @param pcoA the "A" collision object (not null)
+     * @param pcoB the "B" collision object (not null)
+     * @return true to accept the contact, or false to reject it
+     */
+    @Override
+    public boolean onContactConceived(long pointId, long manifoldId,
+            PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
+        assert NativeLibrary.jniEnvId() == jniEnvId() : "wrong thread";
+        assert pointId != 0L;
+        assert manifoldId != 0L;
+        assert pcoA != null;
+        assert pcoB != null;
+        boolean accept
+                = manager.onContactConceived(pointId, manifoldId, pcoA, pcoB);
+
+        return accept;
+    }
+
+    /**
      * Invoked by native code immediately after a contact manifold is destroyed.
-     * Skipped if stepSimulation() was invoked with doEnded=false.
+     * Skipped if {@code stepSimulation()} was invoked without the
+     * {@code contactEnded} flag set.
      *
      * @param manifoldId the native ID of the {@code btPersistentManifold} (not
      * zero)
@@ -1275,7 +1338,8 @@ public class PhysicsSpace
     /**
      * Invoked by native code immediately after a contact point is refreshed
      * without being destroyed. Skipped for Sphere-Sphere contacts. Skipped if
-     * stepSimulation() was invoked with doProcessed=false.
+     * {@code stepSimulation()} was invoked without the {@code contactProcessed}
+     * flag set.
      *
      * @param pcoA the first involved object (not null)
      * @param pcoB the 2nd involved object (not null)
@@ -1293,7 +1357,8 @@ public class PhysicsSpace
 
     /**
      * Invoked by native code immediately after a contact manifold is created.
-     * Skipped if stepSimulation() was invoked with doStarted=false.
+     * Skipped if {@code stepSimulation()} was invoked without the
+     * {@code contactStarted} flag.
      *
      * @param manifoldId the native ID of the {@code btPersistentManifold} (not
      * zero)
@@ -1565,7 +1630,5 @@ public class PhysicsSpace
             setSpeculativeContactRestitution(long spaceId, boolean apply);
 
     native private static void stepSimulation(long spaceId, float timeInterval,
-            int maxSubSteps, float accuracy, boolean enableContactEndedCallback,
-            boolean enableContactProcessedCallback,
-            boolean enableContactStartedCallback);
+            int maxSubSteps, float accuracy, int stepFlags);
 }

@@ -162,6 +162,26 @@ final public class TestIssue40 extends SimpleApplication
     // ContactListener methods
 
     /**
+     * Invoked immediately before a contact point is added to a manifold.
+     *
+     * @param pointId the native ID of the {@code btManifoldPoint} (not zero)
+     * @param manifoldId the native ID of the {@code btPersistentManifold} (not
+     * zero)
+     * @param pcoA the "A" collision object (not null)
+     * @param pcoB the "B" collision object (not null)
+     * @return true to accept the contact, or false to reject it
+     */
+    @Override
+    public boolean onContactConceived(long pointId, long manifoldId,
+            PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
+        if (tickCount >= startTick) {
+            System.out.printf("  conceived point %x%n", pointId);
+            System.out.flush();
+        }
+        return true;
+    }
+
+    /**
      * Invoked immediately after a contact manifold is removed.
      *
      * @param manifoldId the native ID of the {@code btPersistentManifold} (not

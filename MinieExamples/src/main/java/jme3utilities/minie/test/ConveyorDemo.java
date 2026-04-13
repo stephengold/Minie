@@ -189,6 +189,22 @@ public class ConveyorDemo
     // ContactListener methods
 
     /**
+     * Invoked immediately before a contact point is added to a manifold.
+     *
+     * @param pointId the native ID of the {@code btManifoldPoint} (not zero)
+     * @param manifoldId the native ID of the {@code btPersistentManifold} (not
+     * zero)
+     * @param pcoA the "A" collision object (not null)
+     * @param pcoB the "B" collision object (not null)
+     * @return true to accept the contact, or false to reject it
+     */
+    @Override
+    public boolean onContactConceived(long pointId, long manifoldId,
+            PhysicsCollisionObject pcoA, PhysicsCollisionObject pcoB) {
+        return true;
+    }
+
+    /**
      * Invoked immediately after a contact manifold is created.
      *
      * @param manifoldId ignored

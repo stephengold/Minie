@@ -39,6 +39,7 @@ import java.util.logging.Logger;
  * Named flags used when stepping a {@code PhysicsSpace} simulation.
  *
  * @author Stephen Gold sgold@sonic.net
+ * @see com.jme3.bullet.PhysicsSpace#update(float, int, int)
  */
 final public class StepFlag {
     // *************************************************************************
