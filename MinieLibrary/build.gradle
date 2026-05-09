@@ -12,6 +12,10 @@ plugins {
     alias(libs.plugins.download) // to retrieve files from URLs
 }
 
+tasks.withType(JavaCompile).configureEach { // Java compile-time options:
+    //options.deprecation = true // to provide detailed deprecation warnings
+}
+
 ext {
     if (rootProject.hasProperty('btdebug')) {
         // -Pbtdebug specified on the command line
