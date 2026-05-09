@@ -283,7 +283,7 @@ publishMavenPublicationToCentralRepository.dependsOn('assemble')
 // Signing relies on the existence of 3 properties
 // (signing.keyId, signing.password, and signing.secretKeyRingFile)
 // which should be set in the ~/.gradle/gradle.properties file
-// or by -P options on the command line.
+// or by -P options on the Gradle command line.
 
 signing {
     sign publishing.publications.maven

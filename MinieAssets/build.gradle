@@ -40,7 +40,7 @@ ext {
 }
 
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
-    options.deprecation = true
+    options.deprecation = true // to provide detailed deprecation warnings
 }
 tasks.withType(JavaExec).configureEach { // Java runtime options:
     dependsOn(':MinieLibrary:pom');

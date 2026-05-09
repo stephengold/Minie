@@ -15,7 +15,7 @@ application {
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
-    options.deprecation = true
+    options.deprecation = true // to provide detailed deprecation warnings
 }
 
 dependencies {

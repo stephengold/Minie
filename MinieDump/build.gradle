@@ -9,7 +9,7 @@ plugins {
 }
 
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
-    options.deprecation = true
+    options.deprecation = true // to provide detailed deprecation warnings
 }
 startScripts.dependsOn(':MinieLibrary:pom')
 
