@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2023, Stephen Gold
+ Copyright (c) 2021-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import com.jme3.export.binary.BinaryLoader;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.scene.Spatial;
 import com.jme3.system.NativeLibraryLoader;
-import com.jme3.texture.plugins.AWTLoader;
+import com.jme3.texture.plugins.StbImageLoader;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -220,9 +220,9 @@ final public class MinieDump {
         assetManager = new DesktopAssetManager();
 
         // Register loaders.
-        assetManager.registerLoader(AWTLoader.class, "jpg", "png");
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
+        assetManager.registerLoader(StbImageLoader.class, "jpg", "png");
 
         // Register locators.
         assetManager.registerLocator(assetRoot, FileLocator.class);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2024 Stephen Gold
+ Copyright (c) 2018-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ import com.jme3.terrain.heightmap.HeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
-import com.jme3.texture.plugins.AWTLoader;
+import com.jme3.texture.plugins.StbImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 import jme3utilities.MyAsset;
@@ -89,9 +89,9 @@ public class TestSetMargin {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
 
         AssetManager assetManager = new DesktopAssetManager();
-        assetManager.registerLoader(AWTLoader.class, "jpg", "png");
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
+        assetManager.registerLoader(StbImageLoader.class, "jpg", "png");
         assetManager.registerLocator(null, ClasspathLocator.class);
 
         // Box2dShape

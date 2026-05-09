@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2023, Stephen Gold
+ Copyright (c) 2020-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.plugins.ogre.MaterialLoader;
 import com.jme3.scene.plugins.ogre.MeshLoader;
 import com.jme3.system.NativeLibraryLoader;
-import com.jme3.texture.plugins.AWTLoader;
+import com.jme3.texture.plugins.StbImageLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -105,10 +105,10 @@ final public class MakeSword {
      */
     private static void makeSword() {
         AssetManager assetManager = new DesktopAssetManager();
-        assetManager.registerLoader(AWTLoader.class, "jpg");
         assetManager.registerLoader(J3MLoader.class, "j3md");
         assetManager.registerLoader(MaterialLoader.class, "material");
         assetManager.registerLoader(MeshLoader.class, "mesh.xml");
+        assetManager.registerLoader(StbImageLoader.class, "jpg");
         assetManager.registerLocator(null, ClasspathLocator.class);
         /*
          * Import Sinbad's scimitar model (by Zi Ye)

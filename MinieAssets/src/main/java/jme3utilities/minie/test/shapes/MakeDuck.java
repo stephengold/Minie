@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.plugins.gltf.BinLoader;
 import com.jme3.scene.plugins.gltf.GltfLoader;
 import com.jme3.system.NativeLibraryLoader;
-import com.jme3.texture.plugins.AWTLoader;
+import com.jme3.texture.plugins.StbImageLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -106,10 +106,10 @@ final public class MakeDuck {
      */
     private static void makeDuck() {
         AssetManager assetManager = new DesktopAssetManager();
-        assetManager.registerLoader(AWTLoader.class, "png");
         assetManager.registerLoader(BinLoader.class, "bin");
         assetManager.registerLoader(GltfLoader.class, "gltf");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
+        assetManager.registerLoader(StbImageLoader.class, "png");
         assetManager.registerLocator(null, ClasspathLocator.class);
         /*
          * Import the Duck model (by Sony Computer Entertainment Inc.)

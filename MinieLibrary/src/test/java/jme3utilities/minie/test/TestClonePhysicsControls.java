@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2024 Stephen Gold
+ Copyright (c) 2018-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ import com.jme3.material.plugins.J3MLoader;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.system.NativeLibraryLoader;
-import com.jme3.texture.plugins.AWTLoader;
+import com.jme3.texture.plugins.StbImageLoader;
 import jme3utilities.Heart;
 import org.junit.Assert;
 import org.junit.Test;
@@ -78,9 +78,9 @@ public class TestClonePhysicsControls {
     @Test
     public void testClonePhysicsControls() {
         NativeLibraryLoader.loadNativeLibrary("bulletjme", true);
-        assetManager.registerLoader(AWTLoader.class, "jpg", "png");
         assetManager.registerLoader(BinaryLoader.class, "j3o");
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
+        assetManager.registerLoader(StbImageLoader.class, "jpg", "png");
         assetManager.registerLocator(null, ClasspathLocator.class);
 
         // BetterCharacterControl
