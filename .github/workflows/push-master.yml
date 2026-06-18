@@ -9,7 +9,7 @@ on:
 jobs:
   Website:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - uses: actions/setup-java@v5
         with:
