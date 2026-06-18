@@ -38,9 +38,6 @@ for 10 different platforms:
 * macOS (x86-64 and ARM64), and
 * Android (armeabi-v7a, arm64-v8a, x86, and x86_64).
 
-NOTE: 32-bit and 64-bit versions of the same operating system
-count as distinct platforms!
-
 On desktop platforms, JMonkeyEngine automatically loads
 the appropriate native library
 during initialization of the `JmeDesktopSystem` class
