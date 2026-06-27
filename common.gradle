@@ -9,7 +9,7 @@ java {
 }
 
 checkstyle {
-    toolVersion = libs.versions.checkstyle.get()
+    toolVersion = rootProject.libs.versions.checkstyle.get()
 }
 
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
