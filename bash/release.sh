@@ -2,7 +2,7 @@
 
 set -e
 
-export JAVA_HOME=/usr/lib/jvm/jdk-17.0.15+6
+export JAVA_HOME=/usr/lib/jvm/jdk-17.0.19+10
 
 V=9.0.3
 D=/home/sgold/Releases/Minie/$V
