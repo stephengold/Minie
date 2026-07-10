@@ -34,7 +34,7 @@ dependencies {
     runtimeOnly(libs.jme3.jogg)
 
     //implementation 'com.github.stephengold:Minie:' + minieVersion // for published library
-    implementation project(':MinieLibrary') // for latest sourcecode
+    implementation project(':MinieLibrary') // for local library build
 }
 
 processResources.dependsOn(':MinieAssets:models', ':MinieAssets:shapes', ':MinieAssets:textures')
