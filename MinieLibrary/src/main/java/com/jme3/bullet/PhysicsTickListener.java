@@ -32,14 +32,14 @@
 package com.jme3.bullet;
 
 /**
- * Callback interface from the physics thread, used to clear/apply forces.
+ * Periodic callback interface from the physics thread.
  *
  * @author normenhansen
  */
 public interface PhysicsTickListener {
     /**
      * Callback invoked just before the physics is stepped. A good time to
-     * clear/apply forces and reposition kinematic objects.
+     * apply impulses and reposition kinematic objects.
      *
      * @param space the space that's about to be stepped (not null)
      * @param timeStep the duration of the simulation step (in seconds, &ge;0)

@@ -956,7 +956,7 @@ public class BulletAppState
 
     /**
      * Callback invoked just after the physics has been stepped. A good time to
-     * clear/apply forces. Meant to be overridden.
+     * re-activate deactivated objects. Meant to be overridden.
      *
      * @param space the space that was just stepped (not null)
      * @param timeStep the duration of the simulation step (in seconds, &ge;0)
@@ -967,8 +967,8 @@ public class BulletAppState
     }
 
     /**
-     * Callback invoked just before the physics is stepped. A good time to
-     * clear/apply forces. Meant to be overridden.
+     * Callback invoked just before the physics is stepped. A good time to apply
+     * impulses and reposition kinematic objects. Meant to be overridden.
      *
      * @param space the space that's about to be stepped (not null)
      * @param timeStep the duration of the simulation step (in seconds, &ge;0)
