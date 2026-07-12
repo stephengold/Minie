@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -246,6 +246,7 @@ public class ForceDemo
     @Override
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         // Check UI signals and apply forces/torques accordingly.
+        cube.clearForces();
         Signals signals = getSignals();
 
         if (signals.test("cf+Y")) {
