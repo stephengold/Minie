@@ -91,7 +91,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">PhysicsTickListener</span></div>
-<div class="block">Callback interface from the physics thread, used to clear/apply forces.</div>
+<div class="block">Periodic callback interface from the physics thread.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -138,7 +138,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">prePhysicsTick</span><wbr><span class="parameters">(<a href="PhysicsSpace.html" title="class in com.jme3.bullet">PhysicsSpace</a>&nbsp;space,
  float&nbsp;timeStep)</span></div>
 <div class="block">Callback invoked just before the physics is stepped. A good time to
- clear/apply forces and reposition kinematic objects.</div>
+ apply impulses and reposition kinematic objects.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>space</code> - the space that's about to be stepped (not null)</dd>
