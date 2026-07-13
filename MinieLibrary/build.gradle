@@ -25,12 +25,12 @@ ext {
 
             bftAndroid = '' // no DpDebug for Android yet
             configureDesktopBfts('DpDebug')
-            metadata = 'debugdp' + jmeTarget
+            metadata = 'debugdp'
 
         } else { // -Pbtdebug specified, but not -Pdp
             bftAndroid = 'SpDebug'
             configureDesktopBfts('SpDebug')
-            metadata = 'debug' + jmeTarget
+            metadata = 'debug'
         }
 
     } else if (rootProject.hasProperty('dp')) {
@@ -38,14 +38,14 @@ ext {
 
         bftAndroid = '' // no DpRelease for Android yet
         configureDesktopBfts('DpRelease')
-        metadata = 'dp' + jmeTarget
+        metadata = 'dp'
 
     } else if (rootProject.hasProperty('bare')) {
         // -Pbare specified, but neither -Pbtdebug nor -Pdp
 
         bftAndroid = ''
         configureDesktopBfts('')
-        metadata = 'bare' + jmeTarget
+        metadata = 'bare'
 
     } else if (rootProject.hasProperty('big4')) {
         // -Pbig4 specified, but neither -Pbtdebug nor -Pdp nor -Pbare
@@ -56,7 +56,7 @@ ext {
         bftMacOSX64 = 'SpRelease'
         bftMacOSX_ARM64 = 'SpRelease'
         bftWindows64 = 'SpRelease'
-        metadata = 'big4' + jmeTarget
+        metadata = 'big4'
 
     } else if (rootProject.hasProperty('mt')) {
         // -Pmt specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4
@@ -65,21 +65,21 @@ ext {
         configureDesktopBfts('')
         bftLinux64 = 'SpMtRelease'
         bftWindows64 = 'SpMtRelease'
-        metadata = 'mt' + jmeTarget
+        metadata = 'mt'
 
     } else if (rootProject.hasProperty('droid')) {
         // -Pdroid specified, but neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4 nor -Pmt
 
         bftAndroid = 'SpRelease'
         configureDesktopBfts('')
-        metadata = 'droid' + jmeTarget
+        metadata = 'droid'
 
     } else {
         // neither -Pbtdebug nor -Pdp nor -Pbare nor -Pbig4 nor -Pmt nor -Pdroid specified
         bftAndroid = 'SpRelease'
         configureDesktopBfts('SpRelease')
 
-        metadata = jmeTarget
+        metadata = ''
     }
 
     group = 'com.github.stephengold'
