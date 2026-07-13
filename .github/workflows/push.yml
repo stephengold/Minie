@@ -78,3 +78,16 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
+
+  Java26-Windows_ARM64:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
+    runs-on: windows-11-arm
+    steps:
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'liberica'
+          java-version: 26
+      - uses: actions/checkout@v7
+      - uses: gradle/actions/setup-gradle@v6
+      - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+        shell: bash
