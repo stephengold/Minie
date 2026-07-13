@@ -31,12 +31,12 @@ compiled for the {url-enwiki}/Computing_platform[platform]
 on which the app is executing.
 
 The Libbulletjme project publishes native libraries
-for 11 different platforms:
+for 12 different platforms:
 
 * Windows (x86-64 and ARM64),
 * Linux (x86-64, armhf, and aarch64),
 * macOS (x86-64 and ARM64), and
-* Android (armeabi-v7a, arm64-v8a, x86, and x86_64).
+* Android (armeabi-v7a, arm64-v8a, riscv64, x86, and x86_64).
 
 On desktop platforms, JMonkeyEngine automatically loads
 the appropriate native library
