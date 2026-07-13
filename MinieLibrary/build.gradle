@@ -126,6 +126,9 @@ dependencies {
     if (project.ext.bftWindows64 != '') {
         runtimeOnly(variantOf(libs.libbulletjme.windows64){ classifier(project.ext.bftWindows64) })
     }
+    if (project.ext.bftWindows_ARM64 != '') {
+        runtimeOnly(variantOf(libs.libbulletjme.windowsarm64){ classifier(project.ext.bftWindows_ARM64) })
+    }
 
     testImplementation(libs.junit4)
     testImplementation(libs.jme3.desktop)
@@ -374,10 +377,11 @@ defineJavadocTasksForRelease('2', '0', '1')
 void configureDesktopBfts(String value) {
     project.ext.bftLinux64 = value
     project.ext.bftLinux_ARM32 = value
-    project.ext.bftWindows64 = value
     project.ext.bftLinux_ARM64 = value
     project.ext.bftMacOSX64 = value
     project.ext.bftMacOSX_ARM64 = value
+    project.ext.bftWindows64 = value
+    project.ext.bftWindows_ARM64 = value
 }
 
 // helper method to register tasks that copy javadoc to the (web)site

@@ -36,6 +36,7 @@ libbulletjme-linuxarm64 = { module = "com.github.stephengold:Libbulletjme-Linux_
 libbulletjme-macosx64 = { module = "com.github.stephengold:Libbulletjme-MacOSX64", version.ref = "lbj" }
 libbulletjme-macosxarm64 = { module = "com.github.stephengold:Libbulletjme-MacOSX_ARM64", version.ref = "lbj" }
 libbulletjme-windows64 = { module = "com.github.stephengold:Libbulletjme-Windows64", version.ref = "lbj" }
+libbulletjme-windowsarm64 = { module = "com.github.stephengold:Libbulletjme-Windows_ARM64", version.ref = "lbj" }
 
 nifty-style-black = "com.github.nifty-gui:nifty-style-black:1.4.3"
 sim-math = "com.simsilica:sim-math:1.6.0"
