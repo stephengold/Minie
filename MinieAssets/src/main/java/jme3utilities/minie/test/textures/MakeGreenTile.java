@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2023, Stephen Gold
+ Copyright (c) 2019-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -100,7 +100,7 @@ final public class MakeGreenTile {
         Graphics2D graphics = image.createGraphics();
 
         float opacity = 1f;
-        Color dark = new Color(0.1f, 0.1f, 0.1f, opacity);
+        Color dark = new Color(0.1f, 0.3f, 0.1f, opacity);
         graphics.setColor(dark);
         graphics.fillRect(0, 0, textureSize, textureSize);
 
