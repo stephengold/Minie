@@ -475,6 +475,15 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
     }
 
     /**
+     * Clear the forces and torques on all non-static bodies in the space. This
+     * operation is performed automatically at the end of each {@code update()}.
+     */
+    public void clearForces() {
+        long spaceId = nativeId();
+        clearForces(spaceId);
+    }
+
+    /**
      * Test whether the specified PhysicsJoint is added to the space.
      *
      * @param joint the joint to test (not null, unaffected)
@@ -1587,6 +1596,8 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
 
     native private static void addRigidBody(
             long spaceId, long rigidBodyId, int proxyGroup, int proxyMask);
+
+    native private static void clearForces(long spaceId);
 
     native private static int countManifolds(long spaceId);
 
