@@ -223,11 +223,12 @@ public class CharacterController
     }
 
     /**
-     * Determine the linear velocity of the character's center. Note that the
-     * units differ from PhysicsRigidBody!
+     * Determine the linear velocity of this character's center. Note that the
+     * horizontal units differ from PhysicsRigidBody!
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a vector (in physics-space units per time step, either
+     * @return a vector (horizontal components in physics-space units per time
+     * step, vertical component in physics-space units per second, either
      * storeResult or a new vector, not null)
      */
     public Vector3f getLinearVelocity(Vector3f storeResult) {
@@ -423,11 +424,12 @@ public class CharacterController
     }
 
     /**
-     * Alter the linear velocity of the character's center. Note that the units
-     * differ from PhysicsRigidBody!
+     * Alter the linear velocity of this character's center. Note that the
+     * horizontal units differ from PhysicsRigidBody!
      *
-     * @param velocity the desired velocity vector (in physics-space units per
-     * time step, not null, finite)
+     * @param velocity the desired velocity vector (horizontal components in
+     * physics-space units per time step, vertical component in physics-space
+     * units per second, not null, finite)
      */
     public void setLinearVelocity(Vector3f velocity) {
         Validate.finite(velocity, "velocity");

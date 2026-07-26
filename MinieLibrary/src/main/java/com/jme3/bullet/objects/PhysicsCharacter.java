@@ -220,10 +220,11 @@ public class PhysicsCharacter extends PhysicsCollisionObject {
 
     /**
      * Determine the linear velocity of this character's center. Note that the
-     * units differ from PhysicsRigidBody!
+     * horizontal units differ from PhysicsRigidBody!
      *
      * @param storeResult storage for the result (modified if not null)
-     * @return a vector (in physics-space units per time step, either
+     * @return a vector (horizontal components in physics-space units per time
+     * step, vertical component in physics-space units per second, either
      * storeResult or a new vector, not null)
      */
     public Vector3f getLinearVelocity(Vector3f storeResult) {
