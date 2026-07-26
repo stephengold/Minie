@@ -202,7 +202,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLinearVelocity(com.jme3.math.Vector3f)" class="member-name-link">getLinearVelocity</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Determine the linear velocity of the character's center.</div>
+<div class="block">Determine the linear velocity of this character's center.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxPenetrationDepth()" class="member-name-link">getMaxPenetrationDepth</a>()</code></div>
@@ -293,7 +293,7 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLinearVelocity(com.jme3.math.Vector3f)" class="member-name-link">setLinearVelocity</a><wbr>(com.jme3.math.Vector3f&nbsp;velocity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the linear velocity of the character's center.</div>
+<div class="block">Alter the linear velocity of this character's center.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxPenetrationDepth(float)" class="member-name-link">setMaxPenetrationDepth</a><wbr>(float&nbsp;depth)</code></div>
@@ -492,13 +492,14 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="getLinearVelocity(com.jme3.math.Vector3f)">
 <h3>getLinearVelocity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getLinearVelocity</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
-<div class="block">Determine the linear velocity of the character's center. Note that the
- units differ from PhysicsRigidBody!</div>
+<div class="block">Determine the linear velocity of this character's center. Note that the
+ horizontal units differ from PhysicsRigidBody!</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a vector (in physics-space units per time step, either
+<dd>a vector (horizontal components in physics-space units per time
+ step, vertical component in physics-space units per second, either
  storeResult or a new vector, not null)</dd>
 </dl>
 </section>
@@ -687,12 +688,13 @@ implements com.jme3.util.clone.JmeCloneable, com.jme3.export.Savable</span></div
 <section class="detail" id="setLinearVelocity(com.jme3.math.Vector3f)">
 <h3>setLinearVelocity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLinearVelocity</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;velocity)</span></div>
-<div class="block">Alter the linear velocity of the character's center. Note that the units
- differ from PhysicsRigidBody!</div>
+<div class="block">Alter the linear velocity of this character's center. Note that the
+ horizontal units differ from PhysicsRigidBody!</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>velocity</code> - the desired velocity vector (in physics-space units per
- time step, not null, finite)</dd>
+<dd><code>velocity</code> - the desired velocity vector (horizontal components in
+ physics-space units per time step, vertical component in physics-space
+ units per second, not null, finite)</dd>
 </dl>
 </section>
 </li>

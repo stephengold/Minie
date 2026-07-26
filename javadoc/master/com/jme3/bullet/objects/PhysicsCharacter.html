@@ -527,12 +527,13 @@ loadScripts(document, 'script');</script>
 <h3>getLinearVelocity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.jme3.math.Vector3f</span>&nbsp;<span class="element-name">getLinearVelocity</span><wbr><span class="parameters">(com.jme3.math.Vector3f&nbsp;storeResult)</span></div>
 <div class="block">Determine the linear velocity of this character's center. Note that the
- units differ from PhysicsRigidBody!</div>
+ horizontal units differ from PhysicsRigidBody!</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>storeResult</code> - storage for the result (modified if not null)</dd>
 <dt>Returns:</dt>
-<dd>a vector (in physics-space units per time step, either
+<dd>a vector (horizontal components in physics-space units per time
+ step, vertical component in physics-space units per second, either
  storeResult or a new vector, not null)</dd>
 </dl>
 </section>
