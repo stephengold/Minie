@@ -661,7 +661,7 @@ public class BetterCharacterControl
 
         Spatial controlled = getSpatial();
         rigidBody.setUserObject(controlled);
-        // sweepShape, castBegin, and castEnd are not read
+        // sweepShape, sweepBegin, and sweepEnd are not read
     }
 
     /**
@@ -764,7 +764,7 @@ public class BetterCharacterControl
         capsule.write(viewDirection, tagViewDirection, null);
         capsule.write(walkVelocity, tagWalkDirection, null);
         capsule.write(rigidBody, tagBody, null);
-        // sweepShape, castBegin, and castEnd are not written
+        // sweepShape, sweepBegin, and sweepEnd are not written
     }
     // *************************************************************************
     // PhysicsTickListener methods
