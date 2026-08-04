@@ -104,6 +104,10 @@ public class BetterCharacterControl
      */
     private boolean isDucked = false;
     /**
+     * true when the character has jumped intentionally but hasn't yet landed
+     */
+    private boolean jumpingIntentionally = false;
+    /**
      * true when a collision object is directly below the character
      */
     private boolean onGround = false;
@@ -794,6 +798,11 @@ public class BetterCharacterControl
     public void prePhysicsTick(PhysicsSpace space, float timeStep) {
         checkOnGround();
 
+        if (jumpingIntentionally && onGround) {
+            // The jump has ended.
+            this.jumpingIntentionally = false;
+        }
+
         if (wantToUnDuck && checkCanUnDuck()) {
             setHeightPercent(1f);
             this.wantToUnDuck = false;
@@ -1072,6 +1081,8 @@ public class BetterCharacterControl
             impulseInWorld.set(jumpImpulse);
             MyQuaternion.rotate(localToWorld, impulseInWorld, impulseInWorld);
             rigidBody.applyCentralImpulse(impulseInWorld);
+
+            this.jumpingIntentionally = true;
         }
         vars.release();
     }
