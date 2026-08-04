@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019-2024 Stephen Gold
+ Copyright (c) 2019-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -257,7 +257,9 @@ public class TestDefaults {
         Assert.assertEquals(2f, bcc.getInitialRadius(), 0f);
         Utils.assertEquals(0f, 50f, 0f, bcc.getJumpForce(null), 0f);
         Assert.assertEquals(0.9f, bcc.getPhysicsDamping(), 0f);
+        Assert.assertEquals(10f, bcc.getRigidBody().getMass(), 0f);
         Utils.assertEquals(0f, 0f, 0f, bcc.getVelocity(null), 0f);
+        Utils.assertEquals(0f, 0f, 0f, bcc.getWalkDirection(null), 0f);
         Assert.assertFalse(bcc.isKinematic());
     }
 
