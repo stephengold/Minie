@@ -92,6 +92,7 @@ public class BetterCharacterControl
     final private static String tagHeight = "height";
     final private static String tagJumpForce = "jumpForce";
     final private static String tagMass = "mass";
+    final private static String tagMaxUpwardVelocity = "maxUpwardVelocity";
     final private static String tagPhysicsDamping = "physicsDamping";
     final private static String tagRadius = "radius";
     final private static String tagViewDirection = "viewDirection";
@@ -141,6 +142,11 @@ public class BetterCharacterControl
      * mass of the rigid body (&gt;0)
      */
     private float mass;
+    /**
+     * maximum upward component of velocity when not intentionally jumping (in
+     * physics-space units per second)
+     */
+    private float maxUpwardVelocity = Float.POSITIVE_INFINITY;
     /**
      * underlying rigid body
      */
@@ -300,6 +306,16 @@ public class BetterCharacterControl
         } else {
             return storeResult.set(jumpImpulse);
         }
+    }
+
+    /**
+     * Return the maximum upward component of velocity when not intentionally
+     * jumping.
+     *
+     * @return the limit (in physics-space units per second)
+     */
+    public float getMaxUpwardVelocity() {
+        return maxUpwardVelocity;
     }
 
     /**
@@ -526,6 +542,18 @@ public class BetterCharacterControl
     }
 
     /**
+     * Alter the maximum upward component of velocity when not intentionally
+     * jumping. Setting the limit to zero prevents the character from bouncing
+     * when it crosses a step.
+     *
+     * @param limit the desired limit (in physics-space units per second,
+     * default=no limit)
+     */
+    public void setMaxUpwardVelocity(float limit) {
+        this.maxUpwardVelocity = limit;
+    }
+
+    /**
      * Alter the damping factor for horizontal motion.
      *
      * @param newFactor the desired damping factor for motion in the local X-Z
@@ -653,6 +681,8 @@ public class BetterCharacterControl
         this.initialRadius = capsule.readFloat(tagRadius, 1f);
         this.initialHeight = capsule.readFloat(tagHeight, 2f);
         this.mass = capsule.readFloat(tagMass, 80f);
+        this.maxUpwardVelocity = capsule.readFloat(
+                tagMaxUpwardVelocity, Float.POSITIVE_INFINITY);
         this.jumpImpulse = (Vector3f) capsule.readSavable(
                 tagJumpForce, new Vector3f(0f, mass * 5f, 0f));
         this.dampingFactor = capsule.readFloat(tagPhysicsDamping, 0.9f);
@@ -762,6 +792,8 @@ public class BetterCharacterControl
         capsule.write(initialRadius, tagRadius, 1f);
         capsule.write(initialHeight, tagHeight, 2f);
         capsule.write(mass, tagMass, 80f);
+        capsule.write(maxUpwardVelocity, tagMaxUpwardVelocity,
+                Float.POSITIVE_INFINITY);
         capsule.write(jumpImpulse, tagJumpForce, null);
         capsule.write(dampingFactor, tagPhysicsDamping, 0.9f);
         capsule.write(duckedFactor, tagDuckedFactor, 0.6f);
@@ -1071,6 +1103,9 @@ public class BetterCharacterControl
             float additionalSpeed = requestedSpeed - speed;
             localWalkDirection.multLocal(additionalSpeed);
             velocity.addLocal(localWalkDirection);
+            if (!jumpingIntentionally && velocity.y > maxUpwardVelocity) {
+                velocity.y = maxUpwardVelocity;
+            }
         }
         if (currentVelocity.distance(velocity) > FastMath.ZERO_TOLERANCE) {
             rigidBody.setLinearVelocity(velocity);
