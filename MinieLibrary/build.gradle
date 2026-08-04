@@ -86,13 +86,13 @@ ext {
     artifact = 'Minie'
 
     if (metadata.isEmpty()) {
-        version = minieVersion
+        version = rootProject.minieVersion
     } else if (metadata.startsWith('+')) {
-        version = minieVersion + metadata
+        version = rootProject.minieVersion + metadata
     } else {
-        version = "${minieVersion}+${metadata}"
+        version = "${rootProject.minieVersion}+${metadata}"
     }
-    baseName = "${artifact}-${version}${minieSnapshot}" // for artifacts
+    baseName = "${artifact}-${version}${rootProject.minieSnapshot}" // for artifacts
 
     websiteUrl = 'https://github.com/stephengold/Minie'
 
