@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.jme.ttf)
     implementation(libs.heart)
     implementation(libs.jme3.blender)
-    runtimeOnly(libs.jme3.desktop)
+    implementation(libs.jme3.desktop)
     implementation(libs.jme3.plugins)
     runtimeOnly(libs.jme3.testdata.old)
 
