@@ -3,7 +3,7 @@
 [versions]
 
 checkstyle = "12.3.1"
-jme = "3.10.0-alpha4"
+jme = "3.10.0-beta2"
 lbj = "23.1.0"
 
 [libraries]
@@ -13,8 +13,8 @@ lbj = "23.1.0"
 lwjgl = { module = "org.jmonkeyengine:jme3-lwjgl3", version.ref = "jme" } # for LWJGL 3.x
 
 acorus = "com.github.stephengold:Acorus:2.0.2"
-heart = "com.github.stephengold:Heart:9.3.0"
-jme-ttf = "com.github.stephengold:jme-ttf:3.0.1"
+heart = "com.github.stephengold:Heart:9.4.0-test1"
+jme-ttf = "com.github.stephengold:jme-ttf:4.0.0-test1"
 
 jme3-blender = "org.jmonkeyengine:jme3-blender:3.3.2-stable"
 jme3-core = { module = "org.jmonkeyengine:jme3-core", version.ref = "jme" }
@@ -39,7 +39,7 @@ libbulletjme-windowsarm64 = { module = "com.github.stephengold:Libbulletjme-Wind
 
 nifty-style-black = "com.github.nifty-gui:nifty-style-black:1.4.3"
 sim-math = "com.simsilica:sim-math:1.6.0"
-wes = "com.github.stephengold:Wes:0.8.3"
+wes = "com.github.stephengold:Wes:0.8.4"
 
 [bundles]
 
