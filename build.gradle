@@ -5,9 +5,9 @@ plugins {
 }
 
 ext {
-    minieSnapshot = '-SNAPSHOT' // for development builds
-    //minieSnapshot = '' // for release builds
-    minieVersion = '9.0.4'
+    //minieSnapshot = '-SNAPSHOT' // for development builds
+    minieSnapshot = '' // for release builds
+    minieVersion = '10.0.0-test1'
 }
 
 subprojects {

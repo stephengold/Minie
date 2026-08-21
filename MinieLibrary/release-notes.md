@@ -1,5 +1,42 @@
 # Release log for the Minie library and MinieExamples
 
+## Version 10.0.0-test1 released on TBD
+
++ Removed support for the `Linux_ARM32hf` platform.
++ Altered the `ContactListener` and `ContactManager` interfaces (API changes)
+  + Added the `StepFlag` class:  bitmask constants for specifying
+    which callbacks to enable when stepping a `PhysicsSpace` simulation.
+  + Added `ContactListener.onContactConceived()` callbacks.
+  + Altered the `ContactManager.addContactListener()` signature
+    so that it accepts a `StepFlag` bitmask.
+  + Altered the `ContactManager.update()` signature
+    so that it accepts a `StepFlag` bitmask.
+
++ Solved issue #56 (`BetterCharacterControl` bounces after hitting a low step)
+  by adding the `BetterCharacterControl.setMaxUpwardVelocity()` method.
+
++ Other public methods added:
+  + `BetterCharacterControl.getMaxUpwardVelocity()`
+  + `CollisionSpace.isOverlapFilterEnabled()`
+  + `CollisionSpace.setOverlapFilterEnabled()`
+  + `PhysicsSpace.clearForces()`
+
++ Added 2 bitmask constants (`SWAPPED` and `PREDICTIVE`)
+  to the `ContactPointFlag` class.
+
++ Added support for the `Windows_ARM64` platform.
+
++ Updated the native libraries to v23.1.0 of Libbulletjme.
++ Updated dependencies:
+  + v3.10.0-beta2 of JMonkeyEngine,
+  + v9.4.0-test1 of the Heart library,
+  + v0.8.4 of the Wes library,
+  + v4.0.0-test1 of the jme-ttf library,
+  + v3.1.15 of Antora, and
+  + v24.19.0 of Node.js .
++ Added Minie's inception year (2018) to the POM.
++ Built using Gradle v9.7.1 .
+
 ## Version 9.0.3 released on 19 December 2025
 
 + Added silent override of invalid rotations during `VehicleWheel` updates.

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2025 Stephen Gold
+ Copyright (c) 2018-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,6 @@ final public class MinieVersion {
      * @return the branch name and revision string (not null, not empty)
      */
     public static String versionShort() {
-        return "master 9.0.4-SNAPSHOT";
+        return "master 10.0.0-test1";
     }
 }

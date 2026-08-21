@@ -4,7 +4,7 @@ set -e
 
 export JAVA_HOME=/usr/lib/jvm/jdk-17.0.19+10
 
-V=9.0.3
+V=10.0.0-test1
 D=/home/sgold/Releases/Minie/$V
 mkdir $D
 
