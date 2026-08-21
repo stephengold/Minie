@@ -111,9 +111,6 @@ dependencies {
     if (project.ext.bftLinux64 != '') {
         runtimeOnly(variantOf(libs.libbulletjme.linux64){ classifier(project.ext.bftLinux64) })
     }
-    if (project.ext.bftLinux_ARM32 != '') {
-        runtimeOnly(variantOf(libs.libbulletjme.linuxarm32hf){ classifier(project.ext.bftLinux_ARM32) })
-    }
     if (project.ext.bftLinux_ARM64 != '') {
         runtimeOnly(variantOf(libs.libbulletjme.linuxarm64){ classifier(project.ext.bftLinux_ARM64) })
     }
@@ -376,7 +373,6 @@ defineJavadocTasksForRelease('2', '0', '1')
 
 void configureDesktopBfts(String value) {
     project.ext.bftLinux64 = value
-    project.ext.bftLinux_ARM32 = value
     project.ext.bftLinux_ARM64 = value
     project.ext.bftMacOSX64 = value
     project.ext.bftMacOSX_ARM64 = value
