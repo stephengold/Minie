@@ -1,6 +1,6 @@
 # Release log for the Minie library and MinieExamples
 
-## Version 10.0.0-test1 released on TBD
+## Version 10.0.0-test1 released on 21 August 2026
 
 + Removed support for the `Linux_ARM32hf` platform.
 + Altered the `ContactListener` and `ContactManager` interfaces (API changes)
