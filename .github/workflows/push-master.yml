@@ -17,7 +17,7 @@ jobs:
           java-version: 21
       - uses: actions/setup-node@v7
         with:
-          node-version: 24.19.0
+          node-version: 24.20.0
       - uses: actions/checkout@v7
       - run: npm clean-install
       - run: npx antora src/site/antora/ci-playbook.yml
