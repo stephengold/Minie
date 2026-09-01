@@ -155,9 +155,6 @@
         <module name="JavadocMethod">
             <property name="allowedAnnotations" value=""/>
         </module>
-        <module name="JavadocStyle">
-            <property name="checkFirstSentence" value="false"/>
-        </module>
         <module name="JavadocTagContinuationIndentation">
             <property name="offset" value="0"/>
         </module>

@@ -11,6 +11,11 @@ java {
 checkstyle {
     toolVersion = rootProject.libs.versions.checkstyle.get()
 }
+tasks.withType(Checkstyle).configureEach {
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
     options.compilerArgs << '-Xdiags:verbose'
