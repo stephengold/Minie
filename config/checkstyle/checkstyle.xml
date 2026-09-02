@@ -187,11 +187,7 @@
         <!-- Miscellaneous checks:                  -->
         <!-- See https://checkstyle.org/checks/misc -->
         <module name="ArrayTypeStyle"/>
-        <module name="AvoidEscapedUnicodeCharacters">
-            <property name="allowByTailComment" value="true"/>
-            <property name="allowEscapesForControlCharacters" value="true"/>
-            <property name="allowNonPrintableEscapes" value="true"/>
-        </module>
+        <module name="AvoidEscapedUnicodeCharacters"/>
         <module name="CommentsIndentation"/>
         <module name="HexLiteralCase"/>
         <module name="NoCodeInFile"/>
