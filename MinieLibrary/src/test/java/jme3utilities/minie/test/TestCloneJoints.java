@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018-2024 Stephen Gold
+ Copyright (c) 2018-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,7 @@ public class TestCloneJoints {
 
     final private static Quaternion qa = new Quaternion(1f, 0f, 0f, 0f);
     final private static Quaternion qb = new Quaternion(0.5f, 0.5f, 0.5f, 0.5f);
-    final private static Vector3f va  = new Vector3f(-1f, -2f, -3f);
+    final private static Vector3f va = new Vector3f(-1f, -2f, -3f);
     final private static Vector3f vaNorm = va.normalize();
     final private static Vector3f vb = new Vector3f(-4f, -5f, -6f);
     final private static Vector3f vbNorm = vb.normalize();

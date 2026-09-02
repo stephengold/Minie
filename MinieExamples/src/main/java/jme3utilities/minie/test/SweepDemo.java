@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Stephen Gold
+ Copyright (c) 2022-2026 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -483,8 +483,8 @@ public class SweepDemo
         bulletAppState.setDebugEnabled(true); // default = false
 
         // Add lighting to the debug scene.
-        bulletAppState.setDebugInitListener((Node physicsDebugRootNode)
-                -> addLighting(physicsDebugRootNode)
+        bulletAppState.setDebugInitListener((Node physicsDebugRootNode) ->
+                addLighting(physicsDebugRootNode)
         );
 
         stateManager.attach(bulletAppState);
