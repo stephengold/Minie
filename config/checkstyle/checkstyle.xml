@@ -21,7 +21,7 @@
     <!-- See https://checkstyle.org/checks/regexp -->
     <module name="RegexpSingleline">
         <property name="format" value="\s$"/>
-        <property name="message" value="Line has trailing whitespace."/>
+        <property name="message" value="Trailing whitespace is not allowed"/>
     </module>
 
     <!-- Checks for size violations:             -->
@@ -50,7 +50,12 @@
         <!-- See https://checkstyle.org/checks/annotation -->
         <module name="AnnotationLocation">
             <property name="id" value="AnnotationLocationMostCases"/>
-            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, RECORD_DEF, COMPACT_CTOR_DEF"/>
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF, COMPACT_CTOR_DEF"/>
+        </module>
+        <module name="AnnotationLocation">
+            <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
+            <property name="id" value="AnnotationLocationTypeAndPackageAndMembers"/>
+            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, RECORD_DEF, ANNOTATION_DEF, PACKAGE_DEF, ENUM_CONSTANT_DEF, ANNOTATION_FIELD_DEF"/>
         </module>
         <module name="AnnotationLocation">
             <property name="allowSamelineMultipleAnnotations" value="true"/>
@@ -83,7 +88,7 @@
         <module name="SuppressionXpathSingleFilter">
             <!-- suppression is required till https://github.com/checkstyle/checkstyle/issues/7541 -->
             <property name="id" value="RightCurlyAlone"/>
-            <property name="query" value="//RCURLY[parent::SLIST[count(./*)=1] or preceding-sibling::*[last()][self::LCURLY]]"/>
+            <property name="query" value="//RCURLY[parent::SLIST[count(./*)=1 and not(parent::LITERAL_CATCH)] or (preceding-sibling::*[last()][self::LCURLY] and not(parent::SLIST/parent::LITERAL_CATCH))                                or (parent::SLIST/parent::LITERAL_CATCH                                and parent::SLIST/parent::LITERAL_CATCH/following-sibling::*)]"/>
         </module>
         <module name="RightCurly">
             <property name="id" value="RightCurlySame"/>
@@ -262,7 +267,12 @@
         </module>
         <module name="StaticVariableName"/>
         <module name="TypeName">
-            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, RECORD_DEF"/>
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*(?:[0-9](?:_[0-9]+)*)?$"/>
+            <property name="tokens" value="CLASS_DEF"/>
+            <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="TypeName">
+            <property name="tokens" value="INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, RECORD_DEF"/>
             <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
 
@@ -314,6 +324,12 @@
         </module>
         <module name="NoWhitespaceBeforeCaseDefaultColon"/>
         <module name="OperatorWrap">
+            <property name="id" value="OperatorWrapEOL"/>
+            <property name="option" value="EOL"/>
+            <property name="tokens" value="LAMBDA"/>
+        </module>
+        <module name="OperatorWrap">
+            <property name="id" value="OperatorWrapNL"/>
             <property name="option" value="NL"/>
             <property name="tokens" value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF, TYPE_EXTENSION_AND"/>
         </module>
