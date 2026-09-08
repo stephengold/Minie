@@ -21,6 +21,7 @@
     <!-- See https://checkstyle.org/checks/regexp -->
     <module name="RegexpSingleline">
         <property name="format" value="\s$"/>
+        <property name="id" value="noTrailingWhitespace"/>
         <property name="message" value="Trailing whitespace is not allowed"/>
     </module>
 
@@ -49,7 +50,7 @@
         <!-- Checks for annotations:                      -->
         <!-- See https://checkstyle.org/checks/annotation -->
         <module name="AnnotationLocation">
-            <property name="id" value="AnnotationLocationMostCases"/>
+            <property name="id" value="AnnotationLocationMethodsAndCtors"/>
             <property name="tokens" value="METHOD_DEF, CTOR_DEF, COMPACT_CTOR_DEF"/>
         </module>
         <module name="AnnotationLocation">
