@@ -66,27 +66,27 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
 
-  Java26-Windows64:
+  Java27-Windows64:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2025
     steps:
       - uses: actions/setup-java@v6
         with:
           distribution: 'liberica'
-          java-version: 26
+          java-version: 27
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
         shell: bash
 
-  Java26-Windows_ARM64:
+  Java27-Windows_ARM64:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-11-arm
     steps:
       - uses: actions/setup-java@v6
         with:
           distribution: 'liberica'
-          java-version: 26
+          java-version: 27
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
