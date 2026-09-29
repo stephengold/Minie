@@ -2,7 +2,7 @@
 
 [versions]
 
-checkstyle = "14.1.0"
+checkstyle = "14.3.0"
 jme = "3.10.0-beta2"
 lbj = "23.1.2"
 
