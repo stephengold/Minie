@@ -56,7 +56,7 @@
         <module name="AnnotationLocation">
             <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
             <property name="id" value="AnnotationLocationTypeAndPackageAndMembers"/>
-            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, RECORD_DEF, ANNOTATION_DEF, PACKAGE_DEF, ENUM_CONSTANT_DEF, ANNOTATION_FIELD_DEF"/>
+            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, RECORD_DEF, ANNOTATION_DEF, PACKAGE_DEF, ENUM_CONSTANT_DEF, ANNOTATION_FIELD_DEF, MODULE_DEF"/>
         </module>
         <module name="AnnotationLocation">
             <property name="allowSamelineMultipleAnnotations" value="true"/>
