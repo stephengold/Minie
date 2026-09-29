@@ -75,6 +75,7 @@
             <property name="tokens" value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH, ARRAY_INIT, INSTANCE_INIT, LITERAL_CASE, LITERAL_CATCH, LITERAL_DEFAULT, LITERAL_DO, LITERAL_FOR, LITERAL_SYNCHRONIZED, LITERAL_WHILE, STATIC_INIT"/>
         </module>
         <module name="EmptyCatchBlock"/>
+        <module name="GoogleRightCurly"/>
         <module name="LeftCurly">
             <property name="tokens" value="ANNOTATION_DEF, CLASS_DEF, CTOR_DEF, ENUM_CONSTANT_DEF, ENUM_DEF, INTERFACE_DEF, LAMBDA, LITERAL_CASE, LITERAL_CATCH, LITERAL_DEFAULT, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, METHOD_DEF, OBJBLOCK, STATIC_INIT, RECORD_DEF, COMPACT_CTOR_DEF"/>
         </module>
@@ -103,6 +104,9 @@
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
         <module name="MutableException"/>
+        <module name="NeedBraces">
+            <property name="tokens" value="LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_IF, LITERAL_WHILE"/>
+        </module>
         <module name="OneTopLevelClass"/>
         <module name="ThrowsCount">
             <property name="ignorePrivateMethods" value="false"/>
@@ -128,6 +132,12 @@
             <property name="tokens" value="POST_DEC, POST_INC, STATIC_IMPORT, LABELED_STAT"/>
         </module>
         <module name="IllegalTokenText">
+            <property name="format" value="[\u0009\u000B\u000C\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]"/>
+            <property name="id" value="whitespaceCharactersMustBeEscaped"/>
+            <property name="message" value="Whitespace other than the ASCII space must be escaped."/>
+            <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL, TEXT_BLOCK_CONTENT"/>
+        </module>
+        <module name="IllegalTokenText">
             <property name="format" value="\\u00(08|09|0(a|A)|0(c|C)|0(d|D)|20|22|27|5(C|c))|\\(0(10|11|12|14|15|40|42|47)|134)"/>
             <property name="message" value="Use special escape sequence instead of octal value or Unicode escaped value."/>
             <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL, TEXT_BLOCK_CONTENT"/>
@@ -136,10 +146,12 @@
         <module name="MultipleVariableDeclarations"/>
         <module name="NoFinalizer"/>
         <module name="OneStatementPerLine"/>
+        <module name="PackageDeclaration"/>
         <module name="TextBlockGoogleStyleFormatting"/>
 
         <!-- Checks for imports:                       -->
         <!-- See https://checkstyle.org/checks/imports -->
+        <module name="AvoidModuleImport"/>
         <module name="AvoidStarImport"/>
         <module name="AvoidStaticImport"/>
         <module name="CustomImportOrder">
