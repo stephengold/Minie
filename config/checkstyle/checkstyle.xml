@@ -99,9 +99,6 @@
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
         <module name="MutableException"/>
-        <module name="NeedBraces">
-            <property name="tokens" value="LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_IF, LITERAL_WHILE"/>
-        </module>
         <module name="OneTopLevelClass"/>
         <module name="ThrowsCount">
             <property name="ignorePrivateMethods" value="false"/>
