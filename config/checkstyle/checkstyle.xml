@@ -296,6 +296,7 @@
 
         <!-- Checks for whitespace:                       -->
         <!-- See https://checkstyle.org/checks/whitespace -->
+        <module name="ArrayBracketNoWhitespace"/>
         <module name="EmptyForInitializerPad"/>
         <module name="EmptyForIteratorPad"/>
         <module name="EmptyLineSeparator">
