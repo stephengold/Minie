@@ -12,10 +12,12 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: '17'
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+      - run: |
+          ./gradlew build javadoc install -Pbtdebug --exclude-task :Jme3Examples:javadoc \
+            --console=plain --stacktrace
 
   Java17-Windows64:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -24,10 +26,12 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: '17'
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+      - run: |
+          ./gradlew build javadoc install -Pbtdebug -Ppdb64 --exclude-task :Jme3Examples:javadoc \
+            --console=plain --stacktrace
         shell: bash
 
   Java21-MacOSX64:
@@ -37,10 +41,12 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
-          java-version: 21
+          java-version: '21'
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+      - run: |
+          ./gradlew build javadoc install -Pbtdebug --exclude-task :Jme3Examples:javadoc \
+            --console=plain --stacktrace
 
   Java25-Linux_ARM64:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -49,10 +55,12 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: 'liberica'
-          java-version: 25
+          java-version: '25'
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+      - run: |
+          ./gradlew build javadoc install -Pbtdebug --exclude-task :Jme3Examples:javadoc \
+            --console=plain --stacktrace
 
   Java25-MacOSX_ARM64:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -61,10 +69,12 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: 'liberica'
-          java-version: 25
+          java-version: '25'
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew build javadoc install -Pbtdebug --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+      - run: |
+          ./gradlew build javadoc install -Pbtdebug --exclude-task :Jme3Examples:javadoc \
+            --console=plain --stacktrace
 
   Java27-Windows64:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
@@ -73,10 +83,12 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: 'liberica'
-          java-version: 27
+          java-version: '27'
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+      - run: |
+          ./gradlew build javadoc install -Pbtdebug -Ppdb64 --exclude-task :Jme3Examples:javadoc \
+            --console=plain --stacktrace
         shell: bash
 
   Java27-Windows_ARM64:
@@ -86,8 +98,10 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: 'liberica'
-          java-version: 27
+          java-version: '27'
       - uses: actions/checkout@v7
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew build javadoc install -Pbtdebug -Ppdb64 --console=plain --exclude-task :Jme3Examples:javadoc --stacktrace
+      - run: |
+          ./gradlew build javadoc install -Pbtdebug -Ppdb64 --exclude-task :Jme3Examples:javadoc \
+            --console=plain --stacktrace
         shell: bash

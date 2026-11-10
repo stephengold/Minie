@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
-          java-version: 25
+          java-version: '25'
       - uses: actions/setup-node@v7
         with:
           node-version: 24.22.2
@@ -22,7 +22,9 @@ jobs:
       - run: npm clean-install
       - run: npx antora src/site/antora/ci-playbook.yml
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew copyJavadocToSite --console=plain --stacktrace
+      - run: |
+          ./gradlew copyJavadocToSite \
+            --console=plain --stacktrace
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
