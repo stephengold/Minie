@@ -20,7 +20,7 @@ tasks.withType(Checkstyle).configureEach {
 tasks.withType(JavaCompile).configureEach { // Java compile-time options:
     options.compilerArgs << '-Xdiags:verbose'
 
-    // Suppress warnings that source value 7 is obsolete.
+    // Suppress warnings that source value 7 is obsolete:
     options.compilerArgs << '-Xlint:-options'
 
     options.compilerArgs << '-Xlint:unchecked'
