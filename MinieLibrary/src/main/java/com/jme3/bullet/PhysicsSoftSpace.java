@@ -330,7 +330,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         long softBodyId = softBody.nativeId();
         if (softBodyMap.containsKey(softBodyId)) {
             logger2.log(Level.WARNING, "{0} is already added to {1}.",
-                    new Object[]{softBody, this});
+                    new Object[] {softBody, this});
             return;
         }
         assert !softBody.isInWorld();
@@ -338,7 +338,7 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         softBodyMap.put(softBodyId, softBody);
         if (logger2.isLoggable(Level.FINE)) {
             logger2.log(Level.FINE, "Adding {0} to {1}.",
-                    new Object[]{softBody, this});
+                    new Object[] {softBody, this});
         }
 
         long spaceId = nativeId();
@@ -358,12 +358,12 @@ public class PhysicsSoftSpace extends PhysicsSpace {
         long softBodyId = softBody.nativeId();
         if (!softBodyMap.containsKey(softBodyId)) {
             logger2.log(Level.WARNING, "{0} does not exist in {1}.",
-                    new Object[]{softBody, this});
+                    new Object[] {softBody, this});
             return;
         }
         if (logger2.isLoggable(Level.FINE)) {
             logger2.log(Level.FINE, "Removing {0} from {1}.",
-                    new Object[]{softBody, this});
+                    new Object[] {softBody, this});
         }
         softBodyMap.remove(softBodyId);
         long spaceId = nativeId();

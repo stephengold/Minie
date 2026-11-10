@@ -103,7 +103,7 @@ public class MultiSphere extends ConvexShape {
 
         this.centers = new Vector3f[1];
         this.centers[0] = new Vector3f(0f, 0f, 0f);
-        this.radii = new float[]{radius};
+        this.radii = new float[] {radius};
 
         createShape();
     }
@@ -125,7 +125,7 @@ public class MultiSphere extends ConvexShape {
         this.centers[0] = new Vector3f(0f, halfHeight, 0f);
         this.centers[1] = new Vector3f(0f, -halfHeight, 0f);
 
-        this.radii = new float[]{radius, radius};
+        this.radii = new float[] {radius, radius};
 
         createShape();
     }
@@ -164,7 +164,7 @@ public class MultiSphere extends ConvexShape {
                 throw new IllegalArgumentException("axisIndex = " + axisIndex);
         }
 
-        this.radii = new float[]{radius, radius};
+        this.radii = new float[] {radius, radius};
 
         createShape();
     }
@@ -252,7 +252,7 @@ public class MultiSphere extends ConvexShape {
 
         // Transform centers to shape coordinates.
         this.centers = new Vector3f[4];
-        this.radii = new float[]{radius, radius, radius, radius};
+        this.radii = new float[] {radius, radius, radius, radius};
         for (int sphereI = 0; sphereI < 4; ++sphereI) {
             Vector3f localCenter = centerLocations.get(sphereI);
             this.centers[sphereI]
@@ -300,7 +300,7 @@ public class MultiSphere extends ConvexShape {
 
         // Transform centers to shape coordinates.
         this.centers = new Vector3f[2];
-        this.radii = new float[]{radius, radius};
+        this.radii = new float[] {radius, radius};
         for (int sphereI = 0; sphereI < 2; ++sphereI) {
             Vector3f localCenter = centerLocations.get(sphereI);
             this.centers[sphereI]
@@ -325,7 +325,7 @@ public class MultiSphere extends ConvexShape {
         this.centers = new Vector3f[1];
         this.centers[0] = center.clone();
 
-        this.radii = new float[]{radius};
+        this.radii = new float[] {radius};
 
         createShape();
     }

@@ -881,7 +881,7 @@ public class BetterCharacterControl
             newLeft.normalizeLocal();
             if (logger2.isLoggable(Level.INFO)) {
                 logger2.log(Level.INFO, "Zero left for direction {0}, up {1}",
-                        new Object[]{direction, worldUpVector});
+                        new Object[] {direction, worldUpVector});
             }
         }
         newLeftNegate.set(newLeft);
@@ -893,7 +893,7 @@ public class BetterCharacterControl
             direction.set(0f, 0f, 1f);
             if (logger2.isLoggable(Level.INFO)) {
                 logger2.log(Level.INFO, "Zero left for left {0}, up {1}",
-                        new Object[]{newLeft, worldUpVector});
+                        new Object[] {newLeft, worldUpVector});
             }
         }
         if (rotation != null) {

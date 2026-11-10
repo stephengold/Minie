@@ -414,13 +414,13 @@ public class SimplexCollisionShape extends ConvexShape {
         Vector3f v4 = (Vector3f) capsule.readSavable(tagSimplexPoint4, null);
 
         if (v2 == null) {
-            this.locations = new Vector3f[]{v1};
+            this.locations = new Vector3f[] {v1};
         } else if (v3 == null) {
-            this.locations = new Vector3f[]{v1, v2};
+            this.locations = new Vector3f[] {v1, v2};
         } else if (v4 == null) {
-            this.locations = new Vector3f[]{v1, v2, v3};
+            this.locations = new Vector3f[] {v1, v2, v3};
         } else {
-            this.locations = new Vector3f[]{v1, v2, v3, v4};
+            this.locations = new Vector3f[] {v1, v2, v3, v4};
         }
 
         createShape();

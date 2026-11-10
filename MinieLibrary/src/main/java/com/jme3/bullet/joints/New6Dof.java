@@ -931,7 +931,7 @@ public class New6Dof extends Constraint {
                     aId, bId, pivotA, rotA, pivotB, rotB, rotOrder);
             if (logger2.isLoggable(Level.INFO)) {
                 logger2.log(Level.INFO, "Created {0} with A={1} B={2}",
-                        new Object[]{
+                        new Object[] {
                             Long.toHexString(constraintId),
                             Long.toHexString(aId),
                             Long.toHexString(bId)

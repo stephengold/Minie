@@ -694,7 +694,7 @@ final public class DebugShapeFactory {
         int numFloats = numVertices * numAxes;
         FloatBuffer posBuffer = BufferUtils.createFloatBuffer(numFloats);
         for (int sideIndex = 0; sideIndex < 2; ++sideIndex) {
-            posBuffer.put(new float[]{
+            posBuffer.put(new float[] {
                 0f, 0f, 1f,
                 0f, 1f, 0f,
                 0f, 0f, -1f,
@@ -712,7 +712,7 @@ final public class DebugShapeFactory {
         MyBuffer.transform(posBuffer, startPosition, numFloats, transform);
 
         // Generate an index buffer for a 2-sided square.
-        ByteBuffer indexBuffer = BufferUtils.createByteBuffer(new byte[]{
+        ByteBuffer indexBuffer = BufferUtils.createByteBuffer(new byte[] {
             2, 1, 0,
             3, 2, 0,
             5, 6, 7,

@@ -1814,7 +1814,7 @@ abstract public class PhysicsCollisionObject
         int jvmCount = (ignoreList == null) ? 0 : ignoreList.size();
         if (jvmCount != nativeCount) {
             logger.log(Level.SEVERE, "{0}  jvmCount = {1}, nativeCount = {2}",
-                    new Object[]{this, jvmCount, nativeCount});
+                    new Object[] {this, jvmCount, nativeCount});
             return false;
         }
 

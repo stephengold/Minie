@@ -848,7 +848,7 @@ public class TestDac extends PhysicsDemo {
                     MyString.quote(saveAssetPath));
             return;
         }
-        logger.log(Level.INFO, "Loaded {0} from asset {1}", new Object[]{
+        logger.log(Level.INFO, "Loaded {0} from asset {1}", new Object[] {
             MyString.quote(loadedScene.getName()),
             MyString.quote(saveAssetPath)
         });
@@ -1113,13 +1113,13 @@ public class TestDac extends PhysicsDemo {
             System.out.println("Caught IOException: " + exception.getMessage());
             logger.log(Level.SEVERE,
                     "Output exception while saving {0} to file {1}",
-                    new Object[]{
+                    new Object[] {
                         MyString.quote(model.getName()),
                         MyString.quote(filePath)
                     });
             return;
         }
-        logger.log(Level.INFO, "Saved {0} to file {1}", new Object[]{
+        logger.log(Level.INFO, "Saved {0} to file {1}", new Object[] {
             MyString.quote(model.getName()),
             MyString.quote(filePath)
         });

@@ -891,14 +891,14 @@ public class CollisionSpace extends NativePhysicsObject {
     private void addGhostObject(PhysicsGhostObject ghost) {
         if (contains(ghost)) {
             loggerC.log(Level.WARNING, "{0} is already added to {1}.",
-                    new Object[]{ghost, this});
+                    new Object[] {ghost, this});
             return;
         }
         assert !ghost.isInWorld();
 
         if (loggerC.isLoggable(Level.FINE)) {
             loggerC.log(Level.FINE, "Adding {0} to {1}.",
-                    new Object[]{ghost, this});
+                    new Object[] {ghost, this});
         }
 
         long ghostId = ghost.nativeId();
@@ -944,14 +944,14 @@ public class CollisionSpace extends NativePhysicsObject {
         long ghostId = ghost.nativeId();
         if (!ghostMap.containsKey(ghostId)) {
             loggerC.log(Level.WARNING, "{0} does not exist in {1}.",
-                    new Object[]{ghost, this});
+                    new Object[] {ghost, this});
             return;
         }
 
         ghostMap.remove(ghostId);
         if (loggerC.isLoggable(Level.FINE)) {
             loggerC.log(Level.FINE, "Removing {0} from {1}.",
-                    new Object[]{ghost, this});
+                    new Object[] {ghost, this});
         }
 
         long spaceId = nativeId();

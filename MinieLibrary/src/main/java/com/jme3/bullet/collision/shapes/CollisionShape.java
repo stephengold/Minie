@@ -758,7 +758,7 @@ abstract public class CollisionShape
         if (!result) {
             logger.log(Level.WARNING,
                     "mismatch detected: shape={0} copy={1} native={2}",
-                    new Object[]{this, scale, storeVector});
+                    new Object[] {this, scale, storeVector});
         }
 
         return result;

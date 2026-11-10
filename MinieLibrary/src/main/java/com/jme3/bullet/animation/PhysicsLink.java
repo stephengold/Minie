@@ -192,7 +192,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Creating link for bone {0} with mass={1}",
-                    new Object[]{
+                    new Object[] {
                         MyString.quote(bone.getName()), rigidBody.getMass()
                     });
         }
@@ -228,7 +228,7 @@ abstract public class PhysicsLink implements JmeCloneable, Savable {
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Creating link for joint {0} with mass={1}",
-                    new Object[]{
+                    new Object[] {
                         MyString.quote(armatureJoint.getName()),
                         rigidBody.getMass()
                     });

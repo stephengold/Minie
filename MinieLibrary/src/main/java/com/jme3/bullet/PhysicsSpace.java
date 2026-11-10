@@ -408,7 +408,7 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
         Validate.nonNull(joint, "joint");
         if (contains(joint)) {
             logger.log(Level.WARNING, "{0} is already added to {1}.",
-                    new Object[]{joint, this});
+                    new Object[] {joint, this});
             return;
         }
         assert joint.getPhysicsSpace() == null;
@@ -418,19 +418,19 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
         if (a != null && !contains(a)) {
             logger.log(Level.WARNING,
                     "{0} at the A end of {1} has not yet been added to {2}.",
-                    new Object[]{a, joint, this});
+                    new Object[] {a, joint, this});
         }
         PhysicsBody b = joint.getBodyB();
         if (b != null && !contains(b)) {
             logger.log(Level.WARNING,
                     "{0} at the B end of {1} has not yet been added to {2}.",
-                    new Object[]{b, joint, this});
+                    new Object[] {b, joint, this});
         }
         assert a != b : a;
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Adding {0} to {1}.",
-                    new Object[]{joint, this});
+                    new Object[] {joint, this});
         }
         long jointId = joint.nativeId();
         jointMap.put(jointId, joint);
@@ -838,14 +838,14 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
         long jointId = joint.nativeId();
         if (!jointMap.containsKey(jointId)) {
             logger.log(Level.WARNING, "{0} does not exist in {1}.",
-                    new Object[]{joint, this});
+                    new Object[] {joint, this});
             return;
         }
         assert joint.getPhysicsSpace() == this;
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Removing {0} from {1}.",
-                    new Object[]{joint, this});
+                    new Object[] {joint, this});
         }
         jointMap.remove(jointId);
         joint.setPhysicsSpace(null);
@@ -1387,14 +1387,14 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
     private void addCharacter(PhysicsCharacter character) {
         if (contains(character)) {
             logger.log(Level.WARNING, "{0} is already added to {1}.",
-                    new Object[]{character, this});
+                    new Object[] {character, this});
             return;
         }
         assert !character.isInWorld();
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Adding {0} to {1}.",
-                    new Object[]{character, this});
+                    new Object[] {character, this});
         }
         long characterId = character.nativeId();
         characterMap.put(characterId, character);
@@ -1417,14 +1417,14 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
     private void addRigidBody(PhysicsRigidBody rigidBody) {
         if (contains(rigidBody)) {
             logger.log(Level.WARNING, "{0} is already added to {1}.",
-                    new Object[]{rigidBody, this});
+                    new Object[] {rigidBody, this});
             return;
         }
         assert !rigidBody.isInWorld();
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Adding {0} to {1}.",
-                    new Object[]{rigidBody, this});
+                    new Object[] {rigidBody, this});
         }
         long rigidBodyId = rigidBody.nativeId();
         rigidMap.put(rigidBodyId, rigidBody);
@@ -1454,7 +1454,7 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
             PhysicsVehicle vehicle = (PhysicsVehicle) rigidBody;
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, "Adding action for {0} to {1}.",
-                        new Object[]{vehicle, this});
+                        new Object[] {vehicle, this});
             }
 
             vehicle.createVehicle(this);
@@ -1531,13 +1531,13 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
         long characterId = character.nativeId();
         if (!characterMap.containsKey(characterId)) {
             logger.log(Level.WARNING, "{0} does not exist in {1}.",
-                    new Object[]{character, this});
+                    new Object[] {character, this});
             return;
         }
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Removing {0} from {1}.",
-                    new Object[]{character, this});
+                    new Object[] {character, this});
         }
         characterMap.remove(characterId);
 
@@ -1557,7 +1557,7 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
         long rigidBodyId = rigidBody.nativeId();
         if (!rigidMap.containsKey(rigidBodyId)) {
             logger.log(Level.WARNING, "{0} does not exist in {1}.",
-                    new Object[]{rigidBody, this});
+                    new Object[] {rigidBody, this});
             return;
         }
 
@@ -1566,7 +1566,7 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
             PhysicsVehicle vehicle = (PhysicsVehicle) rigidBody;
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, "Removing action for {0} from {1}.",
-                        new Object[]{vehicle, this});
+                        new Object[] {vehicle, this});
             }
 
             long actionId = vehicle.getVehicleId();
@@ -1577,7 +1577,7 @@ public class PhysicsSpace extends CollisionSpace implements ContactListener {
 
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Removing {0} from {1}.",
-                    new Object[]{rigidBody, this});
+                    new Object[] {rigidBody, this});
         }
         rigidMap.remove(rigidBodyId);
 

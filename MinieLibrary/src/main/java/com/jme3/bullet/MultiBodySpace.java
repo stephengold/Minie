@@ -110,14 +110,14 @@ public class MultiBodySpace extends PhysicsSpace {
         long multiBodyId = multiBody.nativeId();
         if (multiBodyMap.containsKey(multiBodyId)) {
             logger2.log(Level.WARNING, "{0} is already added to {1}.",
-                    new Object[]{multiBody, this});
+                    new Object[] {multiBody, this});
             return;
         }
 
         multiBodyMap.put(multiBodyId, multiBody);
         if (logger2.isLoggable(Level.FINE)) {
             logger2.log(Level.FINE, "Adding {0} to {1}.",
-                    new Object[]{multiBody, this});
+                    new Object[] {multiBody, this});
         }
 
         long spaceId = nativeId();
@@ -171,12 +171,12 @@ public class MultiBodySpace extends PhysicsSpace {
         long multiBodyId = multiBody.nativeId();
         if (!multiBodyMap.containsKey(multiBodyId)) {
             logger2.log(Level.WARNING, "{0} does not exist in {1}.",
-                    new Object[]{multiBody, this});
+                    new Object[] {multiBody, this});
             return;
         }
         if (logger2.isLoggable(Level.FINE)) {
             logger2.log(Level.FINE, "Removing {0} from {1}.",
-                    new Object[]{multiBody, this});
+                    new Object[] {multiBody, this});
         }
         multiBodyMap.remove(multiBodyId);
         long spaceId = nativeId();

@@ -93,7 +93,7 @@ public class PlaneDmiListener implements DebugMeshInitListener {
         debugMesh.setBuffer(VertexBuffer.Type.TexCoord, 2, uvs);
 
         for (int sideIndex = 0; sideIndex < 2; ++sideIndex) {
-            uvs.put(new float[]{
+            uvs.put(new float[] {
                 textureScale, textureScale,
                 textureScale, 0f,
                 0f, 0f,

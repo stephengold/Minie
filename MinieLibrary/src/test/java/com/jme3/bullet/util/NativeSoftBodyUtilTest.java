@@ -73,7 +73,7 @@ public class NativeSoftBodyUtilTest {
          */
 
         FloatBuffer jmePositions = FloatBuffer.wrap(
-                new float[]{
+                new float[] {
                     1f, 0f, 0f, // P1
                     2f, 0f, 0f, // P2
                     1f, 0f, 0f, // P3 == P1
@@ -94,7 +94,7 @@ public class NativeSoftBodyUtilTest {
          * bulletPositions should be generated from the mapBulletPositions
          * method on a float buffer (aka position buffer)
          */
-        FloatBuffer bulletPositions = FloatBuffer.wrap(new float[]{
+        FloatBuffer bulletPositions = FloatBuffer.wrap(new float[] {
             1f, 0f, 0f, // P1 & P3
             2f, 0f, 0f, // P2
             4f, 0f, 0f, // P4
@@ -113,7 +113,7 @@ public class NativeSoftBodyUtilTest {
 
         // random values with some copy past for similar position
         jmePositions = FloatBuffer.wrap(
-                new float[]{
+                new float[] {
                     0.62f, 0.49f, 0.68f,
                     0.44f, 0.35f, 0.89f,
                     0.30f, 0.28f, 0.80f,
@@ -169,11 +169,11 @@ public class NativeSoftBodyUtilTest {
          *  -> Bullet Index       :  [ 0, 1, 3, 0, 3, 2]
          */
         IntBuffer jme2bulletIndexMap = IntBuffer.wrap(
-                new int[]{0, 1, 0, 2, 3, 3}
+                new int[] {0, 1, 0, 2, 3, 3}
         );
 
         IntBuffer facesIndex = IntBuffer.wrap(
-                new int[]{0, 1, 5, 2, 4, 3}
+                new int[] {0, 1, 5, 2, 4, 3}
         );
 
         IntBuffer resultIndex = IntBuffer.wrap(new int[6]);
@@ -208,7 +208,7 @@ public class NativeSoftBodyUtilTest {
          *  -> Bullet Index       :  [ 0, 1, 3, 0, 3, 2]
          */
         FloatBuffer jmePositions = FloatBuffer.wrap(
-                new float[]{
+                new float[] {
                     1f, 0f, 0f, // P1
                     2f, 0f, 0f, // P2
                     1f, 0f, 0f, // P3 == P1
@@ -218,7 +218,7 @@ public class NativeSoftBodyUtilTest {
                 });
 
         IntBuffer jme2bulletIndexMap = IntBuffer.wrap(
-                new int[]{0, 1, 0, 2, 3, 3}
+                new int[] {0, 1, 0, 2, 3, 3}
         );
 
         FloatBuffer bulletPositions = NativeSoftBodyUtil.mapVertexData(

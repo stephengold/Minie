@@ -704,7 +704,7 @@ public class PhysicsRigidBody extends PhysicsBody {
                         Level.INFO, "Created {0}.", Long.toHexString(objectId));
             } else {
                 logger2.log(
-                        Level.INFO, "Substituted {0} for {1}.", new Object[]{
+                        Level.INFO, "Substituted {0} for {1}.", new Object[] {
                             Long.toHexString(objectId), Long.toHexString(oldId)
                         });
             }
