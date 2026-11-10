@@ -26,12 +26,12 @@
 /MinieLibrary/build/
 /TutorialApps/build/
 
+# Ignore the Acorus sandbox:
+/MinieExamples/Written Assets/
+
 # Ignore IDE-specific directories:
 /.idea/
 /.nb-gradle/
-
-# Ignore the Acorus sandbox:
-/MinieExamples/Written Assets/
 
 # Ignore extracted native libraries:
 *.dll
