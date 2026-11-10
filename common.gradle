@@ -48,10 +48,6 @@ tasks.withType(JavaExec).configureEach { // Java runtime options:
     //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
 }
 
-configurations.configureEach {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of snapshots
-}
-
 // Register cleanup tasks:
 
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', \
