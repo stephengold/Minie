@@ -38,6 +38,10 @@ import java.util.logging.Logger;
 /**
  * Utility class to access fields of Bullet's {@code btManifoldPoint} class.
  * <p>
+ * Most fields are recomputed on every simulation step. To ensure that
+ * alterations persist, setters should be invoked from the contact-added
+ * callback.
+ * <p>
  * Based on PhysicsCollisionEvent.
  */
 final public class ManifoldPoints {
