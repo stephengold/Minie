@@ -186,8 +186,8 @@ field: m_appliedImpulseLateral2).</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCombinedFriction(long)" class="member-name-link">getCombinedFriction</a><wbr>(long&nbsp;manifoldPointId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Return the combined friction of the specified point, which is the product
-of the collision-object frictions (native field: m_combinedFriction).</div>
+<div class="block">Return the combined friction of the specified point (native field:
+m_combinedFriction).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCombinedRestitution(long)" class="member-name-link">getCombinedRestitution</a><wbr>(long&nbsp;manifoldPointId)</code></div>
@@ -567,14 +567,18 @@ zero)</dd>
 <h3>getCombinedFriction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getCombinedFriction</span><wbr><span class="parameters">(long&nbsp;manifoldPointId)</span></div>
-<div class="block">Return the combined friction of the specified point, which is the product
-of the collision-object frictions (native field: m_combinedFriction).</div>
+<div class="block">Return the combined friction of the specified point (native field:
+m_combinedFriction).
+<p>
+This is calculated as <code>pco0.friction * pco1.friction</code> and
+clamped between -10 and +10. To override this calculation, invoke
+<a href="#setCombinedFriction(long,float)"><code>setCombinedFriction(long, float)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>manifoldPointId</code> - the native ID of the <code>btManifoldPoint</code> (not
 zero)</dd>
 <dt>Returns:</dt>
-<dd>the friction product</dd>
+<dd>the friction product (&ge;-10, &le;10)</dd>
 </dl>
 </div>
 </section>
@@ -586,7 +590,8 @@ zero)</dd>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getCombinedRestitution</span><wbr><span class="parameters">(long&nbsp;manifoldPointId)</span></div>
 <div class="block">Return the combined restitution of the specified point, which is the
 product of the collision-object restitutions (native field:
-m_combinedRestitution).</div>
+m_combinedRestitution). To override this calculation, invoke
+<a href="#setCombinedRestitution(long,float)"><code>setCombinedRestitution(long, float)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>manifoldPointId</code> - the native ID of the <code>btManifoldPoint</code> (not
@@ -603,13 +608,19 @@ zero)</dd>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getCombinedRollingFriction</span><wbr><span class="parameters">(long&nbsp;manifoldPointId)</span></div>
 <div class="block">Return the combined rolling friction of the specified point (native
-field: m_combinedRollingFriction).</div>
+field: m_combinedRollingFriction).
+<p>
+This is calculated as
+<code>pco0.rollingFriction * pco1.friction
++ pco1.rollingFriction * pco0.friction</code> and clamped between -10
+and +10. To override this calculation, invoke
+<a href="#setCombinedRollingFriction(long,float)"><code>setCombinedRollingFriction(long, float)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>manifoldPointId</code> - the native ID of the <code>btManifoldPoint</code> (not
 zero)</dd>
 <dt>Returns:</dt>
-<dd>the combined friction</dd>
+<dd>the combined rolling friction (&ge;-10, &le;10)</dd>
 </dl>
 </div>
 </section>
@@ -620,13 +631,19 @@ zero)</dd>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getCombinedSpinningFriction</span><wbr><span class="parameters">(long&nbsp;manifoldPointId)</span></div>
 <div class="block">Return the combined spinning friction of the specified point (native
-field: m_combinedSpinningFriction).</div>
+field: m_combinedSpinningFriction).
+<p>
+This is calculated as
+<code>pco0.spinningFriction * pco1.friction
++ pco1.spinningFriction * pco0.friction</code> and clamped between -10
+and +10. To override this calculation, invoke
+<a href="#setCombinedSpinningFriction(long,float)"><code>setCombinedSpinningFriction(long, float)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>manifoldPointId</code> - the native ID of the <code>btManifoldPoint</code> (not
 zero)</dd>
 <dt>Returns:</dt>
-<dd>the combined friction</dd>
+<dd>the combined spinning friction (&ge;-10, &le;10)</dd>
 </dl>
 </div>
 </section>
