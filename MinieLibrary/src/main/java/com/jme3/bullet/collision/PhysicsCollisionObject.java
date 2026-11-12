@@ -678,8 +678,11 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the collision object's friction parameter (native field:
-     * m_friction).
+     * Return the object's friction parameter (native field: m_friction) as
+     * configured by {@link #setFriction(float)}.
+     * <p>
+     * Distinct from "combined friction", which is calculated for each contact.
+     * See {@link ManifoldPoints#getCombinedFriction(long)}.
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
@@ -803,12 +806,15 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return the collision object's restitution (bounciness) (native field:
-     * m_restitution).
+     * Return the object's restitution (bounciness) parameter (native field:
+     * m_restitution) as configured by {@link #setRestitution(float)}.
+     * <p>
+     * Distinct from "combined restitution", which is calculated for each
+     * contact. See {@link ManifoldPoints#getCombinedRestitution(long)}.
      * <p>
      * Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
-     * @return restitution value
+     * @return the parameter value
      */
     public float getRestitution() {
         long objectId = nativeId();
@@ -818,11 +824,16 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return this object's rolling friction (native field: m_rollingFriction).
+     * Return the object's rolling-friction parameter (native field:
+     * m_rollingFriction) as configured by {@link #setRollingFriction(float)}.
+     * <p>
+     * Distinct from "combined rolling friction", which is calculated for each
+     * contact. See {@link ManifoldPoints#getCombinedRollingFriction(long)}.
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
-     * @return friction value
+     * @return the parameter value (in physics-space units squared times mass
+     * per second)
      */
     public float getRollingFriction() {
         long objectId = nativeId();
@@ -844,12 +855,15 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Return this object's spinning friction (native field:
-     * m_spinningFriction).
+     * Return the object's spinning-friction parameter (native field:
+     * m_spinningFriction) as configured by {@link #setSpinningFriction(float)}.
+     * <p>
+     * Distinct from "combined spinning friction", which is calculated for each
+     * contact. See {@link ManifoldPoints#getCombinedSpinningFriction(long)}.
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
-     * @return friction value
+     * @return the parameter value
      */
     public float getSpinningFriction() {
         long objectId = nativeId();
