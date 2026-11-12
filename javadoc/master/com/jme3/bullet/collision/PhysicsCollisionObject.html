@@ -791,7 +791,7 @@ visible.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFriction(float)" class="member-name-link">setFriction</a><wbr>(float&nbsp;friction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the collision object's friction (native field: m_friction).</div>
+<div class="block">Alter the object's friction parameter (native field: m_friction).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIgnoreList(com.jme3.bullet.collision.PhysicsCollisionObject%5B%5D)" class="member-name-link">setIgnoreList</a><wbr>(<a href="PhysicsCollisionObject.html" title="class in com.jme3.bullet.collision">PhysicsCollisionObject</a>[]&nbsp;desiredList)</code></div>
@@ -807,20 +807,20 @@ visible.</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRestitution(float)" class="member-name-link">setRestitution</a><wbr>(float&nbsp;restitution)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter the collision object's restitution (bounciness) (native field:
+<div class="block">Alter the object's restitution (bounciness) parameter (native field:
 m_restitution).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRollingFriction(float)" class="member-name-link">setRollingFriction</a><wbr>(float&nbsp;friction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter this object's rolling friction: torsional friction orthogonal to
-the contact normal (native field: m_rollingFriction).</div>
+<div class="block">Alter the object's rolling-friction parameter (native field:
+m_rollingFriction).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpinningFriction(float)" class="member-name-link">setSpinningFriction</a><wbr>(float&nbsp;friction)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Alter this object's spinning friction: torsional friction around the
-contact normal (native field: m_spinningFriction).</div>
+<div class="block">Alter the object's spinning-friction parameter (native field:
+m_spinningFriction).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserIndex(int)" class="member-name-link">setUserIndex</a><wbr>(int&nbsp;index)</code></div>
@@ -2337,12 +2337,16 @@ visible. This setting has no effect on custom debug materials.</div>
 <h3>setFriction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFriction</span><wbr><span class="parameters">(float&nbsp;friction)</span></div>
-<div class="block">Alter the collision object's friction (native field: m_friction).
+<div class="block">Alter the object's friction parameter (native field: m_friction). Used to
+discourage bodies from sliding.
+<p>
+For each contact, the friction parameters are combined as described at
+<a href="ManifoldPoints.html#getCombinedFriction(long)"><code>ManifoldPoints.getCombinedFriction(long)</code></a>.
 <p>
 Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>friction</code> - the desired friction value (&ge;0, default=0.5)</dd>
+<dd><code>friction</code> - the desired parameter value (&ge;0, default=0.5)</dd>
 </dl>
 </div>
 </section>
@@ -2366,13 +2370,17 @@ may contain nulls or duplicates or <code>this</code>, unaffected)</dd>
 <h3>setRestitution</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRestitution</span><wbr><span class="parameters">(float&nbsp;restitution)</span></div>
-<div class="block">Alter the collision object's restitution (bounciness) (native field:
-m_restitution). For perfect elasticity, set restitution=1.
+<div class="block">Alter the object's restitution (bounciness) parameter (native field:
+m_restitution). Used to mitigate loss of energy during collisions. For
+perfect elasticity, set restitution=1.
+<p>
+For each contact, the restitution parameters are combined as described at
+<a href="ManifoldPoints.html#getCombinedRestitution(long)"><code>ManifoldPoints.getCombinedRestitution(long)</code></a>.
 <p>
 Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>restitution</code> - the desired value (default=0)</dd>
+<dd><code>restitution</code> - the desired parameter value (default=0)</dd>
 </dl>
 </div>
 </section>
@@ -2382,14 +2390,21 @@ Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <h3>setRollingFriction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRollingFriction</span><wbr><span class="parameters">(float&nbsp;friction)</span></div>
-<div class="block">Alter this object's rolling friction: torsional friction orthogonal to
-the contact normal (native field: m_rollingFriction). Use this to stop
-bodies from rolling.
+<div class="block">Alter the object's rolling-friction parameter (native field:
+m_rollingFriction). Used to discourage round bodies from rolling.
+<p>
+For each contact, the rolling-friction parameters are combined as
+described at <a href="ManifoldPoints.html#getCombinedRollingFriction(long)"><code>ManifoldPoints.getCombinedRollingFriction(long)</code></a>. If
+the combined value and the normal impulse are both positive, Bullet
+applies a resistive impulse that's orthogonal to the contact normal.
+<p>
+For a detailed analysis of rolling friction, see Libbulletjme issue 62.
 <p>
 Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>friction</code> - the desired friction value (default=0)</dd>
+<dd><code>friction</code> - the desired parameter value (in physics-space units
+squared times mass per second, default=0)</dd>
 </dl>
 </div>
 </section>
@@ -2399,13 +2414,19 @@ Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <h3>setSpinningFriction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSpinningFriction</span><wbr><span class="parameters">(float&nbsp;friction)</span></div>
-<div class="block">Alter this object's spinning friction: torsional friction around the
-contact normal (native field: m_spinningFriction). Use for grasping.
+<div class="block">Alter the object's spinning-friction parameter (native field:
+m_spinningFriction). Used to discourage grasped bodies from spinning.
 <p>
-Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
+For each contact, the spinning-friction parameters are combined as
+described at <a href="ManifoldPoints.html#getCombinedRollingFriction(long)"><code>ManifoldPoints.getCombinedRollingFriction(long)</code></a>.
+<p>
+Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
+<p>
+Spinning friction is disabled whenever the contact's combined rolling
+friction is zero or negative.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>friction</code> - the desired friction value (default=0)</dd>
+<dd><code>friction</code> - the desired parameter value (default=0)</dd>
 </dl>
 </div>
 </section>
