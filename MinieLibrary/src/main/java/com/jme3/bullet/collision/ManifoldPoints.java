@@ -100,19 +100,24 @@ final public class ManifoldPoints {
     native public static float getAppliedImpulseLateral2(long manifoldPointId);
 
     /**
-     * Return the combined friction of the specified point, which is the product
-     * of the collision-object frictions (native field: m_combinedFriction).
+     * Return the combined friction of the specified point (native field:
+     * m_combinedFriction).
+     * <p>
+     * This is calculated as <code>pco0.friction * pco1.friction</code> and
+     * clamped between -10 and +10. To override this calculation, invoke
+     * {@link #setCombinedFriction(long, float)}.
      *
      * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
      * zero)
-     * @return the friction product
+     * @return the friction product (&ge;-10, &le;10)
      */
     native public static float getCombinedFriction(long manifoldPointId);
 
     /**
      * Return the combined restitution of the specified point, which is the
      * product of the collision-object restitutions (native field:
-     * m_combinedRestitution).
+     * m_combinedRestitution). To override this calculation, invoke
+     * {@link #setCombinedRestitution(long, float)}.
      *
      * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
      * zero)
@@ -123,10 +128,16 @@ final public class ManifoldPoints {
     /**
      * Return the combined rolling friction of the specified point (native
      * field: m_combinedRollingFriction).
+     * <p>
+     * This is calculated as
+     * <code>pco0.rollingFriction * pco1.friction
+     * + pco1.rollingFriction * pco0.friction</code> and clamped between -10
+     * and +10. To override this calculation, invoke
+     * {@link #setCombinedRollingFriction(long, float)}.
      *
      * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
      * zero)
-     * @return the combined friction
+     * @return the combined rolling friction (&ge;-10, &le;10)
      */
     native public static float
             getCombinedRollingFriction(long manifoldPointId);
@@ -134,10 +145,16 @@ final public class ManifoldPoints {
     /**
      * Return the combined spinning friction of the specified point (native
      * field: m_combinedSpinningFriction).
+     * <p>
+     * This is calculated as
+     * <code>pco0.spinningFriction * pco1.friction
+     * + pco1.spinningFriction * pco0.friction</code> and clamped between -10
+     * and +10. To override this calculation, invoke
+     * {@link #setCombinedSpinningFriction(long, float)}.
      *
      * @param manifoldPointId the native ID of the {@code btManifoldPoint} (not
      * zero)
-     * @return the combined friction
+     * @return the combined spinning friction (&ge;-10, &le;10)
      */
     native public static float
             getCombinedSpinningFriction(long manifoldPointId);
