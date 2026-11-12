@@ -529,8 +529,8 @@ m_contactProcessingThreshold).</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFriction()" class="member-name-link">getFriction</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the collision object's friction parameter (native field:
-m_friction).</div>
+<div class="block">Return the object's friction parameter (native field: m_friction) as
+configured by <a href="#setFriction(float)"><code>setFriction(float)</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>protected static final int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getInternalType(long)" class="member-name-link">getInternalType</a><wbr>(long&nbsp;objectId)</code></div>
@@ -577,13 +577,14 @@ coordinate system) to a Matrix3d.</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRestitution()" class="member-name-link">getRestitution</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return the collision object's restitution (bounciness) (native field:
-m_restitution).</div>
+<div class="block">Return the object's restitution (bounciness) parameter (native field:
+m_restitution) as configured by <a href="#setRestitution(float)"><code>setRestitution(float)</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRollingFriction()" class="member-name-link">getRollingFriction</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return this object's rolling friction (native field: m_rollingFriction).</div>
+<div class="block">Return the object's rolling-friction parameter (native field:
+m_rollingFriction) as configured by <a href="#setRollingFriction(float)"><code>setRollingFriction(float)</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Vector3f</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScale(com.jme3.math.Vector3f)" class="member-name-link">getScale</a><wbr>(com.jme3.math.Vector3f&nbsp;storeResult)</code></div>
@@ -593,8 +594,8 @@ m_restitution).</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSpinningFriction()" class="member-name-link">getSpinningFriction</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return this object's spinning friction (native field:
-m_spinningFriction).</div>
+<div class="block">Return the object's spinning-friction parameter (native field:
+m_spinningFriction) as configured by <a href="#setSpinningFriction(float)"><code>setSpinningFriction(float)</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.jme3.math.Transform</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTransform(com.jme3.math.Transform)" class="member-name-link">getTransform</a><wbr>(com.jme3.math.Transform&nbsp;storeResult)</code></div>
@@ -1658,8 +1659,11 @@ Deactivation doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <h3>getFriction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getFriction</span>()</div>
-<div class="block">Return the collision object's friction parameter (native field:
-m_friction).
+<div class="block">Return the object's friction parameter (native field: m_friction) as
+configured by <a href="#setFriction(float)"><code>setFriction(float)</code></a>.
+<p>
+Distinct from "combined friction", which is calculated for each contact.
+See <a href="ManifoldPoints.html#getCombinedFriction(long)"><code>ManifoldPoints.getCombinedFriction(long)</code></a>.
 <p>
 Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
@@ -1785,13 +1789,16 @@ storeResult or a new matrix, not null)</dd>
 <h3>getRestitution</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getRestitution</span>()</div>
-<div class="block">Return the collision object's restitution (bounciness) (native field:
-m_restitution).
+<div class="block">Return the object's restitution (bounciness) parameter (native field:
+m_restitution) as configured by <a href="#setRestitution(float)"><code>setRestitution(float)</code></a>.
+<p>
+Distinct from "combined restitution", which is calculated for each
+contact. See <a href="ManifoldPoints.html#getCombinedRestitution(long)"><code>ManifoldPoints.getCombinedRestitution(long)</code></a>.
 <p>
 Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>restitution value</dd>
+<dd>the parameter value</dd>
 </dl>
 </div>
 </section>
@@ -1801,12 +1808,17 @@ Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <h3>getRollingFriction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getRollingFriction</span>()</div>
-<div class="block">Return this object's rolling friction (native field: m_rollingFriction).
+<div class="block">Return the object's rolling-friction parameter (native field:
+m_rollingFriction) as configured by <a href="#setRollingFriction(float)"><code>setRollingFriction(float)</code></a>.
+<p>
+Distinct from "combined rolling friction", which is calculated for each
+contact. See <a href="ManifoldPoints.html#getCombinedRollingFriction(long)"><code>ManifoldPoints.getCombinedRollingFriction(long)</code></a>.
 <p>
 Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>friction value</dd>
+<dd>the parameter value (in physics-space units squared times mass
+per second)</dd>
 </dl>
 </div>
 </section>
@@ -1832,13 +1844,16 @@ vector, not null, no negative component)</dd>
 <h3>getSpinningFriction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getSpinningFriction</span>()</div>
-<div class="block">Return this object's spinning friction (native field:
-m_spinningFriction).
+<div class="block">Return the object's spinning-friction parameter (native field:
+m_spinningFriction) as configured by <a href="#setSpinningFriction(float)"><code>setSpinningFriction(float)</code></a>.
+<p>
+Distinct from "combined spinning friction", which is calculated for each
+contact. See <a href="ManifoldPoints.html#getCombinedSpinningFriction(long)"><code>ManifoldPoints.getCombinedSpinningFriction(long)</code></a>.
 <p>
 Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>friction value</dd>
+<dd>the parameter value</dd>
 </dl>
 </div>
 </section>
