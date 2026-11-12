@@ -127,6 +127,10 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Utility class to access fields of Bullet's <code>btManifoldPoint</code> class.
 <p>
+Most fields are recomputed on every simulation step. To ensure that
+alterations persist, setters should be invoked from the contact-added
+callback.
+<p>
 Based on PhysicsCollisionEvent.</div>
 </div>
 </section>
