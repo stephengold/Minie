@@ -1309,11 +1309,15 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the collision object's friction (native field: m_friction).
+     * Alter the object's friction parameter (native field: m_friction). Used to
+     * discourage bodies from sliding.
+     * <p>
+     * For each contact, the friction parameters are combined as described at
+     * {@link ManifoldPoints#getCombinedFriction(long)}.
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
-     * @param friction the desired friction value (&ge;0, default=0.5)
+     * @param friction the desired parameter value (&ge;0, default=0.5)
      */
     public void setFriction(float friction) {
         Validate.nonNegative(friction, "friction");
@@ -1347,12 +1351,16 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter the collision object's restitution (bounciness) (native field:
-     * m_restitution). For perfect elasticity, set restitution=1.
+     * Alter the object's restitution (bounciness) parameter (native field:
+     * m_restitution). Used to mitigate loss of energy during collisions. For
+     * perfect elasticity, set restitution=1.
+     * <p>
+     * For each contact, the restitution parameters are combined as described at
+     * {@link ManifoldPoints#getCombinedRestitution(long)}.
      * <p>
      * Restitution doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
-     * @param restitution the desired value (default=0)
+     * @param restitution the desired parameter value (default=0)
      */
     public void setRestitution(float restitution) {
         long objectId = nativeId();
@@ -1360,13 +1368,20 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter this object's rolling friction: torsional friction orthogonal to
-     * the contact normal (native field: m_rollingFriction). Use this to stop
-     * bodies from rolling.
+     * Alter the object's rolling-friction parameter (native field:
+     * m_rollingFriction). Used to discourage round bodies from rolling.
+     * <p>
+     * For each contact, the rolling-friction parameters are combined as
+     * described at {@link ManifoldPoints#getCombinedRollingFriction(long)}. If
+     * the combined value and the normal impulse are both positive, Bullet
+     * applies a resistive impulse that's orthogonal to the contact normal.
+     * <p>
+     * For a detailed analysis of rolling friction, see Libbulletjme issue 62.
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
      *
-     * @param friction the desired friction value (default=0)
+     * @param friction the desired parameter value (in physics-space units
+     * squared times mass per second, default=0)
      */
     public void setRollingFriction(float friction) {
         long objectId = nativeId();
@@ -1374,12 +1389,18 @@ abstract public class PhysicsCollisionObject
     }
 
     /**
-     * Alter this object's spinning friction: torsional friction around the
-     * contact normal (native field: m_spinningFriction). Use for grasping.
+     * Alter the object's spinning-friction parameter (native field:
+     * m_spinningFriction). Used to discourage grasped bodies from spinning.
+     * <p>
+     * For each contact, the spinning-friction parameters are combined as
+     * described at {@link ManifoldPoints#getCombinedRollingFriction(long)}.
      * <p>
      * Friction doesn't affect a PhysicsCharacter or PhysicsGhostObject.
+     * <p>
+     * Spinning friction is disabled whenever the contact's combined rolling
+     * friction is zero or negative.
      *
-     * @param friction the desired friction value (default=0)
+     * @param friction the desired parameter value (default=0)
      */
     public void setSpinningFriction(float friction) {
         long objectId = nativeId();
