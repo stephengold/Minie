@@ -64,7 +64,7 @@ jobs:
 
   Java25-MacOSX_ARM64:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macos-26
+    runs-on: xcode-27
     steps:
       - uses: actions/setup-java@v6
         with:
